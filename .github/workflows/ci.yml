@@ -27,6 +27,9 @@ jobs:
       # Get packages
       - name: Get Flutter packages
         run: flutter pub get
+      # Generate l10n
+      - name: Generate l10n
+        run: flutter gen-l10n
       # Static analysis
       - name: Static analysis
         run: flutter analyze
