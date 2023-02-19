@@ -28,3 +28,7 @@ To support app text appearing in system language follow the following steps:
 - More functionality like plurals, placeholders (i.e. for names) is outlined [here](https://docs.flutter.dev/development/accessibility-and-localization/internationalization)
 
 **WARNING: You need to run ```flutter gen-l10n``` to generate the localization package for the app to work. If you've already done this and the app works but Android Studio indicates the package URI doesn't exist ignore it**
+
+#### Testing
+
+There are scripts that run the entire test suite: ```run_test_suite.sh``` and ```run_test_suite.bat```
