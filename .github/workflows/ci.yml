@@ -11,8 +11,8 @@ permissions:
   read-all
 
 jobs:
-  unit-test:
-    name: Unit tests
+  test-suite:
+    name: Test Suite
     runs-on: ubuntu-latest
     defaults:
       run:
