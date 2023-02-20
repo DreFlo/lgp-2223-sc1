@@ -8,7 +8,7 @@ on:
       - main
 
 permissions:
-  read-all
+  write-all
 
 jobs:
   test-suite:
@@ -42,19 +42,27 @@ jobs:
       - name: Upload code coverage artifact
         uses: actions/upload-artifact@v3
         with:
-          name: coverage-report
+          name: coverage-report-lcov
           path: src/coverage/lcov.info
   post-coverage-report:
     name: Post Coverage Report
+    runs-on: ubuntu-latest
     needs: test-suite
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
+      - name: Setup LCOV
+        uses: hrishikesh-kadam/setup-lcov@v1
+      - name: Download artifact
+        uses: actions/download-artifact@v3
+        with:
+          name: coverage-report-lcov
       - name: Report code coverage
         uses: zgosalvez/github-actions-report-lcov@v3
         with:
           coverage-files: lcov.info
-          artifact-name: code-coverage-report
+          artifact-name: coverage-report
           github-token: ${{ secrets.GITHUB_TOKEN }}
           update-comment: true
+          working-directory: src
       
