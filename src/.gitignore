@@ -43,3 +43,4 @@ app.*.map.json
 # VSCode related
 .vscode/
 !.vscode/launch.json
+!.vscode/extensions.json
