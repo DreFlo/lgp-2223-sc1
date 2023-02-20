@@ -64,4 +64,5 @@ jobs:
           artifact-name: coverage-report
           github-token: ${{ secrets.GITHUB_TOKEN }}
           update-comment: true
+          working-directory: src
       
