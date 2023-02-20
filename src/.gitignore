@@ -41,6 +41,6 @@ app.*.map.json
 /android/app/release
 
 # VSCode related
-.vscode/
+.vscode/*/**
 !.vscode/launch.json
 !.vscode/extensions.json
