@@ -1,0 +1,6 @@
+#include "Generated.xcconfig"
+
+FLUTTER_TARGET=lib/main_free.dart
+ASSET_PREFIX=free
+BUNDLE_NAME=Wan-of-a-Kind (Free)
+BUNDLE_DISPLAY_NAME=Wan-of-a-Kind (Free)

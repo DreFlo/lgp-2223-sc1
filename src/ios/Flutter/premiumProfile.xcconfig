@@ -1,0 +1,6 @@
+#include "Generated.xcconfig"
+
+FLUTTER_TARGET=lib/main_premium.dart
+ASSET_PREFIX=premium
+BUNDLE_NAME=Wan-of-a-Kind
+BUNDLE_DISPLAY_NAME=Wan-of-a-Kind

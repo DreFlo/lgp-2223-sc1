@@ -94,3 +94,25 @@ flutter:
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages
+
+flavorizr:
+  flavors:
+    free:
+      app:
+        name: "Wan-of-a-Kind (Free)"
+
+      android:
+        applicationId: "wan.of.a.kind.free"
+
+      ios:
+        bundleId: "wan.of.a.kind.free"
+
+    premium:
+      app:
+        name: "Wan-of-a-Kind"
+
+      android:
+        applicationId: "wan.of.a.kind.premium"
+
+      ios:
+        bundleId: "wan.of.a.kind.premium"
