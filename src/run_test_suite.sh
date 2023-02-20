@@ -6,6 +6,6 @@ flutter gen-l10n
 echo Run static code analysis
 flutter analyze
 echo Check formatting
-flutter format --dry-run .
+dart format --output=none .
 echo Run unit tests
 flutter test

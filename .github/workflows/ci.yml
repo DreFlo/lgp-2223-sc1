@@ -35,7 +35,7 @@ jobs:
         run: flutter analyze
       # Check code formatting
       - name: Check code formatting
-        run: flutter format --set-exit-if-changed --dry-run .
+        run: dart format --set-exit-if-changed --output=none .
       # Run unit tests
       - name: Run unit tests
         run: flutter test
