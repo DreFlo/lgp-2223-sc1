@@ -38,4 +38,23 @@ jobs:
         run: dart format --set-exit-if-changed --output=none .
       # Run unit tests
       - name: Run unit tests
-        run: flutter test
+        run: flutter test --coverage --no-pub
+      - name: Upload code coverage artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: coverage-report
+          path: src/coverage/lcov.info
+  post-coverage-report:
+    name: Post Coverage Report
+    needs: test-suite
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+      - name: Report code coverage
+        uses: zgosalvez/github-actions-report-lcov@v3
+        with:
+          coverage-files: lcov.info
+          artifact-name: code-coverage-report
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          update-comment: true
+      
