@@ -8,4 +8,4 @@ flutter analyze
 echo Check formatting
 dart format --output=none .
 echo Run unit tests
-flutter test
+flutter test --coverage --no-pub

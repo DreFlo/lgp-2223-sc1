@@ -9,4 +9,4 @@ call flutter analyze
 echo Check formatting
 call dart format --output=none .
 echo Run unit tests
-call flutter test
+call flutter test --coverage --no-pub
