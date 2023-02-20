@@ -1,6 +1,6 @@
 enum Flavor {
-  FREE,
-  PREMIUM,
+  free,
+  premium,
 }
 
 class F {
@@ -10,9 +10,9 @@ class F {
 
   static String get title {
     switch (appFlavor) {
-      case Flavor.FREE:
+      case Flavor.free:
         return 'Wan-of-a-Kind (Free)';
-      case Flavor.PREMIUM:
+      case Flavor.premium:
         return 'Wan-of-a-Kind';
       default:
         return 'title';
