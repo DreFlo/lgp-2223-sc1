@@ -44,3 +44,6 @@ app.*.map.json
 .vscode/*/**
 !.vscode/launch.json
 !.vscode/extensions.json
+
+# Coverage report
+coverage/
