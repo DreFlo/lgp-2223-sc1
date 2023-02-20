@@ -12,23 +12,62 @@ A few resources to get you started if this is your first Flutter project:
 - [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
 
 For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+[online documentation](https://flutter.dev/docs), which offers tutorials, samples, guidance on
+mobile development, and a full API reference.
 
 ### Project Specific Help
+
+#### Running
+
+There are two configured flavours for the app: __premium__ and __free__.
+
+There already run configurations set up for __Android Studio__ and __VSCode__.
+
+To run manually:
+
+```shell
+flutter run --flavor <flavorName> -t lib/main_<flavorName>.dart
+```
 
 #### Internationalization
 
 To support app text appearing in system language follow the following steps:
 
-- Add a new key, value pair to the __lib/l10n/app_en.arb__ file like ```"helloWorld" : "Hello, World!"``` (the ```"@helloWorld"``` is a docstring for the function)
+- Add a new key, value pair to the __lib/l10n/app_en.arb__ file
+  like ```"helloWorld" : "Hello, World!"``` (the ```"@helloWorld"``` is a docstring for the
+  function)
 - To support other languages add the same key in **lib/l10n/app_[language code].arb**
 - Generate the package files by running ```flutter gen-l10n```
-- To use it in the app import ```'package:flutter_gen/gen_l10n/app_localizations.dart'``` and use the keys like ```AppLocalizations.of(context).helloWorld```
-- More functionality like plurals, placeholders (i.e. for names) is outlined [here](https://docs.flutter.dev/development/accessibility-and-localization/internationalization)
+- To use it in the app import ```'package:flutter_gen/gen_l10n/app_localizations.dart'``` and use
+  the keys like ```AppLocalizations.of(context).helloWorld```
+- More functionality like plurals, placeholders (i.e. for names) is
+  outlined [here](https://docs.flutter.dev/development/accessibility-and-localization/internationalization)
 
-**WARNING: You need to run ```flutter gen-l10n``` to generate the localization package for the app to work. If you've already done this and the app works but Android Studio indicates the package URI doesn't exist ignore it**
+**WARNING: You need to run ```flutter gen-l10n``` to generate the localization package for the app
+to work. If you've already done this and the app works but Android Studio indicates the package URI
+doesn't exist ignore it**
 
 #### Testing
 
-There are scripts that run the entire test suite: ```run_test_suite.sh``` and ```run_test_suite.bat```
+There are scripts that run the entire test suite: ```run_test_suite.sh```
+and ```run_test_suite.bat```
+
+#### Icons
+
+To change the app icons:
+
+- move the image files to ```assets/icons```
+- change the ```image_path``` values in the ```flutter_launcher_icons-[flavor].yaml``` files
+- run ```flutter pub run flutter_launcher_icons```
+
+More info can be found [here](https://pub.dev/packages/flutter_launcher_icons)
+
+#### Flavors
+
+To use conditional logic according to the app flavor:
+
+- import the ```lib/flavors.dart``` file
+- The class ```F``` has static members ```appFlavour``` and ```name``` that indicate the app flavour
+- You can also add statics methods to the class to implement app-wide flavor-specific logic
+
+More info can be found [here](https://pub.dev/packages/flutter_flavorizr)
