@@ -41,7 +41,7 @@ jobs:
         id: read-version
         run: |
           VERSION=`cat pubspec.yaml | grep -m 1 'version: *' | cut -f2 -d" " | xargs`
-          echo "::set-output name=version::$(echo $VERSION)"
+          echo "version=$VERSION" >> $GITHUB_OUTPUT
       # Create release
       - name: Create release
         id: create-release
