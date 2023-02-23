@@ -1,7 +1,7 @@
 name: Continuous Delivery
 on:
   push:
-    branches:
+    tags:
       - release/v*
 
 permissions:
