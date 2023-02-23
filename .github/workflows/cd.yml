@@ -60,7 +60,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ github.token }}
         with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          upload_url: ${{ steps.create-release.outputs.upload_url }}
           asset_path: src/build/app/outputs/bundle/freeRelease/app-free-release.aab
           asset_name: wan.of.a.kind.free.android.aab
           asset_content_type: application/x-authorware-bin
@@ -69,7 +69,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ github.token }}
         with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          upload_url: ${{ steps.create-release.outputs.upload_url }}
           asset_path: src/build/app/outputs/bundle/release/app-release.aab
           asset_name: wan.of.a.kind.android.aab
           asset_content_type: application/x-authorware-bin
@@ -80,7 +80,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ github.token }}
         with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          upload_url: ${{ steps.create-release.outputs.upload_url }}
           asset_path: src/symbols.zip
           asset_name: symbols.zip
           asset_content_type: application/zip
