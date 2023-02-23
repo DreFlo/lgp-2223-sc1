@@ -1,1 +1,9 @@
+# This file is only for repository management and the name CODEOWNERS has not legal significance whatsoever
 
+# QA Team - Default owners to be added to every pull request
+
+* @diogof19 @mbarra29 @margarida-assis @Pdoliveira21
+
+# DevOps Team
+
+/.github/ @DreFlo @joaoBarra
