@@ -46,8 +46,9 @@ jobs:
         with:
           draft: false
           prerelease: false
-          release-name: v${{ steps.read-version.outputs.version-number }}
-          bodypath: src/CHANGELOG.md
+          release_name: v${{ steps.read-version.outputs.version-number }}
+          body_path: src/CHANGELOG.md
+          tag_name: latest
         env:
           GITHUB_TOKEN: ${{ github.token }}
       # Upload artifacts
