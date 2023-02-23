@@ -4,6 +4,9 @@ on:
     branches:
       - release/v*
 
+permissions:
+  write-all
+
 jobs:
   create-release:
     name: Create Release
