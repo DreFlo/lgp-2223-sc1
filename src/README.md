@@ -71,3 +71,14 @@ To use conditional logic according to the app flavor:
 - You can also add statics methods to the class to implement app-wide flavor-specific logic
 
 More info can be found [here](https://pub.dev/packages/flutter_flavorizr)
+
+#### Release
+
+To create a release:
+
+- Update the CHANGELOG file accordingly
+- Push a tag with a name that matches ```release/v*```
+
+The release artifacts are built automatically.
+
+Only create a release from main.
