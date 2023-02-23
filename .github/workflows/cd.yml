@@ -1,0 +1,84 @@
+name: Automatic Rekease
+on:
+  push:
+    branches:
+      - release/v*
+
+jobs:
+  create-release:
+    name: Create Release
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: src
+    steps:
+      # Checkout rep
+      - name: Clone rep
+        uses: actions/checkout@v3
+      # Set up Flutter
+      - name: Clone Flutter rep with master channel
+        uses: subosito/flutter-action@v2
+      # Get packages
+      - name: Get Flutter packages
+        run: flutter pub get
+      # Generate l10n
+      - name: Gen l10n
+        run: flutter gen-l10n
+      # Build free appbundle
+      - name: Build free appbundle
+        run: flutter build appbundle --obfuscate --split-debug-info ./debug/android/free/ --flavor free -t lib/main_free.dart
+      # Build premium appbundle
+      - name: Build premium appbundle
+        run: flutter build appbundle --obfuscate --split-debug-info ./debug/android/premium/ --flavor premium -t lib/main_premium.dart
+      # Message
+      - name: iOS and web missing
+        run: echo iOS and web missing
+      # Get version number from flutter
+      - name: Get version number
+        id: read-version
+        uses: NiklasLehnfeld/flutter-version-number-action@main
+        with:
+          file-path: src/pubspec.yaml
+      # Create release
+      - name: Create release
+        id: create-release
+        uses: actions/create-release@v1
+        with:
+          draft: false
+          prerelease: false
+          release-name: v${{ steps.read-version.outputs.version-number }}
+          bodypath: src/CHANGELOG.md
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+      # Upload artifacts
+      - name: Upload free appbundle
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: src/build/app/outputs/bundle/freeRelease/app-free-release.aab
+          asset_name: wan.of.a.kind.free.android.aab
+          asset_content_type: application/x-authorware-bin
+      - name: Upload premium appbundle
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: src/build/app/outputs/bundle/release/app-release.aab
+          asset_name: wan.of.a.kind.android.aab
+          asset_content_type: application/x-authorware-bin
+      - name: Zip symbol files
+        run: zip -r symbols.zip debug
+      - name: Upload symbol zip
+        use: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: src/symbols.zip
+          asset_name: symbols.zip
+          asset_content_type: application/zip
+      
+      
