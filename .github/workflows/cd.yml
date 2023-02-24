@@ -27,12 +27,12 @@ jobs:
       # Generate l10n
       - name: Gen l10n
         run: flutter gen-l10n
-      # Build free appbundle
-      - name: Build free appbundle
-        run: flutter build appbundle --obfuscate --split-debug-info ./debug/android/free/ --flavor free -t lib/main_free.dart
-      # Build premium appbundle
-      - name: Build premium appbundle
-        run: flutter build appbundle --obfuscate --split-debug-info ./debug/android/premium/ --flavor premium -t lib/main_premium.dart
+      # Build free apk
+      - name: Build free apk
+        run: flutter build apk --obfuscate --split-debug-info ./debug/android/free/ --flavor free -t lib/main_free.dart
+      # Build premium apk
+      - name: Build premium apk
+        run: flutter build apk --obfuscate --split-debug-info ./debug/android/premium/ --flavor premium -t lib/main_premium.dart
       # Message
       - name: iOS and web missing
         run: echo iOS and web missing
@@ -55,23 +55,23 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ github.token }}
       # Upload artifacts
-      - name: Upload free appbundle
+      - name: Upload free apk
         uses: actions/upload-release-asset@v1
         env:
           GITHUB_TOKEN: ${{ github.token }}
         with:
           upload_url: ${{ steps.create-release.outputs.upload_url }}
-          asset_path: src/build/app/outputs/bundle/freeRelease/app-free-release.aab
-          asset_name: wan.of.a.kind.free.android.aab
+          asset_path: src/build/app/outputs/flutter-apk/app-free-release.apk
+          asset_name: wan.of.a.kind.free.android.apk
           asset_content_type: application/x-authorware-bin
-      - name: Upload premium appbundle
+      - name: Upload premium apk
         uses: actions/upload-release-asset@v1
         env:
           GITHUB_TOKEN: ${{ github.token }}
         with:
           upload_url: ${{ steps.create-release.outputs.upload_url }}
-          asset_path: src/build/app/outputs/bundle/premiumRelease/app-premium-release.aab
-          asset_name: wan.of.a.kind.android.aab
+          asset_path: src/build/app/outputs/flutter-apk/app-premium-release.apk
+          asset_name: wan.of.a.kind.android.apk
           asset_content_type: application/x-authorware-bin
       - name: Zip symbol files
         run: zip -r symbols.zip debug
