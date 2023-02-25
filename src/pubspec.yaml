@@ -99,20 +99,20 @@ flavorizr:
   flavors:
     free:
       app:
-        name: "Wan-of-a-Kind (Free)"
+        name: "Wokka (Free)"
 
       android:
-        applicationId: "wan.of.a.kind.free"
+        applicationId: "wokka.free"
 
       ios:
-        bundleId: "wan.of.a.kind.free"
+        bundleId: "wokka.free"
 
     premium:
       app:
-        name: "Wan-of-a-Kind"
+        name: "Wokka"
 
       android:
-        applicationId: "wan.of.a.kind.premium"
+        applicationId: "wokka.premium"
 
       ios:
-        bundleId: "wan.of.a.kind.premium"
+        bundleId: "wokka.premium"

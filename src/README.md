@@ -1,4 +1,4 @@
-# Wan-of-a-Kind
+# Wokka
 
 A new Flutter project.
 

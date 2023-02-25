@@ -62,7 +62,7 @@ jobs:
         with:
           upload_url: ${{ steps.create-release.outputs.upload_url }}
           asset_path: src/build/app/outputs/flutter-apk/app-free-release.apk
-          asset_name: wan.of.a.kind.free.android.apk
+          asset_name: wokka.free.android.apk
           asset_content_type: application/x-authorware-bin
       - name: Upload premium apk
         uses: actions/upload-release-asset@v1
@@ -71,7 +71,7 @@ jobs:
         with:
           upload_url: ${{ steps.create-release.outputs.upload_url }}
           asset_path: src/build/app/outputs/flutter-apk/app-premium-release.apk
-          asset_name: wan.of.a.kind.android.apk
+          asset_name: wokka.android.apk
           asset_content_type: application/x-authorware-bin
       - name: Zip symbol files
         run: zip -r symbols.zip debug
