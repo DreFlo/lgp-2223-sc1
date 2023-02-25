@@ -85,6 +85,7 @@ More info can be found [here](https://pub.dev/packages/flutter_flavorizr)
 To create a release:
 
 - Update the CHANGELOG file accordingly
+- Update app version in pubspec.yaml
 - Push a tag with a name that matches ```release/v*```
 
 The release artifacts are built automatically.
