@@ -19,15 +19,23 @@ mobile development, and a full API reference.
 
 #### Running
 
-There are two configured flavours for the app: __premium__ and __free__.
+Before running you should generate the l10n packages:
 
-There already run configurations set up for __Android Studio__ and __VSCode__.
+```shell
+flutter gen-l10n
+```
+
+There are two configured flavours for the app: __premium__ and __free__.
 
 To run manually:
 
 ```shell
 flutter run --flavor <flavorName> -t lib/main_<flavorName>.dart
 ```
+
+There already run configurations set up for __Android Studio__ and __VSCode__.
+
+For Android Studio and VSCode to function you should make sure you have installed the correct plugins. The Flutter and Dart SDKs should be configured in the IDEs. 
 
 #### Internationalization
 
