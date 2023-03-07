@@ -1,4 +1,4 @@
-@echo
+@echo OFF
 title Test Suite
 echo Get packages
 call flutter pub get
