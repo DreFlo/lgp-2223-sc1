@@ -49,3 +49,6 @@ coverage/
 
 # Debug related
 debug/
+
+# ENV related
+.env
