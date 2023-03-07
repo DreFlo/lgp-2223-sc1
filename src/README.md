@@ -100,6 +100,8 @@ Run:
 flutter pub run build_runner build --delete-conflicting-outputs
 ```
 
+Also add the new variables to the github actions .yml in the "Generate environment variables" step (if they are secrets use the Github Secrets functionality)
+
 #### TMDB API
 
 Documentation [here](https://developers.themoviedb.org/3/getting-started)

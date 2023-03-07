@@ -27,6 +27,14 @@ jobs:
       # Generate l10n
       - name: Gen l10n
         run: flutter gen-l10n
+      # Generate environment variable
+      - name: Generate environment variables
+        run: flutter pub run build_runner build --delete-conflicting-outputs
+        env:
+          TMDB_API_KEY: ${{ secrets.TMDB_API_KEY }}
+          GOOGLE_BOOKS_API_KEY: ${{ secrets.GOOGLE_BOOKS_API_KEY }}
+          TMDB_API_URL: https://api.themoviedb.org/3/
+          GOOGLE_BOOKS_API_URL: https://www.googleapis.com/books/v1/
       # Build free apk
       - name: Build free apk
         run: flutter build apk --obfuscate --split-debug-info ./debug/android/free/ --flavor free -t lib/main_free.dart
