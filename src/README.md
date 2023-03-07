@@ -19,16 +19,20 @@ mobile development, and a full API reference.
 
 #### Running
 
-Before running you should generate the l10n packages:
+Create a .env file according to the .env.example file 
+
+Before running you should run the ```pre_build.sh/pre_build.bat`` script, or alternatively:
+
+You should generate the l10n packages:
 
 ```shell
 flutter gen-l10n
 ```
 
-Create a .env file according to the .env.example and generate the env.g.dart file
+And generate the env.g.dart file
 
 ```shell
-flutter pub run build_runner build
+flutter pub run build_runner build --delete-conflicting-outputs
 ```
 
 There are two configured flavours for the app: __premium__ and __free__.
@@ -93,7 +97,7 @@ Add the new key to ```lib/env/env.dart``` (follow the example of the ons already
 Run:
 
 ```shell
-flutter pub run build_runner build
+flutter pub run build_runner build --delete-conflicting-outputs
 ```
 
 #### Release
