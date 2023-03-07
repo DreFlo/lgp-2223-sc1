@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:src/animation_test/main.dart';
+
 
 class MyHomePage extends StatefulWidget {
   final String title;
@@ -64,6 +66,25 @@ class _MyHomePageState extends State<MyHomePage> {
             Text(
               '$_counter',
               style: Theme.of(context).textTheme.headlineMedium,
+            ),
+            ElevatedButton(
+              style: ButtonStyle(
+                  backgroundColor:
+                      MaterialStateProperty.all(Color.fromRGBO(0, 250, 100, 1)),
+                  shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                      const RoundedRectangleBorder(
+                          borderRadius: BorderRadius.only(
+                              topRight: Radius.circular(10),
+                              topLeft: Radius.circular(10),
+                              bottomRight: Radius.circular(10),
+                              bottomLeft: Radius.circular(10))))),
+              child: Text('To another view!'),
+              onPressed: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const MainScreenAni()));
+              },
             ),
           ],
         ),
