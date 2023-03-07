@@ -25,6 +25,12 @@ Before running you should generate the l10n packages:
 flutter gen-l10n
 ```
 
+Create a .env file according to the .env.example and generate the env.g.dart file
+
+```shell
+flutter pub run build_runner build
+```
+
 There are two configured flavours for the app: __premium__ and __free__.
 
 To run manually:
@@ -79,6 +85,16 @@ To use conditional logic according to the app flavor:
 - You can also add statics methods to the class to implement app-wide flavor-specific logic
 
 More info can be found [here](https://pub.dev/packages/flutter_flavorizr)
+
+#### Environment variables
+
+To add new environment variables add them to your .env file (Also add the variable name to the .env.example so other people know the format).
+Add the new key to ```lib/env/env.dart``` (follow the example of the ons already there).
+Run:
+
+```shell
+flutter pub run build_runner build
+```
 
 #### Release
 
