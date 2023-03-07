@@ -103,6 +103,10 @@ flutter pub run build_runner build --delete-conflicting-outputs
 #### TMDB API
 
 Documentation [here](https://developers.themoviedb.org/3/getting-started)
+
+#### Google Books API
+
+Documentation [here](https://developers.google.com/books/docs/viewer/developers_guide?hl=en)
 #### Release
 
 To create a release:
