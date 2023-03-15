@@ -131,6 +131,8 @@ Documentation [here](https://developers.themoviedb.org/3/getting-started)
 #### Google Books API
 
 Documentation [here](https://developers.google.com/books/docs/viewer/developers_guide?hl=en)
+Limits: 1k queries per day; 100 queries per minute per user.
+
 #### Release
 
 To create a release:
