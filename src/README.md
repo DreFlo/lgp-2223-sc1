@@ -45,7 +45,29 @@ flutter run --flavor <flavorName> -t lib/main_<flavorName>.dart
 
 There already run configurations set up for __Android Studio__ and __VSCode__.
 
-For Android Studio and VSCode to function you should make sure you have installed the correct plugins. The Flutter and Dart SDKs should be configured in the IDEs. 
+For Android Studio and VSCode to function you should make sure you have installed the correct plugins. The Flutter and Dart SDKs should be configured in the IDEs.
+
+To develop the app in your phone with:
+- Enable "Developer Options" on your phone
+- In the developer options menu enable "USB debugging"
+- In the same menu, in "Select USB configuration" choose "Picture Transfer Protocol (PTP)" or equivalent
+- Connect your phone to the PC, there should be an alert on your phone asking whether to trust the PC for debugging, choose "Yes"
+- Your phone should be available in the Android Studio devices list you can select it
+- To run in your device manually:
+
+Find your device name (2nd column):
+
+```shell
+flutter devices
+```
+
+Run:
+
+```shell
+flutter run --flavor <flavorName> -t lib/main_<flavorName>.dart -d <deviceName>
+```
+
+
 
 #### Internationalization
 
