@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:src/animation_test/main.dart';
-
+import 'package:src/database.dart';
+import 'package:src/models/person.dart';
+import 'package:src/utils/service_locator.dart';
 
 class MyHomePage extends StatefulWidget {
   final String title;
@@ -14,6 +16,7 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   int _counter = 0;
+  Object redrawObject = Object();
 
   void _incrementCounter() {
     setState(() {
@@ -28,6 +31,8 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
+    final TextEditingController nameInputController = TextEditingController();
+
     // This method is rerun every time setState is called, for instance as done
     // by the _incrementCounter method above.
     //
@@ -78,7 +83,7 @@ class _MyHomePageState extends State<MyHomePage> {
                               topLeft: Radius.circular(10),
                               bottomRight: Radius.circular(10),
                               bottomLeft: Radius.circular(10))))),
-              child: Text('To another view!'),
+              child: const Text('To another view!'),
               onPressed: () {
                 Navigator.push(
                     context,
@@ -86,6 +91,81 @@ class _MyHomePageState extends State<MyHomePage> {
                         builder: (context) => const MainScreenAni()));
               },
             ),
+            TextField(
+              decoration: const InputDecoration(
+                  border: OutlineInputBorder(), hintText: 'Input a name'),
+              controller: nameInputController,
+            ),
+            ElevatedButton(
+              style: ButtonStyle(
+                  backgroundColor:
+                      MaterialStateProperty.all(Color.fromRGBO(0, 250, 100, 1)),
+                  shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                      const RoundedRectangleBorder(
+                          borderRadius: BorderRadius.only(
+                              topRight: Radius.circular(10),
+                              topLeft: Radius.circular(10),
+                              bottomRight: Radius.circular(10),
+                              bottomLeft: Radius.circular(10))))),
+              child: const Text('Add name'),
+              onPressed: () async {
+                await serviceLocator<AppDatabase>()
+                    .personDao
+                    .insertPerson(Person(name: nameInputController.text));
+                setState(() {
+                    redrawObject = Object();
+                });
+              },
+            ),
+            FutureBuilder(
+                key: ValueKey<Object>(redrawObject),
+                future:
+                    serviceLocator<AppDatabase>().personDao.findAllPersons(),
+                builder: (BuildContext context, AsyncSnapshot snapshot) {
+                  List<Widget> children;
+                  if (snapshot.hasData) {
+                    StringBuffer stringBuffer = StringBuffer();
+                    for (Person person in snapshot.data) {
+                      stringBuffer.write('${person.name}, ');
+                    }
+                    children = <Widget>[
+                      Padding(
+                        padding: const EdgeInsets.only(top: 16),
+                        child: Text('Result: ${stringBuffer.toString()}'),
+                      ),
+                    ];
+                  } else if (snapshot.hasError) {
+                    children = <Widget>[
+                      const Icon(
+                        Icons.error_outline,
+                        color: Colors.red,
+                        size: 60,
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(top: 16),
+                        child: Text('Error: ${snapshot.error}'),
+                      ),
+                    ];
+                  } else {
+                    children = const <Widget>[
+                      SizedBox(
+                        width: 60,
+                        height: 60,
+                        child: CircularProgressIndicator(),
+                      ),
+                      Padding(
+                        padding: EdgeInsets.only(top: 16),
+                        child: Text('Awaiting result...'),
+                      ),
+                    ];
+                  }
+                  return Center(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: children,
+                    ),
+                  );
+                })
           ],
         ),
       ),
