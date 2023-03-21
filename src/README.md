@@ -67,7 +67,52 @@ Run:
 flutter run --flavor <flavorName> -t lib/main_<flavorName>.dart -d <deviceName>
 ```
 
+#### Database
 
+Add new tables to the database or edit existing ones by writing models.
+DAOs control access to the database and handle the object relational mismatch.
+
+To generate ```database.g.dart``` (required after editing):
+
+```shell
+flutter packages pub run build_runner build
+```
+
+To access a table you need to use the DAO, example:
+
+```dart
+database.personDao.insertPerson(Person(name: "Emil"))
+```
+
+To access the database app wide see [Service Locator](#service-locator-getit)
+
+For more info:
+- [Floor Documentation](https://pub.dev/documentation/floor/latest/index.html)
+- [Floor Github root](https://github.com/pinchbv/floor)
+- [Floor examples](https://github.com/pinchbv/floor/tree/develop/example/lib)
+- [More Floor examples](https://github.com/pinchbv/floor/tree/develop/floor/test/integration)
+
+#### Service Locator (GetIt)
+
+GetIt allows us to access the database as a Singleton app wide
+
+To access the database import ```package:src/utils/service_locator.dart``` and:
+
+```dart
+serviceLocator<AppDatabase>()
+```
+
+You can use the database like so:
+
+```dart
+serviceLocator<AppDatabase>().personDao.insertPerson(Person(name: "Emil"))
+```
+
+If you want to add more services do so in the ```setup()``` function in ```utils/service_locator.dart```
+
+[Documentation](https://pub.dev/documentation/get_it/latest/)
+
+More info [here](https://pub.dev/packages/get_it)
 
 #### Internationalization
 
