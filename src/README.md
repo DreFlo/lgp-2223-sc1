@@ -19,7 +19,7 @@ mobile development, and a full API reference.
 
 #### Running
 
-Create a .env file according to the .env.example file 
+Create a .env file according to the .env.example file (API keys in discord #environment-variables)
 
 Before running you should run the ```pre_build.sh/pre_build.bat`` script, or alternatively:
 
