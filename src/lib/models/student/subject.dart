@@ -1,5 +1,5 @@
 import 'package:floor/floor.dart';
-import 'package:src/models/institution.dart';
+import 'package:src/models/student/institution.dart';
 
 @Entity(
   tableName: 'subject',
@@ -9,8 +9,7 @@ import 'package:src/models/institution.dart';
         parentColumns: ['id'],
         entity: Institution,
         onDelete: ForeignKeyAction.cascade,
-        onUpdate: ForeignKeyAction.restrict
-    )
+        onUpdate: ForeignKeyAction.restrict)
   ],
 )
 class Subject {
@@ -19,6 +18,7 @@ class Subject {
 
   final String name;
 
+  @ColumnInfo(name: 'weight_average')
   final double weightAverage;
 
   @ColumnInfo(name: 'institution_id')

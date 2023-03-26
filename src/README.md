@@ -32,7 +32,7 @@ flutter gen-l10n
 And generate the env.g.dart file
 
 ```shell
-flutter pub run build_runner build --delete-conflicting-outputs
+flutter pub run build_runner build --delete-conflicting-outputs 
 ```
 
 There are two configured flavours for the app: __premium__ and __free__.
