@@ -173,12 +173,14 @@ Also add the new variables to the github actions .yml in the "Generate environme
 
 Documentation [here](https://developers.themoviedb.org/3/getting-started)
 Using the dart package tmdb_api 2.1.4 [here](https://pub.dev/packages/tmdb_api)
+More information about the possible calls in the API Calls markdown [here](api_calls.md)
 
 #### Google Books API
 
 Documentation [here](https://developers.google.com/books/docs/viewer/developers_guide?hl=en)
 Limits: 1k queries per day; 100 queries per minute per user.
 Using the dart package books_finder 4.3.0 [here](https://pub.dev/packages/books_finder)
+More information about the possible calls in the API Calls markdown [here](api_calls.md)
 
 #### Release
 
