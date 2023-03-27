@@ -75,7 +75,7 @@ class _MyHomePageState extends State<MyHomePage> {
             ElevatedButton(
               style: ButtonStyle(
                   backgroundColor:
-                      MaterialStateProperty.all(Color.fromRGBO(0, 250, 100, 1)),
+                      MaterialStateProperty.all(const Color.fromRGBO(0, 250, 100, 1)),
                   shape: MaterialStateProperty.all<RoundedRectangleBorder>(
                       const RoundedRectangleBorder(
                           borderRadius: BorderRadius.only(
@@ -99,7 +99,7 @@ class _MyHomePageState extends State<MyHomePage> {
             ElevatedButton(
               style: ButtonStyle(
                   backgroundColor:
-                      MaterialStateProperty.all(Color.fromRGBO(0, 250, 100, 1)),
+                      MaterialStateProperty.all(const Color.fromRGBO(0, 250, 100, 1)),
                   shape: MaterialStateProperty.all<RoundedRectangleBorder>(
                       const RoundedRectangleBorder(
                           borderRadius: BorderRadius.only(
