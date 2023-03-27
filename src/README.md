@@ -94,7 +94,8 @@ For more info:
 
 _IMPORTANT: If you alter the database in any way you need to increment the version number in the
 ```@Database``` annotation in ```lib/database.dart``` and you need to set the migration strategy like 
-in the example that's there_
+in the example that's there. You also need to add this migration strategy in the same way it's already done
+in the ```lib/utils/service_locator.dart``` file._
 
 #### Service Locator (GetIt)
 
