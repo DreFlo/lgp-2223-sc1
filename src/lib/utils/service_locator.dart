@@ -10,3 +10,8 @@ void setup() {
   serviceLocator.registerSingletonAsync<AppDatabase>(() async =>
       await $FloorAppDatabase.databaseBuilder('wokka_database.db').build());
 }
+
+void setupUnitTest() {
+  serviceLocator.registerSingletonAsync<AppDatabase>(() async =>
+      await $FloorAppDatabase.inMemoryDatabaseBuilder().build());
+}
