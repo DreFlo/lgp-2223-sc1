@@ -107,10 +107,18 @@ To access the database import ```package:src/utils/service_locator.dart``` and:
 serviceLocator<AppDatabase>()
 ```
 
-You can use the database like so:
+**DO NOT ACCESS THE DATABASE DIRECTLY TO MAKE TABLE OPERATIONS**
+
+Use:
 
 ```dart
-serviceLocator<AppDatabase>().personDao.insertPerson(Person(name: "Emil"))
+serviceLocator<[DaoClass]>()
+```
+
+You can use it like so:
+
+```dart
+serviceLocator<PersonDao>().insertPerson(Person(name: "Emil"))
 ```
 
 If you want to add more services do so in the ```setup()``` function in ```utils/service_locator.dart```
@@ -141,6 +149,27 @@ doesn't exist ignore it**
 
 There are scripts that run the entire test suite: ```run_test_suite.sh```
 and ```run_test_suite.bat```
+
+When creating tests on the widgets (database functionality not relevant), you should place the following code in the setUp() function for the tests:
+
+```dart
+setupMockServiceLocatorUnitTests();
+await serviceLocator.allReady();
+```
+
+To mock a DAO you may then do something like this in the test:
+
+```dart
+final mockPersonDao = serviceLocator.get<PersonDao>();
+when(mockPersonDao.findAllPersons()).thenAnswer((_) async => []);
+```
+
+If you actually want to test database functionality (do not do this in widget tests) you can place the following code in your setUp() function:
+
+```dart
+setupServiceLocatorUnitTests();
+await serviceLocator.allReady();
+```
 
 #### Icons
 
