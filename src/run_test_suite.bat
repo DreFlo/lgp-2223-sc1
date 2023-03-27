@@ -1,5 +1,7 @@
 @echo OFF
 title Test Suite
+echo Clean build folder
+call flutter clean
 echo Get packages
 call flutter pub get
 echo Generate l10n package

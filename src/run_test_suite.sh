@@ -1,4 +1,6 @@
 #!/bin/sh
+echo Clean
+flutter clean
 echo Get packages
 flutter pub get
 echo Generate l10n package
