@@ -22,7 +22,8 @@ class HomePage extends StatelessWidget {
                 child: Text(
                   "Tasks",
                   style: Theme.of(context).textTheme.headlineMedium!.copyWith(
-                      color: Color.fromARGB(255, 248, 245, 245), fontWeight: FontWeight.bold),
+                      color: Color.fromARGB(255, 248, 245, 245),
+                      fontWeight: FontWeight.bold),
                 ),
               ),
               SingleChildScrollView(
@@ -47,12 +48,14 @@ class HomePage extends StatelessWidget {
                 child: Text(
                   "Studying",
                   style: Theme.of(context).textTheme.headlineSmall!.copyWith(
-                      color: Color.fromARGB(255, 245, 243, 243), fontWeight: FontWeight.bold),
+                      color: Color.fromARGB(255, 245, 243, 243),
+                      fontWeight: FontWeight.bold),
                 ),
               ),
               Padding(
                 padding: const EdgeInsets.only(left: 20),
-                child: Lottie.network('https://assets9.lottiefiles.com/packages/lf20_ketv1eqz.json'),
+                child: Lottie.network(
+                    'https://assets9.lottiefiles.com/packages/lf20_ketv1eqz.json'),
               ),
             ],
           ),

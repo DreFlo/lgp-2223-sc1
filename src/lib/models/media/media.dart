@@ -14,7 +14,7 @@ class Media {
 
   @ColumnInfo(name: 'link_image')
   final String linkImage;
-  
+
   final Status status;
 
   final bool favorite;

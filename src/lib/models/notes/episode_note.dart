@@ -13,7 +13,6 @@ import 'package:src/models/media/episode.dart';
   ],
 )
 class EpisodeNote extends Note {
-
   @ColumnInfo(name: 'episode_id')
   final int episodeId;
 

@@ -7,12 +7,11 @@ import 'package:src/utils/enums.dart';
   tableName: 'episode',
   foreignKeys: [
     ForeignKey(
-      childColumns: ['season_id'],
-      parentColumns: ['id'],
-      entity: Season,
-      onDelete: ForeignKeyAction.cascade,
-      onUpdate: ForeignKeyAction.restrict
-    )
+        childColumns: ['season_id'],
+        parentColumns: ['id'],
+        entity: Season,
+        onDelete: ForeignKeyAction.cascade,
+        onUpdate: ForeignKeyAction.restrict)
   ],
 )
 class Episode extends Video {

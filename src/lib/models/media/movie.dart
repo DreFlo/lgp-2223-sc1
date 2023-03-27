@@ -6,7 +6,6 @@ import 'package:src/utils/enums.dart';
   tableName: 'movie',
 )
 class Movie extends Video {
-
   Movie({
     int? id,
     required String name,
@@ -15,5 +14,12 @@ class Movie extends Video {
     required Status status,
     required bool favorite,
     required int duration,
-  }): super(id: id, name: name, description: description, linkImage: linkImage, status: status, favorite: favorite, duration: duration);
+  }) : super(
+            id: id,
+            name: name,
+            description: description,
+            linkImage: linkImage,
+            status: status,
+            favorite: favorite,
+            duration: duration);
 }

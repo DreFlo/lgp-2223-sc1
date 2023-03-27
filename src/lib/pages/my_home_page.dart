@@ -74,8 +74,8 @@ class _MyHomePageState extends State<MyHomePage> {
             ),
             ElevatedButton(
               style: ButtonStyle(
-                  backgroundColor:
-                      MaterialStateProperty.all(const Color.fromRGBO(0, 250, 100, 1)),
+                  backgroundColor: MaterialStateProperty.all(
+                      const Color.fromRGBO(0, 250, 100, 1)),
                   shape: MaterialStateProperty.all<RoundedRectangleBorder>(
                       const RoundedRectangleBorder(
                           borderRadius: BorderRadius.only(
@@ -98,8 +98,8 @@ class _MyHomePageState extends State<MyHomePage> {
             ),
             ElevatedButton(
               style: ButtonStyle(
-                  backgroundColor:
-                      MaterialStateProperty.all(const Color.fromRGBO(0, 250, 100, 1)),
+                  backgroundColor: MaterialStateProperty.all(
+                      const Color.fromRGBO(0, 250, 100, 1)),
                   shape: MaterialStateProperty.all<RoundedRectangleBorder>(
                       const RoundedRectangleBorder(
                           borderRadius: BorderRadius.only(
@@ -112,14 +112,13 @@ class _MyHomePageState extends State<MyHomePage> {
                 await serviceLocator<PersonDao>()
                     .insertPerson(Person(name: nameInputController.text));
                 setState(() {
-                    redrawObject = Object();
+                  redrawObject = Object();
                 });
               },
             ),
             FutureBuilder(
                 key: ValueKey<Object>(redrawObject),
-                future:
-                    serviceLocator<PersonDao>().findAllPersons(),
+                future: serviceLocator<PersonDao>().findAllPersons(),
                 builder: (BuildContext context, AsyncSnapshot snapshot) {
                   List<Widget> children;
                   if (snapshot.hasData) {

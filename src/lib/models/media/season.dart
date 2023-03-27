@@ -5,12 +5,11 @@ import 'package:src/models/media/series.dart';
   tableName: 'season',
   foreignKeys: [
     ForeignKey(
-      childColumns: ['series_id'],
-      parentColumns: ['id'],
-      entity: Series,
-      onDelete: ForeignKeyAction.cascade,
-      onUpdate: ForeignKeyAction.restrict
-    )
+        childColumns: ['series_id'],
+        parentColumns: ['id'],
+        entity: Series,
+        onDelete: ForeignKeyAction.cascade,
+        onUpdate: ForeignKeyAction.restrict)
   ],
 )
 class Season {

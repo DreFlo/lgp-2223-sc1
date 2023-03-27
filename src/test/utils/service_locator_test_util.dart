@@ -51,8 +51,7 @@ void setupMockServiceLocatorUnitTests() {
   serviceLocator
       .registerSingletonAsync<AppDatabase>(() async => MockAppDatabase());
 
-  serviceLocator.registerSingletonAsync<PersonDao>(
-      () async => MockPersonDao(),
+  serviceLocator.registerSingletonAsync<PersonDao>(() async => MockPersonDao(),
       dependsOn: [AppDatabase]);
   serviceLocator.registerSingletonAsync<InstitutionDao>(
       () async => MockInstitutionDao(),
@@ -63,38 +62,29 @@ void setupMockServiceLocatorUnitTests() {
   serviceLocator.registerSingletonAsync<TaskGroupDao>(
       () async => MockTaskGroupDao(),
       dependsOn: [AppDatabase]);
-  serviceLocator.registerSingletonAsync<TaskDao>(
-      () async => MockTaskDao(),
+  serviceLocator.registerSingletonAsync<TaskDao>(() async => MockTaskDao(),
       dependsOn: [AppDatabase]);
-  serviceLocator.registerSingletonAsync<NoteDao>(
-      () async => MockNoteDao(),
+  serviceLocator.registerSingletonAsync<NoteDao>(() async => MockNoteDao(),
       dependsOn: [AppDatabase]);
   serviceLocator.registerSingletonAsync<EvaluationDao>(
       () async => MockEvaluationDao(),
       dependsOn: [AppDatabase]);
-  serviceLocator.registerSingletonAsync<MediaDao>(
-      () async => MockMediaDao(),
+  serviceLocator.registerSingletonAsync<MediaDao>(() async => MockMediaDao(),
       dependsOn: [AppDatabase]);
-  serviceLocator.registerSingletonAsync<VideoDao>(
-      () async => MockVideoDao(),
+  serviceLocator.registerSingletonAsync<VideoDao>(() async => MockVideoDao(),
       dependsOn: [AppDatabase]);
-  serviceLocator.registerSingletonAsync<SeriesDao>(
-      () async => MockSeriesDao(),
+  serviceLocator.registerSingletonAsync<SeriesDao>(() async => MockSeriesDao(),
       dependsOn: [AppDatabase]);
-  serviceLocator.registerSingletonAsync<BookDao>(
-      () async => MockBookDao(),
+  serviceLocator.registerSingletonAsync<BookDao>(() async => MockBookDao(),
       dependsOn: [AppDatabase]);
-  serviceLocator.registerSingletonAsync<SeasonDao>(
-      () async => MockSeasonDao(),
+  serviceLocator.registerSingletonAsync<SeasonDao>(() async => MockSeasonDao(),
       dependsOn: [AppDatabase]);
-  serviceLocator.registerSingletonAsync<ReviewDao>(
-      () async => MockReviewDao(),
+  serviceLocator.registerSingletonAsync<ReviewDao>(() async => MockReviewDao(),
       dependsOn: [AppDatabase]);
   serviceLocator.registerSingletonAsync<EpisodeDao>(
       () async => MockEpisodeDao(),
       dependsOn: [AppDatabase]);
-  serviceLocator.registerSingletonAsync<MovieDao>(
-      () async => MockMovieDao(),
+  serviceLocator.registerSingletonAsync<MovieDao>(() async => MockMovieDao(),
       dependsOn: [AppDatabase]);
   serviceLocator.registerSingletonAsync<BookNoteDao>(
       () async => MockBookNoteDao(),

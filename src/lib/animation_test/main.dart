@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:src/animation_test/screens/onboding/onboding_screen.dart';
 
-
-
 class MainScreenAni extends StatelessWidget {
   const MainScreenAni({super.key});
 

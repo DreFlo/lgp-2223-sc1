@@ -21,4 +21,3 @@ final List<Task> courses = [
     color: const Color(0xFF80A4FF),
   ),
 ];
-

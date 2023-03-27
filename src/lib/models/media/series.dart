@@ -6,7 +6,6 @@ import 'package:src/utils/enums.dart';
   tableName: 'series',
 )
 class Series extends Media {
-
   Series({
     int? id,
     required String name,
@@ -14,5 +13,11 @@ class Series extends Media {
     required String linkImage,
     required Status status,
     required bool favorite,
-  }): super(id: id, name: name, description: description, linkImage: linkImage, status: status, favorite: favorite);
+  }) : super(
+            id: id,
+            name: name,
+            description: description,
+            linkImage: linkImage,
+            status: status,
+            favorite: favorite);
 }

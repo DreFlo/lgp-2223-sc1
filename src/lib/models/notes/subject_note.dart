@@ -4,7 +4,7 @@ import 'package:src/models/student/subject.dart';
 
 @Entity(
   tableName: 'subject_note',
-    foreignKeys: [
+  foreignKeys: [
     ForeignKey(
       childColumns: ['subject_id'],
       parentColumns: ['id'],
@@ -13,7 +13,6 @@ import 'package:src/models/student/subject.dart';
   ],
 )
 class SubjectNote extends Note {
-
   @ColumnInfo(name: 'subject_id')
   final int subjectId;
 
@@ -23,5 +22,5 @@ class SubjectNote extends Note {
     required String content,
     required DateTime date,
     required this.subjectId,
-  }): super(id: id, title: title, content: content, date: date);
+  }) : super(id: id, title: title, content: content, date: date);
 }
