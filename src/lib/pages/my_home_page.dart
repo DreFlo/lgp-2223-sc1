@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:src/animation_test/main.dart';
+import 'package:src/daos/person_dao.dart';
 import 'package:src/database.dart';
 import 'package:src/models/person.dart';
 import 'package:src/utils/service_locator.dart';
@@ -109,8 +110,7 @@ class _MyHomePageState extends State<MyHomePage> {
                               bottomLeft: Radius.circular(10))))),
               child: const Text('Add name'),
               onPressed: () async {
-                await serviceLocator<AppDatabase>()
-                    .personDao
+                await serviceLocator<PersonDao>()
                     .insertPerson(Person(name: nameInputController.text));
                 setState(() {
                     redrawObject = Object();
@@ -120,7 +120,7 @@ class _MyHomePageState extends State<MyHomePage> {
             FutureBuilder(
                 key: ValueKey<Object>(redrawObject),
                 future:
-                    serviceLocator<AppDatabase>().personDao.findAllPersons(),
+                    serviceLocator<PersonDao>().findAllPersons(),
                 builder: (BuildContext context, AsyncSnapshot snapshot) {
                   List<Widget> children;
                   if (snapshot.hasData) {
