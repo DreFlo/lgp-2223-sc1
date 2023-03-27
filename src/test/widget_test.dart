@@ -10,11 +10,9 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
 import 'package:src/app.dart';
 import 'package:src/daos/person_dao.dart';
-import 'package:src/database.dart';
 import 'package:src/utils/service_locator.dart';
 
 import 'utils/service_locator_test_util.dart';
-import 'utils/service_locator_test_util.mocks.dart';
 
 void main() {
   setUp(() async {
@@ -40,7 +38,7 @@ void main() {
     await tester.pumpAndSettle(const Duration(seconds: 10));
     //
     // // Verify that our counter has incremented.
-    // expect(find.text('0'), findsNothing);
-    // expect(find.text('1'), findsOneWidget);
+    expect(find.text('0'), findsNothing);
+    expect(find.text('1'), findsOneWidget);
   });
 }
