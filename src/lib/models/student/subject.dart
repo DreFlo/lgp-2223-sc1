@@ -5,7 +5,7 @@ import 'package:src/models/student/institution.dart';
   tableName: 'subject',
   foreignKeys: [
     ForeignKey(
-        childColumns: ['intitution_id'],
+        childColumns: ['institution_id'],
         parentColumns: ['id'],
         entity: Institution,
         onDelete: ForeignKeyAction.cascade,
