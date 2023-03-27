@@ -51,52 +51,59 @@ void setupMockServiceLocatorUnitTests() {
   serviceLocator
       .registerSingletonAsync<AppDatabase>(() async => MockAppDatabase());
 
-  serviceLocator.registerSingletonAsync<PersonDao>(() async => MockPersonDao(),
+  serviceLocator.registerSingletonWithDependencies<PersonDao>(
+      () => MockPersonDao(),
       dependsOn: [AppDatabase]);
-  serviceLocator.registerSingletonAsync<InstitutionDao>(
-      () async => MockInstitutionDao(),
+  serviceLocator.registerSingletonWithDependencies<InstitutionDao>(
+      () => MockInstitutionDao(),
       dependsOn: [AppDatabase]);
-  serviceLocator.registerSingletonAsync<SubjectDao>(
-      () async => MockSubjectDao(),
+  serviceLocator.registerSingletonWithDependencies<SubjectDao>(
+      () => MockSubjectDao(),
       dependsOn: [AppDatabase]);
-  serviceLocator.registerSingletonAsync<TaskGroupDao>(
-      () async => MockTaskGroupDao(),
+  serviceLocator.registerSingletonWithDependencies<TaskGroupDao>(
+      () => MockTaskGroupDao(),
       dependsOn: [AppDatabase]);
-  serviceLocator.registerSingletonAsync<TaskDao>(() async => MockTaskDao(),
+  serviceLocator.registerSingletonWithDependencies<TaskDao>(() => MockTaskDao(),
       dependsOn: [AppDatabase]);
-  serviceLocator.registerSingletonAsync<NoteDao>(() async => MockNoteDao(),
+  serviceLocator.registerSingletonWithDependencies<NoteDao>(() => MockNoteDao(),
       dependsOn: [AppDatabase]);
-  serviceLocator.registerSingletonAsync<EvaluationDao>(
-      () async => MockEvaluationDao(),
+  serviceLocator.registerSingletonWithDependencies<EvaluationDao>(
+      () => MockEvaluationDao(),
       dependsOn: [AppDatabase]);
-  serviceLocator.registerSingletonAsync<MediaDao>(() async => MockMediaDao(),
+  serviceLocator.registerSingletonWithDependencies<MediaDao>(
+      () => MockMediaDao(),
       dependsOn: [AppDatabase]);
-  serviceLocator.registerSingletonAsync<VideoDao>(() async => MockVideoDao(),
+  serviceLocator.registerSingletonWithDependencies<VideoDao>(
+      () => MockVideoDao(),
       dependsOn: [AppDatabase]);
-  serviceLocator.registerSingletonAsync<SeriesDao>(() async => MockSeriesDao(),
+  serviceLocator.registerSingletonWithDependencies<SeriesDao>(
+      () => MockSeriesDao(),
       dependsOn: [AppDatabase]);
-  serviceLocator.registerSingletonAsync<BookDao>(() async => MockBookDao(),
+  serviceLocator.registerSingletonWithDependencies<BookDao>(() => MockBookDao(),
       dependsOn: [AppDatabase]);
-  serviceLocator.registerSingletonAsync<SeasonDao>(() async => MockSeasonDao(),
+  serviceLocator.registerSingletonWithDependencies<SeasonDao>(
+      () => MockSeasonDao(),
       dependsOn: [AppDatabase]);
-  serviceLocator.registerSingletonAsync<ReviewDao>(() async => MockReviewDao(),
+  serviceLocator.registerSingletonWithDependencies<ReviewDao>(
+      () => MockReviewDao(),
       dependsOn: [AppDatabase]);
-  serviceLocator.registerSingletonAsync<EpisodeDao>(
-      () async => MockEpisodeDao(),
+  serviceLocator.registerSingletonWithDependencies<EpisodeDao>(
+      () => MockEpisodeDao(),
       dependsOn: [AppDatabase]);
-  serviceLocator.registerSingletonAsync<MovieDao>(() async => MockMovieDao(),
+  serviceLocator.registerSingletonWithDependencies<MovieDao>(
+      () => MockMovieDao(),
       dependsOn: [AppDatabase]);
-  serviceLocator.registerSingletonAsync<BookNoteDao>(
-      () async => MockBookNoteDao(),
+  serviceLocator.registerSingletonWithDependencies<BookNoteDao>(
+      () => MockBookNoteDao(),
       dependsOn: [AppDatabase]);
-  serviceLocator.registerSingletonAsync<EpisodeNoteDao>(
-      () async => MockEpisodeNoteDao(),
+  serviceLocator.registerSingletonWithDependencies<EpisodeNoteDao>(
+      () => MockEpisodeNoteDao(),
       dependsOn: [AppDatabase]);
-  serviceLocator.registerSingletonAsync<TaskNoteDao>(
-      () async => MockTaskNoteDao(),
+  serviceLocator.registerSingletonWithDependencies<TaskNoteDao>(
+      () => MockTaskNoteDao(),
       dependsOn: [AppDatabase]);
-  serviceLocator.registerSingletonAsync<SubjectNoteDao>(
-      () async => MockSubjectNoteDao(),
+  serviceLocator.registerSingletonWithDependencies<SubjectNoteDao>(
+      () => MockSubjectNoteDao(),
       dependsOn: [AppDatabase]);
 }
 
@@ -107,61 +114,61 @@ void setupServiceLocatorUnitTests() {
           .addCallback(callback)
           .build());
 
-  serviceLocator.registerSingletonAsync<PersonDao>(
-      () async => serviceLocator.get<AppDatabase>().personDao,
+  serviceLocator.registerSingletonWithDependencies<PersonDao>(
+      () => serviceLocator.get<AppDatabase>().personDao,
       dependsOn: [AppDatabase]);
-  serviceLocator.registerSingletonAsync<InstitutionDao>(
-      () async => serviceLocator.get<AppDatabase>().institutionDao,
+  serviceLocator.registerSingletonWithDependencies<InstitutionDao>(
+      () => serviceLocator.get<AppDatabase>().institutionDao,
       dependsOn: [AppDatabase]);
-  serviceLocator.registerSingletonAsync<SubjectDao>(
-      () async => serviceLocator.get<AppDatabase>().subjectDao,
+  serviceLocator.registerSingletonWithDependencies<SubjectDao>(
+      () => serviceLocator.get<AppDatabase>().subjectDao,
       dependsOn: [AppDatabase]);
-  serviceLocator.registerSingletonAsync<TaskGroupDao>(
-      () async => serviceLocator.get<AppDatabase>().taskGroupDao,
+  serviceLocator.registerSingletonWithDependencies<TaskGroupDao>(
+      () => serviceLocator.get<AppDatabase>().taskGroupDao,
       dependsOn: [AppDatabase]);
-  serviceLocator.registerSingletonAsync<TaskDao>(
-      () async => serviceLocator.get<AppDatabase>().taskDao,
+  serviceLocator.registerSingletonWithDependencies<TaskDao>(
+      () => serviceLocator.get<AppDatabase>().taskDao,
       dependsOn: [AppDatabase]);
-  serviceLocator.registerSingletonAsync<NoteDao>(
-      () async => serviceLocator.get<AppDatabase>().noteDao,
+  serviceLocator.registerSingletonWithDependencies<NoteDao>(
+      () => serviceLocator.get<AppDatabase>().noteDao,
       dependsOn: [AppDatabase]);
-  serviceLocator.registerSingletonAsync<EvaluationDao>(
-      () async => serviceLocator.get<AppDatabase>().evaluationDao,
+  serviceLocator.registerSingletonWithDependencies<EvaluationDao>(
+      () => serviceLocator.get<AppDatabase>().evaluationDao,
       dependsOn: [AppDatabase]);
-  serviceLocator.registerSingletonAsync<MediaDao>(
-      () async => serviceLocator.get<AppDatabase>().mediaDao,
+  serviceLocator.registerSingletonWithDependencies<MediaDao>(
+      () => serviceLocator.get<AppDatabase>().mediaDao,
       dependsOn: [AppDatabase]);
-  serviceLocator.registerSingletonAsync<VideoDao>(
-      () async => serviceLocator.get<AppDatabase>().videoDao,
+  serviceLocator.registerSingletonWithDependencies<VideoDao>(
+      () => serviceLocator.get<AppDatabase>().videoDao,
       dependsOn: [AppDatabase]);
-  serviceLocator.registerSingletonAsync<SeriesDao>(
-      () async => serviceLocator.get<AppDatabase>().seriesDao,
+  serviceLocator.registerSingletonWithDependencies<SeriesDao>(
+      () => serviceLocator.get<AppDatabase>().seriesDao,
       dependsOn: [AppDatabase]);
-  serviceLocator.registerSingletonAsync<BookDao>(
-      () async => serviceLocator.get<AppDatabase>().bookDao,
+  serviceLocator.registerSingletonWithDependencies<BookDao>(
+      () => serviceLocator.get<AppDatabase>().bookDao,
       dependsOn: [AppDatabase]);
-  serviceLocator.registerSingletonAsync<SeasonDao>(
-      () async => serviceLocator.get<AppDatabase>().seasonDao,
+  serviceLocator.registerSingletonWithDependencies<SeasonDao>(
+      () => serviceLocator.get<AppDatabase>().seasonDao,
       dependsOn: [AppDatabase]);
-  serviceLocator.registerSingletonAsync<ReviewDao>(
-      () async => serviceLocator.get<AppDatabase>().reviewDao,
+  serviceLocator.registerSingletonWithDependencies<ReviewDao>(
+      () => serviceLocator.get<AppDatabase>().reviewDao,
       dependsOn: [AppDatabase]);
-  serviceLocator.registerSingletonAsync<EpisodeDao>(
-      () async => serviceLocator.get<AppDatabase>().episodeDao,
+  serviceLocator.registerSingletonWithDependencies<EpisodeDao>(
+      () => serviceLocator.get<AppDatabase>().episodeDao,
       dependsOn: [AppDatabase]);
-  serviceLocator.registerSingletonAsync<MovieDao>(
-      () async => serviceLocator.get<AppDatabase>().movieDao,
+  serviceLocator.registerSingletonWithDependencies<MovieDao>(
+      () => serviceLocator.get<AppDatabase>().movieDao,
       dependsOn: [AppDatabase]);
-  serviceLocator.registerSingletonAsync<BookNoteDao>(
-      () async => serviceLocator.get<AppDatabase>().bookNoteDao,
+  serviceLocator.registerSingletonWithDependencies<BookNoteDao>(
+      () => serviceLocator.get<AppDatabase>().bookNoteDao,
       dependsOn: [AppDatabase]);
-  serviceLocator.registerSingletonAsync<EpisodeNoteDao>(
-      () async => serviceLocator.get<AppDatabase>().episodeNoteDao,
+  serviceLocator.registerSingletonWithDependencies<EpisodeNoteDao>(
+      () => serviceLocator.get<AppDatabase>().episodeNoteDao,
       dependsOn: [AppDatabase]);
-  serviceLocator.registerSingletonAsync<TaskNoteDao>(
-      () async => serviceLocator.get<AppDatabase>().taskNoteDao,
+  serviceLocator.registerSingletonWithDependencies<TaskNoteDao>(
+      () => serviceLocator.get<AppDatabase>().taskNoteDao,
       dependsOn: [AppDatabase]);
-  serviceLocator.registerSingletonAsync<SubjectNoteDao>(
-      () async => serviceLocator.get<AppDatabase>().subjectNoteDao,
+  serviceLocator.registerSingletonWithDependencies<SubjectNoteDao>(
+      () => serviceLocator.get<AppDatabase>().subjectNoteDao,
       dependsOn: [AppDatabase]);
 }
