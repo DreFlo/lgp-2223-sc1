@@ -8,10 +8,12 @@ final GetIt serviceLocator = GetIt.instance;
 /// Add any singleton variables here
 void setup() {
   serviceLocator.registerSingletonAsync<AppDatabase>(() async =>
-      await $FloorAppDatabase.databaseBuilder('wokka_database.db').build());
+      await $FloorAppDatabase
+          .databaseBuilder('wokka_database.db')
+          .addMigrations([migration1to2]).build());
 }
 
 void setupUnitTest() {
-  serviceLocator.registerSingletonAsync<AppDatabase>(() async =>
-      await $FloorAppDatabase.inMemoryDatabaseBuilder().build());
+  serviceLocator.registerSingletonAsync<AppDatabase>(
+      () async => await $FloorAppDatabase.inMemoryDatabaseBuilder().build());
 }

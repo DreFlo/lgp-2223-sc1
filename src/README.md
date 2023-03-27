@@ -92,6 +92,10 @@ For more info:
 - [Floor examples](https://github.com/pinchbv/floor/tree/develop/example/lib)
 - [More Floor examples](https://github.com/pinchbv/floor/tree/develop/floor/test/integration)
 
+_IMPORTANT: If you alter the database in any way you need to increment the version number in the
+```@Database``` annotation in ```lib/database.dart``` and you need to set the migration strategy like 
+in the example that's there_
+
 #### Service Locator (GetIt)
 
 GetIt allows us to access the database as a Singleton app wide
