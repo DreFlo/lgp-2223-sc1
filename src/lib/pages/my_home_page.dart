@@ -1,9 +1,12 @@
+// ignore_for_file: prefer_const_constructors
+
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:src/animation_test/main.dart';
 import 'package:src/database.dart';
 import 'package:src/models/person.dart';
 import 'package:src/utils/service_locator.dart';
+import 'leisure/media_page.dart';
 
 class MyHomePage extends StatefulWidget {
   final String title;
@@ -117,6 +120,12 @@ class _MyHomePageState extends State<MyHomePage> {
                 });
               },
             ),
+            ElevatedButton(
+              child: Text("Media Page"),
+              onPressed: () {
+                showBottomSheet(context: context, builder: (context) => MyMediaPage(title: "Hello bitch"));
+              },
+            ),
             FutureBuilder(
                 key: ValueKey<Object>(redrawObject),
                 future:
@@ -165,7 +174,7 @@ class _MyHomePageState extends State<MyHomePage> {
                       children: children,
                     ),
                   );
-                })
+                }),
           ],
         ),
       ),
