@@ -42,6 +42,10 @@ class MyMediaPage extends StatelessWidget {
       child: Column(children: [
         Row(children: [
           Stack(children: [
+            Stack(
+                clipBehavior: Clip.antiAlias,
+                alignment: AlignmentDirectional.topCenter,
+                children: [
                   Positioned(
                       top: 20,
                       child: Container(
@@ -82,10 +86,12 @@ class MyMediaPage extends StatelessWidget {
                       ),
                     ),
                   ),
-                
+                ]),
             Positioned(
+                top: 225,
                 child: Row(children: [
                   Container(
+                    height: 500,
                     child: Padding(
                         padding: const EdgeInsets.only(left: 16.0, right: 16.0),
                         child: Stack(
@@ -160,12 +166,10 @@ class MyMediaPage extends StatelessWidget {
               child: Text(
                 AppLocalizations.of(context).synopsis,
                 style: Theme.of(context).textTheme.displayMedium,
-              ))
-        ]),
-        SizedBox(height: 5),
+              ))]),
         Row(children: [
           Padding(
-              padding: EdgeInsets.only(left: 16, right: 16),
+              padding: EdgeInsets.only(left: 16),
               child: Text(
                 this.synopsis,
                 style: Theme.of(context).textTheme.bodySmall,
