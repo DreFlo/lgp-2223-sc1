@@ -122,8 +122,15 @@ class _MyHomePageState extends State<MyHomePage> {
             ElevatedButton(
               child: Text("Media Page"),
               onPressed: () {
-                showBottomSheet(context: context, builder: (context) => MyMediaPage(title: "Hello bitch"));
-              },
+                showModalBottomSheet(
+                  isScrollControlled: true,
+                  backgroundColor: Color(0xFF22252D),
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(30.0),
+                  ),
+                  context: context,
+                  builder: (context) => MyMediaPage(title: "Hi", synopsis: "This is the synopsis", tags: ['',''], notes: ['',''], data: ['',''] ));
+              }
             ),
             FutureBuilder(
                 key: ValueKey<Object>(redrawObject),

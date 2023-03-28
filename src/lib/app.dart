@@ -5,6 +5,19 @@ import 'package:src/utils/service_locator.dart';
 import 'flavors.dart';
 import 'pages/my_home_page.dart';
 
+Map<int, Color> color = {
+  50: Color.fromRGBO(108, 93, 211, .1),
+  100: Color.fromRGBO(108, 93, 211, .2),
+  200: Color.fromRGBO(108, 93, 211, .3),
+  300: Color.fromRGBO(108, 93, 211, .4),
+  400: Color.fromRGBO(108, 93, 211, .5),
+  500: Color.fromRGBO(108, 93, 211, .6),
+  600: Color.fromRGBO(108, 93, 211, .7),
+  700: Color.fromRGBO(108, 93, 211, .8),
+  800: Color.fromRGBO(108, 93, 211, .9),
+  900: Color.fromRGBO(108, 93, 211, 1),
+};
+
 class App extends StatelessWidget {
   const App({Key? key}) : super(key: key);
 
@@ -19,8 +32,27 @@ class App extends StatelessWidget {
             localizationsDelegates: AppLocalizations.localizationsDelegates,
             supportedLocales: AppLocalizations.supportedLocales,
             theme: ThemeData(
-              primarySwatch: Colors.blue,
-            ),
+                fontFamily: 'Poppins',
+                primarySwatch: MaterialColor(0xFF6C5DD3, color),
+                scaffoldBackgroundColor: Color(0xFF181A20),
+                textTheme: const TextTheme(
+                  titleLarge: TextStyle(
+                      color: Colors.white,
+                      fontSize: 32,
+                      fontWeight: FontWeight.bold),
+                  titleMedium: TextStyle(
+                      color: Colors.white,
+                      fontSize: 24,
+                      fontWeight: FontWeight.bold),
+                  titleSmall: TextStyle(
+                      color: Colors.white,
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold),
+                  bodyMedium: TextStyle(
+                      color: Colors.white,
+                      fontSize: 13,
+                      fontWeight: FontWeight.bold),
+                )),
             home: Scaffold(
               body: Center(
                 child: MyHomePage(title: F.title),
