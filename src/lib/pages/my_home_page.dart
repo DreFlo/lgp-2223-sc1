@@ -137,8 +137,9 @@ class _MyHomePageState extends State<MyHomePage> {
                               SingleChildScrollView(
                                 controller: scrollController,
                                   child: MyMediaPage(
-                                      title: "She-ra and the Princesses of Power",
-                                      synopsis: "This is the synopsis",
+                                      isFavorite: false,
+                                      title: "She-ra and",
+                                      synopsis: "She-Ra, Princess of Power, leads a rebellion to free her land of Etheria from the monstrous invaders the Horde.",
                                       tags: ['', ''],
                                       notes: ['', ''],
                                       data: ['', ''],
