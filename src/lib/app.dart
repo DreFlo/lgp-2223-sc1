@@ -35,18 +35,11 @@ class App extends StatelessWidget {
                 fontFamily: 'Poppins',
                 primarySwatch: MaterialColor(0xFF6C5DD3, color),
                 scaffoldBackgroundColor: Color(0xFF181A20),
-                badgeTheme: const BadgeThemeData(
-                    textStyle: TextStyle(
-                      color: Colors.white,
-                      fontSize: 12,
-                      fontWeight: FontWeight.w500,
-                    ),
-                    backgroundColor: Color.fromARGB(255, 0, 64, 255),
-                    padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 3)),
                 textTheme: const TextTheme(
                   displayMedium: TextStyle(
-                      fontSize: 14,
+                      fontSize: 13,
                       color: Color(0xFF71788D),
+                      fontWeight: FontWeight.w400
                   ),
                   headlineMedium: TextStyle(
                       fontSize: 12,

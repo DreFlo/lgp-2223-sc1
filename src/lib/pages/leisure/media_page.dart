@@ -38,7 +38,7 @@ class MyMediaPage extends StatelessWidget {
     // fast, so that you can just rebuild anything that needs updating rather
     // than having to individually change instances of widgets.
     return Container(
-      height: 1500,
+      height: 1000,
       child: Column(children: [
         Row(children: [
           Stack(
@@ -52,7 +52,7 @@ class MyMediaPage extends StatelessWidget {
                         top: 20,
                         child: Container(
                           width: 115,
-                          height: 16,
+                          height: 18,
                           alignment: Alignment.center,
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(10),
@@ -92,7 +92,7 @@ class MyMediaPage extends StatelessWidget {
               Row(children: [
                 Container(
                     child: Padding(
-                        padding: const EdgeInsets.only(left: 16.0, right: 16.0),
+                        padding: const EdgeInsets.only(left: 18.0, right: 18.0),
                         child: Stack(clipBehavior: Clip.none, children: [
                           Container(
                               width: MediaQuery.of(context).size.width * 0.85,
@@ -138,7 +138,7 @@ class MyMediaPage extends StatelessWidget {
         ]),
         SizedBox(height: 20),
         Padding(
-            padding: EdgeInsets.only(left: 16),
+            padding: EdgeInsets.only(left: 18),
             child: Row(mainAxisAlignment: MainAxisAlignment.start, children: [
               SizedBox(
                   width: MediaQuery.of(context).size.width * 0.85,
@@ -157,20 +157,23 @@ class MyMediaPage extends StatelessWidget {
         SizedBox(height: 35),
         Row(children: [
           Padding(
-              padding: EdgeInsets.only(left: 16),
+              padding: EdgeInsets.only(left: 18),
               child: Text(
                 AppLocalizations.of(context).synopsis,
                 style: Theme.of(context).textTheme.displayMedium,
               ))
         ]),
-        Row(children: [
-          Padding(
-              padding: EdgeInsets.only(left: 16),
+        SizedBox(height: 7.5),
+        Flexible(
+          child: Padding(
+              padding: EdgeInsets.only(left: 18, right: 18),
               child: Text(
                 this.synopsis,
+                softWrap: true,
+                textAlign: TextAlign.justify,
                 style: Theme.of(context).textTheme.bodySmall,
-              ))
-        ]),
+              )),
+        ),
       ]),
     );
   }
