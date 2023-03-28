@@ -1,3 +1,4 @@
+import 'dart:math';
 import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -6,9 +7,13 @@ import 'package:src/daos/person_dao.dart';
 import 'package:src/models/person.dart';
 import 'package:src/themes/colors.dart';
 import 'package:src/utils/service_locator.dart';
+import 'package:like_button/like_button.dart';
+
+import '../../widgets/leisure_tag.dart';
 
 class MyMediaPage extends StatelessWidget {
   final String title, synopsis, type;
+  final bool isFavorite;
   final List<String> tags, notes, data;
 
   const MyMediaPage(
@@ -18,7 +23,8 @@ class MyMediaPage extends StatelessWidget {
       required this.tags,
       required this.notes,
       required this.data,
-      required this.type})
+      required this.type,
+      required this.isFavorite})
       : super(key: key);
 
   @override
@@ -36,10 +42,6 @@ class MyMediaPage extends StatelessWidget {
       child: Column(children: [
         Row(children: [
           Stack(children: [
-            Stack(
-                clipBehavior: Clip.antiAlias,
-                alignment: AlignmentDirectional.topCenter,
-                children: [
                   Positioned(
                       top: 20,
                       child: Container(
@@ -80,43 +82,95 @@ class MyMediaPage extends StatelessWidget {
                       ),
                     ),
                   ),
-                ]),
+                
             Positioned(
-                top: 225,
-                child: Row(
-                  children: [
-                    Column(children: [
-                      SizedBox(
-                          height: 500,
-                          width: MediaQuery.of(context).size.width * 0.85,
-                          child: Padding(
-                            padding:
-                                const EdgeInsets.only(left: 16.0, right: 16.0),
-                            child: Text(
-                              this.title.toUpperCase(),
-                              softWrap: true,
-                              textWidthBasis: TextWidthBasis.longestLine,
-                              style: Theme.of(context).textTheme.titleLarge,
-                              textAlign: TextAlign.left,
-                              maxLines: 5,
-                            ),
-                          )),
-                    ]),
-                    Column(
-                      children: [
-                        IconButton(
-                            color: leisureColor,
-                            onPressed: () {
-                              //TODO: add to favorites
-                            },
-                            icon: Icon(Icons.favorite_border))
-                      ],
-                    )
-                  ],
-                ))
+                child: Row(children: [
+                  Container(
+                    child: Padding(
+                        padding: const EdgeInsets.only(left: 16.0, right: 16.0),
+                        child: Stack(
+                          clipBehavior: Clip.none,
+                          children: [
+                            Container(
+                                width: MediaQuery.of(context).size.width * 0.85,
+                                child: Text(
+                                  this.title.toUpperCase(),
+                                  softWrap: true,
+                                  textWidthBasis: TextWidthBasis.longestLine,
+                                  style: Theme.of(context).textTheme.titleLarge,
+                                  textAlign: TextAlign.left,
+                                  maxLines: 5,
+                                )),
+                            Positioned(
+                                top: 15,
+                                left: MediaQuery.of(context).size.width * 0.80,
+                                child: LikeButton(
+                                  size: 40,
+                                  likeBuilder: (bool isLiked) {
+                                    return Icon(
+                                      Icons.favorite,
+                                      color:
+                                          isLiked ? leisureColor : Colors.grey,
+                                      size: 40,
+                                    );
+                                  },
+                                  circleColor: CircleColor(
+                                      start: Colors.white, end: leisureColor),
+                                  bubblesColor: BubblesColor(
+                                    dotPrimaryColor: leisureColor,
+                                    dotSecondaryColor: leisureColor,
+                                  ),
+                                  isLiked: this.isFavorite,
+                                  onTap: (isLiked) {
+                                    return Future.delayed(
+                                        Duration(milliseconds: 1), () {
+                                      isLiked = !isLiked;
+                                      return isLiked;
+                                    });
+                                  },
+                                ))
+                          ],
+                        )),
+                  )
+                ]))
           ])
         ]),
-        Row(children: [Text('HELLO')]),
+        SizedBox(height: 20),
+        Padding(
+            padding: EdgeInsets.only(left: 16),
+            child: Row(mainAxisAlignment: MainAxisAlignment.start, children: [
+              SizedBox(
+                  width: MediaQuery.of(context).size.width * 0.85,
+                  height: 50,
+                  child: Wrap(
+                      spacing: 7.6,
+                      alignment: WrapAlignment.start,
+                      runSpacing: 7.5,
+                      children: [
+                        LeisureTag(text: "85% love it"),
+                        LeisureTag(text: "Fantasy"),
+                        LeisureTag(text: "2015"),
+                        LeisureTag(text: "Right up your alley!")
+                      ])),
+            ])),
+        SizedBox(height: 35),
+        Row(children: [
+          Padding(
+              padding: EdgeInsets.only(left: 16),
+              child: Text(
+                AppLocalizations.of(context).synopsis,
+                style: Theme.of(context).textTheme.displayMedium,
+              ))
+        ]),
+        SizedBox(height: 5),
+        Row(children: [
+          Padding(
+              padding: EdgeInsets.only(left: 16, right: 16),
+              child: Text(
+                this.synopsis,
+                style: Theme.of(context).textTheme.bodySmall,
+              ))
+        ]),
       ]),
     );
   }
