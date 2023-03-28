@@ -137,7 +137,7 @@ class _MyHomePageState extends State<MyHomePage> {
                               SingleChildScrollView(
                                 controller: scrollController,
                                   child: MyMediaPage(
-                                      title: "Hi",
+                                      title: "She-ra and the Princesses of Power",
                                       synopsis: "This is the synopsis",
                                       tags: ['', ''],
                                       notes: ['', ''],
