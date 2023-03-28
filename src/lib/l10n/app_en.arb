@@ -2,5 +2,15 @@
   "helloWorld": "Hello World!",
   "@helloWorld": {
     "description": "The conventional newborn programmer greeting"
-  }
+  },
+  "title": "Title",
+  "synopsis": "Synopsis",
+  "cast": "Cast",
+  "length": "Length",
+  "seasons": "seasons, ",
+  "episodes": "episodes",
+  "minutes_each": "minutes each.",
+  "hours": "hours",
+  "minutes": "minutes",
+  "pages": "pages."
 }
