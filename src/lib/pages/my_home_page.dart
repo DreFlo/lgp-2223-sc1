@@ -120,18 +120,30 @@ class _MyHomePageState extends State<MyHomePage> {
               },
             ),
             ElevatedButton(
-              child: Text("Media Page"),
-              onPressed: () {
-                showModalBottomSheet(
-                  isScrollControlled: true,
-                  backgroundColor: Color(0xFF22252D),
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(30.0),
-                  ),
-                  context: context,
-                  builder: (context) => MyMediaPage(title: "Hi", synopsis: "This is the synopsis", tags: ['',''], notes: ['',''], data: ['',''] ));
-              }
-            ),
+                child: Text("Media Page"),
+                onPressed: () {
+                  showModalBottomSheet(
+                      context: context,
+                      isScrollControlled: true,
+                      backgroundColor: Color(0xFF22252D),
+                      shape: RoundedRectangleBorder(
+                        borderRadius:
+                            BorderRadius.vertical(top: Radius.circular(30.0)),
+                      ),
+                      builder: (context) => DraggableScrollableSheet(
+                          expand: false,
+                          minChildSize: 0.5,
+                          builder: (context, scrollController) =>
+                              SingleChildScrollView(
+                                controller: scrollController,
+                                  child: MyMediaPage(
+                                      title: "Hi",
+                                      synopsis: "This is the synopsis",
+                                      tags: ['', ''],
+                                      notes: ['', ''],
+                                      data: ['', ''],
+                                      type: 'TV Show'))));
+                }),
             FutureBuilder(
                 key: ValueKey<Object>(redrawObject),
                 future: serviceLocator<PersonDao>().findAllPersons(),
