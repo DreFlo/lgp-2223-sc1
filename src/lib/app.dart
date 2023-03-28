@@ -10,33 +10,27 @@ class App extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-        title: F.title,
-        localizationsDelegates: AppLocalizations.localizationsDelegates,
-        supportedLocales: AppLocalizations.supportedLocales,
-        theme: ThemeData(
-          primarySwatch: Colors.blue,
-        ),
-        builder: (context, widget) {
-          return FutureBuilder(
-              future: serviceLocator.allReady(),
-              builder: (BuildContext context, AsyncSnapshot snapshot) {
-                if (snapshot.hasData) {
-                  return Overlay(
-                    initialEntries: [
-                      OverlayEntry(
-                        builder: (context) => Scaffold(
-                          body: Center(
-                            child: MyHomePage(title: F.title),
-                          ),
-                        ),
-                      ),
-                    ],
-                  );
-                } else {
-                  return const CircularProgressIndicator();
-                }
-              });
-        });
+    return FutureBuilder(
+      future: serviceLocator.allReady(),
+      builder: (BuildContext context, AsyncSnapshot snapshot) {
+        if (snapshot.hasData) {
+          return MaterialApp(
+            title: F.title,
+            localizationsDelegates: AppLocalizations.localizationsDelegates,
+            supportedLocales: AppLocalizations.supportedLocales,
+            theme: ThemeData(
+              primarySwatch: Colors.blue,
+            ),
+            home: Scaffold(
+              body: Center(
+                child: MyHomePage(title: F.title),
+              ),
+            ),
+          );
+        } else {
+          return const CircularProgressIndicator();
+        }
+      },
+    );
   }
 }
