@@ -1,5 +1,5 @@
 import 'package:floor/floor.dart';
-import 'package:src/models/institution.dart';
+import 'package:src/models/student/institution.dart';
 
 @dao
 abstract class InstitutionDao {

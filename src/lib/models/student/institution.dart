@@ -16,10 +16,11 @@ class Institution {
 
   final String acronym;
 
-  Institution(
-      {this.id,
-      required this.name,
-      required this.picture,
-      required this.type,
-      required this.acronym});
+  Institution({
+    this.id,
+    required this.name,
+    required this.picture,
+    required this.type,
+    required this.acronym,
+  });
 }
