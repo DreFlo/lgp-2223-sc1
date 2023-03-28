@@ -1,5 +1,5 @@
 import 'package:floor/floor.dart';
-import 'package:src/models/task_group.dart';
+import 'package:src/models/student/task_group.dart';
 
 @dao
 abstract class TaskGroupDao {

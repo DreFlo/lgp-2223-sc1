@@ -1,5 +1,5 @@
 import 'package:floor/floor.dart';
-import 'package:src/models/subject.dart';
+import 'package:src/models/student/subject.dart';
 
 @Entity(
   tableName: 'evaluation',

@@ -32,7 +32,7 @@ flutter gen-l10n
 And generate the env.g.dart file
 
 ```shell
-flutter pub run build_runner build --delete-conflicting-outputs
+flutter pub run build_runner build --delete-conflicting-outputs 
 ```
 
 There are two configured flavours for the app: __premium__ and __free__.
@@ -92,6 +92,11 @@ For more info:
 - [Floor examples](https://github.com/pinchbv/floor/tree/develop/example/lib)
 - [More Floor examples](https://github.com/pinchbv/floor/tree/develop/floor/test/integration)
 
+_IMPORTANT: If you alter the database in any way you need to increment the version number in the
+```@Database``` annotation in ```lib/database.dart``` and you need to set the migration strategy like 
+in the example that's there. You also need to add this migration strategy in the same way it's already done
+in the ```lib/utils/service_locator.dart``` file._
+
 #### Service Locator (GetIt)
 
 GetIt allows us to access the database as a Singleton app wide
@@ -102,10 +107,18 @@ To access the database import ```package:src/utils/service_locator.dart``` and:
 serviceLocator<AppDatabase>()
 ```
 
-You can use the database like so:
+**DO NOT ACCESS THE DATABASE DIRECTLY TO MAKE TABLE OPERATIONS**
+
+Use:
 
 ```dart
-serviceLocator<AppDatabase>().personDao.insertPerson(Person(name: "Emil"))
+serviceLocator<[DaoClass]>()
+```
+
+You can use it like so:
+
+```dart
+serviceLocator<PersonDao>().insertPerson(Person(name: "Emil"))
 ```
 
 If you want to add more services do so in the ```setup()``` function in ```utils/service_locator.dart```
@@ -136,6 +149,27 @@ doesn't exist ignore it**
 
 There are scripts that run the entire test suite: ```run_test_suite.sh```
 and ```run_test_suite.bat```
+
+When creating tests on the widgets (database functionality not relevant), you should place the following code in the setUp() function for the tests:
+
+```dart
+setupMockServiceLocatorUnitTests();
+await serviceLocator.allReady();
+```
+
+To mock a DAO you may then do something like this in the test:
+
+```dart
+final mockPersonDao = serviceLocator.get<PersonDao>();
+when(mockPersonDao.findAllPersons()).thenAnswer((_) async => []);
+```
+
+If you actually want to test database functionality (do not do this in widget tests) you can place the following code in your setUp() function:
+
+```dart
+setupServiceLocatorUnitTests();
+await serviceLocator.allReady();
+```
 
 #### Icons
 

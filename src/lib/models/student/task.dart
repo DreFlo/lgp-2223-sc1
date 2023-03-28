@@ -1,5 +1,6 @@
 import 'package:floor/floor.dart';
-import 'package:src/models/task_group.dart';
+import 'package:src/models/student/task_group.dart';
+import 'package:src/utils/enums.dart';
 
 @Entity(
   tableName: 'task',
@@ -9,8 +10,7 @@ import 'package:src/models/task_group.dart';
         parentColumns: ['id'],
         entity: TaskGroup,
         onDelete: ForeignKeyAction.cascade,
-        onUpdate: ForeignKeyAction.restrict
-        )
+        onUpdate: ForeignKeyAction.restrict)
   ],
 )
 class Task {
@@ -22,7 +22,7 @@ class Task {
   final String description;
 
   final Priority priority;
-  
+
   final DateTime deadline;
 
   @ColumnInfo(name: 'task_group_id')

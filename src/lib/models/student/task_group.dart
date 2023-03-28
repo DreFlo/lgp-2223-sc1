@@ -1,7 +1,6 @@
 import 'package:floor/floor.dart';
-import 'package:src/models/subject.dart';
-
-enum Priority { high, medium, low }
+import 'package:src/models/student/subject.dart';
+import 'package:src/utils/enums.dart';
 
 @Entity(
   tableName: 'task_group',

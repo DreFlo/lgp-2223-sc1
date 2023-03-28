@@ -1,5 +1,5 @@
 import 'package:floor/floor.dart';
-import 'package:src/models/evaluation.dart';
+import 'package:src/models/student/evaluation.dart';
 
 @dao
 abstract class EvaluationDao {

@@ -39,7 +39,7 @@ class CourseCard extends StatelessWidget {
                     child: Text(
                       description,
                       style: Theme.of(context).textTheme.titleSmall!.copyWith(
-                        color: Colors.white, fontWeight: FontWeight.w600),
+                          color: Colors.white, fontWeight: FontWeight.w600),
                     ),
                   ),
                 ],

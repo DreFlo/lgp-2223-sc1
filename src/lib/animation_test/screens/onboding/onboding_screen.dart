@@ -116,12 +116,11 @@ class _OnbodingScreenState extends State<OnbodingScreen> {
                       },
                     ),
                     const Padding(
-                      padding: EdgeInsets.symmetric(vertical: 24),
-                      child: Text(
-                        "Already have an account? Sign in",
-                        style: TextStyle(
-                          color: Color(0xFFFFFFFF),
-                        ))), 
+                        padding: EdgeInsets.symmetric(vertical: 24),
+                        child: Text("Already have an account? Sign in",
+                            style: TextStyle(
+                              color: Color(0xFFFFFFFF),
+                            ))),
                   ],
                 ),
               ),
