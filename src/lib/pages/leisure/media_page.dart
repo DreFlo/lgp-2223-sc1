@@ -41,105 +41,100 @@ class MyMediaPage extends StatelessWidget {
       height: 1500,
       child: Column(children: [
         Row(children: [
-          Stack(children: [
-            Stack(
-                clipBehavior: Clip.antiAlias,
-                alignment: AlignmentDirectional.topCenter,
-                children: [
-                  Positioned(
-                      top: 20,
-                      child: Container(
-                        width: 115,
-                        height: 16,
-                        alignment: Alignment.center,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(10),
-                          color: Color(0xFF414554),
+          Stack(
+            alignment: AlignmentDirectional.bottomStart,
+            children: [
+              Stack(
+                  clipBehavior: Clip.antiAlias,
+                  alignment: AlignmentDirectional.topCenter,
+                  children: [
+                    Positioned(
+                        top: 20,
+                        child: Container(
+                          width: 115,
+                          height: 16,
+                          alignment: Alignment.center,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(10),
+                            color: Color(0xFF414554),
+                          ),
+                          child: Text(
+                            this.type.toUpperCase(),
+                            style: Theme.of(context).textTheme.headlineMedium,
+                            textAlign: TextAlign.center,
+                          ),
+                        )),
+                    SizedBox(
+                      height: MediaQuery.of(context).size.height * 0.4,
+                      width: MediaQuery.of(context).size.width,
+                      child: ShaderMask(
+                        shaderCallback: (rect) {
+                          return LinearGradient(
+                            begin: Alignment.topCenter,
+                            end: Alignment.bottomCenter,
+                            stops: [0.01, 0.5, 0.9],
+                            colors: [
+                              Color(0xFF22252D),
+                              Colors.transparent,
+                              Color(0xFF22252D)
+                            ],
+                          ).createShader(
+                              Rect.fromLTRB(0, 0, rect.width, rect.height));
+                        },
+                        blendMode: BlendMode.dstOut,
+                        child: Image.asset(
+                          'assets/images/poster.jpg',
+                          fit: BoxFit.fitWidth,
                         ),
-                        child: Text(
-                          this.type.toUpperCase(),
-                          style: Theme.of(context).textTheme.headlineMedium,
-                          textAlign: TextAlign.center,
-                        ),
-                      )),
-                  SizedBox(
-                    height: MediaQuery.of(context).size.height * 0.4,
-                    width: MediaQuery.of(context).size.width,
-                    child: ShaderMask(
-                      shaderCallback: (rect) {
-                        return LinearGradient(
-                          begin: Alignment.topCenter,
-                          end: Alignment.bottomCenter,
-                          stops: [0.01, 0.5, 0.9],
-                          colors: [
-                            Color(0xFF22252D),
-                            Colors.transparent,
-                            Color(0xFF22252D)
-                          ],
-                        ).createShader(
-                            Rect.fromLTRB(0, 0, rect.width, rect.height));
-                      },
-                      blendMode: BlendMode.dstOut,
-                      child: Image.asset(
-                        'assets/images/poster.jpg',
-                        fit: BoxFit.fitWidth,
                       ),
                     ),
-                  ),
-                ]),
-            Positioned(
-                top: 225,
-                child: Row(children: [
-                  Container(
-                    height: 500,
+                  ]),
+              Row(children: [
+                Container(
                     child: Padding(
                         padding: const EdgeInsets.only(left: 16.0, right: 16.0),
-                        child: Stack(
-                          clipBehavior: Clip.none,
-                          children: [
-                            Container(
-                                width: MediaQuery.of(context).size.width * 0.85,
-                                child: Text(
-                                  this.title.toUpperCase(),
-                                  softWrap: true,
-                                  textWidthBasis: TextWidthBasis.longestLine,
-                                  style: Theme.of(context).textTheme.titleLarge,
-                                  textAlign: TextAlign.left,
-                                  maxLines: 5,
-                                )),
-                            Positioned(
-                                top: 15,
-                                left: MediaQuery.of(context).size.width * 0.80,
-                                child: LikeButton(
-                                  size: 40,
-                                  likeBuilder: (bool isLiked) {
-                                    return Icon(
-                                      Icons.favorite,
-                                      color:
-                                          isLiked ? leisureColor : Colors.grey,
-                                      size: 40,
-                                    );
-                                  },
-                                  circleColor: CircleColor(
-                                      start: Colors.white, end: leisureColor),
-                                  bubblesColor: BubblesColor(
-                                    dotPrimaryColor: leisureColor,
-                                    dotSecondaryColor: leisureColor,
-                                  ),
-                                  isLiked: this.isFavorite,
-                                  onTap: (isLiked) {
-                                    return Future.delayed(
-                                        Duration(milliseconds: 1), () {
-                                      isLiked = !isLiked;
-                                      return isLiked;
-                                    });
-                                  },
-                                ))
-                          ],
-                        )),
-                  )
-                ]))
-          ])
+                        child: Stack(clipBehavior: Clip.none, children: [
+                          Container(
+                              width: MediaQuery.of(context).size.width * 0.85,
+                              child: Text(
+                                this.title.toUpperCase(),
+                                softWrap: true,
+                                textWidthBasis: TextWidthBasis.longestLine,
+                                style: Theme.of(context).textTheme.titleLarge,
+                                textAlign: TextAlign.left,
+                                maxLines: 5,
+                              )),
+                          Positioned(
+                              top: 15,
+                              left: MediaQuery.of(context).size.width * 0.80,
+                              child: LikeButton(
+                                size: 40,
+                                likeBuilder: (bool isLiked) {
+                                  return Icon(
+                                    Icons.favorite,
+                                    color: isLiked ? leisureColor : Colors.grey,
+                                    size: 40,
+                                  );
+                                },
+                                circleColor: CircleColor(
+                                    start: Colors.white, end: leisureColor),
+                                bubblesColor: BubblesColor(
+                                  dotPrimaryColor: leisureColor,
+                                  dotSecondaryColor: leisureColor,
+                                ),
+                                isLiked: this.isFavorite,
+                                onTap: (isLiked) {
+                                  return Future.delayed(
+                                      Duration(milliseconds: 1), () {
+                                    isLiked = !isLiked;
+                                    return isLiked;
+                                  });
+                                },
+                              ))
+                        ])))
+              ]),
+            ],
+          )
         ]),
         SizedBox(height: 20),
         Padding(
@@ -166,7 +161,8 @@ class MyMediaPage extends StatelessWidget {
               child: Text(
                 AppLocalizations.of(context).synopsis,
                 style: Theme.of(context).textTheme.displayMedium,
-              ))]),
+              ))
+        ]),
         Row(children: [
           Padding(
               padding: EdgeInsets.only(left: 16),
