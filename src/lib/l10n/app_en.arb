@@ -12,5 +12,9 @@
   "minutes_each": " minutes each.",
   "minutes": " minutes.",
   "pages": " pages.",
-  "add": "Add to Catalog"
+  "add": "Add to Catalog",
+  "finished_media": "You're finished!",
+  "what_thoughts": "What are your thoughts?",
+  "date": "Date",
+  "save": "Save"
 }

@@ -6,6 +6,7 @@ import 'package:src/animation_test/main.dart';
 import 'package:src/daos/person_dao.dart';
 import 'package:src/models/person.dart';
 import 'package:src/utils/service_locator.dart';
+import 'leisure/FinishedMediaForm.dart';
 import 'leisure/MediaPage.dart';
 
 const Color leisureColor = Color(0xFFF52349);
@@ -135,52 +136,107 @@ class _HomePageState extends State<HomePage> {
                       builder: (context) => DraggableScrollableSheet(
                           expand: false,
                           minChildSize: 0.35,
+                          maxChildSize: 0.5,
+                          builder: (context, scrollController) => Stack(
+                                  alignment: AlignmentDirectional.bottomCenter,
+                                  children: [
+                                    SingleChildScrollView(
+                                        controller: scrollController,
+                                        child: MediaPage(
+                                            isFavorite: false,
+                                            title:
+                                                "She-ra and the Princesses of Power",
+                                            synopsis:
+                                                "In this reboot of the '80s series, a magic sword transforms an orphan girl into warrior She-Ra, who unites a rebellion to fight against evil.",
+                                            length: [5, 52, 20],
+                                            cast: [
+                                              'Aimee Carrero as Adora',
+                                              'AJ Michalka as Catra',
+                                              'Marcus Scribner as Bow',
+                                              'Karen Fukuhara as Glimmer'
+                                            ],
+                                            notes: [
+                                              'Glimmer sucks.',
+                                              'Bow is best boy.'
+                                            ],
+                                            type: 'TV Show')),
+                                    Positioned(
+                                        left: 16,
+                                        right: 16,
+                                        bottom: 16,
+                                        child: ElevatedButton(
+                                          onPressed: () {},
+                                          style: ElevatedButton.styleFrom(
+                                            minimumSize: Size(
+                                                MediaQuery.of(context)
+                                                        .size
+                                                        .width *
+                                                    0.95,
+                                                55),
+                                            backgroundColor: leisureColor,
+                                            shape: RoundedRectangleBorder(
+                                              borderRadius:
+                                                  BorderRadius.circular(25.0),
+                                            ),
+                                          ),
+                                          child: Text(
+                                              AppLocalizations.of(context).add,
+                                              style: Theme.of(context)
+                                                  .textTheme
+                                                  .headlineSmall),
+                                        ))
+                                  ])));
+                }),
+            ElevatedButton(
+                child: Text("Finished Media Form"),
+                onPressed: () {
+                  showModalBottomSheet(
+                      context: context,
+                      isScrollControlled: true,
+                      backgroundColor: Color(0xFF22252D),
+                      shape: RoundedRectangleBorder(
+                        borderRadius:
+                            BorderRadius.vertical(top: Radius.circular(30.0)),
+                      ),
+                      builder: (context) => DraggableScrollableSheet(
+                          expand: false,
+                          minChildSize: 0.35,
                           maxChildSize: 0.75,
-                          builder: (context, scrollController) =>
-                              Stack(
-                                alignment: AlignmentDirectional.bottomCenter,
-                                children: [
-                                SingleChildScrollView(
-                                    controller: scrollController,
-                                    child: MediaPage(
-                                        isFavorite: false,
-                                        title:
-                                            "She-ra and the Princesses of Power",
-                                        synopsis:
-                                            "In this reboot of the '80s series, a magic sword transforms an orphan girl into warrior She-Ra, who unites a rebellion to fight against evil.",
-                                        length: [5, 52, 20],
-                                        cast: [
-                                          'Aimee Carrero as Adora',
-                                          'AJ Michalka as Catra',
-                                          'Marcus Scribner as Bow',
-                                          'Karen Fukuhara as Glimmer'
-                                        ],
-                                        notes: [
-                                          'Glimmer sucks.',
-                                          'Bow is best boy.'
-                                        ],
-                                        type: 'TV Show')),
-                                Positioned(
-                                    left: 16,
-                                    right: 16,
-                                    bottom: 16,
-                                    child: ElevatedButton(
-                                      onPressed: () {},
-                                      style: ElevatedButton.styleFrom(
-                                        minimumSize: Size(MediaQuery.of(context).size.width * 0.95, 55),
-                                        backgroundColor: leisureColor,
-                                        shape: RoundedRectangleBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(25.0),
-                                        ),
-                                      ),
-                                      child: Text(
-                                          AppLocalizations.of(context).add,
-                                          style: Theme.of(context)
-                                              .textTheme
-                                              .headlineSmall),
-                                    ))
-                              ])));
+                          builder: (context, scrollController) => Stack(
+                                  alignment: AlignmentDirectional.bottomCenter,
+                                  children: [
+                                    SingleChildScrollView(
+                                        controller: scrollController,
+                                        child: FinishedMediaForm(
+                                          startDate: '2021-01-01',
+                                          endDate: '2021-01-01',
+                                        )),
+                                    Positioned(
+                                        left: 16,
+                                        right: 16,
+                                        bottom: 16,
+                                        child: ElevatedButton(
+                                          onPressed: () {},
+                                          style: ElevatedButton.styleFrom(
+                                            minimumSize: Size(
+                                                MediaQuery.of(context)
+                                                        .size
+                                                        .width *
+                                                    0.95,
+                                                55),
+                                            backgroundColor: leisureColor,
+                                            shape: RoundedRectangleBorder(
+                                              borderRadius:
+                                                  BorderRadius.circular(25.0),
+                                            ),
+                                          ),
+                                          child: Text(
+                                              AppLocalizations.of(context).save,
+                                              style: Theme.of(context)
+                                                  .textTheme
+                                                  .headlineSmall),
+                                        ))
+                                  ])));
                 }),
             FutureBuilder(
                 key: ValueKey<Object>(redrawObject),
