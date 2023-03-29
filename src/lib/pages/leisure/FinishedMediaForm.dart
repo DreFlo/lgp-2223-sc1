@@ -14,8 +14,7 @@ import '../../widgets/leisure_tag.dart';
 class FinishedMediaForm extends StatefulWidget {
   String startDate, endDate;
 
-  FinishedMediaForm(
-      {Key? key, required this.startDate, required this.endDate})
+  FinishedMediaForm({Key? key, required this.startDate, required this.endDate})
       : super(key: key);
 
   @override
@@ -76,14 +75,15 @@ class _FinishedMediaFormState extends State<FinishedMediaForm> {
           padding: EdgeInsets.only(left: 18, right: 18),
           child: InkWell(
               onTap: () async {
-                //TODO: Implement date picker
                 DateTimeRange? newDateRange = await showDateRangePicker(
                     context: context,
                     firstDate: DateTime.parse(widget.startDate),
                     lastDate: DateTime.now());
 
-                widget.startDate = newDateRange!.start.toString();
-                widget.endDate = newDateRange.end.toString();
+                widget.startDate = newDateRange!.start.toString().split(" ")[0];
+                widget.endDate = newDateRange.end.toString().split(" ")[0];
+
+                setState(() {});
               },
               child:
                   Row(mainAxisAlignment: MainAxisAlignment.center, children: [
@@ -120,6 +120,30 @@ class _FinishedMediaFormState extends State<FinishedMediaForm> {
                       ],
                     ))
               ]))),
+      SizedBox(height: 50),
+      Padding(
+          padding: EdgeInsets.only(left: 18, right: 18),
+          child: Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+            Container(
+                width: MediaQuery.of(context).size.width * 0.90,
+                height: 50,
+                decoration: BoxDecoration(
+                  color: Color(0xFF2F3443),
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    TextFormField(
+                      controller: nameInputController,
+                      style: Theme.of(context).textTheme.bodySmall,
+                      decoration: InputDecoration(
+                          border: InputBorder.none,
+                          hintStyle: Theme.of(context).textTheme.bodySmall),
+                    )
+                  ],
+                ))
+          ])),
       SizedBox(height: 100)
     ]);
   }
