@@ -54,7 +54,7 @@ class MyMediaPage extends StatelessWidget {
     // fast, so that you can just rebuild anything that needs updating rather
     // than having to individually change instances of widgets.
     return Container(
-        constraints: BoxConstraints(minHeight: 500, maxHeight: 1000),
+        constraints: BoxConstraints.expand(height: 1000),
         child: Column(children: [
           Row(children: [
             Stack(

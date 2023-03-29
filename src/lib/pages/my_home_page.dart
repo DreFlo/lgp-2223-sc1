@@ -8,6 +8,8 @@ import 'package:src/models/person.dart';
 import 'package:src/utils/service_locator.dart';
 import 'leisure/media_page.dart';
 
+const Color leisureColor = Color(0xFFF52349);
+
 class MyHomePage extends StatefulWidget {
   final String title;
 
@@ -132,18 +134,53 @@ class _MyHomePageState extends State<MyHomePage> {
                       ),
                       builder: (context) => DraggableScrollableSheet(
                           expand: false,
-                          minChildSize: 0.5,
+                          minChildSize: 0.35,
+                          maxChildSize: 0.75,
                           builder: (context, scrollController) =>
-                              SingleChildScrollView(
-                                controller: scrollController,
-                                  child: MyMediaPage(
-                                      isFavorite: false,
-                                      title: "She-ra and the Princesses of Power",
-                                      synopsis: "She-Ra, Princess of Power, leads a rebellion to free her land of Etheria from the monstrous invaders the Horde.",
-                                      length: [5, 52, 20],
-                                      cast: ['Aimee Carrero as Adora', 'AJ Michalka as Catra', 'Marcus Scribner as Bow', 'Karen Fukuhara as Glimmer'],
-                                      notes: ['Glimmer sucks.', 'Bow is best boy.'],
-                                      type: 'TV Show'))));
+                              Stack(
+                                alignment: AlignmentDirectional.bottomCenter,
+                                children: [
+                                SingleChildScrollView(
+                                    controller: scrollController,
+                                    child: MyMediaPage(
+                                        isFavorite: false,
+                                        title:
+                                            "She-ra and the Princesses of Power",
+                                        synopsis:
+                                            "In this reboot of the '80s series, a magic sword transforms an orphan girl into warrior She-Ra, who unites a rebellion to fight against evil.",
+                                        length: [5, 52, 20],
+                                        cast: [
+                                          'Aimee Carrero as Adora',
+                                          'AJ Michalka as Catra',
+                                          'Marcus Scribner as Bow',
+                                          'Karen Fukuhara as Glimmer'
+                                        ],
+                                        notes: [
+                                          'Glimmer sucks.',
+                                          'Bow is best boy.'
+                                        ],
+                                        type: 'TV Show')),
+                                Positioned(
+                                    left: 16,
+                                    right: 16,
+                                    bottom: 16,
+                                    child: ElevatedButton(
+                                      onPressed: () {},
+                                      style: ElevatedButton.styleFrom(
+                                        minimumSize: Size(MediaQuery.of(context).size.width * 0.95, 55),
+                                        backgroundColor: leisureColor,
+                                        shape: RoundedRectangleBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(25.0),
+                                        ),
+                                      ),
+                                      child: Text(
+                                          AppLocalizations.of(context).add,
+                                          style: Theme.of(context)
+                                              .textTheme
+                                              .headlineSmall),
+                                    ))
+                              ])));
                 }),
             FutureBuilder(
                 key: ValueKey<Object>(redrawObject),
