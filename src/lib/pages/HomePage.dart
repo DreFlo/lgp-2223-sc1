@@ -6,20 +6,20 @@ import 'package:src/animation_test/main.dart';
 import 'package:src/daos/person_dao.dart';
 import 'package:src/models/person.dart';
 import 'package:src/utils/service_locator.dart';
-import 'leisure/media_page.dart';
+import 'leisure/MediaPage.dart';
 
 const Color leisureColor = Color(0xFFF52349);
 
-class MyHomePage extends StatefulWidget {
+class HomePage extends StatefulWidget {
   final String title;
 
-  const MyHomePage({Key? key, required this.title}) : super(key: key);
+  const HomePage({Key? key, required this.title}) : super(key: key);
 
   @override
-  State<MyHomePage> createState() => _MyHomePageState();
+  State<HomePage> createState() => _HomePageState();
 }
 
-class _MyHomePageState extends State<MyHomePage> {
+class _HomePageState extends State<HomePage> {
   int _counter = 0;
   Object redrawObject = Object();
 
@@ -142,7 +142,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                 children: [
                                 SingleChildScrollView(
                                     controller: scrollController,
-                                    child: MyMediaPage(
+                                    child: MediaPage(
                                         isFavorite: false,
                                         title:
                                             "She-ra and the Princesses of Power",

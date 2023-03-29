@@ -11,13 +11,13 @@ import 'package:like_button/like_button.dart';
 
 import '../../widgets/leisure_tag.dart';
 
-class MyMediaPage extends StatelessWidget {
+class MediaPage extends StatelessWidget {
   final String title, synopsis, type;
   final bool isFavorite;
   final List<String> cast, notes;
   final List<int> length;
 
-  const MyMediaPage(
+  const MediaPage(
       {Key? key,
       required this.title,
       required this.synopsis,
