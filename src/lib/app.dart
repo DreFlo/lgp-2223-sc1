@@ -37,7 +37,7 @@ class App extends StatelessWidget {
                 scaffoldBackgroundColor: Color(0xFF181A20),
                 textTheme: const TextTheme(
                   displayMedium: TextStyle(
-                      fontSize: 13,
+                      fontSize: 14,
                       color: Color(0xFF71788D),
                       fontWeight: FontWeight.w400
                   ),
@@ -63,11 +63,11 @@ class App extends StatelessWidget {
                       fontWeight: FontWeight.bold),
                   displaySmall: TextStyle(
                       color: Colors.white,
-                      fontSize: 12,
-                      fontWeight: FontWeight.bold),
+                      fontSize: 13,
+                      fontWeight: FontWeight.w600),
                   bodySmall: TextStyle(
                       color: Colors.white,
-                      fontSize: 13,
+                      fontSize: 16,
                       fontWeight: FontWeight.normal
                   )
                 )),
