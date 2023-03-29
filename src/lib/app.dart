@@ -67,7 +67,8 @@ class App extends StatelessWidget {
                       fontWeight: FontWeight.bold),
                   bodySmall: TextStyle(
                       color: Colors.white,
-                      fontSize: 12,
+                      fontSize: 13,
+                      fontWeight: FontWeight.normal
                   )
                 )),
             home: Scaffold(
