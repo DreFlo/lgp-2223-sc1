@@ -7,10 +7,9 @@
   "synopsis": "Synopsis",
   "cast": "Cast",
   "length": "Length",
-  "seasons": "seasons, ",
-  "episodes": "episodes",
-  "minutes_each": "minutes each.",
-  "hours": "hours",
-  "minutes": "minutes",
-  "pages": "pages."
+  "seasons": " seasons, ",
+  "episodes": " episodes, ",
+  "minutes_each": " minutes each.",
+  "minutes": " minutes.",
+  "pages": " pages."
 }

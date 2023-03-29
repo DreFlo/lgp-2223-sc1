@@ -140,9 +140,9 @@ class _MyHomePageState extends State<MyHomePage> {
                                       isFavorite: false,
                                       title: "She-ra and the Princesses of Power",
                                       synopsis: "She-Ra, Princess of Power, leads a rebellion to free her land of Etheria from the monstrous invaders the Horde.",
-                                      tags: ['', ''],
-                                      notes: ['', ''],
-                                      data: ['', ''],
+                                      length: [5, 52, 20],
+                                      cast: ['Aimee Carrero as Adora', 'AJ Michalka as Catra', 'Marcus Scribner as Bow', 'Karen Fukuhara as Glimmer'],
+                                      notes: ['Glimmer sucks.', 'Bow is best boy.'],
                                       type: 'TV Show'))));
                 }),
             FutureBuilder(
