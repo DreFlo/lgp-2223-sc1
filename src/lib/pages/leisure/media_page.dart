@@ -125,7 +125,7 @@ class MyMediaPage extends StatelessWidget {
                               size: 40,
                               likeBuilder: (bool isLiked) {
                                 return Icon(
-                                  Icons.favorite,
+                                  Icons.favorite_rounded,
                                   color: isLiked ? leisureColor : Colors.grey,
                                   size: 40,
                                 );
