@@ -61,5 +61,6 @@ final migration2to3 = Migration(2, 3, (database) async {
 
 final migration3to4 = Migration(3, 4, (database) async {
   await database.execute(
-      'ALTER TABLE `institution` ADD CONSTRAINT FK_Institution_User FOREIGN KEY (`user_id`) REFERENCES `user` (`id`)');
+      'ALTER TABLE `institution` ADD COLUMN `user_id` INTEGER REFERENCES `user` (`id`)');
 });
+
