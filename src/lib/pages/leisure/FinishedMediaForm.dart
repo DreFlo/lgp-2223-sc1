@@ -79,14 +79,27 @@ class _FinishedMediaFormState extends State<FinishedMediaForm> {
                 DateTimeRange? newDateRange = await showDateRangePicker(
                     builder: (context, Widget? child) => Theme(
                           data: ThemeData.from(
-                              textTheme: TextTheme(
-                                displayLarge: TextStyle(color: Colors.white),
-                                displayMedium: TextStyle(color: Colors.white),
-                                displaySmall: TextStyle(color: Colors.white),
-                                bodySmall: TextStyle(color: Colors.white),
+                              textTheme: const TextTheme(
+                                
+                                displayLarge: TextStyle(
+                                  color: Colors.white,
+                                  fontFamily: "Poppins"
+                                ),
+                                displayMedium: TextStyle(
+                                  color: Colors.white,
+                                  fontFamily: "Poppins"
+                                ),
+                                displaySmall: TextStyle(
+                                  color: Colors.white,
+                                  fontFamily: "Poppins"
+                                ),
+                                bodySmall: TextStyle(
+                                  color: Colors.white,
+                                  fontFamily: "Poppins"
+                                ),
                               ),
-                              colorScheme: ColorScheme.light(
-                                onPrimary: Colors.white,
+                              colorScheme: const ColorScheme.dark(
+                                primary: primaryColor,
                               )),
                           child: child!,
                         ),
