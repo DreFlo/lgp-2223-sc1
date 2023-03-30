@@ -14,4 +14,7 @@ abstract class BookDao {
 
   @insert
   Future<void> insertBooks(List<Book> books);
+
+  @delete
+  Future<void> deleteBooks(Book book);
 }

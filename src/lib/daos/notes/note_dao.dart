@@ -14,4 +14,10 @@ abstract class NoteDao {
 
   @insert
   Future<void> insertNotes(List<Note> notes);
+
+  @update
+  Future<void> updateNote(Note note);
+
+  @delete
+  Future<void> deleteNote(Note note);
 }

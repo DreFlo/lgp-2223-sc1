@@ -14,4 +14,13 @@ abstract class SeasonDao {
 
   @insert
   Future<void> insertSeasons(List<Season> season);
+
+  @update
+  Future<void> updateSeason(Season season);
+
+  @update
+  Future<void> updateSeasons(List<Season> season);
+
+  @delete
+  Future<void> deleteSeason(Season season);
 }

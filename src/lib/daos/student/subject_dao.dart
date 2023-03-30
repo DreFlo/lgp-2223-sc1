@@ -17,4 +17,10 @@ abstract class SubjectDao {
 
   @insert
   Future<void> insertSubjects(List<Subject> subjects);
+
+  @update
+  Future<void> updateSubject(Subject subject);
+
+  @delete
+  Future<void> deleteSubject(Subject subject);
 }

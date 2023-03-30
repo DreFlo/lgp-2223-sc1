@@ -9,7 +9,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
 import 'package:src/app.dart';
-import 'package:src/daos/person_dao.dart';
+import 'package:src/daos/user_dao.dart';
 import 'package:src/utils/service_locator.dart';
 
 import '../utils/service_locator_test_util.dart';
@@ -21,8 +21,8 @@ void main() {
   });
 
   testWidgets('Counter increments smoke test', (WidgetTester tester) async {
-    final mockPersonDao = serviceLocator.get<PersonDao>();
-    when(mockPersonDao.findAllPersons()).thenAnswer((_) async => []);
+    final mockUserDao = serviceLocator.get<UserDao>();
+    when(mockUserDao.findAllUsers()).thenAnswer((_) async => []);
 
     // Build our app and trigger a frame.
     await tester.pumpWidget(const App());

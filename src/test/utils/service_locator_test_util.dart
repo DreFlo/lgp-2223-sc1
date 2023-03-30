@@ -1,6 +1,5 @@
 import 'package:mockito/annotations.dart';
 
-import 'package:src/daos/person_dao.dart';
 import 'package:src/daos/student/evaluation_dao.dart';
 import 'package:src/daos/student/institution_dao.dart';
 import 'package:src/daos/student/subject_dao.dart';
@@ -19,6 +18,13 @@ import 'package:src/daos/notes/episode_note_dao.dart';
 import 'package:src/daos/notes/note_dao.dart';
 import 'package:src/daos/notes/subject_note_dao.dart';
 import 'package:src/daos/notes/task_note_dao.dart';
+import 'package:src/daos/timeslot/timeslot_dao.dart';
+import 'package:src/daos/timeslot/media_timeslot_dao.dart';
+import 'package:src/daos/timeslot/student_timeslot_dao.dart';
+import 'package:src/daos/badge_dao.dart';
+import 'package:src/daos/mood_dao.dart';
+import 'package:src/daos/user_badge_dao.dart';
+import 'package:src/daos/user_dao.dart';
 
 import 'package:src/database/database.dart';
 import 'package:src/utils/service_locator.dart';
@@ -27,7 +33,6 @@ import 'service_locator_test_util.mocks.dart';
 
 @GenerateMocks([
   AppDatabase,
-  PersonDao,
   InstitutionDao,
   SubjectDao,
   TaskGroupDao,
@@ -45,15 +50,19 @@ import 'service_locator_test_util.mocks.dart';
   BookNoteDao,
   EpisodeNoteDao,
   TaskNoteDao,
-  SubjectNoteDao
+  SubjectNoteDao,
+  TimeslotDao,
+  MediaTimeslotDao,
+  StudentTimeslotDao,
+  BadgeDao,
+  MoodDao,
+  UserBadgeDao,
+  UserDao,
 ])
 void setupMockServiceLocatorUnitTests() {
   serviceLocator
       .registerSingletonAsync<AppDatabase>(() async => MockAppDatabase());
 
-  serviceLocator.registerSingletonWithDependencies<PersonDao>(
-      () => MockPersonDao(),
-      dependsOn: [AppDatabase]);
   serviceLocator.registerSingletonWithDependencies<InstitutionDao>(
       () => MockInstitutionDao(),
       dependsOn: [AppDatabase]);
@@ -105,6 +114,25 @@ void setupMockServiceLocatorUnitTests() {
   serviceLocator.registerSingletonWithDependencies<SubjectNoteDao>(
       () => MockSubjectNoteDao(),
       dependsOn: [AppDatabase]);
+  serviceLocator.registerSingletonWithDependencies<MediaTimeslotDao>(
+      () => MockMediaTimeslotDao(),
+      dependsOn: [AppDatabase]);
+  serviceLocator.registerSingletonWithDependencies<StudentTimeslotDao>(
+      () => MockStudentTimeslotDao(),
+      dependsOn: [AppDatabase]);
+  serviceLocator.registerSingletonWithDependencies<TimeslotDao>(
+      () => MockTimeslotDao(),
+      dependsOn: [AppDatabase]);
+  serviceLocator.registerSingletonWithDependencies<BadgeDao>(
+      () => MockBadgeDao(),
+      dependsOn: [AppDatabase]);
+  serviceLocator.registerSingletonWithDependencies<MoodDao>(() => MockMoodDao(),
+      dependsOn: [AppDatabase]);
+  serviceLocator.registerSingletonWithDependencies<UserBadgeDao>(
+      () => MockUserBadgeDao(),
+      dependsOn: [AppDatabase]);
+  serviceLocator.registerSingletonWithDependencies<UserDao>(() => MockUserDao(),
+      dependsOn: [AppDatabase]);
 }
 
 void setupServiceLocatorUnitTests() {
@@ -114,9 +142,6 @@ void setupServiceLocatorUnitTests() {
           .addCallback(callback)
           .build());
 
-  serviceLocator.registerSingletonWithDependencies<PersonDao>(
-      () => serviceLocator.get<AppDatabase>().personDao,
-      dependsOn: [AppDatabase]);
   serviceLocator.registerSingletonWithDependencies<InstitutionDao>(
       () => serviceLocator.get<AppDatabase>().institutionDao,
       dependsOn: [AppDatabase]);
@@ -170,5 +195,26 @@ void setupServiceLocatorUnitTests() {
       dependsOn: [AppDatabase]);
   serviceLocator.registerSingletonWithDependencies<SubjectNoteDao>(
       () => serviceLocator.get<AppDatabase>().subjectNoteDao,
+      dependsOn: [AppDatabase]);
+  serviceLocator.registerSingletonWithDependencies<TimeslotDao>(
+      () => serviceLocator.get<AppDatabase>().timeslotDao,
+      dependsOn: [AppDatabase]);
+  serviceLocator.registerSingletonWithDependencies<MediaTimeslotDao>(
+      () => serviceLocator.get<AppDatabase>().mediaTimeslotDao,
+      dependsOn: [AppDatabase]);
+  serviceLocator.registerSingletonWithDependencies<StudentTimeslotDao>(
+      () => serviceLocator.get<AppDatabase>().studentTimeslotDao,
+      dependsOn: [AppDatabase]);
+  serviceLocator.registerSingletonWithDependencies<BadgeDao>(
+      () => serviceLocator.get<AppDatabase>().badgeDao,
+      dependsOn: [AppDatabase]);
+  serviceLocator.registerSingletonWithDependencies<MoodDao>(
+      () => serviceLocator.get<AppDatabase>().moodDao,
+      dependsOn: [AppDatabase]);
+  serviceLocator.registerSingletonWithDependencies<UserBadgeDao>(
+      () => serviceLocator.get<AppDatabase>().userBadgeDao,
+      dependsOn: [AppDatabase]);
+  serviceLocator.registerSingletonWithDependencies<UserDao>(
+      () => serviceLocator.get<AppDatabase>().userDao,
       dependsOn: [AppDatabase]);
 }

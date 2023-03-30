@@ -1,6 +1,7 @@
 import 'package:floor/floor.dart';
 import 'package:flutter/foundation.dart';
 import 'package:get_it/get_it.dart';
+import 'package:src/daos/user_badge_dao.dart';
 import 'package:src/database/database.dart';
 import 'package:src/database/migrations.dart';
 
@@ -25,7 +26,13 @@ import 'package:src/daos/media/movie_dao.dart';
 import 'package:src/daos/media/series_dao.dart';
 import 'package:src/daos/media/season_dao.dart';
 
-import 'package:src/daos/person_dao.dart';
+import 'package:src/daos/timeslot/media_timeslot_dao.dart';
+import 'package:src/daos/timeslot/student_timeslot_dao.dart';
+import 'package:src/daos/timeslot/timeslot_dao.dart';
+
+import 'package:src/daos/badge_dao.dart';
+import 'package:src/daos/mood_dao.dart';
+import 'package:src/daos/user_dao.dart';
 
 final GetIt serviceLocator = GetIt.instance;
 
@@ -45,9 +52,6 @@ void setup() {
           .addMigrations(allMigrations)
           .build());
 
-  serviceLocator.registerSingletonWithDependencies<PersonDao>(
-      () => serviceLocator.get<AppDatabase>().personDao,
-      dependsOn: [AppDatabase]);
   serviceLocator.registerSingletonWithDependencies<InstitutionDao>(
       () => serviceLocator.get<AppDatabase>().institutionDao,
       dependsOn: [AppDatabase]);
@@ -101,5 +105,26 @@ void setup() {
       dependsOn: [AppDatabase]);
   serviceLocator.registerSingletonWithDependencies<SubjectNoteDao>(
       () => serviceLocator.get<AppDatabase>().subjectNoteDao,
+      dependsOn: [AppDatabase]);
+  serviceLocator.registerSingletonWithDependencies<UserDao>(
+      () => serviceLocator.get<AppDatabase>().userDao,
+      dependsOn: [AppDatabase]);
+  serviceLocator.registerSingletonWithDependencies<BadgeDao>(
+      () => serviceLocator.get<AppDatabase>().badgeDao,
+      dependsOn: [AppDatabase]);
+  serviceLocator.registerSingletonWithDependencies<MoodDao>(
+      () => serviceLocator.get<AppDatabase>().moodDao,
+      dependsOn: [AppDatabase]);
+  serviceLocator.registerSingletonWithDependencies<MediaTimeslotDao>(
+      () => serviceLocator.get<AppDatabase>().mediaTimeslotDao,
+      dependsOn: [AppDatabase]);
+  serviceLocator.registerSingletonWithDependencies<TimeslotDao>(
+      () => serviceLocator.get<AppDatabase>().timeslotDao,
+      dependsOn: [AppDatabase]);
+  serviceLocator.registerSingletonWithDependencies<StudentTimeslotDao>(
+      () => serviceLocator.get<AppDatabase>().studentTimeslotDao,
+      dependsOn: [AppDatabase]);
+  serviceLocator.registerSingletonWithDependencies<UserBadgeDao>(
+      () => serviceLocator.get<AppDatabase>().userBadgeDao,
       dependsOn: [AppDatabase]);
 }

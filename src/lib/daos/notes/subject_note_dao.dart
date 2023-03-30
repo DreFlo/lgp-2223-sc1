@@ -14,4 +14,13 @@ abstract class SubjectNoteDao {
 
   @insert
   Future<void> insertSubjectNotes(List<SubjectNote> subjectNotes);
+
+  @update
+  Future<void> updateSubjectNote(SubjectNote subjectNote);
+
+  @update
+  Future<void> updateSubjectNotes(List<SubjectNote> subjectNotes);
+
+  @delete
+  Future<void> deleteSubjectNote(SubjectNote subjectNote);
 }

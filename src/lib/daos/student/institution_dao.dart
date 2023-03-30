@@ -14,4 +14,10 @@ abstract class InstitutionDao {
 
   @insert
   Future<void> insertInstitutions(List<Institution> institutions);
+
+  @update
+  Future<void> updateInstitution(Institution institution);
+
+  @delete
+  Future<void> deleteInstitution(Institution institution);
 }

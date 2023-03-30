@@ -14,4 +14,13 @@ abstract class SeriesDao {
 
   @insert
   Future<void> insertSeries(List<Series> series);
+
+  @update
+  Future<void> updateSerie(Series series);
+
+  @update
+  Future<void> updateSeries(List<Series> series);
+
+  @delete
+  Future<void> deleteSerie(Series series);
 }

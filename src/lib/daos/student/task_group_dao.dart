@@ -14,4 +14,10 @@ abstract class TaskGroupDao {
 
   @insert
   Future<void> insertTaskGroups(List<TaskGroup> taskGroups);
+
+  @update
+  Future<void> updateTaskGroup(TaskGroup taskGroup);
+
+  @delete
+  Future<void> deleteTaskGroup(TaskGroup taskGroup);
 }

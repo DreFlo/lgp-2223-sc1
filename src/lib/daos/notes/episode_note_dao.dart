@@ -14,4 +14,10 @@ abstract class EpisodeNoteDao {
 
   @insert
   Future<void> insertEpisodeNotes(List<EpisodeNote> episodeNotes);
+
+  @update
+  Future<void> updateEpisodeNote(EpisodeNote episodeNote);
+
+  @delete
+  Future<void> deleteEpisodeNote(EpisodeNote episodeNote);
 }

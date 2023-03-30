@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:src/animation_test/main.dart';
-import 'package:src/daos/person_dao.dart';
-import 'package:src/models/person.dart';
+import 'package:src/daos/user_dao.dart';
+import 'package:src/models/user.dart';
 import 'package:src/utils/service_locator.dart';
 
 class MyHomePage extends StatefulWidget {
@@ -109,8 +109,8 @@ class _MyHomePageState extends State<MyHomePage> {
                               bottomLeft: Radius.circular(10))))),
               child: const Text('Add name'),
               onPressed: () async {
-                await serviceLocator<PersonDao>()
-                    .insertPerson(Person(name: nameInputController.text));
+                await serviceLocator<UserDao>().insertUser(User(
+                    userName: nameInputController.text, password: '', xp: 0));
                 setState(() {
                   redrawObject = Object();
                 });
@@ -118,13 +118,13 @@ class _MyHomePageState extends State<MyHomePage> {
             ),
             FutureBuilder(
                 key: ValueKey<Object>(redrawObject),
-                future: serviceLocator<PersonDao>().findAllPersons(),
+                future: serviceLocator<UserDao>().findAllUsers(),
                 builder: (BuildContext context, AsyncSnapshot snapshot) {
                   List<Widget> children;
                   if (snapshot.hasData) {
                     StringBuffer stringBuffer = StringBuffer();
-                    for (Person person in snapshot.data) {
-                      stringBuffer.write('${person.name}, ');
+                    for (User user in snapshot.data) {
+                      stringBuffer.write('${user.userName}, ');
                     }
                     children = <Widget>[
                       Padding(

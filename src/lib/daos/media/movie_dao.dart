@@ -14,4 +14,10 @@ abstract class MovieDao {
 
   @insert
   Future<void> insertMovies(List<Movie> movie);
+
+  @update
+  Future<void> updateMovie(Movie movie);
+
+  @delete
+  Future<void> deleteMovie(Movie movie);
 }

@@ -1,8 +1,8 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:src/daos/person_dao.dart';
 import 'package:src/database/database.dart';
-import 'package:src/models/person.dart';
 import 'package:src/utils/service_locator.dart';
+import 'package:src/daos/user_dao.dart';
+import 'package:src/models/user.dart';
 
 import '../utils/service_locator_test_util.dart';
 
@@ -18,15 +18,16 @@ void main() {
 
   testWidgets('Counter increments smoke test', (WidgetTester tester) async {
     await tester.runAsync(() async {
-      List<Person> persons = await serviceLocator<PersonDao>().findAllPersons();
+      List<User> users = await serviceLocator<UserDao>().findAllUsers();
 
-      expect(persons.length, 0);
+      expect(users.length, 0);
 
-      await serviceLocator<PersonDao>().insertPerson(Person(name: 'Emil'));
+      await serviceLocator<UserDao>()
+          .insertUser(User(userName: 'Emil', password: '1234', xp: 23));
 
-      persons = await serviceLocator<PersonDao>().findAllPersons();
+      users = await serviceLocator<UserDao>().findAllUsers();
 
-      expect(persons.length, 1);
+      expect(users.length, 1);
     });
   });
 }

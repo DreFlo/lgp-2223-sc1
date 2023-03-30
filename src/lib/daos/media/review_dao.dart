@@ -14,4 +14,10 @@ abstract class ReviewDao {
 
   @insert
   Future<void> insertReviews(List<Review> reviews);
+
+  @update
+  Future<void> updateReview(Review review);
+
+  @delete
+  Future<void> deleteReview(Review review);
 }

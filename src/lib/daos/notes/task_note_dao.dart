@@ -14,4 +14,10 @@ abstract class TaskNoteDao {
 
   @insert
   Future<void> insertTaskNotes(List<TaskNote> taskNote);
+
+  @update
+  Future<void> updateTaskNote(TaskNote taskNote);
+
+  @delete
+  Future<void> deleteTaskNote(TaskNote taskNote);
 }

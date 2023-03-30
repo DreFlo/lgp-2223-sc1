@@ -14,4 +14,10 @@ abstract class VideoDao {
 
   @insert
   Future<void> insertVideos(List<Video> video);
+
+  @update
+  Future<void> updateVideo(Video video);
+
+  @delete
+  Future<void> deleteVideo(Video video);
 }
