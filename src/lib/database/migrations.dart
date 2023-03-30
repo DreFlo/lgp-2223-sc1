@@ -1,6 +1,6 @@
 import 'package:floor/floor.dart';
 
-final allMigrations = [migration1to2, migration2to3];
+final allMigrations = [migration1to2, migration2to3, migration3to4];
 
 final migration1to2 = Migration(1, 2, (database) async {
   await database.execute(
@@ -57,4 +57,9 @@ final migration2to3 = Migration(2, 3, (database) async {
       'CREATE TABLE IF NOT EXISTS `student_timeslot` (`task` INTEGER, `evaluation` INTEGER, `id` INTEGER PRIMARY KEY AUTOINCREMENT, `title` TEXT NOT NULL, `description` TEXT NOT NULL, `periodicity` INTEGER NOT NULL, `startDateTime` INTEGER NOT NULL, `endDateTime` INTEGER NOT NULL, `priority` INTEGER NOT NULL, `xp` INTEGER NOT NULL, `user_id` INTEGER NOT NULL)');
   await database.execute(
       'CREATE TABLE IF NOT EXISTS `user_badge` (`user_id` INTEGER NOT NULL, `badge_id` INTEGER NOT NULL, PRIMARY KEY (`user_id`, `badge_id`))');
+});
+
+final migration3to4 = Migration(3, 4, (database) async {
+  await database.execute(
+      'ALTER TABLE `institution` ADD CONSTRAINT FK_Institution_User FOREIGN KEY (`user_id`) REFERENCES `user` (`id`)');
 });
