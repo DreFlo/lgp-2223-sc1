@@ -4,6 +4,15 @@ import 'package:src/models/user.dart';
 
 @Entity(
   tableName: 'mood',
+  foreignKeys: [
+    ForeignKey(
+      childColumns: ['user_id'],
+      parentColumns: ['id'],
+      entity: User,
+      onDelete: ForeignKeyAction.cascade,
+      onUpdate: ForeignKeyAction.restrict,
+    )
+  ],
 )
 class Mood {
   @PrimaryKey(autoGenerate: true)
@@ -15,11 +24,6 @@ class Mood {
 
   final DateTime date;
 
-  @ForeignKey(
-    entity: User,
-    childColumns: ['user_id'],
-    parentColumns: ['id'],
-  )
   @ColumnInfo(name: 'user_id')
   final int userId;
 

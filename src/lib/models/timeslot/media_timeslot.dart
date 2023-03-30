@@ -5,9 +5,16 @@ import 'package:src/utils/enums.dart';
 
 @Entity(
   tableName: 'media_timeslot',
+  foreignKeys: [
+    ForeignKey(
+        childColumns: ['media_id'],
+        parentColumns: ['id'],
+        entity: Media,
+        onDelete: ForeignKeyAction.cascade,
+        onUpdate: ForeignKeyAction.restrict)
+  ],
 )
 class MediaTimeslot extends Timeslot {
-  @ForeignKey(entity: Media, childColumns: ['media_id'], parentColumns: ['id'])
   @ColumnInfo(name: 'media')
   final int mediaId;
 
