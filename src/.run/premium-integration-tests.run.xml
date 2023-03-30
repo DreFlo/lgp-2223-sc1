@@ -1,0 +1,8 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="premium-integration-tests" type="FlutterTestConfigType" factoryName="Flutter Test">
+    <option name="testDir" value="$PROJECT_DIR$/integration_test/premium" />
+    <option name="useRegexp" value="false" />
+    <option name="additionalArgs" value="--flavor premium" />
+    <method v="2" />
+  </configuration>
+</component>
