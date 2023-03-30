@@ -14,6 +14,34 @@ class MyBottomNavigationBar extends StatefulWidget {
 }
 
 class _MyBottomNavigationBarState extends State<MyBottomNavigationBar> {
+  getAddIcon() {
+    return Container(
+      width: 45,
+      height: 45,
+      decoration: const BoxDecoration(
+          color: mainPurple,
+          borderRadius: BorderRadius.all(Radius.circular(15))),
+      child: const Icon(Icons.add, size: 25),
+    );
+  }
+
+  getIcon(String name) {
+    switch (name) {
+      case 'Home':
+        return const Icon(Icons.home_filled);
+      case 'Calendar':
+        return const Icon(Icons.calendar_month);
+      case 'Dashboard':
+        return const Icon(Icons.dashboard_rounded);
+      case 'Settings':
+        return const Icon(Icons.settings);
+      case 'Add':
+        return getAddIcon();
+      default:
+        return const Icon(Icons.home);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -41,33 +69,11 @@ class _MyBottomNavigationBarState extends State<MyBottomNavigationBar> {
             unselectedItemColor: Colors.white,
             iconSize: 27,
             items: [
-              const BottomNavigationBarItem(
-                icon: Icon(Icons.home_filled),
-                label: "Home",
-              ),
-              const BottomNavigationBarItem(
-                icon: Icon(Icons.calendar_month),
-                label: "Calendar",
-              ),
-              BottomNavigationBarItem(
-                icon: Container(
-                  width: 45,
-                  height: 45,
-                  decoration: const BoxDecoration(
-                      color: mainPurple,
-                      borderRadius: BorderRadius.all(Radius.circular(15))),
-                  child: const Icon(Icons.add, color: Colors.white, size: 25),
-                ),
-                label: "Add",
-              ),
-              const BottomNavigationBarItem(
-                icon: Icon(Icons.dashboard_rounded),
-                label: "Dashboard",
-              ),
-              const BottomNavigationBarItem(
-                icon: Icon(Icons.settings),
-                label: "Settings",
-              ),
+              BottomNavigationBarItem(icon: getIcon("Home"), label: 'Home'),
+              BottomNavigationBarItem(icon: getIcon("Calendar"), label: 'Calendar'),
+              BottomNavigationBarItem(icon: getIcon("Add"), label: 'Add'),
+              BottomNavigationBarItem(icon: getIcon("Dashboard"), label: 'Dashboard'),
+              BottomNavigationBarItem(icon: getIcon("Settings"), label: 'Settings'),
             ],
             currentIndex: widget.selectedIndex,
             onTap: widget.onItemTapped,
