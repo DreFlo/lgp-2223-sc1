@@ -19,7 +19,7 @@ jobs:
         working-directory: src
     strategy:
       matrix:
-        api-level: [29]
+        api-level: [27]
     steps:
       # Checkout rep
       - name: Clone rep
