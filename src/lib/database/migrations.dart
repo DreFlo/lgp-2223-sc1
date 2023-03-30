@@ -1,8 +1,6 @@
 import 'package:floor/floor.dart';
 
-final allMigrations = [
-  migration1to2
-];
+final allMigrations = [migration1to2];
 
 final migration1to2 = Migration(1, 2, (database) async {
   await database.execute(

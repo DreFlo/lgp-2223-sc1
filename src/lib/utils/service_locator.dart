@@ -42,7 +42,8 @@ void setup() {
   serviceLocator.registerSingletonAsync<AppDatabase>(() async =>
       await $FloorAppDatabase
           .databaseBuilder('wokka_database.db')
-          .addMigrations(allMigrations).build());
+          .addMigrations(allMigrations)
+          .build());
 
   serviceLocator.registerSingletonWithDependencies<PersonDao>(
       () => serviceLocator.get<AppDatabase>().personDao,
