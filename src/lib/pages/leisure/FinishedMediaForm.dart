@@ -1,3 +1,4 @@
+import 'dart:ffi';
 import 'dart:math';
 import 'dart:ui';
 import 'package:flutter/material.dart';
@@ -76,6 +77,19 @@ class _FinishedMediaFormState extends State<FinishedMediaForm> {
           child: InkWell(
               onTap: () async {
                 DateTimeRange? newDateRange = await showDateRangePicker(
+                    builder: (context, Widget? child) => Theme(
+                          data: ThemeData.from(
+                              textTheme: TextTheme(
+                                displayLarge: TextStyle(color: Colors.white),
+                                displayMedium: TextStyle(color: Colors.white),
+                                displaySmall: TextStyle(color: Colors.white),
+                                bodySmall: TextStyle(color: Colors.white),
+                              ),
+                              colorScheme: ColorScheme.light(
+                                onPrimary: Colors.white,
+                              )),
+                          child: child!,
+                        ),
                     initialEntryMode: DatePickerEntryMode.input,
                     context: context,
                     firstDate: DateTime.parse(widget.startDate),
