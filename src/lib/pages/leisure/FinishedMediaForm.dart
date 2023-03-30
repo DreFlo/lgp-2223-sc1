@@ -76,6 +76,7 @@ class _FinishedMediaFormState extends State<FinishedMediaForm> {
           child: InkWell(
               onTap: () async {
                 DateTimeRange? newDateRange = await showDateRangePicker(
+                    initialEntryMode: DatePickerEntryMode.input,
                     context: context,
                     firstDate: DateTime.parse(widget.startDate),
                     lastDate: DateTime.now());
@@ -121,29 +122,35 @@ class _FinishedMediaFormState extends State<FinishedMediaForm> {
                     ))
               ]))),
       SizedBox(height: 50),
+      Row(children: [
+        Padding(
+            padding: EdgeInsets.only(left: 18),
+            child: Text(
+              AppLocalizations.of(context).any_thoughts,
+              style: Theme.of(context).textTheme.displayMedium,
+            ))
+      ]),
+      SizedBox(height: 7.5),
       Padding(
-          padding: EdgeInsets.only(left: 18, right: 18),
-          child: Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-            Container(
-                width: MediaQuery.of(context).size.width * 0.90,
-                height: 50,
-                decoration: BoxDecoration(
-                  color: Color(0xFF2F3443),
-                  borderRadius: BorderRadius.circular(10),
-                ),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    TextFormField(
-                      controller: nameInputController,
-                      style: Theme.of(context).textTheme.bodySmall,
-                      decoration: InputDecoration(
-                          border: InputBorder.none,
-                          hintStyle: Theme.of(context).textTheme.bodySmall),
-                    )
-                  ],
-                ))
-          ])),
+        padding: EdgeInsets.only(left: 18, right: 18),
+        child: SizedBox(
+            width: MediaQuery.of(context).size.width * 0.90,
+            height: 150,
+            child: TextField(
+              style: Theme.of(context).textTheme.bodySmall,
+              decoration: InputDecoration(
+                  filled: true,
+                  fillColor: lightGray,
+                  helperText:
+                      AppLocalizations.of(context).finished_media_thoughts,
+                  helperStyle: Theme.of(context).textTheme.labelSmall,
+                  border: OutlineInputBorder(
+                    borderSide: BorderSide.none,
+                    borderRadius: BorderRadius.circular(10.0),
+                  ),
+                  hintStyle: Theme.of(context).textTheme.bodySmall),
+            )),
+      ),
       SizedBox(height: 100)
     ]);
   }

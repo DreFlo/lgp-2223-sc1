@@ -16,5 +16,7 @@
   "finished_media": "You're finished!",
   "what_thoughts": "What are your thoughts?",
   "date": "Date",
-  "save": "Save"
+  "save": "Save",
+  "any_thoughts": "Any thoughts?",
+  "finished_media_thoughts": "Write your thoughts here."
 }

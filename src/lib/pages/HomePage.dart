@@ -136,7 +136,7 @@ class _HomePageState extends State<HomePage> {
                       builder: (context) => DraggableScrollableSheet(
                           expand: false,
                           minChildSize: 0.35,
-                          maxChildSize: 0.5,
+                          maxChildSize: 0.75,
                           builder: (context, scrollController) => Stack(
                                   alignment: AlignmentDirectional.bottomCenter,
                                   children: [
@@ -208,7 +208,7 @@ class _HomePageState extends State<HomePage> {
                                     SingleChildScrollView(
                                         controller: scrollController,
                                         child: FinishedMediaForm(
-                                          startDate: '2021-01-01',
+                                          startDate: DateTime.now().toString().split(" ")[0],
                                           endDate: '2021-01-01',
                                         )),
                                     Positioned(

@@ -36,46 +36,46 @@ class App extends StatelessWidget {
                 primarySwatch: MaterialColor(0xFF6C5DD3, color),
                 scaffoldBackgroundColor: Color(0xFF181A20),
                 textTheme: const TextTheme(
-                  headlineSmall: TextStyle(
-                      color: Colors.white,
-                      fontSize: 15,
-                      fontWeight: FontWeight.bold
-                ),
-                  displayMedium: TextStyle(
-                      fontSize: 14,
-                      color: Color(0xFF71788D),
-                      fontWeight: FontWeight.w400
-                  ),
-                  headlineMedium: TextStyle(
-                      fontSize: 12,
-                      color: Colors.white,
-                      fontWeight: FontWeight.w500),
-                  titleLarge: TextStyle(
-                      color: Colors.white,
-                      fontSize: 36,
-                      fontWeight: FontWeight.bold),
-                  titleMedium: TextStyle(
-                      color: Colors.white,
-                      fontSize: 24,
-                      fontWeight: FontWeight.w600),
-                  titleSmall: TextStyle(
-                      color: Colors.white,
-                      fontSize: 18,
-                      fontWeight: FontWeight.bold),
-                  bodyMedium: TextStyle(
-                      color: Colors.white,
-                      fontSize: 13,
-                      fontWeight: FontWeight.bold),
-                  displaySmall: TextStyle(
-                      color: Colors.white,
-                      fontSize: 13,
-                      fontWeight: FontWeight.w600),
-                  bodySmall: TextStyle(
-                      color: Colors.white,
-                      fontSize: 16,
-                      fontWeight: FontWeight.normal
-                  )
-                )),
+                    labelSmall: TextStyle(
+                        color: Color(0xFF71788D),
+                        fontSize: 13,
+                        fontWeight: FontWeight.normal),
+                    headlineSmall: TextStyle(
+                        color: Colors.white,
+                        fontSize: 15,
+                        fontWeight: FontWeight.bold),
+                    displayMedium: TextStyle(
+                        fontSize: 14,
+                        color: Color(0xFF71788D),
+                        fontWeight: FontWeight.w400),
+                    headlineMedium: TextStyle(
+                        fontSize: 12,
+                        color: Colors.white,
+                        fontWeight: FontWeight.w500),
+                    titleLarge: TextStyle(
+                        color: Colors.white,
+                        fontSize: 36,
+                        fontWeight: FontWeight.bold),
+                    titleMedium: TextStyle(
+                        color: Colors.white,
+                        fontSize: 24,
+                        fontWeight: FontWeight.w600),
+                    titleSmall: TextStyle(
+                        color: Colors.white,
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold),
+                    bodyMedium: TextStyle(
+                        color: Colors.white,
+                        fontSize: 13,
+                        fontWeight: FontWeight.bold),
+                    displaySmall: TextStyle(
+                        color: Colors.white,
+                        fontSize: 13,
+                        fontWeight: FontWeight.w600),
+                    bodySmall: TextStyle(
+                        color: Colors.white,
+                        fontSize: 16,
+                        fontWeight: FontWeight.normal))),
             home: Scaffold(
               body: Center(
                 child: HomePage(title: F.title),
