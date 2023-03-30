@@ -13,7 +13,7 @@ permissions:
 jobs:
   test-suite:
     name: Test Suite
-    runs-on: ubuntu-latest
+    runs-on: macos-latest
     defaults:
       run:
         working-directory: src
