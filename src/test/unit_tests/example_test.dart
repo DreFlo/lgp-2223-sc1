@@ -1,6 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:src/daos/person_dao.dart';
-import 'package:src/database.dart';
+import 'package:src/database/database.dart';
 import 'package:src/models/person.dart';
 import 'package:src/utils/service_locator.dart';
 
