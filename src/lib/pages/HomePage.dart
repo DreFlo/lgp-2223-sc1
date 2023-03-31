@@ -213,7 +213,7 @@ class _HomePageState extends State<HomePage> {
                                           startDate: DateTime.now()
                                               .toString()
                                               .split(" ")[0],
-                                          endDate: '2021-01-01',
+                                          endDate: 'Not Defined',
                                         )),
                                     Positioned(
                                         left: 16,

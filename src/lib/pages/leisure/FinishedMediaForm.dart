@@ -142,11 +142,20 @@ class _FinishedMediaFormState extends State<FinishedMediaForm> {
                     ))
               ]))),
       const SizedBox(height: 50),
+      Row(children: [
+        Padding(
+            padding: EdgeInsets.only(left: 18),
+            child: Text(
+              AppLocalizations.of(context).what_you_thought,
+              style: Theme.of(context).textTheme.displayMedium,
+            ))
+      ]),
+      const SizedBox(height: 7.5),
       Container(
-          width: MediaQuery.of(context).size.width * 0.90,
+          padding: EdgeInsets.only(left: 18, right: 18),
           height: 50,
           child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
               InkWell(
                 highlightColor: lightGray,
@@ -158,7 +167,7 @@ class _FinishedMediaFormState extends State<FinishedMediaForm> {
                   children: [
                     Container(
                         height: 50,
-                        width: 70,
+                        padding: EdgeInsets.only(left: 15, right: 15),
                         alignment: const Alignment(0, 0),
                         decoration: BoxDecoration(
                             borderRadius: const BorderRadius.only(
@@ -175,7 +184,6 @@ class _FinishedMediaFormState extends State<FinishedMediaForm> {
                   setState(() {});
                 },
               ),
-              const VerticalDivider(color: Color(0xFF22252D), thickness: 1),
               InkWell(
                 highlightColor: lightGray,
                 child: Column(
@@ -183,7 +191,7 @@ class _FinishedMediaFormState extends State<FinishedMediaForm> {
                   children: [
                     Container(
                         height: 50,
-                        width: 70,
+                        padding: EdgeInsets.only(left: 15, right: 15),
                         color: (widget.rating == Reaction.dislike ? primaryColor : lightGray),
                         alignment: const Alignment(0, 0),
                         child: Text(Emojis.pensiveFace,
@@ -196,14 +204,13 @@ class _FinishedMediaFormState extends State<FinishedMediaForm> {
                   setState(() {});
                 },
               ),
-              const VerticalDivider(color: Color(0xFF22252D), thickness: 1),
               InkWell(
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Container(
                         height: 50,
-                        width: 70,
+                        padding: EdgeInsets.only(left: 15, right: 15),
                         color: (widget.rating == Reaction.neutral ? primaryColor : lightGray),
                         alignment: const Alignment(0, 0),
                         child: const Text(Emojis.neutralFace,
@@ -217,14 +224,13 @@ class _FinishedMediaFormState extends State<FinishedMediaForm> {
                   setState(() => {});
                 },
               ),
-              const VerticalDivider(color: Color(0xFF22252D), thickness: 10),
               InkWell(
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Container(
                         height: 50,
-                        width: 70,
+                        padding: EdgeInsets.only(left: 15, right: 15),
                         color: (widget.rating == Reaction.like ? primaryColor : lightGray),
                         alignment: const Alignment(0, 0),
                         child: const Text(Emojis.smilingFace,
@@ -238,14 +244,13 @@ class _FinishedMediaFormState extends State<FinishedMediaForm> {
                   setState(() => {});
                 },
               ),
-              const VerticalDivider(color: Color(0xFF22252D), thickness: 10),
               InkWell(
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Container(
                         height: 50,
-                        width: 70,
+                        padding: EdgeInsets.only(left: 15, right: 15),
                         decoration: BoxDecoration(
                             borderRadius: const BorderRadius.only(
                                 bottomRight: Radius.circular(10),
@@ -279,9 +284,10 @@ class _FinishedMediaFormState extends State<FinishedMediaForm> {
         padding: const EdgeInsets.only(left: 18, right: 18),
         child: SizedBox(
             width: MediaQuery.of(context).size.width * 0.90,
-            height: 150,
+            height: 200,
             child: TextField(
                 style: Theme.of(context).textTheme.bodySmall,
+                maxLines: 10,
                 decoration: InputDecoration(
                   filled: true,
                   fillColor: lightGray,
