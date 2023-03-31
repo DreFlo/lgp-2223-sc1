@@ -26,7 +26,7 @@ class Review {
 
   final int rating;
 
-  final Emoji emoji;
+  final Reaction emoji;
 
   @ColumnInfo(name: 'media_id')
   final int mediaId;

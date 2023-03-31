@@ -8,14 +8,20 @@ import 'package:src/daos/person_dao.dart';
 import 'package:src/models/person.dart';
 import 'package:src/themes/colors.dart';
 import 'package:src/utils/service_locator.dart';
-import 'package:like_button/like_button.dart';
+import 'package:src/utils/enums.dart';
+import 'package:emojis/emojis.dart';
 
 import '../../widgets/leisure_tag.dart';
 
 class FinishedMediaForm extends StatefulWidget {
   String startDate, endDate;
+  Reaction rating;
 
-  FinishedMediaForm({Key? key, required this.startDate, required this.endDate})
+  FinishedMediaForm(
+      {Key? key,
+      required this.startDate,
+      required this.endDate,
+      required this.rating})
       : super(key: key);
 
   @override
@@ -71,7 +77,7 @@ class _FinishedMediaFormState extends State<FinishedMediaForm> {
               style: Theme.of(context).textTheme.displayMedium,
             ))
       ]),
-      SizedBox(height: 7.5),
+      const SizedBox(height: 7.5),
       Padding(
           padding: EdgeInsets.only(left: 18, right: 18),
           child: InkWell(
@@ -80,23 +86,10 @@ class _FinishedMediaFormState extends State<FinishedMediaForm> {
                     builder: (context, Widget? child) => Theme(
                           data: ThemeData.from(
                               textTheme: const TextTheme(
-                                
-                                displayLarge: TextStyle(
-                                  color: Colors.white,
-                                  fontFamily: "Poppins"
-                                ),
-                                displayMedium: TextStyle(
-                                  color: Colors.white,
-                                  fontFamily: "Poppins"
-                                ),
-                                displaySmall: TextStyle(
-                                  color: Colors.white,
-                                  fontFamily: "Poppins"
-                                ),
-                                bodySmall: TextStyle(
-                                  color: Colors.white,
-                                  fontFamily: "Poppins"
-                                ),
+                                labelMedium: TextStyle(
+                                    color: Colors.white, fontFamily: "Poppins"),
+                                labelSmall: TextStyle(
+                                    color: Colors.white, fontFamily: "Poppins"),
                               ),
                               colorScheme: const ColorScheme.dark(
                                 primary: primaryColor,
@@ -148,35 +141,156 @@ class _FinishedMediaFormState extends State<FinishedMediaForm> {
                       ],
                     ))
               ]))),
-      SizedBox(height: 50),
+      const SizedBox(height: 50),
+      Container(
+          width: MediaQuery.of(context).size.width * 0.90,
+          height: 50,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              InkWell(
+                highlightColor: lightGray,
+                borderRadius: const BorderRadius.only(
+                    bottomLeft: Radius.circular(10),
+                    topLeft: Radius.circular(10)),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Container(
+                        height: 50,
+                        width: 70,
+                        alignment: const Alignment(0, 0),
+                        decoration: BoxDecoration(
+                            borderRadius: const BorderRadius.only(
+                                bottomLeft: Radius.circular(10),
+                                topLeft: Radius.circular(10)),
+                            color: (widget.rating == Reaction.hate ? primaryColor : lightGray)),
+                        child: const Text(Emojis.confoundedFace,
+                            style: TextStyle(fontSize: 30)))
+                  ],
+                ),
+                onTap: () {
+                  widget.rating = Reaction.hate;
+
+                  setState(() {});
+                },
+              ),
+              const VerticalDivider(color: Color(0xFF22252D), thickness: 1),
+              InkWell(
+                highlightColor: lightGray,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Container(
+                        height: 50,
+                        width: 70,
+                        color: (widget.rating == Reaction.dislike ? primaryColor : lightGray),
+                        alignment: const Alignment(0, 0),
+                        child: Text(Emojis.pensiveFace,
+                            textAlign: TextAlign.center,
+                            style: TextStyle(fontSize: 30)))
+                  ],
+                ),
+                onTap: () {
+                  widget.rating = Reaction.dislike;
+                  setState(() {});
+                },
+              ),
+              const VerticalDivider(color: Color(0xFF22252D), thickness: 1),
+              InkWell(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Container(
+                        height: 50,
+                        width: 70,
+                        color: (widget.rating == Reaction.neutral ? primaryColor : lightGray),
+                        alignment: const Alignment(0, 0),
+                        child: const Text(Emojis.neutralFace,
+                            textAlign: TextAlign.center,
+                            style: TextStyle(fontSize: 30)))
+                  ],
+                ),
+                onTap: () {
+                  widget.rating = Reaction.neutral;
+
+                  setState(() => {});
+                },
+              ),
+              const VerticalDivider(color: Color(0xFF22252D), thickness: 10),
+              InkWell(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Container(
+                        height: 50,
+                        width: 70,
+                        color: (widget.rating == Reaction.like ? primaryColor : lightGray),
+                        alignment: const Alignment(0, 0),
+                        child: const Text(Emojis.smilingFace,
+                            textAlign: TextAlign.center,
+                            style: TextStyle(fontSize: 30)))
+                  ],
+                ),
+                onTap: () {
+                  widget.rating = Reaction.like;
+
+                  setState(() => {});
+                },
+              ),
+              const VerticalDivider(color: Color(0xFF22252D), thickness: 10),
+              InkWell(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Container(
+                        height: 50,
+                        width: 70,
+                        decoration: BoxDecoration(
+                            borderRadius: const BorderRadius.only(
+                                bottomRight: Radius.circular(10),
+                                topRight: Radius.circular(10)),
+                            color: (widget.rating == Reaction.love ? primaryColor : lightGray)),
+                        alignment: const Alignment(0, 0),
+                        child: const Text(Emojis.smilingFaceWithHeartEyes,
+                            textAlign: TextAlign.center,
+                            style: TextStyle(fontSize: 30)))
+                  ],
+                ),
+                onTap: () {
+                  widget.rating = Reaction.love;
+
+                  setState(() => {});
+                },
+              )
+            ],
+          )),
+      const SizedBox(height: 50),
       Row(children: [
         Padding(
-            padding: EdgeInsets.only(left: 18),
+            padding: const EdgeInsets.only(left: 18),
             child: Text(
               AppLocalizations.of(context).any_thoughts,
               style: Theme.of(context).textTheme.displayMedium,
             ))
       ]),
-      SizedBox(height: 7.5),
+      const SizedBox(height: 7.5),
       Padding(
-        padding: EdgeInsets.only(left: 18, right: 18),
+        padding: const EdgeInsets.only(left: 18, right: 18),
         child: SizedBox(
             width: MediaQuery.of(context).size.width * 0.90,
             height: 150,
             child: TextField(
-              style: Theme.of(context).textTheme.bodySmall,
-              decoration: InputDecoration(
+                style: Theme.of(context).textTheme.bodySmall,
+                decoration: InputDecoration(
                   filled: true,
                   fillColor: lightGray,
-                  helperText:
-                      AppLocalizations.of(context).finished_media_thoughts,
                   helperStyle: Theme.of(context).textTheme.labelSmall,
                   border: OutlineInputBorder(
                     borderSide: BorderSide.none,
                     borderRadius: BorderRadius.circular(10.0),
                   ),
-                  hintStyle: Theme.of(context).textTheme.bodySmall),
-            )),
+                ))),
       ),
       SizedBox(height: 100)
     ]);

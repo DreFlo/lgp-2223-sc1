@@ -48,6 +48,7 @@ dependencies:
   books_finder: ^4.3.0
   tmdb_api: ^2.1.4
   like_button: ^2.0.5
+  emojis: ^0.9.9
 
 dev_dependencies:
   flutter_test:

@@ -8,6 +8,7 @@ import 'package:src/models/person.dart';
 import 'package:src/utils/service_locator.dart';
 import 'leisure/FinishedMediaForm.dart';
 import 'leisure/MediaPage.dart';
+import 'package:src/utils/enums.dart';
 
 const Color leisureColor = Color(0xFFF52349);
 
@@ -208,7 +209,10 @@ class _HomePageState extends State<HomePage> {
                                     SingleChildScrollView(
                                         controller: scrollController,
                                         child: FinishedMediaForm(
-                                          startDate: DateTime.now().toString().split(" ")[0],
+                                          rating: Reaction.neutral,
+                                          startDate: DateTime.now()
+                                              .toString()
+                                              .split(" ")[0],
                                           endDate: '2021-01-01',
                                         )),
                                     Positioned(
@@ -238,10 +242,7 @@ class _HomePageState extends State<HomePage> {
                                         ))
                                   ])));
                 }),
-            TextField(
-              decoration: InputDecoration(
-                
-              )),
+            TextField(decoration: InputDecoration()),
             FutureBuilder(
                 key: ValueKey<Object>(redrawObject),
                 future: serviceLocator<PersonDao>().findAllPersons(),
