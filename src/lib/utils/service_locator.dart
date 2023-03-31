@@ -36,12 +36,6 @@ import 'package:src/daos/user_dao.dart';
 
 final GetIt serviceLocator = GetIt.instance;
 
-final callback = Callback(onCreate: (database, version) {
-  if (kDebugMode) {
-    print('Database created - version $version');
-  }
-});
-
 /// Setup the GetIt service locator
 /// Used to register singleton variables
 /// Add any singleton variables here

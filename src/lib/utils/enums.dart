@@ -6,4 +6,4 @@ enum Periodicity { weekly, daily, monthly, yearly }
 
 enum Status { nothing, planTo, goingThrough, done, dropped }
 
-enum Emoji { happy, sad }
+enum Reaction { love, like, neutral, dislike, hate }

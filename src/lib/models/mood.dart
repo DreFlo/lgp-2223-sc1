@@ -20,7 +20,7 @@ class Mood {
 
   final String name;
 
-  final Emoji mood;
+  final Reaction mood;
 
   final DateTime date;
 
