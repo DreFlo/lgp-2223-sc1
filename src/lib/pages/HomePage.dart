@@ -220,7 +220,9 @@ class _HomePageState extends State<HomePage> {
                                         right: 16,
                                         bottom: 16,
                                         child: ElevatedButton(
-                                          onPressed: () {},
+                                          onPressed: () {
+                                            //TODO: Save stuff + send to database.
+                                          },
                                           style: ElevatedButton.styleFrom(
                                             minimumSize: Size(
                                                 MediaQuery.of(context)
