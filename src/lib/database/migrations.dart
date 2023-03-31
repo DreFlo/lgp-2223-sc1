@@ -62,5 +62,39 @@ final migration2to3 = Migration(2, 3, (database) async {
 final migration3to4 = Migration(3, 4, (database) async {
   await database.execute(
       'ALTER TABLE `institution` ADD COLUMN `user_id` INTEGER REFERENCES `user` (`id`)');
+  await database.execute('PRAGMA foreign_keys = OFF;');
+  await database.execute(''
+      'BEGIN TRANSACTION;');
+  await database.execute(
+      'CREATE TABLE IF NOT EXISTS `user_badge_new` (`user_id` INTEGER NOT NULL, `badge_id` INTEGER NOT NULL, FOREIGN KEY (`user_id`) REFERENCES `user` (`id`) ON UPDATE RESTRICT ON DELETE CASCADE, FOREIGN KEY (`badge_id`) REFERENCES `badge` (`id`) ON UPDATE RESTRICT ON DELETE CASCADE, PRIMARY KEY (`user_id`, `badge_id`))');
+  await database.execute(
+      'CREATE TABLE IF NOT EXISTS `mood_new` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `name` TEXT NOT NULL, `mood` INTEGER NOT NULL, `date` INTEGER NOT NULL, `user_id` INTEGER NOT NULL, FOREIGN KEY (`user_id`) REFERENCES `user` (`id`) ON UPDATE RESTRICT ON DELETE CASCADE)');
+  await database.execute(
+      'CREATE TABLE IF NOT EXISTS `timeslot_new` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `title` TEXT NOT NULL, `description` TEXT NOT NULL, `periodicity` INTEGER NOT NULL, `startDateTime` INTEGER NOT NULL, `endDateTime` INTEGER NOT NULL, `priority` INTEGER NOT NULL, `xp` INTEGER NOT NULL, `user_id` INTEGER NOT NULL, FOREIGN KEY (`user_id`) REFERENCES `user` (`id`) ON UPDATE RESTRICT ON DELETE CASCADE)');
+  await database.execute(
+      'CREATE TABLE IF NOT EXISTS `media_timeslot_new` (`media` INTEGER NOT NULL, `id` INTEGER PRIMARY KEY AUTOINCREMENT, `title` TEXT NOT NULL, `description` TEXT NOT NULL, `periodicity` INTEGER NOT NULL, `startDateTime` INTEGER NOT NULL, `endDateTime` INTEGER NOT NULL, `priority` INTEGER NOT NULL, `xp` INTEGER NOT NULL, `user_id` INTEGER NOT NULL, FOREIGN KEY (`media_id`) REFERENCES `media` (`id`) ON UPDATE RESTRICT ON DELETE CASCADE)');
+  await database.execute(
+      'CREATE TABLE IF NOT EXISTS `student_timeslot_new` (`task` INTEGER, `evaluation` INTEGER, `id` INTEGER PRIMARY KEY AUTOINCREMENT, `title` TEXT NOT NULL, `description` TEXT NOT NULL, `periodicity` INTEGER NOT NULL, `startDateTime` INTEGER NOT NULL, `endDateTime` INTEGER NOT NULL, `priority` INTEGER NOT NULL, `xp` INTEGER NOT NULL, `user_id` INTEGER NOT NULL, FOREIGN KEY (`task_id`) REFERENCES `task` (`id`) ON UPDATE RESTRICT ON DELETE CASCADE, FOREIGN KEY (`evaluation_id`) REFERENCES `evaluation` (`id`) ON UPDATE RESTRICT ON DELETE CASCADE)');
+  await database
+      .execute('INSERT INTO `user_badge_new` SELECT * FROM `user_badge`');
+  await database.execute('INSERT INTO `mood_new` SELECT * FROM `mood`');
+  await database.execute('INSERT INTO `timeslot_new` SELECT * FROM `timeslot`');
+  await database.execute(
+      'INSERT INTO `media_timeslot_new` SELECT * FROM `media_timeslot`');
+  await database.execute(
+      'INSERT INTO `student_timeslot_new` SELECT * FROM `student_timeslot`');
+  await database.execute('DROP TABLE `user_badge`');
+  await database.execute('DROP TABLE `mood`');
+  await database.execute('DROP TABLE `timeslot`');
+  await database.execute('DROP TABLE `media_timeslot`');
+  await database.execute('DROP TABLE `student_timeslot`');
+  await database.execute('ALTER TABLE `user_badge_new` RENAME TO `user_badge`');
+  await database.execute('ALTER TABLE `mood_new` RENAME TO `mood`');
+  await database.execute('ALTER TABLE `timeslot_new` RENAME TO `timeslot`');
+  await database
+      .execute('ALTER TABLE `media_timeslot_new` RENAME TO `media_timeslot`');
+  await database.execute(
+      'ALTER TABLE `student_timeslot_new` RENAME TO `student_timeslot`');
+  await database.execute('COMMIT;');
+  await database.execute('PRAGMA foreign_keys = ON;');
 });
-
