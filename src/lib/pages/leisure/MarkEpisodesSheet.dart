@@ -44,7 +44,10 @@ class _MarkEpisodesSheetState extends State<MarkEpisodesSheet>
       episodes.add(EpisodeBar(
           code:
               "S${widget.selectedSeason.toString().padLeft(2, 0.toString())}E${j.toString().padLeft(2, 0.toString())}",
-          title: widget.episodes[widget.selectedSeason]![j]!));
+          title: widget.episodes[widget.selectedSeason]![j]!,
+          favorite: false,
+          watched: true
+          ));
 
       episodes.add(const SizedBox(height: 15));
     }
