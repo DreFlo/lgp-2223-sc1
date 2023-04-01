@@ -6,6 +6,7 @@ import 'package:src/animation_test/main.dart';
 import 'package:src/daos/person_dao.dart';
 import 'package:src/models/person.dart';
 import 'package:src/utils/service_locator.dart';
+import 'leisure/AddToCatalogForm.dart';
 import 'leisure/FinishedMediaForm.dart';
 import 'leisure/MediaPage.dart';
 import 'package:src/utils/enums.dart';
@@ -39,37 +40,12 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     final TextEditingController nameInputController = TextEditingController();
-
-    // This method is rerun every time setState is called, for instance as done
-    // by the _incrementCounter method above.
-    //
-    // The Flutter framework has been optimized to make rerunning build methods
-    // fast, so that you can just rebuild anything that needs updating rather
-    // than having to individually change instances of widgets.
     return Scaffold(
       appBar: AppBar(
-        // Here we take the value from the MyHomePage object that was created by
-        // the App.build method, and use it to set our appbar title.
         title: Text(widget.title),
       ),
       body: Center(
-        // Center is a layout widget. It takes a single child and positions it
-        // in the middle of the parent.
         child: Column(
-          // Column is also a layout widget. It takes a list of children and
-          // arranges them vertically. By default, it sizes itself to fit its
-          // children horizontally, and tries to be as tall as its parent.
-          //
-          // Invoke "debug painting" (press "p" in the console, choose the
-          // "Toggle Debug Paint" action from the Flutter Inspector in Android
-          // Studio, or the "Toggle Debug Paint" command in Visual Studio Code)
-          // to see the wireframe for each widget.
-          //
-          // Column has various properties to control how it sizes itself and
-          // how it positions its children. Here we use mainAxisAlignment to
-          // center the children vertically; the main axis here is the vertical
-          // axis because Columns are vertical (the cross axis would be
-          // horizontal).
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             Text(
@@ -221,6 +197,75 @@ class _HomePageState extends State<HomePage> {
                                                     .split(" ")[0],
                                                 endDate: 'Not Defined',
                                                 isFavorite: false))),
+                                    Positioned(
+                                        left: 16,
+                                        right: 16,
+                                        bottom: 16,
+                                        child: Padding(
+                                            padding: EdgeInsets.only(
+                                                bottom: MediaQuery.of(context)
+                                                    .viewInsets
+                                                    .bottom),
+                                            child: ElevatedButton(
+                                              onPressed: () {
+                                                //TODO: Save stuff + send to database.
+                                              },
+                                              style: ElevatedButton.styleFrom(
+                                                minimumSize: Size(
+                                                    MediaQuery.of(context)
+                                                            .size
+                                                            .width *
+                                                        0.95,
+                                                    55),
+                                                backgroundColor: leisureColor,
+                                                shape: RoundedRectangleBorder(
+                                                  borderRadius:
+                                                      BorderRadius.circular(
+                                                          25.0),
+                                                ),
+                                              ),
+                                              child: Text(
+                                                  AppLocalizations.of(context)
+                                                      .save,
+                                                  style: Theme.of(context)
+                                                      .textTheme
+                                                      .headlineSmall),
+                                            )))
+                                  ])));
+                }),
+            ElevatedButton(
+                child: Text("Add To Catalog Form"),
+                onPressed: () {
+                  showModalBottomSheet(
+                      context: context,
+                      isScrollControlled: true,
+                      backgroundColor: Color(0xFF22252D),
+                      shape: RoundedRectangleBorder(
+                        borderRadius:
+                            BorderRadius.vertical(top: Radius.circular(30.0)),
+                      ),
+                      builder: (context) => DraggableScrollableSheet(
+                          expand: false,
+                          initialChildSize: 0.35,
+                          minChildSize: 0.35,
+                          maxChildSize: 0.5,
+                          builder: (context, scrollController) => Stack(
+                                  alignment: AlignmentDirectional.bottomCenter,
+                                  children: [
+                                    Padding(
+                                        padding: EdgeInsets.only(
+                                            bottom: MediaQuery.of(context)
+                                                    .viewInsets
+                                                    .bottom +
+                                                50),
+                                        child: SingleChildScrollView(
+                                            controller: scrollController,
+                                            child: AddToCatalogForm(
+                                                status: null,
+                                                startDate: DateTime.now()
+                                                    .toString()
+                                                    .split(" ")[0],
+                                                endDate: 'Not Defined'))),
                                     Positioned(
                                         left: 16,
                                         right: 16,

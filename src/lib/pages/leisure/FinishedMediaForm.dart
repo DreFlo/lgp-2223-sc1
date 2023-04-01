@@ -92,7 +92,7 @@ class _FinishedMediaFormState extends State<FinishedMediaForm> {
                                     color: Colors.white, fontFamily: "Poppins"),
                               ),
                               colorScheme: const ColorScheme.dark(
-                                primary: primaryColor,
+                                primary: leisureColor,
                               )),
                           child: child!,
                         ),
@@ -174,7 +174,7 @@ class _FinishedMediaFormState extends State<FinishedMediaForm> {
                                 bottomLeft: Radius.circular(10),
                                 topLeft: Radius.circular(10)),
                             color: (widget.rating == Reaction.hate
-                                ? primaryColor
+                                ? leisureColor
                                 : lightGray)),
                         child: const Text(Emojis.confoundedFace,
                             style: TextStyle(fontSize: 30)))
@@ -195,7 +195,7 @@ class _FinishedMediaFormState extends State<FinishedMediaForm> {
                         height: 50,
                         padding: EdgeInsets.only(left: 15, right: 15),
                         color: (widget.rating == Reaction.dislike
-                            ? primaryColor
+                            ? leisureColor
                             : lightGray),
                         alignment: const Alignment(0, 0),
                         child: Text(Emojis.pensiveFace,
@@ -216,7 +216,7 @@ class _FinishedMediaFormState extends State<FinishedMediaForm> {
                         height: 50,
                         padding: EdgeInsets.only(left: 15, right: 15),
                         color: (widget.rating == Reaction.neutral
-                            ? primaryColor
+                            ? leisureColor
                             : lightGray),
                         alignment: const Alignment(0, 0),
                         child: const Text(Emojis.neutralFace,
@@ -238,7 +238,7 @@ class _FinishedMediaFormState extends State<FinishedMediaForm> {
                         height: 50,
                         padding: EdgeInsets.only(left: 15, right: 15),
                         color: (widget.rating == Reaction.like
-                            ? primaryColor
+                            ? leisureColor
                             : lightGray),
                         alignment: const Alignment(0, 0),
                         child: const Text(Emojis.smilingFace,
@@ -264,7 +264,7 @@ class _FinishedMediaFormState extends State<FinishedMediaForm> {
                                 bottomRight: Radius.circular(10),
                                 topRight: Radius.circular(10)),
                             color: (widget.rating == Reaction.love
-                                ? primaryColor
+                                ? leisureColor
                                 : lightGray)),
                         alignment: const Alignment(0, 0),
                         child: const Text(Emojis.smilingFaceWithHeartEyes,
@@ -340,7 +340,7 @@ class _FinishedMediaFormState extends State<FinishedMediaForm> {
                                 topLeft: Radius.circular(10),
                                 bottomLeft: Radius.circular(10)))),
                     backgroundColor: MaterialStateProperty.all(
-                        widget.isFavorite ? primaryColor : lightGray)),
+                        widget.isFavorite ? leisureColor : lightGray)),
                 child: Text(AppLocalizations.of(context).yes,
                     style: const TextStyle(
                       color: Colors.white,
@@ -365,7 +365,7 @@ class _FinishedMediaFormState extends State<FinishedMediaForm> {
                                 topRight: Radius.circular(10),
                                 bottomRight: Radius.circular(10)))),
                     backgroundColor: MaterialStateProperty.all(
-                        !widget.isFavorite ? primaryColor : lightGray)),
+                        !widget.isFavorite ? leisureColor : lightGray)),
                 child: Text(AppLocalizations.of(context).no,
                     style: const TextStyle(
                       color: Colors.white,

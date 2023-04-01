@@ -22,5 +22,12 @@
   "what_you_thought": "What did you think?",
   "is_favorite_question": "Is it a favorite?",
   "yes": "Yes",
-  "no": "No"
+  "no": "No",
+  "nothing": "Nothing",
+  "dropped": "Dropped",
+  "on_hold": "On Hold",
+  "plan_to": "Plan To",
+  "going_through": "Watching",
+  "done": "Done",
+  "status": "Status"
 }
