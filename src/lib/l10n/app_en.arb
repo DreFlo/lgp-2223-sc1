@@ -19,5 +19,6 @@
   "save": "Save",
   "any_thoughts": "Any thoughts?",
   "finished_media_thoughts": "Write your thoughts here.",
-  "what_you_thought": "What did you think?"
+  "what_you_thought": "What did you think?",
+  "is_favorite_question": "Is it a favorite?"
 }
