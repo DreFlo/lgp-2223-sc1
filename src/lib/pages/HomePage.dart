@@ -8,6 +8,7 @@ import 'package:src/models/person.dart';
 import 'package:src/utils/service_locator.dart';
 import 'leisure/AddToCatalogForm.dart';
 import 'leisure/FinishedMediaForm.dart';
+import 'leisure/MarkEpisodesSheet.dart';
 import 'leisure/MediaPage.dart';
 import 'package:src/utils/enums.dart';
 
@@ -302,7 +303,88 @@ class _HomePageState extends State<HomePage> {
                                             )))
                                   ])));
                 }),
-            TextField(decoration: InputDecoration()),
+                ElevatedButton(
+                child: Text("Mark Episodes Sheet"),
+                onPressed: () {
+                  showModalBottomSheet(
+                      context: context,
+                      isScrollControlled: true,
+                      backgroundColor: Color(0xFF22252D),
+                      shape: RoundedRectangleBorder(
+                        borderRadius:
+                            BorderRadius.vertical(top: Radius.circular(30.0)),
+                      ),
+                      builder: (context) => DraggableScrollableSheet(
+                          expand: false,
+                          initialChildSize: 0.35,
+                          minChildSize: 0.35,
+                          maxChildSize: 0.5,
+                          builder: (context, scrollController) => Stack(
+                                  alignment: AlignmentDirectional.bottomCenter,
+                                  children: [
+                                    Padding(
+                                        padding: EdgeInsets.only(
+                                            bottom: MediaQuery.of(context)
+                                                    .viewInsets
+                                                    .bottom +
+                                                50),
+                                        child: SingleChildScrollView(
+                                            controller: scrollController,
+                                            child: MarkEpisodesSheet(
+                                                episodes: const {
+                                                  1: {
+                                                    1: "Episode 1",
+                                                    2: "Episode 2"
+                                                  },
+                                                  2: {
+                                                    1: "Episode 1",
+                                                    2: "Episode 2"
+                                                  },
+                                                  3: {
+                                                    1: "Episode 1",
+                                                    2: "Episode 2"
+                                                  },
+                                                  4: {
+                                                    1: "Episode 1",
+                                                    2: "Episode 2"
+                                                  }
+                                                }))),
+                                    Positioned(
+                                        left: 16,
+                                        right: 16,
+                                        bottom: 16,
+                                        child: Padding(
+                                            padding: EdgeInsets.only(
+                                                bottom: MediaQuery.of(context)
+                                                    .viewInsets
+                                                    .bottom),
+                                            child: ElevatedButton(
+                                              onPressed: () {
+                                                //TODO: Save stuff + send to database.
+                                              },
+                                              style: ElevatedButton.styleFrom(
+                                                minimumSize: Size(
+                                                    MediaQuery.of(context)
+                                                            .size
+                                                            .width *
+                                                        0.95,
+                                                    55),
+                                                backgroundColor: leisureColor,
+                                                shape: RoundedRectangleBorder(
+                                                  borderRadius:
+                                                      BorderRadius.circular(
+                                                          25.0),
+                                                ),
+                                              ),
+                                              child: Text(
+                                                  AppLocalizations.of(context)
+                                                      .save,
+                                                  style: Theme.of(context)
+                                                      .textTheme
+                                                      .headlineSmall),
+                                            )))
+                                  ])));
+                }),
             FutureBuilder(
                 key: ValueKey<Object>(redrawObject),
                 future: serviceLocator<PersonDao>().findAllPersons(),

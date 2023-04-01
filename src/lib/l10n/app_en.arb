@@ -9,6 +9,7 @@
   "length": "Length",
   "seasons": " seasons, ",
   "episodes": " episodes, ",
+  "episodes_label": "Episodes",
   "minutes_each": " minutes each.",
   "minutes": " minutes.",
   "pages": " pages.",
@@ -29,5 +30,6 @@
   "plan_to": "Plan To",
   "going_through": "Watching",
   "done": "Done",
-  "status": "Status"
+  "status": "Status",
+  "season_label": "Season"
 }
