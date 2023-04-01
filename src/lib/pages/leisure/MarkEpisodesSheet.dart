@@ -6,8 +6,10 @@ import 'package:src/widgets/EpisodeBar.dart';
 
 class MarkEpisodesSheet extends StatefulWidget {
   Map<int, Map<int, String>> episodes;
+  int selectedSeason;
 
-  MarkEpisodesSheet({Key? key, required this.episodes}) : super(key: key);
+  MarkEpisodesSheet({Key? key, required this.episodes, this.selectedSeason = 1})
+      : super(key: key);
 
   @override
   State<MarkEpisodesSheet> createState() => _MarkEpisodesSheetState();
@@ -17,18 +19,16 @@ class _MarkEpisodesSheetState extends State<MarkEpisodesSheet>
     with TickerProviderStateMixin {
   List<Widget> getEpisodes() {
     List<Widget> episodes = [];
-    for (int i = 1; i <= widget.episodes.length; i++) {
-      for (int j = i; j <= widget.episodes[i]!.length; j++) {
 
+    for (int j = 1; j <= widget.episodes[widget.selectedSeason]!.length; j++) {
+      episodes.add(EpisodeBar(
+          code:
+              "S${widget.selectedSeason.toString().padLeft(2, 0.toString())}E${j.toString().padLeft(2, 0.toString())}",
+          title: widget.episodes[widget.selectedSeason]![j]!));
 
-        episodes.add(
-          EpisodeBar(
-            code: "S${i.toString().padLeft(2, 0.toString())}E${j.toString().padLeft(2, 0.toString())}",
-            title: widget.episodes[i]![j]!
-          ),
-        );
-     }
+      episodes.add(const SizedBox(height: 15));
     }
+
     return episodes;
   }
 
@@ -37,8 +37,8 @@ class _MarkEpisodesSheetState extends State<MarkEpisodesSheet>
     for (int i = 1; i <= widget.episodes.length; i++) {
       seasons.add(
         Tab(
-            child: SeasonTag(
-                text: "${AppLocalizations.of(context).season_label} $i")),
+          child: SeasonTag(
+          text: "${AppLocalizations.of(context).season_label} $i")),
       );
     }
     return seasons;
@@ -98,7 +98,7 @@ class _MarkEpisodesSheetState extends State<MarkEpisodesSheet>
       const SizedBox(height: 7.5),
       Container(
           padding: const EdgeInsets.only(left: 18, right: 18),
-          child: Column(children: [])),
+          child: Column(children: getEpisodes())),
       const SizedBox(height: 50)
     ]);
   }

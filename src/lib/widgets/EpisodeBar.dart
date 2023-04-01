@@ -12,10 +12,9 @@ class EpisodeBar extends StatelessWidget {
     final TextEditingController nameInputController = TextEditingController();
 
     return Container(
-        color: lightGray,
         height: 65,
         width: MediaQuery.of(context).size.width * 0.9,
-        decoration: BoxDecoration(borderRadius: BorderRadius.circular(10)),
+        decoration: BoxDecoration(borderRadius: BorderRadius.circular(10), color: lightGray),
         child: Row(children: [
           Text(code,
               style: const TextStyle(
