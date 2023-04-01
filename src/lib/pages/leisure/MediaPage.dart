@@ -1,15 +1,8 @@
-import 'dart:math';
-import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:src/animation_test/main.dart';
-import 'package:src/daos/person_dao.dart';
-import 'package:src/models/person.dart';
 import 'package:src/themes/colors.dart';
-import 'package:src/utils/service_locator.dart';
 import 'package:like_button/like_button.dart';
-
-import '../../widgets/leisure_tag.dart';
+import '../../widgets/LeisureTag.dart';
 
 class MediaPage extends StatelessWidget {
   final String title, synopsis, type;
@@ -77,7 +70,7 @@ class MediaPage extends StatelessWidget {
                     width: MediaQuery.of(context).size.width,
                     child: ShaderMask(
                       shaderCallback: (rect) {
-                        return LinearGradient(
+                        return const LinearGradient(
                           begin: Alignment.topCenter,
                           end: Alignment.bottomCenter,
                           stops: [0.01, 0.5, 0.9],

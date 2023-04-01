@@ -9,7 +9,7 @@ import 'package:src/utils/service_locator.dart';
 import 'package:src/utils/enums.dart';
 import 'package:emojis/emojis.dart';
 
-import '../../widgets/leisure_tag.dart';
+import '../../widgets/LeisureTag.dart';
 
 class FinishedMediaForm extends StatefulWidget {
   String startDate, endDate;
