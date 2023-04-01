@@ -1,6 +1,4 @@
-import 'dart:ffi';
 import 'dart:math';
-import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:src/animation_test/main.dart';
@@ -38,7 +36,7 @@ class _FinishedMediaFormState extends State<FinishedMediaForm> {
     return Wrap(spacing: 10, children: [
       Row(mainAxisAlignment: MainAxisAlignment.center, children: [
         Padding(
-            padding: EdgeInsets.only(top: 15, bottom: 15),
+            padding: const EdgeInsets.only(top: 15, bottom: 15),
             child: Container(
               width: 115,
               height: 18,
@@ -50,7 +48,7 @@ class _FinishedMediaFormState extends State<FinishedMediaForm> {
             ))
       ]),
       Padding(
-          padding: EdgeInsets.only(left: 18),
+          padding: const EdgeInsets.only(left: 18),
           child: Container(
               child: Column(children: [
             Text(AppLocalizations.of(context).finished_media,
@@ -60,7 +58,7 @@ class _FinishedMediaFormState extends State<FinishedMediaForm> {
                 textAlign: TextAlign.left)
           ]))),
       Padding(
-          padding: EdgeInsets.only(left: 18),
+          padding: const EdgeInsets.only(left: 18),
           child: Container(
             child: Column(children: [
               Text(AppLocalizations.of(context).what_thoughts,
@@ -70,10 +68,10 @@ class _FinishedMediaFormState extends State<FinishedMediaForm> {
                   textAlign: TextAlign.left),
             ]),
           )),
-      SizedBox(height: 50),
+      const SizedBox(height: 50),
       Row(children: [
         Padding(
-            padding: EdgeInsets.only(left: 18),
+            padding: const EdgeInsets.only(left: 18),
             child: Text(
               AppLocalizations.of(context).date,
               style: Theme.of(context).textTheme.displayMedium,
@@ -146,7 +144,7 @@ class _FinishedMediaFormState extends State<FinishedMediaForm> {
       const SizedBox(height: 50),
       Row(children: [
         Padding(
-            padding: EdgeInsets.only(left: 18),
+            padding: const EdgeInsets.only(left: 18),
             child: Text(
               AppLocalizations.of(context).what_you_thought,
               style: Theme.of(context).textTheme.displayMedium,
@@ -169,7 +167,7 @@ class _FinishedMediaFormState extends State<FinishedMediaForm> {
                   children: [
                     Container(
                         height: 50,
-                        padding: EdgeInsets.only(left: 15, right: 15),
+                        padding: const EdgeInsets.only(left: 15, right: 15),
                         alignment: const Alignment(0, 0),
                         decoration: BoxDecoration(
                             borderRadius: const BorderRadius.only(
@@ -320,25 +318,62 @@ class _FinishedMediaFormState extends State<FinishedMediaForm> {
             ))
       ]),
       const SizedBox(height: 7.5),
-      Padding(
-        padding: const EdgeInsets.only(left: 18, right: 18),
-        child: SizedBox(
-            width: MediaQuery.of(context).size.width * 0.90,
-            height: 200,
-            child: TextField(
-                style: Theme.of(context).textTheme.bodySmall,
-                maxLines: 10,
-                decoration: InputDecoration(
-                  filled: true,
-                  fillColor: lightGray,
-                  helperStyle: Theme.of(context).textTheme.labelSmall,
-                  border: OutlineInputBorder(
-                    borderSide: BorderSide.none,
-                    borderRadius: BorderRadius.circular(10.0),
-                  ),
-                ))),
-      ),
-      SizedBox(height: 100)
+      Container(
+          padding: const EdgeInsets.only(left: 18, right: 18),
+          height: 50,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center, children: [
+            ElevatedButton(
+                onPressed: () {
+                  widget.isFavorite = !widget.isFavorite;
+
+                  setState(() {});
+                },
+                style: ButtonStyle(
+                    fixedSize: MaterialStateProperty.all(Size.copy(
+                      Size(
+                        (((MediaQuery.of(context).size.width * 0.9) - 10) /
+                            2), 50))),
+                    shape: MaterialStateProperty.all(
+                        const RoundedRectangleBorder(
+                            borderRadius: BorderRadius.only(
+                                topLeft: Radius.circular(10),
+                                bottomLeft: Radius.circular(10)))),
+                    backgroundColor: MaterialStateProperty.all(
+                        widget.isFavorite ? primaryColor : lightGray)),
+                child: Text(AppLocalizations.of(context).yes,
+                    style: const TextStyle(
+                      color: Colors.white,
+                      fontWeight: FontWeight.normal,
+                      fontSize: 16,
+                    ))),
+            const VerticalDivider(color: modalBackground, thickness: 10),
+            ElevatedButton(
+                onPressed: () {
+                  widget.isFavorite = !widget.isFavorite;
+
+                  setState(() {});
+                },
+                style: ButtonStyle(
+                    fixedSize: MaterialStateProperty.all(Size.copy(
+                      Size(
+                        (((MediaQuery.of(context).size.width * 0.9) - 10) /
+                            2), 50))),
+                    shape: MaterialStateProperty.all(
+                        const RoundedRectangleBorder(
+                            borderRadius: BorderRadius.only(
+                                topRight: Radius.circular(10),
+                                bottomRight: Radius.circular(10)))),
+                    backgroundColor: MaterialStateProperty.all(
+                        !widget.isFavorite ? primaryColor : lightGray)),
+                child: Text(AppLocalizations.of(context).no,
+                    style: const TextStyle(
+                      color: Colors.white,
+                      fontWeight: FontWeight.normal,
+                      fontSize: 16,
+                    )))
+          ])),
+      const SizedBox(height: 100)
     ]);
   }
 }
