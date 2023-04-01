@@ -29,26 +29,28 @@ class _EpisodeBarState extends State<EpisodeBar> {
             borderRadius: BorderRadius.circular(10), color: lightGray),
         child:
             Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-          Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-            Row(mainAxisAlignment: MainAxisAlignment.start, children: [
-              Text(widget.code,
-                  style: const TextStyle(
-                      color: Colors.white,
-                      fontSize: 24,
-                      fontWeight: FontWeight.w600))
-            ]),
-            Row(mainAxisAlignment: MainAxisAlignment.start, children: [
-              Text(widget.title,
-                  style: const TextStyle(
-                      color: Colors.white,
-                      fontSize: 16,
-                      fontWeight: FontWeight.normal))
-            ])
-          ]),
-          Column(crossAxisAlignment: CrossAxisAlignment.end, children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
+          Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Row(mainAxisAlignment: MainAxisAlignment.start, children: [
+                      Text(widget.code,
+                          style: const TextStyle(
+                              color: Colors.white,
+                              fontSize: 24,
+                              fontWeight: FontWeight.w600))
+                    ]),
+                    Row(mainAxisAlignment: MainAxisAlignment.start, children: [
+                      Text(
+                          widget.title.length > 20
+                              ? widget.title.substring(0, 20) + '...'
+                              : widget.title,
+                          style: const TextStyle(
+                              color: Colors.white,
+                              fontSize: 16,
+                              fontWeight: FontWeight.normal))
+                    ])
+                  ]),
+          Column(children: [Row(mainAxisAlignment: MainAxisAlignment.center, children: [
               ElevatedButton(
                   onPressed: () {
                     widget.favorite = !widget.favorite;
@@ -57,6 +59,7 @@ class _EpisodeBarState extends State<EpisodeBar> {
                     //TODO: Add functionality for favoriting episode.
                   },
                   style: ButtonStyle(
+                    minimumSize: MaterialStateProperty.all(const Size(45, 45)),
                     backgroundColor: MaterialStateProperty.all(
                         widget.favorite ? leisureColor : Colors.white),
                     foregroundColor: MaterialStateProperty.all(
@@ -73,6 +76,7 @@ class _EpisodeBarState extends State<EpisodeBar> {
                     //TODO: Add functionality for watching episode.
                   },
                   style: ButtonStyle(
+                    minimumSize: MaterialStateProperty.all(const Size(45, 45)),
                     backgroundColor: MaterialStateProperty.all(
                         widget.watched ? leisureColor : Colors.white),
                     foregroundColor: MaterialStateProperty.all(
@@ -82,7 +86,7 @@ class _EpisodeBarState extends State<EpisodeBar> {
                   ),
                   child: Icon(Icons.remove_red_eye_outlined))
             ]),
-          ]),
+            ]),
         ]));
   }
 }
