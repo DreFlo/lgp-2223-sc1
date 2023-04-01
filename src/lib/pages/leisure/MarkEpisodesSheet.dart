@@ -7,8 +7,13 @@ import 'package:src/widgets/EpisodeBar.dart';
 class MarkEpisodesSheet extends StatefulWidget {
   Map<int, Map<int, String>> episodes;
   int selectedSeason;
+  TabController? controller;
 
-  MarkEpisodesSheet({Key? key, required this.episodes, this.selectedSeason = 1})
+  MarkEpisodesSheet(
+      {Key? key,
+      required this.episodes,
+      this.selectedSeason = 1,
+      this.controller})
       : super(key: key);
 
   @override
@@ -17,6 +22,21 @@ class MarkEpisodesSheet extends StatefulWidget {
 
 class _MarkEpisodesSheetState extends State<MarkEpisodesSheet>
     with TickerProviderStateMixin {
+
+
+  initState() {
+    widget.controller = TabController(
+        length: widget.episodes.length,
+        vsync: this,
+        initialIndex: widget.selectedSeason - 1);
+
+    widget.controller?.addListener(() {
+      setState(() {
+        widget.selectedSeason = widget.controller!.index + 1;
+      });
+    });
+  }
+
   List<Widget> getEpisodes() {
     List<Widget> episodes = [];
 
@@ -37,8 +57,8 @@ class _MarkEpisodesSheetState extends State<MarkEpisodesSheet>
     for (int i = 1; i <= widget.episodes.length; i++) {
       seasons.add(
         Tab(
-          child: SeasonTag(
-          text: "${AppLocalizations.of(context).season_label} $i")),
+            child: SeasonTag(
+                text: "${AppLocalizations.of(context).season_label} $i")),
       );
     }
     return seasons;
@@ -84,8 +104,7 @@ class _MarkEpisodesSheetState extends State<MarkEpisodesSheet>
             color: leisureColor,
           ),
           tabs: getSeasons(),
-          controller:
-              TabController(length: widget.episodes.length, vsync: this)),
+          controller: widget.controller),
       const SizedBox(height: 10),
       Row(children: [
         Padding(
