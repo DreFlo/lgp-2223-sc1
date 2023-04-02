@@ -21,6 +21,9 @@ class Book extends Media {
     required String linkImage,
     required Status status,
     required bool favorite,
+    required String genres,
+    required DateTime release,
+    required int xp,
     required this.authors,
     required this.totalPages,
     this.progressPages = 0,
@@ -30,5 +33,8 @@ class Book extends Media {
             description: description,
             linkImage: linkImage,
             status: status,
-            favorite: favorite);
+            favorite: favorite,
+            genres: genres,
+            release: release,
+            xp: xp);
 }

@@ -18,6 +18,9 @@ abstract class BookNoteDao {
   @update
   Future<void> updateBookNote(BookNote bookNote);
 
+  @update
+  Future<void> updateBookNotes(List<BookNote> bookNotes);
+
   @delete
   Future<void> deleteBookNote(BookNote bookNote);
 }

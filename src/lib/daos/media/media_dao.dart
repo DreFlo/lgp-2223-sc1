@@ -18,6 +18,9 @@ abstract class MediaDao {
   @update
   Future<void> updateMedia(Media media);
 
+  @update
+  Future<void> updateMedias(List<Media> medias);
+
   @delete
   Future<void> deleteMedia(Media media);
 }

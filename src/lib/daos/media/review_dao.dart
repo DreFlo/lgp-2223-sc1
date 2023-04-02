@@ -18,6 +18,9 @@ abstract class ReviewDao {
   @update
   Future<void> updateReview(Review review);
 
+  @update
+  Future<void> updateReviews(List<Review> reviews);
+
   @delete
   Future<void> deleteReview(Review review);
 }

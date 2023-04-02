@@ -7,6 +7,7 @@ class User {
   @PrimaryKey(autoGenerate: true)
   final int? id;
 
+  @ColumnInfo(name: 'user_name')
   final String userName;
 
   final String password;

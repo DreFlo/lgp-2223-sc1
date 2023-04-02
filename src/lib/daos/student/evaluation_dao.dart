@@ -18,6 +18,9 @@ abstract class EvaluationDao {
   @update
   Future<void> updateEvaluation(Evaluation evaluation);
 
+  @update
+  Future<void> updateEvaluations(List<Evaluation> evaluations);
+
   @delete
   Future<void> deleteEvaluation(Evaluation evaluation);
 }

@@ -22,20 +22,19 @@ import 'package:src/utils/enums.dart';
   ]
 )
 class StudentTimeslot extends Timeslot {
-  @ColumnInfo(name: 'task')
+  @ColumnInfo(name: 'task_id')
   final int? taskId;
 
-  @ColumnInfo(name: 'evaluation')
+  @ColumnInfo(name: 'evaluation_id')
   final int? evaluationId;
   StudentTimeslot(
       {int? id,
       required String title,
       required String description,
-      required Periodicity periodicity,
       required DateTime startDateTime,
       required DateTime endDateTime,
       required Priority priority,
-      required int xp,
+      required int xpMultiplier,
       required int userId,
       this.taskId,
       this.evaluationId})
@@ -43,10 +42,9 @@ class StudentTimeslot extends Timeslot {
             id: id,
             title: title,
             description: description,
-            periodicity: periodicity,
             startDateTime: startDateTime,
             endDateTime: endDateTime,
             priority: priority,
-            xp: xp,
+            xpMultiplier: xpMultiplier,
             userId: userId);
 }

@@ -18,6 +18,9 @@ abstract class InstitutionDao {
   @update
   Future<void> updateInstitution(Institution institution);
 
+  @update
+  Future<void> updateInstitutions(List<Institution> institutions);
+
   @delete
   Future<void> deleteInstitution(Institution institution);
 }

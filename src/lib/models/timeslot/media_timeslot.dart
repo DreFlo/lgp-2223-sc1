@@ -15,28 +15,26 @@ import 'package:src/utils/enums.dart';
   ],
 )
 class MediaTimeslot extends Timeslot {
-  @ColumnInfo(name: 'media')
+  @ColumnInfo(name: 'media_id')
   final int mediaId;
 
   MediaTimeslot(
       {int? id,
       required String title,
       required String description,
-      required Periodicity periodicity,
       required DateTime startDateTime,
       required DateTime endDateTime,
       required Priority priority,
-      required int xp,
+      required int xpMultiplier,
       required int userId,
       required this.mediaId})
       : super(
             id: id,
             title: title,
             description: description,
-            periodicity: periodicity,
             startDateTime: startDateTime,
             endDateTime: endDateTime,
             priority: priority,
-            xp: xp,
+            xpMultiplier: xpMultiplier,
             userId: userId);
 }

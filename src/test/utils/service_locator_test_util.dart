@@ -31,6 +31,8 @@ import 'package:src/utils/service_locator.dart';
 
 import 'service_locator_test_util.mocks.dart';
 
+import 'package:src/database/callbacks.dart';
+
 @GenerateMocks([
   AppDatabase,
   InstitutionDao,
@@ -139,7 +141,8 @@ void setupServiceLocatorUnitTests() {
   serviceLocator.registerSingletonAsync<AppDatabase>(() async =>
       await $FloorAppDatabase
           .inMemoryDatabaseBuilder()
-          .addCallback(callback)
+          .addCallback(addConstraintsCallback)
+          .addCallback(unitTestPrintVersionCallback)
           .build());
 
   serviceLocator.registerSingletonWithDependencies<InstitutionDao>(

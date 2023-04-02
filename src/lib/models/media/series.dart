@@ -13,11 +13,17 @@ class Series extends Media {
     required String linkImage,
     required Status status,
     required bool favorite,
+    required String genres,
+    required DateTime release,
+    required int xp,
   }) : super(
             id: id,
             name: name,
             description: description,
             linkImage: linkImage,
             status: status,
-            favorite: favorite);
+            favorite: favorite,
+            genres: genres,
+            release: release,
+            xp: xp);
 }

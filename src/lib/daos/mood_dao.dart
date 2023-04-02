@@ -15,6 +15,9 @@ abstract class MoodDao {
   @update
   Future<void> updateMood(Mood mood);
 
+  @update
+  Future<void> updateMoods(List<Mood> moods);
+
   @delete
   Future<void> deleteMood(Mood mood);
 }

@@ -27,6 +27,9 @@ class Episode extends Video {
     required String linkImage,
     required Status status,
     required bool favorite,
+    required String genres,
+    required DateTime release,
+    required int xp,
     required int duration,
     required this.number,
     required this.seasonId,
@@ -37,5 +40,8 @@ class Episode extends Video {
             linkImage: linkImage,
             status: status,
             favorite: favorite,
+            genres: genres,
+            release: release,
+            xp: xp,
             duration: duration);
 }

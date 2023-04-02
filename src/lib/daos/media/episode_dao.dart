@@ -16,7 +16,10 @@ abstract class EpisodeDao {
   Future<void> insertEpisodes(List<Episode> episodes);
 
   @update
-  Future<void> updateEpisodes(Episode episode);
+  Future<void> updateEpisode(Episode episode);
+
+  @update
+  Future<void> updateEpisodes(List<Episode> episodes);
 
   @delete
   Future<void> deleteEpisode(Episode episode);

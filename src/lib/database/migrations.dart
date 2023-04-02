@@ -1,6 +1,12 @@
 import 'package:floor/floor.dart';
 
-final allMigrations = [migration1to2, migration2to3, migration3to4];
+final allMigrations = [
+  migration1to2,
+  migration2to3,
+  migration3to4,
+  migration4to5,
+  migration5to6
+];
 
 final migration1to2 = Migration(1, 2, (database) async {
   await database.execute(
@@ -72,9 +78,9 @@ final migration3to4 = Migration(3, 4, (database) async {
   await database.execute(
       'CREATE TABLE IF NOT EXISTS `timeslot_new` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `title` TEXT NOT NULL, `description` TEXT NOT NULL, `periodicity` INTEGER NOT NULL, `startDateTime` INTEGER NOT NULL, `endDateTime` INTEGER NOT NULL, `priority` INTEGER NOT NULL, `xp` INTEGER NOT NULL, `user_id` INTEGER NOT NULL, FOREIGN KEY (`user_id`) REFERENCES `user` (`id`) ON UPDATE RESTRICT ON DELETE CASCADE)');
   await database.execute(
-      'CREATE TABLE IF NOT EXISTS `media_timeslot_new` (`media` INTEGER NOT NULL, `id` INTEGER PRIMARY KEY AUTOINCREMENT, `title` TEXT NOT NULL, `description` TEXT NOT NULL, `periodicity` INTEGER NOT NULL, `startDateTime` INTEGER NOT NULL, `endDateTime` INTEGER NOT NULL, `priority` INTEGER NOT NULL, `xp` INTEGER NOT NULL, `user_id` INTEGER NOT NULL, FOREIGN KEY (`media_id`) REFERENCES `media` (`id`) ON UPDATE RESTRICT ON DELETE CASCADE)');
+      'CREATE TABLE IF NOT EXISTS `media_timeslot_new` (`media` INTEGER NOT NULL, `id` INTEGER PRIMARY KEY AUTOINCREMENT, `title` TEXT NOT NULL, `description` TEXT NOT NULL, `periodicity` INTEGER NOT NULL, `startDateTime` INTEGER NOT NULL, `endDateTime` INTEGER NOT NULL, `priority` INTEGER NOT NULL, `xp` INTEGER NOT NULL, `user_id` INTEGER NOT NULL, FOREIGN KEY (`media`) REFERENCES `media` (`id`) ON UPDATE RESTRICT ON DELETE CASCADE)');
   await database.execute(
-      'CREATE TABLE IF NOT EXISTS `student_timeslot_new` (`task` INTEGER, `evaluation` INTEGER, `id` INTEGER PRIMARY KEY AUTOINCREMENT, `title` TEXT NOT NULL, `description` TEXT NOT NULL, `periodicity` INTEGER NOT NULL, `startDateTime` INTEGER NOT NULL, `endDateTime` INTEGER NOT NULL, `priority` INTEGER NOT NULL, `xp` INTEGER NOT NULL, `user_id` INTEGER NOT NULL, FOREIGN KEY (`task_id`) REFERENCES `task` (`id`) ON UPDATE RESTRICT ON DELETE CASCADE, FOREIGN KEY (`evaluation_id`) REFERENCES `evaluation` (`id`) ON UPDATE RESTRICT ON DELETE CASCADE)');
+      'CREATE TABLE IF NOT EXISTS `student_timeslot_new` (`task` INTEGER, `evaluation` INTEGER, `id` INTEGER PRIMARY KEY AUTOINCREMENT, `title` TEXT NOT NULL, `description` TEXT NOT NULL, `periodicity` INTEGER NOT NULL, `startDateTime` INTEGER NOT NULL, `endDateTime` INTEGER NOT NULL, `priority` INTEGER NOT NULL, `xp` INTEGER NOT NULL, `user_id` INTEGER NOT NULL, FOREIGN KEY (`task`) REFERENCES `task` (`id`) ON UPDATE RESTRICT ON DELETE CASCADE, FOREIGN KEY (`evaluation`) REFERENCES `evaluation` (`id`) ON UPDATE RESTRICT ON DELETE CASCADE)');
   await database
       .execute('INSERT INTO `user_badge_new` SELECT * FROM `user_badge`');
   await database.execute('INSERT INTO `mood_new` SELECT * FROM `mood`');
@@ -100,7 +106,92 @@ final migration3to4 = Migration(3, 4, (database) async {
 });
 
 final migration4to5 = Migration(4, 5, (database) async {
-  await database.execute('ALTER TABLE `review` DROP COLUMN `rating`');
+  // Review new
+  await database.execute(
+      'CREATE TABLE IF NOT EXISTS `review_new` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `start_date` INTEGER NOT NULL, `end_date` INTEGER NOT NULL, `review` TEXT NOT NULL, `emoji` INTEGER NOT NULL, `media_id` INTEGER NOT NULL, FOREIGN KEY (`media_id`) REFERENCES `media` (`id`) ON UPDATE NO ACTION ON DELETE NO ACTION)');
+      
+  await database.execute('INSERT INTO `review_new` SELECT * FROM `review`');
+  //drop table review
+  await database.execute('DROP TABLE `review`');
+  await database.execute('ALTER TABLE `review_new` RENAME TO `review`');
+
+  // Timeslot new
+  await database.execute(
+      'CREATE TABLE IF NOT EXISTS `timeslot_new` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `title` TEXT NOT NULL, `description` TEXT NOT NULL, `start_datetime` INTEGER NOT NULL, `end_datetime` INTEGER NOT NULL, `priority` INTEGER NOT NULL, `xp_multiplier` INTEGER NOT NULL, `user_id` INTEGER NOT NULL, FOREIGN KEY (`user_id`) REFERENCES `user` (`id`) ON UPDATE RESTRICT ON DELETE CASCADE)');
+  await database.execute(
+      'INSERT INTO `timeslot_new` (`id`, `title`, `description`, `start_datetime`, `end_datetime`, `priority`, `xp_multiplier`, `user_id`) SELECT `id`, `title`, `description`, `startDateTime`, `endDateTime`, `priority`, `xp`, `user_id` FROM `timeslot`');
+  // await database.execute(
+  //     'INSERT INTO `timeslot_new` SELECT `id`, `title`, `description`, `startDateTime`, `endDateTime`, `priority`, `xp`, `user_id` FROM `timeslot`');
+  await database.execute('DROP TABLE `timeslot`');
+  await database.execute('ALTER TABLE `timeslot_new` RENAME TO `timeslot`');
+
+  // media timeslot
+  await database.execute(
+      'CREATE TABLE IF NOT EXISTS `media_timeslot` (`media` INTEGER NOT NULL, `id` INTEGER PRIMARY KEY AUTOINCREMENT, `title` TEXT NOT NULL, `description` TEXT NOT NULL, `start_datetime` INTEGER NOT NULL, `end_datetime` INTEGER NOT NULL, `priority` INTEGER NOT NULL, `xp_multiplier` INTEGER NOT NULL, `user_id` INTEGER NOT NULL, FOREIGN KEY (`media_id`) REFERENCES `media` (`id`) ON UPDATE RESTRICT ON DELETE CASCADE)');
+  await database.execute(
+      'INSERT INTO `media_timeslot_new` (`media`, `id`, `title`, `description`, `start_datetime`, `end_datetime`, `priority`, `xp_multiplier`, `user_id`) SELECT `media`, `id`, `title`, `description`, `startDateTime`, `endDateTime`, `priority`, `xp`, `user_id` FROM `media_timeslot`');
+  await database.execute('DROP TABLE `media_timeslot`');
+  await database
+      .execute('ALTER TABLE `media_timeslot` RENAME TO `media_timeslot`');
+
+  //drop tab
+  // student timeslot
+  await database.execute(
+      'CREATE TABLE IF NOT EXISTS `student_timeslot_new` (`task` INTEGER, `evaluation` INTEGER, `id` INTEGER PRIMARY KEY AUTOINCREMENT, `title` TEXT NOT NULL, `description` TEXT NOT NULL, `start_datetime` INTEGER NOT NULL, `end_datetime` INTEGER NOT NULL, `priority` INTEGER NOT NULL, `xp_multiplier` INTEGER NOT NULL, `user_id` INTEGER NOT NULL, FOREIGN KEY (`task_id`) REFERENCES `task` (`id`) ON UPDATE RESTRICT ON DELETE CASCADE, FOREIGN KEY (`evaluation_id`) REFERENCES `evaluation` (`id`) ON UPDATE RESTRICT ON DELETE CASCADE)');
+  await database.execute(
+      'INSERT INTO `student_timeslow_new` (`media`, `id`, `title`, `description`, `start_datetime`, `end_datetime`, `priority`, `xp_multiplier`, `user_id`) SELECT `media`, `id`, `title`, `description`, `startDateTime`, `endDateTime`, `priority`, `xp`, `user_id` FROM `student_timeslot`');
+  //drop table student timeslot
+  await database.execute('DROP TABLE `student_timeslot`');
+  await database.execute(
+      'ALTER TABLE `student_timeslot_new` RENAME TO `student_timeslot`');
+
+  // task new
+  await database.execute(
+      'CREATE TABLE IF NOT EXISTS `task_new` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `name` TEXT NOT NULL, `description` TEXT NOT NULL, `priority` INTEGER NOT NULL, `xp` INTEGER NOT NULL, `deadline` INTEGER NOT NULL, `task_group_id` INTEGER NOT NULL, FOREIGN KEY (`task_group_id`) REFERENCES `task_group` (`id`) ON UPDATE NO ACTION ON DELETE NO ACTION)');
+
+  await database.execute('INSERT INTO `task_new` SELECT * FROM `task`');
+  await database.execute('DROP TABLE `task`');
+  await database.execute('ALTER TABLE `task_new` RENAME TO `task`');
+
+  // media new
+  await database.execute(
+    'CREATE TABLE IF NOT EXISTS `media` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `name` TEXT NOT NULL, `description` TEXT NOT NULL, `link_image` TEXT NOT NULL, `status` INTEGER NOT NULL, `favorite` INTEGER NOT NULL, `genres` TEXT NOT NULL, `release` INTEGER NOT NULL, `xp` INTEGER NOT NULL)');
+  await database.execute('INSERT INTO `media` SELECT * FROM `media`');
+  await database.execute('DROP TABLE `media`');
+  await database.execute('ALTER TABLE `media_new` RENAME TO `media`');
+
+
+  /*await database.execute('ALTER TABLE `task` ADD COLUMN `xp` INT');
+
+  await database
+      .execute('ALTER TABLE `timeslot` RENAME COLUMN `xp` TO `xp_multiplier`');
+  await database.execute(
+      'ALTER TABLE `media_timeslot` RENAME COLUMN `xp` TO `xp_multiplier`');
+  await database.execute(
+      'ALTER TABLE `student_timeslot` RENAME COLUMN `xp` TO `xp_multiplier`');
+  await database.execute(
+      'ALTER TABLE `timeslot` RENAME COLUMN `startDateTime` TO `start_datetime`');
+  await database.execute(
+      'ALTER TABLE `timeslot` RENAME COLUMN `endDateTime` TO `end_datetime`');
+  await database.execute(
+      'ALTER TABLE `student_timeslot` RENAME COLUMN `startDateTime` TO `start_datetime`');
+  await database.execute(
+      'ALTER TABLE `student_timeslot` RENAME COLUMN `endDateTime` TO `end_datetime`');
+  await database.execute(
+      'ALTER TABLE `media_timeslot` RENAME COLUMN `startDateTime` TO `start_datetime`');
+  await database.execute(
+      'ALTER TABLE `media_timeslot` RENAME COLUMN `endDateTime` TO `end_datetime`');
+  await database.execute('ALTER TABLE `timeslot` DROP COLUMN `periodicity`');
+  await database
+      .execute('ALTER TABLE `media_timeslot` DROP COLUMN `periodicity`');
+  await database
+      .execute('ALTER TABLE `student_timeslot` DROP COLUMN `periodicity`');
+  await database.execute('ALTER TABLE `media` ADD COLUMN `genres`');
+  await database.execute('ALTER TABLE `media` ADD COLUMN `release`');
+  await database.execute('ALTER TABLE `media` ADD COLUMN `xp`');*/
+});
+
+final migration5to6 = Migration(5, 6, (database) async {
   await database.execute('PRAGMA foreign_keys = OFF');
   await database.execute('BEGIN TRANSACTION');
 
@@ -110,8 +201,8 @@ final migration4to5 = Migration(4, 5, (database) async {
     FOR EACH ROW
     BEGIN
       SELECT CASE
-        WHEN NEW.startDateTime > NEW.endDateTime THEN
-          RAISE(ABORT, 'startDateTime must be before endDateTime')
+        WHEN NEW.start_datetime > NEW.end_datetime THEN
+          RAISE(ABORT, 'start_datetime must be before end_datetime')
       END;
     END;
   ''');
@@ -122,8 +213,8 @@ final migration4to5 = Migration(4, 5, (database) async {
     FOR EACH ROW
     BEGIN
       SELECT CASE
-        WHEN NEW.startDateTime > NEW.end_date THEN
-          RAISE(ABORT, 'startDateTime must be before endDateTime')
+        WHEN NEW.start_datetime > NEW.end_date THEN
+          RAISE(ABORT, 'start_datetime must be before end_datetime')
       END;
     END;
   ''');
@@ -134,8 +225,8 @@ final migration4to5 = Migration(4, 5, (database) async {
     FOR EACH ROW
     BEGIN
       SELECT CASE
-        WHEN NEW.startDateTime > NEW.endDateTime THEN
-          RAISE(ABORT, 'startDateTime must be before endDateTime')
+        WHEN NEW.start_datetime > NEW.end_datetime THEN
+          RAISE(ABORT, 'start_datetime must be before end_datetime')
       END;
     END;
   ''');

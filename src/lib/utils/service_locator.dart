@@ -34,6 +34,8 @@ import 'package:src/daos/badge_dao.dart';
 import 'package:src/daos/mood_dao.dart';
 import 'package:src/daos/user_dao.dart';
 
+import 'package:src/database/callbacks.dart';
+
 final GetIt serviceLocator = GetIt.instance;
 
 /// Setup the GetIt service locator
@@ -43,7 +45,8 @@ void setup() {
   serviceLocator.registerSingletonAsync<AppDatabase>(() async =>
       await $FloorAppDatabase
           .databaseBuilder('wokka_database.db')
-          .addMigrations(allMigrations)
+          .addMigrations([])
+          .addCallback(addConstraintsCallback)
           .build());
 
   serviceLocator.registerSingletonWithDependencies<InstitutionDao>(

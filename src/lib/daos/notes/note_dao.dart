@@ -18,6 +18,9 @@ abstract class NoteDao {
   @update
   Future<void> updateNote(Note note);
 
+  @update
+  Future<void> updateNotes(List<Note> notes);
+
   @delete
   Future<void> deleteNote(Note note);
 }

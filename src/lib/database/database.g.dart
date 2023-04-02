@@ -117,7 +117,7 @@ class _$AppDatabase extends AppDatabase {
     Callback? callback,
   ]) async {
     final databaseOptions = sqflite.OpenDatabaseOptions(
-      version: 4,
+      version: 6,
       onConfigure: (database) async {
         await database.execute('PRAGMA foreign_keys = ON');
         await callback?.onConfigure?.call(database);
@@ -139,25 +139,25 @@ class _$AppDatabase extends AppDatabase {
         await database.execute(
             'CREATE TABLE IF NOT EXISTS `task_group` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `name` TEXT NOT NULL, `description` TEXT NOT NULL, `priority` INTEGER NOT NULL, `deadline` INTEGER NOT NULL, `subject_id` INTEGER, FOREIGN KEY (`subject_id`) REFERENCES `subject` (`id`) ON UPDATE NO ACTION ON DELETE NO ACTION)');
         await database.execute(
-            'CREATE TABLE IF NOT EXISTS `task` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `name` TEXT NOT NULL, `description` TEXT NOT NULL, `priority` INTEGER NOT NULL, `deadline` INTEGER NOT NULL, `task_group_id` INTEGER NOT NULL, FOREIGN KEY (`task_group_id`) REFERENCES `task_group` (`id`) ON UPDATE RESTRICT ON DELETE CASCADE)');
+            'CREATE TABLE IF NOT EXISTS `task` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `name` TEXT NOT NULL, `description` TEXT NOT NULL, `priority` INTEGER NOT NULL, `deadline` INTEGER NOT NULL, `xp` INTEGER NOT NULL, `task_group_id` INTEGER NOT NULL, FOREIGN KEY (`task_group_id`) REFERENCES `task_group` (`id`) ON UPDATE RESTRICT ON DELETE CASCADE)');
         await database.execute(
             'CREATE TABLE IF NOT EXISTS `evaluation` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `name` TEXT NOT NULL, `weight` REAL NOT NULL, `minimum` REAL NOT NULL, `grade` REAL NOT NULL, `subject_id` INTEGER NOT NULL, FOREIGN KEY (`subject_id`) REFERENCES `subject` (`id`) ON UPDATE RESTRICT ON DELETE CASCADE)');
         await database.execute(
-            'CREATE TABLE IF NOT EXISTS `media` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `name` TEXT NOT NULL, `description` TEXT NOT NULL, `link_image` TEXT NOT NULL, `status` INTEGER NOT NULL, `favorite` INTEGER NOT NULL)');
+            'CREATE TABLE IF NOT EXISTS `media` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `name` TEXT NOT NULL, `description` TEXT NOT NULL, `link_image` TEXT NOT NULL, `status` INTEGER NOT NULL, `favorite` INTEGER NOT NULL, `genres` TEXT NOT NULL, `release` INTEGER NOT NULL, `xp` INTEGER NOT NULL)');
         await database.execute(
-            'CREATE TABLE IF NOT EXISTS `book` (`authors` TEXT NOT NULL, `total_pages` INTEGER NOT NULL, `progress_pages` INTEGER, `id` INTEGER PRIMARY KEY AUTOINCREMENT, `name` TEXT NOT NULL, `description` TEXT NOT NULL, `link_image` TEXT NOT NULL, `status` INTEGER NOT NULL, `favorite` INTEGER NOT NULL)');
+            'CREATE TABLE IF NOT EXISTS `book` (`authors` TEXT NOT NULL, `total_pages` INTEGER NOT NULL, `progress_pages` INTEGER, `id` INTEGER PRIMARY KEY AUTOINCREMENT, `name` TEXT NOT NULL, `description` TEXT NOT NULL, `link_image` TEXT NOT NULL, `status` INTEGER NOT NULL, `favorite` INTEGER NOT NULL, `genres` TEXT NOT NULL, `release` INTEGER NOT NULL, `xp` INTEGER NOT NULL)');
         await database.execute(
-            'CREATE TABLE IF NOT EXISTS `series` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `name` TEXT NOT NULL, `description` TEXT NOT NULL, `link_image` TEXT NOT NULL, `status` INTEGER NOT NULL, `favorite` INTEGER NOT NULL)');
+            'CREATE TABLE IF NOT EXISTS `series` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `name` TEXT NOT NULL, `description` TEXT NOT NULL, `link_image` TEXT NOT NULL, `status` INTEGER NOT NULL, `favorite` INTEGER NOT NULL, `genres` TEXT NOT NULL, `release` INTEGER NOT NULL, `xp` INTEGER NOT NULL)');
         await database.execute(
-            'CREATE TABLE IF NOT EXISTS `video` (`duration` INTEGER NOT NULL, `id` INTEGER PRIMARY KEY AUTOINCREMENT, `name` TEXT NOT NULL, `description` TEXT NOT NULL, `link_image` TEXT NOT NULL, `status` INTEGER NOT NULL, `favorite` INTEGER NOT NULL)');
+            'CREATE TABLE IF NOT EXISTS `video` (`duration` INTEGER NOT NULL, `id` INTEGER PRIMARY KEY AUTOINCREMENT, `name` TEXT NOT NULL, `description` TEXT NOT NULL, `link_image` TEXT NOT NULL, `status` INTEGER NOT NULL, `favorite` INTEGER NOT NULL, `genres` TEXT NOT NULL, `release` INTEGER NOT NULL, `xp` INTEGER NOT NULL)');
         await database.execute(
             'CREATE TABLE IF NOT EXISTS `season` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `number` INTEGER NOT NULL, `series_id` INTEGER NOT NULL, FOREIGN KEY (`series_id`) REFERENCES `series` (`id`) ON UPDATE RESTRICT ON DELETE CASCADE)');
         await database.execute(
-            'CREATE TABLE IF NOT EXISTS `review` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `start_date` INTEGER NOT NULL, `end_date` INTEGER NOT NULL, `review` TEXT NOT NULL, `rating` INTEGER NOT NULL, `emoji` INTEGER NOT NULL, `media_id` INTEGER NOT NULL, FOREIGN KEY (`media_id`) REFERENCES `media` (`id`) ON UPDATE NO ACTION ON DELETE NO ACTION)');
+            'CREATE TABLE IF NOT EXISTS `review` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `start_date` INTEGER NOT NULL, `end_date` INTEGER NOT NULL, `review` TEXT NOT NULL, `emoji` INTEGER NOT NULL, `media_id` INTEGER NOT NULL, FOREIGN KEY (`media_id`) REFERENCES `media` (`id`) ON UPDATE NO ACTION ON DELETE NO ACTION)');
         await database.execute(
-            'CREATE TABLE IF NOT EXISTS `movie` (`duration` INTEGER NOT NULL, `id` INTEGER PRIMARY KEY AUTOINCREMENT, `name` TEXT NOT NULL, `description` TEXT NOT NULL, `link_image` TEXT NOT NULL, `status` INTEGER NOT NULL, `favorite` INTEGER NOT NULL)');
+            'CREATE TABLE IF NOT EXISTS `movie` (`duration` INTEGER NOT NULL, `id` INTEGER PRIMARY KEY AUTOINCREMENT, `name` TEXT NOT NULL, `description` TEXT NOT NULL, `link_image` TEXT NOT NULL, `status` INTEGER NOT NULL, `favorite` INTEGER NOT NULL, `genres` TEXT NOT NULL, `release` INTEGER NOT NULL, `xp` INTEGER NOT NULL)');
         await database.execute(
-            'CREATE TABLE IF NOT EXISTS `episode` (`number` INTEGER NOT NULL, `season_id` INTEGER NOT NULL, `duration` INTEGER NOT NULL, `id` INTEGER PRIMARY KEY AUTOINCREMENT, `name` TEXT NOT NULL, `description` TEXT NOT NULL, `link_image` TEXT NOT NULL, `status` INTEGER NOT NULL, `favorite` INTEGER NOT NULL, FOREIGN KEY (`season_id`) REFERENCES `season` (`id`) ON UPDATE RESTRICT ON DELETE CASCADE)');
+            'CREATE TABLE IF NOT EXISTS `episode` (`number` INTEGER NOT NULL, `season_id` INTEGER NOT NULL, `duration` INTEGER NOT NULL, `id` INTEGER PRIMARY KEY AUTOINCREMENT, `name` TEXT NOT NULL, `description` TEXT NOT NULL, `link_image` TEXT NOT NULL, `status` INTEGER NOT NULL, `favorite` INTEGER NOT NULL, `genres` TEXT NOT NULL, `release` INTEGER NOT NULL, `xp` INTEGER NOT NULL, FOREIGN KEY (`season_id`) REFERENCES `season` (`id`) ON UPDATE RESTRICT ON DELETE CASCADE)');
         await database.execute(
             'CREATE TABLE IF NOT EXISTS `note` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `title` TEXT NOT NULL, `content` TEXT NOT NULL, `date` INTEGER NOT NULL)');
         await database.execute(
@@ -175,11 +175,11 @@ class _$AppDatabase extends AppDatabase {
         await database.execute(
             'CREATE TABLE IF NOT EXISTS `mood` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `name` TEXT NOT NULL, `mood` INTEGER NOT NULL, `date` INTEGER NOT NULL, `user_id` INTEGER NOT NULL, FOREIGN KEY (`user_id`) REFERENCES `user` (`id`) ON UPDATE RESTRICT ON DELETE CASCADE)');
         await database.execute(
-            'CREATE TABLE IF NOT EXISTS `timeslot` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `title` TEXT NOT NULL, `description` TEXT NOT NULL, `periodicity` INTEGER NOT NULL, `startDateTime` INTEGER NOT NULL, `endDateTime` INTEGER NOT NULL, `priority` INTEGER NOT NULL, `xp` INTEGER NOT NULL, `user_id` INTEGER NOT NULL, FOREIGN KEY (`user_id`) REFERENCES `user` (`id`) ON UPDATE RESTRICT ON DELETE CASCADE)');
+            'CREATE TABLE IF NOT EXISTS `timeslot` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `title` TEXT NOT NULL, `description` TEXT NOT NULL, `start_datetime` INTEGER NOT NULL, `end_datetime` INTEGER NOT NULL, `priority` INTEGER NOT NULL, `xp_multiplier` INTEGER NOT NULL, `user_id` INTEGER NOT NULL, FOREIGN KEY (`user_id`) REFERENCES `user` (`id`) ON UPDATE RESTRICT ON DELETE CASCADE)');
         await database.execute(
-            'CREATE TABLE IF NOT EXISTS `media_timeslot` (`media` INTEGER NOT NULL, `id` INTEGER PRIMARY KEY AUTOINCREMENT, `title` TEXT NOT NULL, `description` TEXT NOT NULL, `periodicity` INTEGER NOT NULL, `startDateTime` INTEGER NOT NULL, `endDateTime` INTEGER NOT NULL, `priority` INTEGER NOT NULL, `xp` INTEGER NOT NULL, `user_id` INTEGER NOT NULL, FOREIGN KEY (`media_id`) REFERENCES `media` (`id`) ON UPDATE RESTRICT ON DELETE CASCADE)');
+            'CREATE TABLE IF NOT EXISTS `media_timeslot` (`media_id` INTEGER NOT NULL, `id` INTEGER PRIMARY KEY AUTOINCREMENT, `title` TEXT NOT NULL, `description` TEXT NOT NULL, `start_datetime` INTEGER NOT NULL, `end_datetime` INTEGER NOT NULL, `priority` INTEGER NOT NULL, `xp_multiplier` INTEGER NOT NULL, `user_id` INTEGER NOT NULL, FOREIGN KEY (`media_id`) REFERENCES `media` (`id`) ON UPDATE RESTRICT ON DELETE CASCADE)');
         await database.execute(
-            'CREATE TABLE IF NOT EXISTS `student_timeslot` (`task` INTEGER, `evaluation` INTEGER, `id` INTEGER PRIMARY KEY AUTOINCREMENT, `title` TEXT NOT NULL, `description` TEXT NOT NULL, `periodicity` INTEGER NOT NULL, `startDateTime` INTEGER NOT NULL, `endDateTime` INTEGER NOT NULL, `priority` INTEGER NOT NULL, `xp` INTEGER NOT NULL, `user_id` INTEGER NOT NULL, FOREIGN KEY (`task_id`) REFERENCES `task` (`id`) ON UPDATE RESTRICT ON DELETE CASCADE, FOREIGN KEY (`evaluation_id`) REFERENCES `evaluation` (`id`) ON UPDATE RESTRICT ON DELETE CASCADE)');
+            'CREATE TABLE IF NOT EXISTS `student_timeslot` (`task_id` INTEGER, `evaluation_id` INTEGER, `id` INTEGER PRIMARY KEY AUTOINCREMENT, `title` TEXT NOT NULL, `description` TEXT NOT NULL, `start_datetime` INTEGER NOT NULL, `end_datetime` INTEGER NOT NULL, `priority` INTEGER NOT NULL, `xp_multiplier` INTEGER NOT NULL, `user_id` INTEGER NOT NULL, FOREIGN KEY (`task_id`) REFERENCES `task` (`id`) ON UPDATE RESTRICT ON DELETE CASCADE, FOREIGN KEY (`evaluation_id`) REFERENCES `evaluation` (`id`) ON UPDATE RESTRICT ON DELETE CASCADE)');
         await database.execute(
             'CREATE TABLE IF NOT EXISTS `user_badge` (`user_id` INTEGER NOT NULL, `badge_id` INTEGER NOT NULL, FOREIGN KEY (`user_id`) REFERENCES `user` (`id`) ON UPDATE RESTRICT ON DELETE CASCADE, FOREIGN KEY (`badge_id`) REFERENCES `badge` (`id`) ON UPDATE RESTRICT ON DELETE CASCADE, PRIMARY KEY (`user_id`, `badge_id`))');
 
@@ -656,6 +656,7 @@ class _$TaskDao extends TaskDao {
                   'description': item.description,
                   'priority': item.priority.index,
                   'deadline': _dateTimeConverter.encode(item.deadline),
+                  'xp': item.xp,
                   'task_group_id': item.taskGroupId
                 },
             changeListener),
@@ -669,6 +670,7 @@ class _$TaskDao extends TaskDao {
                   'description': item.description,
                   'priority': item.priority.index,
                   'deadline': _dateTimeConverter.encode(item.deadline),
+                  'xp': item.xp,
                   'task_group_id': item.taskGroupId
                 },
             changeListener),
@@ -682,6 +684,7 @@ class _$TaskDao extends TaskDao {
                   'description': item.description,
                   'priority': item.priority.index,
                   'deadline': _dateTimeConverter.encode(item.deadline),
+                  'xp': item.xp,
                   'task_group_id': item.taskGroupId
                 },
             changeListener);
@@ -707,7 +710,8 @@ class _$TaskDao extends TaskDao {
             description: row['description'] as String,
             priority: Priority.values[row['priority'] as int],
             deadline: _dateTimeConverter.decode(row['deadline'] as int),
-            taskGroupId: row['task_group_id'] as int));
+            taskGroupId: row['task_group_id'] as int,
+            xp: row['xp'] as int));
   }
 
   @override
@@ -719,7 +723,8 @@ class _$TaskDao extends TaskDao {
             description: row['description'] as String,
             priority: Priority.values[row['priority'] as int],
             deadline: _dateTimeConverter.decode(row['deadline'] as int),
-            taskGroupId: row['task_group_id'] as int),
+            taskGroupId: row['task_group_id'] as int,
+            xp: row['xp'] as int),
         arguments: [id],
         queryableName: 'task',
         isView: false);
@@ -866,7 +871,10 @@ class _$MediaDao extends MediaDao {
                   'description': item.description,
                   'link_image': item.linkImage,
                   'status': item.status.index,
-                  'favorite': item.favorite ? 1 : 0
+                  'favorite': item.favorite ? 1 : 0,
+                  'genres': item.genres,
+                  'release': _dateTimeConverter.encode(item.release),
+                  'xp': item.xp
                 },
             changeListener),
         _mediaUpdateAdapter = UpdateAdapter(
@@ -879,7 +887,10 @@ class _$MediaDao extends MediaDao {
                   'description': item.description,
                   'link_image': item.linkImage,
                   'status': item.status.index,
-                  'favorite': item.favorite ? 1 : 0
+                  'favorite': item.favorite ? 1 : 0,
+                  'genres': item.genres,
+                  'release': _dateTimeConverter.encode(item.release),
+                  'xp': item.xp
                 },
             changeListener),
         _mediaDeletionAdapter = DeletionAdapter(
@@ -892,7 +903,10 @@ class _$MediaDao extends MediaDao {
                   'description': item.description,
                   'link_image': item.linkImage,
                   'status': item.status.index,
-                  'favorite': item.favorite ? 1 : 0
+                  'favorite': item.favorite ? 1 : 0,
+                  'genres': item.genres,
+                  'release': _dateTimeConverter.encode(item.release),
+                  'xp': item.xp
                 },
             changeListener);
 
@@ -917,7 +931,10 @@ class _$MediaDao extends MediaDao {
             description: row['description'] as String,
             linkImage: row['link_image'] as String,
             status: Status.values[row['status'] as int],
-            favorite: (row['favorite'] as int) != 0));
+            favorite: (row['favorite'] as int) != 0,
+            genres: row['genres'] as String,
+            release: _dateTimeConverter.decode(row['release'] as int),
+            xp: row['xp'] as int));
   }
 
   @override
@@ -929,7 +946,10 @@ class _$MediaDao extends MediaDao {
             description: row['description'] as String,
             linkImage: row['link_image'] as String,
             status: Status.values[row['status'] as int],
-            favorite: (row['favorite'] as int) != 0),
+            favorite: (row['favorite'] as int) != 0,
+            genres: row['genres'] as String,
+            release: _dateTimeConverter.decode(row['release'] as int),
+            xp: row['xp'] as int),
         arguments: [id],
         queryableName: 'media',
         isView: false);
@@ -973,7 +993,10 @@ class _$BookDao extends BookDao {
                   'description': item.description,
                   'link_image': item.linkImage,
                   'status': item.status.index,
-                  'favorite': item.favorite ? 1 : 0
+                  'favorite': item.favorite ? 1 : 0,
+                  'genres': item.genres,
+                  'release': _dateTimeConverter.encode(item.release),
+                  'xp': item.xp
                 },
             changeListener),
         _bookDeletionAdapter = DeletionAdapter(
@@ -989,7 +1012,10 @@ class _$BookDao extends BookDao {
                   'description': item.description,
                   'link_image': item.linkImage,
                   'status': item.status.index,
-                  'favorite': item.favorite ? 1 : 0
+                  'favorite': item.favorite ? 1 : 0,
+                  'genres': item.genres,
+                  'release': _dateTimeConverter.encode(item.release),
+                  'xp': item.xp
                 },
             changeListener);
 
@@ -1013,6 +1039,9 @@ class _$BookDao extends BookDao {
             linkImage: row['link_image'] as String,
             status: Status.values[row['status'] as int],
             favorite: (row['favorite'] as int) != 0,
+            genres: row['genres'] as String,
+            release: _dateTimeConverter.decode(row['release'] as int),
+            xp: row['xp'] as int,
             authors: row['authors'] as String,
             totalPages: row['total_pages'] as int,
             progressPages: row['progress_pages'] as int?));
@@ -1028,6 +1057,9 @@ class _$BookDao extends BookDao {
             linkImage: row['link_image'] as String,
             status: Status.values[row['status'] as int],
             favorite: (row['favorite'] as int) != 0,
+            genres: row['genres'] as String,
+            release: _dateTimeConverter.decode(row['release'] as int),
+            xp: row['xp'] as int,
             authors: row['authors'] as String,
             totalPages: row['total_pages'] as int,
             progressPages: row['progress_pages'] as int?),
@@ -1066,7 +1098,10 @@ class _$SeriesDao extends SeriesDao {
                   'description': item.description,
                   'link_image': item.linkImage,
                   'status': item.status.index,
-                  'favorite': item.favorite ? 1 : 0
+                  'favorite': item.favorite ? 1 : 0,
+                  'genres': item.genres,
+                  'release': _dateTimeConverter.encode(item.release),
+                  'xp': item.xp
                 },
             changeListener),
         _seriesUpdateAdapter = UpdateAdapter(
@@ -1079,7 +1114,10 @@ class _$SeriesDao extends SeriesDao {
                   'description': item.description,
                   'link_image': item.linkImage,
                   'status': item.status.index,
-                  'favorite': item.favorite ? 1 : 0
+                  'favorite': item.favorite ? 1 : 0,
+                  'genres': item.genres,
+                  'release': _dateTimeConverter.encode(item.release),
+                  'xp': item.xp
                 },
             changeListener),
         _seriesDeletionAdapter = DeletionAdapter(
@@ -1092,7 +1130,10 @@ class _$SeriesDao extends SeriesDao {
                   'description': item.description,
                   'link_image': item.linkImage,
                   'status': item.status.index,
-                  'favorite': item.favorite ? 1 : 0
+                  'favorite': item.favorite ? 1 : 0,
+                  'genres': item.genres,
+                  'release': _dateTimeConverter.encode(item.release),
+                  'xp': item.xp
                 },
             changeListener);
 
@@ -1117,7 +1158,10 @@ class _$SeriesDao extends SeriesDao {
             description: row['description'] as String,
             linkImage: row['link_image'] as String,
             status: Status.values[row['status'] as int],
-            favorite: (row['favorite'] as int) != 0));
+            favorite: (row['favorite'] as int) != 0,
+            genres: row['genres'] as String,
+            release: _dateTimeConverter.decode(row['release'] as int),
+            xp: row['xp'] as int));
   }
 
   @override
@@ -1129,7 +1173,10 @@ class _$SeriesDao extends SeriesDao {
             description: row['description'] as String,
             linkImage: row['link_image'] as String,
             status: Status.values[row['status'] as int],
-            favorite: (row['favorite'] as int) != 0),
+            favorite: (row['favorite'] as int) != 0,
+            genres: row['genres'] as String,
+            release: _dateTimeConverter.decode(row['release'] as int),
+            xp: row['xp'] as int),
         arguments: [id],
         queryableName: 'series',
         isView: false);
@@ -1176,7 +1223,10 @@ class _$VideoDao extends VideoDao {
                   'description': item.description,
                   'link_image': item.linkImage,
                   'status': item.status.index,
-                  'favorite': item.favorite ? 1 : 0
+                  'favorite': item.favorite ? 1 : 0,
+                  'genres': item.genres,
+                  'release': _dateTimeConverter.encode(item.release),
+                  'xp': item.xp
                 },
             changeListener),
         _videoUpdateAdapter = UpdateAdapter(
@@ -1190,7 +1240,10 @@ class _$VideoDao extends VideoDao {
                   'description': item.description,
                   'link_image': item.linkImage,
                   'status': item.status.index,
-                  'favorite': item.favorite ? 1 : 0
+                  'favorite': item.favorite ? 1 : 0,
+                  'genres': item.genres,
+                  'release': _dateTimeConverter.encode(item.release),
+                  'xp': item.xp
                 },
             changeListener),
         _videoDeletionAdapter = DeletionAdapter(
@@ -1204,7 +1257,10 @@ class _$VideoDao extends VideoDao {
                   'description': item.description,
                   'link_image': item.linkImage,
                   'status': item.status.index,
-                  'favorite': item.favorite ? 1 : 0
+                  'favorite': item.favorite ? 1 : 0,
+                  'genres': item.genres,
+                  'release': _dateTimeConverter.encode(item.release),
+                  'xp': item.xp
                 },
             changeListener);
 
@@ -1230,6 +1286,9 @@ class _$VideoDao extends VideoDao {
             linkImage: row['link_image'] as String,
             status: Status.values[row['status'] as int],
             favorite: (row['favorite'] as int) != 0,
+            genres: row['genres'] as String,
+            release: _dateTimeConverter.decode(row['release'] as int),
+            xp: row['xp'] as int,
             duration: row['duration'] as int));
   }
 
@@ -1243,6 +1302,9 @@ class _$VideoDao extends VideoDao {
             linkImage: row['link_image'] as String,
             status: Status.values[row['status'] as int],
             favorite: (row['favorite'] as int) != 0,
+            genres: row['genres'] as String,
+            release: _dateTimeConverter.decode(row['release'] as int),
+            xp: row['xp'] as int,
             duration: row['duration'] as int),
         arguments: [id],
         queryableName: 'Video',
@@ -1377,7 +1439,6 @@ class _$ReviewDao extends ReviewDao {
                   'start_date': _dateTimeConverter.encode(item.startDate),
                   'end_date': _dateTimeConverter.encode(item.endDate),
                   'review': item.review,
-                  'rating': item.rating,
                   'emoji': item.emoji.index,
                   'media_id': item.mediaId
                 },
@@ -1391,7 +1452,6 @@ class _$ReviewDao extends ReviewDao {
                   'start_date': _dateTimeConverter.encode(item.startDate),
                   'end_date': _dateTimeConverter.encode(item.endDate),
                   'review': item.review,
-                  'rating': item.rating,
                   'emoji': item.emoji.index,
                   'media_id': item.mediaId
                 },
@@ -1405,7 +1465,6 @@ class _$ReviewDao extends ReviewDao {
                   'start_date': _dateTimeConverter.encode(item.startDate),
                   'end_date': _dateTimeConverter.encode(item.endDate),
                   'review': item.review,
-                  'rating': item.rating,
                   'emoji': item.emoji.index,
                   'media_id': item.mediaId
                 },
@@ -1431,8 +1490,7 @@ class _$ReviewDao extends ReviewDao {
             startDate: _dateTimeConverter.decode(row['start_date'] as int),
             endDate: _dateTimeConverter.decode(row['end_date'] as int),
             review: row['review'] as String,
-            rating: row['rating'] as int,
-            emoji: Emoji.values[row['emoji'] as int],
+            emoji: Reaction.values[row['emoji'] as int],
             mediaId: row['media_id'] as int));
   }
 
@@ -1444,8 +1502,7 @@ class _$ReviewDao extends ReviewDao {
             startDate: _dateTimeConverter.decode(row['start_date'] as int),
             endDate: _dateTimeConverter.decode(row['end_date'] as int),
             review: row['review'] as String,
-            rating: row['rating'] as int,
-            emoji: Emoji.values[row['emoji'] as int],
+            emoji: Reaction.values[row['emoji'] as int],
             mediaId: row['media_id'] as int),
         arguments: [id],
         queryableName: 'review',
@@ -1488,7 +1545,10 @@ class _$MovieDao extends MovieDao {
                   'description': item.description,
                   'link_image': item.linkImage,
                   'status': item.status.index,
-                  'favorite': item.favorite ? 1 : 0
+                  'favorite': item.favorite ? 1 : 0,
+                  'genres': item.genres,
+                  'release': _dateTimeConverter.encode(item.release),
+                  'xp': item.xp
                 },
             changeListener),
         _movieUpdateAdapter = UpdateAdapter(
@@ -1502,7 +1562,10 @@ class _$MovieDao extends MovieDao {
                   'description': item.description,
                   'link_image': item.linkImage,
                   'status': item.status.index,
-                  'favorite': item.favorite ? 1 : 0
+                  'favorite': item.favorite ? 1 : 0,
+                  'genres': item.genres,
+                  'release': _dateTimeConverter.encode(item.release),
+                  'xp': item.xp
                 },
             changeListener),
         _movieDeletionAdapter = DeletionAdapter(
@@ -1516,7 +1579,10 @@ class _$MovieDao extends MovieDao {
                   'description': item.description,
                   'link_image': item.linkImage,
                   'status': item.status.index,
-                  'favorite': item.favorite ? 1 : 0
+                  'favorite': item.favorite ? 1 : 0,
+                  'genres': item.genres,
+                  'release': _dateTimeConverter.encode(item.release),
+                  'xp': item.xp
                 },
             changeListener);
 
@@ -1542,6 +1608,9 @@ class _$MovieDao extends MovieDao {
             linkImage: row['link_image'] as String,
             status: Status.values[row['status'] as int],
             favorite: (row['favorite'] as int) != 0,
+            genres: row['genres'] as String,
+            release: _dateTimeConverter.decode(row['release'] as int),
+            xp: row['xp'] as int,
             duration: row['duration'] as int));
   }
 
@@ -1555,6 +1624,9 @@ class _$MovieDao extends MovieDao {
             linkImage: row['link_image'] as String,
             status: Status.values[row['status'] as int],
             favorite: (row['favorite'] as int) != 0,
+            genres: row['genres'] as String,
+            release: _dateTimeConverter.decode(row['release'] as int),
+            xp: row['xp'] as int,
             duration: row['duration'] as int),
         arguments: [id],
         queryableName: 'movie',
@@ -1599,7 +1671,10 @@ class _$EpisodeDao extends EpisodeDao {
                   'description': item.description,
                   'link_image': item.linkImage,
                   'status': item.status.index,
-                  'favorite': item.favorite ? 1 : 0
+                  'favorite': item.favorite ? 1 : 0,
+                  'genres': item.genres,
+                  'release': _dateTimeConverter.encode(item.release),
+                  'xp': item.xp
                 },
             changeListener),
         _episodeUpdateAdapter = UpdateAdapter(
@@ -1615,7 +1690,10 @@ class _$EpisodeDao extends EpisodeDao {
                   'description': item.description,
                   'link_image': item.linkImage,
                   'status': item.status.index,
-                  'favorite': item.favorite ? 1 : 0
+                  'favorite': item.favorite ? 1 : 0,
+                  'genres': item.genres,
+                  'release': _dateTimeConverter.encode(item.release),
+                  'xp': item.xp
                 },
             changeListener),
         _episodeDeletionAdapter = DeletionAdapter(
@@ -1631,7 +1709,10 @@ class _$EpisodeDao extends EpisodeDao {
                   'description': item.description,
                   'link_image': item.linkImage,
                   'status': item.status.index,
-                  'favorite': item.favorite ? 1 : 0
+                  'favorite': item.favorite ? 1 : 0,
+                  'genres': item.genres,
+                  'release': _dateTimeConverter.encode(item.release),
+                  'xp': item.xp
                 },
             changeListener);
 
@@ -1657,6 +1738,9 @@ class _$EpisodeDao extends EpisodeDao {
             linkImage: row['link_image'] as String,
             status: Status.values[row['status'] as int],
             favorite: (row['favorite'] as int) != 0,
+            genres: row['genres'] as String,
+            release: _dateTimeConverter.decode(row['release'] as int),
+            xp: row['xp'] as int,
             duration: row['duration'] as int,
             number: row['number'] as int,
             seasonId: row['season_id'] as int));
@@ -1672,6 +1756,9 @@ class _$EpisodeDao extends EpisodeDao {
             linkImage: row['link_image'] as String,
             status: Status.values[row['status'] as int],
             favorite: (row['favorite'] as int) != 0,
+            genres: row['genres'] as String,
+            release: _dateTimeConverter.decode(row['release'] as int),
+            xp: row['xp'] as int,
             duration: row['duration'] as int,
             number: row['number'] as int,
             seasonId: row['season_id'] as int),
@@ -2457,7 +2544,7 @@ class _$MoodDao extends MoodDao {
         mapper: (Map<String, Object?> row) => Mood(
             id: row['id'] as int?,
             name: row['name'] as String,
-            mood: Emoji.values[row['mood'] as int],
+            mood: Reaction.values[row['mood'] as int],
             date: _dateTimeConverter.decode(row['date'] as int),
             userId: row['user_id'] as int));
   }
@@ -2468,7 +2555,7 @@ class _$MoodDao extends MoodDao {
         mapper: (Map<String, Object?> row) => Mood(
             id: row['id'] as int?,
             name: row['name'] as String,
-            mood: Emoji.values[row['mood'] as int],
+            mood: Reaction.values[row['mood'] as int],
             date: _dateTimeConverter.decode(row['date'] as int),
             userId: row['user_id'] as int),
         arguments: [id]);
@@ -2502,12 +2589,11 @@ class _$TimeslotDao extends TimeslotDao {
                   'id': item.id,
                   'title': item.title,
                   'description': item.description,
-                  'periodicity': item.periodicity.index,
-                  'startDateTime':
+                  'start_datetime':
                       _dateTimeConverter.encode(item.startDateTime),
-                  'endDateTime': _dateTimeConverter.encode(item.endDateTime),
+                  'end_datetime': _dateTimeConverter.encode(item.endDateTime),
                   'priority': item.priority.index,
-                  'xp': item.xp,
+                  'xp_multiplier': item.xpMultiplier,
                   'user_id': item.userId
                 }),
         _timeslotUpdateAdapter = UpdateAdapter(
@@ -2518,12 +2604,11 @@ class _$TimeslotDao extends TimeslotDao {
                   'id': item.id,
                   'title': item.title,
                   'description': item.description,
-                  'periodicity': item.periodicity.index,
-                  'startDateTime':
+                  'start_datetime':
                       _dateTimeConverter.encode(item.startDateTime),
-                  'endDateTime': _dateTimeConverter.encode(item.endDateTime),
+                  'end_datetime': _dateTimeConverter.encode(item.endDateTime),
                   'priority': item.priority.index,
-                  'xp': item.xp,
+                  'xp_multiplier': item.xpMultiplier,
                   'user_id': item.userId
                 }),
         _timeslotDeletionAdapter = DeletionAdapter(
@@ -2534,12 +2619,11 @@ class _$TimeslotDao extends TimeslotDao {
                   'id': item.id,
                   'title': item.title,
                   'description': item.description,
-                  'periodicity': item.periodicity.index,
-                  'startDateTime':
+                  'start_datetime':
                       _dateTimeConverter.encode(item.startDateTime),
-                  'endDateTime': _dateTimeConverter.encode(item.endDateTime),
+                  'end_datetime': _dateTimeConverter.encode(item.endDateTime),
                   'priority': item.priority.index,
-                  'xp': item.xp,
+                  'xp_multiplier': item.xpMultiplier,
                   'user_id': item.userId
                 });
 
@@ -2562,12 +2646,11 @@ class _$TimeslotDao extends TimeslotDao {
             id: row['id'] as int?,
             title: row['title'] as String,
             description: row['description'] as String,
-            periodicity: Periodicity.values[row['periodicity'] as int],
             startDateTime:
-                _dateTimeConverter.decode(row['startDateTime'] as int),
-            endDateTime: _dateTimeConverter.decode(row['endDateTime'] as int),
+                _dateTimeConverter.decode(row['start_datetime'] as int),
+            endDateTime: _dateTimeConverter.decode(row['end_datetime'] as int),
             priority: Priority.values[row['priority'] as int],
-            xp: row['xp'] as int,
+            xpMultiplier: row['xp_multiplier'] as int,
             userId: row['user_id'] as int));
   }
 
@@ -2578,12 +2661,11 @@ class _$TimeslotDao extends TimeslotDao {
             id: row['id'] as int?,
             title: row['title'] as String,
             description: row['description'] as String,
-            periodicity: Periodicity.values[row['periodicity'] as int],
             startDateTime:
-                _dateTimeConverter.decode(row['startDateTime'] as int),
-            endDateTime: _dateTimeConverter.decode(row['endDateTime'] as int),
+                _dateTimeConverter.decode(row['start_datetime'] as int),
+            endDateTime: _dateTimeConverter.decode(row['end_datetime'] as int),
             priority: Priority.values[row['priority'] as int],
-            xp: row['xp'] as int,
+            xpMultiplier: row['xp_multiplier'] as int,
             userId: row['user_id'] as int),
         arguments: [id]);
   }
@@ -2618,16 +2700,15 @@ class _$MediaTimeslotDao extends MediaTimeslotDao {
             database,
             'media_timeslot',
             (MediaTimeslot item) => <String, Object?>{
-                  'media': item.mediaId,
+                  'media_id': item.mediaId,
                   'id': item.id,
                   'title': item.title,
                   'description': item.description,
-                  'periodicity': item.periodicity.index,
-                  'startDateTime':
+                  'start_datetime':
                       _dateTimeConverter.encode(item.startDateTime),
-                  'endDateTime': _dateTimeConverter.encode(item.endDateTime),
+                  'end_datetime': _dateTimeConverter.encode(item.endDateTime),
                   'priority': item.priority.index,
-                  'xp': item.xp,
+                  'xp_multiplier': item.xpMultiplier,
                   'user_id': item.userId
                 }),
         _mediaTimeslotUpdateAdapter = UpdateAdapter(
@@ -2635,16 +2716,15 @@ class _$MediaTimeslotDao extends MediaTimeslotDao {
             'media_timeslot',
             ['id'],
             (MediaTimeslot item) => <String, Object?>{
-                  'media': item.mediaId,
+                  'media_id': item.mediaId,
                   'id': item.id,
                   'title': item.title,
                   'description': item.description,
-                  'periodicity': item.periodicity.index,
-                  'startDateTime':
+                  'start_datetime':
                       _dateTimeConverter.encode(item.startDateTime),
-                  'endDateTime': _dateTimeConverter.encode(item.endDateTime),
+                  'end_datetime': _dateTimeConverter.encode(item.endDateTime),
                   'priority': item.priority.index,
-                  'xp': item.xp,
+                  'xp_multiplier': item.xpMultiplier,
                   'user_id': item.userId
                 }),
         _mediaTimeslotDeletionAdapter = DeletionAdapter(
@@ -2652,16 +2732,15 @@ class _$MediaTimeslotDao extends MediaTimeslotDao {
             'media_timeslot',
             ['id'],
             (MediaTimeslot item) => <String, Object?>{
-                  'media': item.mediaId,
+                  'media_id': item.mediaId,
                   'id': item.id,
                   'title': item.title,
                   'description': item.description,
-                  'periodicity': item.periodicity.index,
-                  'startDateTime':
+                  'start_datetime':
                       _dateTimeConverter.encode(item.startDateTime),
-                  'endDateTime': _dateTimeConverter.encode(item.endDateTime),
+                  'end_datetime': _dateTimeConverter.encode(item.endDateTime),
                   'priority': item.priority.index,
-                  'xp': item.xp,
+                  'xp_multiplier': item.xpMultiplier,
                   'user_id': item.userId
                 });
 
@@ -2684,14 +2763,13 @@ class _$MediaTimeslotDao extends MediaTimeslotDao {
             id: row['id'] as int?,
             title: row['title'] as String,
             description: row['description'] as String,
-            periodicity: Periodicity.values[row['periodicity'] as int],
             startDateTime:
-                _dateTimeConverter.decode(row['startDateTime'] as int),
-            endDateTime: _dateTimeConverter.decode(row['endDateTime'] as int),
+                _dateTimeConverter.decode(row['start_datetime'] as int),
+            endDateTime: _dateTimeConverter.decode(row['end_datetime'] as int),
             priority: Priority.values[row['priority'] as int],
-            xp: row['xp'] as int,
+            xpMultiplier: row['xp_multiplier'] as int,
             userId: row['user_id'] as int,
-            mediaId: row['media'] as int));
+            mediaId: row['media_id'] as int));
   }
 
   @override
@@ -2701,14 +2779,13 @@ class _$MediaTimeslotDao extends MediaTimeslotDao {
             id: row['id'] as int?,
             title: row['title'] as String,
             description: row['description'] as String,
-            periodicity: Periodicity.values[row['periodicity'] as int],
             startDateTime:
-                _dateTimeConverter.decode(row['startDateTime'] as int),
-            endDateTime: _dateTimeConverter.decode(row['endDateTime'] as int),
+                _dateTimeConverter.decode(row['start_datetime'] as int),
+            endDateTime: _dateTimeConverter.decode(row['end_datetime'] as int),
             priority: Priority.values[row['priority'] as int],
-            xp: row['xp'] as int,
+            xpMultiplier: row['xp_multiplier'] as int,
             userId: row['user_id'] as int,
-            mediaId: row['media'] as int),
+            mediaId: row['media_id'] as int),
         arguments: [id]);
   }
 
@@ -2720,14 +2797,13 @@ class _$MediaTimeslotDao extends MediaTimeslotDao {
             id: row['id'] as int?,
             title: row['title'] as String,
             description: row['description'] as String,
-            periodicity: Periodicity.values[row['periodicity'] as int],
             startDateTime:
-                _dateTimeConverter.decode(row['startDateTime'] as int),
-            endDateTime: _dateTimeConverter.decode(row['endDateTime'] as int),
+                _dateTimeConverter.decode(row['start_datetime'] as int),
+            endDateTime: _dateTimeConverter.decode(row['end_datetime'] as int),
             priority: Priority.values[row['priority'] as int],
-            xp: row['xp'] as int,
+            xpMultiplier: row['xp_multiplier'] as int,
             userId: row['user_id'] as int,
-            mediaId: row['media'] as int),
+            mediaId: row['media_id'] as int),
         arguments: [mediaId]);
   }
 
@@ -2742,14 +2818,13 @@ class _$MediaTimeslotDao extends MediaTimeslotDao {
             id: row['id'] as int?,
             title: row['title'] as String,
             description: row['description'] as String,
-            periodicity: Periodicity.values[row['periodicity'] as int],
             startDateTime:
-                _dateTimeConverter.decode(row['startDateTime'] as int),
-            endDateTime: _dateTimeConverter.decode(row['endDateTime'] as int),
+                _dateTimeConverter.decode(row['start_datetime'] as int),
+            endDateTime: _dateTimeConverter.decode(row['end_datetime'] as int),
             priority: Priority.values[row['priority'] as int],
-            xp: row['xp'] as int,
+            xpMultiplier: row['xp_multiplier'] as int,
             userId: row['user_id'] as int,
-            mediaId: row['media'] as int),
+            mediaId: row['media_id'] as int),
         arguments: [mediaId, timeslotId]);
   }
 
@@ -2762,14 +2837,13 @@ class _$MediaTimeslotDao extends MediaTimeslotDao {
             id: row['id'] as int?,
             title: row['title'] as String,
             description: row['description'] as String,
-            periodicity: Periodicity.values[row['periodicity'] as int],
             startDateTime:
-                _dateTimeConverter.decode(row['startDateTime'] as int),
-            endDateTime: _dateTimeConverter.decode(row['endDateTime'] as int),
+                _dateTimeConverter.decode(row['start_datetime'] as int),
+            endDateTime: _dateTimeConverter.decode(row['end_datetime'] as int),
             priority: Priority.values[row['priority'] as int],
-            xp: row['xp'] as int,
+            xpMultiplier: row['xp_multiplier'] as int,
             userId: row['user_id'] as int,
-            mediaId: row['media'] as int),
+            mediaId: row['media_id'] as int),
         arguments: [timeslotId]);
   }
 
@@ -2817,17 +2891,16 @@ class _$StudentTimeslotDao extends StudentTimeslotDao {
             database,
             'student_timeslot',
             (StudentTimeslot item) => <String, Object?>{
-                  'task': item.taskId,
-                  'evaluation': item.evaluationId,
+                  'task_id': item.taskId,
+                  'evaluation_id': item.evaluationId,
                   'id': item.id,
                   'title': item.title,
                   'description': item.description,
-                  'periodicity': item.periodicity.index,
-                  'startDateTime':
+                  'start_datetime':
                       _dateTimeConverter.encode(item.startDateTime),
-                  'endDateTime': _dateTimeConverter.encode(item.endDateTime),
+                  'end_datetime': _dateTimeConverter.encode(item.endDateTime),
                   'priority': item.priority.index,
-                  'xp': item.xp,
+                  'xp_multiplier': item.xpMultiplier,
                   'user_id': item.userId
                 }),
         _studentTimeslotUpdateAdapter = UpdateAdapter(
@@ -2835,17 +2908,16 @@ class _$StudentTimeslotDao extends StudentTimeslotDao {
             'student_timeslot',
             ['id'],
             (StudentTimeslot item) => <String, Object?>{
-                  'task': item.taskId,
-                  'evaluation': item.evaluationId,
+                  'task_id': item.taskId,
+                  'evaluation_id': item.evaluationId,
                   'id': item.id,
                   'title': item.title,
                   'description': item.description,
-                  'periodicity': item.periodicity.index,
-                  'startDateTime':
+                  'start_datetime':
                       _dateTimeConverter.encode(item.startDateTime),
-                  'endDateTime': _dateTimeConverter.encode(item.endDateTime),
+                  'end_datetime': _dateTimeConverter.encode(item.endDateTime),
                   'priority': item.priority.index,
-                  'xp': item.xp,
+                  'xp_multiplier': item.xpMultiplier,
                   'user_id': item.userId
                 }),
         _studentTimeslotDeletionAdapter = DeletionAdapter(
@@ -2853,17 +2925,16 @@ class _$StudentTimeslotDao extends StudentTimeslotDao {
             'student_timeslot',
             ['id'],
             (StudentTimeslot item) => <String, Object?>{
-                  'task': item.taskId,
-                  'evaluation': item.evaluationId,
+                  'task_id': item.taskId,
+                  'evaluation_id': item.evaluationId,
                   'id': item.id,
                   'title': item.title,
                   'description': item.description,
-                  'periodicity': item.periodicity.index,
-                  'startDateTime':
+                  'start_datetime':
                       _dateTimeConverter.encode(item.startDateTime),
-                  'endDateTime': _dateTimeConverter.encode(item.endDateTime),
+                  'end_datetime': _dateTimeConverter.encode(item.endDateTime),
                   'priority': item.priority.index,
-                  'xp': item.xp,
+                  'xp_multiplier': item.xpMultiplier,
                   'user_id': item.userId
                 });
 
@@ -2886,15 +2957,14 @@ class _$StudentTimeslotDao extends StudentTimeslotDao {
             id: row['id'] as int?,
             title: row['title'] as String,
             description: row['description'] as String,
-            periodicity: Periodicity.values[row['periodicity'] as int],
             startDateTime:
-                _dateTimeConverter.decode(row['startDateTime'] as int),
-            endDateTime: _dateTimeConverter.decode(row['endDateTime'] as int),
+                _dateTimeConverter.decode(row['start_datetime'] as int),
+            endDateTime: _dateTimeConverter.decode(row['end_datetime'] as int),
             priority: Priority.values[row['priority'] as int],
-            xp: row['xp'] as int,
+            xpMultiplier: row['xp_multiplier'] as int,
             userId: row['user_id'] as int,
-            taskId: row['task'] as int?,
-            evaluationId: row['evaluation'] as int?));
+            taskId: row['task_id'] as int?,
+            evaluationId: row['evaluation_id'] as int?));
   }
 
   @override
@@ -2904,15 +2974,14 @@ class _$StudentTimeslotDao extends StudentTimeslotDao {
             id: row['id'] as int?,
             title: row['title'] as String,
             description: row['description'] as String,
-            periodicity: Periodicity.values[row['periodicity'] as int],
             startDateTime:
-                _dateTimeConverter.decode(row['startDateTime'] as int),
-            endDateTime: _dateTimeConverter.decode(row['endDateTime'] as int),
+                _dateTimeConverter.decode(row['start_datetime'] as int),
+            endDateTime: _dateTimeConverter.decode(row['end_datetime'] as int),
             priority: Priority.values[row['priority'] as int],
-            xp: row['xp'] as int,
+            xpMultiplier: row['xp_multiplier'] as int,
             userId: row['user_id'] as int,
-            taskId: row['task'] as int?,
-            evaluationId: row['evaluation'] as int?),
+            taskId: row['task_id'] as int?,
+            evaluationId: row['evaluation_id'] as int?),
         arguments: [id]);
   }
 

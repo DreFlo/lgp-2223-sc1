@@ -19,6 +19,12 @@ class Media {
 
   final bool favorite;
 
+  final String genres;
+
+  final DateTime release;
+
+  final int xp;
+
   Media({
     this.id,
     required this.name,
@@ -26,5 +32,8 @@ class Media {
     required this.linkImage,
     required this.status,
     required this.favorite,
+    required this.genres,
+    required this.release,
+    required this.xp,
   });
 }

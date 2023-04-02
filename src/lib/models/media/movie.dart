@@ -13,6 +13,9 @@ class Movie extends Video {
     required String linkImage,
     required Status status,
     required bool favorite,
+    required String genres,
+    required DateTime release,
+    required int xp,
     required int duration,
   }) : super(
             id: id,
@@ -21,5 +24,8 @@ class Movie extends Video {
             linkImage: linkImage,
             status: status,
             favorite: favorite,
+            genres: genres,
+            release: release,
+            xp: xp,
             duration: duration);
 }

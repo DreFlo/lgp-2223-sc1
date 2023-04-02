@@ -15,6 +15,9 @@ abstract class UserDao {
   @update
   Future<void> updateUser(User user);
 
+  @update
+  Future<void> updateUsers(List<User> users);
+
   @delete
   Future<void> deleteUser(User user);
 }

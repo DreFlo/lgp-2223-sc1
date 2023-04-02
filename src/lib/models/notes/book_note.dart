@@ -13,8 +13,10 @@ import 'package:src/models/media/book.dart';
   ],
 )
 class BookNote extends Note {
+  @ColumnInfo(name: 'start_page')
   final int startPage;
 
+  @ColumnInfo(name: 'end_page')
   final int endPage;
 
   @ColumnInfo(name: 'book_id')

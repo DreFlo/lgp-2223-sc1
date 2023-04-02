@@ -25,15 +25,17 @@ class Task {
 
   final DateTime deadline;
 
+  final int xp;
+
   @ColumnInfo(name: 'task_group_id')
   final int taskGroupId;
 
-  Task({
-    this.id,
-    required this.name,
-    required this.description,
-    required this.priority,
-    required this.deadline,
-    required this.taskGroupId,
-  });
+  Task(
+      {this.id,
+      required this.name,
+      required this.description,
+      required this.priority,
+      required this.deadline,
+      required this.taskGroupId,
+      required this.xp});
 }

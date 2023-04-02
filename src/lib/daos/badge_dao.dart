@@ -15,6 +15,9 @@ abstract class BadgeDao {
   @update
   Future<void> updateBadge(Badge badge);
 
+  @update
+  Future<void> updateBadges(List<Badge> badges);
+
   @delete
   Future<void> deleteBadge(Badge badge);
 }

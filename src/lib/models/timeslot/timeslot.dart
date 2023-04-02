@@ -21,15 +21,16 @@ class Timeslot {
 
   final String description;
 
-  final Periodicity periodicity;
-
+  @ColumnInfo(name: 'start_datetime')
   final DateTime startDateTime;
 
+  @ColumnInfo(name: 'end_datetime')
   final DateTime endDateTime;
 
   final Priority priority;
 
-  final int xp;
+  @ColumnInfo(name: 'xp_multiplier')
+  final int xpMultiplier;
 
   @ColumnInfo(name: 'user_id')
   final int userId;
@@ -38,10 +39,9 @@ class Timeslot {
       {this.id,
       required this.title,
       required this.description,
-      required this.periodicity,
       required this.startDateTime,
       required this.endDateTime,
       required this.priority,
-      required this.xp,
+      required this.xpMultiplier,
       required this.userId});
 }

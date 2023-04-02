@@ -19,6 +19,9 @@ abstract class TimeslotDao {
   @update
   Future<void> updateTimeslot(Timeslot timeslot);
 
+  @update
+  Future<void> updateTimeslots(Timeslot timeslots);
+
   @delete
   Future<void> deleteTimeslot(Timeslot timeslot);
 }

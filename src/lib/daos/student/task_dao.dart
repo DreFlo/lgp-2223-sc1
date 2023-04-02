@@ -18,6 +18,9 @@ abstract class TaskDao {
   @update
   Future<void> updateTask(Task task);
 
+  @update
+  Future<void> updateTasks(List<Task> tasks);
+
   @delete
   Future<void> deleteTask(Task task);
 }

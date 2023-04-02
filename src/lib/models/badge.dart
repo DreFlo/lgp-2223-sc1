@@ -11,6 +11,7 @@ class Badge {
 
   final String description;
 
+  @ColumnInfo(name: 'image_path')
   final String imagePath;
 
   Badge(
