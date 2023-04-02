@@ -9,6 +9,7 @@ import 'package:src/utils/service_locator.dart';
 import 'leisure/AddToCatalogForm.dart';
 import 'leisure/FinishedMediaForm.dart';
 import 'leisure/MarkEpisodesSheet.dart';
+import 'leisure/MediaNotesSheet.dart';
 import 'leisure/MediaPage.dart';
 import 'package:src/utils/enums.dart';
 
@@ -34,12 +35,15 @@ class _HomePageState extends State<HomePage> {
       type = "TV Show";
   List<int> length = [5, 52, 20];
   List<String> cast = [
-        'Aimee Carrero as Adora',
-        'AJ Michalka as Catra',
-        'Marcus Scribner as Bow',
-        'Karen Fukuhara as Glimmer'
-      ],
-      notes = ['Glimmer sucks.', 'Bow is best boy.'];
+    'Aimee Carrero as Adora',
+    'AJ Michalka as Catra',
+    'Marcus Scribner as Bow',
+    'Karen Fukuhara as Glimmer'
+  ];
+  Map<String, String> notes = {
+    'S04E03': "After Horde Prime takes Glimmer aboard his flagship, she loses her access to magic again in Season 5. This time her combat skills don't cut it against the much stronger antagonists of Horde Prime's clone army- Catra has to save her multiple times. Only until she returns to Etheria's surface does she get her powers back, though she does manage to cast spells on Krytis.",
+    'S02E07': 'Bow is best boy.'
+  };
   Map<int, Map<int, String>> episodes = const {
     1: {
       1: "123445241355423523254135362541355342",
@@ -251,42 +255,9 @@ class _HomePageState extends State<HomePage> {
                                                 50),
                                         child: SingleChildScrollView(
                                             controller: scrollController,
-                                            child: MarkEpisodesSheet(
-                                                episodes: episodes))),
-                                    Positioned(
-                                        left: 16,
-                                        right: 16,
-                                        bottom: 16,
-                                        child: Padding(
-                                            padding: EdgeInsets.only(
-                                                bottom: MediaQuery.of(context)
-                                                    .viewInsets
-                                                    .bottom),
-                                            child: ElevatedButton(
-                                              onPressed: () {
-                                                //TODO: Save stuff + send to database.
-                                              },
-                                              style: ElevatedButton.styleFrom(
-                                                minimumSize: Size(
-                                                    MediaQuery.of(context)
-                                                            .size
-                                                            .width *
-                                                        0.95,
-                                                    55),
-                                                backgroundColor: leisureColor,
-                                                shape: RoundedRectangleBorder(
-                                                  borderRadius:
-                                                      BorderRadius.circular(
-                                                          25.0),
-                                                ),
-                                              ),
-                                              child: Text(
-                                                  AppLocalizations.of(context)
-                                                      .save,
-                                                  style: Theme.of(context)
-                                                      .textTheme
-                                                      .headlineSmall),
-                                            )))
+                                            child: MediaNotesSheet(
+                                                notes: notes,
+                                                episodes: episodes)))
                                   ])));
                 },
                 style: ElevatedButton.styleFrom(

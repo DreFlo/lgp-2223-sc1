@@ -33,5 +33,7 @@
   "status": "Status",
   "season_label": "Season",
   "progress": "Progress",
-  "notes": "Notes"
+  "notes": "Notes",
+  "all_label": "All",
+  "no_notes_label": "You have no notes for this season."
 }

@@ -9,7 +9,8 @@ class MediaPage extends StatelessWidget {
   final String title, synopsis, type;
   final bool isFavorite;
   Status status;
-  final List<String> cast, notes;
+  final List<String> cast;
+  Map<String, String> notes;
   final List<int> length;
 
   MediaPage(
