@@ -11,7 +11,8 @@ final addConstraintsCallback = Callback(
   onCreate: (database, version) async {
     // Add constraints to the database as triggers
     await database.execute('PRAGMA foreign_keys = OFF');
-    await database.execute('BEGIN TRANSACTION');
+    //await database.execute('BEGIN TRANSACTION');
+
 
     await database.execute('''
     CREATE TRIGGER timeslot_date
@@ -24,6 +25,7 @@ final addConstraintsCallback = Callback(
       END;
     END;
   ''');
+
 
     await database.execute('''
     CREATE TRIGGER student_timeslot_date
@@ -62,6 +64,7 @@ final addConstraintsCallback = Callback(
       END;
     END;
   ''');
+  
 
     await database.execute('''
     CREATE TRIGGER evaluation_sum_weight
@@ -78,18 +81,7 @@ final addConstraintsCallback = Callback(
       END;
     END;
   ''');
-
-    await database.execute('''
-    CREATE TRIGGER student_timeslot_xor_connection
-    BEFORE INSERT ON student_timeslot
-    FOR EACH ROW
-    BEGIN
-      SELECT CASE
-        WHEN (NEW.task_id IS NULL AND NEW.evaluation_id IS NOT NULL) OR (NEW.task_id IS NOT NULL AND ) THEN
-          RAISE(ABORT, 'student_timeslot must have either a task_id or an evaluation_id')
-      END;
-    END;
-  ''');
+  
 
     await database.execute('''
     CREATE TRIGGER subject_weight_average
@@ -102,7 +94,6 @@ final addConstraintsCallback = Callback(
       END;
     END;
   ''');
-
     await database.execute('''
     CREATE TRIGGER task_deadline
     BEFORE INSERT ON task
@@ -126,6 +117,7 @@ final addConstraintsCallback = Callback(
       END;
     END;
   ''');
+  
 
     await database.execute('''
     CREATE TRIGGER season_number
@@ -139,9 +131,10 @@ final addConstraintsCallback = Callback(
     END;
   ''');
 
+
     await database.execute('''
-    CREATE TRIGGER book_note
-    BEFORE INSERT ON book_note_pages
+    CREATE TRIGGER book_note_pages
+    BEFORE INSERT ON book_note
     FOR EACH ROW
     BEGIN
       SELECT CASE
@@ -152,6 +145,7 @@ final addConstraintsCallback = Callback(
       END;
     END;
   ''');
+
 
     await database.execute('''
     CREATE TRIGGER book_pages
@@ -179,6 +173,7 @@ final addConstraintsCallback = Callback(
     END;
   ''');
 
+
     await database.execute('''
     CREATE TRIGGER review_date
     BEFORE INSERT ON review
@@ -191,7 +186,8 @@ final addConstraintsCallback = Callback(
     END;
   ''');
 
-    await database.execute('COMMIT');
+
+    //await database.execute('COMMIT');
     await database.execute('PRAGMA foreign_keys = ON');
   },
 );

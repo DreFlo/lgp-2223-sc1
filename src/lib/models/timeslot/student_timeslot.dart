@@ -16,7 +16,7 @@ import 'package:src/utils/enums.dart';
       ForeignKey(
       childColumns: ['evaluation_id'], 
       parentColumns: ['id'], 
-      entity: Evaluation,
+      entity: StudentEvaluation,
       onDelete: ForeignKeyAction.cascade,
       onUpdate: ForeignKeyAction.restrict)
   ]

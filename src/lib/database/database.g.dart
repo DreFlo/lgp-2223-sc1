@@ -69,7 +69,7 @@ class _$AppDatabase extends AppDatabase {
 
   TaskDao? _taskDaoInstance;
 
-  EvaluationDao? _evaluationDaoInstance;
+  StudentEvaluationDao? _evaluationDaoInstance;
 
   MediaDao? _mediaDaoInstance;
 
@@ -211,8 +211,9 @@ class _$AppDatabase extends AppDatabase {
   }
 
   @override
-  EvaluationDao get evaluationDao {
-    return _evaluationDaoInstance ??= _$EvaluationDao(database, changeListener);
+  StudentEvaluationDao get evaluationDao {
+    return _evaluationDaoInstance ??=
+        _$StudentEvaluationDao(database, changeListener);
   }
 
   @override
@@ -775,15 +776,15 @@ class _$TaskDao extends TaskDao {
   }
 }
 
-class _$EvaluationDao extends EvaluationDao {
-  _$EvaluationDao(
+class _$StudentEvaluationDao extends StudentEvaluationDao {
+  _$StudentEvaluationDao(
     this.database,
     this.changeListener,
   )   : _queryAdapter = QueryAdapter(database, changeListener),
-        _evaluationInsertionAdapter = InsertionAdapter(
+        _studentEvaluationInsertionAdapter = InsertionAdapter(
             database,
             'evaluation',
-            (Evaluation item) => <String, Object?>{
+            (StudentEvaluation item) => <String, Object?>{
                   'id': item.id,
                   'name': item.name,
                   'weight': item.weight,
@@ -792,11 +793,11 @@ class _$EvaluationDao extends EvaluationDao {
                   'subject_id': item.subjectId
                 },
             changeListener),
-        _evaluationUpdateAdapter = UpdateAdapter(
+        _studentEvaluationUpdateAdapter = UpdateAdapter(
             database,
             'evaluation',
             ['id'],
-            (Evaluation item) => <String, Object?>{
+            (StudentEvaluation item) => <String, Object?>{
                   'id': item.id,
                   'name': item.name,
                   'weight': item.weight,
@@ -805,11 +806,11 @@ class _$EvaluationDao extends EvaluationDao {
                   'subject_id': item.subjectId
                 },
             changeListener),
-        _evaluationDeletionAdapter = DeletionAdapter(
+        _studentEvaluationDeletionAdapter = DeletionAdapter(
             database,
             'evaluation',
             ['id'],
-            (Evaluation item) => <String, Object?>{
+            (StudentEvaluation item) => <String, Object?>{
                   'id': item.id,
                   'name': item.name,
                   'weight': item.weight,
@@ -825,16 +826,16 @@ class _$EvaluationDao extends EvaluationDao {
 
   final QueryAdapter _queryAdapter;
 
-  final InsertionAdapter<Evaluation> _evaluationInsertionAdapter;
+  final InsertionAdapter<StudentEvaluation> _studentEvaluationInsertionAdapter;
 
-  final UpdateAdapter<Evaluation> _evaluationUpdateAdapter;
+  final UpdateAdapter<StudentEvaluation> _studentEvaluationUpdateAdapter;
 
-  final DeletionAdapter<Evaluation> _evaluationDeletionAdapter;
+  final DeletionAdapter<StudentEvaluation> _studentEvaluationDeletionAdapter;
 
   @override
-  Future<List<Evaluation>> findAllEvaluations() async {
+  Future<List<StudentEvaluation>> findAllStudentEvaluations() async {
     return _queryAdapter.queryList('SELECT * FROM evaluation',
-        mapper: (Map<String, Object?> row) => Evaluation(
+        mapper: (Map<String, Object?> row) => StudentEvaluation(
             id: row['id'] as int?,
             name: row['name'] as String,
             grade: row['grade'] as double,
@@ -844,9 +845,9 @@ class _$EvaluationDao extends EvaluationDao {
   }
 
   @override
-  Stream<Evaluation?> findEvaluationById(int id) {
+  Stream<StudentEvaluation?> findStudentEvaluationById(int id) {
     return _queryAdapter.queryStream('SELECT * FROM evaluation WHERE id = ?1',
-        mapper: (Map<String, Object?> row) => Evaluation(
+        mapper: (Map<String, Object?> row) => StudentEvaluation(
             id: row['id'] as int?,
             name: row['name'] as String,
             grade: row['grade'] as double,
@@ -859,31 +860,34 @@ class _$EvaluationDao extends EvaluationDao {
   }
 
   @override
-  Future<int> insertEvaluation(Evaluation evaluation) {
-    return _evaluationInsertionAdapter.insertAndReturnId(
+  Future<int> insertStudentEvaluation(StudentEvaluation evaluation) {
+    return _studentEvaluationInsertionAdapter.insertAndReturnId(
         evaluation, OnConflictStrategy.abort);
   }
 
   @override
-  Future<void> insertEvaluations(List<Evaluation> evaluations) async {
-    await _evaluationInsertionAdapter.insertList(
+  Future<void> insertStudentEvaluations(
+      List<StudentEvaluation> evaluations) async {
+    await _studentEvaluationInsertionAdapter.insertList(
         evaluations, OnConflictStrategy.abort);
   }
 
   @override
-  Future<void> updateEvaluation(Evaluation evaluation) async {
-    await _evaluationUpdateAdapter.update(evaluation, OnConflictStrategy.abort);
+  Future<void> updateStudentEvaluation(StudentEvaluation evaluation) async {
+    await _studentEvaluationUpdateAdapter.update(
+        evaluation, OnConflictStrategy.abort);
   }
 
   @override
-  Future<void> updateEvaluations(List<Evaluation> evaluations) async {
-    await _evaluationUpdateAdapter.updateList(
+  Future<void> updateStudentEvaluations(
+      List<StudentEvaluation> evaluations) async {
+    await _studentEvaluationUpdateAdapter.updateList(
         evaluations, OnConflictStrategy.abort);
   }
 
   @override
-  Future<void> deleteEvaluation(Evaluation evaluation) async {
-    await _evaluationDeletionAdapter.delete(evaluation);
+  Future<void> deleteStudentEvaluation(StudentEvaluation evaluation) async {
+    await _studentEvaluationDeletionAdapter.delete(evaluation);
   }
 }
 
@@ -1346,7 +1350,7 @@ class _$VideoDao extends VideoDao {
   final DeletionAdapter<Video> _videoDeletionAdapter;
 
   @override
-  Future<List<Video>> findAllTasks() async {
+  Future<List<Video>> findAllVideos() async {
     return _queryAdapter.queryList('SELECT * FROM Video',
         mapper: (Map<String, Object?> row) => Video(
             id: row['id'] as int?,

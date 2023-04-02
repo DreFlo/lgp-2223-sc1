@@ -4,7 +4,7 @@ import 'package:src/models/media/video.dart';
 @dao
 abstract class VideoDao {
   @Query('SELECT * FROM Video')
-  Future<List<Video>> findAllTasks();
+  Future<List<Video>> findAllVideos();
 
   @Query('SELECT * FROM Video WHERE id = :id')
   Stream<Video?> findVideoById(int id);
