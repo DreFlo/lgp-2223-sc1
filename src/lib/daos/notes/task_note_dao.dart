@@ -10,7 +10,7 @@ abstract class TaskNoteDao {
   Stream<TaskNote?> findTaskNoteById(int id);
 
   @insert
-  Future<void> insertTaskNote(TaskNote taskNote);
+  Future<int> insertTaskNote(TaskNote taskNote);
 
   @insert
   Future<void> insertTaskNotes(List<TaskNote> taskNote);

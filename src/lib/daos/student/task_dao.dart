@@ -10,7 +10,7 @@ abstract class TaskDao {
   Stream<Task?> findTaskById(int id);
 
   @insert
-  Future<void> insertTask(Task task);
+  Future<int> insertTask(Task task);
 
   @insert
   Future<void> insertTasks(List<Task> tasks);

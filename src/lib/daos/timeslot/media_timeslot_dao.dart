@@ -21,7 +21,7 @@ abstract class MediaTimeslotDao {
   Future<List<MediaTimeslot>> findMediaTimeslotsByTimeslotId(int timeslotId);
 
   @insert
-  Future<void> insertMediaTimeslot(MediaTimeslot mediaTimeslot);
+  Future<int> insertMediaTimeslot(MediaTimeslot mediaTimeslot);
 
   @insert
   Future<void> insertMediaTimeslots(List<MediaTimeslot> mediaTimeslots);

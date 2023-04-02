@@ -10,7 +10,7 @@ abstract class BookDao {
   Stream<Book?> findBookById(int id);
 
   @insert
-  Future<void> insertBook(Book book);
+  Future<int> insertBook(Book book);
 
   @insert
   Future<void> insertBooks(List<Book> books);

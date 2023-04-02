@@ -10,7 +10,7 @@ abstract class EpisodeDao {
   Stream<Episode?> findEpisodeById(int id);
 
   @insert
-  Future<void> insertEpisode(Episode episode);
+  Future<int> insertEpisode(Episode episode);
 
   @insert
   Future<void> insertEpisodes(List<Episode> episodes);

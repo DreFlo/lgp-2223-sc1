@@ -10,7 +10,7 @@ abstract class MoodDao {
   Future<Mood?> findMoodById(int id);
 
   @insert
-  Future<void> insertMood(Mood mood);
+  Future<int> insertMood(Mood mood);
 
   @update
   Future<void> updateMood(Mood mood);

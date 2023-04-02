@@ -167,11 +167,11 @@ class _$AppDatabase extends AppDatabase {
         await database.execute(
             'CREATE TABLE IF NOT EXISTS `episode_note` (`episode_id` INTEGER NOT NULL, `id` INTEGER PRIMARY KEY AUTOINCREMENT, `title` TEXT NOT NULL, `content` TEXT NOT NULL, `date` INTEGER NOT NULL, FOREIGN KEY (`episode_id`) REFERENCES `episode` (`id`) ON UPDATE NO ACTION ON DELETE NO ACTION)');
         await database.execute(
-            'CREATE TABLE IF NOT EXISTS `book_note` (`startPage` INTEGER NOT NULL, `endPage` INTEGER NOT NULL, `book_id` INTEGER NOT NULL, `id` INTEGER PRIMARY KEY AUTOINCREMENT, `title` TEXT NOT NULL, `content` TEXT NOT NULL, `date` INTEGER NOT NULL, FOREIGN KEY (`book_id`) REFERENCES `book` (`id`) ON UPDATE NO ACTION ON DELETE NO ACTION)');
+            'CREATE TABLE IF NOT EXISTS `book_note` (`start_page` INTEGER NOT NULL, `end_page` INTEGER NOT NULL, `book_id` INTEGER NOT NULL, `id` INTEGER PRIMARY KEY AUTOINCREMENT, `title` TEXT NOT NULL, `content` TEXT NOT NULL, `date` INTEGER NOT NULL, FOREIGN KEY (`book_id`) REFERENCES `book` (`id`) ON UPDATE NO ACTION ON DELETE NO ACTION)');
         await database.execute(
-            'CREATE TABLE IF NOT EXISTS `user` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `userName` TEXT NOT NULL, `password` TEXT NOT NULL, `xp` INTEGER NOT NULL)');
+            'CREATE TABLE IF NOT EXISTS `user` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `user_name` TEXT NOT NULL, `password` TEXT NOT NULL, `xp` INTEGER NOT NULL)');
         await database.execute(
-            'CREATE TABLE IF NOT EXISTS `badge` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `name` TEXT NOT NULL, `description` TEXT NOT NULL, `imagePath` TEXT NOT NULL)');
+            'CREATE TABLE IF NOT EXISTS `badge` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `name` TEXT NOT NULL, `description` TEXT NOT NULL, `image_path` TEXT NOT NULL)');
         await database.execute(
             'CREATE TABLE IF NOT EXISTS `mood` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `name` TEXT NOT NULL, `mood` INTEGER NOT NULL, `date` INTEGER NOT NULL, `user_id` INTEGER NOT NULL, FOREIGN KEY (`user_id`) REFERENCES `user` (`id`) ON UPDATE RESTRICT ON DELETE CASCADE)');
         await database.execute(
@@ -404,8 +404,8 @@ class _$InstitutionDao extends InstitutionDao {
   }
 
   @override
-  Future<void> insertInstitution(Institution institution) async {
-    await _institutionInsertionAdapter.insert(
+  Future<int> insertInstitution(Institution institution) {
+    return _institutionInsertionAdapter.insertAndReturnId(
         institution, OnConflictStrategy.abort);
   }
 
@@ -419,6 +419,12 @@ class _$InstitutionDao extends InstitutionDao {
   Future<void> updateInstitution(Institution institution) async {
     await _institutionUpdateAdapter.update(
         institution, OnConflictStrategy.abort);
+  }
+
+  @override
+  Future<void> updateInstitutions(List<Institution> institutions) async {
+    await _institutionUpdateAdapter.updateList(
+        institutions, OnConflictStrategy.abort);
   }
 
   @override
@@ -515,8 +521,9 @@ class _$SubjectDao extends SubjectDao {
   }
 
   @override
-  Future<void> insertSubject(Subject subject) async {
-    await _subjectInsertionAdapter.insert(subject, OnConflictStrategy.abort);
+  Future<int> insertSubject(Subject subject) {
+    return _subjectInsertionAdapter.insertAndReturnId(
+        subject, OnConflictStrategy.abort);
   }
 
   @override
@@ -528,6 +535,11 @@ class _$SubjectDao extends SubjectDao {
   @override
   Future<void> updateSubject(Subject subject) async {
     await _subjectUpdateAdapter.update(subject, OnConflictStrategy.abort);
+  }
+
+  @override
+  Future<void> updateSubjects(List<Subject> subjects) async {
+    await _subjectUpdateAdapter.updateList(subjects, OnConflictStrategy.abort);
   }
 
   @override
@@ -620,8 +632,8 @@ class _$TaskGroupDao extends TaskGroupDao {
   }
 
   @override
-  Future<void> insertTaskGroup(TaskGroup taskGroup) async {
-    await _taskGroupInsertionAdapter.insert(
+  Future<int> insertTaskGroup(TaskGroup taskGroup) {
+    return _taskGroupInsertionAdapter.insertAndReturnId(
         taskGroup, OnConflictStrategy.abort);
   }
 
@@ -634,6 +646,12 @@ class _$TaskGroupDao extends TaskGroupDao {
   @override
   Future<void> updateTaskGroup(TaskGroup taskGroup) async {
     await _taskGroupUpdateAdapter.update(taskGroup, OnConflictStrategy.abort);
+  }
+
+  @override
+  Future<void> updateTaskGroups(List<TaskGroup> taskGroups) async {
+    await _taskGroupUpdateAdapter.updateList(
+        taskGroups, OnConflictStrategy.abort);
   }
 
   @override
@@ -731,8 +749,9 @@ class _$TaskDao extends TaskDao {
   }
 
   @override
-  Future<void> insertTask(Task task) async {
-    await _taskInsertionAdapter.insert(task, OnConflictStrategy.abort);
+  Future<int> insertTask(Task task) {
+    return _taskInsertionAdapter.insertAndReturnId(
+        task, OnConflictStrategy.abort);
   }
 
   @override
@@ -743,6 +762,11 @@ class _$TaskDao extends TaskDao {
   @override
   Future<void> updateTask(Task task) async {
     await _taskUpdateAdapter.update(task, OnConflictStrategy.abort);
+  }
+
+  @override
+  Future<void> updateTasks(List<Task> tasks) async {
+    await _taskUpdateAdapter.updateList(tasks, OnConflictStrategy.abort);
   }
 
   @override
@@ -835,8 +859,8 @@ class _$EvaluationDao extends EvaluationDao {
   }
 
   @override
-  Future<void> insertEvaluation(Evaluation evaluation) async {
-    await _evaluationInsertionAdapter.insert(
+  Future<int> insertEvaluation(Evaluation evaluation) {
+    return _evaluationInsertionAdapter.insertAndReturnId(
         evaluation, OnConflictStrategy.abort);
   }
 
@@ -849,6 +873,12 @@ class _$EvaluationDao extends EvaluationDao {
   @override
   Future<void> updateEvaluation(Evaluation evaluation) async {
     await _evaluationUpdateAdapter.update(evaluation, OnConflictStrategy.abort);
+  }
+
+  @override
+  Future<void> updateEvaluations(List<Evaluation> evaluations) async {
+    await _evaluationUpdateAdapter.updateList(
+        evaluations, OnConflictStrategy.abort);
   }
 
   @override
@@ -956,8 +986,9 @@ class _$MediaDao extends MediaDao {
   }
 
   @override
-  Future<void> insertMedia(Media media) async {
-    await _mediaInsertionAdapter.insert(media, OnConflictStrategy.abort);
+  Future<int> insertMedia(Media media) {
+    return _mediaInsertionAdapter.insertAndReturnId(
+        media, OnConflictStrategy.abort);
   }
 
   @override
@@ -968,6 +999,11 @@ class _$MediaDao extends MediaDao {
   @override
   Future<void> updateMedia(Media media) async {
     await _mediaUpdateAdapter.update(media, OnConflictStrategy.abort);
+  }
+
+  @override
+  Future<void> updateMedias(List<Media> medias) async {
+    await _mediaUpdateAdapter.updateList(medias, OnConflictStrategy.abort);
   }
 
   @override
@@ -984,6 +1020,25 @@ class _$BookDao extends BookDao {
         _bookInsertionAdapter = InsertionAdapter(
             database,
             'book',
+            (Book item) => <String, Object?>{
+                  'authors': item.authors,
+                  'total_pages': item.totalPages,
+                  'progress_pages': item.progressPages,
+                  'id': item.id,
+                  'name': item.name,
+                  'description': item.description,
+                  'link_image': item.linkImage,
+                  'status': item.status.index,
+                  'favorite': item.favorite ? 1 : 0,
+                  'genres': item.genres,
+                  'release': _dateTimeConverter.encode(item.release),
+                  'xp': item.xp
+                },
+            changeListener),
+        _bookUpdateAdapter = UpdateAdapter(
+            database,
+            'book',
+            ['id'],
             (Book item) => <String, Object?>{
                   'authors': item.authors,
                   'total_pages': item.totalPages,
@@ -1027,6 +1082,8 @@ class _$BookDao extends BookDao {
 
   final InsertionAdapter<Book> _bookInsertionAdapter;
 
+  final UpdateAdapter<Book> _bookUpdateAdapter;
+
   final DeletionAdapter<Book> _bookDeletionAdapter;
 
   @override
@@ -1069,13 +1126,24 @@ class _$BookDao extends BookDao {
   }
 
   @override
-  Future<void> insertBook(Book book) async {
-    await _bookInsertionAdapter.insert(book, OnConflictStrategy.abort);
+  Future<int> insertBook(Book book) {
+    return _bookInsertionAdapter.insertAndReturnId(
+        book, OnConflictStrategy.abort);
   }
 
   @override
   Future<void> insertBooks(List<Book> books) async {
     await _bookInsertionAdapter.insertList(books, OnConflictStrategy.abort);
+  }
+
+  @override
+  Future<void> updateBook(Book book) async {
+    await _bookUpdateAdapter.update(book, OnConflictStrategy.abort);
+  }
+
+  @override
+  Future<void> updateBooks(List<Book> books) async {
+    await _bookUpdateAdapter.updateList(books, OnConflictStrategy.abort);
   }
 
   @override
@@ -1183,8 +1251,9 @@ class _$SeriesDao extends SeriesDao {
   }
 
   @override
-  Future<void> insertSerie(Series series) async {
-    await _seriesInsertionAdapter.insert(series, OnConflictStrategy.abort);
+  Future<int> insertSerie(Series series) {
+    return _seriesInsertionAdapter.insertAndReturnId(
+        series, OnConflictStrategy.abort);
   }
 
   @override
@@ -1312,8 +1381,9 @@ class _$VideoDao extends VideoDao {
   }
 
   @override
-  Future<void> insertVideo(Video video) async {
-    await _videoInsertionAdapter.insert(video, OnConflictStrategy.abort);
+  Future<int> insertVideo(Video video) {
+    return _videoInsertionAdapter.insertAndReturnId(
+        video, OnConflictStrategy.abort);
   }
 
   @override
@@ -1324,6 +1394,11 @@ class _$VideoDao extends VideoDao {
   @override
   Future<void> updateVideo(Video video) async {
     await _videoUpdateAdapter.update(video, OnConflictStrategy.abort);
+  }
+
+  @override
+  Future<void> updateVideos(List<Video> video) async {
+    await _videoUpdateAdapter.updateList(video, OnConflictStrategy.abort);
   }
 
   @override
@@ -1401,8 +1476,9 @@ class _$SeasonDao extends SeasonDao {
   }
 
   @override
-  Future<void> insertSeason(Season season) async {
-    await _seasonInsertionAdapter.insert(season, OnConflictStrategy.abort);
+  Future<int> insertSeason(Season season) {
+    return _seasonInsertionAdapter.insertAndReturnId(
+        season, OnConflictStrategy.abort);
   }
 
   @override
@@ -1510,8 +1586,9 @@ class _$ReviewDao extends ReviewDao {
   }
 
   @override
-  Future<void> insertReview(Review review) async {
-    await _reviewInsertionAdapter.insert(review, OnConflictStrategy.abort);
+  Future<int> insertReview(Review review) {
+    return _reviewInsertionAdapter.insertAndReturnId(
+        review, OnConflictStrategy.abort);
   }
 
   @override
@@ -1522,6 +1599,11 @@ class _$ReviewDao extends ReviewDao {
   @override
   Future<void> updateReview(Review review) async {
     await _reviewUpdateAdapter.update(review, OnConflictStrategy.abort);
+  }
+
+  @override
+  Future<void> updateReviews(List<Review> reviews) async {
+    await _reviewUpdateAdapter.updateList(reviews, OnConflictStrategy.abort);
   }
 
   @override
@@ -1634,8 +1716,9 @@ class _$MovieDao extends MovieDao {
   }
 
   @override
-  Future<void> insertMovie(Movie movie) async {
-    await _movieInsertionAdapter.insert(movie, OnConflictStrategy.abort);
+  Future<int> insertMovie(Movie movie) {
+    return _movieInsertionAdapter.insertAndReturnId(
+        movie, OnConflictStrategy.abort);
   }
 
   @override
@@ -1646,6 +1729,11 @@ class _$MovieDao extends MovieDao {
   @override
   Future<void> updateMovie(Movie movie) async {
     await _movieUpdateAdapter.update(movie, OnConflictStrategy.abort);
+  }
+
+  @override
+  Future<void> updateMovies(List<Movie> movie) async {
+    await _movieUpdateAdapter.updateList(movie, OnConflictStrategy.abort);
   }
 
   @override
@@ -1768,8 +1856,9 @@ class _$EpisodeDao extends EpisodeDao {
   }
 
   @override
-  Future<void> insertEpisode(Episode episode) async {
-    await _episodeInsertionAdapter.insert(episode, OnConflictStrategy.abort);
+  Future<int> insertEpisode(Episode episode) {
+    return _episodeInsertionAdapter.insertAndReturnId(
+        episode, OnConflictStrategy.abort);
   }
 
   @override
@@ -1779,8 +1868,13 @@ class _$EpisodeDao extends EpisodeDao {
   }
 
   @override
-  Future<void> updateEpisodes(Episode episode) async {
+  Future<void> updateEpisode(Episode episode) async {
     await _episodeUpdateAdapter.update(episode, OnConflictStrategy.abort);
+  }
+
+  @override
+  Future<void> updateEpisodes(List<Episode> episodes) async {
+    await _episodeUpdateAdapter.updateList(episodes, OnConflictStrategy.abort);
   }
 
   @override
@@ -1863,8 +1957,9 @@ class _$NoteDao extends NoteDao {
   }
 
   @override
-  Future<void> insertNote(Note note) async {
-    await _noteInsertionAdapter.insert(note, OnConflictStrategy.abort);
+  Future<int> insertNote(Note note) {
+    return _noteInsertionAdapter.insertAndReturnId(
+        note, OnConflictStrategy.abort);
   }
 
   @override
@@ -1875,6 +1970,11 @@ class _$NoteDao extends NoteDao {
   @override
   Future<void> updateNote(Note note) async {
     await _noteUpdateAdapter.update(note, OnConflictStrategy.abort);
+  }
+
+  @override
+  Future<void> updateNotes(List<Note> notes) async {
+    await _noteUpdateAdapter.updateList(notes, OnConflictStrategy.abort);
   }
 
   @override
@@ -1962,8 +2062,8 @@ class _$SubjectNoteDao extends SubjectNoteDao {
   }
 
   @override
-  Future<void> insertSubjectNote(SubjectNote subjectNote) async {
-    await _subjectNoteInsertionAdapter.insert(
+  Future<int> insertSubjectNote(SubjectNote subjectNote) {
+    return _subjectNoteInsertionAdapter.insertAndReturnId(
         subjectNote, OnConflictStrategy.abort);
   }
 
@@ -2070,8 +2170,9 @@ class _$TaskNoteDao extends TaskNoteDao {
   }
 
   @override
-  Future<void> insertTaskNote(TaskNote taskNote) async {
-    await _taskNoteInsertionAdapter.insert(taskNote, OnConflictStrategy.abort);
+  Future<int> insertTaskNote(TaskNote taskNote) {
+    return _taskNoteInsertionAdapter.insertAndReturnId(
+        taskNote, OnConflictStrategy.abort);
   }
 
   @override
@@ -2083,6 +2184,11 @@ class _$TaskNoteDao extends TaskNoteDao {
   @override
   Future<void> updateTaskNote(TaskNote taskNote) async {
     await _taskNoteUpdateAdapter.update(taskNote, OnConflictStrategy.abort);
+  }
+
+  @override
+  Future<void> updateTaskNotes(List<TaskNote> taskNote) async {
+    await _taskNoteUpdateAdapter.updateList(taskNote, OnConflictStrategy.abort);
   }
 
   @override
@@ -2170,8 +2276,8 @@ class _$EpisodeNoteDao extends EpisodeNoteDao {
   }
 
   @override
-  Future<void> insertEpisodeNote(EpisodeNote episodeNote) async {
-    await _episodeNoteInsertionAdapter.insert(
+  Future<int> insertEpisodeNote(EpisodeNote episodeNote) {
+    return _episodeNoteInsertionAdapter.insertAndReturnId(
         episodeNote, OnConflictStrategy.abort);
   }
 
@@ -2185,6 +2291,12 @@ class _$EpisodeNoteDao extends EpisodeNoteDao {
   Future<void> updateEpisodeNote(EpisodeNote episodeNote) async {
     await _episodeNoteUpdateAdapter.update(
         episodeNote, OnConflictStrategy.abort);
+  }
+
+  @override
+  Future<void> updateEpisodeNotes(List<EpisodeNote> episodeNotes) async {
+    await _episodeNoteUpdateAdapter.updateList(
+        episodeNotes, OnConflictStrategy.abort);
   }
 
   @override
@@ -2202,8 +2314,8 @@ class _$BookNoteDao extends BookNoteDao {
             database,
             'book_note',
             (BookNote item) => <String, Object?>{
-                  'startPage': item.startPage,
-                  'endPage': item.endPage,
+                  'start_page': item.startPage,
+                  'end_page': item.endPage,
                   'book_id': item.bookId,
                   'id': item.id,
                   'title': item.title,
@@ -2216,8 +2328,8 @@ class _$BookNoteDao extends BookNoteDao {
             'book_note',
             ['id'],
             (BookNote item) => <String, Object?>{
-                  'startPage': item.startPage,
-                  'endPage': item.endPage,
+                  'start_page': item.startPage,
+                  'end_page': item.endPage,
                   'book_id': item.bookId,
                   'id': item.id,
                   'title': item.title,
@@ -2230,8 +2342,8 @@ class _$BookNoteDao extends BookNoteDao {
             'book_note',
             ['id'],
             (BookNote item) => <String, Object?>{
-                  'startPage': item.startPage,
-                  'endPage': item.endPage,
+                  'start_page': item.startPage,
+                  'end_page': item.endPage,
                   'book_id': item.bookId,
                   'id': item.id,
                   'title': item.title,
@@ -2260,8 +2372,8 @@ class _$BookNoteDao extends BookNoteDao {
             title: row['title'] as String,
             content: row['content'] as String,
             date: _dateTimeConverter.decode(row['date'] as int),
-            startPage: row['startPage'] as int,
-            endPage: row['endPage'] as int,
+            startPage: row['start_page'] as int,
+            endPage: row['end_page'] as int,
             bookId: row['book_id'] as int));
   }
 
@@ -2273,8 +2385,8 @@ class _$BookNoteDao extends BookNoteDao {
             title: row['title'] as String,
             content: row['content'] as String,
             date: _dateTimeConverter.decode(row['date'] as int),
-            startPage: row['startPage'] as int,
-            endPage: row['endPage'] as int,
+            startPage: row['start_page'] as int,
+            endPage: row['end_page'] as int,
             bookId: row['book_id'] as int),
         arguments: [id],
         queryableName: 'book_note',
@@ -2282,8 +2394,9 @@ class _$BookNoteDao extends BookNoteDao {
   }
 
   @override
-  Future<void> insertBookNote(BookNote bookNote) async {
-    await _bookNoteInsertionAdapter.insert(bookNote, OnConflictStrategy.abort);
+  Future<int> insertBookNote(BookNote bookNote) {
+    return _bookNoteInsertionAdapter.insertAndReturnId(
+        bookNote, OnConflictStrategy.abort);
   }
 
   @override
@@ -2295,6 +2408,12 @@ class _$BookNoteDao extends BookNoteDao {
   @override
   Future<void> updateBookNote(BookNote bookNote) async {
     await _bookNoteUpdateAdapter.update(bookNote, OnConflictStrategy.abort);
+  }
+
+  @override
+  Future<void> updateBookNotes(List<BookNote> bookNotes) async {
+    await _bookNoteUpdateAdapter.updateList(
+        bookNotes, OnConflictStrategy.abort);
   }
 
   @override
@@ -2382,8 +2501,8 @@ class _$UserBadgeDao extends UserBadgeDao {
   }
 
   @override
-  Future<void> insertUserBadge(UserBadge userBadge) async {
-    await _userBadgeInsertionAdapter.insert(
+  Future<int> insertUserBadge(UserBadge userBadge) {
+    return _userBadgeInsertionAdapter.insertAndReturnId(
         userBadge, OnConflictStrategy.abort);
   }
 
@@ -2396,6 +2515,12 @@ class _$UserBadgeDao extends UserBadgeDao {
   @override
   Future<void> updateUserBadge(UserBadge userBadge) async {
     await _userBadgeUpdateAdapter.update(userBadge, OnConflictStrategy.abort);
+  }
+
+  @override
+  Future<void> updateUserBadges(List<UserBadge> userBadges) async {
+    await _userBadgeUpdateAdapter.updateList(
+        userBadges, OnConflictStrategy.abort);
   }
 
   @override
@@ -2416,7 +2541,7 @@ class _$BadgeDao extends BadgeDao {
                   'id': item.id,
                   'name': item.name,
                   'description': item.description,
-                  'imagePath': item.imagePath
+                  'image_path': item.imagePath
                 }),
         _badgeUpdateAdapter = UpdateAdapter(
             database,
@@ -2426,7 +2551,7 @@ class _$BadgeDao extends BadgeDao {
                   'id': item.id,
                   'name': item.name,
                   'description': item.description,
-                  'imagePath': item.imagePath
+                  'image_path': item.imagePath
                 }),
         _badgeDeletionAdapter = DeletionAdapter(
             database,
@@ -2436,7 +2561,7 @@ class _$BadgeDao extends BadgeDao {
                   'id': item.id,
                   'name': item.name,
                   'description': item.description,
-                  'imagePath': item.imagePath
+                  'image_path': item.imagePath
                 });
 
   final sqflite.DatabaseExecutor database;
@@ -2458,7 +2583,7 @@ class _$BadgeDao extends BadgeDao {
             id: row['id'] as int?,
             name: row['name'] as String,
             description: row['description'] as String,
-            imagePath: row['imagePath'] as String));
+            imagePath: row['image_path'] as String));
   }
 
   @override
@@ -2468,18 +2593,24 @@ class _$BadgeDao extends BadgeDao {
             id: row['id'] as int?,
             name: row['name'] as String,
             description: row['description'] as String,
-            imagePath: row['imagePath'] as String),
+            imagePath: row['image_path'] as String),
         arguments: [id]);
   }
 
   @override
-  Future<void> insertBadge(Badge badge) async {
-    await _badgeInsertionAdapter.insert(badge, OnConflictStrategy.abort);
+  Future<int> insertBadge(Badge badge) {
+    return _badgeInsertionAdapter.insertAndReturnId(
+        badge, OnConflictStrategy.abort);
   }
 
   @override
   Future<void> updateBadge(Badge badge) async {
     await _badgeUpdateAdapter.update(badge, OnConflictStrategy.abort);
+  }
+
+  @override
+  Future<void> updateBadges(List<Badge> badges) async {
+    await _badgeUpdateAdapter.updateList(badges, OnConflictStrategy.abort);
   }
 
   @override
@@ -2562,13 +2693,19 @@ class _$MoodDao extends MoodDao {
   }
 
   @override
-  Future<void> insertMood(Mood mood) async {
-    await _moodInsertionAdapter.insert(mood, OnConflictStrategy.abort);
+  Future<int> insertMood(Mood mood) {
+    return _moodInsertionAdapter.insertAndReturnId(
+        mood, OnConflictStrategy.abort);
   }
 
   @override
   Future<void> updateMood(Mood mood) async {
     await _moodUpdateAdapter.update(mood, OnConflictStrategy.abort);
+  }
+
+  @override
+  Future<void> updateMoods(List<Mood> moods) async {
+    await _moodUpdateAdapter.updateList(moods, OnConflictStrategy.abort);
   }
 
   @override
@@ -2671,8 +2808,9 @@ class _$TimeslotDao extends TimeslotDao {
   }
 
   @override
-  Future<void> insertTimeslot(Timeslot timeslot) async {
-    await _timeslotInsertionAdapter.insert(timeslot, OnConflictStrategy.abort);
+  Future<int> insertTimeslot(Timeslot timeslot) {
+    return _timeslotInsertionAdapter.insertAndReturnId(
+        timeslot, OnConflictStrategy.abort);
   }
 
   @override
@@ -2683,6 +2821,11 @@ class _$TimeslotDao extends TimeslotDao {
   @override
   Future<void> updateTimeslot(Timeslot timeslot) async {
     await _timeslotUpdateAdapter.update(timeslot, OnConflictStrategy.abort);
+  }
+
+  @override
+  Future<void> updateTimeslots(Timeslot timeslots) async {
+    await _timeslotUpdateAdapter.update(timeslots, OnConflictStrategy.abort);
   }
 
   @override
@@ -2792,7 +2935,7 @@ class _$MediaTimeslotDao extends MediaTimeslotDao {
   @override
   Future<List<MediaTimeslot>> findMediaTimeslotsByMediaId(int mediaId) async {
     return _queryAdapter.queryList(
-        'SELECT * FROM media_timeslot WHERE mediaId = ?1',
+        'SELECT * FROM media_timeslot WHERE media_id = ?1',
         mapper: (Map<String, Object?> row) => MediaTimeslot(
             id: row['id'] as int?,
             title: row['title'] as String,
@@ -2813,7 +2956,7 @@ class _$MediaTimeslotDao extends MediaTimeslotDao {
     int timeslotId,
   ) async {
     return _queryAdapter.query(
-        'SELECT * FROM media_timeslot WHERE mediaId = ?1 AND timeslotId = ?2',
+        'SELECT * FROM media_timeslot WHERE media_id = ?1 AND timeslot_id = ?2',
         mapper: (Map<String, Object?> row) => MediaTimeslot(
             id: row['id'] as int?,
             title: row['title'] as String,
@@ -2832,7 +2975,7 @@ class _$MediaTimeslotDao extends MediaTimeslotDao {
   Future<List<MediaTimeslot>> findMediaTimeslotsByTimeslotId(
       int timeslotId) async {
     return _queryAdapter.queryList(
-        'SELECT * FROM media_timeslot WHERE timeslotId = ?1',
+        'SELECT * FROM media_timeslot WHERE timeslot_id = ?1',
         mapper: (Map<String, Object?> row) => MediaTimeslot(
             id: row['id'] as int?,
             title: row['title'] as String,
@@ -2848,8 +2991,8 @@ class _$MediaTimeslotDao extends MediaTimeslotDao {
   }
 
   @override
-  Future<void> insertMediaTimeslot(MediaTimeslot mediaTimeslot) async {
-    await _mediaTimeslotInsertionAdapter.insert(
+  Future<int> insertMediaTimeslot(MediaTimeslot mediaTimeslot) {
+    return _mediaTimeslotInsertionAdapter.insertAndReturnId(
         mediaTimeslot, OnConflictStrategy.abort);
   }
 
@@ -2874,11 +3017,6 @@ class _$MediaTimeslotDao extends MediaTimeslotDao {
   @override
   Future<void> deleteMediaTimeslot(MediaTimeslot mediaTimeslot) async {
     await _mediaTimeslotDeletionAdapter.delete(mediaTimeslot);
-  }
-
-  @override
-  Future<void> deleteMediaTimeslots(List<MediaTimeslot> mediaTimeslots) async {
-    await _mediaTimeslotDeletionAdapter.deleteList(mediaTimeslots);
   }
 }
 
@@ -2951,7 +3089,7 @@ class _$StudentTimeslotDao extends StudentTimeslotDao {
   final DeletionAdapter<StudentTimeslot> _studentTimeslotDeletionAdapter;
 
   @override
-  Future<List<StudentTimeslot>> findAllStudentTimeslot() async {
+  Future<List<StudentTimeslot>> findAllStudentTimeslots() async {
     return _queryAdapter.queryList('SELECT * FROM student_timeslot',
         mapper: (Map<String, Object?> row) => StudentTimeslot(
             id: row['id'] as int?,
@@ -2986,15 +3124,79 @@ class _$StudentTimeslotDao extends StudentTimeslotDao {
   }
 
   @override
-  Future<void> insertStudentTimeslot(StudentTimeslot studentTimeslot) async {
-    await _studentTimeslotInsertionAdapter.insert(
+  Future<List<StudentTimeslot>> findStudentTimeslotsByTaskId(int taskId) async {
+    return _queryAdapter.queryList(
+        'SELECT * FROM student_timeslot WHERE task_id = ?1',
+        mapper: (Map<String, Object?> row) => StudentTimeslot(
+            id: row['id'] as int?,
+            title: row['title'] as String,
+            description: row['description'] as String,
+            startDateTime:
+                _dateTimeConverter.decode(row['start_datetime'] as int),
+            endDateTime: _dateTimeConverter.decode(row['end_datetime'] as int),
+            priority: Priority.values[row['priority'] as int],
+            xpMultiplier: row['xp_multiplier'] as int,
+            userId: row['user_id'] as int,
+            taskId: row['task_id'] as int?,
+            evaluationId: row['evaluation_id'] as int?),
+        arguments: [taskId]);
+  }
+
+  @override
+  Future<StudentTimeslot?> findStudentTimeslotByTaskIdAndTimeslotId(
+    int taskId,
+    int timeslotId,
+  ) async {
+    return _queryAdapter.query(
+        'SELECT * FROM student_timeslot WHERE task_id = ?1 AND timeslot_id = ?2',
+        mapper: (Map<String, Object?> row) => StudentTimeslot(id: row['id'] as int?, title: row['title'] as String, description: row['description'] as String, startDateTime: _dateTimeConverter.decode(row['start_datetime'] as int), endDateTime: _dateTimeConverter.decode(row['end_datetime'] as int), priority: Priority.values[row['priority'] as int], xpMultiplier: row['xp_multiplier'] as int, userId: row['user_id'] as int, taskId: row['task_id'] as int?, evaluationId: row['evaluation_id'] as int?),
+        arguments: [taskId, timeslotId]);
+  }
+
+  @override
+  Future<List<StudentTimeslot>> findStudentTimeslotsByTimeslotId(
+      int timeslotId) async {
+    return _queryAdapter.queryList(
+        'SELECT * FROM student_timeslot WHERE timeslot_id = ?1',
+        mapper: (Map<String, Object?> row) => StudentTimeslot(
+            id: row['id'] as int?,
+            title: row['title'] as String,
+            description: row['description'] as String,
+            startDateTime:
+                _dateTimeConverter.decode(row['start_datetime'] as int),
+            endDateTime: _dateTimeConverter.decode(row['end_datetime'] as int),
+            priority: Priority.values[row['priority'] as int],
+            xpMultiplier: row['xp_multiplier'] as int,
+            userId: row['user_id'] as int,
+            taskId: row['task_id'] as int?,
+            evaluationId: row['evaluation_id'] as int?),
+        arguments: [timeslotId]);
+  }
+
+  @override
+  Future<int> insertStudentTimeslot(StudentTimeslot studentTimeslot) {
+    return _studentTimeslotInsertionAdapter.insertAndReturnId(
         studentTimeslot, OnConflictStrategy.abort);
+  }
+
+  @override
+  Future<void> insertStudentTimeslots(
+      List<StudentTimeslot> studentTimeslots) async {
+    await _studentTimeslotInsertionAdapter.insertList(
+        studentTimeslots, OnConflictStrategy.abort);
   }
 
   @override
   Future<void> updateStudentTimeslot(StudentTimeslot studentTimeslot) async {
     await _studentTimeslotUpdateAdapter.update(
         studentTimeslot, OnConflictStrategy.abort);
+  }
+
+  @override
+  Future<void> updateStudentTimeslots(
+      List<StudentTimeslot> studentTimeslots) async {
+    await _studentTimeslotUpdateAdapter.updateList(
+        studentTimeslots, OnConflictStrategy.abort);
   }
 
   @override
@@ -3013,7 +3215,7 @@ class _$UserDao extends UserDao {
             'user',
             (User item) => <String, Object?>{
                   'id': item.id,
-                  'userName': item.userName,
+                  'user_name': item.userName,
                   'password': item.password,
                   'xp': item.xp
                 }),
@@ -3023,7 +3225,7 @@ class _$UserDao extends UserDao {
             ['id'],
             (User item) => <String, Object?>{
                   'id': item.id,
-                  'userName': item.userName,
+                  'user_name': item.userName,
                   'password': item.password,
                   'xp': item.xp
                 }),
@@ -3033,7 +3235,7 @@ class _$UserDao extends UserDao {
             ['id'],
             (User item) => <String, Object?>{
                   'id': item.id,
-                  'userName': item.userName,
+                  'user_name': item.userName,
                   'password': item.password,
                   'xp': item.xp
                 });
@@ -3055,7 +3257,7 @@ class _$UserDao extends UserDao {
     return _queryAdapter.queryList('SELECT * FROM user',
         mapper: (Map<String, Object?> row) => User(
             id: row['id'] as int?,
-            userName: row['userName'] as String,
+            userName: row['user_name'] as String,
             password: row['password'] as String,
             xp: row['xp'] as int));
   }
@@ -3065,20 +3267,26 @@ class _$UserDao extends UserDao {
     return _queryAdapter.query('SELECT * FROM user WHERE id = ?1',
         mapper: (Map<String, Object?> row) => User(
             id: row['id'] as int?,
-            userName: row['userName'] as String,
+            userName: row['user_name'] as String,
             password: row['password'] as String,
             xp: row['xp'] as int),
         arguments: [id]);
   }
 
   @override
-  Future<void> insertUser(User user) async {
-    await _userInsertionAdapter.insert(user, OnConflictStrategy.abort);
+  Future<int> insertUser(User user) {
+    return _userInsertionAdapter.insertAndReturnId(
+        user, OnConflictStrategy.abort);
   }
 
   @override
   Future<void> updateUser(User user) async {
     await _userUpdateAdapter.update(user, OnConflictStrategy.abort);
+  }
+
+  @override
+  Future<void> updateUsers(List<User> users) async {
+    await _userUpdateAdapter.updateList(users, OnConflictStrategy.abort);
   }
 
   @override

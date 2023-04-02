@@ -21,18 +21,17 @@ abstract class StudentTimeslotDao {
       int timeslotId);
 
   @insert
-  Future<void> insertStudentTimeslot(StudentTimeslot studentTimeslot);
+  Future<int> insertStudentTimeslot(StudentTimeslot studentTimeslot);
 
   @update
   Future<void> updateStudentTimeslot(StudentTimeslot studentTimeslot);
 
   @delete
   Future<void> deleteStudentTimeslot(StudentTimeslot studentTimeslot);
-  
+
   @insert
   Future<void> insertStudentTimeslots(List<StudentTimeslot> studentTimeslots);
 
   @update
   Future<void> updateStudentTimeslots(List<StudentTimeslot> studentTimeslots);
-
 }

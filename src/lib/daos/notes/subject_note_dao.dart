@@ -10,7 +10,7 @@ abstract class SubjectNoteDao {
   Stream<SubjectNote?> findSubjectNoteById(int id);
 
   @insert
-  Future<void> insertSubjectNote(SubjectNote subjectNote);
+  Future<int> insertSubjectNote(SubjectNote subjectNote);
 
   @insert
   Future<void> insertSubjectNotes(List<SubjectNote> subjectNotes);

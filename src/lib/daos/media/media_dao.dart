@@ -10,7 +10,7 @@ abstract class MediaDao {
   Stream<Media?> findMediaById(int id);
 
   @insert
-  Future<void> insertMedia(Media media);
+  Future<int> insertMedia(Media media);
 
   @insert
   Future<void> insertMedias(List<Media> medias);

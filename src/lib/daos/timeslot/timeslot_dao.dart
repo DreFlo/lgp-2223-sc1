@@ -11,7 +11,7 @@ abstract class TimeslotDao {
   Future<Timeslot?> findTimeslotById(int id);
 
   @insert
-  Future<void> insertTimeslot(Timeslot timeslot);
+  Future<int> insertTimeslot(Timeslot timeslot);
 
   @insert
   Future<void> insertTimeslots(Timeslot timeslots);

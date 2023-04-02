@@ -10,7 +10,7 @@ abstract class BadgeDao {
   Future<Badge?> findBadgeById(int id);
 
   @insert
-  Future<void> insertBadge(Badge badge);
+  Future<int> insertBadge(Badge badge);
 
   @update
   Future<void> updateBadge(Badge badge);

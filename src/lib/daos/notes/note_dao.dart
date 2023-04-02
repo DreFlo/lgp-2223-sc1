@@ -10,7 +10,7 @@ abstract class NoteDao {
   Stream<Note?> findNoteById(int id);
 
   @insert
-  Future<void> insertNote(Note note);
+  Future<int> insertNote(Note note);
 
   @insert
   Future<void> insertNotes(List<Note> notes);

@@ -10,7 +10,7 @@ abstract class EvaluationDao {
   Stream<Evaluation?> findEvaluationById(int id);
 
   @insert
-  Future<void> insertEvaluation(Evaluation evaluation);
+  Future<int> insertEvaluation(Evaluation evaluation);
 
   @insert
   Future<void> insertEvaluations(List<Evaluation> evaluations);

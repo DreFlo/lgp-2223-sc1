@@ -10,7 +10,7 @@ abstract class SeasonDao {
   Stream<Season?> findSeasonById(int id);
 
   @insert
-  Future<void> insertSeason(Season season);
+  Future<int> insertSeason(Season season);
 
   @insert
   Future<void> insertSeasons(List<Season> season);

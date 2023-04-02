@@ -10,7 +10,7 @@ abstract class ReviewDao {
   Stream<Review?> findReviewById(int id);
 
   @insert
-  Future<void> insertReview(Review review);
+  Future<int> insertReview(Review review);
 
   @insert
   Future<void> insertReviews(List<Review> reviews);

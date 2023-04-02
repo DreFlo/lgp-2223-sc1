@@ -10,7 +10,7 @@ abstract class SeriesDao {
   Stream<Series?> findSeriesById(int id);
 
   @insert
-  Future<void> insertSerie(Series series);
+  Future<int> insertSerie(Series series);
 
   @insert
   Future<void> insertSeries(List<Series> series);

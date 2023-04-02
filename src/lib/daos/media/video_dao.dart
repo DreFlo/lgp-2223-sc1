@@ -10,7 +10,7 @@ abstract class VideoDao {
   Stream<Video?> findVideoById(int id);
 
   @insert
-  Future<void> insertVideo(Video video);
+  Future<int> insertVideo(Video video);
 
   @insert
   Future<void> insertVideos(List<Video> video);

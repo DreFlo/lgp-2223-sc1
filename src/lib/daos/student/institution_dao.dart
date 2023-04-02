@@ -10,7 +10,7 @@ abstract class InstitutionDao {
   Stream<Institution?> findInstitutionById(int id);
 
   @insert
-  Future<void> insertInstitution(Institution institution);
+  Future<int> insertInstitution(Institution institution);
 
   @insert
   Future<void> insertInstitutions(List<Institution> institutions);

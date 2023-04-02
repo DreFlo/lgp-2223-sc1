@@ -17,7 +17,7 @@ abstract class UserBadgeDao {
   Future<List<UserBadge>> findUserBadgesByBadgeId(int badgeId);
 
   @insert
-  Future<void> insertUserBadge(UserBadge userBadge);
+  Future<int> insertUserBadge(UserBadge userBadge);
 
   @insert
   Future<void> insertUserBadges(List<UserBadge> userBadges);
