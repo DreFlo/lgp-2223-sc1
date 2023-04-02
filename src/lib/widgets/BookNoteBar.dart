@@ -1,17 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:src/themes/colors.dart';
 
-class NoteBar extends StatefulWidget {
-  final String code;
+class BookNoteBar extends StatefulWidget {
+  int startPage, endPage;
   String text;
 
-  NoteBar({Key? key, required this.code, required this.text}) : super(key: key);
+  BookNoteBar({Key? key, required this.startPage, required this.endPage, required this.text}) : super(key: key);
 
   @override
-  State<NoteBar> createState() => _NoteBarState();
+  State<BookNoteBar> createState() => _BookNoteBarState();
 }
 
-class _NoteBarState extends State<NoteBar> {
+class _BookNoteBarState extends State<BookNoteBar> {
   @override
   Widget build(BuildContext context) {
     final TextEditingController nameInputController = TextEditingController();
@@ -25,7 +25,7 @@ class _NoteBarState extends State<NoteBar> {
           Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
             Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
               Row(mainAxisAlignment: MainAxisAlignment.start, children: [
-                Text(widget.code,
+                Text("${widget.startPage}-${widget.endPage}",
                     style: const TextStyle(
                         color: Colors.white,
                         fontSize: 24,
@@ -53,18 +53,16 @@ class _NoteBarState extends State<NoteBar> {
             // ]),
           ]),
           SizedBox(height: 15),
-          Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                Flexible(
-                    child: Text(widget.text,
-                        softWrap: true,
-                        textAlign: TextAlign.justify,
-                        style: const TextStyle(
-                            color: Colors.white,
-                            fontSize: 16,
-                            fontWeight: FontWeight.normal)))
-              ])
+          Row(mainAxisAlignment: MainAxisAlignment.start, children: [
+            Flexible(
+                child: Text(widget.text,
+                    softWrap: true,
+                    textAlign: TextAlign.justify,
+                    style: const TextStyle(
+                        color: Colors.white,
+                        fontSize: 16,
+                        fontWeight: FontWeight.normal)))
+          ])
         ]));
   }
 }

@@ -4,7 +4,7 @@ import 'package:src/themes/colors.dart';
 import 'package:src/widgets/SeasonTag.dart';
 import 'package:src/widgets/EpisodeBar.dart';
 
-import '../../widgets/NoteBar.dart';
+import '../../widgets/EpisodeNoteBar.dart';
 
 class EpisodesNotesSheet extends StatefulWidget {
   Map<String, String> notes;
@@ -64,7 +64,7 @@ class _EpisodesNotesSheetState extends State<EpisodesNotesSheet>
     List<Widget> episodes = [];
 
     for (var code in widget.notes.keys) {
-      episodes.add(NoteBar(
+      episodes.add(EpisodeNoteBar(
         code: code,
         text: widget.notes[code]!,
       ));
@@ -83,7 +83,7 @@ class _EpisodesNotesSheetState extends State<EpisodesNotesSheet>
     for (var code in widget.notes.keys) {
       var seasonCode = "S${season.toString().padLeft(2, "0")}";
       if (code.contains(seasonCode)) {
-        episodes.add(NoteBar(
+        episodes.add(EpisodeNoteBar(
           code: code,
           text: widget.notes[code]!,
         ));

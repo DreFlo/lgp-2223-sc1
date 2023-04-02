@@ -4,6 +4,9 @@ import 'package:src/themes/colors.dart';
 import 'package:src/widgets/SeasonTag.dart';
 import 'package:src/widgets/EpisodeBar.dart';
 
+import '../../utils/enums.dart';
+import 'FinishedMediaForm.dart';
+
 class MarkEpisodesSheet extends StatefulWidget {
   Map<int, Map<int, String>> episodes;
   int selectedSeason;
@@ -84,6 +87,84 @@ class _MarkEpisodesSheetState extends State<MarkEpisodesSheet>
                 color: Color(0xFF414554),
               ),
             ))
+      ]),
+      Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+        Padding(
+            padding: const EdgeInsets.only(left: 18),
+            child: TextButton(
+                onPressed: () {
+                  Navigator.pop(context);
+
+                  showModalBottomSheet(
+                      context: context,
+                      isScrollControlled: true,
+                      backgroundColor: Color(0xFF22252D),
+                      shape: RoundedRectangleBorder(
+                        borderRadius:
+                            BorderRadius.vertical(top: Radius.circular(30.0)),
+                      ),
+                      builder: (context) => DraggableScrollableSheet(
+                          expand: false,
+                          minChildSize: 0.35,
+                          maxChildSize: 0.75,
+                          builder: (context, scrollController) => Stack(
+                                  alignment: AlignmentDirectional.bottomCenter,
+                                  children: [
+                                    Padding(
+                                        padding: EdgeInsets.only(
+                                            bottom: MediaQuery.of(context)
+                                                    .viewInsets
+                                                    .bottom +
+                                                50),
+                                        child: SingleChildScrollView(
+                                            controller: scrollController,
+                                            child: FinishedMediaForm(
+                                                rating: Reaction.neutral,
+                                                startDate: DateTime.now()
+                                                    .toString()
+                                                    .split(" ")[0],
+                                                endDate: 'Not Defined',
+                                                isFavorite: false))),
+                                    Positioned(
+                                        left: 16,
+                                        right: 16,
+                                        bottom: 16,
+                                        child: Padding(
+                                            padding: EdgeInsets.only(
+                                                bottom: MediaQuery.of(context)
+                                                    .viewInsets
+                                                    .bottom),
+                                            child: ElevatedButton(
+                                              onPressed: () {
+                                                //TODO: Save stuff + send to database.
+                                              },
+                                              style: ElevatedButton.styleFrom(
+                                                minimumSize: Size(
+                                                    MediaQuery.of(context)
+                                                            .size
+                                                            .width *
+                                                        0.95,
+                                                    55),
+                                                backgroundColor: leisureColor,
+                                                shape: RoundedRectangleBorder(
+                                                  borderRadius:
+                                                      BorderRadius.circular(
+                                                          25.0),
+                                                ),
+                                              ),
+                                              child: Text(
+                                                  AppLocalizations.of(context)
+                                                      .save,
+                                                  style: Theme.of(context)
+                                                      .textTheme
+                                                      .headlineSmall),
+                                            )))
+                                  ])));
+                },
+                child: Text(
+                  AppLocalizations.of(context).finished_book,
+                  style: Theme.of(context).textTheme.displayMedium,
+                )))
       ]),
       TabBar(
           padding: const EdgeInsets.only(left: 18, right: 18),

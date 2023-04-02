@@ -36,5 +36,8 @@
   "notes": "Notes",
   "all_label": "All",
   "no_notes_label": "You have no notes for this season.",
-  "add_note_callout": "Oh, so you have something to say!"
+  "add_note_callout": "Oh, so you have something to say!",
+  "progress_callout": "You made\nprogress!",
+  "what_page": "Which range of pages do you want to comment?",
+  "finished_book": "I'm finished, actually!"
 }
