@@ -32,25 +32,25 @@ class _NoteBarState extends State<NoteBar> {
                         fontWeight: FontWeight.w600))
               ]),
             ]),
-            Column(children: [
-              Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-                ElevatedButton(
-                    onPressed: () {
-                      setState(() {});
+            // Column(children: [
+            //   Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+            //     ElevatedButton(
+            //         onPressed: () {
+            //           setState(() {});
 
-                      //TODO: Add functionality for editing note.
-                    },
-                    style: ButtonStyle(
-                      minimumSize:
-                          MaterialStateProperty.all(const Size(45, 45)),
-                      backgroundColor: MaterialStateProperty.all(leisureColor),
-                      foregroundColor: MaterialStateProperty.all(Colors.white),
-                      shape: MaterialStateProperty.all<CircleBorder>(
-                          CircleBorder()),
-                    ),
-                    child: Icon(Icons.edit)),
-              ]),
-            ]),
+            //           //TODO: Add functionality for editing note.
+            //         },
+            //         style: ButtonStyle(
+            //           minimumSize:
+            //               MaterialStateProperty.all(const Size(45, 45)),
+            //           backgroundColor: MaterialStateProperty.all(leisureColor),
+            //           foregroundColor: MaterialStateProperty.all(Colors.white),
+            //           shape: MaterialStateProperty.all<CircleBorder>(
+            //               CircleBorder()),
+            //         ),
+            //         child: Icon(Icons.edit)),
+            //   ]),
+            // ]),
           ]),
           SizedBox(height: 15),
           Row(
