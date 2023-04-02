@@ -6,21 +6,21 @@ import 'package:src/widgets/EpisodeBar.dart';
 
 import '../../widgets/NoteBar.dart';
 
-class MediaNotesSheet extends StatefulWidget {
+class EpisodesNotesSheet extends StatefulWidget {
   Map<String, String> notes;
   Map<int, Map<int, String>> episodes;
   TabController? controller;
   int selectedTab = 0;
 
-  MediaNotesSheet(
+  EpisodesNotesSheet(
       {Key? key, required this.notes, required this.episodes, this.controller})
       : super(key: key);
 
   @override
-  State<MediaNotesSheet> createState() => _MediaNotesSheetState();
+  State<EpisodesNotesSheet> createState() => _EpisodesNotesSheetState();
 }
 
-class _MediaNotesSheetState extends State<MediaNotesSheet>
+class _EpisodesNotesSheetState extends State<EpisodesNotesSheet>
     with TickerProviderStateMixin {
   initState() {
     widget.controller = TabController(

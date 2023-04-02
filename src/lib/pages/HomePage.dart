@@ -9,7 +9,7 @@ import 'package:src/utils/service_locator.dart';
 import 'leisure/AddToCatalogForm.dart';
 import 'leisure/FinishedMediaForm.dart';
 import 'leisure/MarkEpisodesSheet.dart';
-import 'leisure/MediaNotesSheet.dart';
+import 'leisure/EpisodesNotesSheet.dart';
 import 'leisure/MediaPage.dart';
 import 'package:src/utils/enums.dart';
 
@@ -221,7 +221,7 @@ class _HomePageState extends State<HomePage> {
                                                 50),
                                         child: SingleChildScrollView(
                                             controller: scrollController,
-                                            child: MediaNotesSheet(
+                                            child: EpisodesNotesSheet(
                                                 notes: notes,
                                                 episodes: episodes)))
                                   ])));
