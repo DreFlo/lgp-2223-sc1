@@ -1,6 +1,7 @@
 import 'package:floor/floor.dart';
 import 'package:flutter/foundation.dart';
 import 'package:get_it/get_it.dart';
+import 'package:src/daos/media/media_video_super_dao.dart';
 import 'package:src/daos/user_badge_dao.dart';
 import 'package:src/database/database.dart';
 import 'package:src/database/migrations.dart';
@@ -85,18 +86,18 @@ void setup() {
   serviceLocator.registerSingletonWithDependencies<ReviewDao>(
       () => serviceLocator.get<AppDatabase>().reviewDao,
       dependsOn: [AppDatabase]);
-  serviceLocator.registerSingletonWithDependencies<EpisodeDao>(
-      () => serviceLocator.get<AppDatabase>().episodeDao,
-      dependsOn: [AppDatabase]);
-  serviceLocator.registerSingletonWithDependencies<MovieDao>(
-      () => serviceLocator.get<AppDatabase>().movieDao,
-      dependsOn: [AppDatabase]);
+  // serviceLocator.registerSingletonWithDependencies<EpisodeDao>(
+  //     () => serviceLocator.get<AppDatabase>().episodeDao,
+  //     dependsOn: [AppDatabase]);
+  // serviceLocator.registerSingletonWithDependencies<MovieDao>(
+  //     () => serviceLocator.get<AppDatabase>().movieDao,
+  //     dependsOn: [AppDatabase]);
   serviceLocator.registerSingletonWithDependencies<BookNoteDao>(
       () => serviceLocator.get<AppDatabase>().bookNoteDao,
       dependsOn: [AppDatabase]);
-  serviceLocator.registerSingletonWithDependencies<EpisodeNoteDao>(
-      () => serviceLocator.get<AppDatabase>().episodeNoteDao,
-      dependsOn: [AppDatabase]);
+  // serviceLocator.registerSingletonWithDependencies<EpisodeNoteDao>(
+  //     () => serviceLocator.get<AppDatabase>().episodeNoteDao,
+  //     dependsOn: [AppDatabase]);
   serviceLocator.registerSingletonWithDependencies<TaskNoteDao>(
       () => serviceLocator.get<AppDatabase>().taskNoteDao,
       dependsOn: [AppDatabase]);
@@ -123,5 +124,10 @@ void setup() {
       dependsOn: [AppDatabase]);
   serviceLocator.registerSingletonWithDependencies<UserBadgeDao>(
       () => serviceLocator.get<AppDatabase>().userBadgeDao,
+      dependsOn: [AppDatabase]);
+
+  // SuperDAOs
+  serviceLocator.registerSingletonWithDependencies<MediaVideoSuperDao>(
+          () => mediaVideoSuperDao,
       dependsOn: [AppDatabase]);
 }

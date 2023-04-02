@@ -83,17 +83,11 @@ class _$AppDatabase extends AppDatabase {
 
   ReviewDao? _reviewDaoInstance;
 
-  MovieDao? _movieDaoInstance;
-
-  EpisodeDao? _episodeDaoInstance;
-
   NoteDao? _noteDaoInstance;
 
   SubjectNoteDao? _subjectNoteDaoInstance;
 
   TaskNoteDao? _taskNoteDaoInstance;
-
-  EpisodeNoteDao? _episodeNoteDaoInstance;
 
   BookNoteDao? _bookNoteDaoInstance;
 
@@ -149,23 +143,17 @@ class _$AppDatabase extends AppDatabase {
         await database.execute(
             'CREATE TABLE IF NOT EXISTS `series` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `name` TEXT NOT NULL, `description` TEXT NOT NULL, `link_image` TEXT NOT NULL, `status` INTEGER NOT NULL, `favorite` INTEGER NOT NULL, `genres` TEXT NOT NULL, `release` INTEGER NOT NULL, `xp` INTEGER NOT NULL)');
         await database.execute(
-            'CREATE TABLE IF NOT EXISTS `video` (`duration` INTEGER NOT NULL, `id` INTEGER PRIMARY KEY AUTOINCREMENT, `name` TEXT NOT NULL, `description` TEXT NOT NULL, `link_image` TEXT NOT NULL, `status` INTEGER NOT NULL, `favorite` INTEGER NOT NULL, `genres` TEXT NOT NULL, `release` INTEGER NOT NULL, `xp` INTEGER NOT NULL)');
+            'CREATE TABLE IF NOT EXISTS `video` (`id` INTEGER NOT NULL, `duration` INTEGER NOT NULL, FOREIGN KEY (`id`) REFERENCES `media` (`id`) ON UPDATE NO ACTION ON DELETE NO ACTION, PRIMARY KEY (`id`))');
         await database.execute(
             'CREATE TABLE IF NOT EXISTS `season` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `number` INTEGER NOT NULL, `series_id` INTEGER NOT NULL, FOREIGN KEY (`series_id`) REFERENCES `series` (`id`) ON UPDATE RESTRICT ON DELETE CASCADE)');
         await database.execute(
             'CREATE TABLE IF NOT EXISTS `review` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `start_date` INTEGER NOT NULL, `end_date` INTEGER NOT NULL, `review` TEXT NOT NULL, `emoji` INTEGER NOT NULL, `media_id` INTEGER NOT NULL, FOREIGN KEY (`media_id`) REFERENCES `media` (`id`) ON UPDATE NO ACTION ON DELETE NO ACTION)');
-        await database.execute(
-            'CREATE TABLE IF NOT EXISTS `movie` (`duration` INTEGER NOT NULL, `id` INTEGER PRIMARY KEY AUTOINCREMENT, `name` TEXT NOT NULL, `description` TEXT NOT NULL, `link_image` TEXT NOT NULL, `status` INTEGER NOT NULL, `favorite` INTEGER NOT NULL, `genres` TEXT NOT NULL, `release` INTEGER NOT NULL, `xp` INTEGER NOT NULL)');
-        await database.execute(
-            'CREATE TABLE IF NOT EXISTS `episode` (`number` INTEGER NOT NULL, `season_id` INTEGER NOT NULL, `duration` INTEGER NOT NULL, `id` INTEGER PRIMARY KEY AUTOINCREMENT, `name` TEXT NOT NULL, `description` TEXT NOT NULL, `link_image` TEXT NOT NULL, `status` INTEGER NOT NULL, `favorite` INTEGER NOT NULL, `genres` TEXT NOT NULL, `release` INTEGER NOT NULL, `xp` INTEGER NOT NULL, FOREIGN KEY (`season_id`) REFERENCES `season` (`id`) ON UPDATE RESTRICT ON DELETE CASCADE)');
         await database.execute(
             'CREATE TABLE IF NOT EXISTS `note` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `title` TEXT NOT NULL, `content` TEXT NOT NULL, `date` INTEGER NOT NULL)');
         await database.execute(
             'CREATE TABLE IF NOT EXISTS `subject_note` (`subject_id` INTEGER NOT NULL, `id` INTEGER PRIMARY KEY AUTOINCREMENT, `title` TEXT NOT NULL, `content` TEXT NOT NULL, `date` INTEGER NOT NULL, FOREIGN KEY (`subject_id`) REFERENCES `subject` (`id`) ON UPDATE NO ACTION ON DELETE NO ACTION)');
         await database.execute(
             'CREATE TABLE IF NOT EXISTS `task_note` (`task_id` INTEGER NOT NULL, `id` INTEGER PRIMARY KEY AUTOINCREMENT, `title` TEXT NOT NULL, `content` TEXT NOT NULL, `date` INTEGER NOT NULL, FOREIGN KEY (`task_id`) REFERENCES `task` (`id`) ON UPDATE NO ACTION ON DELETE NO ACTION)');
-        await database.execute(
-            'CREATE TABLE IF NOT EXISTS `episode_note` (`episode_id` INTEGER NOT NULL, `id` INTEGER PRIMARY KEY AUTOINCREMENT, `title` TEXT NOT NULL, `content` TEXT NOT NULL, `date` INTEGER NOT NULL, FOREIGN KEY (`episode_id`) REFERENCES `episode` (`id`) ON UPDATE NO ACTION ON DELETE NO ACTION)');
         await database.execute(
             'CREATE TABLE IF NOT EXISTS `book_note` (`start_page` INTEGER NOT NULL, `end_page` INTEGER NOT NULL, `book_id` INTEGER NOT NULL, `id` INTEGER PRIMARY KEY AUTOINCREMENT, `title` TEXT NOT NULL, `content` TEXT NOT NULL, `date` INTEGER NOT NULL, FOREIGN KEY (`book_id`) REFERENCES `book` (`id`) ON UPDATE NO ACTION ON DELETE NO ACTION)');
         await database.execute(
@@ -246,16 +234,6 @@ class _$AppDatabase extends AppDatabase {
   }
 
   @override
-  MovieDao get movieDao {
-    return _movieDaoInstance ??= _$MovieDao(database, changeListener);
-  }
-
-  @override
-  EpisodeDao get episodeDao {
-    return _episodeDaoInstance ??= _$EpisodeDao(database, changeListener);
-  }
-
-  @override
   NoteDao get noteDao {
     return _noteDaoInstance ??= _$NoteDao(database, changeListener);
   }
@@ -269,12 +247,6 @@ class _$AppDatabase extends AppDatabase {
   @override
   TaskNoteDao get taskNoteDao {
     return _taskNoteDaoInstance ??= _$TaskNoteDao(database, changeListener);
-  }
-
-  @override
-  EpisodeNoteDao get episodeNoteDao {
-    return _episodeNoteDaoInstance ??=
-        _$EpisodeNoteDao(database, changeListener);
   }
 
   @override
@@ -1285,52 +1257,22 @@ class _$VideoDao extends VideoDao {
         _videoInsertionAdapter = InsertionAdapter(
             database,
             'video',
-            (Video item) => <String, Object?>{
-                  'duration': item.duration,
-                  'id': item.id,
-                  'name': item.name,
-                  'description': item.description,
-                  'link_image': item.linkImage,
-                  'status': item.status.index,
-                  'favorite': item.favorite ? 1 : 0,
-                  'genres': item.genres,
-                  'release': _dateTimeConverter.encode(item.release),
-                  'xp': item.xp
-                },
+            (Video item) =>
+                <String, Object?>{'id': item.id, 'duration': item.duration},
             changeListener),
         _videoUpdateAdapter = UpdateAdapter(
             database,
             'video',
             ['id'],
-            (Video item) => <String, Object?>{
-                  'duration': item.duration,
-                  'id': item.id,
-                  'name': item.name,
-                  'description': item.description,
-                  'link_image': item.linkImage,
-                  'status': item.status.index,
-                  'favorite': item.favorite ? 1 : 0,
-                  'genres': item.genres,
-                  'release': _dateTimeConverter.encode(item.release),
-                  'xp': item.xp
-                },
+            (Video item) =>
+                <String, Object?>{'id': item.id, 'duration': item.duration},
             changeListener),
         _videoDeletionAdapter = DeletionAdapter(
             database,
             'video',
             ['id'],
-            (Video item) => <String, Object?>{
-                  'duration': item.duration,
-                  'id': item.id,
-                  'name': item.name,
-                  'description': item.description,
-                  'link_image': item.linkImage,
-                  'status': item.status.index,
-                  'favorite': item.favorite ? 1 : 0,
-                  'genres': item.genres,
-                  'release': _dateTimeConverter.encode(item.release),
-                  'xp': item.xp
-                },
+            (Video item) =>
+                <String, Object?>{'id': item.id, 'duration': item.duration},
             changeListener);
 
   final sqflite.DatabaseExecutor database;
@@ -1348,33 +1290,15 @@ class _$VideoDao extends VideoDao {
   @override
   Future<List<Video>> findAllTasks() async {
     return _queryAdapter.queryList('SELECT * FROM Video',
-        mapper: (Map<String, Object?> row) => Video(
-            id: row['id'] as int?,
-            name: row['name'] as String,
-            description: row['description'] as String,
-            linkImage: row['link_image'] as String,
-            status: Status.values[row['status'] as int],
-            favorite: (row['favorite'] as int) != 0,
-            genres: row['genres'] as String,
-            release: _dateTimeConverter.decode(row['release'] as int),
-            xp: row['xp'] as int,
-            duration: row['duration'] as int));
+        mapper: (Map<String, Object?> row) =>
+            Video(id: row['id'] as int, duration: row['duration'] as int));
   }
 
   @override
   Stream<Video?> findVideoById(int id) {
     return _queryAdapter.queryStream('SELECT * FROM Video WHERE id = ?1',
-        mapper: (Map<String, Object?> row) => Video(
-            id: row['id'] as int?,
-            name: row['name'] as String,
-            description: row['description'] as String,
-            linkImage: row['link_image'] as String,
-            status: Status.values[row['status'] as int],
-            favorite: (row['favorite'] as int) != 0,
-            genres: row['genres'] as String,
-            release: _dateTimeConverter.decode(row['release'] as int),
-            xp: row['xp'] as int,
-            duration: row['duration'] as int),
+        mapper: (Map<String, Object?> row) =>
+            Video(id: row['id'] as int, duration: row['duration'] as int),
         arguments: [id],
         queryableName: 'Video',
         isView: false);
@@ -1609,277 +1533,6 @@ class _$ReviewDao extends ReviewDao {
   @override
   Future<void> deleteReview(Review review) async {
     await _reviewDeletionAdapter.delete(review);
-  }
-}
-
-class _$MovieDao extends MovieDao {
-  _$MovieDao(
-    this.database,
-    this.changeListener,
-  )   : _queryAdapter = QueryAdapter(database, changeListener),
-        _movieInsertionAdapter = InsertionAdapter(
-            database,
-            'movie',
-            (Movie item) => <String, Object?>{
-                  'duration': item.duration,
-                  'id': item.id,
-                  'name': item.name,
-                  'description': item.description,
-                  'link_image': item.linkImage,
-                  'status': item.status.index,
-                  'favorite': item.favorite ? 1 : 0,
-                  'genres': item.genres,
-                  'release': _dateTimeConverter.encode(item.release),
-                  'xp': item.xp
-                },
-            changeListener),
-        _movieUpdateAdapter = UpdateAdapter(
-            database,
-            'movie',
-            ['id'],
-            (Movie item) => <String, Object?>{
-                  'duration': item.duration,
-                  'id': item.id,
-                  'name': item.name,
-                  'description': item.description,
-                  'link_image': item.linkImage,
-                  'status': item.status.index,
-                  'favorite': item.favorite ? 1 : 0,
-                  'genres': item.genres,
-                  'release': _dateTimeConverter.encode(item.release),
-                  'xp': item.xp
-                },
-            changeListener),
-        _movieDeletionAdapter = DeletionAdapter(
-            database,
-            'movie',
-            ['id'],
-            (Movie item) => <String, Object?>{
-                  'duration': item.duration,
-                  'id': item.id,
-                  'name': item.name,
-                  'description': item.description,
-                  'link_image': item.linkImage,
-                  'status': item.status.index,
-                  'favorite': item.favorite ? 1 : 0,
-                  'genres': item.genres,
-                  'release': _dateTimeConverter.encode(item.release),
-                  'xp': item.xp
-                },
-            changeListener);
-
-  final sqflite.DatabaseExecutor database;
-
-  final StreamController<String> changeListener;
-
-  final QueryAdapter _queryAdapter;
-
-  final InsertionAdapter<Movie> _movieInsertionAdapter;
-
-  final UpdateAdapter<Movie> _movieUpdateAdapter;
-
-  final DeletionAdapter<Movie> _movieDeletionAdapter;
-
-  @override
-  Future<List<Movie>> findAllMovie() async {
-    return _queryAdapter.queryList('SELECT * FROM movie',
-        mapper: (Map<String, Object?> row) => Movie(
-            id: row['id'] as int?,
-            name: row['name'] as String,
-            description: row['description'] as String,
-            linkImage: row['link_image'] as String,
-            status: Status.values[row['status'] as int],
-            favorite: (row['favorite'] as int) != 0,
-            genres: row['genres'] as String,
-            release: _dateTimeConverter.decode(row['release'] as int),
-            xp: row['xp'] as int,
-            duration: row['duration'] as int));
-  }
-
-  @override
-  Stream<Movie?> findMovieById(int id) {
-    return _queryAdapter.queryStream('SELECT * FROM movie WHERE id = ?1',
-        mapper: (Map<String, Object?> row) => Movie(
-            id: row['id'] as int?,
-            name: row['name'] as String,
-            description: row['description'] as String,
-            linkImage: row['link_image'] as String,
-            status: Status.values[row['status'] as int],
-            favorite: (row['favorite'] as int) != 0,
-            genres: row['genres'] as String,
-            release: _dateTimeConverter.decode(row['release'] as int),
-            xp: row['xp'] as int,
-            duration: row['duration'] as int),
-        arguments: [id],
-        queryableName: 'movie',
-        isView: false);
-  }
-
-  @override
-  Future<int> insertMovie(Movie movie) {
-    return _movieInsertionAdapter.insertAndReturnId(
-        movie, OnConflictStrategy.abort);
-  }
-
-  @override
-  Future<void> insertMovies(List<Movie> movie) async {
-    await _movieInsertionAdapter.insertList(movie, OnConflictStrategy.abort);
-  }
-
-  @override
-  Future<void> updateMovie(Movie movie) async {
-    await _movieUpdateAdapter.update(movie, OnConflictStrategy.abort);
-  }
-
-  @override
-  Future<void> updateMovies(List<Movie> movie) async {
-    await _movieUpdateAdapter.updateList(movie, OnConflictStrategy.abort);
-  }
-
-  @override
-  Future<void> deleteMovie(Movie movie) async {
-    await _movieDeletionAdapter.delete(movie);
-  }
-}
-
-class _$EpisodeDao extends EpisodeDao {
-  _$EpisodeDao(
-    this.database,
-    this.changeListener,
-  )   : _queryAdapter = QueryAdapter(database, changeListener),
-        _episodeInsertionAdapter = InsertionAdapter(
-            database,
-            'episode',
-            (Episode item) => <String, Object?>{
-                  'number': item.number,
-                  'season_id': item.seasonId,
-                  'duration': item.duration,
-                  'id': item.id,
-                  'name': item.name,
-                  'description': item.description,
-                  'link_image': item.linkImage,
-                  'status': item.status.index,
-                  'favorite': item.favorite ? 1 : 0,
-                  'genres': item.genres,
-                  'release': _dateTimeConverter.encode(item.release),
-                  'xp': item.xp
-                },
-            changeListener),
-        _episodeUpdateAdapter = UpdateAdapter(
-            database,
-            'episode',
-            ['id'],
-            (Episode item) => <String, Object?>{
-                  'number': item.number,
-                  'season_id': item.seasonId,
-                  'duration': item.duration,
-                  'id': item.id,
-                  'name': item.name,
-                  'description': item.description,
-                  'link_image': item.linkImage,
-                  'status': item.status.index,
-                  'favorite': item.favorite ? 1 : 0,
-                  'genres': item.genres,
-                  'release': _dateTimeConverter.encode(item.release),
-                  'xp': item.xp
-                },
-            changeListener),
-        _episodeDeletionAdapter = DeletionAdapter(
-            database,
-            'episode',
-            ['id'],
-            (Episode item) => <String, Object?>{
-                  'number': item.number,
-                  'season_id': item.seasonId,
-                  'duration': item.duration,
-                  'id': item.id,
-                  'name': item.name,
-                  'description': item.description,
-                  'link_image': item.linkImage,
-                  'status': item.status.index,
-                  'favorite': item.favorite ? 1 : 0,
-                  'genres': item.genres,
-                  'release': _dateTimeConverter.encode(item.release),
-                  'xp': item.xp
-                },
-            changeListener);
-
-  final sqflite.DatabaseExecutor database;
-
-  final StreamController<String> changeListener;
-
-  final QueryAdapter _queryAdapter;
-
-  final InsertionAdapter<Episode> _episodeInsertionAdapter;
-
-  final UpdateAdapter<Episode> _episodeUpdateAdapter;
-
-  final DeletionAdapter<Episode> _episodeDeletionAdapter;
-
-  @override
-  Future<List<Episode>> findAllEpisode() async {
-    return _queryAdapter.queryList('SELECT * FROM episode',
-        mapper: (Map<String, Object?> row) => Episode(
-            id: row['id'] as int?,
-            name: row['name'] as String,
-            description: row['description'] as String,
-            linkImage: row['link_image'] as String,
-            status: Status.values[row['status'] as int],
-            favorite: (row['favorite'] as int) != 0,
-            genres: row['genres'] as String,
-            release: _dateTimeConverter.decode(row['release'] as int),
-            xp: row['xp'] as int,
-            duration: row['duration'] as int,
-            number: row['number'] as int,
-            seasonId: row['season_id'] as int));
-  }
-
-  @override
-  Stream<Episode?> findEpisodeById(int id) {
-    return _queryAdapter.queryStream('SELECT * FROM episode WHERE id = ?1',
-        mapper: (Map<String, Object?> row) => Episode(
-            id: row['id'] as int?,
-            name: row['name'] as String,
-            description: row['description'] as String,
-            linkImage: row['link_image'] as String,
-            status: Status.values[row['status'] as int],
-            favorite: (row['favorite'] as int) != 0,
-            genres: row['genres'] as String,
-            release: _dateTimeConverter.decode(row['release'] as int),
-            xp: row['xp'] as int,
-            duration: row['duration'] as int,
-            number: row['number'] as int,
-            seasonId: row['season_id'] as int),
-        arguments: [id],
-        queryableName: 'episode',
-        isView: false);
-  }
-
-  @override
-  Future<int> insertEpisode(Episode episode) {
-    return _episodeInsertionAdapter.insertAndReturnId(
-        episode, OnConflictStrategy.abort);
-  }
-
-  @override
-  Future<void> insertEpisodes(List<Episode> episodes) async {
-    await _episodeInsertionAdapter.insertList(
-        episodes, OnConflictStrategy.abort);
-  }
-
-  @override
-  Future<void> updateEpisode(Episode episode) async {
-    await _episodeUpdateAdapter.update(episode, OnConflictStrategy.abort);
-  }
-
-  @override
-  Future<void> updateEpisodes(List<Episode> episodes) async {
-    await _episodeUpdateAdapter.updateList(episodes, OnConflictStrategy.abort);
-  }
-
-  @override
-  Future<void> deleteEpisode(Episode episode) async {
-    await _episodeDeletionAdapter.delete(episode);
   }
 }
 
@@ -2194,114 +1847,6 @@ class _$TaskNoteDao extends TaskNoteDao {
   @override
   Future<void> deleteTaskNote(TaskNote taskNote) async {
     await _taskNoteDeletionAdapter.delete(taskNote);
-  }
-}
-
-class _$EpisodeNoteDao extends EpisodeNoteDao {
-  _$EpisodeNoteDao(
-    this.database,
-    this.changeListener,
-  )   : _queryAdapter = QueryAdapter(database, changeListener),
-        _episodeNoteInsertionAdapter = InsertionAdapter(
-            database,
-            'episode_note',
-            (EpisodeNote item) => <String, Object?>{
-                  'episode_id': item.episodeId,
-                  'id': item.id,
-                  'title': item.title,
-                  'content': item.content,
-                  'date': _dateTimeConverter.encode(item.date)
-                },
-            changeListener),
-        _episodeNoteUpdateAdapter = UpdateAdapter(
-            database,
-            'episode_note',
-            ['id'],
-            (EpisodeNote item) => <String, Object?>{
-                  'episode_id': item.episodeId,
-                  'id': item.id,
-                  'title': item.title,
-                  'content': item.content,
-                  'date': _dateTimeConverter.encode(item.date)
-                },
-            changeListener),
-        _episodeNoteDeletionAdapter = DeletionAdapter(
-            database,
-            'episode_note',
-            ['id'],
-            (EpisodeNote item) => <String, Object?>{
-                  'episode_id': item.episodeId,
-                  'id': item.id,
-                  'title': item.title,
-                  'content': item.content,
-                  'date': _dateTimeConverter.encode(item.date)
-                },
-            changeListener);
-
-  final sqflite.DatabaseExecutor database;
-
-  final StreamController<String> changeListener;
-
-  final QueryAdapter _queryAdapter;
-
-  final InsertionAdapter<EpisodeNote> _episodeNoteInsertionAdapter;
-
-  final UpdateAdapter<EpisodeNote> _episodeNoteUpdateAdapter;
-
-  final DeletionAdapter<EpisodeNote> _episodeNoteDeletionAdapter;
-
-  @override
-  Future<List<EpisodeNote>> findAllEpisodeNotes() async {
-    return _queryAdapter.queryList('SELECT * FROM episode_note',
-        mapper: (Map<String, Object?> row) => EpisodeNote(
-            id: row['id'] as int?,
-            title: row['title'] as String,
-            content: row['content'] as String,
-            date: _dateTimeConverter.decode(row['date'] as int),
-            episodeId: row['episode_id'] as int));
-  }
-
-  @override
-  Stream<EpisodeNote?> findEpisodeNoteById(int id) {
-    return _queryAdapter.queryStream('SELECT * FROM episode_note WHERE id = ?1',
-        mapper: (Map<String, Object?> row) => EpisodeNote(
-            id: row['id'] as int?,
-            title: row['title'] as String,
-            content: row['content'] as String,
-            date: _dateTimeConverter.decode(row['date'] as int),
-            episodeId: row['episode_id'] as int),
-        arguments: [id],
-        queryableName: 'episode_note',
-        isView: false);
-  }
-
-  @override
-  Future<int> insertEpisodeNote(EpisodeNote episodeNote) {
-    return _episodeNoteInsertionAdapter.insertAndReturnId(
-        episodeNote, OnConflictStrategy.abort);
-  }
-
-  @override
-  Future<void> insertEpisodeNotes(List<EpisodeNote> episodeNotes) async {
-    await _episodeNoteInsertionAdapter.insertList(
-        episodeNotes, OnConflictStrategy.abort);
-  }
-
-  @override
-  Future<void> updateEpisodeNote(EpisodeNote episodeNote) async {
-    await _episodeNoteUpdateAdapter.update(
-        episodeNote, OnConflictStrategy.abort);
-  }
-
-  @override
-  Future<void> updateEpisodeNotes(List<EpisodeNote> episodeNotes) async {
-    await _episodeNoteUpdateAdapter.updateList(
-        episodeNotes, OnConflictStrategy.abort);
-  }
-
-  @override
-  Future<void> deleteEpisodeNote(EpisodeNote episodeNote) async {
-    await _episodeNoteDeletionAdapter.delete(episodeNote);
   }
 }
 
