@@ -2,16 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:src/themes/colors.dart';
 
-class AddNoteForm extends StatefulWidget {
+class AddEpisodeNoteForm extends StatefulWidget {
   String code;
 
-  AddNoteForm({Key? key, required this.code}) : super(key: key);
+  AddEpisodeNoteForm({Key? key, required this.code}) : super(key: key);
 
   @override
-  State<AddNoteForm> createState() => _AddNoteFormState();
+  State<AddEpisodeNoteForm> createState() => _AddEpisodeNoteFormState();
 }
 
-class _AddNoteFormState extends State<AddNoteForm> {
+class _AddEpisodeNoteFormState extends State<AddEpisodeNoteForm> {
   @override
   Widget build(BuildContext context) {
     final TextEditingController nameInputController = TextEditingController();

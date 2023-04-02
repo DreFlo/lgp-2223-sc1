@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:src/themes/colors.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import '../pages/leisure/AddNoteForm.dart';
+import '../pages/leisure/AddEpisodeNoteForm.dart';
 
 class EpisodeBar extends StatefulWidget {
   final String code, title;
@@ -94,7 +94,7 @@ class _EpisodeBarState extends State<EpisodeBar> {
                                 bottom:
                                     MediaQuery.of(context).viewInsets.bottom),
                             child: Stack(children: [
-                              AddNoteForm(code: widget.code),
+                              AddEpisodeNoteForm(code: widget.code),
                             ])));
                   },
                   style: ButtonStyle(
