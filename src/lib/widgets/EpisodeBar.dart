@@ -75,6 +75,15 @@ class _EpisodeBarState extends State<EpisodeBar> {
 
                     //TODO: Add functionality for watching episode.
                   },
+                  onLongPress: () {
+                    widget.watched = !widget.watched;
+                    setState(() {});
+                    //TODO: Add functionality for watching episode.
+
+                    //TODO: Open add note dialog.
+                    
+                    
+                  },
                   style: ButtonStyle(
                     minimumSize: MaterialStateProperty.all(const Size(45, 45)),
                     backgroundColor: MaterialStateProperty.all(

@@ -31,5 +31,7 @@
   "going_through": "Watching",
   "done": "Done",
   "status": "Status",
-  "season_label": "Season"
+  "season_label": "Season",
+  "progress": "Progress",
+  "notes": "Notes"
 }

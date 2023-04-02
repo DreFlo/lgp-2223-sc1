@@ -3,14 +3,16 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:src/themes/colors.dart';
 import 'package:like_button/like_button.dart';
 import '../../widgets/LeisureTag.dart';
+import 'package:src/utils/enums.dart';
 
 class MediaPage extends StatelessWidget {
   final String title, synopsis, type;
   final bool isFavorite;
+  Status status;
   final List<String> cast, notes;
   final List<int> length;
 
-  const MediaPage(
+  MediaPage(
       {Key? key,
       required this.title,
       required this.synopsis,
@@ -18,7 +20,8 @@ class MediaPage extends StatelessWidget {
       required this.cast,
       required this.length,
       required this.notes,
-      required this.isFavorite})
+      required this.isFavorite,
+      this.status = Status.nothing})
       : super(key: key);
 
   String getLength(context) {
@@ -39,7 +42,7 @@ class MediaPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final TextEditingController nameInputController = TextEditingController();
-    
+
     return Wrap(spacing: 10, children: [
       Row(children: [
         Stack(

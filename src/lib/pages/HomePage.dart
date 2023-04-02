@@ -26,6 +26,31 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   int _counter = 0;
   Object redrawObject = Object();
+  bool isFavorite = false;
+  Status status = Status.goingThrough;
+  String title = "She-ra and the Princesses of Power",
+      synopsis =
+          "In this reboot of the '80s series, a magic sword transforms an orphan girl into warrior She-Ra, who unites a rebellion to fight against evil.",
+      type = "TV Show";
+  List<int> length = [5, 52, 20];
+  List<String> cast = [
+        'Aimee Carrero as Adora',
+        'AJ Michalka as Catra',
+        'Marcus Scribner as Bow',
+        'Karen Fukuhara as Glimmer'
+      ],
+      notes = ['Glimmer sucks.', 'Bow is best boy.'];
+  Map<int, Map<int, String>> episodes = const {
+    1: {
+      1: "123445241355423523254135362541355342",
+      2: "Episode 2",
+      3: "Episode 3",
+      4: "Episode 4"
+    },
+    2: {1: "Episode 1", 2: "Episode 2"},
+    3: {1: "Episode 1", 2: "Episode 2"},
+    4: {1: "Episode 1", 2: "Episode 2"}
+  };
 
   void _incrementCounter() {
     setState(() {
@@ -36,6 +61,252 @@ class _HomePageState extends State<HomePage> {
       // called again, and so nothing would appear to happen.
       _counter++;
     });
+  }
+
+  Widget mediaPageButton() {
+    if (type == "TV Show") {
+      if (status == Status.nothing) {
+        // If the media is not in the catalog, show a button to add it.
+        return ElevatedButton(
+          onPressed: () {
+            showModalBottomSheet(
+                context: context,
+                isScrollControlled: true,
+                backgroundColor: Color(0xFF22252D),
+                shape: RoundedRectangleBorder(
+                  borderRadius:
+                      BorderRadius.vertical(top: Radius.circular(30.0)),
+                ),
+                builder: (context) => DraggableScrollableSheet(
+                    expand: false,
+                    initialChildSize: 0.35,
+                    minChildSize: 0.35,
+                    maxChildSize: 0.5,
+                    builder: (context, scrollController) => Stack(
+                            alignment: AlignmentDirectional.bottomCenter,
+                            children: [
+                              Padding(
+                                  padding: EdgeInsets.only(
+                                      bottom: MediaQuery.of(context)
+                                              .viewInsets
+                                              .bottom +
+                                          50),
+                                  child: SingleChildScrollView(
+                                      controller: scrollController,
+                                      child: AddToCatalogForm(
+                                          status: null,
+                                          startDate: DateTime.now()
+                                              .toString()
+                                              .split(" ")[0],
+                                          endDate: 'Not Defined'))),
+                              Positioned(
+                                  left: 16,
+                                  right: 16,
+                                  bottom: 16,
+                                  child: Padding(
+                                      padding: EdgeInsets.only(
+                                          bottom: MediaQuery.of(context)
+                                              .viewInsets
+                                              .bottom),
+                                      child: ElevatedButton(
+                                        onPressed: () {
+                                          //TODO: Save stuff + send to database.
+                                        },
+                                        style: ElevatedButton.styleFrom(
+                                          minimumSize: Size(
+                                              MediaQuery.of(context)
+                                                      .size
+                                                      .width *
+                                                  0.95,
+                                              55),
+                                          backgroundColor: leisureColor,
+                                          shape: RoundedRectangleBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(25.0),
+                                          ),
+                                        ),
+                                        child: Text(
+                                            AppLocalizations.of(context).save,
+                                            style: Theme.of(context)
+                                                .textTheme
+                                                .headlineSmall),
+                                      )))
+                            ])));
+          },
+          style: ElevatedButton.styleFrom(
+            minimumSize: Size(MediaQuery.of(context).size.width * 0.95, 55),
+            backgroundColor: leisureColor,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(25.0),
+            ),
+          ),
+          child: Text(AppLocalizations.of(context).add,
+              style: Theme.of(context).textTheme.headlineSmall),
+        );
+      } else {
+        // If media is somehow in the catalog, then user should be able to see their notes and edit info.
+        return Container(
+          width: MediaQuery.of(context).size.width * 0.95,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              ElevatedButton(
+                onPressed: () {
+                  showModalBottomSheet(
+                      context: context,
+                      isScrollControlled: true,
+                      backgroundColor: Color(0xFF22252D),
+                      shape: RoundedRectangleBorder(
+                        borderRadius:
+                            BorderRadius.vertical(top: Radius.circular(30.0)),
+                      ),
+                      builder: (context) => DraggableScrollableSheet(
+                          expand: false,
+                          initialChildSize: 0.35,
+                          minChildSize: 0.35,
+                          maxChildSize: 0.5,
+                          builder: (context, scrollController) => Stack(
+                                  alignment: AlignmentDirectional.bottomCenter,
+                                  children: [
+                                    Padding(
+                                        padding: EdgeInsets.only(
+                                            bottom: MediaQuery.of(context)
+                                                    .viewInsets
+                                                    .bottom +
+                                                50),
+                                        child: SingleChildScrollView(
+                                            controller: scrollController,
+                                            child: MarkEpisodesSheet(
+                                                episodes: episodes))),
+                                    Positioned(
+                                        left: 16,
+                                        right: 16,
+                                        bottom: 16,
+                                        child: Padding(
+                                            padding: EdgeInsets.only(
+                                                bottom: MediaQuery.of(context)
+                                                    .viewInsets
+                                                    .bottom),
+                                            child: ElevatedButton(
+                                              onPressed: () {
+                                                //TODO: Save stuff + send to database.
+                                              },
+                                              style: ElevatedButton.styleFrom(
+                                                minimumSize: Size(
+                                                    MediaQuery.of(context)
+                                                            .size
+                                                            .width *
+                                                        0.95,
+                                                    55),
+                                                backgroundColor: leisureColor,
+                                                shape: RoundedRectangleBorder(
+                                                  borderRadius:
+                                                      BorderRadius.circular(
+                                                          25.0),
+                                                ),
+                                              ),
+                                              child: Text(
+                                                  AppLocalizations.of(context)
+                                                      .save,
+                                                  style: Theme.of(context)
+                                                      .textTheme
+                                                      .headlineSmall),
+                                            )))
+                                  ])));
+                },
+                style: ElevatedButton.styleFrom(
+                  minimumSize:
+                      Size(MediaQuery.of(context).size.width * 0.45, 55),
+                  backgroundColor: leisureColor,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(25.0),
+                  ),
+                ),
+                child: Text(AppLocalizations.of(context).progress,
+                    style: Theme.of(context).textTheme.headlineSmall),
+              ),
+              ElevatedButton(
+                onPressed: () {
+                  showModalBottomSheet(
+                      context: context,
+                      isScrollControlled: true,
+                      backgroundColor: Color(0xFF22252D),
+                      shape: RoundedRectangleBorder(
+                        borderRadius:
+                            BorderRadius.vertical(top: Radius.circular(30.0)),
+                      ),
+                      builder: (context) => DraggableScrollableSheet(
+                          expand: false,
+                          initialChildSize: 0.35,
+                          minChildSize: 0.35,
+                          maxChildSize: 0.5,
+                          builder: (context, scrollController) => Stack(
+                                  alignment: AlignmentDirectional.bottomCenter,
+                                  children: [
+                                    Padding(
+                                        padding: EdgeInsets.only(
+                                            bottom: MediaQuery.of(context)
+                                                    .viewInsets
+                                                    .bottom +
+                                                50),
+                                        child: SingleChildScrollView(
+                                            controller: scrollController,
+                                            child: MarkEpisodesSheet(
+                                                episodes: episodes))),
+                                    Positioned(
+                                        left: 16,
+                                        right: 16,
+                                        bottom: 16,
+                                        child: Padding(
+                                            padding: EdgeInsets.only(
+                                                bottom: MediaQuery.of(context)
+                                                    .viewInsets
+                                                    .bottom),
+                                            child: ElevatedButton(
+                                              onPressed: () {
+                                                //TODO: Save stuff + send to database.
+                                              },
+                                              style: ElevatedButton.styleFrom(
+                                                minimumSize: Size(
+                                                    MediaQuery.of(context)
+                                                            .size
+                                                            .width *
+                                                        0.95,
+                                                    55),
+                                                backgroundColor: leisureColor,
+                                                shape: RoundedRectangleBorder(
+                                                  borderRadius:
+                                                      BorderRadius.circular(
+                                                          25.0),
+                                                ),
+                                              ),
+                                              child: Text(
+                                                  AppLocalizations.of(context)
+                                                      .save,
+                                                  style: Theme.of(context)
+                                                      .textTheme
+                                                      .headlineSmall),
+                                            )))
+                                  ])));
+                },
+                style: ElevatedButton.styleFrom(
+                  minimumSize:
+                      Size(MediaQuery.of(context).size.width * 0.45, 55),
+                  backgroundColor: leisureColor,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(25.0),
+                  ),
+                ),
+                child: Text(AppLocalizations.of(context).notes,
+                    style: Theme.of(context).textTheme.headlineSmall),
+              )
+            ],
+          ),
+        );
+      }
+    }
+
+    return Container();
   }
 
   @override
@@ -121,48 +392,19 @@ class _HomePageState extends State<HomePage> {
                                     SingleChildScrollView(
                                         controller: scrollController,
                                         child: MediaPage(
-                                            isFavorite: false,
-                                            title:
-                                                "She-ra and the Princesses of Power",
-                                            synopsis:
-                                                "In this reboot of the '80s series, a magic sword transforms an orphan girl into warrior She-Ra, who unites a rebellion to fight against evil.",
-                                            length: [5, 52, 20],
-                                            cast: [
-                                              'Aimee Carrero as Adora',
-                                              'AJ Michalka as Catra',
-                                              'Marcus Scribner as Bow',
-                                              'Karen Fukuhara as Glimmer'
-                                            ],
-                                            notes: [
-                                              'Glimmer sucks.',
-                                              'Bow is best boy.'
-                                            ],
-                                            type: 'TV Show')),
+                                            title: title,
+                                            synopsis: synopsis,
+                                            type: type,
+                                            length: length,
+                                            cast: cast,
+                                            notes: notes,
+                                            status: status,
+                                            isFavorite: isFavorite)),
                                     Positioned(
                                         left: 16,
                                         right: 16,
                                         bottom: 16,
-                                        child: ElevatedButton(
-                                          onPressed: () {},
-                                          style: ElevatedButton.styleFrom(
-                                            minimumSize: Size(
-                                                MediaQuery.of(context)
-                                                        .size
-                                                        .width *
-                                                    0.95,
-                                                55),
-                                            backgroundColor: leisureColor,
-                                            shape: RoundedRectangleBorder(
-                                              borderRadius:
-                                                  BorderRadius.circular(25.0),
-                                            ),
-                                          ),
-                                          child: Text(
-                                              AppLocalizations.of(context).add,
-                                              style: Theme.of(context)
-                                                  .textTheme
-                                                  .headlineSmall),
-                                        ))
+                                        child: mediaPageButton())
                                   ])));
                 }),
             ElevatedButton(
@@ -198,157 +440,6 @@ class _HomePageState extends State<HomePage> {
                                                     .split(" ")[0],
                                                 endDate: 'Not Defined',
                                                 isFavorite: false))),
-                                    Positioned(
-                                        left: 16,
-                                        right: 16,
-                                        bottom: 16,
-                                        child: Padding(
-                                            padding: EdgeInsets.only(
-                                                bottom: MediaQuery.of(context)
-                                                    .viewInsets
-                                                    .bottom),
-                                            child: ElevatedButton(
-                                              onPressed: () {
-                                                //TODO: Save stuff + send to database.
-                                              },
-                                              style: ElevatedButton.styleFrom(
-                                                minimumSize: Size(
-                                                    MediaQuery.of(context)
-                                                            .size
-                                                            .width *
-                                                        0.95,
-                                                    55),
-                                                backgroundColor: leisureColor,
-                                                shape: RoundedRectangleBorder(
-                                                  borderRadius:
-                                                      BorderRadius.circular(
-                                                          25.0),
-                                                ),
-                                              ),
-                                              child: Text(
-                                                  AppLocalizations.of(context)
-                                                      .save,
-                                                  style: Theme.of(context)
-                                                      .textTheme
-                                                      .headlineSmall),
-                                            )))
-                                  ])));
-                }),
-            ElevatedButton(
-                child: Text("Add To Catalog Form"),
-                onPressed: () {
-                  showModalBottomSheet(
-                      context: context,
-                      isScrollControlled: true,
-                      backgroundColor: Color(0xFF22252D),
-                      shape: RoundedRectangleBorder(
-                        borderRadius:
-                            BorderRadius.vertical(top: Radius.circular(30.0)),
-                      ),
-                      builder: (context) => DraggableScrollableSheet(
-                          expand: false,
-                          initialChildSize: 0.35,
-                          minChildSize: 0.35,
-                          maxChildSize: 0.5,
-                          builder: (context, scrollController) => Stack(
-                                  alignment: AlignmentDirectional.bottomCenter,
-                                  children: [
-                                    Padding(
-                                        padding: EdgeInsets.only(
-                                            bottom: MediaQuery.of(context)
-                                                    .viewInsets
-                                                    .bottom +
-                                                50),
-                                        child: SingleChildScrollView(
-                                            controller: scrollController,
-                                            child: AddToCatalogForm(
-                                                status: null,
-                                                startDate: DateTime.now()
-                                                    .toString()
-                                                    .split(" ")[0],
-                                                endDate: 'Not Defined'))),
-                                    Positioned(
-                                        left: 16,
-                                        right: 16,
-                                        bottom: 16,
-                                        child: Padding(
-                                            padding: EdgeInsets.only(
-                                                bottom: MediaQuery.of(context)
-                                                    .viewInsets
-                                                    .bottom),
-                                            child: ElevatedButton(
-                                              onPressed: () {
-                                                //TODO: Save stuff + send to database.
-                                              },
-                                              style: ElevatedButton.styleFrom(
-                                                minimumSize: Size(
-                                                    MediaQuery.of(context)
-                                                            .size
-                                                            .width *
-                                                        0.95,
-                                                    55),
-                                                backgroundColor: leisureColor,
-                                                shape: RoundedRectangleBorder(
-                                                  borderRadius:
-                                                      BorderRadius.circular(
-                                                          25.0),
-                                                ),
-                                              ),
-                                              child: Text(
-                                                  AppLocalizations.of(context)
-                                                      .save,
-                                                  style: Theme.of(context)
-                                                      .textTheme
-                                                      .headlineSmall),
-                                            )))
-                                  ])));
-                }),
-            ElevatedButton(
-                child: Text("Mark Episodes Sheet"),
-                onPressed: () {
-                  showModalBottomSheet(
-                      context: context,
-                      isScrollControlled: true,
-                      backgroundColor: Color(0xFF22252D),
-                      shape: RoundedRectangleBorder(
-                        borderRadius:
-                            BorderRadius.vertical(top: Radius.circular(30.0)),
-                      ),
-                      builder: (context) => DraggableScrollableSheet(
-                          expand: false,
-                          initialChildSize: 0.35,
-                          minChildSize: 0.35,
-                          maxChildSize: 0.5,
-                          builder: (context, scrollController) => Stack(
-                                  alignment: AlignmentDirectional.bottomCenter,
-                                  children: [
-                                    Padding(
-                                        padding: EdgeInsets.only(
-                                            bottom: MediaQuery.of(context)
-                                                    .viewInsets
-                                                    .bottom +
-                                                50),
-                                        child: SingleChildScrollView(
-                                            controller: scrollController,
-                                            child: MarkEpisodesSheet(
-                                                episodes: const {
-                                                  1: {
-                                                    1: "123445241355423523254135362541355342",
-                                                    2: "Episode 2"
-                                                  },
-                                                  2: {
-                                                    1: "Episode 1",
-                                                    2: "Episode 2"
-                                                  },
-                                                  3: {
-                                                    1: "Episode 1",
-                                                    2: "Episode 2"
-                                                  },
-                                                  4: {
-                                                    1: "Episode 1",
-                                                    2: "Episode 2"
-                                                  }
-                                                }))),
                                     Positioned(
                                         left: 16,
                                         right: 16,
