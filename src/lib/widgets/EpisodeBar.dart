@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:src/themes/colors.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import '../pages/leisure/AddNoteForm.dart';
 
 class EpisodeBar extends StatefulWidget {
   final String code, title;
@@ -29,28 +31,27 @@ class _EpisodeBarState extends State<EpisodeBar> {
             borderRadius: BorderRadius.circular(10), color: lightGray),
         child:
             Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-          Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Row(mainAxisAlignment: MainAxisAlignment.start, children: [
-                      Text(widget.code,
-                          style: const TextStyle(
-                              color: Colors.white,
-                              fontSize: 24,
-                              fontWeight: FontWeight.w600))
-                    ]),
-                    Row(mainAxisAlignment: MainAxisAlignment.start, children: [
-                      Text(
-                          widget.title.length > 20
-                              ? widget.title.substring(0, 20) + '...'
-                              : widget.title,
-                          style: const TextStyle(
-                              color: Colors.white,
-                              fontSize: 16,
-                              fontWeight: FontWeight.normal))
-                    ])
-                  ]),
-          Column(children: [Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+          Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+            Row(mainAxisAlignment: MainAxisAlignment.start, children: [
+              Text(widget.code,
+                  style: const TextStyle(
+                      color: Colors.white,
+                      fontSize: 24,
+                      fontWeight: FontWeight.w600))
+            ]),
+            Row(mainAxisAlignment: MainAxisAlignment.start, children: [
+              Text(
+                  widget.title.length > 20
+                      ? widget.title.substring(0, 20) + '...'
+                      : widget.title,
+                  style: const TextStyle(
+                      color: Colors.white,
+                      fontSize: 16,
+                      fontWeight: FontWeight.normal))
+            ])
+          ]),
+          Column(children: [
+            Row(mainAxisAlignment: MainAxisAlignment.center, children: [
               ElevatedButton(
                   onPressed: () {
                     widget.favorite = !widget.favorite;
@@ -80,9 +81,21 @@ class _EpisodeBarState extends State<EpisodeBar> {
                     setState(() {});
                     //TODO: Add functionality for watching episode.
 
-                    //TODO: Open add note dialog.
-                    
-                    
+                    showModalBottomSheet(
+                        context: context,
+                        isScrollControlled: true,
+                        backgroundColor: Color(0xFF22252D),
+                        shape: RoundedRectangleBorder(
+                          borderRadius:
+                              BorderRadius.vertical(top: Radius.circular(30.0)),
+                        ),
+                        builder: (context) => Padding(
+                            padding: EdgeInsets.only(
+                                bottom:
+                                    MediaQuery.of(context).viewInsets.bottom),
+                            child: Stack(children: [
+                              AddNoteForm(code: widget.code),
+                            ])));
                   },
                   style: ButtonStyle(
                     minimumSize: MaterialStateProperty.all(const Size(45, 45)),
@@ -95,7 +108,7 @@ class _EpisodeBarState extends State<EpisodeBar> {
                   ),
                   child: Icon(Icons.remove_red_eye_outlined))
             ]),
-            ]),
+          ]),
         ]));
   }
 }

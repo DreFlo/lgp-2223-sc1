@@ -35,5 +35,6 @@
   "progress": "Progress",
   "notes": "Notes",
   "all_label": "All",
-  "no_notes_label": "You have no notes for this season."
+  "no_notes_label": "You have no notes for this season.",
+  "add_note_callout": "Oh, so you have something to say!"
 }

@@ -182,40 +182,6 @@ class _HomePageState extends State<HomePage> {
                                             controller: scrollController,
                                             child: MarkEpisodesSheet(
                                                 episodes: episodes))),
-                                    Positioned(
-                                        left: 16,
-                                        right: 16,
-                                        bottom: 16,
-                                        child: Padding(
-                                            padding: EdgeInsets.only(
-                                                bottom: MediaQuery.of(context)
-                                                    .viewInsets
-                                                    .bottom),
-                                            child: ElevatedButton(
-                                              onPressed: () {
-                                                //TODO: Save stuff + send to database.
-                                              },
-                                              style: ElevatedButton.styleFrom(
-                                                minimumSize: Size(
-                                                    MediaQuery.of(context)
-                                                            .size
-                                                            .width *
-                                                        0.95,
-                                                    55),
-                                                backgroundColor: leisureColor,
-                                                shape: RoundedRectangleBorder(
-                                                  borderRadius:
-                                                      BorderRadius.circular(
-                                                          25.0),
-                                                ),
-                                              ),
-                                              child: Text(
-                                                  AppLocalizations.of(context)
-                                                      .save,
-                                                  style: Theme.of(context)
-                                                      .textTheme
-                                                      .headlineSmall),
-                                            )))
                                   ])));
                 },
                 style: ElevatedButton.styleFrom(
