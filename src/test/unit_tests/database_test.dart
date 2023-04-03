@@ -1,11 +1,15 @@
 import 'package:flutter_test/flutter_test.dart';
+import 'package:src/daos/media/media_video_movie_super_dao.dart';
 import 'package:src/daos/media/media_video_super_dao.dart';
+import 'package:src/daos/media/movie_dao.dart';
 import 'package:src/daos/media/video_dao.dart';
 import 'package:src/daos/media/media_dao.dart';
 import 'package:src/daos/student/task_group_dao.dart';
 import 'package:src/models/media/media.dart';
 import 'package:src/database/database.dart';
+import 'package:src/models/media/media_video_movie_super_entity.dart';
 import 'package:src/models/media/media_video_super_entity.dart';
+import 'package:src/models/media/movie.dart';
 import 'package:src/models/notes/note_book_note_super_entity.dart';
 import 'package:src/daos/notes/note_book_note_super_dao.dart';
 import 'package:src/models/notes/note_subject_note_super_entity.dart';
@@ -82,7 +86,7 @@ void main() {
     await serviceLocator<AppDatabase>().close();
   });
 
-  testWidgets('Counter increments smoke test', (WidgetTester tester) async {
+  testWidgets('Basic Database Insert Test', (WidgetTester tester) async {
     await tester.runAsync(() async {
       List<User> users = await serviceLocator<UserDao>().findAllUsers();
 
@@ -94,8 +98,6 @@ void main() {
       users = await serviceLocator<UserDao>().findAllUsers();
 
       expect(users.length, 1);
-
-
     });
   });
 
@@ -122,6 +124,61 @@ void main() {
       Video video = (await serviceLocator<VideoDao>().findVideoById(id).first)!;
 
       expect(video.duration, 23);
+    });
+  });
+
+  testWidgets('Test SuperDAO for MediaVideoEpisode',
+      (WidgetTester tester) async {
+    await tester.runAsync(() async {
+      MediaVideoEpisodeSuperEntity mediaVideoEpisodeSuperEntity =
+          MediaVideoEpisodeSuperEntity(
+        name: 'name',
+        description: 'description',
+        linkImage: 'linkImage',
+        status: Status.goingThrough,
+        favorite: true,
+        genres: 'genres',
+        release: DateTime.now(),
+        xp: 23,
+        duration: 23,
+        number: 1,
+      );
+
+      int id = await serviceLocator<MediaVideoEpisodeSuperDao>()
+          .insertMediaVideoEpisodeSuperEntity(mediaVideoEpisodeSuperEntity);
+
+      expect(id, 1);
+
+      Episode episode =
+          (await serviceLocator<EpisodeDao>().findEpisodeById(id).first)!;
+
+      expect(episode.number, 1);
+    });
+  });
+
+  testWidgets('Test SuperDAO for MediaVideoMovie', (WidgetTester tester) async {
+    await tester.runAsync(() async {
+      MediaVideoMovieSuperEntity mediaVideoMovieSuperEntity =
+          MediaVideoMovieSuperEntity(
+        name: 'name',
+        description: 'description',
+        linkImage: 'linkImage',
+        status: Status.goingThrough,
+        favorite: true,
+        genres: 'genres',
+        release: DateTime.now(),
+        xp: 23,
+        duration: 23,
+      );
+
+      int id = await serviceLocator<MediaVideoMovieSuperDao>()
+          .insertMediaVideoMovieSuperEntity(mediaVideoMovieSuperEntity);
+
+      expect(id, 1);
+
+      Movie movie = (await serviceLocator<MovieDao>().findMovieById(id).first)!;
+
+      expect(movie.id, 1);
     });
   });
 
@@ -174,7 +231,7 @@ void main() {
   testWidgets('Test SuperDAO for Note/TaskNote', (WidgetTester tester) async {
     await tester.runAsync(() async {
       await serviceLocator<UserDao>()
-        .insertUser(User(userName: 'Emil', password: '1234', xp: 23));
+          .insertUser(User(userName: 'Emil', password: '1234', xp: 23));
 
       await serviceLocator<InstitutionDao>().insertInstitution(Institution(
           name: 'name',
@@ -223,11 +280,12 @@ void main() {
     });
   });
 
-  testWidgets('Test SuperDAO for Note/SubjectNote', (WidgetTester tester) async {
+  testWidgets('Test SuperDAO for Note/SubjectNote',
+      (WidgetTester tester) async {
     await tester.runAsync(() async {
       await serviceLocator<UserDao>()
-        .insertUser(User(userName: 'Emil', password: '1234', xp: 23));
-        
+          .insertUser(User(userName: 'Emil', password: '1234', xp: 23));
+
       await serviceLocator<InstitutionDao>().insertInstitution(Institution(
           name: 'name',
           picture: 'picture',
@@ -241,19 +299,21 @@ void main() {
         institutionId: 1,
       ));
 
-      NoteSubjectNoteSuperEntity noteSubjectNoteSuperEntity = NoteSubjectNoteSuperEntity(
-          title: 'Note 1',
-          content: 'Content 1',
-          date: DateTime.now(),
-          subjectId: 1);
+      NoteSubjectNoteSuperEntity noteSubjectNoteSuperEntity =
+          NoteSubjectNoteSuperEntity(
+              title: 'Note 1',
+              content: 'Content 1',
+              date: DateTime.now(),
+              subjectId: 1);
 
       int id = await serviceLocator<NoteSubjectNoteSuperDao>()
           .insertNoteSubjectNoteSuperEntity(noteSubjectNoteSuperEntity);
 
       expect(id, 1);
 
-      SubjectNote subjectNote=
-          (await serviceLocator<SubjectNoteDao>().findSubjectNoteById(id).first)!;
+      SubjectNote subjectNote = (await serviceLocator<SubjectNoteDao>()
+          .findSubjectNoteById(id)
+          .first)!;
 
       expect(subjectNote.subjectId, 1);
     });
@@ -261,8 +321,8 @@ void main() {
 
   testWidgets('Test Video/Episode SuperDAO', (WidgetTester tester) async {
     await tester.runAsync(() async {
-
-      MediaVideoEpisodeSuperEntity videoEpisodeSuperEntity = MediaVideoEpisodeSuperEntity(
+      MediaVideoEpisodeSuperEntity videoEpisodeSuperEntity =
+          MediaVideoEpisodeSuperEntity(
         name: 'name',
         description: 'description',
         linkImage: 'linkImage',
@@ -280,17 +340,17 @@ void main() {
 
       expect(id, 1);
 
-      Episode episode = (await serviceLocator<EpisodeDao>().findEpisodeById(id).first)!;
+      Episode episode =
+          (await serviceLocator<EpisodeDao>().findEpisodeById(id).first)!;
 
       expect(episode.number, 1);
-      
     });
   });
 
   testWidgets('Test Note/EpisodeNote SuperDAO', (WidgetTester tester) async {
     await tester.runAsync(() async {
-
-      MediaVideoEpisodeSuperEntity videoEpisodeSuperEntity = MediaVideoEpisodeSuperEntity(
+      MediaVideoEpisodeSuperEntity videoEpisodeSuperEntity =
+          MediaVideoEpisodeSuperEntity(
         name: 'name',
         description: 'description',
         linkImage: 'linkImage',
@@ -308,25 +368,28 @@ void main() {
 
       expect(id, 1);
 
-      Episode episode = (await serviceLocator<EpisodeDao>().findEpisodeById(id).first)!;
+      Episode episode =
+          (await serviceLocator<EpisodeDao>().findEpisodeById(id).first)!;
 
       expect(episode.number, 1);
 
-      NoteEpisodeNoteSuperEntity noteEpisodeNoteSuperEntity = NoteEpisodeNoteSuperEntity(
-        title: 'title',
-        content: 'content',
-        date: DateTime.now(),
-        episodeId: 1
-      );
+      NoteEpisodeNoteSuperEntity noteEpisodeNoteSuperEntity =
+          NoteEpisodeNoteSuperEntity(
+              title: 'title',
+              content: 'content',
+              date: DateTime.now(),
+              episodeId: 1);
 
       int id3 = await serviceLocator<NoteEpisodeNoteSuperDao>()
           .insertNoteEpisodeNoteSuperEntity(noteEpisodeNoteSuperEntity);
 
       expect(id3, 1);
 
-      EpisodeNote episodeNote = (await serviceLocator<EpisodeNoteDao>().findEpisodeNoteById(id3).first)!;
+      EpisodeNote episodeNote = (await serviceLocator<EpisodeNoteDao>()
+          .findEpisodeNoteById(id3)
+          .first)!;
 
-      expect(episodeNote.episodeId, 1);      
+      expect(episodeNote.episodeId, 1);
     });
   });
 }
@@ -360,7 +423,7 @@ testWidgets('Book Notes test', (WidgetTester tester) async{
 
 });
 */
-  /*
+/*
   testWidgets('Date Review test', (WidgetTester tester) async {
     await tester.runAsync(() async {
 
@@ -388,7 +451,7 @@ testWidgets('Book Notes test', (WidgetTester tester) async{
   });
   */
 
-  /*
+/*
   testWidgets('Book pages test', (WidgetTester tester) async {
     await tester.runAsync(() async {
 
@@ -483,7 +546,7 @@ testWidgets('Book Notes test', (WidgetTester tester) async{
           release: DateTime.now(),
           xp: 0,
           duration: -1));
-      
+
       //List<Video> videos = await serviceLocator<VideoDao>().findAllVideos();
 
       //expect(videos.length, 0);
@@ -573,7 +636,7 @@ testWidgets('Weight average Subject', (WidgetTester tester) async {
     });
   });*/
 
-  /*
+/*
   testWidgets('Task deadline test', (WidgetTester tester) async {
     await tester.runAsync(() async {
       List<User> users = await serviceLocator<UserDao>().findAllUsers();

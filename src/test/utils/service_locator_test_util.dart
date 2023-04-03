@@ -1,4 +1,5 @@
 import 'package:mockito/annotations.dart';
+import 'package:src/daos/media/media_video_movie_super_dao.dart';
 import 'package:src/daos/media/media_video_super_dao.dart';
 import 'package:src/daos/media/media_video_episode_super_dao.dart';
 import 'package:src/daos/notes/note_book_note_super_dao.dart';
@@ -37,8 +38,6 @@ import 'package:src/utils/service_locator.dart';
 
 import 'service_locator_test_util.mocks.dart';
 
-import 'package:src/database/callbacks.dart';
-
 @GenerateMocks([
   AppDatabase,
   InstitutionDao,
@@ -54,7 +53,7 @@ import 'package:src/database/callbacks.dart';
   SeasonDao,
   ReviewDao,
   EpisodeDao,
-  // MovieDao,
+  MovieDao,
   BookNoteDao,
   EpisodeNoteDao,
   TaskNoteDao,
@@ -66,6 +65,13 @@ import 'package:src/database/callbacks.dart';
   MoodDao,
   UserBadgeDao,
   UserDao,
+  MediaVideoSuperDao,
+  MediaVideoEpisodeSuperDao,
+  MediaVideoMovieSuperDao,
+  NoteBookNoteSuperDao,
+  NoteSubjectNoteSuperDao,
+  NoteTaskNoteSuperDao,
+  NoteEpisodeNoteSuperDao,
 ])
 void setupMockServiceLocatorUnitTests() {
   serviceLocator
@@ -107,9 +113,9 @@ void setupMockServiceLocatorUnitTests() {
   serviceLocator.registerSingletonWithDependencies<EpisodeDao>(
       () => MockEpisodeDao(),
       dependsOn: [AppDatabase]);
-  // serviceLocator.registerSingletonWithDependencies<MovieDao>(
-  //     () => MockMovieDao(),
-  //     dependsOn: [AppDatabase]);
+  serviceLocator.registerSingletonWithDependencies<MovieDao>(
+      () => MockMovieDao(),
+      dependsOn: [AppDatabase]);
   serviceLocator.registerSingletonWithDependencies<BookNoteDao>(
       () => MockBookNoteDao(),
       dependsOn: [AppDatabase]);
@@ -140,5 +146,28 @@ void setupMockServiceLocatorUnitTests() {
       () => MockUserBadgeDao(),
       dependsOn: [AppDatabase]);
   serviceLocator.registerSingletonWithDependencies<UserDao>(() => MockUserDao(),
+      dependsOn: [AppDatabase]);
+
+  // Super DAOs
+  serviceLocator.registerSingletonWithDependencies<MediaVideoSuperDao>(
+      () => MockMediaVideoSuperDao(),
+      dependsOn: [AppDatabase]);
+  serviceLocator.registerSingletonWithDependencies<MediaVideoEpisodeSuperDao>(
+      () => MockMediaVideoEpisodeSuperDao(),
+      dependsOn: [AppDatabase]);
+  serviceLocator.registerSingletonWithDependencies<MediaVideoMovieSuperDao>(
+      () => MockMediaVideoMovieSuperDao(),
+      dependsOn: [AppDatabase]);
+  serviceLocator.registerSingletonWithDependencies<NoteBookNoteSuperDao>(
+      () => MockNoteBookNoteSuperDao(),
+      dependsOn: [AppDatabase]);
+  serviceLocator.registerSingletonWithDependencies<NoteSubjectNoteSuperDao>(
+      () => MockNoteSubjectNoteSuperDao(),
+      dependsOn: [AppDatabase]);
+  serviceLocator.registerSingletonWithDependencies<NoteTaskNoteSuperDao>(
+      () => MockNoteTaskNoteSuperDao(),
+      dependsOn: [AppDatabase]);
+  serviceLocator.registerSingletonWithDependencies<NoteEpisodeNoteSuperDao>(
+      () => MockNoteEpisodeNoteSuperDao(),
       dependsOn: [AppDatabase]);
 }

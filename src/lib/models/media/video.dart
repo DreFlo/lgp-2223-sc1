@@ -9,6 +9,8 @@ import 'package:src/models/media/media.dart';
       childColumns: ['id'],
       parentColumns: ['id'],
       entity: Media,
+      onDelete: ForeignKeyAction.cascade,
+      onUpdate: ForeignKeyAction.restrict,
     ),
   ],
 )

@@ -89,7 +89,7 @@ part 'database.g.dart'; // the generated code will be there
   Video,
   Season,
   Review,
-  // Movie,
+  Movie,
   Episode,
   Note,
   SubjectNote,
@@ -117,7 +117,7 @@ abstract class AppDatabase extends FloorDatabase {
   VideoDao get videoDao;
   SeasonDao get seasonDao;
   ReviewDao get reviewDao;
-  // MovieDao get movieDao;
+  MovieDao get movieDao;
   EpisodeDao get episodeDao;
 
   NoteDao get noteDao;

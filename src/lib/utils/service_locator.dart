@@ -1,6 +1,7 @@
 import 'package:floor/floor.dart';
 import 'package:flutter/foundation.dart';
 import 'package:get_it/get_it.dart';
+import 'package:src/daos/media/media_video_movie_super_dao.dart';
 import 'package:src/daos/media/media_video_super_dao.dart';
 import 'package:src/daos/user_badge_dao.dart';
 import 'package:src/database/database.dart';
@@ -41,6 +42,7 @@ import 'package:src/daos/mood_dao.dart';
 import 'package:src/daos/user_dao.dart';
 
 import 'package:src/database/callbacks.dart';
+import 'package:src/models/media/media_video_movie_super_entity.dart';
 
 final GetIt serviceLocator = GetIt.instance;
 
@@ -104,9 +106,9 @@ Future<void> setup({bool testing = false}) async {
   serviceLocator.registerSingletonWithDependencies<EpisodeDao>(
       () => serviceLocator.get<AppDatabase>().episodeDao,
       dependsOn: [AppDatabase]);
-  //serviceLocator.registerSingletonWithDependencies<MovieDao>(
-  //     () => serviceLocator.get<AppDatabase>().movieDao,
-  //     dependsOn: [AppDatabase]);
+  serviceLocator.registerSingletonWithDependencies<MovieDao>(
+      () => serviceLocator.get<AppDatabase>().movieDao,
+      dependsOn: [AppDatabase]);
   serviceLocator.registerSingletonWithDependencies<BookNoteDao>(
       () => serviceLocator.get<AppDatabase>().bookNoteDao,
       dependsOn: [AppDatabase]);
@@ -147,6 +149,9 @@ Future<void> setup({bool testing = false}) async {
       dependsOn: [AppDatabase]);
   serviceLocator.registerSingletonWithDependencies<MediaVideoEpisodeSuperDao>(
       () => mediaVideoEpisodeSuperDao,
+      dependsOn: [AppDatabase]);
+  serviceLocator.registerSingletonWithDependencies<MediaVideoMovieSuperDao>(
+      () => mediaVideoMovieSuperDao,
       dependsOn: [AppDatabase]);
   serviceLocator.registerSingletonWithDependencies<NoteBookNoteSuperDao>(
       () => noteBookNoteSuperDao,

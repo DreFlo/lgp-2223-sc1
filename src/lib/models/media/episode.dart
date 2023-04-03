@@ -8,6 +8,8 @@ import 'package:src/models/media/video.dart';
       childColumns: ['id'],
       parentColumns: ['id'],
       entity: Video,
+      onDelete: ForeignKeyAction.cascade,
+      onUpdate: ForeignKeyAction.restrict,
     ),
   ],
 )

@@ -83,6 +83,8 @@ class _$AppDatabase extends AppDatabase {
 
   ReviewDao? _reviewDaoInstance;
 
+  MovieDao? _movieDaoInstance;
+
   EpisodeDao? _episodeDaoInstance;
 
   NoteDao? _noteDaoInstance;
@@ -147,13 +149,15 @@ class _$AppDatabase extends AppDatabase {
         await database.execute(
             'CREATE TABLE IF NOT EXISTS `series` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `name` TEXT NOT NULL, `description` TEXT NOT NULL, `link_image` TEXT NOT NULL, `status` INTEGER NOT NULL, `favorite` INTEGER NOT NULL, `genres` TEXT NOT NULL, `release` INTEGER NOT NULL, `xp` INTEGER NOT NULL)');
         await database.execute(
-            'CREATE TABLE IF NOT EXISTS `video` (`id` INTEGER NOT NULL, `duration` INTEGER NOT NULL, FOREIGN KEY (`id`) REFERENCES `media` (`id`) ON UPDATE NO ACTION ON DELETE NO ACTION, PRIMARY KEY (`id`))');
+            'CREATE TABLE IF NOT EXISTS `video` (`id` INTEGER NOT NULL, `duration` INTEGER NOT NULL, FOREIGN KEY (`id`) REFERENCES `media` (`id`) ON UPDATE RESTRICT ON DELETE CASCADE, PRIMARY KEY (`id`))');
         await database.execute(
             'CREATE TABLE IF NOT EXISTS `season` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `number` INTEGER NOT NULL, `series_id` INTEGER NOT NULL, FOREIGN KEY (`series_id`) REFERENCES `series` (`id`) ON UPDATE RESTRICT ON DELETE CASCADE)');
         await database.execute(
             'CREATE TABLE IF NOT EXISTS `review` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `start_date` INTEGER NOT NULL, `end_date` INTEGER NOT NULL, `review` TEXT NOT NULL, `emoji` INTEGER NOT NULL, `media_id` INTEGER NOT NULL, FOREIGN KEY (`media_id`) REFERENCES `media` (`id`) ON UPDATE NO ACTION ON DELETE NO ACTION)');
         await database.execute(
-            'CREATE TABLE IF NOT EXISTS `episode` (`id` INTEGER NOT NULL, `number` INTEGER NOT NULL, FOREIGN KEY (`id`) REFERENCES `video` (`id`) ON UPDATE NO ACTION ON DELETE NO ACTION, PRIMARY KEY (`id`))');
+            'CREATE TABLE IF NOT EXISTS `movie` (`id` INTEGER NOT NULL, FOREIGN KEY (`id`) REFERENCES `video` (`id`) ON UPDATE RESTRICT ON DELETE CASCADE, PRIMARY KEY (`id`))');
+        await database.execute(
+            'CREATE TABLE IF NOT EXISTS `episode` (`id` INTEGER NOT NULL, `number` INTEGER NOT NULL, FOREIGN KEY (`id`) REFERENCES `video` (`id`) ON UPDATE RESTRICT ON DELETE CASCADE, PRIMARY KEY (`id`))');
         await database.execute(
             'CREATE TABLE IF NOT EXISTS `note` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `title` TEXT NOT NULL, `content` TEXT NOT NULL, `date` INTEGER NOT NULL)');
         await database.execute(
@@ -240,6 +244,11 @@ class _$AppDatabase extends AppDatabase {
   @override
   ReviewDao get reviewDao {
     return _reviewDaoInstance ??= _$ReviewDao(database, changeListener);
+  }
+
+  @override
+  MovieDao get movieDao {
+    return _movieDaoInstance ??= _$MovieDao(database, changeListener);
   }
 
   @override
@@ -1556,6 +1565,72 @@ class _$ReviewDao extends ReviewDao {
   @override
   Future<void> deleteReview(Review review) async {
     await _reviewDeletionAdapter.delete(review);
+  }
+}
+
+class _$MovieDao extends MovieDao {
+  _$MovieDao(
+    this.database,
+    this.changeListener,
+  )   : _queryAdapter = QueryAdapter(database, changeListener),
+        _movieInsertionAdapter = InsertionAdapter(database, 'movie',
+            (Movie item) => <String, Object?>{'id': item.id}, changeListener),
+        _movieUpdateAdapter = UpdateAdapter(database, 'movie', ['id'],
+            (Movie item) => <String, Object?>{'id': item.id}, changeListener),
+        _movieDeletionAdapter = DeletionAdapter(database, 'movie', ['id'],
+            (Movie item) => <String, Object?>{'id': item.id}, changeListener);
+
+  final sqflite.DatabaseExecutor database;
+
+  final StreamController<String> changeListener;
+
+  final QueryAdapter _queryAdapter;
+
+  final InsertionAdapter<Movie> _movieInsertionAdapter;
+
+  final UpdateAdapter<Movie> _movieUpdateAdapter;
+
+  final DeletionAdapter<Movie> _movieDeletionAdapter;
+
+  @override
+  Future<List<Movie>> findAllMovie() async {
+    return _queryAdapter.queryList('SELECT * FROM movie',
+        mapper: (Map<String, Object?> row) => Movie(id: row['id'] as int));
+  }
+
+  @override
+  Stream<Movie?> findMovieById(int id) {
+    return _queryAdapter.queryStream('SELECT * FROM movie WHERE id = ?1',
+        mapper: (Map<String, Object?> row) => Movie(id: row['id'] as int),
+        arguments: [id],
+        queryableName: 'movie',
+        isView: false);
+  }
+
+  @override
+  Future<int> insertMovie(Movie movie) {
+    return _movieInsertionAdapter.insertAndReturnId(
+        movie, OnConflictStrategy.abort);
+  }
+
+  @override
+  Future<void> insertMovies(List<Movie> movie) async {
+    await _movieInsertionAdapter.insertList(movie, OnConflictStrategy.abort);
+  }
+
+  @override
+  Future<void> updateMovie(Movie movie) async {
+    await _movieUpdateAdapter.update(movie, OnConflictStrategy.abort);
+  }
+
+  @override
+  Future<void> updateMovies(List<Movie> movie) async {
+    await _movieUpdateAdapter.updateList(movie, OnConflictStrategy.abort);
+  }
+
+  @override
+  Future<void> deleteMovie(Movie movie) async {
+    await _movieDeletionAdapter.delete(movie);
   }
 }
 
