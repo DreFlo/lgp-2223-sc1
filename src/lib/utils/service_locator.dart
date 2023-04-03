@@ -47,13 +47,23 @@ final GetIt serviceLocator = GetIt.instance;
 /// Setup the GetIt service locator
 /// Used to register singleton variables
 /// Add any singleton variables here
-void setup() {
-  serviceLocator.registerSingletonAsync<AppDatabase>(() async =>
-      await $FloorAppDatabase
-          .databaseBuilder('wokka_database.db')
-          .addMigrations([])
-          .addCallback(addConstraintsCallback)
-          .build());
+Future<void> setup({bool testing = false}) async {
+  if (testing) {
+    await serviceLocator.reset();
+    serviceLocator
+        .registerSingletonAsync<AppDatabase>(() async => await $FloorAppDatabase
+            .inMemoryDatabaseBuilder()
+            .addCallback(addConstraintsCallback)
+            //.addCallback(unitTestPrintVersionCallback)
+            .build());
+  } else {
+    serviceLocator.registerSingletonAsync<AppDatabase>(() async =>
+        await $FloorAppDatabase
+            .databaseBuilder('wokka_database.db')
+            .addMigrations([])
+            .addCallback(addConstraintsCallback)
+            .build());
+  }
 
   serviceLocator.registerSingletonWithDependencies<InstitutionDao>(
       () => serviceLocator.get<AppDatabase>().institutionDao,

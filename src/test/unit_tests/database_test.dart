@@ -74,8 +74,7 @@ import '../utils/service_locator_test_util.dart';
 
 void main() {
   setUp(() async {
-    await serviceLocator.reset();
-    setupServiceLocatorUnitTests();
+    await setup(testing: true);
     await serviceLocator.allReady();
   });
 
@@ -224,7 +223,7 @@ void main() {
     });
   });
 
-  testWidgets('Test SuperDAO for Note/SubjectkNote', (WidgetTester tester) async {
+  testWidgets('Test SuperDAO for Note/SubjectNote', (WidgetTester tester) async {
     await tester.runAsync(() async {
       await serviceLocator<UserDao>()
         .insertUser(User(userName: 'Emil', password: '1234', xp: 23));

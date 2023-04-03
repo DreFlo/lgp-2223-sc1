@@ -6,6 +6,6 @@ import 'package:src/utils/service_locator.dart';
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   F.appFlavor = Flavor.premium;
-  setup();
+  await setup();
   runApp(const App());
 }
