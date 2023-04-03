@@ -46,7 +46,7 @@ import 'package:src/database/callbacks.dart';
   TaskGroupDao,
   TaskDao,
   NoteDao,
-  EvaluationDao,
+  StudentEvaluationDao,
   MediaDao,
   VideoDao,
   SeriesDao,
@@ -84,8 +84,8 @@ void setupMockServiceLocatorUnitTests() {
       dependsOn: [AppDatabase]);
   serviceLocator.registerSingletonWithDependencies<NoteDao>(() => MockNoteDao(),
       dependsOn: [AppDatabase]);
-  serviceLocator.registerSingletonWithDependencies<EvaluationDao>(
-      () => MockEvaluationDao(),
+  serviceLocator.registerSingletonWithDependencies<StudentEvaluationDao>(
+      () => MockStudentEvaluationDao(),
       dependsOn: [AppDatabase]);
   serviceLocator.registerSingletonWithDependencies<MediaDao>(
       () => MockMediaDao(),
@@ -148,7 +148,7 @@ void setupServiceLocatorUnitTests() {
       await $FloorAppDatabase
           .inMemoryDatabaseBuilder()
           .addCallback(addConstraintsCallback)
-          .addCallback(unitTestPrintVersionCallback)
+          //.addCallback(unitTestPrintVersionCallback)
           .build());
 
   serviceLocator.registerSingletonWithDependencies<InstitutionDao>(
@@ -166,7 +166,7 @@ void setupServiceLocatorUnitTests() {
   serviceLocator.registerSingletonWithDependencies<NoteDao>(
       () => serviceLocator.get<AppDatabase>().noteDao,
       dependsOn: [AppDatabase]);
-  serviceLocator.registerSingletonWithDependencies<EvaluationDao>(
+  serviceLocator.registerSingletonWithDependencies<StudentEvaluationDao>(
       () => serviceLocator.get<AppDatabase>().evaluationDao,
       dependsOn: [AppDatabase]);
   serviceLocator.registerSingletonWithDependencies<MediaDao>(

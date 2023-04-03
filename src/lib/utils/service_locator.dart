@@ -70,7 +70,7 @@ void setup() {
   serviceLocator.registerSingletonWithDependencies<NoteDao>(
       () => serviceLocator.get<AppDatabase>().noteDao,
       dependsOn: [AppDatabase]);
-  serviceLocator.registerSingletonWithDependencies<EvaluationDao>(
+  serviceLocator.registerSingletonWithDependencies<StudentEvaluationDao>(
       () => serviceLocator.get<AppDatabase>().evaluationDao,
       dependsOn: [AppDatabase]);
   serviceLocator.registerSingletonWithDependencies<MediaDao>(

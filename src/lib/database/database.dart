@@ -82,7 +82,7 @@ part 'database.g.dart'; // the generated code will be there
   Subject,
   TaskGroup,
   Task,
-  Evaluation,
+  StudentEvaluation,
   Media,
   Book,
   Series,
@@ -109,7 +109,7 @@ abstract class AppDatabase extends FloorDatabase {
   SubjectDao get subjectDao;
   TaskGroupDao get taskGroupDao;
   TaskDao get taskDao;
-  EvaluationDao get evaluationDao;
+  StudentEvaluationDao get evaluationDao;
 
   MediaDao get mediaDao;
   BookDao get bookDao;
