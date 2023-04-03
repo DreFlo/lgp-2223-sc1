@@ -20,6 +20,8 @@ import 'package:src/daos/notes/book_note_dao.dart';
 import 'package:src/daos/notes/note_book_note_super_dao.dart';
 import 'package:src/daos/notes/note_subject_note_super_dao.dart';
 import 'package:src/daos/notes/note_task_note_super_dao.dart';
+import 'package:src/daos/notes/note_episode_note_super_dao.dart';
+import 'package:src/daos/media/media_video_episode_super_dao.dart';
 
 import 'package:src/daos/media/media_dao.dart';
 import 'package:src/daos/media/episode_dao.dart';
@@ -89,18 +91,18 @@ void setup() {
   serviceLocator.registerSingletonWithDependencies<ReviewDao>(
       () => serviceLocator.get<AppDatabase>().reviewDao,
       dependsOn: [AppDatabase]);
-  // serviceLocator.registerSingletonWithDependencies<EpisodeDao>(
-  //     () => serviceLocator.get<AppDatabase>().episodeDao,
-  //     dependsOn: [AppDatabase]);
-  // serviceLocator.registerSingletonWithDependencies<MovieDao>(
+  serviceLocator.registerSingletonWithDependencies<EpisodeDao>(
+      () => serviceLocator.get<AppDatabase>().episodeDao,
+      dependsOn: [AppDatabase]);
+  //serviceLocator.registerSingletonWithDependencies<MovieDao>(
   //     () => serviceLocator.get<AppDatabase>().movieDao,
   //     dependsOn: [AppDatabase]);
   serviceLocator.registerSingletonWithDependencies<BookNoteDao>(
       () => serviceLocator.get<AppDatabase>().bookNoteDao,
       dependsOn: [AppDatabase]);
-  // serviceLocator.registerSingletonWithDependencies<EpisodeNoteDao>(
-  //     () => serviceLocator.get<AppDatabase>().episodeNoteDao,
-  //     dependsOn: [AppDatabase]);
+  serviceLocator.registerSingletonWithDependencies<EpisodeNoteDao>(
+      () => serviceLocator.get<AppDatabase>().episodeNoteDao,
+      dependsOn: [AppDatabase]);
   serviceLocator.registerSingletonWithDependencies<TaskNoteDao>(
       () => serviceLocator.get<AppDatabase>().taskNoteDao,
       dependsOn: [AppDatabase]);
@@ -133,6 +135,9 @@ void setup() {
   serviceLocator.registerSingletonWithDependencies<MediaVideoSuperDao>(
       () => mediaVideoSuperDao,
       dependsOn: [AppDatabase]);
+  serviceLocator.registerSingletonWithDependencies<MediaVideoEpisodeSuperDao>(
+      () => mediaVideoEpisodeSuperDao,
+      dependsOn: [AppDatabase]);
   serviceLocator.registerSingletonWithDependencies<NoteBookNoteSuperDao>(
       () => noteBookNoteSuperDao,
       dependsOn: [AppDatabase]);
@@ -141,5 +146,8 @@ void setup() {
       dependsOn: [AppDatabase]);
   serviceLocator.registerSingletonWithDependencies<NoteTaskNoteSuperDao>(
       () => noteTaskNoteSuperDao,
+      dependsOn: [AppDatabase]);
+  serviceLocator.registerSingletonWithDependencies<NoteEpisodeNoteSuperDao>(
+      () => noteEpisodeNoteSuperDao,
       dependsOn: [AppDatabase]);
 }

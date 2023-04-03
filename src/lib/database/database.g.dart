@@ -83,11 +83,15 @@ class _$AppDatabase extends AppDatabase {
 
   ReviewDao? _reviewDaoInstance;
 
+  EpisodeDao? _episodeDaoInstance;
+
   NoteDao? _noteDaoInstance;
 
   SubjectNoteDao? _subjectNoteDaoInstance;
 
   TaskNoteDao? _taskNoteDaoInstance;
+
+  EpisodeNoteDao? _episodeNoteDaoInstance;
 
   BookNoteDao? _bookNoteDaoInstance;
 
@@ -149,11 +153,15 @@ class _$AppDatabase extends AppDatabase {
         await database.execute(
             'CREATE TABLE IF NOT EXISTS `review` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `start_date` INTEGER NOT NULL, `end_date` INTEGER NOT NULL, `review` TEXT NOT NULL, `emoji` INTEGER NOT NULL, `media_id` INTEGER NOT NULL, FOREIGN KEY (`media_id`) REFERENCES `media` (`id`) ON UPDATE NO ACTION ON DELETE NO ACTION)');
         await database.execute(
+            'CREATE TABLE IF NOT EXISTS `episode` (`id` INTEGER NOT NULL, `number` INTEGER NOT NULL, FOREIGN KEY (`id`) REFERENCES `video` (`id`) ON UPDATE NO ACTION ON DELETE NO ACTION, PRIMARY KEY (`id`))');
+        await database.execute(
             'CREATE TABLE IF NOT EXISTS `note` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `title` TEXT NOT NULL, `content` TEXT NOT NULL, `date` INTEGER NOT NULL)');
         await database.execute(
             'CREATE TABLE IF NOT EXISTS `subject_note` (`id` INTEGER NOT NULL, `subject_id` INTEGER NOT NULL, FOREIGN KEY (`subject_id`) REFERENCES `subject` (`id`) ON UPDATE NO ACTION ON DELETE NO ACTION, FOREIGN KEY (`id`) REFERENCES `note` (`id`) ON UPDATE NO ACTION ON DELETE NO ACTION, PRIMARY KEY (`id`))');
         await database.execute(
             'CREATE TABLE IF NOT EXISTS `task_note` (`id` INTEGER NOT NULL, `task_id` INTEGER NOT NULL, FOREIGN KEY (`task_id`) REFERENCES `task` (`id`) ON UPDATE NO ACTION ON DELETE NO ACTION, FOREIGN KEY (`id`) REFERENCES `note` (`id`) ON UPDATE NO ACTION ON DELETE NO ACTION, PRIMARY KEY (`id`))');
+        await database.execute(
+            'CREATE TABLE IF NOT EXISTS `episode_note` (`id` INTEGER NOT NULL, `episode_id` INTEGER NOT NULL, FOREIGN KEY (`episode_id`) REFERENCES `episode` (`id`) ON UPDATE NO ACTION ON DELETE NO ACTION, FOREIGN KEY (`id`) REFERENCES `note` (`id`) ON UPDATE NO ACTION ON DELETE NO ACTION, PRIMARY KEY (`id`))');
         await database.execute(
             'CREATE TABLE IF NOT EXISTS `book_note` (`id` INTEGER NOT NULL, `start_page` INTEGER NOT NULL, `end_page` INTEGER NOT NULL, `book_id` INTEGER NOT NULL, FOREIGN KEY (`book_id`) REFERENCES `book` (`id`) ON UPDATE NO ACTION ON DELETE NO ACTION, FOREIGN KEY (`id`) REFERENCES `note` (`id`) ON UPDATE NO ACTION ON DELETE NO ACTION, PRIMARY KEY (`id`))');
         await database.execute(
@@ -234,6 +242,11 @@ class _$AppDatabase extends AppDatabase {
   }
 
   @override
+  EpisodeDao get episodeDao {
+    return _episodeDaoInstance ??= _$EpisodeDao(database, changeListener);
+  }
+
+  @override
   NoteDao get noteDao {
     return _noteDaoInstance ??= _$NoteDao(database, changeListener);
   }
@@ -247,6 +260,12 @@ class _$AppDatabase extends AppDatabase {
   @override
   TaskNoteDao get taskNoteDao {
     return _taskNoteDaoInstance ??= _$TaskNoteDao(database, changeListener);
+  }
+
+  @override
+  EpisodeNoteDao get episodeNoteDao {
+    return _episodeNoteDaoInstance ??=
+        _$EpisodeNoteDao(database, changeListener);
   }
 
   @override
@@ -1536,6 +1555,89 @@ class _$ReviewDao extends ReviewDao {
   }
 }
 
+class _$EpisodeDao extends EpisodeDao {
+  _$EpisodeDao(
+    this.database,
+    this.changeListener,
+  )   : _queryAdapter = QueryAdapter(database, changeListener),
+        _episodeInsertionAdapter = InsertionAdapter(
+            database,
+            'episode',
+            (Episode item) =>
+                <String, Object?>{'id': item.id, 'number': item.number},
+            changeListener),
+        _episodeUpdateAdapter = UpdateAdapter(
+            database,
+            'episode',
+            ['id'],
+            (Episode item) =>
+                <String, Object?>{'id': item.id, 'number': item.number},
+            changeListener),
+        _episodeDeletionAdapter = DeletionAdapter(
+            database,
+            'episode',
+            ['id'],
+            (Episode item) =>
+                <String, Object?>{'id': item.id, 'number': item.number},
+            changeListener);
+
+  final sqflite.DatabaseExecutor database;
+
+  final StreamController<String> changeListener;
+
+  final QueryAdapter _queryAdapter;
+
+  final InsertionAdapter<Episode> _episodeInsertionAdapter;
+
+  final UpdateAdapter<Episode> _episodeUpdateAdapter;
+
+  final DeletionAdapter<Episode> _episodeDeletionAdapter;
+
+  @override
+  Future<List<Episode>> findAllEpisode() async {
+    return _queryAdapter.queryList('SELECT * FROM episode',
+        mapper: (Map<String, Object?> row) =>
+            Episode(id: row['id'] as int, number: row['number'] as int));
+  }
+
+  @override
+  Stream<Episode?> findEpisodeById(int id) {
+    return _queryAdapter.queryStream('SELECT * FROM episode WHERE id = ?1',
+        mapper: (Map<String, Object?> row) =>
+            Episode(id: row['id'] as int, number: row['number'] as int),
+        arguments: [id],
+        queryableName: 'episode',
+        isView: false);
+  }
+
+  @override
+  Future<int> insertEpisode(Episode episode) {
+    return _episodeInsertionAdapter.insertAndReturnId(
+        episode, OnConflictStrategy.abort);
+  }
+
+  @override
+  Future<void> insertEpisodes(List<Episode> episodes) async {
+    await _episodeInsertionAdapter.insertList(
+        episodes, OnConflictStrategy.abort);
+  }
+
+  @override
+  Future<void> updateEpisode(Episode episode) async {
+    await _episodeUpdateAdapter.update(episode, OnConflictStrategy.abort);
+  }
+
+  @override
+  Future<void> updateEpisodes(List<Episode> episodes) async {
+    await _episodeUpdateAdapter.updateList(episodes, OnConflictStrategy.abort);
+  }
+
+  @override
+  Future<void> deleteEpisode(Episode episode) async {
+    await _episodeDeletionAdapter.delete(episode);
+  }
+}
+
 class _$NoteDao extends NoteDao {
   _$NoteDao(
     this.database,
@@ -1801,6 +1903,91 @@ class _$TaskNoteDao extends TaskNoteDao {
   @override
   Future<void> deleteTaskNote(TaskNote taskNote) async {
     await _taskNoteDeletionAdapter.delete(taskNote);
+  }
+}
+
+class _$EpisodeNoteDao extends EpisodeNoteDao {
+  _$EpisodeNoteDao(
+    this.database,
+    this.changeListener,
+  )   : _queryAdapter = QueryAdapter(database, changeListener),
+        _episodeNoteInsertionAdapter = InsertionAdapter(
+            database,
+            'episode_note',
+            (EpisodeNote item) =>
+                <String, Object?>{'id': item.id, 'episode_id': item.episodeId},
+            changeListener),
+        _episodeNoteUpdateAdapter = UpdateAdapter(
+            database,
+            'episode_note',
+            ['id'],
+            (EpisodeNote item) =>
+                <String, Object?>{'id': item.id, 'episode_id': item.episodeId},
+            changeListener),
+        _episodeNoteDeletionAdapter = DeletionAdapter(
+            database,
+            'episode_note',
+            ['id'],
+            (EpisodeNote item) =>
+                <String, Object?>{'id': item.id, 'episode_id': item.episodeId},
+            changeListener);
+
+  final sqflite.DatabaseExecutor database;
+
+  final StreamController<String> changeListener;
+
+  final QueryAdapter _queryAdapter;
+
+  final InsertionAdapter<EpisodeNote> _episodeNoteInsertionAdapter;
+
+  final UpdateAdapter<EpisodeNote> _episodeNoteUpdateAdapter;
+
+  final DeletionAdapter<EpisodeNote> _episodeNoteDeletionAdapter;
+
+  @override
+  Future<List<EpisodeNote>> findAllEpisodeNotes() async {
+    return _queryAdapter.queryList('SELECT * FROM episode_note',
+        mapper: (Map<String, Object?> row) => EpisodeNote(
+            id: row['id'] as int, episodeId: row['episode_id'] as int));
+  }
+
+  @override
+  Stream<EpisodeNote?> findEpisodeNoteById(int id) {
+    return _queryAdapter.queryStream('SELECT * FROM episode_note WHERE id = ?1',
+        mapper: (Map<String, Object?> row) => EpisodeNote(
+            id: row['id'] as int, episodeId: row['episode_id'] as int),
+        arguments: [id],
+        queryableName: 'episode_note',
+        isView: false);
+  }
+
+  @override
+  Future<int> insertEpisodeNote(EpisodeNote episodeNote) {
+    return _episodeNoteInsertionAdapter.insertAndReturnId(
+        episodeNote, OnConflictStrategy.abort);
+  }
+
+  @override
+  Future<void> insertEpisodeNotes(List<EpisodeNote> episodeNotes) async {
+    await _episodeNoteInsertionAdapter.insertList(
+        episodeNotes, OnConflictStrategy.abort);
+  }
+
+  @override
+  Future<void> updateEpisodeNote(EpisodeNote episodeNote) async {
+    await _episodeNoteUpdateAdapter.update(
+        episodeNote, OnConflictStrategy.abort);
+  }
+
+  @override
+  Future<void> updateEpisodeNotes(List<EpisodeNote> episodeNotes) async {
+    await _episodeNoteUpdateAdapter.updateList(
+        episodeNotes, OnConflictStrategy.abort);
+  }
+
+  @override
+  Future<void> deleteEpisodeNote(EpisodeNote episodeNote) async {
+    await _episodeNoteDeletionAdapter.delete(episodeNote);
   }
 }
 

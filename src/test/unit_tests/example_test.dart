@@ -12,10 +12,18 @@ import 'package:src/models/notes/note_subject_note_super_entity.dart';
 import 'package:src/daos/notes/note_subject_note_super_dao.dart';
 import 'package:src/models/notes/note_task_note_super_entity.dart';
 import 'package:src/daos/notes/note_task_note_super_dao.dart';
+import 'package:src/models/notes/note_episode_note_super_entity.dart';
+import 'package:src/daos/notes/note_episode_note_super_dao.dart';
+import 'package:src/models/media/media_video_episode_super_entity.dart';
+import 'package:src/daos/media/media_video_episode_super_dao.dart';
+import 'package:src/models/media/episode.dart';
+import 'package:src/daos/media/episode_dao.dart';
 import 'package:src/models/media/book.dart';
 import 'package:src/daos/media/book_dao.dart';
 import 'package:src/models/notes/book_note.dart';
 import 'package:src/daos/notes/book_note_dao.dart';
+import 'package:src/models/notes/episode_note.dart';
+import 'package:src/daos/notes/episode_note_dao.dart';
 import 'package:src/models/media/video.dart';
 import 'package:src/utils/enums.dart';
 import 'package:src/utils/service_locator.dart';
@@ -184,7 +192,7 @@ void main() {
     });
   });
 
-    testWidgets('Test SuperDAO for Note/SubjectkNote', (WidgetTester tester) async {
+  testWidgets('Test SuperDAO for Note/SubjectkNote', (WidgetTester tester) async {
     await tester.runAsync(() async {
       await serviceLocator<UserDao>()
         .insertUser(User(userName: 'Emil', password: '1234', xp: 23));
@@ -217,6 +225,77 @@ void main() {
           (await serviceLocator<SubjectNoteDao>().findSubjectNoteById(id).first)!;
 
       expect(subjectNote.subjectId, 1);
+    });
+  });
+
+  testWidgets('Test Video/Episode SuperDAO', (WidgetTester tester) async {
+    await tester.runAsync(() async {
+
+      MediaVideoEpisodeSuperEntity videoEpisodeSuperEntity = MediaVideoEpisodeSuperEntity(
+        name: 'name',
+        description: 'description',
+        linkImage: 'linkImage',
+        status: Status.goingThrough,
+        favorite: true,
+        genres: 'genres',
+        release: DateTime.now(),
+        xp: 23,
+        duration: 23,
+        number: 1,
+      );
+
+      int id = await serviceLocator<MediaVideoEpisodeSuperDao>()
+          .insertMediaVideoEpisodeSuperEntity(videoEpisodeSuperEntity);
+
+      expect(id, 1);
+
+      Episode episode = (await serviceLocator<EpisodeDao>().findEpisodeById(id).first)!;
+
+      expect(episode.number, 1);
+      
+    });
+  });
+
+  testWidgets('Test Note/EpisodeNote SuperDAO', (WidgetTester tester) async {
+    await tester.runAsync(() async {
+
+      MediaVideoEpisodeSuperEntity videoEpisodeSuperEntity = MediaVideoEpisodeSuperEntity(
+        name: 'name',
+        description: 'description',
+        linkImage: 'linkImage',
+        status: Status.goingThrough,
+        favorite: true,
+        genres: 'genres',
+        release: DateTime.now(),
+        xp: 23,
+        duration: 23,
+        number: 1,
+      );
+
+      int id = await serviceLocator<MediaVideoEpisodeSuperDao>()
+          .insertMediaVideoEpisodeSuperEntity(videoEpisodeSuperEntity);
+
+      expect(id, 1);
+
+      Episode episode = (await serviceLocator<EpisodeDao>().findEpisodeById(id).first)!;
+
+      expect(episode.number, 1);
+
+      NoteEpisodeNoteSuperEntity noteEpisodeNoteSuperEntity = NoteEpisodeNoteSuperEntity(
+        title: 'title',
+        content: 'content',
+        date: DateTime.now(),
+        episodeId: 1
+      );
+
+      int id3 = await serviceLocator<NoteEpisodeNoteSuperDao>()
+          .insertNoteEpisodeNoteSuperEntity(noteEpisodeNoteSuperEntity);
+
+      expect(id3, 1);
+
+      EpisodeNote episodeNote = (await serviceLocator<EpisodeNoteDao>().findEpisodeNoteById(id3).first)!;
+
+      expect(episodeNote.episodeId, 1);      
     });
   });
 }
