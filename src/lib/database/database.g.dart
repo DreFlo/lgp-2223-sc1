@@ -85,6 +85,10 @@ class _$AppDatabase extends AppDatabase {
 
   NoteDao? _noteDaoInstance;
 
+  SubjectNoteDao? _subjectNoteDaoInstance;
+
+  TaskNoteDao? _taskNoteDaoInstance;
+
   BookNoteDao? _bookNoteDaoInstance;
 
   UserBadgeDao? _userBadgeDaoInstance;
@@ -146,6 +150,10 @@ class _$AppDatabase extends AppDatabase {
             'CREATE TABLE IF NOT EXISTS `review` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `start_date` INTEGER NOT NULL, `end_date` INTEGER NOT NULL, `review` TEXT NOT NULL, `emoji` INTEGER NOT NULL, `media_id` INTEGER NOT NULL, FOREIGN KEY (`media_id`) REFERENCES `media` (`id`) ON UPDATE NO ACTION ON DELETE NO ACTION)');
         await database.execute(
             'CREATE TABLE IF NOT EXISTS `note` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `title` TEXT NOT NULL, `content` TEXT NOT NULL, `date` INTEGER NOT NULL)');
+        await database.execute(
+            'CREATE TABLE IF NOT EXISTS `subject_note` (`id` INTEGER NOT NULL, `subject_id` INTEGER NOT NULL, FOREIGN KEY (`subject_id`) REFERENCES `subject` (`id`) ON UPDATE NO ACTION ON DELETE NO ACTION, FOREIGN KEY (`id`) REFERENCES `note` (`id`) ON UPDATE NO ACTION ON DELETE NO ACTION, PRIMARY KEY (`id`))');
+        await database.execute(
+            'CREATE TABLE IF NOT EXISTS `task_note` (`id` INTEGER NOT NULL, `task_id` INTEGER NOT NULL, FOREIGN KEY (`task_id`) REFERENCES `task` (`id`) ON UPDATE NO ACTION ON DELETE NO ACTION, FOREIGN KEY (`id`) REFERENCES `note` (`id`) ON UPDATE NO ACTION ON DELETE NO ACTION, PRIMARY KEY (`id`))');
         await database.execute(
             'CREATE TABLE IF NOT EXISTS `book_note` (`id` INTEGER NOT NULL, `start_page` INTEGER NOT NULL, `end_page` INTEGER NOT NULL, `book_id` INTEGER NOT NULL, FOREIGN KEY (`book_id`) REFERENCES `book` (`id`) ON UPDATE NO ACTION ON DELETE NO ACTION, FOREIGN KEY (`id`) REFERENCES `note` (`id`) ON UPDATE NO ACTION ON DELETE NO ACTION, PRIMARY KEY (`id`))');
         await database.execute(
@@ -228,6 +236,17 @@ class _$AppDatabase extends AppDatabase {
   @override
   NoteDao get noteDao {
     return _noteDaoInstance ??= _$NoteDao(database, changeListener);
+  }
+
+  @override
+  SubjectNoteDao get subjectNoteDao {
+    return _subjectNoteDaoInstance ??=
+        _$SubjectNoteDao(database, changeListener);
+  }
+
+  @override
+  TaskNoteDao get taskNoteDao {
+    return _taskNoteDaoInstance ??= _$TaskNoteDao(database, changeListener);
   }
 
   @override
@@ -1614,6 +1633,174 @@ class _$NoteDao extends NoteDao {
   @override
   Future<void> deleteNote(Note note) async {
     await _noteDeletionAdapter.delete(note);
+  }
+}
+
+class _$SubjectNoteDao extends SubjectNoteDao {
+  _$SubjectNoteDao(
+    this.database,
+    this.changeListener,
+  )   : _queryAdapter = QueryAdapter(database, changeListener),
+        _subjectNoteInsertionAdapter = InsertionAdapter(
+            database,
+            'subject_note',
+            (SubjectNote item) =>
+                <String, Object?>{'id': item.id, 'subject_id': item.subjectId},
+            changeListener),
+        _subjectNoteUpdateAdapter = UpdateAdapter(
+            database,
+            'subject_note',
+            ['id'],
+            (SubjectNote item) =>
+                <String, Object?>{'id': item.id, 'subject_id': item.subjectId},
+            changeListener),
+        _subjectNoteDeletionAdapter = DeletionAdapter(
+            database,
+            'subject_note',
+            ['id'],
+            (SubjectNote item) =>
+                <String, Object?>{'id': item.id, 'subject_id': item.subjectId},
+            changeListener);
+
+  final sqflite.DatabaseExecutor database;
+
+  final StreamController<String> changeListener;
+
+  final QueryAdapter _queryAdapter;
+
+  final InsertionAdapter<SubjectNote> _subjectNoteInsertionAdapter;
+
+  final UpdateAdapter<SubjectNote> _subjectNoteUpdateAdapter;
+
+  final DeletionAdapter<SubjectNote> _subjectNoteDeletionAdapter;
+
+  @override
+  Future<List<SubjectNote>> findAllSubjectNotes() async {
+    return _queryAdapter.queryList('SELECT * FROM subject_note',
+        mapper: (Map<String, Object?> row) => SubjectNote(
+            id: row['id'] as int, subjectId: row['subject_id'] as int));
+  }
+
+  @override
+  Stream<SubjectNote?> findSubjectNoteById(int id) {
+    return _queryAdapter.queryStream('SELECT * FROM subject_note WHERE id = ?1',
+        mapper: (Map<String, Object?> row) => SubjectNote(
+            id: row['id'] as int, subjectId: row['subject_id'] as int),
+        arguments: [id],
+        queryableName: 'subject_note',
+        isView: false);
+  }
+
+  @override
+  Future<int> insertSubjectNote(SubjectNote subjectNote) {
+    return _subjectNoteInsertionAdapter.insertAndReturnId(
+        subjectNote, OnConflictStrategy.abort);
+  }
+
+  @override
+  Future<void> insertSubjectNotes(List<SubjectNote> subjectNotes) async {
+    await _subjectNoteInsertionAdapter.insertList(
+        subjectNotes, OnConflictStrategy.abort);
+  }
+
+  @override
+  Future<void> updateSubjectNote(SubjectNote subjectNote) async {
+    await _subjectNoteUpdateAdapter.update(
+        subjectNote, OnConflictStrategy.abort);
+  }
+
+  @override
+  Future<void> updateSubjectNotes(List<SubjectNote> subjectNotes) async {
+    await _subjectNoteUpdateAdapter.updateList(
+        subjectNotes, OnConflictStrategy.abort);
+  }
+
+  @override
+  Future<void> deleteSubjectNote(SubjectNote subjectNote) async {
+    await _subjectNoteDeletionAdapter.delete(subjectNote);
+  }
+}
+
+class _$TaskNoteDao extends TaskNoteDao {
+  _$TaskNoteDao(
+    this.database,
+    this.changeListener,
+  )   : _queryAdapter = QueryAdapter(database, changeListener),
+        _taskNoteInsertionAdapter = InsertionAdapter(
+            database,
+            'task_note',
+            (TaskNote item) =>
+                <String, Object?>{'id': item.id, 'task_id': item.taskId},
+            changeListener),
+        _taskNoteUpdateAdapter = UpdateAdapter(
+            database,
+            'task_note',
+            ['id'],
+            (TaskNote item) =>
+                <String, Object?>{'id': item.id, 'task_id': item.taskId},
+            changeListener),
+        _taskNoteDeletionAdapter = DeletionAdapter(
+            database,
+            'task_note',
+            ['id'],
+            (TaskNote item) =>
+                <String, Object?>{'id': item.id, 'task_id': item.taskId},
+            changeListener);
+
+  final sqflite.DatabaseExecutor database;
+
+  final StreamController<String> changeListener;
+
+  final QueryAdapter _queryAdapter;
+
+  final InsertionAdapter<TaskNote> _taskNoteInsertionAdapter;
+
+  final UpdateAdapter<TaskNote> _taskNoteUpdateAdapter;
+
+  final DeletionAdapter<TaskNote> _taskNoteDeletionAdapter;
+
+  @override
+  Future<List<TaskNote>> findAllTaskNotes() async {
+    return _queryAdapter.queryList('SELECT * FROM task_note',
+        mapper: (Map<String, Object?> row) =>
+            TaskNote(id: row['id'] as int, taskId: row['task_id'] as int));
+  }
+
+  @override
+  Stream<TaskNote?> findTaskNoteById(int id) {
+    return _queryAdapter.queryStream('SELECT * FROM task_note WHERE id = ?1',
+        mapper: (Map<String, Object?> row) =>
+            TaskNote(id: row['id'] as int, taskId: row['task_id'] as int),
+        arguments: [id],
+        queryableName: 'task_note',
+        isView: false);
+  }
+
+  @override
+  Future<int> insertTaskNote(TaskNote taskNote) {
+    return _taskNoteInsertionAdapter.insertAndReturnId(
+        taskNote, OnConflictStrategy.abort);
+  }
+
+  @override
+  Future<void> insertTaskNotes(List<TaskNote> taskNote) async {
+    await _taskNoteInsertionAdapter.insertList(
+        taskNote, OnConflictStrategy.abort);
+  }
+
+  @override
+  Future<void> updateTaskNote(TaskNote taskNote) async {
+    await _taskNoteUpdateAdapter.update(taskNote, OnConflictStrategy.abort);
+  }
+
+  @override
+  Future<void> updateTaskNotes(List<TaskNote> taskNote) async {
+    await _taskNoteUpdateAdapter.updateList(taskNote, OnConflictStrategy.abort);
+  }
+
+  @override
+  Future<void> deleteTaskNote(TaskNote taskNote) async {
+    await _taskNoteDeletionAdapter.delete(taskNote);
   }
 }
 

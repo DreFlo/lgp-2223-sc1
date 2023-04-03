@@ -18,6 +18,8 @@ import 'package:src/daos/notes/subject_note_dao.dart';
 import 'package:src/daos/notes/task_note_dao.dart';
 import 'package:src/daos/notes/book_note_dao.dart';
 import 'package:src/daos/notes/note_book_note_super_dao.dart';
+import 'package:src/daos/notes/note_subject_note_super_dao.dart';
+import 'package:src/daos/notes/note_task_note_super_dao.dart';
 
 import 'package:src/daos/media/media_dao.dart';
 import 'package:src/daos/media/episode_dao.dart';
@@ -99,12 +101,12 @@ void setup() {
   // serviceLocator.registerSingletonWithDependencies<EpisodeNoteDao>(
   //     () => serviceLocator.get<AppDatabase>().episodeNoteDao,
   //     dependsOn: [AppDatabase]);
-  //serviceLocator.registerSingletonWithDependencies<TaskNoteDao>(
-  //    () => serviceLocator.get<AppDatabase>().taskNoteDao,
-  //    dependsOn: [AppDatabase]);
-  //serviceLocator.registerSingletonWithDependencies<SubjectNoteDao>(
-  //    () => serviceLocator.get<AppDatabase>().subjectNoteDao,
-  //    dependsOn: [AppDatabase]);
+  serviceLocator.registerSingletonWithDependencies<TaskNoteDao>(
+      () => serviceLocator.get<AppDatabase>().taskNoteDao,
+      dependsOn: [AppDatabase]);
+  serviceLocator.registerSingletonWithDependencies<SubjectNoteDao>(
+      () => serviceLocator.get<AppDatabase>().subjectNoteDao,
+      dependsOn: [AppDatabase]);
   serviceLocator.registerSingletonWithDependencies<UserDao>(
       () => serviceLocator.get<AppDatabase>().userDao,
       dependsOn: [AppDatabase]);
@@ -133,5 +135,11 @@ void setup() {
       dependsOn: [AppDatabase]);
   serviceLocator.registerSingletonWithDependencies<NoteBookNoteSuperDao>(
       () => noteBookNoteSuperDao,
+      dependsOn: [AppDatabase]);
+  serviceLocator.registerSingletonWithDependencies<NoteSubjectNoteSuperDao>(
+      () => noteSubjectNoteSuperDao,
+      dependsOn: [AppDatabase]);
+  serviceLocator.registerSingletonWithDependencies<NoteTaskNoteSuperDao>(
+      () => noteTaskNoteSuperDao,
       dependsOn: [AppDatabase]);
 }
