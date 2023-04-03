@@ -92,8 +92,8 @@ part 'database.g.dart'; // the generated code will be there
   // Movie,
   // Episode,
   Note,
-  SubjectNote,
-  TaskNote,
+  //SubjectNote,
+  //TaskNote,
   // EpisodeNote,
   BookNote,
   User,
@@ -121,8 +121,8 @@ abstract class AppDatabase extends FloorDatabase {
   // EpisodeDao get episodeDao;
 
   NoteDao get noteDao;
-  SubjectNoteDao get subjectNoteDao;
-  TaskNoteDao get taskNoteDao;
+  //SubjectNoteDao get subjectNoteDao;
+  //TaskNoteDao get taskNoteDao;
   // EpisodeNoteDao get episodeNoteDao;
   BookNoteDao get bookNoteDao;
 

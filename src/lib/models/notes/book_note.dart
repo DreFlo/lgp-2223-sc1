@@ -2,6 +2,7 @@ import 'package:floor/floor.dart';
 import 'package:src/models/notes/note.dart';
 import 'package:src/models/media/book.dart';
 
+// Floor POV: BookNote is now just a table with a foreign key to Note (and Book, but that was here before)
 @Entity(
   tableName: 'book_note',
   foreignKeys: [
@@ -9,10 +10,18 @@ import 'package:src/models/media/book.dart';
       childColumns: ['book_id'],
       parentColumns: ['id'],
       entity: Book,
-    )
+    ),
+    ForeignKey(
+      childColumns: ['id'],
+      parentColumns: ['id'],
+      entity: Note,
+    ),
   ],
 )
-class BookNote extends Note {
+class BookNote {
+  @PrimaryKey()
+  final int id;
+
   @ColumnInfo(name: 'start_page')
   final int startPage;
 
@@ -23,12 +32,9 @@ class BookNote extends Note {
   final int bookId;
 
   BookNote({
-    int? id,
-    required String title,
-    required String content,
-    required DateTime date,
+    required this.id,
     required this.startPage,
     required this.endPage,
     required this.bookId,
-  }) : super(id: id, title: title, content: content, date: date);
+  });
 }
