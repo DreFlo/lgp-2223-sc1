@@ -3,6 +3,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:src/animation_test/main.dart';
 import 'package:src/daos/person_dao.dart';
 import 'package:src/models/person.dart';
+import 'package:src/pages/auth/LandingPage.dart';
 import 'package:src/utils/service_locator.dart';
 
 class MyHomePage extends StatefulWidget {
@@ -114,6 +115,25 @@ class _MyHomePageState extends State<MyHomePage> {
                 setState(() {
                   redrawObject = Object();
                 });
+              },
+            ),
+            ElevatedButton(
+              style: ButtonStyle(
+                  backgroundColor: MaterialStateProperty.all(
+                      const Color.fromRGBO(0, 250, 100, 1)),
+                  shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                      const RoundedRectangleBorder(
+                          borderRadius: BorderRadius.only(
+                              topRight: Radius.circular(10),
+                              topLeft: Radius.circular(10),
+                              bottomRight: Radius.circular(10),
+                              bottomLeft: Radius.circular(10))))),
+              child: const Text('Auth Pages'),
+              onPressed: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => LandingPage(pageCount: 0)));
               },
             ),
             FutureBuilder(
