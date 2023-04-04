@@ -1,3 +1,5 @@
+// ignore_for_file: file_names
+
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:src/themes/colors.dart';
@@ -14,7 +16,6 @@ class AddEpisodeNoteForm extends StatefulWidget {
 class _AddEpisodeNoteFormState extends State<AddEpisodeNoteForm> {
   @override
   Widget build(BuildContext context) {
-    final TextEditingController nameInputController = TextEditingController();
 
     return Wrap(spacing: 10, children: [
       Row(mainAxisAlignment: MainAxisAlignment.center, children: [

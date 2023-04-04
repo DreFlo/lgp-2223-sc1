@@ -1,11 +1,14 @@
+// ignore_for_file: file_names
+
 import 'package:flutter/material.dart';
 import 'package:src/themes/colors.dart';
 
 class EpisodeNoteBar extends StatefulWidget {
   final String code;
-  String text;
+  final String text;
 
-  EpisodeNoteBar({Key? key, required this.code, required this.text}) : super(key: key);
+  const EpisodeNoteBar({Key? key, required this.code, required this.text})
+      : super(key: key);
 
   @override
   State<EpisodeNoteBar> createState() => _EpisodeNoteBarState();
@@ -14,8 +17,6 @@ class EpisodeNoteBar extends StatefulWidget {
 class _EpisodeNoteBarState extends State<EpisodeNoteBar> {
   @override
   Widget build(BuildContext context) {
-    final TextEditingController nameInputController = TextEditingController();
-
     return Container(
         padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 15),
         width: MediaQuery.of(context).size.width * 0.9,
@@ -53,18 +54,16 @@ class _EpisodeNoteBarState extends State<EpisodeNoteBar> {
             // ]),
           ]),
           const SizedBox(height: 15),
-          Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                Flexible(
-                    child: Text(widget.text,
-                        softWrap: true,
-                        textAlign: TextAlign.justify,
-                        style: const TextStyle(
-                            color: Colors.white,
-                            fontSize: 16,
-                            fontWeight: FontWeight.normal)))
-              ])
+          Row(mainAxisAlignment: MainAxisAlignment.start, children: [
+            Flexible(
+                child: Text(widget.text,
+                    softWrap: true,
+                    textAlign: TextAlign.justify,
+                    style: const TextStyle(
+                        color: Colors.white,
+                        fontSize: 16,
+                        fontWeight: FontWeight.normal)))
+          ])
         ]));
   }
 }

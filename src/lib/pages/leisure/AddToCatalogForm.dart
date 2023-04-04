@@ -1,14 +1,15 @@
+// ignore_for_file: file_names
+
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:src/themes/colors.dart';
 import 'package:src/utils/enums.dart';
 
-
 class AddToCatalogForm extends StatefulWidget {
-  String startDate, endDate;
-  Status? status;
+  final String startDate, endDate;
+  final Status status;
 
-  AddToCatalogForm(
+  const AddToCatalogForm(
       {Key? key,
       required this.startDate,
       required this.endDate,
@@ -20,13 +21,21 @@ class AddToCatalogForm extends StatefulWidget {
 }
 
 class _AddToCatalogFormState extends State<AddToCatalogForm> {
+  late String startDate, endDate;
+  late Status status;
+
+  @override
+  void initState() {
+    startDate = widget.startDate;
+    endDate = widget.endDate;
+    status = widget.status;
+
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
-    final TextEditingController nameInputController = TextEditingController();
-
-    return Wrap(
-      spacing: 10, 
-      children: [
+    return Wrap(spacing: 10, children: [
       Row(mainAxisAlignment: MainAxisAlignment.center, children: [
         Padding(
             padding: const EdgeInsets.only(top: 15, bottom: 15),
@@ -68,7 +77,7 @@ class _AddToCatalogFormState extends State<AddToCatalogForm> {
                           decoration: BoxDecoration(
                               borderRadius:
                                   const BorderRadius.all(Radius.circular(10)),
-                              color: (widget.status == Status.planTo
+                              color: (status == Status.planTo
                                   ? leisureColor
                                   : lightGray)),
                           child: Text(AppLocalizations.of(context).plan_to,
@@ -76,7 +85,7 @@ class _AddToCatalogFormState extends State<AddToCatalogForm> {
                     ],
                   ),
                   onTap: () {
-                    widget.status = Status.planTo;
+                    status = Status.planTo;
 
                     setState(() {});
                   },
@@ -94,104 +103,106 @@ class _AddToCatalogFormState extends State<AddToCatalogForm> {
                           decoration: BoxDecoration(
                               borderRadius:
                                   const BorderRadius.all(Radius.circular(10)),
-                              color: (widget.status == Status.goingThrough
-                                  ? leisureColor
-                                  : lightGray)),
-                          child: Text(AppLocalizations.of(context).going_through,
-                              style: Theme.of(context).textTheme.bodySmall)),
-                    ],
-                  ),
-                  onTap: () {
-                    widget.status = Status.goingThrough;
-
-                    setState(() {});
-                  },
-                ),
-                InkWell(
-                  highlightColor: lightGray,
-                  borderRadius: const BorderRadius.all(Radius.circular(10)),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Container(
-                          height: 50,
-                          padding: const EdgeInsets.only(left: 20, right: 20),
-                          alignment: const Alignment(0, 0),
-                          decoration: BoxDecoration(
-                              borderRadius:
-                                  const BorderRadius.all(Radius.circular(10)),
-                              color: (widget.status == Status.done
+                              color: (status == Status.goingThrough
                                   ? leisureColor
                                   : lightGray)),
                           child: Text(
-                              AppLocalizations.of(context).done,
+                              AppLocalizations.of(context).going_through,
                               style: Theme.of(context).textTheme.bodySmall)),
                     ],
                   ),
                   onTap: () {
-                    widget.status = Status.done;
+                    status = Status.goingThrough;
+
+                    setState(() {});
+                  },
+                ),
+                InkWell(
+                  highlightColor: lightGray,
+                  borderRadius: const BorderRadius.all(Radius.circular(10)),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Container(
+                          height: 50,
+                          padding: const EdgeInsets.only(left: 20, right: 20),
+                          alignment: const Alignment(0, 0),
+                          decoration: BoxDecoration(
+                              borderRadius:
+                                  const BorderRadius.all(Radius.circular(10)),
+                              color: (status == Status.done
+                                  ? leisureColor
+                                  : lightGray)),
+                          child: Text(AppLocalizations.of(context).done,
+                              style: Theme.of(context).textTheme.bodySmall)),
+                    ],
+                  ),
+                  onTap: () {
+                    status = Status.done;
 
                     setState(() {});
                   },
                 ),
               ],
             ),
-            
             const SizedBox(height: 10),
-            
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 InkWell(
-                highlightColor: lightGray,
-                borderRadius: const BorderRadius.all(Radius.circular(10)),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Container(
-                        height: 50,
-                        padding: const EdgeInsets.only(left: 30, right: 30),
-                        alignment: const Alignment(0, 0),
-                        decoration: BoxDecoration(
-                            borderRadius: const BorderRadius.all(Radius.circular(10)),
-                            color: (widget.status == Status.nothing
-                                ? leisureColor
-                                : lightGray)),
-                        child: Text(AppLocalizations.of(context).nothing,
-                            style: Theme.of(context).textTheme.bodySmall)),
-                  ],
-                ),
-                onTap: () {
-                  widget.status = Status.nothing;
+                  highlightColor: lightGray,
+                  borderRadius: const BorderRadius.all(Radius.circular(10)),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Container(
+                          height: 50,
+                          padding: const EdgeInsets.only(left: 30, right: 30),
+                          alignment: const Alignment(0, 0),
+                          decoration: BoxDecoration(
+                              borderRadius:
+                                  const BorderRadius.all(Radius.circular(10)),
+                              color: (status == Status.nothing
+                                  ? leisureColor
+                                  : lightGray)),
+                          child: Text(AppLocalizations.of(context).nothing,
+                              style: Theme.of(context).textTheme.bodySmall)),
+                    ],
+                  ),
+                  onTap: () {
+                    status = Status.nothing;
 
-                  setState(() {});
-                },
-              ),
-              InkWell(
-                highlightColor: lightGray,
-                borderRadius: const BorderRadius.all(Radius.circular(10)),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Container(
-                        height: 50,
-                        padding: const EdgeInsets.only(left: 30, right: 30),
-                        alignment: const Alignment(0, 0),
-                        decoration: BoxDecoration(
-                            borderRadius: const BorderRadius.all(Radius.circular(10)),
-                            color: (widget.status == Status.dropped
-                                ? leisureColor
-                                : lightGray)),
-                        child: Text(AppLocalizations.of(context).dropped,
-                            style: Theme.of(context).textTheme.bodySmall)),
-                  ],
+                    setState(() {});
+                  },
                 ),
-                onTap: () {
-                  widget.status = Status.dropped;
+                InkWell(
+                  highlightColor: lightGray,
+                  borderRadius: const BorderRadius.all(Radius.circular(10)),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Container(
+                          height: 50,
+                          padding: const EdgeInsets.only(left: 30, right: 30),
+                          alignment: const Alignment(0, 0),
+                          decoration: BoxDecoration(
+                              borderRadius:
+                                  const BorderRadius.all(Radius.circular(10)),
+                              color: (status == Status.dropped
+                                  ? leisureColor
+                                  : lightGray)),
+                          child: Text(AppLocalizations.of(context).dropped,
+                              style: Theme.of(context).textTheme.bodySmall)),
+                    ],
+                  ),
+                  onTap: () {
+                    status = Status.dropped;
 
-                  setState(() {});
-                },
-              )],)
+                    setState(() {});
+                  },
+                )
+              ],
+            )
           ])),
       const SizedBox(height: 50),
       Row(children: [
@@ -223,18 +234,16 @@ class _AddToCatalogFormState extends State<AddToCatalogForm> {
                         ),
                     initialEntryMode: DatePickerEntryMode.input,
                     context: context,
-                    firstDate: DateTime.parse(widget.startDate),
+                    firstDate: DateTime.parse(startDate),
                     lastDate: DateTime.now());
 
-                widget.startDate = newDateRange!.start.toString().split(" ")[0];
-                widget.endDate = newDateRange.end.toString().split(" ")[0];
+                startDate = newDateRange!.start.toString().split(" ")[0];
+                endDate = newDateRange.end.toString().split(" ")[0];
 
                 setState(() {});
               },
               child:
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
+                  Row(mainAxisAlignment: MainAxisAlignment.center, children: [
                 Container(
                     width: MediaQuery.of(context).size.width * 0.90,
                     height: 50,
@@ -249,7 +258,7 @@ class _AddToCatalogFormState extends State<AddToCatalogForm> {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             Text(
-                              widget.startDate,
+                              startDate,
                               style: Theme.of(context).textTheme.bodySmall,
                             )
                           ],
@@ -260,7 +269,7 @@ class _AddToCatalogFormState extends State<AddToCatalogForm> {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             Text(
-                              widget.endDate,
+                              endDate,
                               style: Theme.of(context).textTheme.bodySmall,
                             )
                           ],

@@ -1,4 +1,4 @@
-// ignore_for_file: prefer_const_constructors, sized_box_for_whitespace
+// ignore_for_file: prefer_const_constructors, sized_box_for_whitespace, file_names
 
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -105,7 +105,7 @@ class _HomePageState extends State<HomePage> {
                                   child: SingleChildScrollView(
                                       controller: scrollController,
                                       child: AddToCatalogForm(
-                                          status: null,
+                                          status: Status.nothing,
                                           startDate: DateTime.now()
                                               .toString()
                                               .split(" ")[0],
@@ -278,7 +278,7 @@ class _HomePageState extends State<HomePage> {
                                   child: SingleChildScrollView(
                                       controller: scrollController,
                                       child: AddToCatalogForm(
-                                          status: null,
+                                          status: Status.nothing,
                                           startDate: DateTime.now()
                                               .toString()
                                               .split(" ")[0],
@@ -348,7 +348,7 @@ class _HomePageState extends State<HomePage> {
                             padding: EdgeInsets.only(
                                 bottom:
                                     MediaQuery.of(context).viewInsets.bottom),
-                            child: Stack(children: [
+                            child: Stack(children: const [
                               AddBookNoteForm(),
                             ])));
                 },

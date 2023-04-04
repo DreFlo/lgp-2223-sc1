@@ -1,11 +1,13 @@
+// ignore_for_file: file_names
+
 import 'package:flutter/material.dart';
 import 'package:src/themes/colors.dart';
 
 class BookNoteBar extends StatefulWidget {
-  int startPage, endPage;
-  String text;
+  final int startPage, endPage;
+  final String text;
 
-  BookNoteBar({Key? key, required this.startPage, required this.endPage, required this.text}) : super(key: key);
+  const BookNoteBar({Key? key, required this.startPage, required this.endPage, required this.text}) : super(key: key);
 
   @override
   State<BookNoteBar> createState() => _BookNoteBarState();
@@ -14,7 +16,6 @@ class BookNoteBar extends StatefulWidget {
 class _BookNoteBarState extends State<BookNoteBar> {
   @override
   Widget build(BuildContext context) {
-    final TextEditingController nameInputController = TextEditingController();
 
     return Container(
         padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 15),

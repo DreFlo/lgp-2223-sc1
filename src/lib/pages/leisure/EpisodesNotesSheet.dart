@@ -1,3 +1,5 @@
+// ignore_for_file: file_names
+
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:src/themes/colors.dart';
@@ -8,11 +10,9 @@ import '../../widgets/EpisodeNoteBar.dart';
 class EpisodesNotesSheet extends StatefulWidget {
   final Map<String, String> notes;
   final Map<int, Map<int, String>> episodes;
-  TabController? controller;
-  int selectedTab = 0;
 
-  EpisodesNotesSheet(
-      {Key? key, required this.notes, required this.episodes, this.controller})
+  const EpisodesNotesSheet(
+      {Key? key, required this.notes, required this.episodes})
       : super(key: key);
 
   @override
@@ -21,15 +21,18 @@ class EpisodesNotesSheet extends StatefulWidget {
 
 class _EpisodesNotesSheetState extends State<EpisodesNotesSheet>
     with TickerProviderStateMixin {
+
+  TabController? controller;
+  int selectedTab = 0;
   
   @override
   initState() {
-    widget.controller = TabController(
+    controller = TabController(
         length: widget.episodes.length + 1, vsync: this, initialIndex: 0);
 
-    widget.controller?.addListener(() {
+    controller?.addListener(() {
       setState(() {
-        widget.selectedTab = widget.controller!.index;
+        selectedTab = controller!.index;
       });
     });
 
@@ -109,7 +112,6 @@ class _EpisodesNotesSheetState extends State<EpisodesNotesSheet>
 
   @override
   Widget build(BuildContext context) {
-    final TextEditingController nameInputController = TextEditingController();
 
     return Wrap(spacing: 10, children: [
       Row(mainAxisAlignment: MainAxisAlignment.center, children: [
@@ -147,7 +149,7 @@ class _EpisodesNotesSheetState extends State<EpisodesNotesSheet>
             color: leisureColor,
           ),
           tabs: getSeasons(),
-          controller: widget.controller),
+          controller: controller),
       const SizedBox(height: 10),
       Row(children: [
         Padding(
@@ -160,7 +162,7 @@ class _EpisodesNotesSheetState extends State<EpisodesNotesSheet>
       const SizedBox(height: 7.5),
       Container(
           padding: const EdgeInsets.only(left: 18, right: 18),
-          child: Column(children: getNotes(widget.selectedTab))),
+          child: Column(children: getNotes(selectedTab))),
       const SizedBox(height: 50)
     ]);
   }

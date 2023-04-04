@@ -1,3 +1,5 @@
+// ignore_for_file: file_names
+
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:src/themes/colors.dart';
@@ -8,12 +10,12 @@ import 'package:src/utils/enums.dart';
 class MediaPage extends StatelessWidget {
   final String title, synopsis, type;
   final bool isFavorite;
-  Status status;
+  final Status status;
   final List<String> cast;
-  Map<String, String> notes;
+  final Map<String, String> notes;
   final List<int> length;
 
-  MediaPage(
+  const MediaPage(
       {Key? key,
       required this.title,
       required this.synopsis,
@@ -42,7 +44,6 @@ class MediaPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final TextEditingController nameInputController = TextEditingController();
 
     return Wrap(spacing: 10, children: [
       Row(children: [

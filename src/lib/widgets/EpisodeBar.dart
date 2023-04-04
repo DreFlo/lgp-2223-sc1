@@ -1,12 +1,14 @@
+// ignore_for_file: file_names
+
 import 'package:flutter/material.dart';
 import 'package:src/themes/colors.dart';
 import '../pages/leisure/AddEpisodeNoteForm.dart';
 
 class EpisodeBar extends StatefulWidget {
   final String code, title;
-  bool favorite, watched;
+  final bool favorite, watched;
 
-  EpisodeBar(
+  const EpisodeBar(
       {Key? key,
       required this.code,
       required this.title,
@@ -19,10 +21,18 @@ class EpisodeBar extends StatefulWidget {
 }
 
 class _EpisodeBarState extends State<EpisodeBar> {
+  late bool favorite, watched;
+
+  @override
+  initState() {
+    favorite = widget.favorite;
+    watched = widget.watched;
+
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
-    final TextEditingController nameInputController = TextEditingController();
-
     return Container(
         padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 15),
         width: MediaQuery.of(context).size.width * 0.9,
@@ -53,7 +63,7 @@ class _EpisodeBarState extends State<EpisodeBar> {
             Row(mainAxisAlignment: MainAxisAlignment.center, children: [
               ElevatedButton(
                   onPressed: () {
-                    widget.favorite = !widget.favorite;
+                    favorite = !favorite;
                     setState(() {});
 
                     //TODO: Add functionality for favoriting episode.
@@ -61,22 +71,22 @@ class _EpisodeBarState extends State<EpisodeBar> {
                   style: ButtonStyle(
                     minimumSize: MaterialStateProperty.all(const Size(45, 45)),
                     backgroundColor: MaterialStateProperty.all(
-                        widget.favorite ? leisureColor : Colors.white),
+                        favorite ? leisureColor : Colors.white),
                     foregroundColor: MaterialStateProperty.all(
-                        widget.favorite ? Colors.white : leisureColor),
-                    shape:
-                        MaterialStateProperty.all<CircleBorder>(const CircleBorder()),
+                        favorite ? Colors.white : leisureColor),
+                    shape: MaterialStateProperty.all<CircleBorder>(
+                        const CircleBorder()),
                   ),
                   child: const Icon(Icons.favorite_rounded)),
               ElevatedButton(
                   onPressed: () {
-                    widget.watched = !widget.watched;
+                    watched = !watched;
                     setState(() {});
 
                     //TODO: Add functionality for watching episode.
                   },
                   onLongPress: () {
-                    widget.watched = !widget.watched;
+                    watched = !watched;
                     setState(() {});
                     //TODO: Add functionality for watching episode.
 
@@ -99,11 +109,11 @@ class _EpisodeBarState extends State<EpisodeBar> {
                   style: ButtonStyle(
                     minimumSize: MaterialStateProperty.all(const Size(45, 45)),
                     backgroundColor: MaterialStateProperty.all(
-                        widget.watched ? leisureColor : Colors.white),
+                       watched ? leisureColor : Colors.white),
                     foregroundColor: MaterialStateProperty.all(
-                        widget.watched ? Colors.white : leisureColor),
-                    shape:
-                        MaterialStateProperty.all<CircleBorder>(const CircleBorder()),
+                       watched ? Colors.white : leisureColor),
+                    shape: MaterialStateProperty.all<CircleBorder>(
+                        const CircleBorder()),
                   ),
                   child: const Icon(Icons.remove_red_eye_outlined))
             ]),

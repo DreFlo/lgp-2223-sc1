@@ -1,3 +1,5 @@
+// ignore_for_file: file_names
+
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:src/widgets/BookNoteBar.dart';
@@ -37,7 +39,6 @@ class _BookNotesSheetState extends State<BookNotesSheet>
 
   @override
   Widget build(BuildContext context) {
-    final TextEditingController nameInputController = TextEditingController();
 
     return Wrap(spacing: 10, children: [
       Row(mainAxisAlignment: MainAxisAlignment.center, children: [

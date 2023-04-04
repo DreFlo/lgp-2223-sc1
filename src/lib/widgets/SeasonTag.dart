@@ -1,16 +1,16 @@
+// ignore_for_file: file_names
+
 import 'package:flutter/material.dart';
 
 class SeasonTag extends StatelessWidget {
   final String text;
-  bool selected;
+  final bool selected;
 
-  SeasonTag({Key? key, required this.text, this.selected = false})
+  const SeasonTag({Key? key, required this.text, this.selected = false})
       : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    final TextEditingController nameInputController = TextEditingController();
-
     return Expanded(
         child: Text(text.toUpperCase(),
             style: const TextStyle(

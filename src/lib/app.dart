@@ -5,7 +5,7 @@ import 'package:src/utils/service_locator.dart';
 import 'flavors.dart';
 import 'pages/HomePage.dart';
 
-Map<int, Color> color = {
+const Map<int, Color> color = {
   50: Color.fromRGBO(108, 93, 211, .1),
   100: Color.fromRGBO(108, 93, 211, .2),
   200: Color.fromRGBO(108, 93, 211, .3),
@@ -33,8 +33,8 @@ class App extends StatelessWidget {
             supportedLocales: AppLocalizations.supportedLocales,
             theme: ThemeData(
                 fontFamily: 'Poppins',
-                primarySwatch: MaterialColor(0xFF6C5DD3, color),
-                scaffoldBackgroundColor: Color(0xFF181A20),
+                primarySwatch: const MaterialColor(0xFF6C5DD3, color),
+                scaffoldBackgroundColor: const Color(0xFF181A20),
                 textTheme: const TextTheme(
                     labelSmall: TextStyle(
                         color: Color(0xFF71788D),

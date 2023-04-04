@@ -1,3 +1,5 @@
+// ignore_for_file: file_names
+
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:src/themes/colors.dart';
@@ -5,11 +7,11 @@ import 'package:src/utils/enums.dart';
 import 'package:emojis/emojis.dart';
 
 class FinishedMediaForm extends StatefulWidget {
-  String startDate, endDate;
-  Reaction rating;
-  bool isFavorite;
+  final String startDate, endDate;
+  final Reaction rating;
+  final bool isFavorite;
 
-  FinishedMediaForm(
+  const FinishedMediaForm(
       {Key? key,
       required this.startDate,
       required this.endDate,
@@ -22,10 +24,22 @@ class FinishedMediaForm extends StatefulWidget {
 }
 
 class _FinishedMediaFormState extends State<FinishedMediaForm> {
+  late String startDate, endDate;
+  late Reaction rating;
+  late bool isFavorite;
+
+  @override
+  initState() {
+    isFavorite = widget.isFavorite;
+    rating = widget.rating;
+    startDate = widget.startDate;
+    endDate = widget.endDate;
+
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
-    final TextEditingController nameInputController = TextEditingController();
-
     return Wrap(spacing: 10, children: [
       Row(mainAxisAlignment: MainAxisAlignment.center, children: [
         Padding(
@@ -44,10 +58,10 @@ class _FinishedMediaFormState extends State<FinishedMediaForm> {
           padding: const EdgeInsets.only(left: 18),
           child: Column(children: [
             Text(AppLocalizations.of(context).finished_media,
-            softWrap: true,
-            textWidthBasis: TextWidthBasis.longestLine,
-            style: Theme.of(context).textTheme.titleLarge,
-            textAlign: TextAlign.left)
+                softWrap: true,
+                textWidthBasis: TextWidthBasis.longestLine,
+                style: Theme.of(context).textTheme.titleLarge,
+                textAlign: TextAlign.left)
           ])),
       Padding(
           padding: const EdgeInsets.only(left: 18),
@@ -88,11 +102,11 @@ class _FinishedMediaFormState extends State<FinishedMediaForm> {
                         ),
                     initialEntryMode: DatePickerEntryMode.input,
                     context: context,
-                    firstDate: DateTime.parse(widget.startDate),
+                    firstDate: DateTime.parse(startDate),
                     lastDate: DateTime.now());
 
-                widget.startDate = newDateRange!.start.toString().split(" ")[0];
-                widget.endDate = newDateRange.end.toString().split(" ")[0];
+                startDate = newDateRange!.start.toString().split(" ")[0];
+                endDate = newDateRange.end.toString().split(" ")[0];
 
                 setState(() {});
               },
@@ -112,7 +126,7 @@ class _FinishedMediaFormState extends State<FinishedMediaForm> {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             Text(
-                              widget.startDate,
+                              startDate,
                               style: Theme.of(context).textTheme.bodySmall,
                             )
                           ],
@@ -123,7 +137,7 @@ class _FinishedMediaFormState extends State<FinishedMediaForm> {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             Text(
-                              widget.endDate,
+                              endDate,
                               style: Theme.of(context).textTheme.bodySmall,
                             )
                           ],
@@ -163,7 +177,7 @@ class _FinishedMediaFormState extends State<FinishedMediaForm> {
                             borderRadius: const BorderRadius.only(
                                 bottomLeft: Radius.circular(10),
                                 topLeft: Radius.circular(10)),
-                            color: (widget.rating == Reaction.hate
+                            color: (rating == Reaction.hate
                                 ? leisureColor
                                 : lightGray)),
                         child: const Text(Emojis.confoundedFace,
@@ -171,7 +185,7 @@ class _FinishedMediaFormState extends State<FinishedMediaForm> {
                   ],
                 ),
                 onTap: () {
-                  widget.rating = Reaction.hate;
+                  rating = Reaction.hate;
 
                   setState(() {});
                 },
@@ -184,7 +198,7 @@ class _FinishedMediaFormState extends State<FinishedMediaForm> {
                     Container(
                         height: 50,
                         padding: const EdgeInsets.only(left: 15, right: 15),
-                        color: (widget.rating == Reaction.dislike
+                        color: (rating == Reaction.dislike
                             ? leisureColor
                             : lightGray),
                         alignment: const Alignment(0, 0),
@@ -194,7 +208,7 @@ class _FinishedMediaFormState extends State<FinishedMediaForm> {
                   ],
                 ),
                 onTap: () {
-                  widget.rating = Reaction.dislike;
+                  rating = Reaction.dislike;
                   setState(() {});
                 },
               ),
@@ -205,7 +219,7 @@ class _FinishedMediaFormState extends State<FinishedMediaForm> {
                     Container(
                         height: 50,
                         padding: const EdgeInsets.only(left: 15, right: 15),
-                        color: (widget.rating == Reaction.neutral
+                        color: (rating == Reaction.neutral
                             ? leisureColor
                             : lightGray),
                         alignment: const Alignment(0, 0),
@@ -215,7 +229,7 @@ class _FinishedMediaFormState extends State<FinishedMediaForm> {
                   ],
                 ),
                 onTap: () {
-                  widget.rating = Reaction.neutral;
+                  rating = Reaction.neutral;
 
                   setState(() => {});
                 },
@@ -227,7 +241,7 @@ class _FinishedMediaFormState extends State<FinishedMediaForm> {
                     Container(
                         height: 50,
                         padding: const EdgeInsets.only(left: 15, right: 15),
-                        color: (widget.rating == Reaction.like
+                        color: (rating == Reaction.like
                             ? leisureColor
                             : lightGray),
                         alignment: const Alignment(0, 0),
@@ -237,7 +251,7 @@ class _FinishedMediaFormState extends State<FinishedMediaForm> {
                   ],
                 ),
                 onTap: () {
-                  widget.rating = Reaction.like;
+                  rating = Reaction.like;
 
                   setState(() => {});
                 },
@@ -253,7 +267,7 @@ class _FinishedMediaFormState extends State<FinishedMediaForm> {
                             borderRadius: const BorderRadius.only(
                                 bottomRight: Radius.circular(10),
                                 topRight: Radius.circular(10)),
-                            color: (widget.rating == Reaction.love
+                            color: (rating == Reaction.love
                                 ? leisureColor
                                 : lightGray)),
                         alignment: const Alignment(0, 0),
@@ -263,7 +277,7 @@ class _FinishedMediaFormState extends State<FinishedMediaForm> {
                   ],
                 ),
                 onTap: () {
-                  widget.rating = Reaction.love;
+                  rating = Reaction.love;
 
                   setState(() => {});
                 },
@@ -311,26 +325,24 @@ class _FinishedMediaFormState extends State<FinishedMediaForm> {
       Container(
           padding: const EdgeInsets.only(left: 18, right: 18),
           height: 50,
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center, children: [
+          child: Row(mainAxisAlignment: MainAxisAlignment.center, children: [
             ElevatedButton(
                 onPressed: () {
-                  widget.isFavorite = !widget.isFavorite;
+                  isFavorite = !isFavorite;
 
                   setState(() {});
                 },
                 style: ButtonStyle(
-                    fixedSize: MaterialStateProperty.all(Size.copy(
-                      Size(
-                        (((MediaQuery.of(context).size.width * 0.9) - 10) /
-                            2), 50))),
+                    fixedSize: MaterialStateProperty.all(Size.copy(Size(
+                        (((MediaQuery.of(context).size.width * 0.9) - 10) / 2),
+                        50))),
                     shape: MaterialStateProperty.all(
                         const RoundedRectangleBorder(
                             borderRadius: BorderRadius.only(
                                 topLeft: Radius.circular(10),
                                 bottomLeft: Radius.circular(10)))),
                     backgroundColor: MaterialStateProperty.all(
-                        widget.isFavorite ? leisureColor : lightGray)),
+                        isFavorite ? leisureColor : lightGray)),
                 child: Text(AppLocalizations.of(context).yes,
                     style: const TextStyle(
                       color: Colors.white,
@@ -340,22 +352,21 @@ class _FinishedMediaFormState extends State<FinishedMediaForm> {
             const VerticalDivider(color: modalBackground, thickness: 10),
             ElevatedButton(
                 onPressed: () {
-                  widget.isFavorite = !widget.isFavorite;
+                  isFavorite = !isFavorite;
 
                   setState(() {});
                 },
                 style: ButtonStyle(
-                    fixedSize: MaterialStateProperty.all(Size.copy(
-                      Size(
-                        (((MediaQuery.of(context).size.width * 0.9) - 10) /
-                            2), 50))),
+                    fixedSize: MaterialStateProperty.all(Size.copy(Size(
+                        (((MediaQuery.of(context).size.width * 0.9) - 10) / 2),
+                        50))),
                     shape: MaterialStateProperty.all(
                         const RoundedRectangleBorder(
                             borderRadius: BorderRadius.only(
                                 topRight: Radius.circular(10),
                                 bottomRight: Radius.circular(10)))),
                     backgroundColor: MaterialStateProperty.all(
-                        !widget.isFavorite ? leisureColor : lightGray)),
+                        !isFavorite ? leisureColor : lightGray)),
                 child: Text(AppLocalizations.of(context).no,
                     style: const TextStyle(
                       color: Colors.white,

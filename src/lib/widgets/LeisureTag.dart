@@ -1,3 +1,5 @@
+// ignore_for_file: file_names
+
 import 'package:flutter/material.dart';
 import 'package:src/themes/colors.dart';
 
@@ -8,7 +10,6 @@ class LeisureTag extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final TextEditingController nameInputController = TextEditingController();
 
     // This method is rerun every time setState is called, for instance as done
     // by the _incrementCounter method above.

@@ -1,3 +1,5 @@
+// ignore_for_file: file_names
+
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:src/themes/colors.dart';
@@ -6,18 +8,17 @@ import '../../utils/enums.dart';
 import 'FinishedMediaForm.dart';
 
 class AddBookNoteForm extends StatefulWidget {
-  int? startPage, endPage;
-
-  AddBookNoteForm({Key? key, this.startPage, this.endPage}) : super(key: key);
+  const AddBookNoteForm({Key? key}) : super(key: key);
 
   @override
   State<AddBookNoteForm> createState() => _AddBookNoteFormState();
 }
 
 class _AddBookNoteFormState extends State<AddBookNoteForm> {
+  int? startPage, endPage;
+
   @override
   Widget build(BuildContext context) {
-    final TextEditingController nameInputController = TextEditingController();
 
     return Wrap(spacing: 10, children: [
       Row(mainAxisAlignment: MainAxisAlignment.center, children: [
@@ -62,7 +63,7 @@ class _AddBookNoteFormState extends State<AddBookNoteForm> {
                     child: TextField(
                         onChanged: (input) {
                           setState(() {
-                            widget.startPage = int.parse(input);
+                            startPage = int.parse(input);
                           });
                         },
                         keyboardType: TextInputType.number,
@@ -85,7 +86,7 @@ class _AddBookNoteFormState extends State<AddBookNoteForm> {
                     child: TextField(
                         onChanged: (input) {
                           setState(() {
-                            widget.endPage = int.parse(input);
+                            endPage = int.parse(input);
                           });
                         },
                         keyboardType: TextInputType.number,

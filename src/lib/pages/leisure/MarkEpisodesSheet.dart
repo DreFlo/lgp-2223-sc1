@@ -1,3 +1,5 @@
+// ignore_for_file: file_names
+
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:src/themes/colors.dart';
@@ -8,16 +10,9 @@ import '../../utils/enums.dart';
 import 'FinishedMediaForm.dart';
 
 class MarkEpisodesSheet extends StatefulWidget {
-  Map<int, Map<int, String>> episodes;
-  int selectedSeason;
-  TabController? controller;
+  final Map<int, Map<int, String>> episodes;
 
-  MarkEpisodesSheet(
-      {Key? key,
-      required this.episodes,
-      this.selectedSeason = 1,
-      this.controller})
-      : super(key: key);
+  const MarkEpisodesSheet({Key? key, required this.episodes}) : super(key: key);
 
   @override
   State<MarkEpisodesSheet> createState() => _MarkEpisodesSheetState();
@@ -25,16 +20,21 @@ class MarkEpisodesSheet extends StatefulWidget {
 
 class _MarkEpisodesSheetState extends State<MarkEpisodesSheet>
     with TickerProviderStateMixin {
+  late int selectedSeason;
+  late TabController? controller;
+
   @override
   initState() {
-    widget.controller = TabController(
+    selectedSeason = 1;
+
+    controller = TabController(
         length: widget.episodes.length,
         vsync: this,
-        initialIndex: widget.selectedSeason - 1);
+        initialIndex: selectedSeason - 1);
 
-    widget.controller?.addListener(() {
+    controller?.addListener(() {
       setState(() {
-        widget.selectedSeason = widget.controller!.index + 1;
+        selectedSeason = controller!.index + 1;
       });
     });
 
@@ -44,11 +44,11 @@ class _MarkEpisodesSheetState extends State<MarkEpisodesSheet>
   List<Widget> getEpisodes() {
     List<Widget> episodes = [];
 
-    for (int j = 1; j <= widget.episodes[widget.selectedSeason]!.length; j++) {
+    for (int j = 1; j <= widget.episodes[selectedSeason]!.length; j++) {
       episodes.add(EpisodeBar(
           code:
-              "S${widget.selectedSeason.toString().padLeft(2, 0.toString())}E${j.toString().padLeft(2, 0.toString())}",
-          title: widget.episodes[widget.selectedSeason]![j]!,
+              "S${selectedSeason.toString().padLeft(2, 0.toString())}E${j.toString().padLeft(2, 0.toString())}",
+          title: widget.episodes[selectedSeason]![j]!,
           favorite: false,
           watched: true));
 
@@ -72,8 +72,6 @@ class _MarkEpisodesSheetState extends State<MarkEpisodesSheet>
 
   @override
   Widget build(BuildContext context) {
-    final TextEditingController nameInputController = TextEditingController();
-
     return Wrap(spacing: 10, children: [
       Row(mainAxisAlignment: MainAxisAlignment.center, children: [
         Padding(
@@ -188,7 +186,7 @@ class _MarkEpisodesSheetState extends State<MarkEpisodesSheet>
             color: leisureColor,
           ),
           tabs: getSeasons(),
-          controller: widget.controller),
+          controller: controller),
       const SizedBox(height: 10),
       Row(children: [
         Padding(
