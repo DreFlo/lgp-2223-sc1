@@ -26,17 +26,17 @@ class MediaPage extends StatelessWidget {
       : super(key: key);
 
   String getLength(context) {
-    if (this.type == "TV Show") {
-      return this.length[0].toString() +
+    if (type == "TV Show") {
+      return length[0].toString() +
           AppLocalizations.of(context).seasons +
-          this.length[1].toString() +
+          length[1].toString() +
           AppLocalizations.of(context).episodes +
-          this.length[2].toString() +
+          length[2].toString() +
           AppLocalizations.of(context).minutes_each;
-    } else if (this.type == "Book") {
-      return this.length[0].toString() + AppLocalizations.of(context).pages;
+    } else if (type == "Book") {
+      return length[0].toString() + AppLocalizations.of(context).pages;
     } else {
-      return this.length[0].toString() + AppLocalizations.of(context).minutes;
+      return length[0].toString() + AppLocalizations.of(context).minutes;
     }
   }
 
@@ -61,10 +61,10 @@ class MediaPage extends StatelessWidget {
                         alignment: Alignment.center,
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(10),
-                          color: Color(0xFF414554),
+                          color: const Color(0xFF414554),
                         ),
                         child: Text(
-                          this.type.toUpperCase(),
+                          type.toUpperCase(),
                           style: Theme.of(context).textTheme.headlineMedium,
                           textAlign: TextAlign.center,
                         ),
@@ -95,55 +95,54 @@ class MediaPage extends StatelessWidget {
                   ),
                 ]),
             Row(children: [
-              Container(
-                  child: Padding(
-                      padding: const EdgeInsets.only(left: 18.0, right: 18.0),
-                      child: Stack(clipBehavior: Clip.none, children: [
-                        Container(
-                            width: MediaQuery.of(context).size.width * 0.85,
-                            child: Text(
-                              this.title.toUpperCase(),
-                              softWrap: true,
-                              textWidthBasis: TextWidthBasis.longestLine,
-                              style: Theme.of(context).textTheme.titleLarge,
-                              textAlign: TextAlign.left,
-                              maxLines: 5,
-                            )),
-                        Positioned(
-                            top: 15,
-                            left: MediaQuery.of(context).size.width * 0.80,
-                            child: LikeButton(
+              Padding(
+                  padding: const EdgeInsets.only(left: 18.0, right: 18.0),
+                  child: Stack(clipBehavior: Clip.none, children: [
+                    SizedBox(
+                        width: MediaQuery.of(context).size.width * 0.85,
+                        child: Text(
+                          title.toUpperCase(),
+                          softWrap: true,
+                          textWidthBasis: TextWidthBasis.longestLine,
+                          style: Theme.of(context).textTheme.titleLarge,
+                          textAlign: TextAlign.left,
+                          maxLines: 5,
+                        )),
+                    Positioned(
+                        top: 15,
+                        left: MediaQuery.of(context).size.width * 0.80,
+                        child: LikeButton(
+                          size: 40,
+                          likeBuilder: (bool isLiked) {
+                            return Icon(
+                              Icons.favorite_rounded,
+                              color: isLiked ? leisureColor : Colors.grey,
                               size: 40,
-                              likeBuilder: (bool isLiked) {
-                                return Icon(
-                                  Icons.favorite_rounded,
-                                  color: isLiked ? leisureColor : Colors.grey,
-                                  size: 40,
-                                );
-                              },
-                              circleColor: CircleColor(
-                                  start: Colors.white, end: leisureColor),
-                              bubblesColor: BubblesColor(
-                                dotPrimaryColor: leisureColor,
-                                dotSecondaryColor: leisureColor,
-                              ),
-                              isLiked: this.isFavorite,
-                              onTap: (isLiked) {
-                                return Future.delayed(Duration(milliseconds: 1),
-                                    () {
-                                  isLiked = !isLiked;
-                                  return isLiked;
-                                });
-                              },
-                            ))
-                      ])))
+                            );
+                          },
+                          circleColor: const CircleColor(
+                              start: Colors.white, end: leisureColor),
+                          bubblesColor: const BubblesColor(
+                            dotPrimaryColor: leisureColor,
+                            dotSecondaryColor: leisureColor,
+                          ),
+                          isLiked: isFavorite,
+                          onTap: (isLiked) {
+                            return Future.delayed(const Duration(milliseconds: 1),
+                                () {
+                              isLiked = !isLiked;
+                              return isLiked;
+                            });
+                          },
+                        ))
+                  ]))
             ]),
           ],
         )
       ]),
-      SizedBox(height: 20),
+      const SizedBox(height: 20),
       Padding(
-          padding: EdgeInsets.only(left: 18),
+          padding: const EdgeInsets.only(left: 18),
           child: Row(mainAxisAlignment: MainAxisAlignment.start, children: [
             SizedBox(
                 width: MediaQuery.of(context).size.width * 0.85,
@@ -152,49 +151,49 @@ class MediaPage extends StatelessWidget {
                     spacing: 7.6,
                     alignment: WrapAlignment.start,
                     runSpacing: 7.5,
-                    children: [
+                    children: const [
                       LeisureTag(text: "85% love it"),
                       LeisureTag(text: "Fantasy"),
                       LeisureTag(text: "2015"),
                       LeisureTag(text: "Right up your alley!")
                     ])),
           ])),
-      SizedBox(height: 35),
+      const SizedBox(height: 35),
       Row(children: [
         Padding(
-            padding: EdgeInsets.only(left: 18),
+            padding: const EdgeInsets.only(left: 18),
             child: Text(
               AppLocalizations.of(context).synopsis,
               style: Theme.of(context).textTheme.displayMedium,
             ))
       ]),
-      SizedBox(height: 7.5),
+      const SizedBox(height: 7.5),
       Flexible(
         child: Padding(
-            padding: EdgeInsets.only(left: 18, right: 18),
+            padding: const EdgeInsets.only(left: 18, right: 18),
             child: Text(
-              this.synopsis,
+              synopsis,
               softWrap: true,
               textAlign: TextAlign.justify,
               style: Theme.of(context).textTheme.bodySmall,
             )),
       ),
-      SizedBox(height: 35),
+      const SizedBox(height: 35),
       Row(children: [
         Padding(
-            padding: EdgeInsets.only(left: 18),
+            padding: const EdgeInsets.only(left: 18),
             child: Text(
               AppLocalizations.of(context).cast,
               style: Theme.of(context).textTheme.displayMedium,
             ))
       ]),
-      SizedBox(height: 7.5),
+      const SizedBox(height: 7.5),
       Row(children: [
         Padding(
-          padding: EdgeInsets.only(left: 18, right: 18),
+          padding: const EdgeInsets.only(left: 18, right: 18),
           child: Row(children: [
             Text(
-              this.cast.join("\n"),
+              cast.join("\n"),
               softWrap: true,
               textAlign: TextAlign.justify,
               style: Theme.of(context).textTheme.bodySmall,
@@ -202,19 +201,19 @@ class MediaPage extends StatelessWidget {
           ]),
         ),
       ]),
-      SizedBox(height: 35),
+      const SizedBox(height: 35),
       Row(children: [
         Padding(
-            padding: EdgeInsets.only(left: 18),
+            padding: const EdgeInsets.only(left: 18),
             child: Text(
               AppLocalizations.of(context).length,
               style: Theme.of(context).textTheme.displayMedium,
             ))
       ]),
-      SizedBox(height: 7.5),
+      const SizedBox(height: 7.5),
       Row(children: [
         Padding(
-          padding: EdgeInsets.only(left: 18, right: 18),
+          padding: const EdgeInsets.only(left: 18, right: 18),
           child: Row(children: [
             Text(
               getLength(context),
@@ -225,7 +224,7 @@ class MediaPage extends StatelessWidget {
           ]),
         ),
       ]),
-      SizedBox(height: 100)
+      const SizedBox(height: 100)
     ]);
   }
 }

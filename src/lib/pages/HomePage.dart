@@ -1,4 +1,4 @@
-// ignore_for_file: prefer_const_constructors
+// ignore_for_file: prefer_const_constructors, sized_box_for_whitespace
 
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -33,7 +33,7 @@ class _HomePageState extends State<HomePage> {
   String title = "She-ra and the Princesses of Power",
       synopsis =
           "In this reboot of the '80s series, a magic sword transforms an orphan girl into warrior She-Ra, who unites a rebellion to fight against evil.",
-      type = "Book";
+      type = "TV Show";
   List<int> length = [5, 52, 20];
   List<String> cast = [
     'Aimee Carrero as Adora',

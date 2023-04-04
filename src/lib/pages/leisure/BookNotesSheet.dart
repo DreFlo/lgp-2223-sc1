@@ -1,13 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:src/themes/colors.dart';
-import 'package:src/widgets/SeasonTag.dart';
 import 'package:src/widgets/BookNoteBar.dart';
 
 class BookNotesSheet extends StatefulWidget {
-  Map<String, String> notes;
+  final Map<String, String> notes;
 
-  BookNotesSheet(
+  const BookNotesSheet(
       {Key? key, required this.notes})
       : super(key: key);
 
@@ -51,7 +49,7 @@ class _BookNotesSheetState extends State<BookNotesSheet>
               alignment: Alignment.center,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(10),
-                color: Color(0xFF414554),
+                color: const Color(0xFF414554),
               ),
             ))
       ]),

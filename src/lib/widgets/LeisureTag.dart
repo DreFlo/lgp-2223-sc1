@@ -1,13 +1,5 @@
-import 'dart:math';
-import 'dart:ui';
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:src/animation_test/main.dart';
-import 'package:src/daos/person_dao.dart';
-import 'package:src/models/person.dart';
 import 'package:src/themes/colors.dart';
-import 'package:src/utils/service_locator.dart';
-import 'package:like_button/like_button.dart';
 
 class LeisureTag extends StatelessWidget {
   final String text;
@@ -29,8 +21,8 @@ class LeisureTag extends StatelessWidget {
           borderRadius: BorderRadius.circular(5),
           color: lightGray,
         ),
-        padding: EdgeInsets.only(bottom: 5, top: 5, left: 7.5, right: 7.5),
-        child: Text(this.text.toUpperCase(),
+        padding: const EdgeInsets.only(bottom: 5, top: 5, left: 7.5, right: 7.5),
+        child: Text(text.toUpperCase(),
             style: Theme.of(context).textTheme.displaySmall));
   }
 }

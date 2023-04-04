@@ -29,7 +29,7 @@ class _AddBookNoteFormState extends State<AddBookNoteForm> {
               alignment: Alignment.center,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(10),
-                color: Color(0xFF414554),
+                color: const Color(0xFF414554),
               ),
             ))
       ]),
@@ -52,7 +52,7 @@ class _AddBookNoteFormState extends State<AddBookNoteForm> {
       ]),
       const SizedBox(height: 7.5),
       Padding(
-              padding: EdgeInsets.only(left: 18),
+              padding: const EdgeInsets.only(left: 18),
               child: Row(
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
@@ -78,7 +78,7 @@ class _AddBookNoteFormState extends State<AddBookNoteForm> {
                             borderRadius: BorderRadius.circular(10.0),
                           ),
                         ))),
-                SizedBox(width: 10),
+                const SizedBox(width: 10),
                 SizedBox(
                     width: ((0.5 * (MediaQuery.of(context).size.width * 0.9)) -
                         10),
@@ -113,8 +113,8 @@ class _AddBookNoteFormState extends State<AddBookNoteForm> {
                   showModalBottomSheet(
                       context: context,
                       isScrollControlled: true,
-                      backgroundColor: Color(0xFF22252D),
-                      shape: RoundedRectangleBorder(
+                      backgroundColor: const Color(0xFF22252D),
+                      shape: const RoundedRectangleBorder(
                         borderRadius:
                             BorderRadius.vertical(top: Radius.circular(30.0)),
                       ),

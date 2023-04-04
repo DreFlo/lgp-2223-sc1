@@ -1,15 +1,8 @@
-import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:src/animation_test/main.dart';
-import 'package:src/daos/person_dao.dart';
-import 'package:src/models/person.dart';
 import 'package:src/themes/colors.dart';
-import 'package:src/utils/service_locator.dart';
 import 'package:src/utils/enums.dart';
 import 'package:emojis/emojis.dart';
-
-import '../../widgets/LeisureTag.dart';
 
 class FinishedMediaForm extends StatefulWidget {
   String startDate, endDate;
@@ -43,31 +36,28 @@ class _FinishedMediaFormState extends State<FinishedMediaForm> {
               alignment: Alignment.center,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(10),
-                color: Color(0xFF414554),
+                color: const Color(0xFF414554),
               ),
             ))
       ]),
       Padding(
           padding: const EdgeInsets.only(left: 18),
-          child: Container(
-              child: Column(children: [
+          child: Column(children: [
             Text(AppLocalizations.of(context).finished_media,
-                softWrap: true,
-                textWidthBasis: TextWidthBasis.longestLine,
-                style: Theme.of(context).textTheme.titleLarge,
-                textAlign: TextAlign.left)
-          ]))),
+            softWrap: true,
+            textWidthBasis: TextWidthBasis.longestLine,
+            style: Theme.of(context).textTheme.titleLarge,
+            textAlign: TextAlign.left)
+          ])),
       Padding(
           padding: const EdgeInsets.only(left: 18),
-          child: Container(
-            child: Column(children: [
-              Text(AppLocalizations.of(context).what_thoughts,
-                  softWrap: true,
-                  textWidthBasis: TextWidthBasis.longestLine,
-                  style: Theme.of(context).textTheme.titleMedium,
-                  textAlign: TextAlign.left),
-            ]),
-          )),
+          child: Column(children: [
+            Text(AppLocalizations.of(context).what_thoughts,
+                softWrap: true,
+                textWidthBasis: TextWidthBasis.longestLine,
+                style: Theme.of(context).textTheme.titleMedium,
+                textAlign: TextAlign.left),
+          ])),
       const SizedBox(height: 50),
       Row(children: [
         Padding(
@@ -79,7 +69,7 @@ class _FinishedMediaFormState extends State<FinishedMediaForm> {
       ]),
       const SizedBox(height: 7.5),
       Padding(
-          padding: EdgeInsets.only(left: 18, right: 18),
+          padding: const EdgeInsets.only(left: 18, right: 18),
           child: InkWell(
               onTap: () async {
                 DateTimeRange? newDateRange = await showDateRangePicker(
@@ -112,7 +102,7 @@ class _FinishedMediaFormState extends State<FinishedMediaForm> {
                     width: MediaQuery.of(context).size.width * 0.90,
                     height: 50,
                     decoration: BoxDecoration(
-                      color: Color(0xFF2F3443),
+                      color: const Color(0xFF2F3443),
                       borderRadius: BorderRadius.circular(10),
                     ),
                     child: Row(
@@ -127,7 +117,7 @@ class _FinishedMediaFormState extends State<FinishedMediaForm> {
                             )
                           ],
                         ),
-                        VerticalDivider(
+                        const VerticalDivider(
                             color: Color(0xFF22252D), thickness: 10),
                         Column(
                           mainAxisAlignment: MainAxisAlignment.center,
@@ -152,7 +142,7 @@ class _FinishedMediaFormState extends State<FinishedMediaForm> {
       ]),
       const SizedBox(height: 7.5),
       Container(
-          padding: EdgeInsets.only(left: 18, right: 18),
+          padding: const EdgeInsets.only(left: 18, right: 18),
           height: 50,
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -193,12 +183,12 @@ class _FinishedMediaFormState extends State<FinishedMediaForm> {
                   children: [
                     Container(
                         height: 50,
-                        padding: EdgeInsets.only(left: 15, right: 15),
+                        padding: const EdgeInsets.only(left: 15, right: 15),
                         color: (widget.rating == Reaction.dislike
                             ? leisureColor
                             : lightGray),
                         alignment: const Alignment(0, 0),
-                        child: Text(Emojis.pensiveFace,
+                        child: const Text(Emojis.pensiveFace,
                             textAlign: TextAlign.center,
                             style: TextStyle(fontSize: 30)))
                   ],
@@ -214,7 +204,7 @@ class _FinishedMediaFormState extends State<FinishedMediaForm> {
                   children: [
                     Container(
                         height: 50,
-                        padding: EdgeInsets.only(left: 15, right: 15),
+                        padding: const EdgeInsets.only(left: 15, right: 15),
                         color: (widget.rating == Reaction.neutral
                             ? leisureColor
                             : lightGray),
@@ -236,7 +226,7 @@ class _FinishedMediaFormState extends State<FinishedMediaForm> {
                   children: [
                     Container(
                         height: 50,
-                        padding: EdgeInsets.only(left: 15, right: 15),
+                        padding: const EdgeInsets.only(left: 15, right: 15),
                         color: (widget.rating == Reaction.like
                             ? leisureColor
                             : lightGray),
@@ -258,7 +248,7 @@ class _FinishedMediaFormState extends State<FinishedMediaForm> {
                   children: [
                     Container(
                         height: 50,
-                        padding: EdgeInsets.only(left: 15, right: 15),
+                        padding: const EdgeInsets.only(left: 15, right: 15),
                         decoration: BoxDecoration(
                             borderRadius: const BorderRadius.only(
                                 bottomRight: Radius.circular(10),

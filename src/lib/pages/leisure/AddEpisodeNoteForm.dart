@@ -3,9 +3,9 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:src/themes/colors.dart';
 
 class AddEpisodeNoteForm extends StatefulWidget {
-  String code;
+  final String code;
 
-  AddEpisodeNoteForm({Key? key, required this.code}) : super(key: key);
+  const AddEpisodeNoteForm({Key? key, required this.code}) : super(key: key);
 
   @override
   State<AddEpisodeNoteForm> createState() => _AddEpisodeNoteFormState();
@@ -26,7 +26,7 @@ class _AddEpisodeNoteFormState extends State<AddEpisodeNoteForm> {
               alignment: Alignment.center,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(10),
-                color: Color(0xFF414554),
+                color: const Color(0xFF414554),
               ),
             ))
       ]),
@@ -41,7 +41,7 @@ class _AddEpisodeNoteFormState extends State<AddEpisodeNoteForm> {
             const SizedBox(height: 10),
           ])),
       Padding(
-          padding: EdgeInsets.only(left: 18),
+          padding: const EdgeInsets.only(left: 18),
           child: SizedBox(
               width: MediaQuery.of(context).size.width * 0.90,
               height: 200,
@@ -75,7 +75,7 @@ class _AddEpisodeNoteFormState extends State<AddEpisodeNoteForm> {
                   style: Theme.of(context).textTheme.headlineSmall))),
       Row(
           mainAxisAlignment: MainAxisAlignment.center,
-          children: [SizedBox(height: 100)])
+          children: const [SizedBox(height: 100)])
     ]);
   }
 }

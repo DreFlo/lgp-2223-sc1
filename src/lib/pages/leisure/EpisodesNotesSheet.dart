@@ -2,13 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:src/themes/colors.dart';
 import 'package:src/widgets/SeasonTag.dart';
-import 'package:src/widgets/EpisodeBar.dart';
 
 import '../../widgets/EpisodeNoteBar.dart';
 
 class EpisodesNotesSheet extends StatefulWidget {
-  Map<String, String> notes;
-  Map<int, Map<int, String>> episodes;
+  final Map<String, String> notes;
+  final Map<int, Map<int, String>> episodes;
   TabController? controller;
   int selectedTab = 0;
 
@@ -22,6 +21,8 @@ class EpisodesNotesSheet extends StatefulWidget {
 
 class _EpisodesNotesSheetState extends State<EpisodesNotesSheet>
     with TickerProviderStateMixin {
+  
+  @override
   initState() {
     widget.controller = TabController(
         length: widget.episodes.length + 1, vsync: this, initialIndex: 0);
@@ -31,6 +32,8 @@ class _EpisodesNotesSheetState extends State<EpisodesNotesSheet>
         widget.selectedTab = widget.controller!.index;
       });
     });
+
+    super.initState();
   }
 
   List<Widget> getSeasons() {
@@ -95,10 +98,10 @@ class _EpisodesNotesSheetState extends State<EpisodesNotesSheet>
     if (episodes.isEmpty) {
       episodes.add(Text(
         AppLocalizations.of(context).no_notes_label,
-        style: TextStyle(
+        style: const TextStyle(
             color: Colors.white, fontWeight: FontWeight.normal, fontSize: 32),
       ));
-      episodes.add(SizedBox(height: 125));
+      episodes.add(const SizedBox(height: 125));
     }
 
     return episodes;
@@ -118,7 +121,7 @@ class _EpisodesNotesSheetState extends State<EpisodesNotesSheet>
               alignment: Alignment.center,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(10),
-                color: Color(0xFF414554),
+                color: const Color(0xFF414554),
               ),
             ))
       ]),

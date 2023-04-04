@@ -1,15 +1,8 @@
-import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:src/animation_test/main.dart';
-import 'package:src/daos/person_dao.dart';
-import 'package:src/models/person.dart';
 import 'package:src/themes/colors.dart';
-import 'package:src/utils/service_locator.dart';
 import 'package:src/utils/enums.dart';
-import 'package:emojis/emojis.dart';
 
-import '../../widgets/LeisureTag.dart';
 
 class AddToCatalogForm extends StatefulWidget {
   String startDate, endDate;
@@ -43,7 +36,7 @@ class _AddToCatalogFormState extends State<AddToCatalogForm> {
               alignment: Alignment.center,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(10),
-                color: Color(0xFF414554),
+                color: const Color(0xFF414554),
               ),
             ))
       ]),
@@ -144,7 +137,7 @@ class _AddToCatalogFormState extends State<AddToCatalogForm> {
               ],
             ),
             
-            SizedBox(height: 10),
+            const SizedBox(height: 10),
             
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,

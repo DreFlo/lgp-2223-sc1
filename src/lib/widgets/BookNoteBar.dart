@@ -52,7 +52,7 @@ class _BookNoteBarState extends State<BookNoteBar> {
             //   ]),
             // ]),
           ]),
-          SizedBox(height: 15),
+          const SizedBox(height: 15),
           Row(mainAxisAlignment: MainAxisAlignment.start, children: [
             Flexible(
                 child: Text(widget.text,

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:src/themes/colors.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import '../pages/leisure/AddEpisodeNoteForm.dart';
 
 class EpisodeBar extends StatefulWidget {
@@ -42,7 +41,7 @@ class _EpisodeBarState extends State<EpisodeBar> {
             Row(mainAxisAlignment: MainAxisAlignment.start, children: [
               Text(
                   widget.title.length > 20
-                      ? widget.title.substring(0, 20) + '...'
+                      ? '${widget.title.substring(0, 20)}...'
                       : widget.title,
                   style: const TextStyle(
                       color: Colors.white,
@@ -66,9 +65,9 @@ class _EpisodeBarState extends State<EpisodeBar> {
                     foregroundColor: MaterialStateProperty.all(
                         widget.favorite ? Colors.white : leisureColor),
                     shape:
-                        MaterialStateProperty.all<CircleBorder>(CircleBorder()),
+                        MaterialStateProperty.all<CircleBorder>(const CircleBorder()),
                   ),
-                  child: Icon(Icons.favorite_rounded)),
+                  child: const Icon(Icons.favorite_rounded)),
               ElevatedButton(
                   onPressed: () {
                     widget.watched = !widget.watched;
@@ -84,8 +83,8 @@ class _EpisodeBarState extends State<EpisodeBar> {
                     showModalBottomSheet(
                         context: context,
                         isScrollControlled: true,
-                        backgroundColor: Color(0xFF22252D),
-                        shape: RoundedRectangleBorder(
+                        backgroundColor: const Color(0xFF22252D),
+                        shape: const RoundedRectangleBorder(
                           borderRadius:
                               BorderRadius.vertical(top: Radius.circular(30.0)),
                         ),
@@ -104,9 +103,9 @@ class _EpisodeBarState extends State<EpisodeBar> {
                     foregroundColor: MaterialStateProperty.all(
                         widget.watched ? Colors.white : leisureColor),
                     shape:
-                        MaterialStateProperty.all<CircleBorder>(CircleBorder()),
+                        MaterialStateProperty.all<CircleBorder>(const CircleBorder()),
                   ),
-                  child: Icon(Icons.remove_red_eye_outlined))
+                  child: const Icon(Icons.remove_red_eye_outlined))
             ]),
           ]),
         ]));
