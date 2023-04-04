@@ -51,6 +51,8 @@ dependencies:
   emojis: ^0.9.9
 
 dev_dependencies:
+  integration_test:
+    sdk: flutter
   flutter_test:
     sdk: flutter
   mockito: ^5.4.0

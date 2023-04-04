@@ -12,7 +12,7 @@ import 'package:src/app.dart';
 import 'package:src/daos/person_dao.dart';
 import 'package:src/utils/service_locator.dart';
 
-import 'utils/service_locator_test_util.dart';
+import '../utils/service_locator_test_util.dart';
 
 void main() {
   setUp(() async {

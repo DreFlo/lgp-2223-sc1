@@ -171,6 +171,18 @@ setupServiceLocatorUnitTests();
 await serviceLocator.allReady();
 ```
 
+__INTEGRATION TESTS__
+
+```shell
+flutter test integration_test/<flavorName> --flavor <flavorName>
+```
+
+__UNIT AND WIDGET TESTS__
+
+```shell
+flutter test
+```
+
 #### Icons
 
 To change the app icons:

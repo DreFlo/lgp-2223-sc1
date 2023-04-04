@@ -1,7 +1,8 @@
 import 'package:floor/floor.dart';
 import 'package:flutter/foundation.dart';
 import 'package:get_it/get_it.dart';
-import 'package:src/database.dart';
+import 'package:src/database/database.dart';
+import 'package:src/database/migrations.dart';
 
 import 'package:src/daos/student/evaluation_dao.dart';
 import 'package:src/daos/student/institution_dao.dart';
@@ -41,7 +42,8 @@ void setup() {
   serviceLocator.registerSingletonAsync<AppDatabase>(() async =>
       await $FloorAppDatabase
           .databaseBuilder('wokka_database.db')
-          .addMigrations([migration1to2]).build());
+          .addMigrations(allMigrations)
+          .build());
 
   serviceLocator.registerSingletonWithDependencies<PersonDao>(
       () => serviceLocator.get<AppDatabase>().personDao,
