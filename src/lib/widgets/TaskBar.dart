@@ -71,9 +71,8 @@ class _TaskBarState extends State<TaskBar> {
                           padding: const EdgeInsets.all(5),
                           decoration: BoxDecoration(
                               shape: BoxShape.circle,
-                              color: (taskStatus
-                                  ? Colors.green
-                                  : Colors.white)),
+                              color:
+                                  (taskStatus ? Colors.green : Colors.white)),
                           child: const Icon(Icons.check_rounded, size: 20),
                         ))
                   ],

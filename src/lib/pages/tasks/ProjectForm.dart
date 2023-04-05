@@ -41,12 +41,7 @@ class _ProjectFormState extends State<ProjectForm> {
     //TODO: Task bar + add it to the list.
     for (int i = 0; i < tasks!.length; i++) {
       tasksList.add(
-        const TaskBar(
-          title: "Title", 
-          dueDate: 'Due Date', 
-          taskStatus: true
-        )
-      );
+          const TaskBar(title: "Title", dueDate: 'Due Date', taskStatus: true));
       if (i != tasks!.length - 1) {
         tasksList.add(const SizedBox(height: 15));
       }
@@ -107,7 +102,8 @@ class _ProjectFormState extends State<ProjectForm> {
                       borderRadius: BorderRadius.circular(10)),
                   child: Wrap(children: [
                     Row(children: [
-                      const Icon(Icons.list_rounded, color: Colors.white, size: 20),
+                      const Icon(Icons.list_rounded,
+                          color: Colors.white, size: 20),
                       const SizedBox(width: 10),
                       Text(AppLocalizations.of(context).project,
                           style: const TextStyle(

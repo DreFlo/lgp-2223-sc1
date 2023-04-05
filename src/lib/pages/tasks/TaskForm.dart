@@ -42,11 +42,13 @@ class _TaskFormState extends State<TaskForm> {
     List<Widget> notesList = [];
 
     if (notes == null) {
-      notesList.add(Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [Text(AppLocalizations.of(context).no_notes,
-          style: const TextStyle(
-              color: Colors.white, fontSize: 16, fontWeight: FontWeight.normal))]));
+      notesList.add(Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+        Text(AppLocalizations.of(context).no_notes,
+            style: const TextStyle(
+                color: Colors.white,
+                fontSize: 16,
+                fontWeight: FontWeight.normal))
+      ]));
     } else {
       for (int i = 0; i < notes!.length; i++) {
         notesList.add(NoteBar(text: notes![i]));
@@ -433,7 +435,8 @@ class _TaskFormState extends State<TaskForm> {
                                       children: [
                                         Text(
                                             (projectTitle == null
-                                                ? AppLocalizations.of(context).input
+                                                ? AppLocalizations.of(context)
+                                                    .input
                                                 : projectTitle!),
                                             textAlign: TextAlign.center,
                                             style: const TextStyle(
@@ -546,7 +549,10 @@ class _TaskFormState extends State<TaskForm> {
                               Row(
                                 mainAxisAlignment: MainAxisAlignment.start,
                                 children: [
-                                  Text((subject == null ? AppLocalizations.of(context).input : subject!),
+                                  Text(
+                                      (subject == null
+                                          ? AppLocalizations.of(context).input
+                                          : subject!),
                                       textAlign: TextAlign.center,
                                       style: const TextStyle(
                                           fontFamily: 'Poppins',

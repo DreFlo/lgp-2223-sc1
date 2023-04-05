@@ -6,10 +6,7 @@ import 'package:src/themes/colors.dart';
 class NoteBar extends StatefulWidget {
   final String text;
 
-  const NoteBar(
-      {Key? key,
-      required this.text})
-      : super(key: key);
+  const NoteBar({Key? key, required this.text}) : super(key: key);
 
   @override
   State<NoteBar> createState() => _NoteBarState();
