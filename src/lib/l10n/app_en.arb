@@ -56,5 +56,6 @@
   "project": "Project",
   "institution": "Institution",
   "subject": "Subject",
-  "description": "Description"
+  "description": "Description",
+  "no_notes": "You have no notes... yet!"
 }

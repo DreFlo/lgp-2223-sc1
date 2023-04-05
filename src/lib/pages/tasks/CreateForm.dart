@@ -2,25 +2,27 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:src/pages/notes/AddTaskNoteForm.dart';
 import 'package:src/themes/colors.dart';
 import 'dart:math' as Math;
 import 'package:src/utils/enums.dart';
+import 'package:src/widgets/NoteBar.dart';
 
 class CreateForm extends StatefulWidget {
-  final String title, dueDate, projectTitle, institution, subject, description;
-  final Priority priority;
-  final List<String> notes;
+  final String? title, dueDate, project, institution, subject, description;
+  final Priority? priority;
+  final List<String>? notes;
 
   const CreateForm(
       {Key? key,
-      required this.title,
-      required this.dueDate,
-      required this.projectTitle,
-      required this.institution,
-      required this.subject,
-      required this.priority,
-      required this.description,
-      required this.notes})
+      this.title,
+      this.dueDate,
+      this.project,
+      this.institution,
+      this.subject,
+      this.priority,
+      this.description,
+      this.notes})
       : super(key: key);
 
   @override
@@ -30,15 +32,32 @@ class CreateForm extends StatefulWidget {
 class _CreateFormState extends State<CreateForm> {
   TextEditingController controller = TextEditingController();
 
-  late String title, dueDate, projectTitle, institution, subject, description;
-  late Priority priority;
-  late List<String> notes;
+  late String? title, dueDate, projectTitle, institution, subject, description;
+  late Priority? priority;
+  late List<String>? notes;
+
+  List<Widget> getNotes() {
+    List<Widget> notesList = [];
+    for (int i = 0; i < notes!.length; i++) {
+      notesList.add(NoteBar(text: notes![i]));
+    }
+
+    if (notes == null) {
+      notesList.add(Text(AppLocalizations.of(context).no_notes,
+          style: const TextStyle(
+              color: lightGray,
+              fontSize: 16,
+              fontWeight: FontWeight.normal)));
+    }
+
+    return notesList;
+  }
 
   @override
   initState() {
     title = widget.title;
     dueDate = widget.dueDate;
-    projectTitle = widget.projectTitle;
+    projectTitle = widget.project;
     institution = widget.institution;
     subject = widget.subject;
     description = widget.description;
@@ -213,6 +232,7 @@ class _CreateFormState extends State<CreateForm> {
                               setState(() {});
                             },
                           ),
+                          const SizedBox(width: 5),
                           InkWell(
                             highlightColor: lightGray,
                             child: Column(
@@ -238,6 +258,7 @@ class _CreateFormState extends State<CreateForm> {
                               setState(() {});
                             },
                           ),
+                          const SizedBox(width: 5),
                           InkWell(
                             highlightColor: lightGray,
                             child: Column(
@@ -273,76 +294,305 @@ class _CreateFormState extends State<CreateForm> {
                     ]))
           ]),
           const SizedBox(height: 30),
-          Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
-            Flexible(
-                flex: 1,
-                child: Column(children: [
-                  Container(
-                      height: 40,
-                      width: 40,
-                      decoration: const BoxDecoration(
-                        color: Color(0xFF414554),
-                        shape: BoxShape.circle,
-                      ),
-                      child: const Icon(
-                        Icons.calendar_month_sharp,
-                        color: Color(0xFF71788D),
-                        size: 20,
-                      ))
-                ])),
-            const SizedBox(width: 15),
-            Flexible(
-                flex: 5,
-                child: Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      Row(children: [
-                        Text(AppLocalizations.of(context).due_date,
-                            style: const TextStyle(
-                                fontFamily: 'Poppins',
-                                color: Color(0xFF71788D),
-                                fontSize: 16,
-                                fontWeight: FontWeight.w400),
-                            textAlign: TextAlign.center),
-                      ]),
-                      const SizedBox(height: 10),
-                      Row(
+          InkWell(
+              //TODO: Maybe customize the splash?
+              onTap: () async {
+                var date = await showDatePicker(
+                    context: context,
+                    initialDate: DateTime.now(),
+                    firstDate: DateTime.now(),
+                    lastDate: DateTime(2100));
+
+                String? day = date?.day.toString().padLeft(2, '0'),
+                    month = date?.month.toString().padLeft(2, '0'),
+                    year = date?.year.toString();
+
+                dueDate = (date == null
+                    ? DateTime.now().toString()
+                    : "$day/$month/$year");
+
+                setState(() {});
+              },
+              child:
+                  Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
+                Flexible(
+                    flex: 1,
+                    child: Column(children: [
+                      Container(
+                          height: 40,
+                          width: 40,
+                          decoration: const BoxDecoration(
+                            color: Color(0xFF414554),
+                            shape: BoxShape.circle,
+                          ),
+                          child: const Icon(
+                            Icons.calendar_month_sharp,
+                            color: Color(0xFF71788D),
+                            size: 20,
+                          ))
+                    ])),
+                const SizedBox(width: 15),
+                Flexible(
+                    flex: 5,
+                    child: Column(
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: [
-                          InkWell(
-                            highlightColor: lightGray,
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Text(dueDate,
-                                    textAlign: TextAlign.center,
-                                    style: const TextStyle(
-                                        fontFamily: 'Poppins',
-                                        fontSize: 20,
-                                        fontWeight: FontWeight.normal))
-                              ],
-                            ),
-                            onTap: () async {
-                              var date = await showDatePicker(
-                                      context: context,
-                                      initialDate: DateTime.now(),
-                                      firstDate: DateTime.now(),
-                                      lastDate: DateTime(2100));
-
-                              String? day = date?.day.toString().padLeft(2, '0'),
-                                      month = date?.month.toString().padLeft(2, '0'),
-                                      year = date?.year.toString();
-
-                              dueDate = (date == null ? DateTime.now().toString() : "$day/$month/$year");
-
-                              setState(() {});
-                            },
+                          Row(children: [
+                            Text(AppLocalizations.of(context).due_date,
+                                style: const TextStyle(
+                                    fontFamily: 'Poppins',
+                                    color: Color(0xFF71788D),
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.w400),
+                                textAlign: TextAlign.center),
+                          ]),
+                          const SizedBox(height: 10),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: [
+                              InkWell(
+                                highlightColor: lightGray,
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Text(dueDate!,
+                                        textAlign: TextAlign.center,
+                                        style: const TextStyle(
+                                            fontFamily: 'Poppins',
+                                            fontSize: 20,
+                                            fontWeight: FontWeight.normal))
+                                  ],
+                                ),
+                              )
+                            ],
                           )
-                        ],
-                      )
-                    ]))
+                        ]))
+              ])),
+          const SizedBox(height: 30),
+          InkWell(
+              //TODO: Maybe customize the splash?
+              onTap: () {
+                //TODO: Project selection - need to have it here to work with it.
+              },
+              child:
+                  Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
+                Flexible(
+                    flex: 1,
+                    child: Column(children: [
+                      Container(
+                          height: 40,
+                          width: 40,
+                          decoration: const BoxDecoration(
+                            color: Color(0xFF414554),
+                            shape: BoxShape.circle,
+                          ),
+                          child: const Icon(
+                            Icons.list_rounded,
+                            color: Color(0xFF71788D),
+                            size: 20,
+                          ))
+                    ])),
+                const SizedBox(width: 15),
+                Flexible(
+                    flex: 5,
+                    child: Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          Row(children: [
+                            Text(AppLocalizations.of(context).project,
+                                style: const TextStyle(
+                                    fontFamily: 'Poppins',
+                                    color: Color(0xFF71788D),
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.w400),
+                                textAlign: TextAlign.center),
+                          ]),
+                          const SizedBox(height: 10),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: [
+                              Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Text(projectTitle!,
+                                      textAlign: TextAlign.center,
+                                      style: const TextStyle(
+                                          fontFamily: 'Poppins',
+                                          fontSize: 20,
+                                          fontWeight: FontWeight.normal))
+                                ],
+                              )
+                            ],
+                          )
+                        ]))
+              ])),
+          const SizedBox(height: 30),
+          InkWell(
+              //TODO: Maybe customize the splash?
+              onTap: () {
+                //TODO: Project selection - need to have it here to work with it.
+              },
+              child:
+                  Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
+                Flexible(
+                    flex: 1,
+                    child: Column(children: [
+                      Container(
+                          height: 40,
+                          width: 40,
+                          decoration: const BoxDecoration(
+                            color: Color(0xFF414554),
+                            shape: BoxShape.circle,
+                          ),
+                          child: const Icon(
+                            Icons.account_balance_rounded,
+                            color: Color(0xFF71788D),
+                            size: 20,
+                          ))
+                    ])),
+                const SizedBox(width: 15),
+                Flexible(
+                    flex: 5,
+                    child: Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          Row(children: [
+                            Text(AppLocalizations.of(context).institution,
+                                style: const TextStyle(
+                                    fontFamily: 'Poppins',
+                                    color: Color(0xFF71788D),
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.w400),
+                                textAlign: TextAlign.center),
+                          ]),
+                          const SizedBox(height: 10),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: [
+                              Text(institution!,
+                                  textAlign: TextAlign.center,
+                                  style: const TextStyle(
+                                      fontFamily: 'Poppins',
+                                      fontSize: 20,
+                                      fontWeight: FontWeight.normal))
+                            ],
+                          )
+                        ]))
+              ])),
+          const SizedBox(height: 30),
+          InkWell(
+              onTap: () {
+                //TODO: Project selection - need to have it here to work with it.
+              },
+              child:
+                  Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
+                Flexible(
+                    flex: 1,
+                    child: Column(children: [
+                      Container(
+                          height: 40,
+                          width: 40,
+                          decoration: const BoxDecoration(
+                            color: Color(0xFF414554),
+                            shape: BoxShape.circle,
+                          ),
+                          child: const Icon(
+                            Icons.subject_rounded,
+                            color: Color(0xFF71788D),
+                            size: 20,
+                          ))
+                    ])),
+                const SizedBox(width: 15),
+                Flexible(
+                    flex: 5,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        Row(children: [
+                          Text(AppLocalizations.of(context).subject,
+                              style: const TextStyle(
+                                  fontFamily: 'Poppins',
+                                  color: Color(0xFF71788D),
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.w400),
+                              textAlign: TextAlign.center),
+                        ]),
+                        const SizedBox(height: 10),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            Text(subject!,
+                                textAlign: TextAlign.center,
+                                style: const TextStyle(
+                                    fontFamily: 'Poppins',
+                                    fontSize: 20,
+                                    fontWeight: FontWeight.normal))
+                          ],
+                        ),
+                      ],
+                    ))
+              ])),
+          const SizedBox(height: 30),
+          Row(children: [
+            Text(AppLocalizations.of(context).description,
+                style: const TextStyle(
+                    fontFamily: 'Poppins',
+                    color: Color(0xFF71788D),
+                    fontSize: 16,
+                    fontWeight: FontWeight.w400),
+                textAlign: TextAlign.center),
           ]),
-          const SizedBox(width: 15),
+          const SizedBox(height: 7.5),
+          Row(children: [
+            Flexible(
+                flex: 1,
+                child: TextField(
+                  decoration: const InputDecoration(
+                    filled: true,
+                    fillColor: Color(0xFF17181C),
+                    border: OutlineInputBorder(
+                      borderSide: BorderSide.none,
+                      borderRadius: BorderRadius.all(Radius.circular(10)),
+                    ),
+                  ),
+                  maxLines: 5,
+                  onChanged: (input) {
+                    description = input;
+                  },
+                ))
+          ]),
+          const SizedBox(height: 30),
+          Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+            Text(AppLocalizations.of(context).notes,
+                style: const TextStyle(
+                    fontFamily: 'Poppins',
+                    color: Color(0xFF71788D),
+                    fontSize: 16,
+                    fontWeight: FontWeight.w400),
+                textAlign: TextAlign.center),
+            IconButton(
+              padding: const EdgeInsets.all(0),
+              icon: const Icon(Icons.add),
+              color: const Color(0xFF71788D),
+              iconSize: 20,
+              splashRadius: 0.1,
+              constraints: const BoxConstraints(maxWidth: 20, maxHeight: 20),
+              onPressed: () {
+                showModalBottomSheet(
+                    context: context,
+                    isScrollControlled: true,
+                    backgroundColor: const Color(0xFF22252D),
+                    shape: const RoundedRectangleBorder(
+                      borderRadius:
+                          BorderRadius.vertical(top: Radius.circular(30.0)),
+                    ),
+                    builder: (builder) =>
+                        const SingleChildScrollView(child: AddTaskNoteForm()));
+              },
+            ),
+          ]),
+          const SizedBox(height: 7.5),
+          ...getNotes(),
           const SizedBox(height: 100)
         ]));
   }

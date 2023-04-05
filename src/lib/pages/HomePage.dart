@@ -564,10 +564,10 @@ class _HomePageState extends State<HomePage> {
                                     controller: scrollController,
                                     child: CreateForm(
                                       title: "Create Task",
-                                      projectTitle: "No",
+                                      project: "No",
                                       dueDate: "05/04/2023",
                                       priority: Priority.high,
-                                      notes: ["nothing"],
+                                      notes: const ["nothing"],
                                       institution: "FEUP",
                                       subject: "LPOO",
                                       description: "nothing"
