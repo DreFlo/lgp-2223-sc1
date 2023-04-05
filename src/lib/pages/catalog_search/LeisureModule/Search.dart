@@ -1,17 +1,18 @@
 import 'package:flutter/material.dart';
+import 'SearchMedia/Movies.dart';
 
 class SearchMedia extends StatefulWidget {
-  const SearchMedia({
-    Key? key,
-  }) : super(key: key);
+  final String search;
+
+  const SearchMedia({Key? key, required this.search}) : super(key: key);
 
   @override
   State<SearchMedia> createState() => _SearchMediaState();
 }
 
 class _SearchMediaState extends State<SearchMedia>
-    with SingleTickerProviderStateMixin  {
-  late TabController tabController ;
+    with SingleTickerProviderStateMixin {
+  late TabController tabController;
 
   @override
   void initState() {
@@ -21,7 +22,7 @@ class _SearchMediaState extends State<SearchMedia>
 
   @override
   void dispose() {
-    tabController .dispose();
+    tabController.dispose();
     super.dispose();
   }
 
@@ -30,45 +31,36 @@ class _SearchMediaState extends State<SearchMedia>
     double baseWidth = 390;
     double fem = MediaQuery.of(context).size.width / baseWidth;
     return Scaffold(
-      body: 
-          Padding(padding: EdgeInsets.only(top: 22*fem),
-          child:
-          TabBar(
-            controller: tabController ,
-            tabs: [
-              Tab(
-                text: 'Movies',
-              ),
-              Tab(
-                text: 'Tv Shows',
-              ),
-              Tab(
-                text: 'Books',
-              ),
-            ],
-          )),
-          /*Expanded(
-            child: TabBarView(
-              controller: myMediaTabController,
-              children: [
-                // My Media TabBarView
-                Container(
-                  child: Center(
-                    child: Text('My Media'),
-                  ),
+      body: Column(
+        children: [
+          Padding(
+            padding: EdgeInsets.only(top: 22 * fem),
+            child: TabBar(
+              controller: tabController,
+              tabs: [
+                Tab(
+                  text: 'Movies',
                 ),
-                // Discover TabBarView
-                Container(
-                  child: Center(
-                    child: Text('Discover'),
-                  ),
+                Tab(
+                  text: 'Tv Shows',
+                ),
+                Tab(
+                  text: 'Books',
                 ),
               ],
             ),
           ),
-          */
-
-
-      );
+          Expanded(
+            child: TabBarView(
+              controller: tabController,
+              children: [
+                Movies(search: widget.search),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
   }
 }
+

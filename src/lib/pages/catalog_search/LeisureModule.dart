@@ -35,7 +35,11 @@ class _LeisureModuleState extends State<LeisureModule>
     super.dispose();
   }
 
+  String searchText = '';
   void onSearch(String text) {
+    setState(() {
+      searchText = text;
+    });
     print('Search text: $text');
   }
 
@@ -84,8 +88,7 @@ class _LeisureModuleState extends State<LeisureModule>
                     text: 'Discover',
                   ),
                 ],
-              )
-              ),
+              )),
           SearchBar(onSearch: onSearch),
           Expanded(
             child: TabBarView(
@@ -98,7 +101,7 @@ class _LeisureModuleState extends State<LeisureModule>
                   books: widget.books,
                 ),
                 // Discover TabBarView
-                SearchMedia(),
+                SearchMedia(search: searchText),
               ],
             ),
           ),
