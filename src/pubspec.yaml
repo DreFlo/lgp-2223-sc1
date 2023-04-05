@@ -88,7 +88,7 @@ flutter:
     - assets/icons_ani/
     - assets/RiveAssets/
     - assets/images/
-    - assets/fonts/
+    - assets/Fonts/
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
@@ -96,26 +96,26 @@ flutter:
   # For details regarding adding assets from package dependencies, see
   # https://flutter.dev/assets-and-images/#from-packages
 
-  fonts:
+  Fonts:
     - family: Poppins
-      fonts:
-        - asset: assets/fonts/Poppins-Black.ttf
+      Fonts:
+        - asset: assets/Fonts/Poppins-Black.ttf
           weight: 900
-        - asset: assets/fonts/Poppins-ExtraBold.ttf
+        - asset: assets/Fonts/Poppins-ExtraBold.ttf
           weight: 800
-        - asset: assets/fonts/Poppins-Bold.ttf
+        - asset: assets/Fonts/Poppins-Bold.ttf
           weight: 700
-        - asset: assets/fonts/Poppins-SemiBold.ttf
+        - asset: assets/Fonts/Poppins-SemiBold.ttf
           weight: 600
-        - asset: assets/fonts/Poppins-Italic.ttf
+        - asset: assets/Fonts/Poppins-Italic.ttf
           style: italic
-        - asset: assets/fonts/Poppins-Regular.ttf
+        - asset: assets/Fonts/Poppins-Regular.ttf
           style: normal
-        - asset: assets/fonts/Poppins-Light.ttf
+        - asset: assets/Fonts/Poppins-Light.ttf
           weight: 300
-        - asset: assets/fonts/Poppins-ExtraLight.ttf
+        - asset: assets/Fonts/Poppins-ExtraLight.ttf
           weight: 200
-        - asset: assets/fonts/Poppins-Thin.ttf
+        - asset: assets/Fonts/Poppins-Thin.ttf
           weight: 100
 
 flavorizr:
