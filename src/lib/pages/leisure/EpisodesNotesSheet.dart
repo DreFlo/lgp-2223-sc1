@@ -21,10 +21,9 @@ class EpisodesNotesSheet extends StatefulWidget {
 
 class _EpisodesNotesSheetState extends State<EpisodesNotesSheet>
     with TickerProviderStateMixin {
-
   TabController? controller;
   int selectedTab = 0;
-  
+
   @override
   initState() {
     controller = TabController(
@@ -112,7 +111,6 @@ class _EpisodesNotesSheetState extends State<EpisodesNotesSheet>
 
   @override
   Widget build(BuildContext context) {
-
     return Wrap(spacing: 10, children: [
       Row(mainAxisAlignment: MainAxisAlignment.center, children: [
         Padding(

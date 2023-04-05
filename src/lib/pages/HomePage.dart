@@ -337,20 +337,19 @@ class _HomePageState extends State<HomePage> {
               ElevatedButton(
                 onPressed: () {
                   showModalBottomSheet(
-                        context: context,
-                        isScrollControlled: true,
-                        backgroundColor: Color(0xFF22252D),
-                        shape: RoundedRectangleBorder(
-                          borderRadius:
-                              BorderRadius.vertical(top: Radius.circular(30.0)),
-                        ),
-                        builder: (context) => Padding(
-                            padding: EdgeInsets.only(
-                                bottom:
-                                    MediaQuery.of(context).viewInsets.bottom),
-                            child: Stack(children: const [
-                              AddBookNoteForm(),
-                            ])));
+                      context: context,
+                      isScrollControlled: true,
+                      backgroundColor: Color(0xFF22252D),
+                      shape: RoundedRectangleBorder(
+                        borderRadius:
+                            BorderRadius.vertical(top: Radius.circular(30.0)),
+                      ),
+                      builder: (context) => Padding(
+                          padding: EdgeInsets.only(
+                              bottom: MediaQuery.of(context).viewInsets.bottom),
+                          child: Stack(children: const [
+                            AddBookNoteForm(),
+                          ])));
                 },
                 style: ElevatedButton.styleFrom(
                   minimumSize:

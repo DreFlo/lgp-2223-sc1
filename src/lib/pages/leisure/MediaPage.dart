@@ -44,7 +44,6 @@ class MediaPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
     return Wrap(spacing: 10, children: [
       Row(children: [
         Stack(
@@ -129,8 +128,8 @@ class MediaPage extends StatelessWidget {
                           ),
                           isLiked: isFavorite,
                           onTap: (isLiked) {
-                            return Future.delayed(const Duration(milliseconds: 1),
-                                () {
+                            return Future.delayed(
+                                const Duration(milliseconds: 1), () {
                               isLiked = !isLiked;
                               return isLiked;
                             });

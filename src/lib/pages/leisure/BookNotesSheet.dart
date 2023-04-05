@@ -7,9 +7,7 @@ import 'package:src/widgets/BookNoteBar.dart';
 class BookNotesSheet extends StatefulWidget {
   final Map<String, String> notes;
 
-  const BookNotesSheet(
-      {Key? key, required this.notes})
-      : super(key: key);
+  const BookNotesSheet({Key? key, required this.notes}) : super(key: key);
 
   @override
   State<BookNotesSheet> createState() => _BookNotesSheetState();
@@ -17,7 +15,6 @@ class BookNotesSheet extends StatefulWidget {
 
 class _BookNotesSheetState extends State<BookNotesSheet>
     with TickerProviderStateMixin {
-
   List<Widget> getNotes() {
     List<Widget> notes = [];
 
@@ -39,7 +36,6 @@ class _BookNotesSheetState extends State<BookNotesSheet>
 
   @override
   Widget build(BuildContext context) {
-
     return Wrap(spacing: 10, children: [
       Row(mainAxisAlignment: MainAxisAlignment.center, children: [
         Padding(

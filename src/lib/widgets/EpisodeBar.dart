@@ -109,9 +109,9 @@ class _EpisodeBarState extends State<EpisodeBar> {
                   style: ButtonStyle(
                     minimumSize: MaterialStateProperty.all(const Size(45, 45)),
                     backgroundColor: MaterialStateProperty.all(
-                       watched ? leisureColor : Colors.white),
+                        watched ? leisureColor : Colors.white),
                     foregroundColor: MaterialStateProperty.all(
-                       watched ? Colors.white : leisureColor),
+                        watched ? Colors.white : leisureColor),
                     shape: MaterialStateProperty.all<CircleBorder>(
                         const CircleBorder()),
                   ),

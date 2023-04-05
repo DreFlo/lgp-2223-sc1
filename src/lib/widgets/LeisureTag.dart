@@ -10,7 +10,6 @@ class LeisureTag extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
     // This method is rerun every time setState is called, for instance as done
     // by the _incrementCounter method above.
     //
@@ -22,7 +21,8 @@ class LeisureTag extends StatelessWidget {
           borderRadius: BorderRadius.circular(5),
           color: lightGray,
         ),
-        padding: const EdgeInsets.only(bottom: 5, top: 5, left: 7.5, right: 7.5),
+        padding:
+            const EdgeInsets.only(bottom: 5, top: 5, left: 7.5, right: 7.5),
         child: Text(text.toUpperCase(),
             style: Theme.of(context).textTheme.displaySmall));
   }

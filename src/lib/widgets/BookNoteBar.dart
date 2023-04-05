@@ -7,7 +7,12 @@ class BookNoteBar extends StatefulWidget {
   final int startPage, endPage;
   final String text;
 
-  const BookNoteBar({Key? key, required this.startPage, required this.endPage, required this.text}) : super(key: key);
+  const BookNoteBar(
+      {Key? key,
+      required this.startPage,
+      required this.endPage,
+      required this.text})
+      : super(key: key);
 
   @override
   State<BookNoteBar> createState() => _BookNoteBarState();
@@ -16,7 +21,6 @@ class BookNoteBar extends StatefulWidget {
 class _BookNoteBarState extends State<BookNoteBar> {
   @override
   Widget build(BuildContext context) {
-
     return Container(
         padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 15),
         width: MediaQuery.of(context).size.width * 0.9,

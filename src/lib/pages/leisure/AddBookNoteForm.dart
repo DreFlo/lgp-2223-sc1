@@ -19,7 +19,6 @@ class _AddBookNoteFormState extends State<AddBookNoteForm> {
 
   @override
   Widget build(BuildContext context) {
-
     return Wrap(spacing: 10, children: [
       Row(mainAxisAlignment: MainAxisAlignment.center, children: [
         Padding(
@@ -53,56 +52,52 @@ class _AddBookNoteFormState extends State<AddBookNoteForm> {
       ]),
       const SizedBox(height: 7.5),
       Padding(
-              padding: const EdgeInsets.only(left: 18),
-              child: Row(
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: [
-                SizedBox(
-                    width: ((0.5 * (MediaQuery.of(context).size.width * 0.9)) -
-                        10),
-                    child: TextField(
-                        onChanged: (input) {
-                          setState(() {
-                            startPage = int.parse(input);
-                          });
-                        },
-                        keyboardType: TextInputType.number,
-                        style: Theme.of(context).textTheme.bodySmall,
-                        maxLines: 1,
-                        textAlign: TextAlign.center,
-                        decoration: InputDecoration(
-                          filled: true,
-                          fillColor: lightGray,
-                          helperStyle: Theme.of(context).textTheme.labelSmall,
-                          border: OutlineInputBorder(
-                            borderSide: BorderSide.none,
-                            borderRadius: BorderRadius.circular(10.0),
-                          ),
-                        ))),
-                const SizedBox(width: 10),
-                SizedBox(
-                    width: ((0.5 * (MediaQuery.of(context).size.width * 0.9)) -
-                        10),
-                    child: TextField(
-                        onChanged: (input) {
-                          setState(() {
-                            endPage = int.parse(input);
-                          });
-                        },
-                        keyboardType: TextInputType.number,
-                        style: Theme.of(context).textTheme.bodySmall,
-                        maxLines: 1,
-                        textAlign: TextAlign.center,
-                        decoration: InputDecoration(
-                          filled: true,
-                          fillColor: lightGray,
-                          helperStyle: Theme.of(context).textTheme.labelSmall,
-                          border: OutlineInputBorder(
-                            borderSide: BorderSide.none,
-                            borderRadius: BorderRadius.circular(10.0),
-                          ),
-                        ))),
-              ])),
+          padding: const EdgeInsets.only(left: 18),
+          child: Row(mainAxisAlignment: MainAxisAlignment.start, children: [
+            SizedBox(
+                width: ((0.5 * (MediaQuery.of(context).size.width * 0.9)) - 10),
+                child: TextField(
+                    onChanged: (input) {
+                      setState(() {
+                        startPage = int.parse(input);
+                      });
+                    },
+                    keyboardType: TextInputType.number,
+                    style: Theme.of(context).textTheme.bodySmall,
+                    maxLines: 1,
+                    textAlign: TextAlign.center,
+                    decoration: InputDecoration(
+                      filled: true,
+                      fillColor: lightGray,
+                      helperStyle: Theme.of(context).textTheme.labelSmall,
+                      border: OutlineInputBorder(
+                        borderSide: BorderSide.none,
+                        borderRadius: BorderRadius.circular(10.0),
+                      ),
+                    ))),
+            const SizedBox(width: 10),
+            SizedBox(
+                width: ((0.5 * (MediaQuery.of(context).size.width * 0.9)) - 10),
+                child: TextField(
+                    onChanged: (input) {
+                      setState(() {
+                        endPage = int.parse(input);
+                      });
+                    },
+                    keyboardType: TextInputType.number,
+                    style: Theme.of(context).textTheme.bodySmall,
+                    maxLines: 1,
+                    textAlign: TextAlign.center,
+                    decoration: InputDecoration(
+                      filled: true,
+                      fillColor: lightGray,
+                      helperStyle: Theme.of(context).textTheme.labelSmall,
+                      border: OutlineInputBorder(
+                        borderSide: BorderSide.none,
+                        borderRadius: BorderRadius.circular(10.0),
+                      ),
+                    ))),
+          ])),
       const SizedBox(height: 10),
       Row(mainAxisAlignment: MainAxisAlignment.center, children: [
         Padding(
@@ -226,6 +221,7 @@ class _AddBookNoteFormState extends State<AddBookNoteForm> {
               ),
               child: Text(AppLocalizations.of(context).save,
                   style: Theme.of(context).textTheme.headlineSmall))),
-    const SizedBox(height: 150)]);
+      const SizedBox(height: 150)
+    ]);
   }
 }

@@ -16,7 +16,6 @@ class AddEpisodeNoteForm extends StatefulWidget {
 class _AddEpisodeNoteFormState extends State<AddEpisodeNoteForm> {
   @override
   Widget build(BuildContext context) {
-
     return Wrap(spacing: 10, children: [
       Row(mainAxisAlignment: MainAxisAlignment.center, children: [
         Padding(
