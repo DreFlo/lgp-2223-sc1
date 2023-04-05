@@ -84,14 +84,13 @@ class _HomePageState extends State<HomePage> {
 
   void loadmedia() async {
     final tmdb = TMDB(
-        ApiKeys('api key', 'apiReadAccessTokenv4'));
     Map movieresult =
         await tmdb.v3.trending.getTrending(mediaType: MediaType.movie);
     Map tvresult = await tmdb.v3.trending
         .getTrending(mediaType: MediaType.tv); //doesn't have ['results']
     books = await queryBooks(
       'batman',
-      maxResults: 100,
+      maxResults: 40,
       printType: PrintType.books,
       orderBy: OrderBy.relevance,
     );
