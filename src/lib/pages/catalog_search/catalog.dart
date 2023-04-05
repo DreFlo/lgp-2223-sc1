@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:src/pages/catalog_search/SeeAll.dart';
 import 'Media.dart';
 import 'Book.dart';
 
@@ -151,7 +152,14 @@ class Catalog extends StatelessWidget {
                             Padding(
                               padding: EdgeInsets.only(right: 10 * fem),
                               child: TextButton(
-                                onPressed: () {},
+                                onPressed: () {
+                                  Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                  builder: (context) => SeeAll(
+                                        media: trendingMovies
+                            )));
+                                },
                                 child: const Text(
                                   'See All',
                                   style: TextStyle(
@@ -258,7 +266,7 @@ class Catalog extends StatelessWidget {
                               style: TextStyle(
                                 fontFamily: 'Poppins',
                                 fontSize: 18,
-                                color: Color(0xff5e6272),
+                                color: Colors.white,
                                 fontWeight: FontWeight.w600,
                                 height: 1.5,
                               ),
