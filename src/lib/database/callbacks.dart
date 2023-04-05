@@ -37,52 +37,6 @@ final addConstraintsCallback = Callback(
   ''');
 
     await database.execute('''
-    CREATE TRIGGER student_timeslot_date
-    BEFORE INSERT ON student_timeslot
-    FOR EACH ROW
-    BEGIN
-      SELECT CASE
-        WHEN NEW.start_datetime > NEW.end_date THEN
-          RAISE(ABORT, 'start_datetime must be before end_datetime')
-      END;
-    END;
-  ''');
-    await database.execute('''
-    CREATE TRIGGER student_timeslot_date_update
-    BEFORE UPDATE ON student_timeslot
-    FOR EACH ROW
-    BEGIN
-      SELECT CASE
-        WHEN NEW.start_datetime > NEW.end_date THEN
-          RAISE(ABORT, 'start_datetime must be before end_datetime')
-      END;
-    END;
-  ''');
-
-    await database.execute('''
-    CREATE TRIGGER media_timeslot_date
-    BEFORE INSERT ON media_timeslot
-    FOR EACH ROW
-    BEGIN
-      SELECT CASE
-        WHEN NEW.start_datetime > NEW.end_datetime THEN
-          RAISE(ABORT, 'start_datetime must be before end_datetime')
-      END;
-    END;
-  ''');
-    await database.execute('''
-    CREATE TRIGGER media_timeslot_date_update
-    BEFORE UPDATE ON media_timeslot
-    FOR EACH ROW
-    BEGIN
-      SELECT CASE
-        WHEN NEW.start_datetime > NEW.end_datetime THEN
-          RAISE(ABORT, 'start_datetime must be before end_datetime')
-      END;
-    END;
-  ''');
-
-    await database.execute('''
     CREATE TRIGGER evaluation_grade_and_weight
     BEFORE INSERT ON evaluation
     FOR EACH ROW
