@@ -323,12 +323,18 @@ class _CreateFormState extends State<CreateForm> {
                               ],
                             ),
                             onTap: () async {
-                              dueDate = (await showDatePicker(
+                              var date = await showDatePicker(
                                       context: context,
                                       initialDate: DateTime.now(),
                                       firstDate: DateTime.now(),
-                                      lastDate: DateTime(2100)))
-                                  .toString().substring(0, 10);
+                                      lastDate: DateTime(2100));
+
+                              String? day = date?.day.toString().padLeft(2, '0'),
+                                      month = date?.month.toString().padLeft(2, '0'),
+                                      year = date?.year.toString();
+
+                              dueDate = (date == null ? DateTime.now().toString() : "$day/$month/$year");
+
                               setState(() {});
                             },
                           )
@@ -336,6 +342,7 @@ class _CreateFormState extends State<CreateForm> {
                       )
                     ]))
           ]),
+          const SizedBox(width: 15),
           const SizedBox(height: 100)
         ]));
   }
