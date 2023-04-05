@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'SearchMedia/Books.dart';
 import 'SearchMedia/Movies.dart';
 import 'SearchMedia/Tvshows.dart';
 
@@ -57,6 +58,7 @@ class _SearchMediaState extends State<SearchMedia>
               children: [
                 Movies(search: widget.search),
                 Tvshows(search: widget.search),
+                Books(search: widget.search),
               ],
             ),
           ),
