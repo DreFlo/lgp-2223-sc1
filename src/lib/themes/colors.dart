@@ -7,3 +7,4 @@ const Color studentColor = Color(0xFFFFD551);
 
 const Color lightGray = Color(0xFF2F3443);
 const Color modalBackground = Color(0xFF22252D);
+const Color textField = Color(0xFF17181C);

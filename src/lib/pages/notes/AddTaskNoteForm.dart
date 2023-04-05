@@ -62,7 +62,7 @@ class _AddTaskNoteFormState extends State<AddTaskNoteForm> {
                     maxLines: 10,
                     decoration: InputDecoration(
                       filled: true,
-                      fillColor: lightGray,
+                      fillColor: textField,
                       helperStyle: Theme.of(context).textTheme.labelSmall,
                       border: OutlineInputBorder(
                         borderSide: BorderSide.none,
