@@ -486,6 +486,43 @@ void main() {
     });
   });
 
+// ---------------------------- TRIGGER TESTS ----------------------------
+  testWidgets('Test Trigger timeslot_date', (WidgetTester tester) async {
+    await tester.runAsync(() async {
+      List<User> users = await serviceLocator<UserDao>().findAllUsers();
+
+      expect(users.length, 0);
+
+      await serviceLocator<UserDao>()
+          .insertUser(User(userName: 'Emil', password: '1234', xp: 23));
+
+      users = await serviceLocator<UserDao>().findAllUsers();
+      User user = users.first;
+      int userId = user.id!;
+      expect(users.length, 1);
+
+      DateTime date = DateTime.now();
+      DateTime startDateTime = date.add(const Duration(hours: 1));
+      DateTime endDateTime = date;
+      Timeslot timeslot = Timeslot(
+        title: 'title',
+        description: 'description',
+        startDateTime: startDateTime,
+        endDateTime: endDateTime,
+        priority: Priority.high,
+        xpMultiplier: 1,
+        userId: userId,
+      );
+
+      expect(
+          () => serviceLocator<TimeslotDao>().insertTimeslot(timeslot),
+          throwsA(isA<DatabaseException>().having(
+              (e) => e.toString(),
+              'toString',
+              contains('start_datetime must be before end_datetime'))));
+    });
+  });
+
   testWidgets('Test Trigger book_pages', (WidgetTester tester) async {
     await tester.runAsync(() async {
       MediaBookSuperEntity mediaBookSuperEntity = MediaBookSuperEntity(
