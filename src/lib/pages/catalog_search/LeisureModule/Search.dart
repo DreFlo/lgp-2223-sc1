@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'SearchMedia/Movies.dart';
+import 'SearchMedia/Tvshows.dart';
 
 class SearchMedia extends StatefulWidget {
   final String search;
@@ -55,6 +56,7 @@ class _SearchMediaState extends State<SearchMedia>
               controller: tabController,
               children: [
                 Movies(search: widget.search),
+                Tvshows(search: widget.search),
               ],
             ),
           ),
