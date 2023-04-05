@@ -157,6 +157,7 @@ class Catalog extends StatelessWidget {
                                   context,
                                   MaterialPageRoute(
                                   builder: (context) => SeeAll(
+                                        title: 'All Movies',
                                         media: trendingMovies
                             )));
                                 },
