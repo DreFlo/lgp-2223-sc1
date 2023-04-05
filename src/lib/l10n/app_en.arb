@@ -57,5 +57,8 @@
   "institution": "Institution",
   "subject": "Subject",
   "description": "Description",
-  "no_notes": "You have no notes... yet!"
+  "no_notes": "You have no notes... yet!",
+  "no_tasks": "You have no tasks... yet!",
+  "tasks": "Tasks",
+  "input": "Input"
 }

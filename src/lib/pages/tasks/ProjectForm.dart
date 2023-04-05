@@ -2,67 +2,75 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:src/pages/notes/AddTaskNoteForm.dart';
+import 'package:src/pages/tasks/TaskForm.dart';
 import 'package:src/themes/colors.dart';
 import 'dart:math' as Math;
 import 'package:src/utils/enums.dart';
-import 'package:src/widgets/NoteBar.dart';
+import 'package:src/widgets/TaskBar.dart';
 
-class CreateForm extends StatefulWidget {
-  final String? title, dueDate, project, institution, subject, description;
-  final Priority? priority;
-  final List<String>? notes;
+class ProjectForm extends StatefulWidget {
+  final String? title, dueDate, institution, subject, description;
   final ScrollController scrollController;
+  final List<String>? tasks;
 
-  const CreateForm(
+  const ProjectForm(
       {Key? key,
       required this.scrollController,
       this.title,
       this.dueDate,
-      this.project,
       this.institution,
       this.subject,
-      this.priority,
       this.description,
-      this.notes})
+      this.tasks})
       : super(key: key);
 
   @override
-  State<CreateForm> createState() => _CreateFormState();
+  State<ProjectForm> createState() => _ProjectFormState();
 }
 
-class _CreateFormState extends State<CreateForm> {
+class _ProjectFormState extends State<ProjectForm> {
   TextEditingController controller = TextEditingController();
 
   late String? title, dueDate, projectTitle, institution, subject, description;
   late Priority? priority;
-  late List<String>? notes;
+  late List<String>? tasks;
 
-  List<Widget> getNotes() {
-    List<Widget> notesList = [];
-    for (int i = 0; i < notes!.length; i++) {
-      notesList.add(NoteBar(text: notes![i]));
+  List<Widget> getTasks() {
+    List<Widget> tasksList = [];
+
+    //TODO: Task bar + add it to the list.
+    for (int i = 0; i < tasks!.length; i++) {
+      tasksList.add(
+        const TaskBar(
+          title: "Title", 
+          dueDate: 'Due Date', 
+          taskStatus: true
+        )
+      );
+      if (i != tasks!.length - 1) {
+        tasksList.add(const SizedBox(height: 15));
+      }
     }
 
-    if (notes == null) {
-      notesList.add(Text(AppLocalizations.of(context).no_notes,
+    if (tasks == null) {
+      tasksList.add(Text(AppLocalizations.of(context).no_tasks,
           style: const TextStyle(
-              color: lightGray, fontSize: 16, fontWeight: FontWeight.normal)));
+              color: Colors.white,
+              fontSize: 16,
+              fontWeight: FontWeight.normal)));
     }
 
-    return notesList;
+    return tasksList;
   }
 
   @override
   initState() {
     title = widget.title;
     dueDate = widget.dueDate;
-    projectTitle = widget.project;
     institution = widget.institution;
     subject = widget.subject;
     description = widget.description;
-    priority = widget.priority;
-    notes = widget.notes;
+    tasks = widget.tasks;
 
     controller.text = title!;
 
@@ -99,9 +107,9 @@ class _CreateFormState extends State<CreateForm> {
                       borderRadius: BorderRadius.circular(10)),
                   child: Wrap(children: [
                     Row(children: [
-                      const Icon(Icons.task, color: Colors.white, size: 20),
+                      const Icon(Icons.list_rounded, color: Colors.white, size: 20),
                       const SizedBox(width: 10),
-                      Text(AppLocalizations.of(context).task,
+                      Text(AppLocalizations.of(context).project,
                           style: const TextStyle(
                               color: Colors.white,
                               fontSize: 16,
@@ -168,134 +176,6 @@ class _CreateFormState extends State<CreateForm> {
                       onPressed: () {
                         controller.clear();
                       }))
-            ]),
-            const SizedBox(height: 30),
-            Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
-              Flexible(
-                  flex: 1,
-                  child: Column(children: [
-                    Container(
-                        height: 40,
-                        width: 40,
-                        decoration: const BoxDecoration(
-                          color: Color(0xFF414554),
-                          shape: BoxShape.circle,
-                        ),
-                        child: const Icon(
-                          Icons.priority_high_rounded,
-                          color: Color(0xFF71788D),
-                          size: 20,
-                        ))
-                  ])),
-              const SizedBox(width: 15),
-              Flexible(
-                  flex: 5,
-                  child: Column(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                        Row(children: [
-                          Text(AppLocalizations.of(context).priority,
-                              style: const TextStyle(
-                                  fontFamily: 'Poppins',
-                                  color: Color(0xFF71788D),
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.w400),
-                              textAlign: TextAlign.center),
-                        ]),
-                        const SizedBox(height: 10),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: [
-                            InkWell(
-                              highlightColor: lightGray,
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Container(
-                                      padding: const EdgeInsets.symmetric(
-                                          horizontal: 15, vertical: 10),
-                                      decoration: BoxDecoration(
-                                        borderRadius: const BorderRadius.only(
-                                            topLeft: Radius.circular(10),
-                                            bottomLeft: Radius.circular(10)),
-                                        color: (priority == Priority.low
-                                            ? primaryColor
-                                            : lightGray),
-                                      ),
-                                      alignment: const Alignment(0, 0),
-                                      child: Text(
-                                          AppLocalizations.of(context).low,
-                                          textAlign: TextAlign.center,
-                                          style: const TextStyle(
-                                              fontSize: 12,
-                                              fontWeight: FontWeight.normal)))
-                                ],
-                              ),
-                              onTap: () {
-                                priority = Priority.low;
-                                setState(() {});
-                              },
-                            ),
-                            const SizedBox(width: 5),
-                            InkWell(
-                              highlightColor: lightGray,
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Container(
-                                      padding: const EdgeInsets.symmetric(
-                                          horizontal: 15, vertical: 10),
-                                      color: (priority == Priority.medium
-                                          ? primaryColor
-                                          : lightGray),
-                                      alignment: const Alignment(0, 0),
-                                      child: Text(
-                                          AppLocalizations.of(context).medium,
-                                          textAlign: TextAlign.center,
-                                          style: const TextStyle(
-                                              fontSize: 12,
-                                              fontWeight: FontWeight.normal)))
-                                ],
-                              ),
-                              onTap: () {
-                                priority = Priority.medium;
-                                setState(() {});
-                              },
-                            ),
-                            const SizedBox(width: 5),
-                            InkWell(
-                              highlightColor: lightGray,
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Container(
-                                      decoration: BoxDecoration(
-                                        borderRadius: const BorderRadius.only(
-                                            topRight: Radius.circular(10),
-                                            bottomRight: Radius.circular(10)),
-                                        color: (priority == Priority.high
-                                            ? primaryColor
-                                            : lightGray),
-                                      ),
-                                      padding: const EdgeInsets.symmetric(
-                                          horizontal: 15, vertical: 10),
-                                      alignment: const Alignment(0, 0),
-                                      child: Text(
-                                          AppLocalizations.of(context).high,
-                                          textAlign: TextAlign.center,
-                                          style: const TextStyle(
-                                              fontSize: 12,
-                                              fontWeight: FontWeight.normal)))
-                                ],
-                              ),
-                              onTap: () {
-                                priority = Priority.high;
-                                setState(() {});
-                              },
-                            ),
-                          ],
-                        )
-                      ]))
             ]),
             const SizedBox(height: 30),
             InkWell(
@@ -423,7 +303,7 @@ class _CreateFormState extends State<CreateForm> {
                                       mainAxisAlignment:
                                           MainAxisAlignment.center,
                                       children: [
-                                        Text(projectTitle!,
+                                        Text(title!,
                                             textAlign: TextAlign.center,
                                             style: const TextStyle(
                                                 fontFamily: 'Poppins',
@@ -439,7 +319,7 @@ class _CreateFormState extends State<CreateForm> {
             InkWell(
                 //TODO: Maybe customize the splash?
                 onTap: () {
-                  //TODO: Project selection - need to have it here to work with it.
+                  //TODO: Institution selection - need to have it here to work with it.
                 },
                 child: Row(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -490,60 +370,6 @@ class _CreateFormState extends State<CreateForm> {
                               ]))
                     ])),
             const SizedBox(height: 30),
-            InkWell(
-                onTap: () {
-                  //TODO: Project selection - need to have it here to work with it.
-                },
-                child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Flexible(
-                          flex: 1,
-                          child: Column(children: [
-                            Container(
-                                height: 40,
-                                width: 40,
-                                decoration: const BoxDecoration(
-                                  color: Color(0xFF414554),
-                                  shape: BoxShape.circle,
-                                ),
-                                child: const Icon(
-                                  Icons.subject_rounded,
-                                  color: Color(0xFF71788D),
-                                  size: 20,
-                                ))
-                          ])),
-                      const SizedBox(width: 15),
-                      Flexible(
-                          flex: 5,
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            children: [
-                              Row(children: [
-                                Text(AppLocalizations.of(context).subject,
-                                    style: const TextStyle(
-                                        fontFamily: 'Poppins',
-                                        color: Color(0xFF71788D),
-                                        fontSize: 16,
-                                        fontWeight: FontWeight.w400),
-                                    textAlign: TextAlign.center),
-                              ]),
-                              const SizedBox(height: 10),
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                children: [
-                                  Text(subject!,
-                                      textAlign: TextAlign.center,
-                                      style: const TextStyle(
-                                          fontFamily: 'Poppins',
-                                          fontSize: 20,
-                                          fontWeight: FontWeight.normal))
-                                ],
-                              ),
-                            ],
-                          ))
-                    ])),
-            const SizedBox(height: 30),
             Row(children: [
               Text(AppLocalizations.of(context).description,
                   style: const TextStyle(
@@ -579,7 +405,7 @@ class _CreateFormState extends State<CreateForm> {
             ]),
             const SizedBox(height: 30),
             Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-              Text(AppLocalizations.of(context).notes,
+              Text(AppLocalizations.of(context).tasks,
                   style: const TextStyle(
                       fontFamily: 'Poppins',
                       color: Color(0xFF71788D),
@@ -597,18 +423,29 @@ class _CreateFormState extends State<CreateForm> {
                   showModalBottomSheet(
                       context: context,
                       isScrollControlled: true,
-                      backgroundColor: const Color(0xFF22252D),
+                      backgroundColor: Color(0xFF22252D),
                       shape: const RoundedRectangleBorder(
                         borderRadius:
                             BorderRadius.vertical(top: Radius.circular(30.0)),
                       ),
-                      builder: (builder) => const SingleChildScrollView(
-                          child: AddTaskNoteForm()));
+                      builder: (context) => Padding(
+                          padding: EdgeInsets.only(
+                              bottom: MediaQuery.of(context).viewInsets.bottom +
+                                  50),
+                          child: DraggableScrollableSheet(
+                            expand: false,
+                            initialChildSize: 0.60,
+                            minChildSize: 0.60,
+                            maxChildSize: 0.60,
+                            builder: (context, scrollController) => TaskForm(
+                              scrollController: scrollController,
+                            ),
+                          )));
                 },
               ),
             ]),
             const SizedBox(height: 7.5),
-            ...getNotes(),
+            ...getTasks(),
             const SizedBox(height: 30),
             ElevatedButton(
                 onPressed: () {
