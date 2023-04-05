@@ -72,17 +72,38 @@ class Catalog extends StatelessWidget {
 
                   ],
                 ),
-              )
-              ]))])
-              );
-/*
+              ),
+              Container(
+                      height: 210 * fem,
+                      child: ListView.builder(
+                        padding: EdgeInsets.only(left: 15 * fem),
+                        scrollDirection: Axis.horizontal,
+                        itemCount: trendingTvshows.length,
+                        itemBuilder: (context, index) {
+                          return InkWell(
+                            onTap: () {},
+                            child: Container(
+                              width: 140 * fem,
+                              child: Column(
+                                children: [
+                                  Media(
+                                    image: trendingMovies[index]
+                                        ['poster_path'],
+                                  ),
+                                ],
+                              ),
+                            ),
+                          );
+                        },
+                      ),
+                    ),
                     Padding(
                         padding: EdgeInsets.only(left: 20 * fem),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             const Text(
-                              'Tv Shows',
+                              'TV Shows',
                               style: TextStyle(
                                 fontFamily: 'Poppins',
                                 fontSize: 18,
@@ -95,12 +116,12 @@ class Catalog extends StatelessWidget {
                             Padding(
                               padding: EdgeInsets.only(right: 10 * fem),
                               child: TextButton(
-                                 onPressed: () {
+                                onPressed: () {
                                   Navigator.push(
                                   context,
                                   MaterialPageRoute(
                                   builder: (context) => SeeAll(
-                                        title: 'All TV Shows',
+                                        title: 'All Tv Shows',
                                         media: trendingTvshows
                             )));
                                 },
@@ -116,10 +137,13 @@ class Catalog extends StatelessWidget {
                                 ),
                               ),
                             ),
-                          ],
-                        )),
-                    Container(
-                      height: 270 * fem,
+                    
+
+                  ],
+                ),
+              ),
+              Container(
+                      height: 210 * fem,
                       child: ListView.builder(
                         padding: EdgeInsets.only(left: 15 * fem),
                         scrollDirection: Axis.horizontal,
@@ -161,7 +185,7 @@ class Catalog extends StatelessWidget {
                             Padding(
                               padding: EdgeInsets.only(right: 10 * fem),
                               child: TextButton(
-                                 onPressed: () {
+                                onPressed: () {
                                   Navigator.push(
                                   context,
                                   MaterialPageRoute(
@@ -175,21 +199,24 @@ class Catalog extends StatelessWidget {
                                   style: TextStyle(
                                     fontFamily: 'Poppins',
                                     fontSize: 14,
-                                    color: Colors.white,
+                                    color: Color(0xff5e6272),
                                     fontWeight: FontWeight.w400,
                                     height: 1.5,
                                   ),
                                 ),
                               ),
                             ),
-                          ],
-                        )),
-                    Container(
-                      height: 270 * fem,
+                    
+
+                  ],
+                ),
+              ),
+              Container(
+                      height: 210 * fem,
                       child: ListView.builder(
                         padding: EdgeInsets.only(left: 15 * fem),
                         scrollDirection: Axis.horizontal,
-                        itemCount: books.length,
+                        itemCount: trendingTvshows.length,
                         itemBuilder: (context, index) {
                           return InkWell(
                             onTap: () {},
@@ -197,7 +224,7 @@ class Catalog extends StatelessWidget {
                               width: 140 * fem,
                               child: Column(
                                 children: [
-                                  Book(
+                                   Book(
                                     image: books[index].info.imageLinks['thumbnail'].toString(),
                                   ),
                                 ],
@@ -207,9 +234,10 @@ class Catalog extends StatelessWidget {
                         },
                       ),
                     ),
-                  ],
-                ),
+              ]
               )
-            ]*/
+              )])
+              );
+
   }
 }
