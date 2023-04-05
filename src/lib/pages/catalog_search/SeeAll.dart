@@ -12,7 +12,8 @@ class SeeAll extends StatelessWidget {
     double baseWidth = 390;
     double fem = MediaQuery.of(context).size.width / baseWidth;
     return Scaffold(
-        body: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+        body: Column(crossAxisAlignment: CrossAxisAlignment.start, 
+        children: [
       Padding(
         padding: EdgeInsets.fromLTRB(10 * fem, 50 * fem, 0, 0),
         child: Row(
@@ -38,6 +39,39 @@ class SeeAll extends StatelessWidget {
           ],
         ),
       ),
+      Padding(
+            padding: EdgeInsets.fromLTRB(10 * fem, 10 * fem, 0, 0),
+            child: Center(
+              child: Container(
+                width: 327 * fem,
+                height: 50 * fem,
+                child: Center(
+                  child: TextField(
+                    textAlignVertical: TextAlignVertical.center,
+                    decoration: InputDecoration(
+                      hintText: 'Search',
+                      hintStyle: const TextStyle(
+                        fontFamily: 'Poppins',
+                        fontSize: 12,
+                        color: Color(0xff5e6272),
+                        fontWeight: FontWeight.w400,
+                        height: 1.5,
+                      ),
+                      filled: true,
+                      fillColor: const Color(0xffdadada),
+                      prefixIcon: const Icon(Icons.search),
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10.0),
+                        borderSide: BorderSide.none,
+                      ),
+                      contentPadding: const EdgeInsets.symmetric(
+                          vertical: 10.0, horizontal: 12.0),
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          ),
       /*SizedBox(
               height: MediaQuery.of(context).size.height - 100, // or any other height that fits your design
               child:  SingleChildScrollView(
