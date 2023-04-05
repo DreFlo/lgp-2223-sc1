@@ -2,6 +2,7 @@ import 'package:src/daos/notes/note_dao.dart';
 import 'package:src/daos/notes/task_note_dao.dart';
 import 'package:src/models/notes/note_task_note_super_entity.dart';
 import 'package:src/utils/service_locator.dart';
+import 'package:src/utils/exceptions.dart';
 
 class NoteTaskNoteSuperDao {
   static final NoteTaskNoteSuperDao _singleton =
@@ -17,7 +18,8 @@ class NoteTaskNoteSuperDao {
     NoteTaskNoteSuperEntity noteTaskNoteSuperEntity,
   ) async {
     if (noteTaskNoteSuperEntity.id != null) {
-      return -1;
+      throw DatabaseOperationWithId(
+          "Id can't be passed to insert for NoteTaskNoteSuperEntity");
     }
 
     final note = noteTaskNoteSuperEntity.toNote();
@@ -38,7 +40,8 @@ class NoteTaskNoteSuperDao {
     NoteTaskNoteSuperEntity noteTaskNoteSuperEntity,
   ) async {
     if (noteTaskNoteSuperEntity.id == null) {
-      return;
+      throw DatabaseOperationWithoutId(
+          "Id can't be null for update for NoteTaskNoteSuperEntity");
     }
 
     final note = noteTaskNoteSuperEntity.toNote();
@@ -54,7 +57,8 @@ class NoteTaskNoteSuperDao {
     NoteTaskNoteSuperEntity noteTaskNoteSuperEntity,
   ) async {
     if (noteTaskNoteSuperEntity.id == null) {
-      return;
+      throw DatabaseOperationWithoutId(
+          "Id can't be null for delete for NoteTaskNoteSuperEntity");
     }
 
     final taskNote = noteTaskNoteSuperEntity.toTaskNote();

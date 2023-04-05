@@ -2,6 +2,7 @@ import 'package:src/daos/media/media_dao.dart';
 import 'package:src/daos/media/series_dao.dart';
 import 'package:src/models/media/media_series_super_entity.dart';
 import 'package:src/utils/service_locator.dart';
+import 'package:src/utils/exceptions.dart';
 
 class MediaSeriesSuperDao {
   static final MediaSeriesSuperDao _singleton = MediaSeriesSuperDao._internal();
@@ -15,9 +16,8 @@ class MediaSeriesSuperDao {
   Future<int> insertMediaSeriesSuperEntity(
       MediaSeriesSuperEntity mediaSeriesSuperEntity) async {
     if (mediaSeriesSuperEntity.id != null) {
-      // TODO Maybe throw an exception
-      // Id is useful in the super entity, but can't be used in insert
-      return -1;
+      throw DatabaseOperationWithId(
+          "Id can't be passed to insert for MediaSeriesSuperEntity");
     }
 
     final media = mediaSeriesSuperEntity.toMedia();
@@ -37,8 +37,8 @@ class MediaSeriesSuperDao {
   Future<void> updateMediaSeriesSuperEntity(
       MediaSeriesSuperEntity mediaSeriesSuperEntity) async {
     if (mediaSeriesSuperEntity.id == null) {
-      // TODO Maybe throw an exception
-      return;
+      throw DatabaseOperationWithoutId(
+          "Id can't be null for update in MediaSeriesSuperEntity");
     }
 
     final media = mediaSeriesSuperEntity.toMedia();
@@ -53,8 +53,8 @@ class MediaSeriesSuperDao {
   Future<void> deleteMediaSeriesSuperEntity(
       MediaSeriesSuperEntity mediaSeriesSuperEntity) async {
     if (mediaSeriesSuperEntity.id == null) {
-      // TODO Maybe throw an exception
-      return;
+      throw DatabaseOperationWithoutId(
+          "Id can't be null for delete in MediaSeriesSuperEntity");
     }
 
     final media = mediaSeriesSuperEntity.toMedia();

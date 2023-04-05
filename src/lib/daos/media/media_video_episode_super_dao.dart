@@ -3,6 +3,7 @@ import 'package:src/daos/media/video_dao.dart';
 import 'package:src/daos/media/media_dao.dart';
 import 'package:src/models/media/media_video_episode_super_entity.dart';
 import 'package:src/utils/service_locator.dart';
+import 'package:src/utils/exceptions.dart';
 
 class MediaVideoEpisodeSuperDao {
   static final MediaVideoEpisodeSuperDao _singleton =
@@ -18,7 +19,8 @@ class MediaVideoEpisodeSuperDao {
     MediaVideoEpisodeSuperEntity mediaVideoEpisodeSuperEntity,
   ) async {
     if (mediaVideoEpisodeSuperEntity.id != null) {
-      return -1;
+      throw DatabaseOperationWithId(
+          "Id can't be passed to insert for MediaVideoEpisodeSuperEntity");
     }
 
     final media = mediaVideoEpisodeSuperEntity.toMedia();
@@ -43,7 +45,8 @@ class MediaVideoEpisodeSuperDao {
     MediaVideoEpisodeSuperEntity mediaVideoEpisodeSuperEntity,
   ) async {
     if (mediaVideoEpisodeSuperEntity.id == null) {
-      return;
+      throw DatabaseOperationWithoutId(
+          "Id can't be null for delete in MediaVideoEpisodeSuperEntity");
     }
 
     final media = mediaVideoEpisodeSuperEntity.toMedia();
@@ -63,7 +66,8 @@ class MediaVideoEpisodeSuperDao {
     MediaVideoEpisodeSuperEntity mediaVideoEpisodeSuperEntity,
   ) async {
     if (mediaVideoEpisodeSuperEntity.id == null) {
-      return;
+      throw DatabaseOperationWithoutId(
+          "Id can't be null for delete in MediaVideoEpisodeSuperEntity");
     }
 
     final episode = mediaVideoEpisodeSuperEntity.toEpisode();

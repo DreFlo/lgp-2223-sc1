@@ -2,6 +2,7 @@ import 'package:src/daos/media/media_dao.dart';
 import 'package:src/daos/media/video_dao.dart';
 import 'package:src/models/media/media_video_super_entity.dart';
 import 'package:src/utils/service_locator.dart';
+import 'package:src/utils/exceptions.dart';
 
 // SuperDAO is the most important part
 // It's a DAO that uses other DAOs to insert/update/delete super entities
@@ -22,9 +23,8 @@ class MediaVideoSuperDao {
     MediaVideoSuperEntity mediaVideoSuperEntity,
   ) async {
     if (mediaVideoSuperEntity.id != null) {
-      // TODO Maybe throw an exception
-      // Id is useful in the super entity, but can't be used in insert
-      return -1;
+      throw DatabaseOperationWithId(
+          "Id can't be passed to insert for MediaVideoSuperEntity");
     }
 
     final media = mediaVideoSuperEntity.toMedia();
@@ -45,8 +45,8 @@ class MediaVideoSuperDao {
     MediaVideoSuperEntity mediaVideoSuperEntity,
   ) async {
     if (mediaVideoSuperEntity.id == null) {
-      // TODO Maybe throw an exception
-      return;
+      throw DatabaseOperationWithoutId(
+          "Id can't be null for delete in MediaVideoSuperEntity");
     }
 
     final media = mediaVideoSuperEntity.toMedia();
@@ -62,8 +62,8 @@ class MediaVideoSuperDao {
     MediaVideoSuperEntity mediaVideoSuperEntity,
   ) async {
     if (mediaVideoSuperEntity.id == null) {
-      // TODO Maybe throw an exception
-      return;
+      throw DatabaseOperationWithoutId(
+          "Id can't be null for delete in MediaVideoSuperEntity");
     }
 
     final media = mediaVideoSuperEntity.toMedia();

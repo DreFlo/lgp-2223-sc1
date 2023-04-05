@@ -2,6 +2,7 @@ import 'package:src/daos/notes/note_dao.dart';
 import 'package:src/daos/notes/subject_note_dao.dart';
 import 'package:src/models/notes/note_subject_note_super_entity.dart';
 import 'package:src/utils/service_locator.dart';
+import 'package:src/utils/exceptions.dart';
 
 class NoteSubjectNoteSuperDao {
   static final NoteSubjectNoteSuperDao _singleton =
@@ -17,7 +18,8 @@ class NoteSubjectNoteSuperDao {
     NoteSubjectNoteSuperEntity noteSubjectNoteSuperEntity,
   ) async {
     if (noteSubjectNoteSuperEntity.id != null) {
-      return -1;
+      throw DatabaseOperationWithId(
+          "Id can't be set for insert for NoteSubjectNoteSuperEntity");
     }
 
     final note = noteSubjectNoteSuperEntity.toNote();
@@ -38,7 +40,8 @@ class NoteSubjectNoteSuperDao {
     NoteSubjectNoteSuperEntity noteSubjectNoteSuperEntity,
   ) async {
     if (noteSubjectNoteSuperEntity.id == null) {
-      return;
+      throw DatabaseOperationWithoutId(
+          "Id can't be null for update for NoteSubjectNoteSuperEntity");
     }
 
     final note = noteSubjectNoteSuperEntity.toNote();
@@ -54,7 +57,8 @@ class NoteSubjectNoteSuperDao {
     NoteSubjectNoteSuperEntity noteSubjectNoteSuperEntity,
   ) async {
     if (noteSubjectNoteSuperEntity.id == null) {
-      return;
+      throw DatabaseOperationWithoutId(
+          "Id can't be null for delete for NoteSubjectNoteSuperEntity");
     }
 
     final subjectNote = noteSubjectNoteSuperEntity.toSubjectNote();

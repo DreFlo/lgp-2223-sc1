@@ -2,6 +2,7 @@ import 'package:src/daos/media/media_dao.dart';
 import 'package:src/daos/media/book_dao.dart';
 import 'package:src/models/media/media_book_super_entity.dart';
 import 'package:src/utils/service_locator.dart';
+import 'package:src/utils/exceptions.dart';
 
 class MediaBookSuperDao {
   static final MediaBookSuperDao _singleton = MediaBookSuperDao._internal();
@@ -15,9 +16,8 @@ class MediaBookSuperDao {
   Future<int> insertMediaBookSuperEntity(
       MediaBookSuperEntity mediaBookSuperEntity) async {
     if (mediaBookSuperEntity.id != null) {
-      // TODO Maybe throw an exception
-      // Id is useful in the super entity, but can't be used in insert
-      return -1;
+      throw DatabaseOperationWithId(
+          "Id can't be passed to insert for MediaSeriesSuperEntity");
     }
 
     final media = mediaBookSuperEntity.toMedia();
@@ -37,8 +37,8 @@ class MediaBookSuperDao {
   Future<void> updateMediaBookSuperEntity(
       MediaBookSuperEntity mediaBookSuperEntity) async {
     if (mediaBookSuperEntity.id == null) {
-      // TODO Maybe throw an exception
-      return;
+      throw DatabaseOperationWithoutId(
+          "Id can't be null for update in MediaBookSuperEntity");
     }
 
     final media = mediaBookSuperEntity.toMedia();
@@ -53,8 +53,8 @@ class MediaBookSuperDao {
   Future<void> deleteMediaBookSuperEntity(
       MediaBookSuperEntity mediaBookSuperEntity) async {
     if (mediaBookSuperEntity.id == null) {
-      // TODO Maybe throw an exception
-      return;
+      throw DatabaseOperationWithoutId(
+          "Id can't be null for update in MediaBookSuperEntity");
     }
 
     final media = mediaBookSuperEntity.toMedia();
