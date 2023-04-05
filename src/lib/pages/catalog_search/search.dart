@@ -10,21 +10,21 @@ class SearchMedia extends StatefulWidget {
 }
 
 class _SearchMediaState extends State<SearchMedia>
-    with SingleTickerProviderStateMixin {
+    with TickerProviderStateMixin  {
   late TabController tabController ;
-  //late TabController mediaTypeTabController;
+  late TabController tabController2;
 
   @override
   void initState() {
     tabController  = TabController(length: 2, vsync: this);
-    //mediaTypeTabController = TabController(length: 3, vsync: this);
+    tabController2 = TabController(length: 3, vsync: this);
     super.initState();
   }
 
   @override
   void dispose() {
     tabController .dispose();
-   // mediaTypeTabController.dispose();
+    tabController2.dispose();
     super.dispose();
   }
 
@@ -71,6 +71,22 @@ class _SearchMediaState extends State<SearchMedia>
               ),
               Tab(
                 text: 'Discover',
+              ),
+            ],
+          )),
+          Padding(padding: EdgeInsets.only(top: 22*fem),
+          child:
+          TabBar(
+            controller: tabController2 ,
+            tabs: [
+              Tab(
+                text: 'Movies',
+              ),
+              Tab(
+                text: 'Tv Shows',
+              ),
+              Tab(
+                text: 'Books',
               ),
             ],
           )),
