@@ -13,21 +13,19 @@ class ListMedia extends StatelessWidget {
   Widget build(BuildContext context) {
     double baseWidth = 390;
     double fem = MediaQuery.of(context).size.width / baseWidth;
-    return Expanded(
-      child: Padding(
-          padding: EdgeInsets.fromLTRB(40 * fem, 22 * fem, 0, 0),
-          child: SingleChildScrollView(
-            child: Wrap(
-              spacing: 10.0 * fem,
-              runSpacing: 22.0 * fem,
-              children: List.generate(media.length, (index) {
-                return SizedBox(
-                  width: 100.0 * fem,
-                  height: 150.0 * fem,
-                  child: showWidget(index),
-                );
-              }),
-            ),
+    return Padding(
+      padding: EdgeInsets.fromLTRB(40 * fem, 22 * fem, 0, 0),
+      child: SingleChildScrollView(
+        child: Wrap(
+          spacing: 10.0 * fem,
+          runSpacing: 22.0 * fem,
+          children: List.generate(media.length, (index) {
+            return SizedBox(
+              width: 100.0 * fem,
+              height: 150.0 * fem,
+              child: showWidget(index),
+            );
+          }),
           )),
     );
   }

@@ -74,7 +74,8 @@ class SeeAll extends StatelessWidget {
               ),
             ),
           ),
-          ListMedia(title: title, media: media)
+          Expanded(child: ListMedia(title: title, media: media),)
+          
         ],
       ),
     );
