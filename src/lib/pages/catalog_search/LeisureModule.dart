@@ -1,14 +1,15 @@
 import 'package:flutter/material.dart';
 import 'LeisureModule/Search.dart';
 import 'LeisureModule/Catalog.dart';
+import 'SearchBar.dart';
 
 class LeisureModule extends StatefulWidget {
   final List trendingMovies;
   final List trendingTvshows;
   final List books;
 
-  const LeisureModule( 
-    {Key? key,
+  const LeisureModule(
+      {Key? key,
       required this.trendingMovies,
       required this.trendingTvshows,
       required this.books})
@@ -32,6 +33,10 @@ class _LeisureModuleState extends State<LeisureModule>
   void dispose() {
     tabController.dispose();
     super.dispose();
+  }
+
+  void onSearch(String text) {
+    print('Search text: $text');
   }
 
   @override
@@ -79,40 +84,9 @@ class _LeisureModuleState extends State<LeisureModule>
                     text: 'Discover',
                   ),
                 ],
-              )),
-          Padding(
-            padding: EdgeInsets.fromLTRB(10 * fem, 10 * fem, 0, 0),
-            child: Center(
-              child: Container(
-                width: 327 * fem,
-                height: 50 * fem,
-                child: Center(
-                  child: TextField(
-                    textAlignVertical: TextAlignVertical.center,
-                    decoration: InputDecoration(
-                      hintText: 'Search',
-                      hintStyle: const TextStyle(
-                        fontFamily: 'Poppins',
-                        fontSize: 12,
-                        color: Color(0xff5e6272),
-                        fontWeight: FontWeight.w400,
-                        height: 1.5,
-                      ),
-                      filled: true,
-                      fillColor: const Color(0xffdadada),
-                      prefixIcon: const Icon(Icons.search),
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(10.0),
-                        borderSide: BorderSide.none,
-                      ),
-                      contentPadding: const EdgeInsets.symmetric(
-                          vertical: 10.0, horizontal: 12.0),
-                    ),
-                  ),
-                ),
+              )
               ),
-            ),
-          ),
+          SearchBar(onSearch: onSearch),
           Expanded(
             child: TabBarView(
               controller: tabController,
@@ -121,7 +95,8 @@ class _LeisureModuleState extends State<LeisureModule>
                 Catalog(
                   trendingMovies: widget.trendingMovies,
                   trendingTvshows: widget.trendingTvshows,
-                  books: widget.books,),
+                  books: widget.books,
+                ),
                 // Discover TabBarView
                 SearchMedia(),
               ],
