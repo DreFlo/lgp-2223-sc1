@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'Media.dart';
 
 class Catalog extends StatelessWidget {
   final List trendingMovies;
@@ -173,9 +174,9 @@ class Catalog extends StatelessWidget {
                     width: 140*fem,
                     child: Column(
                       children: [
-                       /* Media(
+                        Media(
                           image: trendingMovies[index]['poster_path'],
-                        ),*/
+                        ),
                       ],
                     ),
                   ),
