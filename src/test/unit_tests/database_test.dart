@@ -568,7 +568,7 @@ void main() {
       expect(
           () => serviceLocator<NoteBookNoteSuperDao>()
               .insertNoteBookNoteSuperEntity(noteBookNoteSuperEntity),
-          throwsA(isA<Exception>()));
+          throwsA(isA<DatabaseException>()));
     });
   });
 
@@ -594,95 +594,90 @@ void main() {
           endDate: DateTime.utc(1989, 2, 21));
 
       expect(() => serviceLocator<ReviewDao>().insertReview(review),
-          throwsA(isA<Exception>()));
+          throwsA(isA<DatabaseException>()));
     });
   });
 
-  /* testWidgets('Series number test', (WidgetTester tester) async {
+  testWidgets('Test Trigger season_number', (WidgetTester tester) async {
     await tester.runAsync(() async {
+      int id = await serviceLocator<MediaSeriesSuperDao>()
+          .insertMediaSeriesSuperEntity(MediaSeriesSuperEntity(
+              name: 'Series 1',
+              description: 'Series 1',
+              linkImage: 'Series 1',
+              status: Status.nothing,
+              favorite: false,
+              genres: 'Series 1',
+              release: DateTime.now(),
+              xp: 0));
 
-      await serviceLocator<SeriesDao>().insertSerie(Series(
-          id: 1,
-          name: 'Series 1',
-          description: 'Series 1',
-          linkImage: 'Series 1',
-          status: Status.nothing,
-          favorite: false,
-          genres: 'Series 1',
-          release: DateTime.now(),
-          xp: 0));
+      Season season = Season(id: 1, number: -1, seriesId: id);
 
-      await serviceLocator<SeasonDao>()
-          .insertSeason(Season(id: 1, number: -1, seriesId: 1));
-
-      List<Season> seasons = await serviceLocator<SeasonDao>().findAllSeason();
-
-      expect(seasons.length, 0);
-    });
-  }); */
-
-/*
-  testWidgets('Episode number test', (WidgetTester tester) async {
-    await tester.runAsync(() async {
-
-      await serviceLocator<SeriesDao>().insertSerie(Series(
-          id: 1,
-          name: 'Series 1',
-          description: 'Series 1',
-          linkImage: 'Series 1',
-          status: Status.nothing,
-          favorite: false,
-          genres: 'Series 1',
-          release: DateTime.now(),
-          xp: 0));
-
-      await serviceLocator<SeasonDao>()
-          .insertSeason(Season(id: 1, number: 1, seriesId: 1));
-
-      await serviceLocator<EpisodeDao>().insertEpisode(Episode(
-          id: 1,
-          name: 'Episode 1',
-          description: 'Episode 1',
-          linkImage: 'Episode 1',
-          status: Status.nothing,
-          favorite: false,
-          genres: 'Episode 1',
-          release: DateTime.now(),
-          xp: 0,
-          duration: 1,
-          number: -1,
-          seasonId: 1));
+      expect(() => serviceLocator<SeasonDao>().insertSeason(season),
+          throwsA(isA<DatabaseException>()));
     });
   });
-  */
 
-/*
-   testWidgets('Video constraint test', (WidgetTester tester) async {
+  testWidgets('Test Trigger episode_number', (WidgetTester tester) async {
     await tester.runAsync(() async {
-      await serviceLocator<VideoDao>().insertVideo(Video(
-          id: 1,
-          name: 'Video 1',
-          description: 'Video 1',
-          linkImage: 'Video 1',
-          status: Status.nothing,
-          favorite: false,
-          genres: 'Video 1',
-          release: DateTime.now(),
-          xp: 0,
-          duration: -1));
+      int seriesId = await serviceLocator<MediaSeriesSuperDao>()
+          .insertMediaSeriesSuperEntity(MediaSeriesSuperEntity(
+              name: 'Series 1',
+              description: 'Series 1',
+              linkImage: 'Series 1',
+              status: Status.nothing,
+              favorite: false,
+              genres: 'Series 1',
+              release: DateTime.now(),
+              xp: 0));
 
-      //List<Video> videos = await serviceLocator<VideoDao>().findAllVideos();
+      int seasonId = await serviceLocator<SeasonDao>()
+          .insertSeason(Season(id: 1, number: 1, seriesId: seriesId));
 
-      //expect(videos.length, 0);
+      MediaVideoEpisodeSuperEntity mediaVideoEpisodeSuperEntity =
+          MediaVideoEpisodeSuperEntity(
+              name: 'Episode 1',
+              description: 'Episode 1',
+              linkImage: 'Episode 1',
+              status: Status.nothing,
+              favorite: false,
+              genres: 'Episode 1',
+              release: DateTime.now(),
+              xp: 0,
+              duration: 1,
+              number: -1,
+              seasonId: seasonId);
 
-
-
+      expect(
+          () => serviceLocator<MediaVideoEpisodeSuperDao>()
+              .insertMediaVideoEpisodeSuperEntity(mediaVideoEpisodeSuperEntity),
+          throwsA(isA<DatabaseException>()));
     });
   });
-  */
 
-/*
-testWidgets('Weight average Subject', (WidgetTester tester) async {
+  testWidgets('Test Trigger video_duration', (WidgetTester tester) async {
+    await tester.runAsync(() async {
+      MediaVideoSuperEntity mediaVideoSuperEntity = MediaVideoSuperEntity(
+        name: 'name',
+        description: 'description',
+        linkImage: 'linkImage',
+        status: Status.goingThrough,
+        favorite: true,
+        genres: 'genres',
+        release: DateTime.now(),
+        xp: 23,
+        duration: -1,
+      );
+
+      expect(
+          () => serviceLocator<MediaVideoSuperDao>()
+              .insertMediaVideoSuperEntity(mediaVideoSuperEntity),
+          throwsA(isA<DatabaseException>()));
+    });
+  });
+
+  testWidgets('Test Trigger subject_weight_average',
+      (WidgetTester tester) async {
     await tester.runAsync(() async {
       List<User> users = await serviceLocator<UserDao>().findAllUsers();
 
@@ -701,19 +696,18 @@ testWidgets('Weight average Subject', (WidgetTester tester) async {
           picture: 'Institution 1',
           type: InstitutionType.education,
           acronym: 'I',
-          userId: 1
-         ));
+          userId: 1));
 
-      await serviceLocator<SubjectDao>().insertSubject(Subject(
-          id: 1,
-          name: 'Subject 1',
-          weightAverage: -8,
-          institutionId: 1));
+      Subject subject = Subject(
+          id: 1, name: 'Subject 1', weightAverage: -8, institutionId: 1);
+
+      expect(() => serviceLocator<SubjectDao>().insertSubject(subject),
+          throwsA(isA<DatabaseException>()));
     });
-*/
+  });
 
-/*
- testWidgets('Subject mininum/overall weight', (WidgetTester tester) async {
+  testWidgets('Test Triggers evaluation_grade_and_weight',
+      (WidgetTester tester) async {
     await tester.runAsync(() async {
       List<User> users = await serviceLocator<UserDao>().findAllUsers();
 
@@ -732,36 +726,115 @@ testWidgets('Weight average Subject', (WidgetTester tester) async {
           picture: 'Institution 1',
           type: InstitutionType.education,
           acronym: 'I',
-          userId: 1
-         ));
+          userId: 1));
 
       await serviceLocator<SubjectDao>().insertSubject(Subject(
-          id: 1,
-          name: 'Subject 1',
-          weightAverage: 8,
-          institutionId: 1));
+          id: 1, name: 'Subject 1', weightAverage: 8, institutionId: 1));
 
-      await serviceLocator<StudentEvaluationDao>().insertStudentEvaluation(StudentEvaluation(
+      StudentEvaluation studentEvaluation = StudentEvaluation(
           id: 1,
           name: 'Evaluation 1',
-          weight: 0.4,
+          weight: 0.5,
+          minimum: 8,
+          grade: -8,
+          subjectId: 1);
+
+      expect(
+          () => serviceLocator<StudentEvaluationDao>()
+              .insertStudentEvaluation(studentEvaluation),
+          throwsA(isA<DatabaseException>()));
+
+      studentEvaluation = StudentEvaluation(
+          id: 1,
+          name: 'Evaluation 1',
+          weight: 4,
           minimum: 8,
           grade: 8,
-          subjectId: 1));
+          subjectId: 1);
 
-      await serviceLocator<StudentEvaluationDao>().insertStudentEvaluation(StudentEvaluation(
+      expect(
+          () => serviceLocator<StudentEvaluationDao>()
+              .insertStudentEvaluation(studentEvaluation),
+          throwsA(isA<DatabaseException>()));
+    });
+  });
+
+  testWidgets('Test Triggers evaluation_sum_weight',
+      (WidgetTester tester) async {
+    await tester.runAsync(() async {
+      List<User> users = await serviceLocator<UserDao>().findAllUsers();
+
+      expect(users.length, 0);
+
+      await serviceLocator<UserDao>()
+          .insertUser(User(userName: 'Emil', password: '1234', xp: 23));
+
+      users = await serviceLocator<UserDao>().findAllUsers();
+
+      expect(users.length, 1);
+
+      await serviceLocator<InstitutionDao>().insertInstitution(Institution(
+          id: 1,
+          name: 'Institution 1',
+          picture: 'Institution 1',
+          type: InstitutionType.education,
+          acronym: 'I',
+          userId: 1));
+
+      await serviceLocator<SubjectDao>().insertSubject(Subject(
+          id: 1, name: 'Subject 1', weightAverage: 8, institutionId: 1));
+
+      StudentEvaluation studentEvaluation = StudentEvaluation(
+          id: 1,
+          name: 'Evaluation 1',
+          weight: -1,
+          minimum: 8,
+          grade: 8,
+          subjectId: 1);
+
+      expect(
+          () => serviceLocator<StudentEvaluationDao>()
+              .insertStudentEvaluation(studentEvaluation),
+          throwsA(isA<DatabaseException>()));
+
+      studentEvaluation = StudentEvaluation(
+          id: 1,
+          name: 'Evaluation 1',
+          weight: 0.5,
+          minimum: -8,
+          grade: 8,
+          subjectId: 1);
+
+      expect(
+          () => serviceLocator<StudentEvaluationDao>()
+              .insertStudentEvaluation(studentEvaluation),
+          throwsA(isA<DatabaseException>()));
+
+      await serviceLocator<StudentEvaluationDao>().insertStudentEvaluation(
+          StudentEvaluation(
+              id: 1,
+              name: 'Evaluation 1',
+              weight: 0.4,
+              minimum: 8,
+              grade: 8,
+              subjectId: 1));
+
+      studentEvaluation = StudentEvaluation(
           id: 2,
           name: 'Evaluation 2',
           weight: 0.7,
           minimum: 8,
           grade: 8,
-          subjectId: 1));
+          subjectId: 1);
 
+      expect(
+          () => serviceLocator<StudentEvaluationDao>()
+              .insertStudentEvaluation(studentEvaluation),
+          throwsA(isA<DatabaseException>()));
     });
-  });*/
+  });
 
-/*
-  testWidgets('Task deadline test', (WidgetTester tester) async {
+  testWidgets('Test Trigger task_deadline', (WidgetTester tester) async {
     await tester.runAsync(() async {
       List<User> users = await serviceLocator<UserDao>().findAllUsers();
 
@@ -781,17 +854,29 @@ testWidgets('Weight average Subject', (WidgetTester tester) async {
           priority: Priority.low,
           deadline: DateTime.utc(2021, 12, 31)));
 
-      await serviceLocator<TaskDao>().insertTask(Task(
+      await serviceLocator<InstitutionDao>().insertInstitution(Institution(
+          id: 1,
+          name: 'Institution 1',
+          picture: 'Institution 1',
+          type: InstitutionType.education,
+          acronym: 'I',
+          userId: 1));
+
+      await serviceLocator<SubjectDao>().insertSubject(Subject(
+          id: 1, name: 'Subject 1', weightAverage: 8, institutionId: 1));
+
+      Task task = Task(
           id: 1,
           name: 'Task 1',
           description: 'Task 1',
           priority: Priority.low,
-          deadline: DateTime.utc(2022,01,02),
-          taskGroupId:1,
-          xp:1
-         ));
+          deadline: DateTime.utc(2022, 01, 02),
+          taskGroupId: 1,
+          subjectId: 1,
+          xp: 1);
 
-
+      expect(() => serviceLocator<TaskDao>().insertTask(task),
+          throwsA(isA<DatabaseException>()));
     });
-  });*/
+  });
 }
