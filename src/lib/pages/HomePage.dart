@@ -17,6 +17,7 @@ import 'package:src/env/env.dart';
 import 'package:tmdb_api/tmdb_api.dart';
 import 'package:books_finder/books_finder.dart';
 import 'catalog_search/Catalog.dart';
+import 'catalog_search/LeisureModule.dart';
 
 const Color leisureColor = Color(0xFFF52349);
 
@@ -491,14 +492,17 @@ class _HomePageState extends State<HomePage> {
               child: const Text('Search/Catalog'),
               onPressed: () {
                 loadmedia();
+                //loadmedia();
                 Navigator.push(
                     context,
                     MaterialPageRoute(
                         builder: (context) => Catalog(
+                        builder: (context) => LeisureModule(
                               trendingMovies: trendingmovies,
                               trendingTvshows: trendingtvshows,
                               books: books
                             )));
+                           // builder: (context) => SearchMedia()));
               },
             ),
             TextField(
