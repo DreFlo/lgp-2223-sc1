@@ -39,5 +39,7 @@
   "add_note_callout": "Oh, so you have something to say!",
   "progress_callout": "You made\nprogress!",
   "what_page": "Which range of pages do you want to comment?",
-  "finished_book": "I'm finished, actually!"
+  "finished_book": "I'm finished, actually!",
+  "add_general_note_callout": "Your secret is safe with us!",
+  "add_note": "Add Note"
 }
