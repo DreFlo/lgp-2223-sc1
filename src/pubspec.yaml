@@ -96,9 +96,9 @@ flutter:
   # For details regarding adding assets from package dependencies, see
   # https://flutter.dev/assets-and-images/#from-packages
 
-  Fonts:
+  fonts:
     - family: Poppins
-      Fonts:
+      fonts:
         - asset: assets/Fonts/Poppins-Black.ttf
           weight: 900
         - asset: assets/Fonts/Poppins-ExtraBold.ttf
