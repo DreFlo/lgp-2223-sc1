@@ -15,8 +15,8 @@ import 'leisure/MediaPage.dart';
 import 'package:src/utils/enums.dart';
 import 'package:src/env/env.dart';
 import 'package:tmdb_api/tmdb_api.dart';
+import 'package:books_finder/books_finder.dart';
 import 'catalog_search/Catalog.dart';
-
 
 const Color leisureColor = Color(0xFFF52349);
 
@@ -80,6 +80,7 @@ class _HomePageState extends State<HomePage> {
 
   List trendingmovies = [];
   List trendingtvshows = [];
+  List books = [];
 
   void loadmedia() async {
     final tmdb = TMDB(
@@ -88,10 +89,17 @@ class _HomePageState extends State<HomePage> {
         await tmdb.v3.trending.getTrending(mediaType: MediaType.movie);
     Map tvresult = await tmdb.v3.trending
         .getTrending(mediaType: MediaType.tv); //doesn't have ['results']
+    books = await queryBooks(
+      'batman',
+      maxResults: 100,
+      printType: PrintType.books,
+      orderBy: OrderBy.relevance,
+    );
 
     setState(() {
       trendingmovies = movieresult['results'];
       trendingtvshows = tvresult['results'];
+      books = books;
     });
   }
 
@@ -470,7 +478,7 @@ class _HomePageState extends State<HomePage> {
                         builder: (context) => const MainScreenAni()));
               },
             ),
-             ElevatedButton(
+            ElevatedButton(
               style: ButtonStyle(
                   backgroundColor: MaterialStateProperty.all(
                       const Color.fromRGBO(0, 250, 100, 1)),
@@ -487,7 +495,11 @@ class _HomePageState extends State<HomePage> {
                 Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => Catalog(trendingMovies: trendingmovies, trendingTvshows: trendingtvshows,)));
+                        builder: (context) => Catalog(
+                              trendingMovies: trendingmovies,
+                              trendingTvshows: trendingtvshows,
+                              books: books
+                            )));
               },
             ),
             TextField(
