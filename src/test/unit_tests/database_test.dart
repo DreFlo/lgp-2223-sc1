@@ -1,4 +1,7 @@
+import 'package:floor/floor.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:sqflite/sqflite.dart';
+
 import 'package:src/daos/media/media_series_super_dao.dart';
 import 'package:src/daos/media/media_video_movie_super_dao.dart';
 import 'package:src/daos/media/media_video_super_dao.dart';
@@ -50,7 +53,6 @@ import 'package:src/models/student/subject.dart';
 import 'package:src/daos/student/subject_dao.dart';
 import 'package:src/daos/student/institution_dao.dart';
 import 'package:src/models/student/institution.dart';
-/*
 import 'package:src/daos/media/season_dao.dart';
 import 'package:src/models/media/season.dart';
 import 'package:src/daos/media/series_dao.dart';
@@ -78,7 +80,6 @@ import 'package:src/models/student/task.dart';
 import 'package:src/daos/student/task_dao.dart';
 import 'package:src/models/student/task_group.dart';
 import 'package:src/daos/student/task_group_dao.dart';
-*/
 
 void main() {
   setUp(() async {
@@ -294,7 +295,6 @@ void main() {
         name: 'name',
         description: 'description',
         priority: Priority.high,
-        subjectId: 1,
         deadline: DateTime.now(),
       ));
 
@@ -304,6 +304,7 @@ void main() {
           priority: Priority.high,
           deadline: DateTime.now().subtract(const Duration(days: 1)),
           taskGroupId: 1,
+          subjectId: 1,
           xp: 20));
 
       NoteTaskNoteSuperEntity noteTaskNoteSuperEntity = NoteTaskNoteSuperEntity(
@@ -484,42 +485,96 @@ void main() {
       expect(episodeNote.episodeId, id);
     });
   });
-}
 
-/*
-testWidgets('Book Notes test', (WidgetTester tester) async{
-  await tester.runAsync(() async{
-    await serviceLocator<BookDao>().insertBook(Book(
-          id: 1,
-          name: 'Book 1',
-          description: 'Book 1',
-          linkImage: 'Book 1',
-          status: Status.nothing,
-          favorite: false,
-          genres: 'Book 1',
+  testWidgets('Test Trigger book_pages', (WidgetTester tester) async {
+    await tester.runAsync(() async {
+      MediaBookSuperEntity mediaBookSuperEntity = MediaBookSuperEntity(
+          name: 'name',
+          description: 'description',
+          linkImage: 'linkImage',
+          status: Status.goingThrough,
+          favorite: true,
+          genres: 'genres',
           release: DateTime.now(),
-          xp: 0,
+          xp: 23,
           authors: 'Me',
-          progressPages: 1,
-          totalPages: 1));
+          totalPages: 23,
+          progressPages: -1);
 
-      await serviceLocator<BookNoteDao>().insertBookNote(BookNote(
-          id: 1,
-          bookId: 1,
-          startPage: 1,
-          endPage: 4,
-          date: DateTime.now(),
-          title: 'Note 1',
-          content: 'Note 1'));
+      expect(
+          () => serviceLocator<MediaBookSuperDao>()
+              .insertMediaBookSuperEntity(mediaBookSuperEntity),
+          throwsA(isA<DatabaseException>()));
+
+      mediaBookSuperEntity = MediaBookSuperEntity(
+          name: 'name',
+          description: 'description',
+          linkImage: 'linkImage',
+          status: Status.goingThrough,
+          favorite: true,
+          genres: 'genres',
+          release: DateTime.now(),
+          xp: 23,
+          authors: 'Me',
+          totalPages: 23,
+          progressPages: 30);
+
+      expect(
+          () => serviceLocator<MediaBookSuperDao>()
+              .insertMediaBookSuperEntity(mediaBookSuperEntity),
+          throwsA(isA<DatabaseException>()));
+    });
   });
 
-});
-*/
-/*
-  testWidgets('Date Review test', (WidgetTester tester) async {
+  testWidgets('Test trigger book_note_pages', (WidgetTester tester) async {
     await tester.runAsync(() async {
+      MediaBookSuperEntity mediaBookSuperEntity = MediaBookSuperEntity(
+        name: 'name',
+        description: 'description',
+        linkImage: 'linkImage',
+        status: Status.goingThrough,
+        favorite: true,
+        genres: 'genres',
+        release: DateTime.now(),
+        xp: 23,
+        authors: 'Me',
+        totalPages: 23,
+      );
 
-      await serviceLocator<MediaDao>().insertMedia(Video(
+      await serviceLocator<MediaBookSuperDao>()
+          .insertMediaBookSuperEntity(mediaBookSuperEntity);
+
+      NoteBookNoteSuperEntity noteBookNoteSuperEntity = NoteBookNoteSuperEntity(
+          title: 'title',
+          content: 'content',
+          date: DateTime.now(),
+          startPage: 4,
+          endPage: 1,
+          bookId: 1);
+
+      expect(
+          () => serviceLocator<NoteBookNoteSuperDao>()
+              .insertNoteBookNoteSuperEntity(noteBookNoteSuperEntity),
+          throwsA(isA<DatabaseException>()));
+
+      noteBookNoteSuperEntity = NoteBookNoteSuperEntity(
+          title: 'title',
+          content: 'content',
+          date: DateTime.now(),
+          startPage: 4,
+          endPage: 30,
+          bookId: 1);
+
+      expect(
+          () => serviceLocator<NoteBookNoteSuperDao>()
+              .insertNoteBookNoteSuperEntity(noteBookNoteSuperEntity),
+          throwsA(isA<Exception>()));
+    });
+  });
+
+  testWidgets('Test trigger review_date', (WidgetTester tester) async {
+    await tester.runAsync(() async {
+      await serviceLocator<MediaDao>().insertMedia(Media(
           id: 1,
           name: 'Video 1',
           description: 'Video 1',
@@ -528,44 +583,22 @@ testWidgets('Book Notes test', (WidgetTester tester) async{
           favorite: false,
           genres: 'Video 1',
           release: DateTime.now(),
-          xp: 0,
-          duration: 1));
+          xp: 0));
 
-      await serviceLocator<ReviewDao>().insertReview(Review(
+      Review review = Review(
           id: 1,
           review: 'Review 1',
           emoji: Reaction.dislike,
           mediaId: 1,
           startDate: DateTime.utc(1989, 2, 22),
-          endDate: DateTime.utc(1989, 2, 21)
+          endDate: DateTime.utc(1989, 2, 21));
 
-          ));
-  });
-  */
-
-/*
-  testWidgets('Book pages test', (WidgetTester tester) async {
-    await tester.runAsync(() async {
-
-      await serviceLocator<BookDao>().insertBook(Book(
-          id: 1,
-          name: 'Book 1',
-          description: 'Book 1',
-          linkImage: 'Book 1',
-          status: Status.nothing,
-          favorite: false,
-          genres: 'Book 1',
-          release: DateTime.now(),
-          xp: 0,
-          authors: 'Me',
-          progressPages: -1,
-          totalPages: 1));
+      expect(() => serviceLocator<ReviewDao>().insertReview(review),
+          throwsA(isA<Exception>()));
     });
   });
-  */
 
-/*
-  testWidgets('Series number test', (WidgetTester tester) async {
+  /* testWidgets('Series number test', (WidgetTester tester) async {
     await tester.runAsync(() async {
 
       await serviceLocator<SeriesDao>().insertSerie(Series(
@@ -586,8 +619,7 @@ testWidgets('Book Notes test', (WidgetTester tester) async{
 
       expect(seasons.length, 0);
     });
-  });
-  */
+  }); */
 
 /*
   testWidgets('Episode number test', (WidgetTester tester) async {
@@ -762,3 +794,4 @@ testWidgets('Weight average Subject', (WidgetTester tester) async {
 
     });
   });*/
+}
