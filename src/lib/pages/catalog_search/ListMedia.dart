@@ -38,7 +38,9 @@ class ListMedia extends StatelessWidget {
             image: media[index].info.imageLinks['thumbnail'].toString());
       }
     } else {
-      return Media(image: media[index]['poster_path']);
+      if(media[index]['poster_path'] != null){
+        return Media(image: media[index]['poster_path']);
+      }
     }
   }
 }
