@@ -66,20 +66,7 @@ class _SearchMediaState extends State<SearchMedia>
               ],
             ),
           ),
-          TabBar(
-            controller: mediaTypeTabController,
-            tabs: [
-              Tab(
-                text: 'Movies',
-              ),
-              Tab(
-                text: 'TV Shows',
-              ),
-              Tab(
-                text: 'Books',
-              ),
-            ],
-          ),*/
+          */
 
 
       );

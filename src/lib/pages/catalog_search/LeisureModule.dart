@@ -127,39 +127,6 @@ class _LeisureModuleState extends State<LeisureModule>
               ],
             ),
           ),
-          /*Expanded(
-            child: TabBarView(
-              controller: myMediaTabController,
-              children: [
-                // My Media TabBarView
-                Container(
-                  child: Center(
-                    child: Text('My Media'),
-                  ),
-                ),
-                // Discover TabBarView
-                Container(
-                  child: Center(
-                    child: Text('Discover'),
-                  ),
-                ),
-              ],
-            ),
-          ),
-          TabBar(
-            controller: mediaTypeTabController,
-            tabs: [
-              Tab(
-                text: 'Movies',
-              ),
-              Tab(
-                text: 'TV Shows',
-              ),
-              Tab(
-                text: 'Books',
-              ),
-            ],
-          ),*/
         ],
       ),
     );
