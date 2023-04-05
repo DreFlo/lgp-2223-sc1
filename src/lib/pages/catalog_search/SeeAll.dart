@@ -75,7 +75,10 @@ class SeeAll extends StatelessWidget {
           ),
 
           Expanded(
-            child: SingleChildScrollView(
+            child: Padding(
+            padding: EdgeInsets.fromLTRB(40 * fem, 22 * fem, 0, 0),
+            child:
+            SingleChildScrollView(
               child: Wrap(
                 spacing: 10.0 * fem,
                 runSpacing: 22.0 * fem,
@@ -87,7 +90,7 @@ class SeeAll extends StatelessWidget {
                   );
                 }),
               ),
-            ),
+            )),
           ),
         ],
       ),
