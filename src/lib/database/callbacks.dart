@@ -25,7 +25,7 @@ final addConstraintsCallback = Callback(
     END;
   ''');
     await database.execute('''
-    CREATE TRIGGER timeslot_date
+    CREATE TRIGGER timeslot_date_update
     BEFORE UPDATE ON timeslot
     FOR EACH ROW
     BEGIN
@@ -199,9 +199,9 @@ final addConstraintsCallback = Callback(
       END;
     END;
   ''');
-    await database.execute('''_update
-    CREATE UPDATE book_note_pages
-    BEFORE INSERT ON book_note
+    await database.execute('''
+    CREATE TRIGGER book_note_pages_update
+    BEFORE UPDATE ON book_note
     FOR EACH ROW
     BEGIN
       SELECT CASE
