@@ -2,11 +2,11 @@ import 'package:src/models/notes/note.dart';
 import 'package:src/models/notes/task_note.dart';
 
 class NoteTaskNoteSuperEntity {
-  int? id;
-  String title;
-  String content;
-  DateTime date;
-  int taskId;
+  final int? id;
+  final String title;
+  final String content;
+  final DateTime date;
+  final int taskId;
 
   NoteTaskNoteSuperEntity({
     this.id,

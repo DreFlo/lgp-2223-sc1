@@ -2,11 +2,11 @@ import 'package:src/models/notes/episode_note.dart';
 import 'package:src/models/notes/note.dart';
 
 class NoteEpisodeNoteSuperEntity {
-  int? id;
-  String title;
-  String content;
-  DateTime date;
-  int episodeId;
+  final int? id;
+  final String title;
+  final String content;
+  final DateTime date;
+  final int episodeId;
 
   NoteEpisodeNoteSuperEntity({
     this.id,

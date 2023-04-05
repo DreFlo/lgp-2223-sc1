@@ -4,16 +4,16 @@ import 'package:src/models/media/video.dart';
 import 'package:src/utils/enums.dart';
 
 class MediaVideoMovieSuperEntity {
-  int? id;
-  String name;
-  String description;
-  String linkImage;
-  Status status;
-  bool favorite;
-  String genres;
-  DateTime release;
-  int xp;
-  int duration;
+  final int? id;
+  final String name;
+  final String description;
+  final String linkImage;
+  final Status status;
+  final bool favorite;
+  final String genres;
+  final DateTime release;
+  final int xp;
+  final int duration;
 
   MediaVideoMovieSuperEntity({
     this.id,

@@ -2,13 +2,13 @@ import 'package:src/models/notes/book_note.dart';
 import 'package:src/models/notes/note.dart';
 
 class NoteBookNoteSuperEntity {
-  int? id;
-  String title;
-  String content;
-  DateTime date;
-  int startPage;
-  int endPage;
-  int bookId;
+  final int? id;
+  final String title;
+  final String content;
+  final DateTime date;
+  final int startPage;
+  final int endPage;
+  final int bookId;
 
   NoteBookNoteSuperEntity({
     this.id,
