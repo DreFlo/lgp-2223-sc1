@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'Media.dart';
-import 'Book.dart';
+import 'ListMedia.dart';
 
 class SeeAll extends StatelessWidget {
   final List media;
@@ -75,36 +74,11 @@ class SeeAll extends StatelessWidget {
               ),
             ),
           ),
-          Expanded(
-            child: Padding(
-                padding: EdgeInsets.fromLTRB(40 * fem, 22 * fem, 0, 0),
-                child: SingleChildScrollView(
-                  child: Wrap(
-                    spacing: 10.0 * fem,
-                    runSpacing: 22.0 * fem,
-                    children: List.generate(media.length, (index) {
-                      return SizedBox(
-                        width: 100.0 * fem,
-                        height: 150.0 * fem,
-                        child: showWidget(index),
-                      );
-                    }),
-                  ),
-                )),
-          ),
+          ListMedia(title: title, media: media)
         ],
       ),
     );
   }
 
-  showWidget(int index) {
-    if (title == 'All Books') {
-      if (media[index].info.imageLinks['thumbnail'] != null) {
-        return Book(
-            image: media[index].info.imageLinks['thumbnail'].toString());
-      }
-    } else {
-      return Media(image: media[index]['poster_path']);
-    }
-  }
+  
 }
