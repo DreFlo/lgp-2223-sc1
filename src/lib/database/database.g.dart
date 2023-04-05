@@ -1003,7 +1003,7 @@ class _$ReviewDao extends ReviewDao {
             endDate: _dateTimeConverter.decode(row['end_date'] as int),
             review: row['review'] as String,
             rating: row['rating'] as int,
-            emoji: Emoji.values[row['emoji'] as int],
+            emoji: Reaction.values[row['emoji'] as int],
             mediaId: row['media_id'] as int));
   }
 
@@ -1016,7 +1016,7 @@ class _$ReviewDao extends ReviewDao {
             endDate: _dateTimeConverter.decode(row['end_date'] as int),
             review: row['review'] as String,
             rating: row['rating'] as int,
-            emoji: Emoji.values[row['emoji'] as int],
+            emoji: Reaction.values[row['emoji'] as int],
             mediaId: row['media_id'] as int),
         arguments: [id],
         queryableName: 'review',
