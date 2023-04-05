@@ -13,6 +13,10 @@ import 'leisure/BookNotesSheet.dart';
 import 'leisure/AddBookNoteForm.dart';
 import 'leisure/MediaPage.dart';
 import 'package:src/utils/enums.dart';
+import 'package:src/env/env.dart';
+import 'package:tmdb_api/tmdb_api.dart';
+import 'catalog_search/Catalog.dart';
+
 
 const Color leisureColor = Color(0xFFF52349);
 
@@ -71,6 +75,23 @@ class _HomePageState extends State<HomePage> {
       // _counter without calling setState(), then the build method would not be
       // called again, and so nothing would appear to happen.
       _counter++;
+    });
+  }
+
+  List trendingmovies = [];
+  List trendingtvshows = [];
+
+  void loadmedia() async {
+    final tmdb = TMDB(
+        ApiKeys('api key', 'apiReadAccessTokenv4'));
+    Map movieresult =
+        await tmdb.v3.trending.getTrending(mediaType: MediaType.movie);
+    Map tvresult = await tmdb.v3.trending
+        .getTrending(mediaType: MediaType.tv); //doesn't have ['results']
+
+    setState(() {
+      trendingmovies = movieresult['results'];
+      trendingtvshows = tvresult['results'];
     });
   }
 
@@ -447,6 +468,26 @@ class _HomePageState extends State<HomePage> {
                     context,
                     MaterialPageRoute(
                         builder: (context) => const MainScreenAni()));
+              },
+            ),
+             ElevatedButton(
+              style: ButtonStyle(
+                  backgroundColor: MaterialStateProperty.all(
+                      const Color.fromRGBO(0, 250, 100, 1)),
+                  shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                      const RoundedRectangleBorder(
+                          borderRadius: BorderRadius.only(
+                              topRight: Radius.circular(10),
+                              topLeft: Radius.circular(10),
+                              bottomRight: Radius.circular(10),
+                              bottomLeft: Radius.circular(10))))),
+              child: const Text('Search/Catalog'),
+              onPressed: () {
+                loadmedia();
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => Catalog(trendingMovies: trendingmovies, trendingTvshows: trendingtvshows,)));
               },
             ),
             TextField(
