@@ -99,8 +99,9 @@ class SeeAll extends StatelessWidget {
 
   showWidget(int index) {
     if (title == 'All Books') {
-      if (media[index].info.imageLinks != null) {
-         return Book(image: media[index].info.imageLinks['thumbnail'].toString());
+      if (media[index].info.imageLinks['thumbnail'] != null) {
+        return Book(
+            image: media[index].info.imageLinks['thumbnail'].toString());
       }
     } else {
       return Media(image: media[index]['poster_path']);
