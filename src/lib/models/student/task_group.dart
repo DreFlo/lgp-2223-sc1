@@ -24,15 +24,11 @@ class TaskGroup {
 
   final DateTime deadline;
 
-  @ColumnInfo(name: 'subject_id')
-  final int? subjectId;
-
   TaskGroup({
     this.id,
     required this.name,
     required this.description,
     required this.priority,
     required this.deadline,
-    this.subjectId,
   });
 }
