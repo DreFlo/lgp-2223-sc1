@@ -145,9 +145,9 @@ class _$AppDatabase extends AppDatabase {
         await database.execute(
             'CREATE TABLE IF NOT EXISTS `media` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `name` TEXT NOT NULL, `description` TEXT NOT NULL, `link_image` TEXT NOT NULL, `status` INTEGER NOT NULL, `favorite` INTEGER NOT NULL, `genres` TEXT NOT NULL, `release` INTEGER NOT NULL, `xp` INTEGER NOT NULL)');
         await database.execute(
-            'CREATE TABLE IF NOT EXISTS `book` (`authors` TEXT NOT NULL, `total_pages` INTEGER NOT NULL, `progress_pages` INTEGER, `id` INTEGER PRIMARY KEY AUTOINCREMENT, `name` TEXT NOT NULL, `description` TEXT NOT NULL, `link_image` TEXT NOT NULL, `status` INTEGER NOT NULL, `favorite` INTEGER NOT NULL, `genres` TEXT NOT NULL, `release` INTEGER NOT NULL, `xp` INTEGER NOT NULL)');
+            'CREATE TABLE IF NOT EXISTS `book` (`id` INTEGER NOT NULL, `authors` TEXT NOT NULL, `total_pages` INTEGER NOT NULL, `progress_pages` INTEGER, FOREIGN KEY (`id`) REFERENCES `media` (`id`) ON UPDATE RESTRICT ON DELETE CASCADE, PRIMARY KEY (`id`))');
         await database.execute(
-            'CREATE TABLE IF NOT EXISTS `series` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `name` TEXT NOT NULL, `description` TEXT NOT NULL, `link_image` TEXT NOT NULL, `status` INTEGER NOT NULL, `favorite` INTEGER NOT NULL, `genres` TEXT NOT NULL, `release` INTEGER NOT NULL, `xp` INTEGER NOT NULL)');
+            'CREATE TABLE IF NOT EXISTS `series` (`id` INTEGER NOT NULL, FOREIGN KEY (`id`) REFERENCES `media` (`id`) ON UPDATE RESTRICT ON DELETE CASCADE, PRIMARY KEY (`id`))');
         await database.execute(
             'CREATE TABLE IF NOT EXISTS `video` (`id` INTEGER NOT NULL, `duration` INTEGER NOT NULL, FOREIGN KEY (`id`) REFERENCES `media` (`id`) ON UPDATE RESTRICT ON DELETE CASCADE, PRIMARY KEY (`id`))');
         await database.execute(
@@ -157,7 +157,7 @@ class _$AppDatabase extends AppDatabase {
         await database.execute(
             'CREATE TABLE IF NOT EXISTS `movie` (`id` INTEGER NOT NULL, FOREIGN KEY (`id`) REFERENCES `video` (`id`) ON UPDATE RESTRICT ON DELETE CASCADE, PRIMARY KEY (`id`))');
         await database.execute(
-            'CREATE TABLE IF NOT EXISTS `episode` (`id` INTEGER NOT NULL, `number` INTEGER NOT NULL, FOREIGN KEY (`id`) REFERENCES `video` (`id`) ON UPDATE RESTRICT ON DELETE CASCADE, PRIMARY KEY (`id`))');
+            'CREATE TABLE IF NOT EXISTS `episode` (`id` INTEGER NOT NULL, `number` INTEGER NOT NULL, `season_id` INTEGER NOT NULL, FOREIGN KEY (`id`) REFERENCES `video` (`id`) ON UPDATE RESTRICT ON DELETE CASCADE, FOREIGN KEY (`season_id`) REFERENCES `season` (`id`) ON UPDATE RESTRICT ON DELETE CASCADE, PRIMARY KEY (`id`))');
         await database.execute(
             'CREATE TABLE IF NOT EXISTS `note` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `title` TEXT NOT NULL, `content` TEXT NOT NULL, `date` INTEGER NOT NULL)');
         await database.execute(
@@ -1025,18 +1025,10 @@ class _$BookDao extends BookDao {
             database,
             'book',
             (Book item) => <String, Object?>{
+                  'id': item.id,
                   'authors': item.authors,
                   'total_pages': item.totalPages,
-                  'progress_pages': item.progressPages,
-                  'id': item.id,
-                  'name': item.name,
-                  'description': item.description,
-                  'link_image': item.linkImage,
-                  'status': item.status.index,
-                  'favorite': item.favorite ? 1 : 0,
-                  'genres': item.genres,
-                  'release': _dateTimeConverter.encode(item.release),
-                  'xp': item.xp
+                  'progress_pages': item.progressPages
                 },
             changeListener),
         _bookUpdateAdapter = UpdateAdapter(
@@ -1044,18 +1036,10 @@ class _$BookDao extends BookDao {
             'book',
             ['id'],
             (Book item) => <String, Object?>{
+                  'id': item.id,
                   'authors': item.authors,
                   'total_pages': item.totalPages,
-                  'progress_pages': item.progressPages,
-                  'id': item.id,
-                  'name': item.name,
-                  'description': item.description,
-                  'link_image': item.linkImage,
-                  'status': item.status.index,
-                  'favorite': item.favorite ? 1 : 0,
-                  'genres': item.genres,
-                  'release': _dateTimeConverter.encode(item.release),
-                  'xp': item.xp
+                  'progress_pages': item.progressPages
                 },
             changeListener),
         _bookDeletionAdapter = DeletionAdapter(
@@ -1063,18 +1047,10 @@ class _$BookDao extends BookDao {
             'book',
             ['id'],
             (Book item) => <String, Object?>{
+                  'id': item.id,
                   'authors': item.authors,
                   'total_pages': item.totalPages,
-                  'progress_pages': item.progressPages,
-                  'id': item.id,
-                  'name': item.name,
-                  'description': item.description,
-                  'link_image': item.linkImage,
-                  'status': item.status.index,
-                  'favorite': item.favorite ? 1 : 0,
-                  'genres': item.genres,
-                  'release': _dateTimeConverter.encode(item.release),
-                  'xp': item.xp
+                  'progress_pages': item.progressPages
                 },
             changeListener);
 
@@ -1094,15 +1070,7 @@ class _$BookDao extends BookDao {
   Future<List<Book>> findAllBooks() async {
     return _queryAdapter.queryList('SELECT * FROM book',
         mapper: (Map<String, Object?> row) => Book(
-            id: row['id'] as int?,
-            name: row['name'] as String,
-            description: row['description'] as String,
-            linkImage: row['link_image'] as String,
-            status: Status.values[row['status'] as int],
-            favorite: (row['favorite'] as int) != 0,
-            genres: row['genres'] as String,
-            release: _dateTimeConverter.decode(row['release'] as int),
-            xp: row['xp'] as int,
+            id: row['id'] as int,
             authors: row['authors'] as String,
             totalPages: row['total_pages'] as int,
             progressPages: row['progress_pages'] as int?));
@@ -1112,15 +1080,7 @@ class _$BookDao extends BookDao {
   Stream<Book?> findBookById(int id) {
     return _queryAdapter.queryStream('SELECT * FROM book WHERE id = ?1',
         mapper: (Map<String, Object?> row) => Book(
-            id: row['id'] as int?,
-            name: row['name'] as String,
-            description: row['description'] as String,
-            linkImage: row['link_image'] as String,
-            status: Status.values[row['status'] as int],
-            favorite: (row['favorite'] as int) != 0,
-            genres: row['genres'] as String,
-            release: _dateTimeConverter.decode(row['release'] as int),
-            xp: row['xp'] as int,
+            id: row['id'] as int,
             authors: row['authors'] as String,
             totalPages: row['total_pages'] as int,
             progressPages: row['progress_pages'] as int?),
@@ -1161,53 +1121,12 @@ class _$SeriesDao extends SeriesDao {
     this.database,
     this.changeListener,
   )   : _queryAdapter = QueryAdapter(database, changeListener),
-        _seriesInsertionAdapter = InsertionAdapter(
-            database,
-            'series',
-            (Series item) => <String, Object?>{
-                  'id': item.id,
-                  'name': item.name,
-                  'description': item.description,
-                  'link_image': item.linkImage,
-                  'status': item.status.index,
-                  'favorite': item.favorite ? 1 : 0,
-                  'genres': item.genres,
-                  'release': _dateTimeConverter.encode(item.release),
-                  'xp': item.xp
-                },
-            changeListener),
-        _seriesUpdateAdapter = UpdateAdapter(
-            database,
-            'series',
-            ['id'],
-            (Series item) => <String, Object?>{
-                  'id': item.id,
-                  'name': item.name,
-                  'description': item.description,
-                  'link_image': item.linkImage,
-                  'status': item.status.index,
-                  'favorite': item.favorite ? 1 : 0,
-                  'genres': item.genres,
-                  'release': _dateTimeConverter.encode(item.release),
-                  'xp': item.xp
-                },
-            changeListener),
-        _seriesDeletionAdapter = DeletionAdapter(
-            database,
-            'series',
-            ['id'],
-            (Series item) => <String, Object?>{
-                  'id': item.id,
-                  'name': item.name,
-                  'description': item.description,
-                  'link_image': item.linkImage,
-                  'status': item.status.index,
-                  'favorite': item.favorite ? 1 : 0,
-                  'genres': item.genres,
-                  'release': _dateTimeConverter.encode(item.release),
-                  'xp': item.xp
-                },
-            changeListener);
+        _seriesInsertionAdapter = InsertionAdapter(database, 'series',
+            (Series item) => <String, Object?>{'id': item.id}, changeListener),
+        _seriesUpdateAdapter = UpdateAdapter(database, 'series', ['id'],
+            (Series item) => <String, Object?>{'id': item.id}, changeListener),
+        _seriesDeletionAdapter = DeletionAdapter(database, 'series', ['id'],
+            (Series item) => <String, Object?>{'id': item.id}, changeListener);
 
   final sqflite.DatabaseExecutor database;
 
@@ -1224,31 +1143,13 @@ class _$SeriesDao extends SeriesDao {
   @override
   Future<List<Series>> findAllSeries() async {
     return _queryAdapter.queryList('SELECT * FROM series',
-        mapper: (Map<String, Object?> row) => Series(
-            id: row['id'] as int?,
-            name: row['name'] as String,
-            description: row['description'] as String,
-            linkImage: row['link_image'] as String,
-            status: Status.values[row['status'] as int],
-            favorite: (row['favorite'] as int) != 0,
-            genres: row['genres'] as String,
-            release: _dateTimeConverter.decode(row['release'] as int),
-            xp: row['xp'] as int));
+        mapper: (Map<String, Object?> row) => Series(id: row['id'] as int));
   }
 
   @override
   Stream<Series?> findSeriesById(int id) {
     return _queryAdapter.queryStream('SELECT * FROM series WHERE id = ?1',
-        mapper: (Map<String, Object?> row) => Series(
-            id: row['id'] as int?,
-            name: row['name'] as String,
-            description: row['description'] as String,
-            linkImage: row['link_image'] as String,
-            status: Status.values[row['status'] as int],
-            favorite: (row['favorite'] as int) != 0,
-            genres: row['genres'] as String,
-            release: _dateTimeConverter.decode(row['release'] as int),
-            xp: row['xp'] as int),
+        mapper: (Map<String, Object?> row) => Series(id: row['id'] as int),
         arguments: [id],
         queryableName: 'series',
         isView: false);
@@ -1642,22 +1543,31 @@ class _$EpisodeDao extends EpisodeDao {
         _episodeInsertionAdapter = InsertionAdapter(
             database,
             'episode',
-            (Episode item) =>
-                <String, Object?>{'id': item.id, 'number': item.number},
+            (Episode item) => <String, Object?>{
+                  'id': item.id,
+                  'number': item.number,
+                  'season_id': item.seasonId
+                },
             changeListener),
         _episodeUpdateAdapter = UpdateAdapter(
             database,
             'episode',
             ['id'],
-            (Episode item) =>
-                <String, Object?>{'id': item.id, 'number': item.number},
+            (Episode item) => <String, Object?>{
+                  'id': item.id,
+                  'number': item.number,
+                  'season_id': item.seasonId
+                },
             changeListener),
         _episodeDeletionAdapter = DeletionAdapter(
             database,
             'episode',
             ['id'],
-            (Episode item) =>
-                <String, Object?>{'id': item.id, 'number': item.number},
+            (Episode item) => <String, Object?>{
+                  'id': item.id,
+                  'number': item.number,
+                  'season_id': item.seasonId
+                },
             changeListener);
 
   final sqflite.DatabaseExecutor database;
@@ -1675,15 +1585,19 @@ class _$EpisodeDao extends EpisodeDao {
   @override
   Future<List<Episode>> findAllEpisode() async {
     return _queryAdapter.queryList('SELECT * FROM episode',
-        mapper: (Map<String, Object?> row) =>
-            Episode(id: row['id'] as int, number: row['number'] as int));
+        mapper: (Map<String, Object?> row) => Episode(
+            id: row['id'] as int,
+            number: row['number'] as int,
+            seasonId: row['season_id'] as int));
   }
 
   @override
   Stream<Episode?> findEpisodeById(int id) {
     return _queryAdapter.queryStream('SELECT * FROM episode WHERE id = ?1',
-        mapper: (Map<String, Object?> row) =>
-            Episode(id: row['id'] as int, number: row['number'] as int),
+        mapper: (Map<String, Object?> row) => Episode(
+            id: row['id'] as int,
+            number: row['number'] as int,
+            seasonId: row['season_id'] as int),
         arguments: [id],
         queryableName: 'episode',
         isView: false);

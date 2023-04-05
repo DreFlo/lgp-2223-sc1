@@ -1,15 +1,21 @@
 import 'package:flutter_test/flutter_test.dart';
+import 'package:src/daos/media/media_series_super_dao.dart';
 import 'package:src/daos/media/media_video_movie_super_dao.dart';
 import 'package:src/daos/media/media_video_super_dao.dart';
+import 'package:src/daos/media/media_book_super_dao.dart';
+import 'package:src/daos/media/season_dao.dart';
+import 'package:src/models/media/media_book_super_entity.dart';
 import 'package:src/daos/media/movie_dao.dart';
 import 'package:src/daos/media/video_dao.dart';
 import 'package:src/daos/media/media_dao.dart';
 import 'package:src/daos/student/task_group_dao.dart';
 import 'package:src/models/media/media.dart';
 import 'package:src/database/database.dart';
+import 'package:src/models/media/media_series_super_entity.dart';
 import 'package:src/models/media/media_video_movie_super_entity.dart';
 import 'package:src/models/media/media_video_super_entity.dart';
 import 'package:src/models/media/movie.dart';
+import 'package:src/models/media/season.dart';
 import 'package:src/models/notes/note_book_note_super_entity.dart';
 import 'package:src/daos/notes/note_book_note_super_dao.dart';
 import 'package:src/models/notes/note_subject_note_super_entity.dart';
@@ -74,8 +80,6 @@ import 'package:src/models/student/task_group.dart';
 import 'package:src/daos/student/task_group_dao.dart';
 */
 
-import '../utils/service_locator_test_util.dart';
-
 void main() {
   setUp(() async {
     await setup(testing: true);
@@ -130,6 +134,29 @@ void main() {
   testWidgets('Test SuperDAO for MediaVideoEpisode',
       (WidgetTester tester) async {
     await tester.runAsync(() async {
+      MediaSeriesSuperEntity mediaSeriesSuperEntity = MediaSeriesSuperEntity(
+        name: 'name',
+        description: 'description',
+        linkImage: 'linkImage',
+        status: Status.goingThrough,
+        favorite: true,
+        genres: 'genres',
+        release: DateTime.now(),
+        xp: 23,
+      );
+
+      int seriesId = await serviceLocator<MediaSeriesSuperDao>()
+          .insertMediaSeriesSuperEntity(mediaSeriesSuperEntity);
+
+      expect(seriesId, 1);
+
+      Season season = Season(
+        number: 1,
+        seriesId: seriesId,
+      );
+
+      int seasonId = await serviceLocator<SeasonDao>().insertSeason(season);
+
       MediaVideoEpisodeSuperEntity mediaVideoEpisodeSuperEntity =
           MediaVideoEpisodeSuperEntity(
         name: 'name',
@@ -142,12 +169,13 @@ void main() {
         xp: 23,
         duration: 23,
         number: 1,
+        seasonId: seasonId,
       );
 
       int id = await serviceLocator<MediaVideoEpisodeSuperDao>()
           .insertMediaVideoEpisodeSuperEntity(mediaVideoEpisodeSuperEntity);
 
-      expect(id, 1);
+      expect(id, 2);
 
       Episode episode =
           (await serviceLocator<EpisodeDao>().findEpisodeById(id).first)!;
@@ -182,9 +210,35 @@ void main() {
     });
   });
 
+  testWidgets('Test SuperDAO for MediaBook', (WidgetTester tester) async {
+    await tester.runAsync(() async {
+      MediaBookSuperEntity mediaBookSuperEntity = MediaBookSuperEntity(
+        name: 'name',
+        description: 'description',
+        linkImage: 'linkImage',
+        status: Status.goingThrough,
+        favorite: true,
+        genres: 'genres',
+        release: DateTime.now(),
+        xp: 23,
+        authors: 'Me',
+        totalPages: 23,
+      );
+
+      int id = await serviceLocator<MediaBookSuperDao>()
+          .insertMediaBookSuperEntity(mediaBookSuperEntity);
+
+      expect(id, 1);
+
+      Book book = (await serviceLocator<BookDao>().findBookById(id).first)!;
+
+      expect(book.id, 1);
+    });
+  });
+
   testWidgets('Test SuperDAO for Note/BookNote', (WidgetTester tester) async {
     await tester.runAsync(() async {
-      await serviceLocator<MediaDao>().insertMedia(Media(
+      int bookId = await serviceLocator<MediaDao>().insertMedia(Media(
         name: 'name',
         description: 'description',
         linkImage: 'linkImage',
@@ -195,18 +249,8 @@ void main() {
         xp: 23,
       ));
 
-      await serviceLocator<BookDao>().insertBook(Book(
-          name: 'name',
-          description: 'description',
-          linkImage: 'linkImage',
-          status: Status.goingThrough,
-          favorite: true,
-          genres: 'genres',
-          release: DateTime.now(),
-          xp: 23,
-          authors: 'Me',
-          totalPages: 23,
-          progressPages: 0));
+      await serviceLocator<BookDao>().insertBook(
+          Book(id: bookId, authors: 'Me', totalPages: 23, progressPages: 0));
 
       NoteBookNoteSuperEntity noteBookNoteSuperEntity = NoteBookNoteSuperEntity(
           title: 'Note 1',
@@ -321,7 +365,30 @@ void main() {
 
   testWidgets('Test Video/Episode SuperDAO', (WidgetTester tester) async {
     await tester.runAsync(() async {
-      MediaVideoEpisodeSuperEntity videoEpisodeSuperEntity =
+      MediaSeriesSuperEntity mediaSeriesSuperEntity = MediaSeriesSuperEntity(
+        name: 'name',
+        description: 'description',
+        linkImage: 'linkImage',
+        status: Status.goingThrough,
+        favorite: true,
+        genres: 'genres',
+        release: DateTime.now(),
+        xp: 23,
+      );
+
+      int seriesId = await serviceLocator<MediaSeriesSuperDao>()
+          .insertMediaSeriesSuperEntity(mediaSeriesSuperEntity);
+
+      expect(seriesId, 1);
+
+      Season season = Season(
+        number: 1,
+        seriesId: seriesId,
+      );
+
+      int seasonId = await serviceLocator<SeasonDao>().insertSeason(season);
+
+      MediaVideoEpisodeSuperEntity mediaVideoEpisodeSuperEntity =
           MediaVideoEpisodeSuperEntity(
         name: 'name',
         description: 'description',
@@ -333,12 +400,13 @@ void main() {
         xp: 23,
         duration: 23,
         number: 1,
+        seasonId: seasonId,
       );
 
       int id = await serviceLocator<MediaVideoEpisodeSuperDao>()
-          .insertMediaVideoEpisodeSuperEntity(videoEpisodeSuperEntity);
+          .insertMediaVideoEpisodeSuperEntity(mediaVideoEpisodeSuperEntity);
 
-      expect(id, 1);
+      expect(id, 2);
 
       Episode episode =
           (await serviceLocator<EpisodeDao>().findEpisodeById(id).first)!;
@@ -349,7 +417,30 @@ void main() {
 
   testWidgets('Test Note/EpisodeNote SuperDAO', (WidgetTester tester) async {
     await tester.runAsync(() async {
-      MediaVideoEpisodeSuperEntity videoEpisodeSuperEntity =
+      MediaSeriesSuperEntity mediaSeriesSuperEntity = MediaSeriesSuperEntity(
+        name: 'name',
+        description: 'description',
+        linkImage: 'linkImage',
+        status: Status.goingThrough,
+        favorite: true,
+        genres: 'genres',
+        release: DateTime.now(),
+        xp: 23,
+      );
+
+      int seriesId = await serviceLocator<MediaSeriesSuperDao>()
+          .insertMediaSeriesSuperEntity(mediaSeriesSuperEntity);
+
+      expect(seriesId, 1);
+
+      Season season = Season(
+        number: 1,
+        seriesId: seriesId,
+      );
+
+      int seasonId = await serviceLocator<SeasonDao>().insertSeason(season);
+
+      MediaVideoEpisodeSuperEntity mediaVideoEpisodeSuperEntity =
           MediaVideoEpisodeSuperEntity(
         name: 'name',
         description: 'description',
@@ -361,12 +452,13 @@ void main() {
         xp: 23,
         duration: 23,
         number: 1,
+        seasonId: seasonId,
       );
 
       int id = await serviceLocator<MediaVideoEpisodeSuperDao>()
-          .insertMediaVideoEpisodeSuperEntity(videoEpisodeSuperEntity);
+          .insertMediaVideoEpisodeSuperEntity(mediaVideoEpisodeSuperEntity);
 
-      expect(id, 1);
+      expect(id, 2);
 
       Episode episode =
           (await serviceLocator<EpisodeDao>().findEpisodeById(id).first)!;
@@ -378,7 +470,7 @@ void main() {
               title: 'title',
               content: 'content',
               date: DateTime.now(),
-              episodeId: 1);
+              episodeId: id);
 
       int id3 = await serviceLocator<NoteEpisodeNoteSuperDao>()
           .insertNoteEpisodeNoteSuperEntity(noteEpisodeNoteSuperEntity);
@@ -389,7 +481,7 @@ void main() {
           .findEpisodeNoteById(id3)
           .first)!;
 
-      expect(episodeNote.episodeId, 1);
+      expect(episodeNote.episodeId, id);
     });
   });
 }

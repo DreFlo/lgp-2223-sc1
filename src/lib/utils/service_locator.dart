@@ -1,11 +1,10 @@
-import 'package:floor/floor.dart';
-import 'package:flutter/foundation.dart';
 import 'package:get_it/get_it.dart';
 import 'package:src/daos/media/media_video_movie_super_dao.dart';
 import 'package:src/daos/media/media_video_super_dao.dart';
+import 'package:src/daos/media/media_book_super_dao.dart';
+import 'package:src/daos/media/media_series_super_dao.dart';
 import 'package:src/daos/user_badge_dao.dart';
 import 'package:src/database/database.dart';
-import 'package:src/database/migrations.dart';
 
 import 'package:src/daos/student/evaluation_dao.dart';
 import 'package:src/daos/student/institution_dao.dart';
@@ -42,7 +41,6 @@ import 'package:src/daos/mood_dao.dart';
 import 'package:src/daos/user_dao.dart';
 
 import 'package:src/database/callbacks.dart';
-import 'package:src/models/media/media_video_movie_super_entity.dart';
 
 final GetIt serviceLocator = GetIt.instance;
 
@@ -164,5 +162,11 @@ Future<void> setup({bool testing = false}) async {
       dependsOn: [AppDatabase]);
   serviceLocator.registerSingletonWithDependencies<NoteEpisodeNoteSuperDao>(
       () => noteEpisodeNoteSuperDao,
+      dependsOn: [AppDatabase]);
+  serviceLocator.registerSingletonWithDependencies<MediaBookSuperDao>(
+      () => mediaBookSuperDao,
+      dependsOn: [AppDatabase]);
+  serviceLocator.registerSingletonWithDependencies<MediaSeriesSuperDao>(
+      () => mediaSeriesSuperDao,
       dependsOn: [AppDatabase]);
 }

@@ -1,9 +1,8 @@
-import 'package:src/models/media/episode.dart';
 import 'package:src/models/media/media.dart';
-import 'package:src/models/media/video.dart';
+import 'package:src/models/media/series.dart';
 import 'package:src/utils/enums.dart';
 
-class MediaVideoEpisodeSuperEntity {
+class MediaSeriesSuperEntity {
   final int? id;
   final String name;
   final String description;
@@ -13,26 +12,20 @@ class MediaVideoEpisodeSuperEntity {
   final String genres;
   final DateTime release;
   final int xp;
-  final int duration;
-  final int number;
-  final int seasonId;
 
-  MediaVideoEpisodeSuperEntity(
-      {this.id,
-      required this.name,
-      required this.description,
-      required this.linkImage,
-      required this.status,
-      required this.favorite,
-      required this.genres,
-      required this.release,
-      required this.xp,
-      required this.duration,
-      required this.number,
-      required this.seasonId});
+  MediaSeriesSuperEntity({
+    this.id,
+    required this.name,
+    required this.description,
+    required this.linkImage,
+    required this.status,
+    required this.favorite,
+    required this.genres,
+    required this.release,
+    required this.xp,
+  });
 
-  MediaVideoEpisodeSuperEntity.fromMediaAndVideoAndEpisode(
-      Media media, Video video, Episode episode)
+  MediaSeriesSuperEntity.fromMediaAndSeries(Media media, Series series)
       : id = media.id,
         name = media.name,
         description = media.description,
@@ -41,10 +34,7 @@ class MediaVideoEpisodeSuperEntity {
         favorite = media.favorite,
         genres = media.genres,
         release = media.release,
-        xp = media.xp,
-        duration = video.duration,
-        number = episode.number,
-        seasonId = episode.seasonId;
+        xp = media.xp;
 
   Media toMedia() {
     return Media(
@@ -60,22 +50,13 @@ class MediaVideoEpisodeSuperEntity {
     );
   }
 
-  Video toVideo() {
-    return Video(
+  Series toSeries() {
+    return Series(
       id: id!,
-      duration: duration,
     );
   }
 
-  Episode toEpisode() {
-    return Episode(
-      id: id!,
-      number: number,
-      seasonId: seasonId,
-    );
-  }
-
-  MediaVideoEpisodeSuperEntity copyWith({
+  MediaSeriesSuperEntity copyWith({
     int? id,
     String? name,
     String? description,
@@ -85,11 +66,8 @@ class MediaVideoEpisodeSuperEntity {
     String? genres,
     DateTime? release,
     int? xp,
-    int? duration,
-    int? number,
-    int? seasonId,
   }) {
-    return MediaVideoEpisodeSuperEntity(
+    return MediaSeriesSuperEntity(
       id: id ?? this.id,
       name: name ?? this.name,
       description: description ?? this.description,
@@ -99,9 +77,6 @@ class MediaVideoEpisodeSuperEntity {
       genres: genres ?? this.genres,
       release: release ?? this.release,
       xp: xp ?? this.xp,
-      duration: duration ?? this.duration,
-      number: number ?? this.number,
-      seasonId: seasonId ?? this.seasonId,
     );
   }
 }

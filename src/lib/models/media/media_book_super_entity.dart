@@ -1,9 +1,8 @@
-import 'package:src/models/media/episode.dart';
 import 'package:src/models/media/media.dart';
-import 'package:src/models/media/video.dart';
+import 'package:src/models/media/book.dart';
 import 'package:src/utils/enums.dart';
 
-class MediaVideoEpisodeSuperEntity {
+class MediaBookSuperEntity {
   final int? id;
   final String name;
   final String description;
@@ -13,26 +12,26 @@ class MediaVideoEpisodeSuperEntity {
   final String genres;
   final DateTime release;
   final int xp;
-  final int duration;
-  final int number;
-  final int seasonId;
+  final String authors;
+  final int totalPages;
+  final int? progressPages;
 
-  MediaVideoEpisodeSuperEntity(
-      {this.id,
-      required this.name,
-      required this.description,
-      required this.linkImage,
-      required this.status,
-      required this.favorite,
-      required this.genres,
-      required this.release,
-      required this.xp,
-      required this.duration,
-      required this.number,
-      required this.seasonId});
+  MediaBookSuperEntity({
+    this.id,
+    required this.name,
+    required this.description,
+    required this.linkImage,
+    required this.status,
+    required this.favorite,
+    required this.genres,
+    required this.release,
+    required this.xp,
+    required this.authors,
+    required this.totalPages,
+    this.progressPages = 0,
+  });
 
-  MediaVideoEpisodeSuperEntity.fromMediaAndVideoAndEpisode(
-      Media media, Video video, Episode episode)
+  MediaBookSuperEntity.fromMediaAndBook(Media media, Book book)
       : id = media.id,
         name = media.name,
         description = media.description,
@@ -42,9 +41,9 @@ class MediaVideoEpisodeSuperEntity {
         genres = media.genres,
         release = media.release,
         xp = media.xp,
-        duration = video.duration,
-        number = episode.number,
-        seasonId = episode.seasonId;
+        authors = book.authors,
+        totalPages = book.totalPages,
+        progressPages = book.progressPages;
 
   Media toMedia() {
     return Media(
@@ -60,22 +59,16 @@ class MediaVideoEpisodeSuperEntity {
     );
   }
 
-  Video toVideo() {
-    return Video(
+  Book toBook() {
+    return Book(
       id: id!,
-      duration: duration,
+      authors: authors,
+      totalPages: totalPages,
+      progressPages: progressPages,
     );
   }
 
-  Episode toEpisode() {
-    return Episode(
-      id: id!,
-      number: number,
-      seasonId: seasonId,
-    );
-  }
-
-  MediaVideoEpisodeSuperEntity copyWith({
+  MediaBookSuperEntity copyWith({
     int? id,
     String? name,
     String? description,
@@ -85,11 +78,11 @@ class MediaVideoEpisodeSuperEntity {
     String? genres,
     DateTime? release,
     int? xp,
-    int? duration,
-    int? number,
-    int? seasonId,
+    String? authors,
+    int? totalPages,
+    int? progressPages,
   }) {
-    return MediaVideoEpisodeSuperEntity(
+    return MediaBookSuperEntity(
       id: id ?? this.id,
       name: name ?? this.name,
       description: description ?? this.description,
@@ -99,9 +92,9 @@ class MediaVideoEpisodeSuperEntity {
       genres: genres ?? this.genres,
       release: release ?? this.release,
       xp: xp ?? this.xp,
-      duration: duration ?? this.duration,
-      number: number ?? this.number,
-      seasonId: seasonId ?? this.seasonId,
+      authors: authors ?? this.authors,
+      totalPages: totalPages ?? this.totalPages,
+      progressPages: progressPages ?? this.progressPages,
     );
   }
 }

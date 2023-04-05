@@ -6,6 +6,8 @@ import 'package:src/daos/notes/note_book_note_super_dao.dart';
 import 'package:src/daos/notes/note_subject_note_super_dao.dart';
 import 'package:src/daos/notes/note_task_note_super_dao.dart';
 import 'package:src/daos/notes/note_episode_note_super_dao.dart';
+import 'package:src/daos/media/media_book_super_dao.dart';
+import 'package:src/daos/media/media_series_super_dao.dart';
 
 import 'package:src/daos/student/evaluation_dao.dart';
 import 'package:src/daos/student/institution_dao.dart';
@@ -72,6 +74,8 @@ import 'service_locator_test_util.mocks.dart';
   NoteSubjectNoteSuperDao,
   NoteTaskNoteSuperDao,
   NoteEpisodeNoteSuperDao,
+  MediaBookSuperDao,
+  MediaSeriesSuperDao,
 ])
 void setupMockServiceLocatorUnitTests() {
   serviceLocator
@@ -169,5 +173,11 @@ void setupMockServiceLocatorUnitTests() {
       dependsOn: [AppDatabase]);
   serviceLocator.registerSingletonWithDependencies<NoteEpisodeNoteSuperDao>(
       () => MockNoteEpisodeNoteSuperDao(),
+      dependsOn: [AppDatabase]);
+  serviceLocator.registerSingletonWithDependencies<MediaBookSuperDao>(
+      () => MockMediaBookSuperDao(),
+      dependsOn: [AppDatabase]);
+  serviceLocator.registerSingletonWithDependencies<MediaSeriesSuperDao>(
+      () => MockMediaSeriesSuperDao(),
       dependsOn: [AppDatabase]);
 }
