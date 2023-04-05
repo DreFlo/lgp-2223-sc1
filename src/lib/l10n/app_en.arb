@@ -41,5 +41,6 @@
   "what_page": "Which range of pages do you want to comment?",
   "finished_book": "I'm finished, actually!",
   "add_general_note_callout": "Your secret is safe with us!",
-  "add_note": "Add Note"
+  "add_note": "Add Note",
+  "task": "Task"
 }
