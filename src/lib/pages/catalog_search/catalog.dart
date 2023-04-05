@@ -218,7 +218,15 @@ class Catalog extends StatelessWidget {
                             Padding(
                               padding: EdgeInsets.only(right: 10 * fem),
                               child: TextButton(
-                                onPressed: () {},
+                                 onPressed: () {
+                                  Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                  builder: (context) => SeeAll(
+                                        title: 'All TV Shows',
+                                        media: trendingTvshows
+                            )));
+                                },
                                 child: const Text(
                                   'See All',
                                   style: TextStyle(
@@ -276,7 +284,15 @@ class Catalog extends StatelessWidget {
                             Padding(
                               padding: EdgeInsets.only(right: 10 * fem),
                               child: TextButton(
-                                onPressed: () {},
+                                 onPressed: () {
+                                  Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                  builder: (context) => SeeAll(
+                                        title: 'All Books',
+                                        media: books
+                            )));
+                                },
                                 child: const Text(
                                   'See All',
                                   style: TextStyle(

@@ -17,7 +17,6 @@ class Media extends StatelessWidget {
           borderRadius: BorderRadius.circular(10.0),
           child: Image.network(
             'https://image.tmdb.org/t/p/w500$image',
-            //'https://image.tmdb.org/t/p/w500' + image,
             fit: BoxFit.cover,
           ),
         ),

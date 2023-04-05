@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'Media.dart';
+import 'Book.dart';
 
 class SeeAll extends StatelessWidget {
   final List media;
   final String title;
 
-  const SeeAll({Key? key, required this.title, required this.media}) : super(key: key);
+  const SeeAll({Key? key, required this.title, required this.media})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -13,7 +15,7 @@ class SeeAll extends StatelessWidget {
     double fem = MediaQuery.of(context).size.width / baseWidth;
     return Scaffold(
       body: Column(
-        crossAxisAlignment: CrossAxisAlignment.start, 
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Padding(
             padding: EdgeInsets.fromLTRB(10 * fem, 50 * fem, 0, 0),
@@ -73,27 +75,33 @@ class SeeAll extends StatelessWidget {
               ),
             ),
           ),
-
           Expanded(
             child: Padding(
-            padding: EdgeInsets.fromLTRB(40 * fem, 22 * fem, 0, 0),
-            child:
-            SingleChildScrollView(
-              child: Wrap(
-                spacing: 10.0 * fem,
-                runSpacing: 22.0 * fem,
-                children: List.generate(media.length, (index) {
-                  return SizedBox(
-                    width: 100.0 * fem,
-                    height: 150.0 * fem,
-                    child: Media(image: media[index]['poster_path']),
-                  );
-                }),
-              ),
-            )),
+                padding: EdgeInsets.fromLTRB(40 * fem, 22 * fem, 0, 0),
+                child: SingleChildScrollView(
+                  child: Wrap(
+                    spacing: 10.0 * fem,
+                    runSpacing: 22.0 * fem,
+                    children: List.generate(media.length, (index) {
+                      return SizedBox(
+                        width: 100.0 * fem,
+                        height: 150.0 * fem,
+                        child: showWidget(index),
+                      );
+                    }),
+                  ),
+                )),
           ),
         ],
       ),
     );
+  }
+
+  showWidget(int index) {
+    if (title == 'All Books') {
+      return Book(image: media[index].info.imageLinks['thumbnail'].toString());
+    } else {
+      return Media(image: media[index]['poster_path']);
+    }
   }
 }
