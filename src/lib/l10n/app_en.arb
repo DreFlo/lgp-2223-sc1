@@ -42,5 +42,19 @@
   "finished_book": "I'm finished, actually!",
   "add_general_note_callout": "Your secret is safe with us!",
   "add_note": "Add Note",
-  "task": "Task"
+  "task": "Task",
+  "module_choose": "Choose the module.",
+  "student": "Student",
+  "personal": "Personal",
+  "leisure": "Leisure",
+  "fitness": "Fitness",
+  "priority": "Priority",
+  "low": "Low",
+  "medium": "Medium",
+  "high": "High",
+  "due_date": "Due Date",
+  "project": "Project",
+  "institution": "Institution",
+  "subject": "Subject",
+  "description": "Description"
 }
