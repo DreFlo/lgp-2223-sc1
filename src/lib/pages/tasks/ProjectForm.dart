@@ -423,7 +423,7 @@ class _ProjectFormState extends State<ProjectForm> {
                   showModalBottomSheet(
                       context: context,
                       isScrollControlled: true,
-                      backgroundColor: Color(0xFF22252D),
+                      backgroundColor: const Color(0xFF22252D),
                       shape: const RoundedRectangleBorder(
                         borderRadius:
                             BorderRadius.vertical(top: Radius.circular(30.0)),
