@@ -25,7 +25,8 @@ class MediaVideoEpisodeSuperDao {
 
     int mediaId = await serviceLocator<MediaDao>().insertMedia(media);
 
-    final mediaVideoSuperEntityWithId = mediaVideoEpisodeSuperEntity.copyWith(id: mediaId);
+    final mediaVideoSuperEntityWithId =
+        mediaVideoEpisodeSuperEntity.copyWith(id: mediaId);
 
     final video = mediaVideoSuperEntityWithId.toVideo();
 
@@ -76,7 +77,6 @@ class MediaVideoEpisodeSuperDao {
     final media = mediaVideoEpisodeSuperEntity.toMedia();
 
     await serviceLocator<MediaDao>().deleteMedia(media);
-
   }
 }
 

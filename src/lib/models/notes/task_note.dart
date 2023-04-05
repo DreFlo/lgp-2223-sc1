@@ -17,7 +17,7 @@ import 'package:src/models/student/task.dart';
     ),
   ],
 )
-class TaskNote  {
+class TaskNote {
   @PrimaryKey()
   final int id;
 

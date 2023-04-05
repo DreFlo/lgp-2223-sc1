@@ -4,8 +4,8 @@ import 'package:src/models/notes/note_book_note_super_entity.dart';
 import 'package:src/utils/service_locator.dart';
 
 class NoteBookNoteSuperDao {
-
-  static final NoteBookNoteSuperDao _singleton = NoteBookNoteSuperDao._internal();
+  static final NoteBookNoteSuperDao _singleton =
+      NoteBookNoteSuperDao._internal();
 
   factory NoteBookNoteSuperDao() {
     return _singleton;
@@ -15,7 +15,7 @@ class NoteBookNoteSuperDao {
 
   Future<int> insertNoteBookNoteSuperEntity(
     NoteBookNoteSuperEntity noteBookNoteSuperEntity,
-    ) async {
+  ) async {
     if (noteBookNoteSuperEntity.id != null) {
       return -1;
     }
@@ -24,7 +24,8 @@ class NoteBookNoteSuperDao {
 
     int noteId = await serviceLocator<NoteDao>().insertNote(note);
 
-    final noteBookNoteSuperEntityWithId = noteBookNoteSuperEntity.copyWith(id: noteId);
+    final noteBookNoteSuperEntityWithId =
+        noteBookNoteSuperEntity.copyWith(id: noteId);
 
     final bookNote = noteBookNoteSuperEntityWithId.toBookNote();
 
@@ -35,7 +36,7 @@ class NoteBookNoteSuperDao {
 
   Future<void> updateNoteBookNoteSuperEntity(
     NoteBookNoteSuperEntity noteBookNoteSuperEntity,
-    ) async {
+  ) async {
     if (noteBookNoteSuperEntity.id == null) {
       return;
     }
@@ -51,7 +52,7 @@ class NoteBookNoteSuperDao {
 
   Future<void> deleteNoteBookNoteSuperEntity(
     NoteBookNoteSuperEntity noteBookNoteSuperEntity,
-    ) async {
+  ) async {
     if (noteBookNoteSuperEntity.id == null) {
       return;
     }

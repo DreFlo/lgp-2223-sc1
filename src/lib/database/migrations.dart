@@ -109,7 +109,7 @@ final migration4to5 = Migration(4, 5, (database) async {
   // Review new
   await database.execute(
       'CREATE TABLE IF NOT EXISTS `review_new` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `start_date` INTEGER NOT NULL, `end_date` INTEGER NOT NULL, `review` TEXT NOT NULL, `emoji` INTEGER NOT NULL, `media_id` INTEGER NOT NULL, FOREIGN KEY (`media_id`) REFERENCES `media` (`id`) ON UPDATE NO ACTION ON DELETE NO ACTION)');
-      
+
   await database.execute('INSERT INTO `review_new` SELECT * FROM `review`');
   //drop table review
   await database.execute('DROP TABLE `review`');
@@ -155,11 +155,10 @@ final migration4to5 = Migration(4, 5, (database) async {
 
   // media new
   await database.execute(
-    'CREATE TABLE IF NOT EXISTS `media` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `name` TEXT NOT NULL, `description` TEXT NOT NULL, `link_image` TEXT NOT NULL, `status` INTEGER NOT NULL, `favorite` INTEGER NOT NULL, `genres` TEXT NOT NULL, `release` INTEGER NOT NULL, `xp` INTEGER NOT NULL)');
+      'CREATE TABLE IF NOT EXISTS `media` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `name` TEXT NOT NULL, `description` TEXT NOT NULL, `link_image` TEXT NOT NULL, `status` INTEGER NOT NULL, `favorite` INTEGER NOT NULL, `genres` TEXT NOT NULL, `release` INTEGER NOT NULL, `xp` INTEGER NOT NULL)');
   await database.execute('INSERT INTO `media` SELECT * FROM `media`');
   await database.execute('DROP TABLE `media`');
   await database.execute('ALTER TABLE `media_new` RENAME TO `media`');
-
 
   /*await database.execute('ALTER TABLE `task` ADD COLUMN `xp` INT');
 

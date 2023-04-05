@@ -13,7 +13,6 @@ final addConstraintsCallback = Callback(
     await database.execute('PRAGMA foreign_keys = OFF');
     //await database.execute('BEGIN TRANSACTION');
 
-
     await database.execute('''
     CREATE TRIGGER timeslot_date
     BEFORE INSERT ON timeslot
@@ -25,7 +24,6 @@ final addConstraintsCallback = Callback(
       END;
     END;
   ''');
-
 
     await database.execute('''
     CREATE TRIGGER student_timeslot_date
@@ -64,7 +62,6 @@ final addConstraintsCallback = Callback(
       END;
     END;
   ''');
-  
 
     await database.execute('''
     CREATE TRIGGER evaluation_sum_weight
@@ -81,7 +78,6 @@ final addConstraintsCallback = Callback(
       END;
     END;
   ''');
-  
 
     await database.execute('''
     CREATE TRIGGER subject_weight_average
@@ -117,7 +113,6 @@ final addConstraintsCallback = Callback(
       END;
     END;
   ''');
-  
 
     await database.execute('''
     CREATE TRIGGER season_number
@@ -130,7 +125,6 @@ final addConstraintsCallback = Callback(
       END;
     END;
   ''');
-
 
     await database.execute('''
     CREATE TRIGGER book_note_pages
@@ -145,7 +139,6 @@ final addConstraintsCallback = Callback(
       END;
     END;
   ''');
-
 
     await database.execute('''
     CREATE TRIGGER book_pages
@@ -173,7 +166,6 @@ final addConstraintsCallback = Callback(
     END;
   ''');
 
-
     await database.execute('''
     CREATE TRIGGER review_date
     BEFORE INSERT ON review
@@ -185,7 +177,6 @@ final addConstraintsCallback = Callback(
       END;
     END;
   ''');
-
 
     //await database.execute('COMMIT');
     await database.execute('PRAGMA foreign_keys = ON');

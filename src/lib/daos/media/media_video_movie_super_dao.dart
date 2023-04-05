@@ -5,7 +5,8 @@ import 'package:src/models/media/media_video_movie_super_entity.dart';
 import 'package:src/utils/service_locator.dart';
 
 class MediaVideoMovieSuperDao {
-  static final MediaVideoMovieSuperDao _singleton = MediaVideoMovieSuperDao._internal();
+  static final MediaVideoMovieSuperDao _singleton =
+      MediaVideoMovieSuperDao._internal();
 
   factory MediaVideoMovieSuperDao() {
     return _singleton;
@@ -14,8 +15,8 @@ class MediaVideoMovieSuperDao {
   MediaVideoMovieSuperDao._internal();
 
   Future<int> insertMediaVideoMovieSuperEntity(
-      MediaVideoMovieSuperEntity mediaVideoMovieSuperEntity,
-      ) async {
+    MediaVideoMovieSuperEntity mediaVideoMovieSuperEntity,
+  ) async {
     if (mediaVideoMovieSuperEntity.id != null) {
       // TODO Maybe throw an exception
       // Id is useful in the super entity, but can't be used in insert
@@ -26,7 +27,8 @@ class MediaVideoMovieSuperDao {
 
     int mediaId = await serviceLocator<MediaDao>().insertMedia(media);
 
-    final mediaVideoSuperEntityWithId = mediaVideoMovieSuperEntity.copyWith(id: mediaId);
+    final mediaVideoSuperEntityWithId =
+        mediaVideoMovieSuperEntity.copyWith(id: mediaId);
 
     final video = mediaVideoSuperEntityWithId.toVideo();
 
@@ -40,8 +42,8 @@ class MediaVideoMovieSuperDao {
   }
 
   Future<void> updateMediaVideoMovieSuperEntity(
-      MediaVideoMovieSuperEntity mediaVideoMovieSuperEntity,
-      ) async {
+    MediaVideoMovieSuperEntity mediaVideoMovieSuperEntity,
+  ) async {
     if (mediaVideoMovieSuperEntity.id == null) {
       // TODO Maybe throw an exception
       return;
@@ -61,8 +63,8 @@ class MediaVideoMovieSuperDao {
   }
 
   Future<void> deleteMediaVideoMovieSuperEntity(
-      MediaVideoMovieSuperEntity mediaVideoMovieSuperEntity,
-      ) async {
+    MediaVideoMovieSuperEntity mediaVideoMovieSuperEntity,
+  ) async {
     if (mediaVideoMovieSuperEntity.id == null) {
       // TODO Maybe throw an exception
       return;

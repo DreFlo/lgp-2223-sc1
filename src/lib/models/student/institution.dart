@@ -28,12 +28,11 @@ class Institution {
   @ColumnInfo(name: 'user_id')
   final int userId;
 
-  Institution({
-    this.id,
-    required this.name,
-    required this.picture,
-    required this.type,
-    required this.acronym,
-    required this.userId
-  });
+  Institution(
+      {this.id,
+      required this.name,
+      required this.picture,
+      required this.type,
+      required this.acronym,
+      required this.userId});
 }

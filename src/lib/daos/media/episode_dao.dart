@@ -20,7 +20,7 @@ abstract class EpisodeDao {
 
   @update
   Future<void> updateEpisodes(List<Episode> episodes);
-  
+
   @delete
   Future<void> deleteEpisode(Episode episode);
 }

@@ -4,23 +4,20 @@ import 'package:src/models/student/task.dart';
 import 'package:src/models/student/evaluation.dart';
 import 'package:src/utils/enums.dart';
 
-@Entity(
-  tableName: 'student_timeslot',
-  foreignKeys: [
-    ForeignKey(
-      childColumns: ['task_id'], 
-      parentColumns: ['id'], 
+@Entity(tableName: 'student_timeslot', foreignKeys: [
+  ForeignKey(
+      childColumns: ['task_id'],
+      parentColumns: ['id'],
       entity: Task,
       onDelete: ForeignKeyAction.cascade,
       onUpdate: ForeignKeyAction.restrict),
-      ForeignKey(
-      childColumns: ['evaluation_id'], 
-      parentColumns: ['id'], 
+  ForeignKey(
+      childColumns: ['evaluation_id'],
+      parentColumns: ['id'],
       entity: StudentEvaluation,
       onDelete: ForeignKeyAction.cascade,
       onUpdate: ForeignKeyAction.restrict)
-  ]
-)
+])
 class StudentTimeslot extends Timeslot {
   @ColumnInfo(name: 'task_id')
   final int? taskId;

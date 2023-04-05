@@ -4,8 +4,8 @@ import 'package:src/models/notes/note_episode_note_super_entity.dart';
 import 'package:src/utils/service_locator.dart';
 
 class NoteEpisodeNoteSuperDao {
-
-  static final NoteEpisodeNoteSuperDao _singleton = NoteEpisodeNoteSuperDao._internal();
+  static final NoteEpisodeNoteSuperDao _singleton =
+      NoteEpisodeNoteSuperDao._internal();
 
   factory NoteEpisodeNoteSuperDao() {
     return _singleton;
@@ -15,7 +15,7 @@ class NoteEpisodeNoteSuperDao {
 
   Future<int> insertNoteEpisodeNoteSuperEntity(
     NoteEpisodeNoteSuperEntity noteEpisodeNoteSuperEntity,
-    ) async {
+  ) async {
     if (noteEpisodeNoteSuperEntity.id != null) {
       return -1;
     }
@@ -24,7 +24,8 @@ class NoteEpisodeNoteSuperDao {
 
     int noteId = await serviceLocator<NoteDao>().insertNote(note);
 
-    final noteEpisodeNoteSuperEntityWithId = noteEpisodeNoteSuperEntity.copyWith(id: noteId);
+    final noteEpisodeNoteSuperEntityWithId =
+        noteEpisodeNoteSuperEntity.copyWith(id: noteId);
 
     final episodeNote = noteEpisodeNoteSuperEntityWithId.toEpisodeNote();
 
@@ -35,7 +36,7 @@ class NoteEpisodeNoteSuperDao {
 
   Future<void> updateNoteEpisodeNoteSuperEntity(
     NoteEpisodeNoteSuperEntity noteEpisodeNoteSuperEntity,
-    ) async {
+  ) async {
     if (noteEpisodeNoteSuperEntity.id == null) {
       return;
     }
@@ -51,7 +52,7 @@ class NoteEpisodeNoteSuperDao {
 
   Future<void> deleteNoteEpisodeNoteSuperEntity(
     NoteEpisodeNoteSuperEntity noteEpisodeNoteSuperEntity,
-    ) async {
+  ) async {
     if (noteEpisodeNoteSuperEntity.id == null) {
       return;
     }

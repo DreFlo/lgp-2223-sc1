@@ -28,7 +28,7 @@ class NoteBookNoteSuperEntity {
         startPage = bookNote.startPage,
         endPage = bookNote.endPage,
         bookId = bookNote.bookId;
-  
+
   Note toNote() {
     return Note(
       id: id,
