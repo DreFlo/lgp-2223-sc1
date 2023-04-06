@@ -11,13 +11,13 @@ class Books extends StatelessWidget {
     if (search == '') {
       return await queryBooks(
         'batman',
-        maxResults: 40,
+        maxResults: 39, //max possible is 40 -> since we do 3 per row, I'm gonna ask the api for 39 items instead of 40
         printType: PrintType.books,
         orderBy: OrderBy.relevance,
       );
     } else {
       return await queryBooks(search,
-          maxResults: 40,
+          maxResults: 39,
           printType: PrintType.books,
           orderBy: OrderBy.relevance);
     }

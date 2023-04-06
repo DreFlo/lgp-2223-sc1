@@ -19,6 +19,7 @@ class Catalog extends StatelessWidget {
   Widget build(BuildContext context) {
     double baseWidth = 390;
     double fem = MediaQuery.of(context).size.width / baseWidth;
+    int listLength = (trendingMovies.length/2).round();
     return Scaffold(
         body: ListView(
             shrinkWrap: true,
@@ -78,7 +79,7 @@ class Catalog extends StatelessWidget {
                       child: ListView.builder(
                         padding: EdgeInsets.only(left: 15 * fem),
                         scrollDirection: Axis.horizontal,
-                        itemCount: 20, //will be dependent on database size
+                        itemCount: listLength, //will be dependent on database size
                         itemBuilder: (context, index) {
                           return InkWell(
                             onTap: () {},
@@ -147,7 +148,7 @@ class Catalog extends StatelessWidget {
                       child: ListView.builder(
                         padding: EdgeInsets.only(left: 15 * fem),
                         scrollDirection: Axis.horizontal,
-                        itemCount: 20,
+                        itemCount: listLength,
                         itemBuilder: (context, index) {
                           return InkWell(
                             onTap: () {},
@@ -216,7 +217,7 @@ class Catalog extends StatelessWidget {
                       child: ListView.builder(
                         padding: EdgeInsets.only(left: 15 * fem),
                         scrollDirection: Axis.horizontal,
-                        itemCount: 20,
+                        itemCount: listLength,
                         itemBuilder: (context, index) {
                           return InkWell(
                             onTap: () {},
