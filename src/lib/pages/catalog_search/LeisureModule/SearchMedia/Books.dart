@@ -1,3 +1,5 @@
+// ignore_for_file: file_names
+
 import 'package:flutter/material.dart';
 import 'package:books_finder/books_finder.dart';
 import 'package:src/pages/catalog_search/ListMedia.dart';

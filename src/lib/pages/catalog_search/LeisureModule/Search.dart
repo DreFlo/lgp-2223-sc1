@@ -1,3 +1,4 @@
+// ignore_for_file: file_names
 import 'package:flutter/material.dart';
 import 'SearchMedia/Books.dart';
 import 'SearchMedia/Movies.dart';
@@ -54,7 +55,7 @@ class _SearchMediaState extends State<SearchMedia>
             padding: EdgeInsets.only(top: 22 * fem),
             child: TabBar(
               controller: tabController,
-              tabs: [
+              tabs: const [
                 Tab(
                   text: 'Movies',
                 ),

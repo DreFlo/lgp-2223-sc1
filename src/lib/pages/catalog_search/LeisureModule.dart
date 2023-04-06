@@ -1,3 +1,5 @@
+// ignore_for_file: file_names
+
 import 'package:flutter/material.dart';
 import 'LeisureModule/Search.dart';
 import 'LeisureModule/Catalog.dart';
@@ -40,7 +42,6 @@ class _LeisureModuleState extends State<LeisureModule>
     setState(() {
       searchText = text;
     });
-    print('Search text: $text');
   }
 
   @override
@@ -80,7 +81,7 @@ class _LeisureModuleState extends State<LeisureModule>
               padding: EdgeInsets.only(top: 22 * fem),
               child: TabBar(
                 controller: tabController,
-                tabs: [
+                tabs: const [
                   Tab(
                     text: 'My Media',
                   ),

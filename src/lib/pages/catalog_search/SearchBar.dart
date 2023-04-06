@@ -1,3 +1,4 @@
+// ignore_for_file: file_names
 import 'package:flutter/material.dart';
 
 class SearchBar extends StatefulWidget {
@@ -44,7 +45,7 @@ class _SearchBarState extends State<SearchBar> {
                     controller: _searchTextController,
                     onSubmitted: (text) => widget.onSearch(text),
                     textAlignVertical: TextAlignVertical.center,
-                    style: TextStyle(
+                    style: const TextStyle(
                       color: Colors.black,
                       fontFamily: 'Poppins',
                       fontSize: 16,
