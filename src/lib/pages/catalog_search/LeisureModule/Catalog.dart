@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:src/pages/catalog_search/SeeAll.dart';
 import '../Media.dart';
-import '../Book.dart';
 
 class Catalog extends StatelessWidget {
   final List trendingMovies;
@@ -90,6 +89,7 @@ class Catalog extends StatelessWidget {
                                   Media(
                                     image: trendingMovies[index]
                                         ['poster_path'],
+                                    type: 'video'
                                   ),
                                 ],
                               ),
@@ -159,6 +159,7 @@ class Catalog extends StatelessWidget {
                                   Media(
                                     image: trendingTvshows[index]
                                         ['poster_path'],
+                                    type: 'video'
                                   ),
                                 ],
                               ),
@@ -225,8 +226,9 @@ class Catalog extends StatelessWidget {
                               width: 140 * fem,
                               child: Column(
                                 children: [
-                                   Book(
+                                   Media(
                                     image: books[index].info.imageLinks['thumbnail'].toString(),
+                                    type: 'book'
                                   ),
                                 ],
                               ),

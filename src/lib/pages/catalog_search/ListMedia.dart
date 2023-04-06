@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'Media.dart';
-import 'Book.dart';
 
 class ListMedia extends StatelessWidget {
   final List media;
@@ -39,11 +38,11 @@ class ListMedia extends StatelessWidget {
   showWidget(dynamic item) {
     if (title == 'All Books') {
       if (item.info.imageLinks['thumbnail'] != null) {
-        return Book(image: item.info.imageLinks['thumbnail'].toString());
+        return Media(image: item.info.imageLinks['thumbnail'].toString(), type:'book');
       }
     } else {
       if (item['poster_path'] != null) {
-        return Media(image: item['poster_path']);
+        return Media(image: item['poster_path'], type:'video');
       }
     }
   }
