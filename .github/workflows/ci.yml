@@ -47,6 +47,12 @@ jobs:
       # Run unit tests
       - name: Run unit tests
         run: flutter test --coverage --no-pub
+      # Activate remove_from_coverage
+      - name: Activate remove from coverage
+        run: flutter pub global activate remove_from_coverage
+      # Remove .g.dart files from lcov coverage file
+      - name: Remove .g.dart from coverage file
+        run: flutter pub global run remove_from_coverage:remove_from_coverage -f coverage/lcov.info -r '\.g\.dart$'
       - name: Upload code coverage artifact
         uses: actions/upload-artifact@v3
         with:

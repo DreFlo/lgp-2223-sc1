@@ -39,5 +39,16 @@
   "add_note_callout": "Oh, so you have something to say!",
   "progress_callout": "You made\nprogress!",
   "what_page": "Which range of pages do you want to comment?",
-  "finished_book": "I'm finished, actually!"
+  "finished_book": "I'm finished, actually!",
+  "movies": "Movies",
+  "tv_shows": "TV Shows",
+  "media": "Media",
+  "books": "Books",
+  "all_movies": "All Movies",
+  "all_books": "All Books",
+  "all_tv_shows": "All TV Shows",
+  "my_media": "My Media",
+  "discover": "Discover",
+  "see_all": "See All",
+  "search": "Search"
 }
