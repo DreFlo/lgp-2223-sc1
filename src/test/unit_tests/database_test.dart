@@ -54,31 +54,13 @@ import 'package:src/models/student/subject.dart';
 import 'package:src/daos/student/subject_dao.dart';
 import 'package:src/daos/student/institution_dao.dart';
 import 'package:src/models/student/institution.dart';
-import 'package:src/daos/media/season_dao.dart';
-import 'package:src/models/media/season.dart';
 import 'package:src/daos/media/series_dao.dart';
 import 'package:src/models/media/series.dart';
 import 'package:src/utils/enums.dart';
-import 'package:src/models/media/video.dart';
-import 'package:src/daos/media/video_dao.dart';
-import 'package:src/models/media/episode.dart';
-import 'package:src/daos/media/episode_dao.dart';
-import 'package:src/models/media/book.dart';
-import 'package:src/daos/media/book_dao.dart';
 import 'package:src/models/media/review.dart';
 import 'package:src/daos/media/review_dao.dart';
-import 'package:src/models/notes/book_note.dart';
-import 'package:src/daos/notes/book_note_dao.dart';
-import 'package:src/models/student/subject.dart';
-import 'package:src/daos/student/subject_dao.dart';
-import 'package:src/models/student/institution.dart';
-import 'package:src/daos/student/institution_dao.dart';
 import 'package:src/models/student/evaluation.dart';
 import 'package:src/daos/student/evaluation_dao.dart';
-import 'package:src/models/student/task.dart';
-import 'package:src/daos/student/task_dao.dart';
-import 'package:src/models/student/task_group.dart';
-import 'package:src/daos/student/task_group_dao.dart';
 import 'package:src/models/timeslot/timeslot.dart';
 import 'package:src/daos/timeslot/timeslot_dao.dart';
 import 'package:src/models/timeslot/media_timeslot.dart';
@@ -497,10 +479,10 @@ void main() {
 
   testWidgets('Test SuperDAO for Timeslot/MediaTimeslot',
       (WidgetTester tester) async {
-    await serviceLocator<UserDao>()
-        .insertUser(User(userName: 'Emil', password: '1234', xp: 23));
-
     await tester.runAsync(() async {
+      await serviceLocator<UserDao>()
+          .insertUser(User(userName: 'Emil', password: '1234', xp: 23));
+
       int seriesId = await serviceLocator<MediaDao>().insertMedia(Media(
         name: 'name',
         description: 'description',
@@ -530,59 +512,74 @@ void main() {
               timeslotMediaTimeslotSuperEntity);
 
       expect(id, 1);
+
+      MediaTimeslot mediaTimeslot = (await serviceLocator<MediaTimeslotDao>()
+          .findMediaTimeslotById(id)
+          .first)!;
+
+      expect(mediaTimeslot.mediaId, List<int>.of([id]));
     });
   });
 
   testWidgets('Test SuperDAO for Timeslot/StudentTimeslot',
       (WidgetTester tester) async {
-    await serviceLocator<UserDao>()
-        .insertUser(User(userName: 'Emil', password: '1234', xp: 23));
+    await tester.runAsync(() async {
+      await serviceLocator<UserDao>()
+          .insertUser(User(userName: 'Emil', password: '1234', xp: 23));
 
-    await serviceLocator<InstitutionDao>().insertInstitution(Institution(
+      await serviceLocator<InstitutionDao>().insertInstitution(Institution(
+          name: 'name',
+          picture: 'picture',
+          type: InstitutionType.education,
+          acronym: 'I',
+          userId: 1));
+
+      await serviceLocator<SubjectDao>().insertSubject(Subject(
         name: 'name',
-        picture: 'picture',
-        type: InstitutionType.education,
-        acronym: 'I',
-        userId: 1));
+        weightAverage: 1.0,
+        institutionId: 1,
+      ));
 
-    await serviceLocator<SubjectDao>().insertSubject(Subject(
-      name: 'name',
-      weightAverage: 1.0,
-      institutionId: 1,
-    ));
-
-    await serviceLocator<TaskGroupDao>().insertTaskGroup(TaskGroup(
-      name: 'name',
-      description: 'description',
-      priority: _enums.Priority.high,
-      deadline: DateTime.now(),
-    ));
-
-    await serviceLocator<TaskDao>().insertTask(Task(
+      await serviceLocator<TaskGroupDao>().insertTaskGroup(TaskGroup(
         name: 'name',
         description: 'description',
         priority: _enums.Priority.high,
-        deadline: DateTime.now().subtract(const Duration(days: 1)),
-        taskGroupId: 1,
-        subjectId: 1,
-        xp: 20));
+        deadline: DateTime.now(),
+      ));
 
-    TimeslotStudentTimeslotSuperEntity timeslotStudentTimeslotSuperEntity =
-        TimeslotStudentTimeslotSuperEntity(
-            title: 'timeslot 1',
-            description: 'description 1',
-            startDateTime: DateTime.now(),
-            endDateTime: DateTime.now().add(const Duration(days: 1)),
-            priority: _enums.Priority.high,
-            xpMultiplier: 2,
-            userId: 1,
-            taskId: List.of([1]));
+      await serviceLocator<TaskDao>().insertTask(Task(
+          name: 'name',
+          description: 'description',
+          priority: _enums.Priority.high,
+          deadline: DateTime.now().subtract(const Duration(days: 1)),
+          taskGroupId: 1,
+          subjectId: 1,
+          xp: 20));
 
-    int id = await serviceLocator<TimeslotStudentTimeslotSuperDao>()
-        .insertTimeslotStudentTimeslotSuperEntity(
-            timeslotStudentTimeslotSuperEntity);
+      TimeslotStudentTimeslotSuperEntity timeslotStudentTimeslotSuperEntity =
+          TimeslotStudentTimeslotSuperEntity(
+              title: 'timeslot 1',
+              description: 'description 1',
+              startDateTime: DateTime.now(),
+              endDateTime: DateTime.now().add(const Duration(days: 1)),
+              priority: _enums.Priority.high,
+              xpMultiplier: 2,
+              userId: 1,
+              taskId: List.of([1]));
 
-    expect(id, 1);
+      int id = await serviceLocator<TimeslotStudentTimeslotSuperDao>()
+          .insertTimeslotStudentTimeslotSuperEntity(
+              timeslotStudentTimeslotSuperEntity);
+
+      expect(id, 1);
+
+      StudentTimeslot studentTimeslot =
+          (await serviceLocator<StudentTimeslotDao>()
+              .findStudentTimeslotById(id)
+              .first)!;
+
+      expect(studentTimeslot.taskId, List<int>.of([id]));
+    });
   });
 
 // ---------------------------- TRIGGER TESTS ----------------------------

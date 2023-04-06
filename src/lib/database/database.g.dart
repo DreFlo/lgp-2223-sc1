@@ -2504,14 +2504,15 @@ class _$MediaTimeslotDao extends MediaTimeslotDao {
   _$MediaTimeslotDao(
     this.database,
     this.changeListener,
-  )   : _queryAdapter = QueryAdapter(database),
+  )   : _queryAdapter = QueryAdapter(database, changeListener),
         _mediaTimeslotInsertionAdapter = InsertionAdapter(
             database,
             'media_timeslot',
             (MediaTimeslot item) => <String, Object?>{
                   'id': item.id,
                   'media_id': _listConverter.encode(item.mediaId)
-                }),
+                },
+            changeListener),
         _mediaTimeslotUpdateAdapter = UpdateAdapter(
             database,
             'media_timeslot',
@@ -2519,7 +2520,8 @@ class _$MediaTimeslotDao extends MediaTimeslotDao {
             (MediaTimeslot item) => <String, Object?>{
                   'id': item.id,
                   'media_id': _listConverter.encode(item.mediaId)
-                }),
+                },
+            changeListener),
         _mediaTimeslotDeletionAdapter = DeletionAdapter(
             database,
             'media_timeslot',
@@ -2527,7 +2529,8 @@ class _$MediaTimeslotDao extends MediaTimeslotDao {
             (MediaTimeslot item) => <String, Object?>{
                   'id': item.id,
                   'media_id': _listConverter.encode(item.mediaId)
-                });
+                },
+            changeListener);
 
   final sqflite.DatabaseExecutor database;
 
@@ -2550,12 +2553,15 @@ class _$MediaTimeslotDao extends MediaTimeslotDao {
   }
 
   @override
-  Future<MediaTimeslot?> findMediaTimeslotById(int id) async {
-    return _queryAdapter.query('SELECT * FROM media_timeslot WHERE id = ?1',
+  Stream<MediaTimeslot?> findMediaTimeslotById(int id) {
+    return _queryAdapter.queryStream(
+        'SELECT * FROM media_timeslot WHERE id = ?1',
         mapper: (Map<String, Object?> row) => MediaTimeslot(
             id: row['id'] as int,
             mediaId: _listConverter.decode(row['media_id'] as String)),
-        arguments: [id]);
+        arguments: [id],
+        queryableName: 'media_timeslot',
+        isView: false);
   }
 
   @override
@@ -2592,14 +2598,15 @@ class _$StudentTimeslotDao extends StudentTimeslotDao {
   _$StudentTimeslotDao(
     this.database,
     this.changeListener,
-  )   : _queryAdapter = QueryAdapter(database),
+  )   : _queryAdapter = QueryAdapter(database, changeListener),
         _studentTimeslotInsertionAdapter = InsertionAdapter(
             database,
             'student_timeslot',
             (StudentTimeslot item) => <String, Object?>{
                   'id': item.id,
                   'task_id': _listConverter.encode(item.taskId)
-                }),
+                },
+            changeListener),
         _studentTimeslotUpdateAdapter = UpdateAdapter(
             database,
             'student_timeslot',
@@ -2607,7 +2614,8 @@ class _$StudentTimeslotDao extends StudentTimeslotDao {
             (StudentTimeslot item) => <String, Object?>{
                   'id': item.id,
                   'task_id': _listConverter.encode(item.taskId)
-                }),
+                },
+            changeListener),
         _studentTimeslotDeletionAdapter = DeletionAdapter(
             database,
             'student_timeslot',
@@ -2615,7 +2623,8 @@ class _$StudentTimeslotDao extends StudentTimeslotDao {
             (StudentTimeslot item) => <String, Object?>{
                   'id': item.id,
                   'task_id': _listConverter.encode(item.taskId)
-                });
+                },
+            changeListener);
 
   final sqflite.DatabaseExecutor database;
 
@@ -2638,12 +2647,15 @@ class _$StudentTimeslotDao extends StudentTimeslotDao {
   }
 
   @override
-  Future<StudentTimeslot?> findStudentTimeslotById(int id) async {
-    return _queryAdapter.query('SELECT * FROM student_timeslot WHERE id = ?1',
+  Stream<StudentTimeslot?> findStudentTimeslotById(int id) {
+    return _queryAdapter.queryStream(
+        'SELECT * FROM student_timeslot WHERE id = ?1',
         mapper: (Map<String, Object?> row) => StudentTimeslot(
             id: row['id'] as int,
             taskId: _listConverter.decode(row['task_id'] as String)),
-        arguments: [id]);
+        arguments: [id],
+        queryableName: 'student_timeslot',
+        isView: false);
   }
 
   @override

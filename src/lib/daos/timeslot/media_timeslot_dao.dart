@@ -7,7 +7,7 @@ abstract class MediaTimeslotDao {
   Future<List<MediaTimeslot>> findAllMediaTimeslots();
 
   @Query('SELECT * FROM media_timeslot WHERE id = :id')
-  Future<MediaTimeslot?> findMediaTimeslotById(int id);
+  Stream<MediaTimeslot?> findMediaTimeslotById(int id);
 
   @insert
   Future<int> insertMediaTimeslot(MediaTimeslot mediaTimeslot);
