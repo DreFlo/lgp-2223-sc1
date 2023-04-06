@@ -169,7 +169,7 @@ class _$AppDatabase extends AppDatabase {
         await database.execute(
             'CREATE TABLE IF NOT EXISTS `book_note` (`id` INTEGER NOT NULL, `start_page` INTEGER NOT NULL, `end_page` INTEGER NOT NULL, `book_id` INTEGER NOT NULL, FOREIGN KEY (`book_id`) REFERENCES `book` (`id`) ON UPDATE NO ACTION ON DELETE NO ACTION, FOREIGN KEY (`id`) REFERENCES `note` (`id`) ON UPDATE NO ACTION ON DELETE NO ACTION, PRIMARY KEY (`id`))');
         await database.execute(
-            'CREATE TABLE IF NOT EXISTS `user` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `user_name` TEXT NOT NULL, `password` TEXT NOT NULL, `xp` INTEGER NOT NULL)');
+            'CREATE TABLE IF NOT EXISTS `user` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `user_name` TEXT NOT NULL, `password` TEXT NOT NULL, `xp` INTEGER NOT NULL, `image_path` TEXT NOT NULL)');
         await database.execute(
             'CREATE TABLE IF NOT EXISTS `badge` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `name` TEXT NOT NULL, `description` TEXT NOT NULL, `image_path` TEXT NOT NULL)');
         await database.execute(
@@ -2702,7 +2702,8 @@ class _$UserDao extends UserDao {
                   'id': item.id,
                   'user_name': item.userName,
                   'password': item.password,
-                  'xp': item.xp
+                  'xp': item.xp,
+                  'image_path': item.imagePath
                 }),
         _userUpdateAdapter = UpdateAdapter(
             database,
@@ -2712,7 +2713,8 @@ class _$UserDao extends UserDao {
                   'id': item.id,
                   'user_name': item.userName,
                   'password': item.password,
-                  'xp': item.xp
+                  'xp': item.xp,
+                  'image_path': item.imagePath
                 }),
         _userDeletionAdapter = DeletionAdapter(
             database,
@@ -2722,7 +2724,8 @@ class _$UserDao extends UserDao {
                   'id': item.id,
                   'user_name': item.userName,
                   'password': item.password,
-                  'xp': item.xp
+                  'xp': item.xp,
+                  'image_path': item.imagePath
                 });
 
   final sqflite.DatabaseExecutor database;
@@ -2744,7 +2747,8 @@ class _$UserDao extends UserDao {
             id: row['id'] as int?,
             userName: row['user_name'] as String,
             password: row['password'] as String,
-            xp: row['xp'] as int));
+            xp: row['xp'] as int,
+            imagePath: row['image_path'] as String));
   }
 
   @override
@@ -2754,7 +2758,8 @@ class _$UserDao extends UserDao {
             id: row['id'] as int?,
             userName: row['user_name'] as String,
             password: row['password'] as String,
-            xp: row['xp'] as int),
+            xp: row['xp'] as int,
+            imagePath: row['image_path'] as String),
         arguments: [id]);
   }
 

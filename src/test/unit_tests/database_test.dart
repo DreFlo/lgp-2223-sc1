@@ -39,7 +39,7 @@ import 'package:src/daos/notes/book_note_dao.dart';
 import 'package:src/models/notes/episode_note.dart';
 import 'package:src/daos/notes/episode_note_dao.dart';
 import 'package:src/models/media/video.dart';
-import 'package:src/utils/enums.dart' as _enums;
+import 'package:src/utils/enums.dart' as enums;
 import 'package:src/utils/service_locator.dart';
 import 'package:src/daos/user_dao.dart';
 import 'package:src/models/user.dart';
@@ -89,7 +89,7 @@ void main() {
       expect(users.length, 0);
 
       await serviceLocator<UserDao>()
-          .insertUser(User(userName: 'Emil', password: '1234', xp: 23));
+          .insertUser(User(userName: 'Emil', password: '1234', xp: 23, imagePath: 'test'));
 
       users = await serviceLocator<UserDao>().findAllUsers();
 
@@ -267,7 +267,7 @@ void main() {
   testWidgets('Test SuperDAO for Note/TaskNote', (WidgetTester tester) async {
     await tester.runAsync(() async {
       await serviceLocator<UserDao>()
-          .insertUser(User(userName: 'Emil', password: '1234', xp: 23));
+          .insertUser(User(userName: 'Emil', password: '1234', xp: 23, imagePath: 'test'));
 
       await serviceLocator<InstitutionDao>().insertInstitution(Institution(
           name: 'name',
@@ -285,14 +285,14 @@ void main() {
       await serviceLocator<TaskGroupDao>().insertTaskGroup(TaskGroup(
         name: 'name',
         description: 'description',
-        priority: _enums.Priority.high,
+        priority: enums.Priority.high,
         deadline: DateTime.now(),
       ));
 
       await serviceLocator<TaskDao>().insertTask(Task(
           name: 'name',
           description: 'description',
-          priority: _enums.Priority.high,
+          priority: enums.Priority.high,
           deadline: DateTime.now().subtract(const Duration(days: 1)),
           taskGroupId: 1,
           subjectId: 1,
@@ -320,7 +320,7 @@ void main() {
       (WidgetTester tester) async {
     await tester.runAsync(() async {
       await serviceLocator<UserDao>()
-          .insertUser(User(userName: 'Emil', password: '1234', xp: 23));
+          .insertUser(User(userName: 'Emil', password: '1234', xp: 23, imagePath: 'test'));
 
       await serviceLocator<InstitutionDao>().insertInstitution(Institution(
           name: 'name',
@@ -481,7 +481,7 @@ void main() {
       (WidgetTester tester) async {
     await tester.runAsync(() async {
       await serviceLocator<UserDao>()
-          .insertUser(User(userName: 'Emil', password: '1234', xp: 23));
+          .insertUser(User(userName: 'Emil', password: '1234', xp: 23, imagePath: 'test'));
 
       int seriesId = await serviceLocator<MediaDao>().insertMedia(Media(
         name: 'name',
@@ -525,7 +525,7 @@ void main() {
       (WidgetTester tester) async {
     await tester.runAsync(() async {
       await serviceLocator<UserDao>()
-          .insertUser(User(userName: 'Emil', password: '1234', xp: 23));
+          .insertUser(User(userName: 'Emil', password: '1234', xp: 23, imagePath: 'test'));
 
       await serviceLocator<InstitutionDao>().insertInstitution(Institution(
           name: 'name',
@@ -590,7 +590,7 @@ void main() {
       expect(users.length, 0);
 
       await serviceLocator<UserDao>()
-          .insertUser(User(userName: 'Emil', password: '1234', xp: 23));
+          .insertUser(User(userName: 'Emil', password: '1234', xp: 23, imagePath: 'test'));
 
       users = await serviceLocator<UserDao>().findAllUsers();
       User user = users.first;
@@ -817,7 +817,7 @@ void main() {
       expect(users.length, 0);
 
       await serviceLocator<UserDao>()
-          .insertUser(User(userName: 'Emil', password: '1234', xp: 23));
+          .insertUser(User(userName: 'Emil', password: '1234', xp: 23, imagePath: 'test'));
 
       users = await serviceLocator<UserDao>().findAllUsers();
 
@@ -847,7 +847,7 @@ void main() {
       expect(users.length, 0);
 
       await serviceLocator<UserDao>()
-          .insertUser(User(userName: 'Emil', password: '1234', xp: 23));
+          .insertUser(User(userName: 'Emil', password: '1234', xp: 23, imagePath: 'test'));
 
       users = await serviceLocator<UserDao>().findAllUsers();
 
@@ -900,7 +900,7 @@ void main() {
       expect(users.length, 0);
 
       await serviceLocator<UserDao>()
-          .insertUser(User(userName: 'Emil', password: '1234', xp: 23));
+          .insertUser(User(userName: 'Emil', password: '1234', xp: 23, imagePath: 'test'));
 
       users = await serviceLocator<UserDao>().findAllUsers();
 
@@ -974,7 +974,7 @@ void main() {
       expect(users.length, 0);
 
       await serviceLocator<UserDao>()
-          .insertUser(User(userName: 'Emil', password: '1234', xp: 23));
+          .insertUser(User(userName: 'Emil', password: '1234', xp: 23, imagePath: 'test'));
 
       users = await serviceLocator<UserDao>().findAllUsers();
 
