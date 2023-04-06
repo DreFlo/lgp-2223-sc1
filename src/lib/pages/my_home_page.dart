@@ -55,13 +55,21 @@ class _MyHomePageState extends State<MyHomePage> {
   List<Task> filterItems() {
     switch (_selectedIndex) {
       case 1:
-        return items.where((element) => element.description == 'Student').toList();
+        return items
+            .where((element) => element.description == 'Student')
+            .toList();
       case 2:
-        return items.where((element) => element.description == 'Leisure').toList();
+        return items
+            .where((element) => element.description == 'Leisure')
+            .toList();
       case 3:
-        return items.where((element) => element.description == 'Fitness').toList();
+        return items
+            .where((element) => element.description == 'Fitness')
+            .toList();
       case 4:
-        return items.where((element) => element.description == 'Personal').toList();
+        return items
+            .where((element) => element.description == 'Personal')
+            .toList();
       default:
         return items;
     }
@@ -73,9 +81,8 @@ class _MyHomePageState extends State<MyHomePage> {
       body: Stack(
         children: [
           const Padding(
-            padding: EdgeInsets.only(right: 36, top: 36),
-            child: MyProfilePic()
-          ),
+              padding: EdgeInsets.only(right: 36, top: 36),
+              child: MyProfilePic()),
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [

@@ -43,7 +43,9 @@ class _MyNavigationPageState extends State<MyNavigationPage> {
       child: Text("Calendar"), //TODO
     ),
     Center(),
-    HomePage(title: "TODO"), // TODO - this is here for now just to have access to leisure screens
+    HomePage(
+        title:
+            "TODO"), // TODO - this is here for now just to have access to leisure screens
     Center(
       child: Text("Settings"), //TODO
     ),

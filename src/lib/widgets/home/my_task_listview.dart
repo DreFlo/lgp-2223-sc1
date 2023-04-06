@@ -13,7 +13,6 @@ class MyTaskListView extends StatefulWidget {
 }
 
 class _MyTaskListViewState extends State<MyTaskListView> {
-
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
