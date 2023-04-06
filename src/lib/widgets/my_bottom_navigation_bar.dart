@@ -47,13 +47,14 @@ class _MyBottomNavigationBarState extends State<MyBottomNavigationBar> {
     return Container(
       width: MediaQuery.of(context).size.width,
       height: 90,
+      padding: const EdgeInsets.only(left: 30, right: 30),
       decoration: const BoxDecoration(
           borderRadius: BorderRadius.only(
             topLeft: Radius.circular(20),
             topRight: Radius.circular(20),
           ),
           boxShadow: [
-            BoxShadow(color: grayButton),
+            BoxShadow(color: bottomNavbar),
           ]),
       child: ClipRRect(
           borderRadius: const BorderRadius.only(
@@ -64,7 +65,7 @@ class _MyBottomNavigationBarState extends State<MyBottomNavigationBar> {
             type: BottomNavigationBarType.fixed,
             showSelectedLabels: false,
             showUnselectedLabels: false,
-            backgroundColor: grayButton,
+            backgroundColor: bottomNavbar,
             selectedItemColor: mainPurple,
             unselectedItemColor: Colors.white,
             iconSize: 27,

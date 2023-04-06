@@ -1,14 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:src/pages/home/my_home_page.dart';
 import 'package:src/widgets/my_bottom_navigation_bar.dart';
+import 'package:src/themes/colors.dart';
 
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({Key? key}) : super(key: key);
+class MyNavigationPage extends StatefulWidget {
+  const MyNavigationPage({Key? key}) : super(key: key);
 
   @override
-  State<MyHomePage> createState() => _MyHomePageState();
+  State<MyNavigationPage> createState() => _MyNavigationPageState();
 }
 
-class _MyHomePageState extends State<MyHomePage> {
+class _MyNavigationPageState extends State<MyNavigationPage> {
   int _currentIndex = 0;
   late PageController _pageController;
 
@@ -35,9 +37,7 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   List<Widget> pages = const [
-    Center(
-      child: Text("Home"), //TODO
-    ),
+    MyHomePage(),
     Center(
       child: Text("Calendar"), //TODO
     ),
@@ -53,6 +53,7 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        backgroundColor: appBackground,
         body: SizedBox.expand(
             child: PageView(
           controller: _pageController,
