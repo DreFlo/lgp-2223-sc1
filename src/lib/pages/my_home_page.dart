@@ -95,8 +95,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 setSelectedIndex: (int index) =>
                     setState(() => _selectedIndex = index),
               ),
-              SizedBox(
-                height: 215,
+              Expanded(
                 child: MyTaskListView(items: filterItems()),
               )
             ],
