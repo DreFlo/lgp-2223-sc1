@@ -73,32 +73,32 @@ class Catalog extends StatelessWidget {
               padding: const EdgeInsets.symmetric(horizontal: 18),
               height: 210 * fem,
               child: ScrollConfiguration(
-                    behavior: const ScrollBehavior(),
-                    child: GlowingOverscrollIndicator(
+                  behavior: const ScrollBehavior(),
+                  child: GlowingOverscrollIndicator(
                       axisDirection: AxisDirection.down,
                       color: leisureColor,
                       child: ListView.builder(
-                scrollDirection: Axis.horizontal,
-                itemCount: listLength, //will be dependent on database size
-                itemBuilder: (context, index) {
-                  return InkWell(
-                    onTap: () {},
-                    child: Container(
-                      width: 140 * fem,
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Media(
-                              image: trendingMovies[index]['poster_path'],
-                              type: 'video'),
-                        ],
-                      ),
-                    ),
-                  );
-                },
-              )
-                    )
-              ),
+                        scrollDirection: Axis.horizontal,
+                        itemCount:
+                            listLength, //will be dependent on database size
+                        itemBuilder: (context, index) {
+                          return InkWell(
+                            onTap: () {},
+                            child: Container(
+                              width: 140 * fem,
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Media(
+                                      image: trendingMovies[index]
+                                          ['poster_path'],
+                                      type: 'video'),
+                                ],
+                              ),
+                            ),
+                          );
+                        },
+                      ))),
             ),
             Padding(
               padding: EdgeInsets.only(left: 20 * fem),
@@ -217,39 +217,37 @@ class Catalog extends StatelessWidget {
               height: 210 * fem,
               padding: EdgeInsets.symmetric(horizontal: 15 * fem),
               child: ScrollConfiguration(
-                    behavior: const ScrollBehavior(),
-                    child: GlowingOverscrollIndicator(
+                  behavior: const ScrollBehavior(),
+                  child: GlowingOverscrollIndicator(
                       axisDirection: AxisDirection.down,
                       color: leisureColor,
                       child: ListView.builder(
-                scrollDirection: Axis.horizontal,
-                itemCount: listLength,
-                itemBuilder: (context, index) {
-                  return InkWell(
-                    onTap: () {
-                      //TODO: Open Media Page
-                    },
-                    radius: 0.1,
-                    splashColor: Colors.transparent,
-                    child: Container(
-                      width: 140 * fem,
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Media(
-                              image: books[index]
-                                  .info
-                                  .imageLinks['thumbnail']
-                                  .toString(),
-                              type: 'book'),
-                        ],
-                      ),
-                    ),
-                  );
-                },
-              )
-                    )
-              ),
+                        scrollDirection: Axis.horizontal,
+                        itemCount: listLength,
+                        itemBuilder: (context, index) {
+                          return InkWell(
+                            onTap: () {
+                              //TODO: Open Media Page
+                            },
+                            radius: 0.1,
+                            splashColor: Colors.transparent,
+                            child: Container(
+                              width: 140 * fem,
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Media(
+                                      image: books[index]
+                                          .info
+                                          .imageLinks['thumbnail']
+                                          .toString(),
+                                      type: 'book'),
+                                ],
+                              ),
+                            ),
+                          );
+                        },
+                      ))),
             ),
           ])),
       const SizedBox(height: 50),

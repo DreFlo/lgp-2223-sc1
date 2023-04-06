@@ -6,7 +6,8 @@ class Media extends StatelessWidget {
   final String image;
   final String type;
 
-  const Media({Key? key, required this.image, required this.type}) : super(key: key);
+  const Media({Key? key, required this.image, required this.type})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -15,20 +16,18 @@ class Media extends StatelessWidget {
       child: AspectRatio(
         aspectRatio: 2 / 3,
         child: ClipRRect(
-          borderRadius: BorderRadius.circular(10.0),
-          child: showImage(type)
-        ),
+            borderRadius: BorderRadius.circular(10.0), child: showImage(type)),
       ),
     );
   }
 
   showImage(String type) {
-    if(type == 'video'){
+    if (type == 'video') {
       return Image.network(
         'https://image.tmdb.org/t/p/w500$image',
         fit: BoxFit.cover,
       );
-    } else if(type == 'book'){
+    } else if (type == 'book') {
       return Image.network(
         image,
         fit: BoxFit.cover,

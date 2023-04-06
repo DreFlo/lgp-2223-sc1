@@ -15,7 +15,7 @@ class SearchBar extends StatefulWidget {
 
 class _SearchBarState extends State<SearchBar> {
   late TextEditingController _searchTextController;
-  
+
   @override
   void initState() {
     super.initState();
@@ -32,43 +32,43 @@ class _SearchBarState extends State<SearchBar> {
     double baseWidth = 390;
     double fem = MediaQuery.of(context).size.width / baseWidth;
 
-    return  Center(
-              child: Container(
-                width: 327 * fem,
-                height: 50 * fem,
-                child: Center(
-                  child: TextField(
-                    controller: _searchTextController,
-                    onSubmitted: (text) => widget.onSearch(text),
-                    textAlignVertical: TextAlignVertical.center,
-                    style: const TextStyle(
-                      color: Colors.black,
-                      fontFamily: 'Poppins',
-                      fontSize: 16,
-                      fontWeight: FontWeight.normal,
-                    ),
-                    decoration: InputDecoration(
-                      hintText: 'Search',
-                      hintStyle: const TextStyle(
-                        fontFamily: 'Poppins',
-                        fontSize: 16,
-                        color: Color(0xff5e6272),
-                        fontWeight: FontWeight.w400,
-                        height: 1.5,
-                      ),
-                      filled: true,
-                      fillColor: const Color(0xffdadada),
-                      prefixIcon: const Icon(Icons.search),
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(10.0),
-                        borderSide: BorderSide.none,
-                      ),
-                      contentPadding: const EdgeInsets.symmetric(
-                          vertical: 10.0, horizontal: 12.0),
-                    ),
-                  ),
-                ),
+    return Center(
+      child: Container(
+        width: 327 * fem,
+        height: 50 * fem,
+        child: Center(
+          child: TextField(
+            controller: _searchTextController,
+            onSubmitted: (text) => widget.onSearch(text),
+            textAlignVertical: TextAlignVertical.center,
+            style: const TextStyle(
+              color: Colors.black,
+              fontFamily: 'Poppins',
+              fontSize: 16,
+              fontWeight: FontWeight.normal,
+            ),
+            decoration: InputDecoration(
+              hintText: 'Search',
+              hintStyle: const TextStyle(
+                fontFamily: 'Poppins',
+                fontSize: 16,
+                color: Color(0xff5e6272),
+                fontWeight: FontWeight.w400,
+                height: 1.5,
               ),
-          );
+              filled: true,
+              fillColor: const Color(0xffdadada),
+              prefixIcon: const Icon(Icons.search),
+              border: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(10.0),
+                borderSide: BorderSide.none,
+              ),
+              contentPadding:
+                  const EdgeInsets.symmetric(vertical: 10.0, horizontal: 12.0),
+            ),
+          ),
+        ),
+      ),
+    );
   }
 }

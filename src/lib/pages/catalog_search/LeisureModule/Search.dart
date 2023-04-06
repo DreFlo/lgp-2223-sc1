@@ -37,7 +37,6 @@ class _SearchMediaState extends State<SearchMedia>
     }
   }
 
-
   @override
   void dispose() {
     tabController.dispose();

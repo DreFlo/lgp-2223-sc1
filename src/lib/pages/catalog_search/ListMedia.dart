@@ -40,11 +40,12 @@ class ListMedia extends StatelessWidget {
   showWidget(dynamic item) {
     if (title == 'All Books') {
       if (item.info.imageLinks['thumbnail'] != null) {
-        return Media(image: item.info.imageLinks['thumbnail'].toString(), type:'book');
+        return Media(
+            image: item.info.imageLinks['thumbnail'].toString(), type: 'book');
       }
     } else {
       if (item['poster_path'] != null) {
-        return Media(image: item['poster_path'], type:'video');
+        return Media(image: item['poster_path'], type: 'video');
       }
     }
   }

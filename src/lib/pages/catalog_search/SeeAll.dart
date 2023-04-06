@@ -3,7 +3,6 @@
 import 'package:flutter/material.dart';
 import 'package:src/pages/catalog_search/SearchBar.dart';
 import 'ListMedia.dart';
-import 'SearchBar.dart';
 
 class SeeAll extends StatefulWidget {
   final List media;
@@ -13,10 +12,10 @@ class SeeAll extends StatefulWidget {
       : super(key: key);
 
   @override
-  _SeeAllState createState() => _SeeAllState();
+  SeeAllState createState() => SeeAllState();
 }
 
-class _SeeAllState extends State<SeeAll> {
+class SeeAllState extends State<SeeAll> {
   @override
   void initState() {
     super.initState();
@@ -36,8 +35,6 @@ class _SeeAllState extends State<SeeAll> {
 
   @override
   Widget build(BuildContext context) {
-    double baseWidth = 390;
-    double fem = MediaQuery.of(context).size.width / baseWidth;
     return Scaffold(
       backgroundColor: const Color(0xFF181A20),
       appBar: AppBar(
