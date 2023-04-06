@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'SearchMedia/Books.dart';
 import 'SearchMedia/Movies.dart';
 import 'SearchMedia/Tvshows.dart';
+import 'dart:async';
 
 class SearchMedia extends StatefulWidget {
   final String search;
@@ -15,12 +16,26 @@ class SearchMedia extends StatefulWidget {
 class _SearchMediaState extends State<SearchMedia>
     with SingleTickerProviderStateMixin {
   late TabController tabController;
+  late bool showSplashScreen;
+  static bool _hasShownSplashScreen = false;
 
   @override
   void initState() {
     tabController = TabController(length: 3, vsync: this);
     super.initState();
+    if (_hasShownSplashScreen) {
+      showSplashScreen = false;
+    } else {
+      showSplashScreen = true;
+      _hasShownSplashScreen = true;
+      Timer(const Duration(seconds: 2), () {
+        setState(() {
+          showSplashScreen = false;
+        });
+      });
+    }
   }
+
 
   @override
   void dispose() {
@@ -53,18 +68,19 @@ class _SearchMediaState extends State<SearchMedia>
             ),
           ),
           Expanded(
-            child: TabBarView(
-              controller: tabController,
-              children: [
-                Movies(search: widget.search),
-                Tvshows(search: widget.search),
-                Books(search: widget.search),
-              ],
-            ),
+            child: showSplashScreen
+                ? Image.asset('assets/images/tmdb_logo.png')
+                : TabBarView(
+                    controller: tabController,
+                    children: [
+                      Movies(search: widget.search),
+                      Tvshows(search: widget.search),
+                      Books(search: widget.search),
+                    ],
+                  ),
           ),
         ],
       ),
     );
   }
 }
-
