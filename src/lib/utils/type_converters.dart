@@ -11,3 +11,15 @@ class DateTimeConverter extends TypeConverter<DateTime, int> {
     return value.millisecondsSinceEpoch;
   }
 }
+
+class ListConverter extends TypeConverter<List<int>, String> {
+  @override
+  List<int> decode(String databaseValue) {
+    return databaseValue.split(',').map((e) => int.parse(e)).toList();
+  }
+
+  @override
+  String encode(List<int> value) {
+    return value.join(',');
+  }
+}

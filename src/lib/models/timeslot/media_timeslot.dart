@@ -22,9 +22,8 @@ class MediaTimeslot {
   @PrimaryKey()
   final int id;
 
-  // TODO(TIMESLOT): several medias
   @ColumnInfo(name: 'media_id')
-  final int mediaId;
+  final List<int> mediaId;
 
   MediaTimeslot({
     required this.id,

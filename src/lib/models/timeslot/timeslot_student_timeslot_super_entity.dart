@@ -11,7 +11,7 @@ class TimeslotStudentTimeslotSuperEntity {
   final Priority priority;
   final int xpMultiplier;
   final int userId;
-  final int taskId; // TODO(TIMESLOT): correct - multiple tasks per timeslot
+  final List<int> taskId;
 
   TimeslotStudentTimeslotSuperEntity({
     this.id,
@@ -66,7 +66,7 @@ class TimeslotStudentTimeslotSuperEntity {
     Priority? priority,
     int? xpMultiplier,
     int? userId,
-    int? taskId,
+    List<int>? taskId,
   }) {
     return TimeslotStudentTimeslotSuperEntity(
       id: id ?? this.id,

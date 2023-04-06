@@ -11,7 +11,7 @@ class TimeslotMediaTimeslotSuperEntity {
   final Priority priority;
   final int xpMultiplier;
   final int userId;
-  final int mediaId; // TODO(TIMESLOT): correct - multiple media per timeslot
+  final List<int> mediaId;
 
   TimeslotMediaTimeslotSuperEntity({
     this.id,
@@ -66,7 +66,7 @@ class TimeslotMediaTimeslotSuperEntity {
     Priority? priority,
     int? xpMultiplier,
     int? userId,
-    int? mediaId,
+    List<int>? mediaId,
   }) {
     return TimeslotMediaTimeslotSuperEntity(
       id: id ?? this.id,

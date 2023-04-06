@@ -19,9 +19,8 @@ class StudentTimeslot {
   @PrimaryKey()
   final int id;
 
-  // TODO(TIMESLOT): several taks
   @ColumnInfo(name: 'task_id')
-  final int taskId;
+  final List<int> taskId;
 
   StudentTimeslot({
     required this.id,

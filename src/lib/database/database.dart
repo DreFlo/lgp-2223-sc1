@@ -76,7 +76,7 @@ import 'package:src/daos/user_dao.dart';
 
 part 'database.g.dart'; // the generated code will be there
 
-@TypeConverters([DateTimeConverter])
+@TypeConverters([DateTimeConverter, ListConverter])
 @Database(version: 6, entities: [
   Institution,
   Subject,

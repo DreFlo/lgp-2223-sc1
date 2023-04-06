@@ -523,8 +523,7 @@ void main() {
               priority: _enums.Priority.high,
               xpMultiplier: 2,
               userId: 1,
-              mediaId: 1);
-      // TODO(TIMESLOT): multiple mediaIds...
+              mediaId: List.of([1]));
 
       int id = await serviceLocator<TimeslotMediaTimeslotSuperDao>()
           .insertTimeslotMediaTimeslotSuperEntity(
@@ -577,7 +576,7 @@ void main() {
             priority: _enums.Priority.high,
             xpMultiplier: 2,
             userId: 1,
-            taskId: 1); // TODO(TIMESLOT): multiple taskIds..
+            taskId: List.of([1]));
 
     int id = await serviceLocator<TimeslotStudentTimeslotSuperDao>()
         .insertTimeslotStudentTimeslotSuperEntity(
