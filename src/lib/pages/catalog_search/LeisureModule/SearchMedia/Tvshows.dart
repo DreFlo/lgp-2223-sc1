@@ -11,15 +11,14 @@ class TVShows extends StatelessWidget {
   const TVShows({Key? key, required this.search}) : super(key: key);
 
   Future<List> loadmedia() async {
-    final tmdb = TMDB(
-        ApiKeys(Env.tmdbApiKey, 'apiReadAccessTokenv4'));
+    final tmdb = TMDB(ApiKeys(Env.tmdbApiKey, 'apiReadAccessTokenv4'));
     Map tvresult;
-      if (search == '') {
-        tvresult = tvresult =
-            await tmdb.v3.trending.getTrending(mediaType: MediaType.tv);
-      } else {
-        tvresult = await tmdb.v3.search.queryTvShows(search);
-      }
+    if (search == '') {
+      tvresult = tvresult =
+          await tmdb.v3.trending.getTrending(mediaType: MediaType.tv);
+    } else {
+      tvresult = await tmdb.v3.search.queryTvShows(search);
+    }
     return tvresult['results'];
   }
 

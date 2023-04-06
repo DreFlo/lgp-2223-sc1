@@ -5,7 +5,6 @@ import 'package:src/pages/catalog_search/SeeAll.dart';
 import '../Media.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
-
 class Catalog extends StatelessWidget {
   final List trendingMovies;
   final List trendingTvshows;
@@ -53,10 +52,11 @@ class Catalog extends StatelessWidget {
                             context,
                             MaterialPageRoute(
                                 builder: (context) => SeeAll(
-                                    title: AppLocalizations.of(context).all_movies,
+                                    title:
+                                        AppLocalizations.of(context).all_movies,
                                     media: trendingMovies)));
                       },
-                      child:  Text(
+                      child: Text(
                         AppLocalizations.of(context).see_all,
                         style: const TextStyle(
                           fontFamily: 'Poppins',
@@ -108,7 +108,7 @@ class Catalog extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
-                     AppLocalizations.of(context).tv_shows,
+                    AppLocalizations.of(context).tv_shows,
                     style: const TextStyle(
                       fontFamily: 'Poppins',
                       fontSize: 18,
@@ -126,11 +126,12 @@ class Catalog extends StatelessWidget {
                             context,
                             MaterialPageRoute(
                                 builder: (context) => SeeAll(
-                                    title:  AppLocalizations.of(context).all_tv_shows,
+                                    title: AppLocalizations.of(context)
+                                        .all_tv_shows,
                                     media: trendingTvshows)));
                       },
                       child: Text(
-                         AppLocalizations.of(context).see_all,
+                        AppLocalizations.of(context).see_all,
                         style: const TextStyle(
                           fontFamily: 'Poppins',
                           fontSize: 14,
@@ -179,8 +180,8 @@ class Catalog extends StatelessWidget {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                   Text(
-                     AppLocalizations.of(context).books,
+                  Text(
+                    AppLocalizations.of(context).books,
                     style: const TextStyle(
                       fontFamily: 'Poppins',
                       fontSize: 18,
@@ -197,11 +198,13 @@ class Catalog extends StatelessWidget {
                         Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) =>
-                                    SeeAll(title:  AppLocalizations.of(context).all_books, media: books)));
+                                builder: (context) => SeeAll(
+                                    title:
+                                        AppLocalizations.of(context).all_books,
+                                    media: books)));
                       },
                       child: Text(
-                         AppLocalizations.of(context).see_all,
+                        AppLocalizations.of(context).see_all,
                         style: const TextStyle(
                           fontFamily: 'Poppins',
                           fontSize: 14,

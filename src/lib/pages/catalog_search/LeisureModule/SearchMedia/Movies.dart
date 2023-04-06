@@ -9,10 +9,9 @@ class Movies extends StatelessWidget {
   final String search;
 
   const Movies({Key? key, required this.search}) : super(key: key);
- 
- Future<List> loadmedia() async {
-    final tmdb = TMDB(
-        ApiKeys(Env.tmdbApiKey, 'apiReadAccessTokenv4'));
+
+  Future<List> loadmedia() async {
+    final tmdb = TMDB(ApiKeys(Env.tmdbApiKey, 'apiReadAccessTokenv4'));
     Map movieresult;
     if (search == '') {
       movieresult =
