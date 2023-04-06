@@ -1,8 +1,5 @@
-import 'package:floor/floor.dart';
-import 'package:flutter/scheduler.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:sqflite/sqflite.dart';
-
 import 'package:src/daos/media/media_series_super_dao.dart';
 import 'package:src/daos/media/media_video_movie_super_dao.dart';
 import 'package:src/daos/media/media_video_super_dao.dart';
@@ -39,7 +36,7 @@ import 'package:src/daos/notes/book_note_dao.dart';
 import 'package:src/models/notes/episode_note.dart';
 import 'package:src/daos/notes/episode_note_dao.dart';
 import 'package:src/models/media/video.dart';
-import 'package:src/utils/enums.dart' as _enums;
+import 'package:src/utils/enums.dart' as enums;
 import 'package:src/utils/service_locator.dart';
 import 'package:src/daos/user_dao.dart';
 import 'package:src/models/user.dart';
@@ -285,14 +282,14 @@ void main() {
       await serviceLocator<TaskGroupDao>().insertTaskGroup(TaskGroup(
         name: 'name',
         description: 'description',
-        priority: _enums.Priority.high,
+        priority: enums.Priority.high,
         deadline: DateTime.now(),
       ));
 
       await serviceLocator<TaskDao>().insertTask(Task(
           name: 'name',
           description: 'description',
-          priority: _enums.Priority.high,
+          priority: enums.Priority.high,
           deadline: DateTime.now().subtract(const Duration(days: 1)),
           taskGroupId: 1,
           subjectId: 1,
@@ -502,7 +499,7 @@ void main() {
               description: 'description 1',
               startDateTime: DateTime.now(),
               endDateTime: DateTime.now().add(const Duration(days: 1)),
-              priority: _enums.Priority.high,
+              priority: enums.Priority.high,
               xpMultiplier: 2,
               userId: 1,
               mediaId: List.of([1]));
@@ -543,14 +540,14 @@ void main() {
       await serviceLocator<TaskGroupDao>().insertTaskGroup(TaskGroup(
         name: 'name',
         description: 'description',
-        priority: _enums.Priority.high,
+        priority: enums.Priority.high,
         deadline: DateTime.now(),
       ));
 
       await serviceLocator<TaskDao>().insertTask(Task(
           name: 'name',
           description: 'description',
-          priority: _enums.Priority.high,
+          priority: enums.Priority.high,
           deadline: DateTime.now().subtract(const Duration(days: 1)),
           taskGroupId: 1,
           subjectId: 1,
@@ -562,7 +559,7 @@ void main() {
               description: 'description 1',
               startDateTime: DateTime.now(),
               endDateTime: DateTime.now().add(const Duration(days: 1)),
-              priority: _enums.Priority.high,
+              priority: enums.Priority.high,
               xpMultiplier: 2,
               userId: 1,
               taskId: List.of([1]));
@@ -605,7 +602,7 @@ void main() {
         description: 'description',
         startDateTime: startDateTime,
         endDateTime: endDateTime,
-        priority: _enums.Priority.high,
+        priority: enums.Priority.high,
         xpMultiplier: 1,
         userId: userId,
       );
@@ -984,7 +981,7 @@ void main() {
           id: 1,
           name: 'Task Group 1',
           description: 'Task Group 1',
-          priority: _enums.Priority.low,
+          priority: enums.Priority.low,
           deadline: DateTime.utc(2021, 12, 31)));
 
       await serviceLocator<InstitutionDao>().insertInstitution(Institution(
@@ -1002,7 +999,7 @@ void main() {
           id: 1,
           name: 'Task 1',
           description: 'Task 1',
-          priority: _enums.Priority.low,
+          priority: enums.Priority.low,
           deadline: DateTime.utc(2022, 01, 02),
           taskGroupId: 1,
           subjectId: 1,
