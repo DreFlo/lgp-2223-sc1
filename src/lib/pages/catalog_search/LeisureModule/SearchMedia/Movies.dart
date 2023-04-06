@@ -3,6 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:tmdb_api/tmdb_api.dart';
 import 'package:src/pages/catalog_search/ListMedia.dart';
+import 'package:src/env/env.dart';
 
 class Movies extends StatelessWidget {
   final String search;
@@ -10,6 +11,8 @@ class Movies extends StatelessWidget {
   const Movies({Key? key, required this.search}) : super(key: key);
  
  Future<List> loadmedia() async {
+    final tmdb = TMDB(
+        ApiKeys(Env.tmdbApiKey, 'apiReadAccessTokenv4'));
     Map movieresult;
     if (search == '') {
       movieresult =

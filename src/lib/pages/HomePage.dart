@@ -14,7 +14,7 @@ import 'leisure/AddBookNoteForm.dart';
 import 'leisure/MediaPage.dart';
 import 'package:src/utils/enums.dart';
 import 'package:src/env/env.dart';
-//import 'package:src/env/env.dart';
+import 'package:src/env/env.dart';
 import 'package:tmdb_api/tmdb_api.dart';
 import 'package:books_finder/books_finder.dart';
 import 'catalog_search/LeisureModule.dart';
@@ -85,6 +85,7 @@ class _HomePageState extends State<HomePage> {
 
   void loadmedia() async {
     final tmdb = TMDB(
+        ApiKeys(Env.tmdbApiKey, 'apiReadAccessTokenv4'));
     Map movieresult =
         await tmdb.v3.trending.getTrending(mediaType: MediaType.movie);
     Map tvresult = await tmdb.v3.trending
