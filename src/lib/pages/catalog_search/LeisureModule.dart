@@ -46,23 +46,36 @@ class _LeisureModuleState extends State<LeisureModule>
 
   @override
   Widget build(BuildContext context) {
-    double baseWidth = 390;
-    double fem = MediaQuery.of(context).size.width / baseWidth;
     return Scaffold(
-      body: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Padding(
-            padding: EdgeInsets.fromLTRB(10 * fem, 50 * fem, 0, 0),
+      backgroundColor: const Color(0xFF181A20),
+      appBar: AppBar(
+          shadowColor: Colors.transparent,
+          backgroundColor: const Color(0xFF181A20),
+          automaticallyImplyLeading: false,
+          titleSpacing: 0,
+          title: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 18),
             child: Row(
               children: [
-                IconButton(
-                  icon: const Icon(Icons.arrow_back_ios),
-                  color: Colors.white,
-                  onPressed: () {
-                    Navigator.pop(context);
-                  },
-                ),
+                Container(
+                    width: 20,
+                    height: 20,
+                    padding: const EdgeInsets.all(1.5),
+                    decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        border: Border.all(
+                            color: const Color(0xFF5E6272), width: 0.5)),
+                    child: IconButton(
+                      splashRadius: 0.1,
+                      padding: EdgeInsets.zero,
+                      icon: const Icon(Icons.arrow_back_rounded),
+                      iconSize: 15,
+                      color: const Color(0xFF5E6272),
+                      onPressed: () {
+                        Navigator.pop(context);
+                      },
+                    )),
+                const SizedBox(width: 10),
                 const Text(
                   'Media',
                   style: TextStyle(
@@ -76,9 +89,12 @@ class _LeisureModuleState extends State<LeisureModule>
                 ),
               ],
             ),
-          ),
+          )),
+      body: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
           Padding(
-              padding: EdgeInsets.only(top: 22 * fem),
+              padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
               child: TabBar(
                 controller: tabController,
                 tabs: const [
@@ -90,7 +106,9 @@ class _LeisureModuleState extends State<LeisureModule>
                   ),
                 ],
               )),
+          const SizedBox(height: 15),
           SearchBar(onSearch: onSearch),
+          const SizedBox(height: 15),
           Expanded(
             child: TabBarView(
               controller: tabController,

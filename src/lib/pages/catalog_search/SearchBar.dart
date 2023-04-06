@@ -34,9 +34,7 @@ class _SearchBarState extends State<SearchBar> {
     double baseWidth = 390;
     double fem = MediaQuery.of(context).size.width / baseWidth;
 
-    return  Padding(
-            padding: EdgeInsets.fromLTRB(10 * fem, 10 * fem, 0, 0),
-            child: Center(
+    return  Center(
               child: Container(
                 width: 327 * fem,
                 height: 50 * fem,
@@ -73,7 +71,6 @@ class _SearchBarState extends State<SearchBar> {
                   ),
                 ),
               ),
-            ),
           );
   }
 }

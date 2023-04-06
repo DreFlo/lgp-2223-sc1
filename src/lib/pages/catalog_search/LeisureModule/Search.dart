@@ -2,7 +2,7 @@
 import 'package:flutter/material.dart';
 import 'SearchMedia/Books.dart';
 import 'SearchMedia/Movies.dart';
-import 'SearchMedia/Tvshows.dart';
+import 'SearchMedia/TVShows.dart';
 import 'dart:async';
 
 class SearchMedia extends StatefulWidget {
@@ -46,13 +46,11 @@ class _SearchMediaState extends State<SearchMedia>
 
   @override
   Widget build(BuildContext context) {
-    double baseWidth = 390;
-    double fem = MediaQuery.of(context).size.width / baseWidth;
     return Scaffold(
       body: Column(
         children: [
           Padding(
-            padding: EdgeInsets.only(top: 22 * fem),
+            padding: const EdgeInsets.symmetric(horizontal: 18),
             child: TabBar(
               controller: tabController,
               tabs: const [
@@ -75,7 +73,7 @@ class _SearchMediaState extends State<SearchMedia>
                     controller: tabController,
                     children: [
                       Movies(search: widget.search),
-                      Tvshows(search: widget.search),
+                      TVShows(search: widget.search),
                       Books(search: widget.search),
                     ],
                   ),

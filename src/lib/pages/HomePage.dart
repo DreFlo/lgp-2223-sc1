@@ -496,11 +496,10 @@ class _HomePageState extends State<HomePage> {
                     context,
                     MaterialPageRoute(
                         builder: (context) => LeisureModule(
-                              trendingMovies: trendingmovies,
-                              trendingTvshows: trendingtvshows,
-                              books: books
-                            )));
-                           // builder: (context) => SearchMedia()));
+                            trendingMovies: trendingmovies,
+                            trendingTvshows: trendingtvshows,
+                            books: books)));
+                // builder: (context) => SearchMedia()));
               },
             ),
             TextField(
