@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:src/pages/home/my_horizontal_scrollview.dart';
-import 'package:src/pages/home/my_profile_pic.dart';
-import 'package:src/pages/home/my_task_listview.dart';
-import 'package:src/pages/home/my_welcome_message.dart';
+import 'package:src/widgets/home/my_horizontal_scrollview.dart';
+import 'package:src/widgets/home/my_profile_pic.dart';
+import 'package:src/widgets/home/my_task_listview.dart';
+import 'package:src/widgets/home/my_welcome_message.dart';
 
-import '../../models/student/task.dart';
-import '../../utils/enums.dart';
-import 'my_badge_placeholder.dart';
+import '../models/student/task.dart';
+import '../utils/enums.dart';
+import '../widgets/home/my_badge_placeholder.dart';
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({Key? key}) : super(key: key);

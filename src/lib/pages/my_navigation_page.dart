@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:src/pages/HomePage.dart';
-import 'package:src/pages/home/my_home_page.dart';
+import 'package:src/pages/my_home_page.dart';
 import 'package:src/themes/colors.dart';
 import 'package:src/widgets/my_bottom_navigation_bar.dart';
 
