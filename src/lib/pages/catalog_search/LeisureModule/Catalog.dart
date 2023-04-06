@@ -75,9 +75,9 @@ class Catalog extends StatelessWidget {
                 ),
               ),
               Container(
+                      padding: EdgeInsets.symmetric(horizontal: 15*fem),
                       height: 210 * fem,
                       child: ListView.builder(
-                        padding: EdgeInsets.only(left: 15 * fem),
                         scrollDirection: Axis.horizontal,
                         itemCount: listLength, //will be dependent on database size
                         itemBuilder: (context, index) {
@@ -144,9 +144,9 @@ class Catalog extends StatelessWidget {
                 ),
               ),
               Container(
+                      padding: EdgeInsets.symmetric(horizontal: 15*fem),
                       height: 210 * fem,
                       child: ListView.builder(
-                        padding: EdgeInsets.only(left: 15 * fem),
                         scrollDirection: Axis.horizontal,
                         itemCount: listLength,
                         itemBuilder: (context, index) {
@@ -214,8 +214,8 @@ class Catalog extends StatelessWidget {
               ),
               Container(
                       height: 210 * fem,
+                      padding: EdgeInsets.symmetric(horizontal: 15*fem),
                       child: ListView.builder(
-                        padding: EdgeInsets.only(left: 15 * fem),
                         scrollDirection: Axis.horizontal,
                         itemCount: listLength,
                         itemBuilder: (context, index) {
