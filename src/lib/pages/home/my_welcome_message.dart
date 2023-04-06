@@ -14,12 +14,8 @@ class _MyWelcomeMessageState extends State<MyWelcomeMessage> {
   Widget build(BuildContext context) {
     return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
       Text(
-        'Hello,',
-        style: Theme.of(context).textTheme.titleLarge,
-      ),
-      Text(
-        widget.name,
-        style: Theme.of(context).textTheme.titleLarge,
+        'Hello, \n${widget.name}',
+        style: Theme.of(context).textTheme.displayLarge,
       ),
     ]);
   }

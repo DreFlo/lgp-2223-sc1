@@ -12,5 +12,9 @@ echo Run static code analysis
 call flutter analyze
 echo Check formatting
 call dart format --output=none .
-echo Run unit tests
+echo Run premium integration tests
+call flutter test integration_test\premium --flavor premium
+echo Run free integration tests
+call flutter test integration_test\free --flavor free
+echo Run unit and widget tests
 call flutter test --coverage --no-pub

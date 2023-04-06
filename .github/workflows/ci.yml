@@ -21,7 +21,7 @@ jobs:
       # Checkout rep
       - name: Clone rep
         uses: actions/checkout@v3
-      # Set up Flutter
+      # Setup Flutter
       - name: Clone Flutter rep with master channel
         uses: subosito/flutter-action@v2
       # Get packages

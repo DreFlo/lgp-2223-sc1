@@ -19,7 +19,7 @@ class _MyBottomNavigationBarState extends State<MyBottomNavigationBar> {
       width: 45,
       height: 45,
       decoration: const BoxDecoration(
-          color: mainPurple,
+          color: primaryColor,
           borderRadius: BorderRadius.all(Radius.circular(15))),
       child: const Icon(Icons.add, size: 25),
     );
@@ -66,15 +66,18 @@ class _MyBottomNavigationBarState extends State<MyBottomNavigationBar> {
             showSelectedLabels: false,
             showUnselectedLabels: false,
             backgroundColor: bottomNavbar,
-            selectedItemColor: mainPurple,
+            selectedItemColor: primaryColor,
             unselectedItemColor: Colors.white,
             iconSize: 27,
             items: [
               BottomNavigationBarItem(icon: getIcon("Home"), label: 'Home'),
-              BottomNavigationBarItem(icon: getIcon("Calendar"), label: 'Calendar'),
+              BottomNavigationBarItem(
+                  icon: getIcon("Calendar"), label: 'Calendar'),
               BottomNavigationBarItem(icon: getIcon("Add"), label: 'Add'),
-              BottomNavigationBarItem(icon: getIcon("Dashboard"), label: 'Dashboard'),
-              BottomNavigationBarItem(icon: getIcon("Settings"), label: 'Settings'),
+              BottomNavigationBarItem(
+                  icon: getIcon("Dashboard"), label: 'Dashboard'),
+              BottomNavigationBarItem(
+                  icon: getIcon("Settings"), label: 'Settings'),
             ],
             currentIndex: widget.selectedIndex,
             onTap: widget.onItemTapped,

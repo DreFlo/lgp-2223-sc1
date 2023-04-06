@@ -20,7 +20,7 @@ import 'package:src/daos/notes/note_dao.dart';
 import 'package:src/daos/notes/subject_note_dao.dart';
 import 'package:src/daos/notes/task_note_dao.dart';
 
-import 'package:src/database.dart';
+import 'package:src/database/database.dart';
 import 'package:src/utils/service_locator.dart';
 
 import 'service_locator_test_util.mocks.dart';

@@ -1,3 +1,16 @@
 {
-  "helloWorld": "Olá, Mundo!"
+  "helloWorld": "Hello World!",
+  "@helloWorld": {
+    "description": "The conventional newborn programmer greeting"
+  },
+  "title": "Título",
+  "synopsis": "Sinopse",
+  "cast": "Elenco",
+  "length": "Duração",
+  "seasons": " temporadas, ",
+  "episodes": " episódios, ",
+  "minutes_each": " minutos cada.",
+  "minutes": " minutos.",
+  "pages": " páginas.",
+  "add": "Adicionar ao Catálogo"
 }

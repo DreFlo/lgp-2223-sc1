@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:src/pages/HomePage.dart';
 import 'package:src/pages/home/my_home_page.dart';
-import 'package:src/widgets/my_bottom_navigation_bar.dart';
 import 'package:src/themes/colors.dart';
+import 'package:src/widgets/my_bottom_navigation_bar.dart';
 
 class MyNavigationPage extends StatefulWidget {
   const MyNavigationPage({Key? key}) : super(key: key);
@@ -42,9 +43,7 @@ class _MyNavigationPageState extends State<MyNavigationPage> {
       child: Text("Calendar"), //TODO
     ),
     Center(),
-    Center(
-      child: Text("Dashboard"), //TODO
-    ),
+    HomePage(title: "TODO"), // TODO - this is here for now just to have access to leisure screens
     Center(
       child: Text("Settings"), //TODO
     ),
@@ -56,6 +55,7 @@ class _MyNavigationPageState extends State<MyNavigationPage> {
         backgroundColor: appBackground,
         body: SizedBox.expand(
             child: PageView(
+          physics: NeverScrollableScrollPhysics(),
           controller: _pageController,
           onPageChanged: (int index) {
             setState(() {

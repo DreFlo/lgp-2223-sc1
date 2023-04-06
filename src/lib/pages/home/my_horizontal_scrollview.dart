@@ -16,7 +16,7 @@ class MyHorizontalScrollView extends StatefulWidget {
 class _MyHorizontalScrollViewState extends State<MyHorizontalScrollView> {
   final ScrollController _scrollController = ScrollController();
   final Map<String, Color> items = {
-    'All (4)': mainPurple,
+    'All (4)': primaryColor,
     'Student': studentColor,
     'Leisure': leisureColor,
     'Fitness': fitnessColor,
@@ -60,7 +60,7 @@ class _MyHorizontalScrollViewState extends State<MyHorizontalScrollView> {
       padding: const EdgeInsets.symmetric(horizontal: 18),
       child: Text(name,
           textAlign: TextAlign.center,
-          style: Theme.of(context).textTheme.labelLarge),
+          style: Theme.of(context).textTheme.labelMedium),
     );
   }
 

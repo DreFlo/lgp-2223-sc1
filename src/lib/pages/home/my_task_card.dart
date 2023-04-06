@@ -7,7 +7,12 @@ class MyTaskCard extends StatefulWidget {
   final DateTime deadline;
   final String module;
 
-  const MyTaskCard({Key? key, required this.name, required this.deadline, required this.module}) : super(key: key);
+  const MyTaskCard(
+      {Key? key,
+      required this.name,
+      required this.deadline,
+      required this.module})
+      : super(key: key);
 
   @override
   State<MyTaskCard> createState() => _MyTaskCardState();
@@ -47,29 +52,38 @@ class _MyTaskCardState extends State<MyTaskCard> {
         borderRadius: BorderRadius.circular(10),
         color: grayButton,
       ),
-      child: Row(children: [
+      child: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+        Row(mainAxisAlignment: MainAxisAlignment.start, children: [
+          Container(
+              width: 50,
+              height: 50,
+              margin: const EdgeInsets.only(left: 25, right: 19, top: 15, bottom: 15),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(10),
+                color: moduleColors[widget.module],
+              )),
+          Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              SizedBox(
+                width: 200, // Set width of Text widget to 200
+                child: Text(widget.name,
+                    overflow: TextOverflow.ellipsis,
+                    style: Theme.of(context).textTheme.labelLarge),
+              ),
+              const SizedBox(height: 5),
+              Text(
+                formatDeadline(widget.deadline),
+                style: Theme.of(context).textTheme.bodyLarge,
+              ),
+            ],
+          ),
+        ]),
         Container(
-            width: 50,
-            height: 50,
-            margin: const EdgeInsets.symmetric(
-                vertical: 15, horizontal: 25),
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(10),
-              color: moduleColors[widget.module],
-            )),
-        Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(widget.name,
-                style: Theme.of(context).textTheme.headlineSmall),
-            const SizedBox(height: 5),
-            Text(
-              formatDeadline(widget.deadline),
-              style: Theme.of(context).textTheme.bodyLarge,
-            ),
-          ],
-        ),
+            margin: const EdgeInsets.only(right: 26),
+            child: const Icon(Icons.arrow_forward_ios,
+                color: Colors.white, size: 17))
       ]),
     );
   }
