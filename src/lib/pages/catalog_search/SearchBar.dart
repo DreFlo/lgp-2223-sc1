@@ -27,8 +27,6 @@ class _SearchBarState extends State<SearchBar> {
     });
   }
 
-  
-
   @override
   Widget build(BuildContext context) {
     double baseWidth = 390;
