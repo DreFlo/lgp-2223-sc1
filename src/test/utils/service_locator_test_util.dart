@@ -8,6 +8,8 @@ import 'package:src/daos/notes/note_task_note_super_dao.dart';
 import 'package:src/daos/notes/note_episode_note_super_dao.dart';
 import 'package:src/daos/media/media_book_super_dao.dart';
 import 'package:src/daos/media/media_series_super_dao.dart';
+import 'package:src/daos/timeslot/timeslot_media_timeslot_super_dao.dart';
+import 'package:src/daos/timeslot/timeslot_student_timeslot_super_dao.dart';
 
 import 'package:src/daos/student/evaluation_dao.dart';
 import 'package:src/daos/student/institution_dao.dart';
@@ -76,6 +78,8 @@ import 'service_locator_test_util.mocks.dart';
   NoteEpisodeNoteSuperDao,
   MediaBookSuperDao,
   MediaSeriesSuperDao,
+  TimeslotMediaTimeslotSuperDao,
+  TimeslotStudentTimeslotSuperDao,
 ])
 void setupMockServiceLocatorUnitTests() {
   serviceLocator
@@ -132,14 +136,14 @@ void setupMockServiceLocatorUnitTests() {
   serviceLocator.registerSingletonWithDependencies<SubjectNoteDao>(
       () => MockSubjectNoteDao(),
       dependsOn: [AppDatabase]);
+  serviceLocator.registerSingletonWithDependencies<TimeslotDao>(
+      () => MockTimeslotDao(),
+      dependsOn: [AppDatabase]);
   serviceLocator.registerSingletonWithDependencies<MediaTimeslotDao>(
       () => MockMediaTimeslotDao(),
       dependsOn: [AppDatabase]);
   serviceLocator.registerSingletonWithDependencies<StudentTimeslotDao>(
       () => MockStudentTimeslotDao(),
-      dependsOn: [AppDatabase]);
-  serviceLocator.registerSingletonWithDependencies<TimeslotDao>(
-      () => MockTimeslotDao(),
       dependsOn: [AppDatabase]);
   serviceLocator.registerSingletonWithDependencies<BadgeDao>(
       () => MockBadgeDao(),
@@ -180,4 +184,12 @@ void setupMockServiceLocatorUnitTests() {
   serviceLocator.registerSingletonWithDependencies<MediaSeriesSuperDao>(
       () => MockMediaSeriesSuperDao(),
       dependsOn: [AppDatabase]);
+  serviceLocator
+      .registerSingletonWithDependencies<TimeslotMediaTimeslotSuperDao>(
+          () => MockTimeslotMediaTimeslotSuperDao(),
+          dependsOn: [AppDatabase]);
+  serviceLocator
+      .registerSingletonWithDependencies<TimeslotStudentTimeslotSuperDao>(
+          () => MockTimeslotStudentTimeslotSuperDao(),
+          dependsOn: [AppDatabase]);
 }

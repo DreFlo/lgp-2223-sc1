@@ -177,9 +177,9 @@ class _$AppDatabase extends AppDatabase {
         await database.execute(
             'CREATE TABLE IF NOT EXISTS `timeslot` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `title` TEXT NOT NULL, `description` TEXT NOT NULL, `start_datetime` INTEGER NOT NULL, `end_datetime` INTEGER NOT NULL, `priority` INTEGER NOT NULL, `xp_multiplier` INTEGER NOT NULL, `user_id` INTEGER NOT NULL, FOREIGN KEY (`user_id`) REFERENCES `user` (`id`) ON UPDATE RESTRICT ON DELETE CASCADE)');
         await database.execute(
-            'CREATE TABLE IF NOT EXISTS `media_timeslot` (`media_id` INTEGER NOT NULL, `id` INTEGER PRIMARY KEY AUTOINCREMENT, `title` TEXT NOT NULL, `description` TEXT NOT NULL, `start_datetime` INTEGER NOT NULL, `end_datetime` INTEGER NOT NULL, `priority` INTEGER NOT NULL, `xp_multiplier` INTEGER NOT NULL, `user_id` INTEGER NOT NULL, FOREIGN KEY (`media_id`) REFERENCES `media` (`id`) ON UPDATE RESTRICT ON DELETE CASCADE)');
+            'CREATE TABLE IF NOT EXISTS `media_timeslot` (`id` INTEGER NOT NULL, `media_id` INTEGER NOT NULL, FOREIGN KEY (`id`) REFERENCES `timeslot` (`id`) ON UPDATE NO ACTION ON DELETE NO ACTION, FOREIGN KEY (`media_id`) REFERENCES `media` (`id`) ON UPDATE RESTRICT ON DELETE CASCADE, PRIMARY KEY (`id`))');
         await database.execute(
-            'CREATE TABLE IF NOT EXISTS `student_timeslot` (`task_id` INTEGER, `evaluation_id` INTEGER, `id` INTEGER PRIMARY KEY AUTOINCREMENT, `title` TEXT NOT NULL, `description` TEXT NOT NULL, `start_datetime` INTEGER NOT NULL, `end_datetime` INTEGER NOT NULL, `priority` INTEGER NOT NULL, `xp_multiplier` INTEGER NOT NULL, `user_id` INTEGER NOT NULL, FOREIGN KEY (`task_id`) REFERENCES `task` (`id`) ON UPDATE RESTRICT ON DELETE CASCADE, FOREIGN KEY (`evaluation_id`) REFERENCES `evaluation` (`id`) ON UPDATE RESTRICT ON DELETE CASCADE)');
+            'CREATE TABLE IF NOT EXISTS `student_timeslot` (`id` INTEGER NOT NULL, `task_id` INTEGER NOT NULL, FOREIGN KEY (`id`) REFERENCES `timeslot` (`id`) ON UPDATE NO ACTION ON DELETE NO ACTION, FOREIGN KEY (`task_id`) REFERENCES `task` (`id`) ON UPDATE RESTRICT ON DELETE CASCADE, PRIMARY KEY (`id`))');
         await database.execute(
             'CREATE TABLE IF NOT EXISTS `user_badge` (`user_id` INTEGER NOT NULL, `badge_id` INTEGER NOT NULL, FOREIGN KEY (`user_id`) REFERENCES `user` (`id`) ON UPDATE RESTRICT ON DELETE CASCADE, FOREIGN KEY (`badge_id`) REFERENCES `badge` (`id`) ON UPDATE RESTRICT ON DELETE CASCADE, PRIMARY KEY (`user_id`, `badge_id`))');
 
@@ -2441,7 +2441,7 @@ class _$TimeslotDao extends TimeslotDao {
   final DeletionAdapter<Timeslot> _timeslotDeletionAdapter;
 
   @override
-  Future<List<Timeslot>> findAllTimeslot() async {
+  Future<List<Timeslot>> findAllTimeslots() async {
     return _queryAdapter.queryList('SELECT * FROM timeslot',
         mapper: (Map<String, Object?> row) => Timeslot(
             id: row['id'] as int?,
@@ -2478,8 +2478,9 @@ class _$TimeslotDao extends TimeslotDao {
   }
 
   @override
-  Future<void> insertTimeslots(Timeslot timeslots) async {
-    await _timeslotInsertionAdapter.insert(timeslots, OnConflictStrategy.abort);
+  Future<void> insertTimeslots(List<Timeslot> timeslots) async {
+    await _timeslotInsertionAdapter.insertList(
+        timeslots, OnConflictStrategy.abort);
   }
 
   @override
@@ -2488,8 +2489,9 @@ class _$TimeslotDao extends TimeslotDao {
   }
 
   @override
-  Future<void> updateTimeslots(Timeslot timeslots) async {
-    await _timeslotUpdateAdapter.update(timeslots, OnConflictStrategy.abort);
+  Future<void> updateTimeslots(List<Timeslot> timeslots) async {
+    await _timeslotUpdateAdapter.updateList(
+        timeslots, OnConflictStrategy.abort);
   }
 
   @override
@@ -2506,50 +2508,20 @@ class _$MediaTimeslotDao extends MediaTimeslotDao {
         _mediaTimeslotInsertionAdapter = InsertionAdapter(
             database,
             'media_timeslot',
-            (MediaTimeslot item) => <String, Object?>{
-                  'media_id': item.mediaId,
-                  'id': item.id,
-                  'title': item.title,
-                  'description': item.description,
-                  'start_datetime':
-                      _dateTimeConverter.encode(item.startDateTime),
-                  'end_datetime': _dateTimeConverter.encode(item.endDateTime),
-                  'priority': item.priority.index,
-                  'xp_multiplier': item.xpMultiplier,
-                  'user_id': item.userId
-                }),
+            (MediaTimeslot item) =>
+                <String, Object?>{'id': item.id, 'media_id': item.mediaId}),
         _mediaTimeslotUpdateAdapter = UpdateAdapter(
             database,
             'media_timeslot',
             ['id'],
-            (MediaTimeslot item) => <String, Object?>{
-                  'media_id': item.mediaId,
-                  'id': item.id,
-                  'title': item.title,
-                  'description': item.description,
-                  'start_datetime':
-                      _dateTimeConverter.encode(item.startDateTime),
-                  'end_datetime': _dateTimeConverter.encode(item.endDateTime),
-                  'priority': item.priority.index,
-                  'xp_multiplier': item.xpMultiplier,
-                  'user_id': item.userId
-                }),
+            (MediaTimeslot item) =>
+                <String, Object?>{'id': item.id, 'media_id': item.mediaId}),
         _mediaTimeslotDeletionAdapter = DeletionAdapter(
             database,
             'media_timeslot',
             ['id'],
-            (MediaTimeslot item) => <String, Object?>{
-                  'media_id': item.mediaId,
-                  'id': item.id,
-                  'title': item.title,
-                  'description': item.description,
-                  'start_datetime':
-                      _dateTimeConverter.encode(item.startDateTime),
-                  'end_datetime': _dateTimeConverter.encode(item.endDateTime),
-                  'priority': item.priority.index,
-                  'xp_multiplier': item.xpMultiplier,
-                  'user_id': item.userId
-                });
+            (MediaTimeslot item) =>
+                <String, Object?>{'id': item.id, 'media_id': item.mediaId});
 
   final sqflite.DatabaseExecutor database;
 
@@ -2567,91 +2539,15 @@ class _$MediaTimeslotDao extends MediaTimeslotDao {
   Future<List<MediaTimeslot>> findAllMediaTimeslots() async {
     return _queryAdapter.queryList('SELECT * FROM media_timeslot',
         mapper: (Map<String, Object?> row) => MediaTimeslot(
-            id: row['id'] as int?,
-            title: row['title'] as String,
-            description: row['description'] as String,
-            startDateTime:
-                _dateTimeConverter.decode(row['start_datetime'] as int),
-            endDateTime: _dateTimeConverter.decode(row['end_datetime'] as int),
-            priority: Priority.values[row['priority'] as int],
-            xpMultiplier: row['xp_multiplier'] as int,
-            userId: row['user_id'] as int,
-            mediaId: row['media_id'] as int));
+            id: row['id'] as int, mediaId: row['media_id'] as int));
   }
 
   @override
   Future<MediaTimeslot?> findMediaTimeslotById(int id) async {
     return _queryAdapter.query('SELECT * FROM media_timeslot WHERE id = ?1',
         mapper: (Map<String, Object?> row) => MediaTimeslot(
-            id: row['id'] as int?,
-            title: row['title'] as String,
-            description: row['description'] as String,
-            startDateTime:
-                _dateTimeConverter.decode(row['start_datetime'] as int),
-            endDateTime: _dateTimeConverter.decode(row['end_datetime'] as int),
-            priority: Priority.values[row['priority'] as int],
-            xpMultiplier: row['xp_multiplier'] as int,
-            userId: row['user_id'] as int,
-            mediaId: row['media_id'] as int),
+            id: row['id'] as int, mediaId: row['media_id'] as int),
         arguments: [id]);
-  }
-
-  @override
-  Future<List<MediaTimeslot>> findMediaTimeslotsByMediaId(int mediaId) async {
-    return _queryAdapter.queryList(
-        'SELECT * FROM media_timeslot WHERE media_id = ?1',
-        mapper: (Map<String, Object?> row) => MediaTimeslot(
-            id: row['id'] as int?,
-            title: row['title'] as String,
-            description: row['description'] as String,
-            startDateTime:
-                _dateTimeConverter.decode(row['start_datetime'] as int),
-            endDateTime: _dateTimeConverter.decode(row['end_datetime'] as int),
-            priority: Priority.values[row['priority'] as int],
-            xpMultiplier: row['xp_multiplier'] as int,
-            userId: row['user_id'] as int,
-            mediaId: row['media_id'] as int),
-        arguments: [mediaId]);
-  }
-
-  @override
-  Future<MediaTimeslot?> findMediaTimeslotByMediaIdAndTimeslotId(
-    int mediaId,
-    int timeslotId,
-  ) async {
-    return _queryAdapter.query(
-        'SELECT * FROM media_timeslot WHERE media_id = ?1 AND timeslot_id = ?2',
-        mapper: (Map<String, Object?> row) => MediaTimeslot(
-            id: row['id'] as int?,
-            title: row['title'] as String,
-            description: row['description'] as String,
-            startDateTime:
-                _dateTimeConverter.decode(row['start_datetime'] as int),
-            endDateTime: _dateTimeConverter.decode(row['end_datetime'] as int),
-            priority: Priority.values[row['priority'] as int],
-            xpMultiplier: row['xp_multiplier'] as int,
-            userId: row['user_id'] as int,
-            mediaId: row['media_id'] as int),
-        arguments: [mediaId, timeslotId]);
-  }
-
-  @override
-  Future<List<MediaTimeslot>> findMediaTimeslotsByTimeslotId(
-      int timeslotId) async {
-    return _queryAdapter.queryList(
-        'SELECT * FROM media_timeslot WHERE timeslot_id = ?1',
-        mapper: (Map<String, Object?> row) => MediaTimeslot(
-            id: row['id'] as int?,
-            title: row['title'] as String,
-            description: row['description'] as String,
-            startDateTime:
-                _dateTimeConverter.decode(row['start_datetime'] as int),
-            endDateTime: _dateTimeConverter.decode(row['end_datetime'] as int),
-            priority: Priority.values[row['priority'] as int],
-            xpMultiplier: row['xp_multiplier'] as int,
-            userId: row['user_id'] as int,
-            mediaId: row['media_id'] as int),
-        arguments: [timeslotId]);
   }
 
   @override
@@ -2692,53 +2588,20 @@ class _$StudentTimeslotDao extends StudentTimeslotDao {
         _studentTimeslotInsertionAdapter = InsertionAdapter(
             database,
             'student_timeslot',
-            (StudentTimeslot item) => <String, Object?>{
-                  'task_id': item.taskId,
-                  'evaluation_id': item.evaluationId,
-                  'id': item.id,
-                  'title': item.title,
-                  'description': item.description,
-                  'start_datetime':
-                      _dateTimeConverter.encode(item.startDateTime),
-                  'end_datetime': _dateTimeConverter.encode(item.endDateTime),
-                  'priority': item.priority.index,
-                  'xp_multiplier': item.xpMultiplier,
-                  'user_id': item.userId
-                }),
+            (StudentTimeslot item) =>
+                <String, Object?>{'id': item.id, 'task_id': item.taskId}),
         _studentTimeslotUpdateAdapter = UpdateAdapter(
             database,
             'student_timeslot',
             ['id'],
-            (StudentTimeslot item) => <String, Object?>{
-                  'task_id': item.taskId,
-                  'evaluation_id': item.evaluationId,
-                  'id': item.id,
-                  'title': item.title,
-                  'description': item.description,
-                  'start_datetime':
-                      _dateTimeConverter.encode(item.startDateTime),
-                  'end_datetime': _dateTimeConverter.encode(item.endDateTime),
-                  'priority': item.priority.index,
-                  'xp_multiplier': item.xpMultiplier,
-                  'user_id': item.userId
-                }),
+            (StudentTimeslot item) =>
+                <String, Object?>{'id': item.id, 'task_id': item.taskId}),
         _studentTimeslotDeletionAdapter = DeletionAdapter(
             database,
             'student_timeslot',
             ['id'],
-            (StudentTimeslot item) => <String, Object?>{
-                  'task_id': item.taskId,
-                  'evaluation_id': item.evaluationId,
-                  'id': item.id,
-                  'title': item.title,
-                  'description': item.description,
-                  'start_datetime':
-                      _dateTimeConverter.encode(item.startDateTime),
-                  'end_datetime': _dateTimeConverter.encode(item.endDateTime),
-                  'priority': item.priority.index,
-                  'xp_multiplier': item.xpMultiplier,
-                  'user_id': item.userId
-                });
+            (StudentTimeslot item) =>
+                <String, Object?>{'id': item.id, 'task_id': item.taskId});
 
   final sqflite.DatabaseExecutor database;
 
@@ -2756,85 +2619,15 @@ class _$StudentTimeslotDao extends StudentTimeslotDao {
   Future<List<StudentTimeslot>> findAllStudentTimeslots() async {
     return _queryAdapter.queryList('SELECT * FROM student_timeslot',
         mapper: (Map<String, Object?> row) => StudentTimeslot(
-            id: row['id'] as int?,
-            title: row['title'] as String,
-            description: row['description'] as String,
-            startDateTime:
-                _dateTimeConverter.decode(row['start_datetime'] as int),
-            endDateTime: _dateTimeConverter.decode(row['end_datetime'] as int),
-            priority: Priority.values[row['priority'] as int],
-            xpMultiplier: row['xp_multiplier'] as int,
-            userId: row['user_id'] as int,
-            taskId: row['task_id'] as int?,
-            evaluationId: row['evaluation_id'] as int?));
+            id: row['id'] as int, taskId: row['task_id'] as int));
   }
 
   @override
   Future<StudentTimeslot?> findStudentTimeslotById(int id) async {
     return _queryAdapter.query('SELECT * FROM student_timeslot WHERE id = ?1',
         mapper: (Map<String, Object?> row) => StudentTimeslot(
-            id: row['id'] as int?,
-            title: row['title'] as String,
-            description: row['description'] as String,
-            startDateTime:
-                _dateTimeConverter.decode(row['start_datetime'] as int),
-            endDateTime: _dateTimeConverter.decode(row['end_datetime'] as int),
-            priority: Priority.values[row['priority'] as int],
-            xpMultiplier: row['xp_multiplier'] as int,
-            userId: row['user_id'] as int,
-            taskId: row['task_id'] as int?,
-            evaluationId: row['evaluation_id'] as int?),
+            id: row['id'] as int, taskId: row['task_id'] as int),
         arguments: [id]);
-  }
-
-  @override
-  Future<List<StudentTimeslot>> findStudentTimeslotsByTaskId(int taskId) async {
-    return _queryAdapter.queryList(
-        'SELECT * FROM student_timeslot WHERE task_id = ?1',
-        mapper: (Map<String, Object?> row) => StudentTimeslot(
-            id: row['id'] as int?,
-            title: row['title'] as String,
-            description: row['description'] as String,
-            startDateTime:
-                _dateTimeConverter.decode(row['start_datetime'] as int),
-            endDateTime: _dateTimeConverter.decode(row['end_datetime'] as int),
-            priority: Priority.values[row['priority'] as int],
-            xpMultiplier: row['xp_multiplier'] as int,
-            userId: row['user_id'] as int,
-            taskId: row['task_id'] as int?,
-            evaluationId: row['evaluation_id'] as int?),
-        arguments: [taskId]);
-  }
-
-  @override
-  Future<StudentTimeslot?> findStudentTimeslotByTaskIdAndTimeslotId(
-    int taskId,
-    int timeslotId,
-  ) async {
-    return _queryAdapter.query(
-        'SELECT * FROM student_timeslot WHERE task_id = ?1 AND timeslot_id = ?2',
-        mapper: (Map<String, Object?> row) => StudentTimeslot(id: row['id'] as int?, title: row['title'] as String, description: row['description'] as String, startDateTime: _dateTimeConverter.decode(row['start_datetime'] as int), endDateTime: _dateTimeConverter.decode(row['end_datetime'] as int), priority: Priority.values[row['priority'] as int], xpMultiplier: row['xp_multiplier'] as int, userId: row['user_id'] as int, taskId: row['task_id'] as int?, evaluationId: row['evaluation_id'] as int?),
-        arguments: [taskId, timeslotId]);
-  }
-
-  @override
-  Future<List<StudentTimeslot>> findStudentTimeslotsByTimeslotId(
-      int timeslotId) async {
-    return _queryAdapter.queryList(
-        'SELECT * FROM student_timeslot WHERE timeslot_id = ?1',
-        mapper: (Map<String, Object?> row) => StudentTimeslot(
-            id: row['id'] as int?,
-            title: row['title'] as String,
-            description: row['description'] as String,
-            startDateTime:
-                _dateTimeConverter.decode(row['start_datetime'] as int),
-            endDateTime: _dateTimeConverter.decode(row['end_datetime'] as int),
-            priority: Priority.values[row['priority'] as int],
-            xpMultiplier: row['xp_multiplier'] as int,
-            userId: row['user_id'] as int,
-            taskId: row['task_id'] as int?,
-            evaluationId: row['evaluation_id'] as int?),
-        arguments: [timeslotId]);
   }
 
   @override

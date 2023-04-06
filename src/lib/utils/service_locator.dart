@@ -32,9 +32,11 @@ import 'package:src/daos/media/movie_dao.dart';
 import 'package:src/daos/media/series_dao.dart';
 import 'package:src/daos/media/season_dao.dart';
 
+import 'package:src/daos/timeslot/timeslot_dao.dart';
 import 'package:src/daos/timeslot/media_timeslot_dao.dart';
 import 'package:src/daos/timeslot/student_timeslot_dao.dart';
-import 'package:src/daos/timeslot/timeslot_dao.dart';
+import 'package:src/daos/timeslot/timeslot_media_timeslot_super_dao.dart';
+import 'package:src/daos/timeslot/timeslot_student_timeslot_super_dao.dart';
 
 import 'package:src/daos/badge_dao.dart';
 import 'package:src/daos/mood_dao.dart';
@@ -128,11 +130,11 @@ Future<void> setup({bool testing = false}) async {
   serviceLocator.registerSingletonWithDependencies<MoodDao>(
       () => serviceLocator.get<AppDatabase>().moodDao,
       dependsOn: [AppDatabase]);
-  serviceLocator.registerSingletonWithDependencies<MediaTimeslotDao>(
-      () => serviceLocator.get<AppDatabase>().mediaTimeslotDao,
-      dependsOn: [AppDatabase]);
   serviceLocator.registerSingletonWithDependencies<TimeslotDao>(
       () => serviceLocator.get<AppDatabase>().timeslotDao,
+      dependsOn: [AppDatabase]);
+  serviceLocator.registerSingletonWithDependencies<MediaTimeslotDao>(
+      () => serviceLocator.get<AppDatabase>().mediaTimeslotDao,
       dependsOn: [AppDatabase]);
   serviceLocator.registerSingletonWithDependencies<StudentTimeslotDao>(
       () => serviceLocator.get<AppDatabase>().studentTimeslotDao,
@@ -169,4 +171,12 @@ Future<void> setup({bool testing = false}) async {
   serviceLocator.registerSingletonWithDependencies<MediaSeriesSuperDao>(
       () => mediaSeriesSuperDao,
       dependsOn: [AppDatabase]);
+  serviceLocator
+      .registerSingletonWithDependencies<TimeslotMediaTimeslotSuperDao>(
+          () => timeslotMediaTimeslotSuperDao,
+          dependsOn: [AppDatabase]);
+  serviceLocator
+      .registerSingletonWithDependencies<TimeslotStudentTimeslotSuperDao>(
+          () => timeslotStudentTimeslotSuperDao,
+          dependsOn: [AppDatabase]);
 }

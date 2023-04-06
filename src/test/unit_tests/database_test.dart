@@ -1,4 +1,5 @@
 import 'package:floor/floor.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:sqflite/sqflite.dart';
 
@@ -38,7 +39,7 @@ import 'package:src/daos/notes/book_note_dao.dart';
 import 'package:src/models/notes/episode_note.dart';
 import 'package:src/daos/notes/episode_note_dao.dart';
 import 'package:src/models/media/video.dart';
-import 'package:src/utils/enums.dart';
+import 'package:src/utils/enums.dart' as _enums;
 import 'package:src/utils/service_locator.dart';
 import 'package:src/daos/user_dao.dart';
 import 'package:src/models/user.dart';
@@ -57,8 +58,6 @@ import 'package:src/daos/media/season_dao.dart';
 import 'package:src/models/media/season.dart';
 import 'package:src/daos/media/series_dao.dart';
 import 'package:src/models/media/series.dart';
-import 'package:src/daos/timeslot/timeslot_dao.dart';
-import 'package:src/models/timeslot/timeslot.dart';
 import 'package:src/utils/enums.dart';
 import 'package:src/models/media/video.dart';
 import 'package:src/daos/media/video_dao.dart';
@@ -80,6 +79,16 @@ import 'package:src/models/student/task.dart';
 import 'package:src/daos/student/task_dao.dart';
 import 'package:src/models/student/task_group.dart';
 import 'package:src/daos/student/task_group_dao.dart';
+import 'package:src/models/timeslot/timeslot.dart';
+import 'package:src/daos/timeslot/timeslot_dao.dart';
+import 'package:src/models/timeslot/media_timeslot.dart';
+import 'package:src/daos/timeslot/media_timeslot_dao.dart';
+import 'package:src/models/timeslot/student_timeslot.dart';
+import 'package:src/daos/timeslot/student_timeslot_dao.dart';
+import 'package:src/models/timeslot/timeslot_media_timeslot_super_entity.dart';
+import 'package:src/daos/timeslot/timeslot_media_timeslot_super_dao.dart';
+import 'package:src/models/timeslot/timeslot_student_timeslot_super_entity.dart';
+import 'package:src/daos/timeslot/timeslot_student_timeslot_super_dao.dart';
 
 void main() {
   setUp(() async {
@@ -294,14 +303,14 @@ void main() {
       await serviceLocator<TaskGroupDao>().insertTaskGroup(TaskGroup(
         name: 'name',
         description: 'description',
-        priority: Priority.high,
+        priority: _enums.Priority.high,
         deadline: DateTime.now(),
       ));
 
       await serviceLocator<TaskDao>().insertTask(Task(
           name: 'name',
           description: 'description',
-          priority: Priority.high,
+          priority: _enums.Priority.high,
           deadline: DateTime.now().subtract(const Duration(days: 1)),
           taskGroupId: 1,
           subjectId: 1,
@@ -486,6 +495,97 @@ void main() {
     });
   });
 
+  testWidgets('Test SuperDAO for Timeslot/MediaTimeslot',
+      (WidgetTester tester) async {
+    await serviceLocator<UserDao>()
+        .insertUser(User(userName: 'Emil', password: '1234', xp: 23));
+
+    await tester.runAsync(() async {
+      int seriesId = await serviceLocator<MediaDao>().insertMedia(Media(
+        name: 'name',
+        description: 'description',
+        linkImage: 'linkImage',
+        status: Status.goingThrough,
+        favorite: true,
+        genres: 'genres',
+        release: DateTime.now(),
+        xp: 23,
+      ));
+
+      await serviceLocator<SeriesDao>().insertSerie(Series(id: seriesId));
+
+      TimeslotMediaTimeslotSuperEntity timeslotMediaTimeslotSuperEntity =
+          TimeslotMediaTimeslotSuperEntity(
+              title: 'timeslot 1',
+              description: 'description 1',
+              startDateTime: DateTime.now(),
+              endDateTime: DateTime.now().add(const Duration(days: 1)),
+              priority: _enums.Priority.high,
+              xpMultiplier: 2,
+              userId: 1,
+              mediaId: 1);
+      // TODO(TIMESLOT): multiple mediaIds...
+
+      int id = await serviceLocator<TimeslotMediaTimeslotSuperDao>()
+          .insertTimeslotMediaTimeslotSuperEntity(
+              timeslotMediaTimeslotSuperEntity);
+
+      expect(id, 1);
+    });
+  });
+
+  testWidgets('Test SuperDAO for Timeslot/StudentTimeslot',
+      (WidgetTester tester) async {
+    await serviceLocator<UserDao>()
+        .insertUser(User(userName: 'Emil', password: '1234', xp: 23));
+
+    await serviceLocator<InstitutionDao>().insertInstitution(Institution(
+        name: 'name',
+        picture: 'picture',
+        type: InstitutionType.education,
+        acronym: 'I',
+        userId: 1));
+
+    await serviceLocator<SubjectDao>().insertSubject(Subject(
+      name: 'name',
+      weightAverage: 1.0,
+      institutionId: 1,
+    ));
+
+    await serviceLocator<TaskGroupDao>().insertTaskGroup(TaskGroup(
+      name: 'name',
+      description: 'description',
+      priority: _enums.Priority.high,
+      deadline: DateTime.now(),
+    ));
+
+    await serviceLocator<TaskDao>().insertTask(Task(
+        name: 'name',
+        description: 'description',
+        priority: _enums.Priority.high,
+        deadline: DateTime.now().subtract(const Duration(days: 1)),
+        taskGroupId: 1,
+        subjectId: 1,
+        xp: 20));
+
+    TimeslotStudentTimeslotSuperEntity timeslotStudentTimeslotSuperEntity =
+        TimeslotStudentTimeslotSuperEntity(
+            title: 'timeslot 1',
+            description: 'description 1',
+            startDateTime: DateTime.now(),
+            endDateTime: DateTime.now().add(const Duration(days: 1)),
+            priority: _enums.Priority.high,
+            xpMultiplier: 2,
+            userId: 1,
+            taskId: 1); // TODO(TIMESLOT): multiple taskIds..
+
+    int id = await serviceLocator<TimeslotStudentTimeslotSuperDao>()
+        .insertTimeslotStudentTimeslotSuperEntity(
+            timeslotStudentTimeslotSuperEntity);
+
+    expect(id, 1);
+  });
+
 // ---------------------------- TRIGGER TESTS ----------------------------
   testWidgets('Test Trigger timeslot_date', (WidgetTester tester) async {
     await tester.runAsync(() async {
@@ -509,7 +609,7 @@ void main() {
         description: 'description',
         startDateTime: startDateTime,
         endDateTime: endDateTime,
-        priority: Priority.high,
+        priority: _enums.Priority.high,
         xpMultiplier: 1,
         userId: userId,
       );
@@ -888,7 +988,7 @@ void main() {
           id: 1,
           name: 'Task Group 1',
           description: 'Task Group 1',
-          priority: Priority.low,
+          priority: _enums.Priority.low,
           deadline: DateTime.utc(2021, 12, 31)));
 
       await serviceLocator<InstitutionDao>().insertInstitution(Institution(
@@ -906,7 +1006,7 @@ void main() {
           id: 1,
           name: 'Task 1',
           description: 'Task 1',
-          priority: Priority.low,
+          priority: _enums.Priority.low,
           deadline: DateTime.utc(2022, 01, 02),
           taskGroupId: 1,
           subjectId: 1,

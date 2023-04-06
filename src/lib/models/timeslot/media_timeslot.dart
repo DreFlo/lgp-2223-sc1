@@ -1,11 +1,15 @@
 import 'package:floor/floor.dart';
 import 'package:src/models/timeslot/timeslot.dart';
 import 'package:src/models/media/media.dart';
-import 'package:src/utils/enums.dart';
 
 @Entity(
   tableName: 'media_timeslot',
   foreignKeys: [
+    ForeignKey(
+      childColumns: ['id'],
+      parentColumns: ['id'],
+      entity: Timeslot,
+    ),
     ForeignKey(
         childColumns: ['media_id'],
         parentColumns: ['id'],
@@ -14,27 +18,16 @@ import 'package:src/utils/enums.dart';
         onUpdate: ForeignKeyAction.restrict)
   ],
 )
-class MediaTimeslot extends Timeslot {
+class MediaTimeslot {
+  @PrimaryKey()
+  final int id;
+
+  // TODO(TIMESLOT): several medias
   @ColumnInfo(name: 'media_id')
   final int mediaId;
 
-  MediaTimeslot(
-      {int? id,
-      required String title,
-      required String description,
-      required DateTime startDateTime,
-      required DateTime endDateTime,
-      required Priority priority,
-      required int xpMultiplier,
-      required int userId,
-      required this.mediaId})
-      : super(
-            id: id,
-            title: title,
-            description: description,
-            startDateTime: startDateTime,
-            endDateTime: endDateTime,
-            priority: priority,
-            xpMultiplier: xpMultiplier,
-            userId: userId);
+  MediaTimeslot({
+    required this.id,
+    required this.mediaId,
+  });
 }
