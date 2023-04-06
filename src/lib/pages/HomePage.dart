@@ -5,6 +5,8 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:src/animation_test/main.dart';
 import 'package:src/daos/person_dao.dart';
 import 'package:src/models/person.dart';
+import 'package:src/pages/tasks/InstitutionForm.dart';
+import 'package:src/pages/tasks/SubjectForm.dart';
 import 'package:src/themes/colors.dart';
 import 'package:src/utils/service_locator.dart';
 import 'leisure/AddToCatalogForm.dart';
@@ -577,6 +579,65 @@ class _HomePageState extends State<HomePage> {
                                         tasks: const ["", "", ""],
                                         description: "nothing")),
                           ));
+                }),
+            ElevatedButton(
+                child: Text("Subject Form"),
+                onPressed: () {
+                  showModalBottomSheet(
+                      context: context,
+                      isScrollControlled: true,
+                      backgroundColor: Color(0xFF22252D),
+                      shape: RoundedRectangleBorder(
+                        borderRadius:
+                            BorderRadius.vertical(top: Radius.circular(30.0)),
+                      ),
+                      builder: (context) => Padding(
+                          padding: EdgeInsets.only(
+                              bottom: MediaQuery.of(context).viewInsets.bottom +
+                                  50),
+                          child: DraggableScrollableSheet(
+                            expand: false,
+                            initialChildSize: 0.5,
+                            minChildSize: 0.5,
+                            maxChildSize: 0.5,
+                            builder: (context, scrollController) => SubjectForm(
+                              name: "Hello",
+                              acronym: "HI",
+                              scrollController: scrollController,
+                            ),
+                          )));
+                }),
+            ElevatedButton(
+                child: Text("Institution Form"),
+                onPressed: () {
+                  showModalBottomSheet(
+                      context: context,
+                      isScrollControlled: true,
+                      backgroundColor: Color(0xFF22252D),
+                      shape: RoundedRectangleBorder(
+                        borderRadius:
+                            BorderRadius.vertical(top: Radius.circular(30.0)),
+                      ),
+                      builder: (context) => Padding(
+                          padding: EdgeInsets.only(
+                              bottom: MediaQuery.of(context).viewInsets.bottom +
+                                  50),
+                          child: DraggableScrollableSheet(
+                            expand: false,
+                            initialChildSize: 0.5,
+                            minChildSize: 0.5,
+                            maxChildSize: 0.5,
+                            builder: (context, scrollController) =>
+                                InstitutionForm(
+                              name: "Hello",
+                              type: InstitutionType.education,
+                              subjects: const {
+                                "LPOO":
+                                    "Laboratório de Programação Orientada a Objetos"
+                              },
+                              scrollController: scrollController,
+                            ),
+                          )));
                 }),
             FutureBuilder(
                 key: ValueKey<Object>(redrawObject),
