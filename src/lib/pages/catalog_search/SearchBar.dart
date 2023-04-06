@@ -44,11 +44,17 @@ class _SearchBarState extends State<SearchBar> {
                     controller: _searchTextController,
                     onSubmitted: (text) => widget.onSearch(text),
                     textAlignVertical: TextAlignVertical.center,
+                    style: TextStyle(
+                      color: Colors.black,
+                      fontFamily: 'Poppins',
+                      fontSize: 16,
+                      fontWeight: FontWeight.normal,
+                    ),
                     decoration: InputDecoration(
                       hintText: 'Search',
                       hintStyle: const TextStyle(
                         fontFamily: 'Poppins',
-                        fontSize: 12,
+                        fontSize: 16,
                         color: Color(0xff5e6272),
                         fontWeight: FontWeight.w400,
                         height: 1.5,
