@@ -55,7 +55,7 @@ class _MyNavigationPageState extends State<MyNavigationPage> {
         backgroundColor: appBackground,
         body: SizedBox.expand(
             child: PageView(
-          physics: NeverScrollableScrollPhysics(),
+          physics: const NeverScrollableScrollPhysics(),
           controller: _pageController,
           onPageChanged: (int index) {
             setState(() {
