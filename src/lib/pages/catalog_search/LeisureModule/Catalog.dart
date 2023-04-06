@@ -78,7 +78,7 @@ class Catalog extends StatelessWidget {
                       child: ListView.builder(
                         padding: EdgeInsets.only(left: 15 * fem),
                         scrollDirection: Axis.horizontal,
-                        itemCount: trendingTvshows.length,
+                        itemCount: 20, //will be dependent on database size
                         itemBuilder: (context, index) {
                           return InkWell(
                             onTap: () {},
@@ -147,7 +147,7 @@ class Catalog extends StatelessWidget {
                       child: ListView.builder(
                         padding: EdgeInsets.only(left: 15 * fem),
                         scrollDirection: Axis.horizontal,
-                        itemCount: trendingTvshows.length,
+                        itemCount: 20,
                         itemBuilder: (context, index) {
                           return InkWell(
                             onTap: () {},
@@ -216,7 +216,7 @@ class Catalog extends StatelessWidget {
                       child: ListView.builder(
                         padding: EdgeInsets.only(left: 15 * fem),
                         scrollDirection: Axis.horizontal,
-                        itemCount: trendingTvshows.length,
+                        itemCount: 20,
                         itemBuilder: (context, index) {
                           return InkWell(
                             onTap: () {},
