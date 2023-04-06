@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'SearchMedia/Books.dart';
 import 'SearchMedia/Movies.dart';
 import 'SearchMedia/TVShows.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'dart:async';
 
 class SearchMedia extends StatefulWidget {
@@ -52,15 +53,15 @@ class _SearchMediaState extends State<SearchMedia>
             padding: const EdgeInsets.symmetric(horizontal: 18),
             child: TabBar(
               controller: tabController,
-              tabs: const [
+              tabs: [
                 Tab(
-                  text: 'Movies',
+                  text: AppLocalizations.of(context).movies,
                 ),
                 Tab(
-                  text: 'Tv Shows',
+                  text: AppLocalizations.of(context).tv_shows,
                 ),
                 Tab(
-                  text: 'Books',
+                  text: AppLocalizations.of(context).books,
                 ),
               ],
             ),

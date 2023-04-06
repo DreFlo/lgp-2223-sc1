@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:src/pages/HomePage.dart';
 import 'package:src/pages/catalog_search/SeeAll.dart';
 import '../Media.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
 
 class Catalog extends StatelessWidget {
   final List trendingMovies;
@@ -32,9 +34,9 @@ class Catalog extends StatelessWidget {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  const Text(
-                    'Movies',
-                    style: TextStyle(
+                  Text(
+                    AppLocalizations.of(context).movies,
+                    style: const TextStyle(
                       fontFamily: 'Poppins',
                       fontSize: 18,
                       color: Colors.white,
@@ -51,12 +53,12 @@ class Catalog extends StatelessWidget {
                             context,
                             MaterialPageRoute(
                                 builder: (context) => SeeAll(
-                                    title: 'All Movies',
+                                    title: AppLocalizations.of(context).all_movies,
                                     media: trendingMovies)));
                       },
-                      child: const Text(
-                        'See All',
-                        style: TextStyle(
+                      child:  Text(
+                        AppLocalizations.of(context).see_all,
+                        style: const TextStyle(
                           fontFamily: 'Poppins',
                           fontSize: 14,
                           color: Color(0xff5e6272),
@@ -105,9 +107,9 @@ class Catalog extends StatelessWidget {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  const Text(
-                    'TV Shows',
-                    style: TextStyle(
+                  Text(
+                     AppLocalizations.of(context).tv_shows,
+                    style: const TextStyle(
                       fontFamily: 'Poppins',
                       fontSize: 18,
                       color: Colors.white,
@@ -124,12 +126,12 @@ class Catalog extends StatelessWidget {
                             context,
                             MaterialPageRoute(
                                 builder: (context) => SeeAll(
-                                    title: 'All Tv Shows',
+                                    title:  AppLocalizations.of(context).all_tv_shows,
                                     media: trendingTvshows)));
                       },
-                      child: const Text(
-                        'See All',
-                        style: TextStyle(
+                      child: Text(
+                         AppLocalizations.of(context).see_all,
+                        style: const TextStyle(
                           fontFamily: 'Poppins',
                           fontSize: 14,
                           color: Color(0xff5e6272),
@@ -177,9 +179,9 @@ class Catalog extends StatelessWidget {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  const Text(
-                    'Books',
-                    style: TextStyle(
+                   Text(
+                     AppLocalizations.of(context).books,
+                    style: const TextStyle(
                       fontFamily: 'Poppins',
                       fontSize: 18,
                       color: Colors.white,
@@ -196,11 +198,11 @@ class Catalog extends StatelessWidget {
                             context,
                             MaterialPageRoute(
                                 builder: (context) =>
-                                    SeeAll(title: 'All Books', media: books)));
+                                    SeeAll(title:  AppLocalizations.of(context).all_books, media: books)));
                       },
-                      child: const Text(
-                        'See All',
-                        style: TextStyle(
+                      child: Text(
+                         AppLocalizations.of(context).see_all,
+                        style: const TextStyle(
                           fontFamily: 'Poppins',
                           fontSize: 14,
                           color: Color(0xff5e6272),

@@ -3,6 +3,7 @@
 import 'package:flutter/material.dart';
 import 'LeisureModule/Search.dart';
 import 'LeisureModule/Catalog.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'SearchBar.dart';
 
 class LeisureModule extends StatefulWidget {
@@ -76,9 +77,9 @@ class _LeisureModuleState extends State<LeisureModule>
                       },
                     )),
                 const SizedBox(width: 10),
-                const Text(
-                  'Media',
-                  style: TextStyle(
+                Text(
+                  AppLocalizations.of(context).media,
+                  style: const TextStyle(
                     fontFamily: 'Poppins',
                     fontSize: 16,
                     color: Colors.white,
@@ -97,12 +98,12 @@ class _LeisureModuleState extends State<LeisureModule>
               padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
               child: TabBar(
                 controller: tabController,
-                tabs: const [
+                tabs: [
                   Tab(
-                    text: 'My Media',
+                    text: AppLocalizations.of(context).my_media,
                   ),
                   Tab(
-                    text: 'Discover',
+                    text: AppLocalizations.of(context).discover,
                   ),
                 ],
               )),
