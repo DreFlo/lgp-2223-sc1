@@ -451,8 +451,8 @@ class _HomePageState extends State<HomePage> {
       appBar: AppBar(
         title: Text(widget.title),
       ),
-      body: Center(
-          child: Row(children: [
+      body: Wrap(spacing: 10, children: [
+        const SizedBox(height: 30),
         Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
@@ -742,7 +742,7 @@ class _HomePageState extends State<HomePage> {
                 }),
           ],
         ),
-      ])),
+      ]),
       floatingActionButton: FloatingActionButton(
         onPressed: _incrementCounter,
         tooltip: 'Increment',
