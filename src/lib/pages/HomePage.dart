@@ -5,6 +5,9 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:src/animation_test/main.dart';
 import 'package:src/daos/person_dao.dart';
 import 'package:src/models/person.dart';
+import 'package:src/pages/tasks/InstitutionForm.dart';
+import 'package:src/pages/tasks/SubjectForm.dart';
+import 'package:src/themes/colors.dart';
 import 'package:src/utils/service_locator.dart';
 import 'leisure/AddToCatalogForm.dart';
 import 'leisure/MarkEpisodesSheet.dart';
@@ -18,7 +21,8 @@ import 'package:tmdb_api/tmdb_api.dart';
 import 'package:books_finder/books_finder.dart';
 import 'catalog_search/LeisureModule.dart';
 
-const Color leisureColor = Color(0xFFF52349);
+import 'tasks/ProjectForm.dart';
+import 'tasks/TaskForm.dart';
 
 class HomePage extends StatefulWidget {
   final String title;
@@ -447,8 +451,9 @@ class _HomePageState extends State<HomePage> {
       appBar: AppBar(
         title: Text(widget.title),
       ),
-      body: Center(
-        child: Column(
+      body: Wrap(spacing: 10, children: [
+        const SizedBox(height: 30),
+        Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             Text(
@@ -562,6 +567,131 @@ class _HomePageState extends State<HomePage> {
                                         child: mediaPageButton())
                                   ])));
                 }),
+            ElevatedButton(
+                child: Text("Task Form"),
+                onPressed: () {
+                  showModalBottomSheet(
+                      context: context,
+                      isScrollControlled: true,
+                      backgroundColor: Color(0xFF22252D),
+                      shape: RoundedRectangleBorder(
+                        borderRadius:
+                            BorderRadius.vertical(top: Radius.circular(30.0)),
+                      ),
+                      builder: (context) => Padding(
+                            padding: EdgeInsets.only(
+                                bottom:
+                                    MediaQuery.of(context).viewInsets.bottom +
+                                        50),
+                            child: DraggableScrollableSheet(
+                                expand: false,
+                                initialChildSize: 0.60,
+                                minChildSize: 0.60,
+                                maxChildSize: 0.60,
+                                builder: (context, scrollController) =>
+                                    TaskForm(
+                                        scrollController: scrollController,
+                                        title: "Create Task",
+                                        project: "No",
+                                        dueDate: "05/04/2023",
+                                        priority: Priority.high,
+                                        notes: const ["nothing"],
+                                        institution: "FEUP",
+                                        subject: "LPOO",
+                                        description: "nothing")),
+                          ));
+                }),
+            ElevatedButton(
+                child: Text("Project Form"),
+                onPressed: () {
+                  showModalBottomSheet(
+                      context: context,
+                      isScrollControlled: true,
+                      backgroundColor: Color(0xFF22252D),
+                      shape: RoundedRectangleBorder(
+                        borderRadius:
+                            BorderRadius.vertical(top: Radius.circular(30.0)),
+                      ),
+                      builder: (context) => Padding(
+                            padding: EdgeInsets.only(
+                                bottom:
+                                    MediaQuery.of(context).viewInsets.bottom +
+                                        50),
+                            child: DraggableScrollableSheet(
+                                expand: false,
+                                initialChildSize: 0.75,
+                                minChildSize: 0.75,
+                                maxChildSize: 0.75,
+                                builder: (context, scrollController) =>
+                                    ProjectForm(
+                                        scrollController: scrollController,
+                                        title: "Create Project",
+                                        dueDate: "05/04/2023",
+                                        institution: "FEUP",
+                                        subject: "LPOO",
+                                        tasks: const ["", "", ""],
+                                        description: "nothing")),
+                          ));
+                }),
+            ElevatedButton(
+                child: Text("Subject Form"),
+                onPressed: () {
+                  showModalBottomSheet(
+                      context: context,
+                      isScrollControlled: true,
+                      backgroundColor: Color(0xFF22252D),
+                      shape: RoundedRectangleBorder(
+                        borderRadius:
+                            BorderRadius.vertical(top: Radius.circular(30.0)),
+                      ),
+                      builder: (context) => Padding(
+                          padding: EdgeInsets.only(
+                              bottom: MediaQuery.of(context).viewInsets.bottom +
+                                  50),
+                          child: DraggableScrollableSheet(
+                            expand: false,
+                            initialChildSize: 0.5,
+                            minChildSize: 0.5,
+                            maxChildSize: 0.5,
+                            builder: (context, scrollController) => SubjectForm(
+                              name: "Hello",
+                              acronym: "HI",
+                              scrollController: scrollController,
+                            ),
+                          )));
+                }),
+            ElevatedButton(
+                child: Text("Institution Form"),
+                onPressed: () {
+                  showModalBottomSheet(
+                      context: context,
+                      isScrollControlled: true,
+                      backgroundColor: Color(0xFF22252D),
+                      shape: RoundedRectangleBorder(
+                        borderRadius:
+                            BorderRadius.vertical(top: Radius.circular(30.0)),
+                      ),
+                      builder: (context) => Padding(
+                          padding: EdgeInsets.only(
+                              bottom: MediaQuery.of(context).viewInsets.bottom +
+                                  50),
+                          child: DraggableScrollableSheet(
+                            expand: false,
+                            initialChildSize: 0.5,
+                            minChildSize: 0.5,
+                            maxChildSize: 0.5,
+                            builder: (context, scrollController) =>
+                                InstitutionForm(
+                              name: "Hello",
+                              type: InstitutionType.education,
+                              subjects: const {
+                                "LPOO":
+                                    "Laboratório de Programação Orientada a Objetos"
+                              },
+                              scrollController: scrollController,
+                            ),
+                          )));
+                }),
             FutureBuilder(
                 key: ValueKey<Object>(redrawObject),
                 future: serviceLocator<PersonDao>().findAllPersons(),
@@ -612,7 +742,7 @@ class _HomePageState extends State<HomePage> {
                 }),
           ],
         ),
-      ),
+      ]),
       floatingActionButton: FloatingActionButton(
         onPressed: _incrementCounter,
         tooltip: 'Increment',
