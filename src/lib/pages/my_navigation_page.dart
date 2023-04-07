@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:src/pages/HomePage.dart';
+import 'package:src/pages/my_dashboard.dart';
 import 'package:src/pages/my_home_page.dart';
 import 'package:src/themes/colors.dart';
 import 'package:src/widgets/my_bottom_navigation_bar.dart';
@@ -43,12 +44,10 @@ class _MyNavigationPageState extends State<MyNavigationPage> {
       child: Text("Calendar"), //TODO
     ),
     Center(),
+    MyDashboard(),
     HomePage(
         title:
             "TODO"), // TODO - this is here for now just to have access to leisure screens
-    Center(
-      child: Text("Settings"), //TODO
-    ),
   ];
 
   @override

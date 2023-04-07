@@ -93,6 +93,10 @@ class App extends StatelessWidget {
                       color: Color(0xFF5E6272),
                       fontSize: 14,
                       fontWeight: FontWeight.w600),
+                  headlineLarge: TextStyle(
+                      color: Colors.white,
+                      fontSize: 10,
+                      fontWeight: FontWeight.w500),
                 )),
             home: const Scaffold(
               body: Center(
