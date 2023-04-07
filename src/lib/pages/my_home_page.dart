@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:src/widgets/home/my_horizontal_scrollview.dart';
-import 'package:src/widgets/home/my_profile_pic.dart';
-import 'package:src/widgets/home/my_task_listview.dart';
-import 'package:src/widgets/home/my_welcome_message.dart';
+import 'package:src/widgets/home/homepage_horizontal_scrollview.dart';
+import 'package:src/widgets/home/profile_pic.dart';
+import 'package:src/widgets/home/task_listview.dart';
+import 'package:src/widgets/home/welcome_message.dart';
 
 import '../models/student/task.dart';
 import '../utils/enums.dart';
-import '../widgets/home/my_badge_placeholder.dart';
+import '../widgets/home/badge_placeholder.dart';
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({Key? key}) : super(key: key);
@@ -90,15 +90,15 @@ class _MyHomePageState extends State<MyHomePage> {
         children: [
           const Padding(
               padding: EdgeInsets.only(right: 36, top: 36),
-              child: MyProfilePic()),
+              child: ProfilePic()),
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Padding(
                   padding: const EdgeInsets.only(left: 36, top: 90),
-                  child: MyWelcomeMessage(name: name)),
-              const MyBadgePlaceholder(),
-              MyHorizontalScrollView(
+                  child: WelcomeMessage(name: name)),
+              const BadgePlaceholder(),
+              HorizontalScrollView(
                 nItems: items.length,
                 selectedIndex: _selectedIndex,
                 setSelectedIndex: (int index) =>
