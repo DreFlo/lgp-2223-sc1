@@ -50,5 +50,10 @@
   "my_media": "My Media",
   "discover": "Discover",
   "see_all": "See All",
-  "search": "Search"
+  "search": "Search",
+  "student": "Student",
+  "leisure": "Leisure",
+  "fitness": "Fitness",
+  "personal": "Personal",
+  "hello": "Hello"
 }

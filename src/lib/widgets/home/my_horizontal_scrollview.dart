@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:src/themes/colors.dart';
 
 class MyHorizontalScrollView extends StatefulWidget {
+  final int nItems;
   final int selectedIndex;
   final Function(int) setSelectedIndex;
 
   const MyHorizontalScrollView(
-      {Key? key, required this.selectedIndex, required this.setSelectedIndex})
+      {Key? key, required this.selectedIndex, required this.setSelectedIndex, required this.nItems})
       : super(key: key);
 
   @override
@@ -15,13 +17,6 @@ class MyHorizontalScrollView extends StatefulWidget {
 
 class _MyHorizontalScrollViewState extends State<MyHorizontalScrollView> {
   final ScrollController _scrollController = ScrollController();
-  final Map<String, Color> items = {
-    'All (4)': primaryColor,
-    'Student': studentColor,
-    'Leisure': leisureColor,
-    'Fitness': fitnessColor,
-    'Personal': personalColor
-  };
 
   void _onItemTap(int index) {
     setState(() {
@@ -74,6 +69,14 @@ class _MyHorizontalScrollViewState extends State<MyHorizontalScrollView> {
 
   @override
   Widget build(BuildContext context) {
+    final Map<String, Color> items = {
+      '${AppLocalizations.of(context).all_label} (${widget.nItems})': primaryColor,
+      AppLocalizations.of(context).student: studentColor,
+      AppLocalizations.of(context).leisure: leisureColor,
+      AppLocalizations.of(context).fitness: fitnessColor,
+      AppLocalizations.of(context).personal: personalColor
+    };
+
     return SingleChildScrollView(
         controller: _scrollController,
         scrollDirection: Axis.horizontal,

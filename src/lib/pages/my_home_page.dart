@@ -91,6 +91,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   child: MyWelcomeMessage(name: name)),
               const MyBadgePlaceholder(),
               MyHorizontalScrollView(
+                nItems: items.length,
                 selectedIndex: _selectedIndex,
                 setSelectedIndex: (int index) =>
                     setState(() => _selectedIndex = index),

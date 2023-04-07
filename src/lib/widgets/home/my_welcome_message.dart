@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class MyWelcomeMessage extends StatefulWidget {
   final String name;
@@ -14,7 +15,7 @@ class _MyWelcomeMessageState extends State<MyWelcomeMessage> {
   Widget build(BuildContext context) {
     return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
       Text(
-        'Hello, \n${widget.name}',
+        '${AppLocalizations.of(context).hello}, \n${widget.name}',
         style: Theme.of(context).textTheme.displayLarge,
       ),
     ]);
