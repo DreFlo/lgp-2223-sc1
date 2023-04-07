@@ -49,7 +49,7 @@ class _MyDashboardState extends State<MyDashboard> {
   void loadmedia() async {
     final tmdb = TMDB(ApiKeys(Env.tmdbApiKey, 'apiReadAccessTokenv4'));
     Map movieresult =
-    await tmdb.v3.trending.getTrending(mediaType: MediaType.movie);
+        await tmdb.v3.trending.getTrending(mediaType: MediaType.movie);
     Map tvresult = await tmdb.v3.trending
         .getTrending(mediaType: MediaType.tv); //doesn't have ['results']
     books = await queryBooks(
