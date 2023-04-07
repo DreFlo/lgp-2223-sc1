@@ -22,3 +22,7 @@ const Color textField = Color(0xFF17181C);
 const Color bottomNavbar = Color(0xFF1A1D25);
 
 const Color shadowColor = Color(0xFF1B2135);
+
+const Color grayBackground = Color(0xFF414554);
+
+const Color grayText = Color(0xFF5E6272);
