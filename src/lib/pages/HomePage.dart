@@ -452,9 +452,8 @@ class _HomePageState extends State<HomePage> {
         title: Text(widget.title),
       ),
       body: Center(
-          child: Flexible(
-        flex: 1,
-        child: Column(
+          child: Row(children: [
+        Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             Text(
@@ -743,7 +742,7 @@ class _HomePageState extends State<HomePage> {
                 }),
           ],
         ),
-      )),
+      ])),
       floatingActionButton: FloatingActionButton(
         onPressed: _incrementCounter,
         tooltip: 'Increment',
