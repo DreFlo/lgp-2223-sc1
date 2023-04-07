@@ -175,7 +175,7 @@ class _$AppDatabase extends AppDatabase {
         await database.execute(
             'CREATE TABLE IF NOT EXISTS `mood` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `name` TEXT NOT NULL, `mood` INTEGER NOT NULL, `date` INTEGER NOT NULL, `user_id` INTEGER NOT NULL, FOREIGN KEY (`user_id`) REFERENCES `user` (`id`) ON UPDATE RESTRICT ON DELETE CASCADE)');
         await database.execute(
-            'CREATE TABLE IF NOT EXISTS `timeslot` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `title` TEXT NOT NULL, `description` TEXT NOT NULL, `start_datetime` INTEGER NOT NULL, `end_datetime` INTEGER NOT NULL, `priority` INTEGER NOT NULL, `xp_multiplier` INTEGER NOT NULL, `user_id` INTEGER NOT NULL, FOREIGN KEY (`user_id`) REFERENCES `user` (`id`) ON UPDATE RESTRICT ON DELETE CASCADE)');
+            'CREATE TABLE IF NOT EXISTS `timeslot` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `title` TEXT NOT NULL, `description` TEXT NOT NULL, `start_datetime` INTEGER NOT NULL, `end_datetime` INTEGER NOT NULL, `xp_multiplier` INTEGER NOT NULL, `user_id` INTEGER NOT NULL, FOREIGN KEY (`user_id`) REFERENCES `user` (`id`) ON UPDATE RESTRICT ON DELETE CASCADE)');
         await database.execute(
             'CREATE TABLE IF NOT EXISTS `media_timeslot` (`id` INTEGER NOT NULL, `media_id` TEXT NOT NULL, FOREIGN KEY (`id`) REFERENCES `timeslot` (`id`) ON UPDATE NO ACTION ON DELETE NO ACTION, FOREIGN KEY (`media_id`) REFERENCES `media` (`id`) ON UPDATE RESTRICT ON DELETE CASCADE, PRIMARY KEY (`id`))');
         await database.execute(
@@ -2393,7 +2393,6 @@ class _$TimeslotDao extends TimeslotDao {
                   'start_datetime':
                       _dateTimeConverter.encode(item.startDateTime),
                   'end_datetime': _dateTimeConverter.encode(item.endDateTime),
-                  'priority': item.priority.index,
                   'xp_multiplier': item.xpMultiplier,
                   'user_id': item.userId
                 }),
@@ -2408,7 +2407,6 @@ class _$TimeslotDao extends TimeslotDao {
                   'start_datetime':
                       _dateTimeConverter.encode(item.startDateTime),
                   'end_datetime': _dateTimeConverter.encode(item.endDateTime),
-                  'priority': item.priority.index,
                   'xp_multiplier': item.xpMultiplier,
                   'user_id': item.userId
                 }),
@@ -2423,7 +2421,6 @@ class _$TimeslotDao extends TimeslotDao {
                   'start_datetime':
                       _dateTimeConverter.encode(item.startDateTime),
                   'end_datetime': _dateTimeConverter.encode(item.endDateTime),
-                  'priority': item.priority.index,
                   'xp_multiplier': item.xpMultiplier,
                   'user_id': item.userId
                 });
@@ -2450,7 +2447,6 @@ class _$TimeslotDao extends TimeslotDao {
             startDateTime:
                 _dateTimeConverter.decode(row['start_datetime'] as int),
             endDateTime: _dateTimeConverter.decode(row['end_datetime'] as int),
-            priority: Priority.values[row['priority'] as int],
             xpMultiplier: row['xp_multiplier'] as int,
             userId: row['user_id'] as int));
   }
@@ -2465,7 +2461,6 @@ class _$TimeslotDao extends TimeslotDao {
             startDateTime:
                 _dateTimeConverter.decode(row['start_datetime'] as int),
             endDateTime: _dateTimeConverter.decode(row['end_datetime'] as int),
-            priority: Priority.values[row['priority'] as int],
             xpMultiplier: row['xp_multiplier'] as int,
             userId: row['user_id'] as int),
         arguments: [id]);

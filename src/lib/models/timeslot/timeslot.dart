@@ -1,5 +1,4 @@
 import 'package:floor/floor.dart';
-import 'package:src/utils/enums.dart';
 import 'package:src/models/user.dart';
 
 @Entity(
@@ -27,8 +26,6 @@ class Timeslot {
   @ColumnInfo(name: 'end_datetime')
   final DateTime endDateTime;
 
-  final Priority priority;
-
   @ColumnInfo(name: 'xp_multiplier')
   final int xpMultiplier;
 
@@ -41,7 +38,6 @@ class Timeslot {
       required this.description,
       required this.startDateTime,
       required this.endDateTime,
-      required this.priority,
       required this.xpMultiplier,
       required this.userId});
 }

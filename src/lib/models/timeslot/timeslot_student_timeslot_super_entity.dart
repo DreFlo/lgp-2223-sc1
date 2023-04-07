@@ -1,6 +1,5 @@
 import 'package:src/models/timeslot/timeslot.dart';
 import 'package:src/models/timeslot/student_timeslot.dart';
-import 'package:src/utils/enums.dart';
 
 class TimeslotStudentTimeslotSuperEntity {
   final int? id;
@@ -8,7 +7,6 @@ class TimeslotStudentTimeslotSuperEntity {
   final String description;
   final DateTime startDateTime;
   final DateTime endDateTime;
-  final Priority priority;
   final int xpMultiplier;
   final int userId;
   final List<int> taskId;
@@ -19,7 +17,6 @@ class TimeslotStudentTimeslotSuperEntity {
     required this.description,
     required this.startDateTime,
     required this.endDateTime,
-    required this.priority,
     required this.xpMultiplier,
     required this.userId,
     required this.taskId,
@@ -32,7 +29,6 @@ class TimeslotStudentTimeslotSuperEntity {
         description = timeslot.description,
         startDateTime = timeslot.startDateTime,
         endDateTime = timeslot.endDateTime,
-        priority = timeslot.priority,
         xpMultiplier = timeslot.xpMultiplier,
         userId = timeslot.userId,
         taskId = studentTimeslot.taskId;
@@ -44,7 +40,6 @@ class TimeslotStudentTimeslotSuperEntity {
       description: description,
       startDateTime: startDateTime,
       endDateTime: endDateTime,
-      priority: priority,
       xpMultiplier: xpMultiplier,
       userId: userId,
     );
@@ -63,7 +58,6 @@ class TimeslotStudentTimeslotSuperEntity {
     String? description,
     DateTime? startDateTime,
     DateTime? endDateTime,
-    Priority? priority,
     int? xpMultiplier,
     int? userId,
     List<int>? taskId,
@@ -74,7 +68,6 @@ class TimeslotStudentTimeslotSuperEntity {
       description: description ?? this.description,
       startDateTime: startDateTime ?? this.startDateTime,
       endDateTime: endDateTime ?? this.endDateTime,
-      priority: priority ?? this.priority,
       xpMultiplier: xpMultiplier ?? this.xpMultiplier,
       userId: userId ?? this.userId,
       taskId: taskId ?? this.taskId,

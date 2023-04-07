@@ -499,7 +499,6 @@ void main() {
               description: 'description 1',
               startDateTime: DateTime.now(),
               endDateTime: DateTime.now().add(const Duration(days: 1)),
-              priority: enums.Priority.high,
               xpMultiplier: 2,
               userId: 1,
               mediaId: List.of([1]));
@@ -559,7 +558,6 @@ void main() {
               description: 'description 1',
               startDateTime: DateTime.now(),
               endDateTime: DateTime.now().add(const Duration(days: 1)),
-              priority: enums.Priority.high,
               xpMultiplier: 2,
               userId: 1,
               taskId: List.of([1]));
@@ -602,7 +600,6 @@ void main() {
         description: 'description',
         startDateTime: startDateTime,
         endDateTime: endDateTime,
-        priority: enums.Priority.high,
         xpMultiplier: 1,
         userId: userId,
       );
