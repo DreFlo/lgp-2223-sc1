@@ -55,5 +55,6 @@
   "leisure": "Leisure",
   "fitness": "Fitness",
   "personal": "Personal",
-  "dashboard": "Dashboard"
+  "dashboard": "Dashboard",
+  "hello": "Hello"
 }
