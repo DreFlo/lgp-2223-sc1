@@ -8,7 +8,10 @@ class MyHorizontalScrollView extends StatefulWidget {
   final Function(int) setSelectedIndex;
 
   const MyHorizontalScrollView(
-      {Key? key, required this.selectedIndex, required this.setSelectedIndex, required this.nItems})
+      {Key? key,
+      required this.selectedIndex,
+      required this.setSelectedIndex,
+      required this.nItems})
       : super(key: key);
 
   @override
@@ -70,7 +73,8 @@ class _MyHorizontalScrollViewState extends State<MyHorizontalScrollView> {
   @override
   Widget build(BuildContext context) {
     final Map<String, Color> items = {
-      '${AppLocalizations.of(context).all_label} (${widget.nItems})': primaryColor,
+      '${AppLocalizations.of(context).all_label} (${widget.nItems})':
+          primaryColor,
       AppLocalizations.of(context).student: studentColor,
       AppLocalizations.of(context).leisure: leisureColor,
       AppLocalizations.of(context).fitness: fitnessColor,
