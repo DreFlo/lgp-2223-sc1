@@ -110,7 +110,10 @@ class _MyHomePageState extends State<MyHomePage> {
               child: const Text('Add name'),
               onPressed: () async {
                 await serviceLocator<UserDao>().insertUser(User(
-                    userName: nameInputController.text, password: '', xp: 0, imagePath: 'test'));
+                    userName: nameInputController.text,
+                    password: '',
+                    xp: 0,
+                    imagePath: 'test'));
                 setState(() {
                   redrawObject = Object();
                 });
