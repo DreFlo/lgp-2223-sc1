@@ -23,7 +23,7 @@ class Review {
   final DateTime endDate;
 
   final String review;
-
+  
   final Reaction emoji;
 
   @ColumnInfo(name: 'media_id')
