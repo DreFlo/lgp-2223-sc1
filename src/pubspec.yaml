@@ -68,6 +68,7 @@ dev_dependencies:
   envied_generator: ^0.3.0
   build_runner: ^2.3.3
   floor_generator: ^1.4.1
+  remove_from_coverage: ^2.0.0
 
 
 # For information on the generic Dart part of this file, see the

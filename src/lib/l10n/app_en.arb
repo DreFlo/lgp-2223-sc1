@@ -67,4 +67,15 @@
   "other": "Other",
   "acronym": "Acronym",
   "subjects": "Subjects"
+  "movies": "Movies",
+  "tv_shows": "TV Shows",
+  "media": "Media",
+  "books": "Books",
+  "all_movies": "All Movies",
+  "all_books": "All Books",
+  "all_tv_shows": "All TV Shows",
+  "my_media": "My Media",
+  "discover": "Discover",
+  "see_all": "See All",
+  "search": "Search"
 }
