@@ -51,19 +51,16 @@ class _SubjectBarState extends State<SubjectBar> {
         width: MediaQuery.of(context).size.width * 0.9,
         decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(10), color: lightGray),
-        child:
-            Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-          Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Row(mainAxisAlignment: MainAxisAlignment.start, children: [
-                      Text(widget.acronym,
-                          style: const TextStyle(
-                              color: Colors.white,
-                              fontSize: 16,
-                              fontWeight: FontWeight.w600))
-                    ])
-                  ]),
+        child: Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+          Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+            Row(mainAxisAlignment: MainAxisAlignment.start, children: [
+              Text(widget.acronym,
+                  style: const TextStyle(
+                      color: Colors.white,
+                      fontSize: 16,
+                      fontWeight: FontWeight.w600))
+            ])
+          ]),
           const SizedBox(width: 10),
           Flexible(
               flex: 1,
