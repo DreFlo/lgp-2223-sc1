@@ -3,7 +3,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:src/utils/service_locator.dart';
 
 import 'flavors.dart';
-import 'pages/my_navigation_page.dart';
+import 'pages/navigation_page.dart';
 
 const Map<int, Color> color = {
   50: Color.fromRGBO(108, 93, 211, .1),
@@ -100,7 +100,7 @@ class App extends StatelessWidget {
                 )),
             home: const Scaffold(
               body: Center(
-                child: MyNavigationPage(),
+                child: NavigationPage(),
               ),
             ),
           );
