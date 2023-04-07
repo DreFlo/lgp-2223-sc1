@@ -32,6 +32,10 @@ class _MyDashboardState extends State<MyDashboard> {
   int _selectedIndex = 0;
   bool _searching = false;
 
+  List trendingmovies = [];
+  List trendingtvshows = [];
+  List books = [];
+
   final List<Project> items = [
     Project('Project de LGP', 'Student', 'LGP', 1, "Faculdade"),
     Project('Criar meu Portfolio', 'Personal', 'Profissional', 1),
@@ -41,6 +45,26 @@ class _MyDashboardState extends State<MyDashboard> {
   ];
 
   late List<Project> searchResults = items;
+
+  void loadmedia() async {
+    final tmdb = TMDB(ApiKeys(Env.tmdbApiKey, 'apiReadAccessTokenv4'));
+    Map movieresult =
+    await tmdb.v3.trending.getTrending(mediaType: MediaType.movie);
+    Map tvresult = await tmdb.v3.trending
+        .getTrending(mediaType: MediaType.tv); //doesn't have ['results']
+    books = await queryBooks(
+      'batman',
+      maxResults: 40,
+      printType: PrintType.books,
+      orderBy: OrderBy.relevance,
+    );
+
+    setState(() {
+      trendingmovies = movieresult['results'];
+      trendingtvshows = tvresult['results'];
+      books = books;
+    });
+  }
 
   void search(String query) {
     setState(() {
@@ -72,30 +96,6 @@ class _MyDashboardState extends State<MyDashboard> {
       default:
         return searchResults;
     }
-  }
-
-  List trendingmovies = [];
-  List trendingtvshows = [];
-  List books = [];
-
-  void loadmedia() async {
-    final tmdb = TMDB(ApiKeys(Env.tmdbApiKey, 'apiReadAccessTokenv4'));
-    Map movieresult =
-        await tmdb.v3.trending.getTrending(mediaType: MediaType.movie);
-    Map tvresult = await tmdb.v3.trending
-        .getTrending(mediaType: MediaType.tv); //doesn't have ['results']
-    books = await queryBooks(
-      'batman',
-      maxResults: 40,
-      printType: PrintType.books,
-      orderBy: OrderBy.relevance,
-    );
-
-    setState(() {
-      trendingmovies = movieresult['results'];
-      trendingtvshows = tvresult['results'];
-      books = books;
-    });
   }
 
   @override
