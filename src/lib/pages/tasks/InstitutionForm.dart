@@ -295,9 +295,7 @@ class _InstitutionFormState extends State<InstitutionForm> {
               ),
             ]),
             const SizedBox(height: 7.5),
-            Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: getSubjects()),
+            ...getSubjects(),
             const SizedBox(height: 30),
             ElevatedButton(
                 onPressed: () {

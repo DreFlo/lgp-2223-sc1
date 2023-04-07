@@ -52,10 +52,8 @@ class _SubjectBarState extends State<SubjectBar> {
         decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(10), color: lightGray),
         child:
-            Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-          Flexible(
-              flex: 1,
-              child: Column(
+            Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+          Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Row(mainAxisAlignment: MainAxisAlignment.start, children: [
@@ -65,9 +63,10 @@ class _SubjectBarState extends State<SubjectBar> {
                               fontSize: 16,
                               fontWeight: FontWeight.w600))
                     ])
-                  ])),
+                  ]),
+          const SizedBox(width: 10),
           Flexible(
-              flex: 5,
+              flex: 1,
               child:
                   Column(crossAxisAlignment: CrossAxisAlignment.end, children: [
                 Text(widget.name,
