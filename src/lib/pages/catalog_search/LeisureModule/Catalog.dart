@@ -1,7 +1,7 @@
 // ignore_for_file: file_names, sized_box_for_whitespace
 import 'package:flutter/material.dart';
-import 'package:src/pages/HomePage.dart';
 import 'package:src/pages/catalog_search/SeeAll.dart';
+import 'package:src/themes/colors.dart';
 import '../Media.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
