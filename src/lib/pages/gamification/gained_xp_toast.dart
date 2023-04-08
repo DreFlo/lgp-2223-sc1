@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -22,9 +24,9 @@ class GainedXPToast extends StatefulWidget {
 }
 
 class _GainedXPToastState extends State<GainedXPToast>
-    with SingleTickerProviderStateMixin {
-
+    with TickerProviderStateMixin {
   late AnimationController controller;
+  late AnimationController opacityController;
   late Animation<double> animation;
   late Animation<double> opacityAnimation;
 
@@ -43,18 +45,23 @@ class _GainedXPToastState extends State<GainedXPToast>
           widget.progress = animation.value.toInt();
         });
       });
-    
-    opacityAnimation = Tween<double>(
-            begin: 0,
-            end: 1)
-        .animate(controller)
-      ..addListener(() {
-        setState(() {
-          widget.progress = opacityAnimation.value.toInt();
-        });
-      });
 
-    controller.forward();
+    opacityController = AnimationController(
+        duration: const Duration(milliseconds: 750), vsync: this);
+
+    opacityAnimation =
+        Tween<double>(begin: 0, end: 1).animate(opacityController)
+          ..addListener(() {
+            setState(() {
+              widget.progress = opacityAnimation.value.toInt();
+            });
+          });
+
+    Future.delayed(const Duration(seconds: 1), () {
+      controller.forward();
+    });
+
+    opacityController.forward();
   }
 
   @override
@@ -138,13 +145,13 @@ class _GainedXPToastState extends State<GainedXPToast>
                       Positioned(
                           right: 10,
                           child: FadeTransition(
-                            opacity: opacityAnimation,
-                            child: Text("+ ${widget.points}".toUpperCase(),
-                              style: const TextStyle(
-                                color: Colors.white,
-                                fontSize: 12,
-                                fontWeight: FontWeight.bold,
-                              ))))
+                              opacity: opacityAnimation,
+                              child: Text("+ ${widget.points}".toUpperCase(),
+                                  style: const TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 12,
+                                    fontWeight: FontWeight.bold,
+                                  ))))
                     ])),
               ]),
             ]))
