@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:tmdb_api/tmdb_api.dart';
 import 'media.dart';
 import 'package:src/themes/colors.dart';
-import 'package:src/utils/service_locator.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:src/pages/leisure/add_to_catalog_form.dart';
 import 'package:src/pages/leisure/mark_episodes_sheet.dart';
 import 'package:src/pages/leisure/episodes_notes_sheet.dart';
@@ -24,202 +24,22 @@ class ListMedia extends StatelessWidget {
     'S02E07': 'Bow is best boy.'
   };
 
+  Map<int, Map<int, String>> episodes = const {
+    1: {
+      1: "123445241355423523254135362541355342",
+      2: "Episode 2",
+      3: "Episode 3",
+      4: "Episode 4"
+    },
+    2: {1: "Episode 1", 2: "Episode 2"},
+    3: {1: "Episode 1", 2: "Episode 2"},
+    4: {1: "Episode 1", 2: "Episode 2"}
+  };
+
   ListMedia({Key? key, required this.title, required this.media})
       : super(key: key);
 
-  @override
-  Widget build(BuildContext context) {
-    double baseWidth = 390;
-    double fem = MediaQuery.of(context).size.width / baseWidth;
-
-    // Filter out null images
-    List filteredMedia =
-        media.where((item) => showWidget(item) != null).toList();
-
-    return Padding(
-      padding: EdgeInsets.fromLTRB(40 * fem, 22 * fem, 0, 0),
-      child: SingleChildScrollView(
-        child: Wrap(
-          spacing: 10.0 * fem,
-          runSpacing: 22.0 * fem,
-          children: List.generate(filteredMedia.length, (index) {
-            return SizedBox(
-                // Wrap GestureDetector widget with SizedBox
-                width: 100.0 * fem,
-                height: 150.0 * fem,
-                child: GestureDetector(
-                  onTap: () {
-                    showModalBottomSheet(
-                        context: context,
-                        isScrollControlled: true,
-                        backgroundColor: Color(0xFF22252D),
-                        shape: RoundedRectangleBorder(
-                          borderRadius:
-                              BorderRadius.vertical(top: Radius.circular(30.0)),
-                        ),
-                        builder: (context) => DraggableScrollableSheet(
-                            expand: false,
-                            minChildSize: 0.35,
-                            maxChildSize: 0.75,
-                            builder: (context, scrollController) => Stack(
-                                    alignment:
-                                        AlignmentDirectional.bottomCenter,
-                                    children: [
-                                      SingleChildScrollView(
-                                          controller: scrollController,
-                                          child: showMediaPageBasedOnType(
-                                              filteredMedia[index])),
-                                      /*Positioned(
-                                        left: 16,
-                                        right: 16,
-                                        bottom: 16,
-                                        child: mediaPageButton())*/
-                                    ])));
-                  },
-                  child: SizedBox(
-                    width: 100.0 * fem,
-                    height: 150.0 * fem,
-                    child: showWidget(filteredMedia[index]),
-                  ),
-                ));
-          }),
-        ),
-      ),
-    );
-  }
-
-  Future<Map> getDetails(int id, String type) async {
-    final tmdb = TMDB(ApiKeys(Env.tmdbApiKey, 'apiReadAccessTokenv4'));
-
-    if(type == 'Movie'){
-      Map result = await tmdb.v3.movies.getDetails(id);
-      return result;
-    } else if(type == 'TV'){
-      Map result = await tmdb.v3.tv.getDetails(id);
-      return result;
-    } else {
-      return {};
-    }
-  }
-
-  showMediaPageBasedOnType(dynamic item) {
-    if (title == 'All Books') {
-      return MediaPage(
-          title: item.info.title,
-          synopsis: item.info.description,
-          type: 'Book',
-          length: [item.info.pageCount],
-          cast: item.info.authors,
-          image: item.info.imageLinks['thumbnail'].toString(),
-          notes: notes, //get from DB
-          status: Status.nothing, //get from DB
-          isFavorite: false //get from DB
-          );
-    } else if (title == 'All Movies') {
-      return FutureBuilder<Map>(
-        future: getDetails(item['id'], 'Movie'),
-        builder: (context, snapshot) {
-          if (snapshot.hasData) {
-            return MediaPage(
-                type: 'Movie',
-                image: item['poster_path'],
-                cast: [],
-                notes: notes, //get from DB
-                status: Status.nothing, //get from DB
-                isFavorite: false, //get from DB
-                title: snapshot.data!['title'],
-                synopsis: snapshot.data!['overview'],
-                length: [snapshot.data!['runtime']],
-                );
-          } else if (snapshot.hasError) {
-            return Text('${snapshot.error}');
-          }
-          return CircularProgressIndicator();
-        },
-      );
-    } else if (title == 'All TV Shows') {
-      return FutureBuilder<Map>(
-        future: getDetails(item['id'], 'TV'),
-        builder: (context, snapshot) {
-          if (snapshot.hasData) {
-            return MediaPage(
-                type: 'TV Show',
-                image: item['poster_path'],
-                cast: [],
-                notes: notes, //get from DB
-                status: Status.nothing, //get from DB
-                isFavorite: false, //get from DB
-                title: snapshot.data!['name'],
-                synopsis: snapshot.data!['overview'],
-                length: [snapshot.data!['number_of_seasons'], snapshot.data!['number_of_episodes'], snapshot.data!['runtime']],
-                );
-          } else if (snapshot.hasError) {
-            return Text('${snapshot.error}');
-          }
-          return CircularProgressIndicator();
-        },
-      );
-    }
-  }
-
-  /*
-GestureDetector(
-  onTap: () {
-   showModalBottomSheet(
-                      context: context,
-                      isScrollControlled: true,
-                      backgroundColor: Color(0xFF22252D),
-                      shape: RoundedRectangleBorder(
-                        borderRadius:
-                            BorderRadius.vertical(top: Radius.circular(30.0)),
-                      ),
-                      builder: (context) => DraggableScrollableSheet(
-                          expand: false,
-                          minChildSize: 0.35,
-                          maxChildSize: 0.75,
-                          builder: (context, scrollController) => Stack(
-                                  alignment: AlignmentDirectional.bottomCenter,
-                                  children: [
-                                    SingleChildScrollView(
-                                        controller: scrollController,
-                                        child: MediaPage(
-                                            title: title,
-                                            synopsis: synopsis,
-                                            type: type,
-                                            length: length,
-                                            cast: cast,
-                                            notes: notes,
-                                            status: status,
-                                            isFavorite: isFavorite)),
-                                    Positioned(
-                                        left: 16,
-                                        right: 16,
-                                        bottom: 16,
-                                        child: mediaPageButton())
-                                  ])))
-  },
-  child: SizedBox(
-    width: 100.0 * fem,
-    height: 150.0 * fem,
-    child: showWidget(filteredMedia[index]),
-  ),
-);
- */
-  showWidget(dynamic item) {
-    if (title == 'All Books') {
-      if (item.info.imageLinks['thumbnail'] != null) {
-        return Media(
-            image: item.info.imageLinks['thumbnail'].toString(), type: 'book');
-      }
-    } else {
-      if (item['poster_path'] != null) {
-        return Media(image: item['poster_path'], type: 'video');
-      }
-    }
-  }
-
-/*
-    Widget mediaPageButton() {
+  Widget mediaPageButton(String type, Status status, BuildContext context) {
     if (type == "TV Show") {
       if (status == Status.nothing) {
         // If the media is not in the catalog, show a button to add it.
@@ -534,7 +354,7 @@ GestureDetector(
                                         child: SingleChildScrollView(
                                             controller: scrollController,
                                             child: BookNotesSheet(
-                                                notes: bookNotes)))
+                                                notes: notes)))
                                   ])));
                 },
                 style: ElevatedButton.styleFrom(
@@ -555,5 +375,167 @@ GestureDetector(
     }
 
     return Container();
-  }*/
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    double baseWidth = 390;
+    double fem = MediaQuery.of(context).size.width / baseWidth;
+
+    // Filter out null images
+    List filteredMedia =
+        media.where((item) => showWidget(item) != null).toList();
+
+    return Padding(
+      padding: EdgeInsets.fromLTRB(40 * fem, 22 * fem, 0, 0),
+      child: SingleChildScrollView(
+        child: Wrap(
+          spacing: 10.0 * fem,
+          runSpacing: 22.0 * fem,
+          children: List.generate(filteredMedia.length, (index) {
+            return SizedBox(
+                // Wrap GestureDetector widget with SizedBox
+                width: 100.0 * fem,
+                height: 150.0 * fem,
+                child: GestureDetector(
+                  onTap: () {
+                    showModalBottomSheet(
+                        context: context,
+                        isScrollControlled: true,
+                        backgroundColor: Color(0xFF22252D),
+                        shape: RoundedRectangleBorder(
+                          borderRadius:
+                              BorderRadius.vertical(top: Radius.circular(30.0)),
+                        ),
+                        builder: (context) => DraggableScrollableSheet(
+                            expand: false,
+                            minChildSize: 0.35,
+                            maxChildSize: 0.75,
+                            builder: (context, scrollController) => Stack(
+                                    alignment:
+                                        AlignmentDirectional.bottomCenter,
+                                    children: [
+                                      SingleChildScrollView(
+                                          controller: scrollController,
+                                          child: showMediaPageBasedOnType(
+                                              filteredMedia[index])),
+                                      Positioned(
+                                        left: 16,
+                                        right: 16,
+                                        bottom: 16,
+                                        child: showMediaPageButton(
+                                            filteredMedia[index], context)),
+                                    ])));
+                  },
+                  child: SizedBox(
+                    width: 100.0 * fem,
+                    height: 150.0 * fem,
+                    child: showWidget(filteredMedia[index]),
+                  ),
+                ));
+          }),
+        ),
+      ),
+    );
+  }
+
+  Future<Map> getDetails(int id, String type) async {
+    final tmdb = TMDB(ApiKeys(Env.tmdbApiKey, 'apiReadAccessTokenv4'));
+
+    if(type == 'Movie'){
+      Map result = await tmdb.v3.movies.getDetails(id);
+      return result;
+    } else if(type == 'TV'){
+      Map result = await tmdb.v3.tv.getDetails(id);
+      return result;
+    } else {
+      return {};
+    }
+  }
+
+  showMediaPageButton(dynamic item, context){
+    if (title == 'All Books'){
+      return mediaPageButton('Book', Status.goingThrough, context); //get status from DB
+    }
+    else if (title == 'All Movies') {
+      return mediaPageButton('Movie', Status.nothing, context); //get status from DB
+    }
+    else {
+      return mediaPageButton('TV Show', Status.nothing, context); //get status from DB
+    }
+
+  }
+
+  showMediaPageBasedOnType(dynamic item) {
+    if (title == 'All Books') {
+      return MediaPage(
+          title: item.info.title,
+          synopsis: item.info.description,
+          type: 'Book',
+          length: [item.info.pageCount],
+          cast: item.info.authors,
+          image: item.info.imageLinks['thumbnail'].toString(),
+          notes: notes, //get from DB
+          status: Status.nothing, //get from DB
+          isFavorite: false //get from DB
+          );
+    } else if (title == 'All Movies') {
+      return FutureBuilder<Map>(
+        future: getDetails(item['id'], 'Movie'),
+        builder: (context, snapshot) {
+          if (snapshot.hasData) {
+            return MediaPage(
+                type: 'Movie',
+                image: item['poster_path'],
+                cast: [],
+                notes: notes, //get from DB
+                status: Status.nothing, //get from DB
+                isFavorite: false, //get from DB
+                title: snapshot.data!['title'],
+                synopsis: snapshot.data!['overview'],
+                length: [snapshot.data!['runtime']],
+                );
+          } else if (snapshot.hasError) {
+            return Text('${snapshot.error}');
+          }
+          return CircularProgressIndicator();
+        },
+      );
+    } else if (title == 'All TV Shows') {
+      return FutureBuilder<Map>(
+        future: getDetails(item['id'], 'TV'),
+        builder: (context, snapshot) {
+          if (snapshot.hasData) {
+            return MediaPage(
+                type: 'TV Show',
+                image: item['poster_path'],
+                cast: [],
+                notes: notes, //get from DB
+                status: Status.nothing, //get from DB
+                isFavorite: false, //get from DB
+                title: snapshot.data!['name'],
+                synopsis: snapshot.data!['overview'],
+                length: [snapshot.data!['number_of_seasons'], snapshot.data!['number_of_episodes'], snapshot.data!['runtime']],
+                );
+          } else if (snapshot.hasError) {
+            return Text('${snapshot.error}');
+          }
+          return CircularProgressIndicator();
+        },
+      );
+    }
+  }
+
+  showWidget(dynamic item) {
+    if (title == 'All Books') {
+      if (item.info.imageLinks['thumbnail'] != null) {
+        return Media(
+            image: item.info.imageLinks['thumbnail'].toString(), type: 'book');
+      }
+    } else {
+      if (item['poster_path'] != null) {
+        return Media(image: item['poster_path'], type: 'video');
+      }
+    }
+  }
 }

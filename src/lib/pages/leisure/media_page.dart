@@ -166,6 +166,8 @@ class MediaPage extends StatelessWidget {
                     alignment: WrapAlignment.start,
                     runSpacing: 7.5,
                     children: const [
+                      //book: category + year?
+                      //movie/tv: genre + tagline + year?
                       LeisureTag(text: "85% love it"),
                       LeisureTag(text: "Fantasy"),
                       LeisureTag(text: "2015"),
