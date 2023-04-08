@@ -571,13 +571,13 @@ class ListMedia extends StatelessWidget {
   showMediaPageBasedOnType(dynamic item) {
     if (title == 'All Books') {
       List<String> leisureTags = [];
-      if(item.info.maturityRating != null) {
+      if(item.info.maturityRating != null && item.info.maturityRating != '') {
         leisureTags.add(item.info.maturityRating);
       }
-      if(item.info.categories != null) {
+      if(item.info.categories != null && item.info.categories.length != 0) {
         leisureTags.addAll(item.info.categories);
       }
-      if(item.info.publisher != null) {
+      if(item.info.publisher != null && item.info.publisher != '') {
         leisureTags.add(item.info.publisher);
       }
       if(item.info.publishedDate != null) {
@@ -605,12 +605,12 @@ class ListMedia extends StatelessWidget {
             if(snapshot.data!['tagline'] != null && snapshot.data!['tagline'] != '') {
               leisureTags.add(snapshot.data!['tagline']);
             }
-            if(snapshot.data!['genres'] != null) {
+            if(snapshot.data!['genres'] != null && snapshot.data!['genres'].length != 0) {
               snapshot.data!['genres'].forEach((item) {
                 leisureTags.add(item['name']);
               });
             }
-            if(snapshot.data!['release_date'] != null) {
+            if(snapshot.data!['release_date'] != null && snapshot.data!['release_date'] != '') {
               leisureTags.add(snapshot.data!['release_date'].substring(0, 4));
             }
             return MediaPage(
@@ -636,6 +636,19 @@ class ListMedia extends StatelessWidget {
         future: getDetails(item['id'], 'TV'),
         builder: (context, snapshot) {
           if (snapshot.hasData) {
+            List<String> leisureTags = [];
+            if(snapshot.data!['tagline'] != null && snapshot.data!['tagline'] != '') {
+              leisureTags.add(snapshot.data!['tagline']);
+            }
+            if(snapshot.data!['genres'] != null && snapshot.data!['genres'].length != 0) {
+              snapshot.data!['genres'].forEach((item) {
+                leisureTags.add(item['name']);
+              });
+            }
+            if(snapshot.data!['first_air_date'] != null && snapshot.data!['first_air_date'] != '') {
+              leisureTags.add(snapshot.data!['first_air_date'].substring(0, 4));
+            }
+
             return MediaPage(
               type: 'TV Show',
               image: item['poster_path'],
@@ -643,7 +656,7 @@ class ListMedia extends StatelessWidget {
               notes: notes, //get from DB
               status: Status.nothing, //get from DB
               isFavorite: false, //get from DB
-              leisureTags: [],
+              leisureTags: leisureTags,
               title: snapshot.data!['name'],
               synopsis: snapshot.data!['overview'],
               length: [

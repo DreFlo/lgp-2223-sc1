@@ -164,7 +164,7 @@ class MediaPage extends StatelessWidget {
           child: Row(mainAxisAlignment: MainAxisAlignment.start, children: [
             SizedBox(
                 width: MediaQuery.of(context).size.width * 0.85,
-                height: 50,
+                height: 18.0*leisureTags.length,
                 child: Wrap(
                     spacing: 7.6,
                     alignment: WrapAlignment.start,
