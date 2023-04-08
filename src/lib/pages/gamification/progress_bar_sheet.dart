@@ -10,8 +10,10 @@ import 'package:src/themes/colors.dart';
 class ProgressBarSheet extends StatefulWidget {
   final List<String> user;
   final String image;
+  final int level;
 
-  const ProgressBarSheet({Key? key, required this.user, required this.image})
+  const ProgressBarSheet(
+      {Key? key, required this.user, required this.image, required this.level})
       : super(key: key);
 
   @override
@@ -91,7 +93,8 @@ class _ProgressBarSheetState extends State<ProgressBarSheet> {
       Padding(
           padding: const EdgeInsets.symmetric(horizontal: 18),
           child: Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-            Text("Level 1".toUpperCase(),
+            Text(
+                "${AppLocalizations.of(context).level.toUpperCase()} ${widget.level}",
                 style: const TextStyle(
                   color: Color(0xFF7C7C7C),
                   fontSize: 13,
@@ -112,7 +115,9 @@ class _ProgressBarSheetState extends State<ProgressBarSheet> {
                             valueColor: const AlwaysStoppedAnimation<Color>(
                                 primaryColor))))),
             const SizedBox(width: 15),
-            Text("Level 2".toUpperCase(),
+            Text(
+                "${AppLocalizations.of(context).level.toUpperCase()} ${widget.level + 1}"
+                    .toUpperCase(),
                 style: const TextStyle(
                   color: Color(0xFF7C7C7C),
                   fontSize: 13,

@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:motion_toast/motion_toast.dart';
 import 'package:src/animation_test/main.dart';
 import 'package:src/daos/person_dao.dart';
 import 'package:src/models/person.dart';
@@ -10,6 +11,7 @@ import 'package:src/pages/tasks/institution_form.dart';
 import 'package:src/pages/tasks/subject_form.dart';
 import 'package:src/themes/colors.dart';
 import 'package:src/utils/service_locator.dart';
+import 'gamification/gained_xp_toast.dart';
 import 'leisure/add_to_catalog_form.dart';
 import 'leisure/mark_episodes_sheet.dart';
 import 'leisure/episodes_notes_sheet.dart';
@@ -706,11 +708,26 @@ class _HomePageState extends State<HomePage> {
                             BorderRadius.vertical(top: Radius.circular(30.0)),
                       ),
                       builder: (context) => Padding(
-                          padding: EdgeInsets.only(
-                              bottom: MediaQuery.of(context).viewInsets.bottom +
-                                  50),
-                          child: ProgressBarSheet(user: user, image: 'assets/images/poster.jpg'),
+                            padding: EdgeInsets.only(
+                                bottom:
+                                    MediaQuery.of(context).viewInsets.bottom +
+                                        50),
+                            child: ProgressBarSheet(
+                                level: 2,
+                                user: user,
+                                image: 'assets/images/poster.jpg'),
                           ));
+                }),
+            ElevatedButton(
+                child: Text("Gaining progress toast"),
+                onPressed: () {
+                  var snackBar = SnackBar(
+                    content: GainedXPToast(value: 40, level: 2, points: 10),
+                    backgroundColor: Colors.transparent,
+                    elevation: 0,
+                  );
+                  // Step 3
+                  ScaffoldMessenger.of(context).showSnackBar(snackBar);
                 }),
             FutureBuilder(
                 key: ValueKey<Object>(redrawObject),

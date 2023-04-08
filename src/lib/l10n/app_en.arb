@@ -82,5 +82,10 @@
   "hello": "Hello",
   "user_progress": "Good job, ",
   "user_progress_2": " John! You’ve completed 122 task across 7 projects! Your media catalog has 34 entries and you love 52% of what you have there!",
-  "user_progress_3": "Emil is super proud,\nkeep up the good work!"
+  "user_progress_3": "Emil is super proud,\nkeep up the good work!",
+  "gained_xp": "You gained XP!",
+  "level": "Level",
+  "level_up": "Level Up!",
+  "level_up_2": "You’ve reached Level ",
+  "level_up_3": "!"
 }
