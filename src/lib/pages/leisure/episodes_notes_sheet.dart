@@ -9,7 +9,7 @@ import '../../widgets/leisure/episode_note_bar.dart';
 
 class EpisodesNotesSheet extends StatefulWidget {
   final Map<String, String> notes;
-  final Map<int, Map<int, String>> episodes;
+  final Map<int, Map<dynamic, dynamic>> episodes;
 
   const EpisodesNotesSheet(
       {Key? key, required this.notes, required this.episodes})

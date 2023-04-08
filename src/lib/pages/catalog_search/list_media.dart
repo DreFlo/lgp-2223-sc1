@@ -24,17 +24,7 @@ class ListMedia extends StatelessWidget {
     'S02E07': 'Bow is best boy.'
   };
 
-  Map<int, Map<int, String>> episodes = const {
-    1: {
-      1: "123445241355423523254135362541355342",
-      2: "Episode 2",
-      3: "Episode 3",
-      4: "Episode 4"
-    },
-    2: {1: "Episode 1", 2: "Episode 2"},
-    3: {1: "Episode 1", 2: "Episode 2"},
-    4: {1: "Episode 1", 2: "Episode 2"}
-  };
+  Map<int, Map<dynamic, dynamic>> episodes = {};
 
   ListMedia({Key? key, required this.title, required this.media})
       : super(key: key);
@@ -448,6 +438,16 @@ class ListMedia extends StatelessWidget {
     return castList;
   }
 
+  Map<int, String> makeEpisodeNameMap(Map episodes) {
+    Map<int, String> episodeNameMap = {};
+    episodes['episodes'].forEach((item) {
+      String name = item['name'] ?? '';
+      int episodeNumber = item['episode_number'] ?? 0;
+      episodeNameMap[episodeNumber] = name;
+    });
+    return episodeNameMap;
+  }
+
   Future<Map> getDetails(int id, String type) async {
     final tmdb = TMDB(ApiKeys(Env.tmdbApiKey, 'apiReadAccessTokenv4'));
 
@@ -460,6 +460,13 @@ class ListMedia extends StatelessWidget {
     } else if (type == 'TV') {
       Map result = await tmdb.v3.tv.getDetails(id);
       Map cast = await tmdb.v3.tv.getCredits(id);
+      //snapshot.data!['number_of_seasons']
+
+      for (int season = 1; season <= result['number_of_seasons']; season++) {
+        Map episodeSeason = await tmdb.v3.tvSeasons.getDetails(id, season);
+        Map episodeNumbersNames = makeEpisodeNameMap(episodeSeason);
+        episodes[season] = episodeNumbersNames;
+      }
       List<String> castNames = makeCastList(cast);
       result['cast'] = castNames;
       return result;
