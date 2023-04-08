@@ -1,5 +1,4 @@
 import 'package:get_it/get_it.dart';
-import 'package:sqflite/sqflite.dart';
 import 'package:src/daos/media/media_video_movie_super_dao.dart';
 import 'package:src/daos/media/media_video_super_dao.dart';
 import 'package:src/daos/media/media_book_super_dao.dart';
