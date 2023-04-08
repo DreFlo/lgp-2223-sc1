@@ -601,6 +601,18 @@ class ListMedia extends StatelessWidget {
         future: getDetails(item['id'], 'Movie'),
         builder: (context, snapshot) {
           if (snapshot.hasData) {
+            List<String> leisureTags = [];
+            if(snapshot.data!['tagline'] != null && snapshot.data!['tagline'] != '') {
+              leisureTags.add(snapshot.data!['tagline']);
+            }
+            if(snapshot.data!['genres'] != null) {
+              snapshot.data!['genres'].forEach((item) {
+                leisureTags.add(item['name']);
+              });
+            }
+            if(snapshot.data!['release_date'] != null) {
+              leisureTags.add(snapshot.data!['release_date'].substring(0, 4));
+            }
             return MediaPage(
               type: 'Movie',
               image: item['poster_path'],
