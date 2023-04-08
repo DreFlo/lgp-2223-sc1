@@ -32,7 +32,6 @@ class ListMedia extends StatelessWidget {
   Widget mediaPageButton(String type, Status status, BuildContext context) {
     if (type == "TV Show") {
       if (status == Status.nothing) {
-        // If the media is not in the catalog, show a button to add it.
         return ElevatedButton(
           onPressed: () {
             showModalBottomSheet(
@@ -362,6 +361,85 @@ class ListMedia extends StatelessWidget {
           ),
         );
       }
+    } else if (type == "Movie") {
+      if (status == Status.nothing) {
+        return ElevatedButton(
+          onPressed: () {
+            showModalBottomSheet(
+                context: context,
+                isScrollControlled: true,
+                backgroundColor: Color(0xFF22252D),
+                shape: RoundedRectangleBorder(
+                  borderRadius:
+                      BorderRadius.vertical(top: Radius.circular(30.0)),
+                ),
+                builder: (context) => DraggableScrollableSheet(
+                    expand: false,
+                    initialChildSize: 0.35,
+                    minChildSize: 0.35,
+                    maxChildSize: 0.5,
+                    builder: (context, scrollController) => Stack(
+                            alignment: AlignmentDirectional.bottomCenter,
+                            children: [
+                              Padding(
+                                  padding: EdgeInsets.only(
+                                      bottom: MediaQuery.of(context)
+                                              .viewInsets
+                                              .bottom +
+                                          50),
+                                  child: SingleChildScrollView(
+                                      controller: scrollController,
+                                      child: AddToCatalogForm(
+                                          status: Status.nothing,
+                                          startDate: DateTime.now()
+                                              .toString()
+                                              .split(" ")[0],
+                                          endDate: 'Not Defined'))),
+                              Positioned(
+                                  left: 16,
+                                  right: 16,
+                                  bottom: 16,
+                                  child: Padding(
+                                      padding: EdgeInsets.only(
+                                          bottom: MediaQuery.of(context)
+                                              .viewInsets
+                                              .bottom),
+                                      child: ElevatedButton(
+                                        onPressed: () {
+                                          //TODO: Save stuff + send to database.
+                                        },
+                                        style: ElevatedButton.styleFrom(
+                                          minimumSize: Size(
+                                              MediaQuery.of(context)
+                                                      .size
+                                                      .width *
+                                                  0.95,
+                                              55),
+                                          backgroundColor: leisureColor,
+                                          shape: RoundedRectangleBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(25.0),
+                                          ),
+                                        ),
+                                        child: Text(
+                                            AppLocalizations.of(context).save,
+                                            style: Theme.of(context)
+                                                .textTheme
+                                                .headlineSmall),
+                                      )))
+                            ])));
+          },
+          style: ElevatedButton.styleFrom(
+            minimumSize: Size(MediaQuery.of(context).size.width * 0.95, 55),
+            backgroundColor: leisureColor,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(25.0),
+            ),
+          ),
+          child: Text(AppLocalizations.of(context).add,
+              style: Theme.of(context).textTheme.headlineSmall),
+        );
+      }
     }
 
     return Container();
@@ -460,15 +538,16 @@ class ListMedia extends StatelessWidget {
     } else if (type == 'TV') {
       Map result = await tmdb.v3.tv.getDetails(id);
       Map cast = await tmdb.v3.tv.getCredits(id);
-      //snapshot.data!['number_of_seasons']
+      List<String> castNames = makeCastList(cast);
+      result['cast'] = castNames;
 
+      // Get all episodes
       for (int season = 1; season <= result['number_of_seasons']; season++) {
         Map episodeSeason = await tmdb.v3.tvSeasons.getDetails(id, season);
         Map episodeNumbersNames = makeEpisodeNameMap(episodeSeason);
         episodes[season] = episodeNumbersNames;
       }
-      List<String> castNames = makeCastList(cast);
-      result['cast'] = castNames;
+      
       return result;
     } else {
       return {};
