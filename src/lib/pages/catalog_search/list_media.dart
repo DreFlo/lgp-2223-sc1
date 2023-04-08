@@ -353,8 +353,8 @@ class ListMedia extends StatelessWidget {
                                                 50),
                                         child: SingleChildScrollView(
                                             controller: scrollController,
-                                            child: BookNotesSheet(
-                                                notes: notes)))
+                                            child:
+                                                BookNotesSheet(notes: notes)))
                                   ])));
                 },
                 style: ElevatedButton.styleFrom(
@@ -420,11 +420,11 @@ class ListMedia extends StatelessWidget {
                                           child: showMediaPageBasedOnType(
                                               filteredMedia[index])),
                                       Positioned(
-                                        left: 16,
-                                        right: 16,
-                                        bottom: 16,
-                                        child: showMediaPageButton(
-                                            filteredMedia[index], context)),
+                                          left: 16,
+                                          right: 16,
+                                          bottom: 16,
+                                          child: showMediaPageButton(
+                                              filteredMedia[index], context)),
                                     ])));
                   },
                   child: SizedBox(
@@ -439,31 +439,46 @@ class ListMedia extends StatelessWidget {
     );
   }
 
+  List<String> makeCastList(Map cast) {
+    List<String> castList = [];
+    cast['cast'].forEach((item) {
+      String name = item['name'] ?? '';
+      castList.add(name);
+    });
+    return castList;
+  }
+
   Future<Map> getDetails(int id, String type) async {
     final tmdb = TMDB(ApiKeys(Env.tmdbApiKey, 'apiReadAccessTokenv4'));
 
-    if(type == 'Movie'){
+    if (type == 'Movie') {
       Map result = await tmdb.v3.movies.getDetails(id);
+      Map cast = await tmdb.v3.movies.getCredits(id);
+      List<String> castNames = makeCastList(cast);
+      result['cast'] = castNames;
       return result;
-    } else if(type == 'TV'){
+    } else if (type == 'TV') {
       Map result = await tmdb.v3.tv.getDetails(id);
+      Map cast = await tmdb.v3.tv.getCredits(id);
+      List<String> castNames = makeCastList(cast);
+      result['cast'] = castNames;
       return result;
     } else {
       return {};
     }
   }
 
-  showMediaPageButton(dynamic item, context){
-    if (title == 'All Books'){
-      return mediaPageButton('Book', Status.goingThrough, context); //get status from DB
+  showMediaPageButton(dynamic item, context) {
+    if (title == 'All Books') {
+      return mediaPageButton(
+          'Book', Status.nothing, context); //get status from DB
+    } else if (title == 'All Movies') {
+      return mediaPageButton(
+          'Movie', Status.nothing, context); //get status from DB
+    } else {
+      return mediaPageButton(
+          'TV Show', Status.goingThrough, context); //get status from DB
     }
-    else if (title == 'All Movies') {
-      return mediaPageButton('Movie', Status.nothing, context); //get status from DB
-    }
-    else {
-      return mediaPageButton('TV Show', Status.nothing, context); //get status from DB
-    }
-
   }
 
   showMediaPageBasedOnType(dynamic item) {
@@ -485,16 +500,16 @@ class ListMedia extends StatelessWidget {
         builder: (context, snapshot) {
           if (snapshot.hasData) {
             return MediaPage(
-                type: 'Movie',
-                image: item['poster_path'],
-                cast: [],
-                notes: notes, //get from DB
-                status: Status.nothing, //get from DB
-                isFavorite: false, //get from DB
-                title: snapshot.data!['title'],
-                synopsis: snapshot.data!['overview'],
-                length: [snapshot.data!['runtime']],
-                );
+              type: 'Movie',
+              image: item['poster_path'],
+              cast: snapshot.data!['cast'],
+              notes: notes, //get from DB
+              status: Status.nothing, //get from DB
+              isFavorite: false, //get from DB
+              title: snapshot.data!['title'],
+              synopsis: snapshot.data!['overview'],
+              length: [snapshot.data!['runtime']],
+            );
           } else if (snapshot.hasError) {
             return Text('${snapshot.error}');
           }
@@ -507,16 +522,20 @@ class ListMedia extends StatelessWidget {
         builder: (context, snapshot) {
           if (snapshot.hasData) {
             return MediaPage(
-                type: 'TV Show',
-                image: item['poster_path'],
-                cast: [],
-                notes: notes, //get from DB
-                status: Status.nothing, //get from DB
-                isFavorite: false, //get from DB
-                title: snapshot.data!['name'],
-                synopsis: snapshot.data!['overview'],
-                length: [snapshot.data!['number_of_seasons'], snapshot.data!['number_of_episodes'], snapshot.data!['runtime']],
-                );
+              type: 'TV Show',
+              image: item['poster_path'],
+              cast: snapshot.data!['cast'],
+              notes: notes, //get from DB
+              status: Status.nothing, //get from DB
+              isFavorite: false, //get from DB
+              title: snapshot.data!['name'],
+              synopsis: snapshot.data!['overview'],
+              length: [
+                snapshot.data!['number_of_seasons'],
+                snapshot.data!['number_of_episodes'],
+                snapshot.data!['runtime']
+              ],
+            );
           } else if (snapshot.hasError) {
             return Text('${snapshot.error}');
           }
