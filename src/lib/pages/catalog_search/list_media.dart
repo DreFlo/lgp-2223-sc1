@@ -1,4 +1,4 @@
-// ignore_for_file: file_names
+// ignore_for_file: prefer_const_constructors, sized_box_for_whitespace, must_be_immutable
 
 import 'package:flutter/material.dart';
 import 'package:tmdb_api/tmdb_api.dart';
@@ -37,8 +37,8 @@ class ListMedia extends StatelessWidget {
             showModalBottomSheet(
                 context: context,
                 isScrollControlled: true,
-                backgroundColor: Color(0xFF22252D),
-                shape: RoundedRectangleBorder(
+                backgroundColor: const Color(0xFF22252D),
+                shape: const RoundedRectangleBorder(
                   borderRadius:
                       BorderRadius.vertical(top: Radius.circular(30.0)),
                 ),
@@ -120,8 +120,8 @@ class ListMedia extends StatelessWidget {
                   showModalBottomSheet(
                       context: context,
                       isScrollControlled: true,
-                      backgroundColor: Color(0xFF22252D),
-                      shape: RoundedRectangleBorder(
+                      backgroundColor: const Color(0xFF22252D),
+                      shape: const RoundedRectangleBorder(
                         borderRadius:
                             BorderRadius.vertical(top: Radius.circular(30.0)),
                       ),
@@ -544,6 +544,7 @@ class ListMedia extends StatelessWidget {
       // Get all episodes
       for (int season = 1; season <= result['number_of_seasons']; season++) {
         Map episodeSeason = await tmdb.v3.tvSeasons.getDetails(id, season);
+        result['runtime'] = episodeSeason['episodes'][0]['runtime'];
         Map episodeNumbersNames = makeEpisodeNameMap(episodeSeason);
         episodes[season] = episodeNumbersNames;
       }
