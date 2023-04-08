@@ -44,10 +44,6 @@
   "add_note": "Add Note",
   "task": "Task",
   "module_choose": "Choose the module.",
-  "student": "Student",
-  "personal": "Personal",
-  "leisure": "Leisure",
-  "fitness": "Fitness",
   "priority": "Priority",
   "low": "Low",
   "medium": "Medium",
@@ -83,5 +79,8 @@
   "fitness": "Fitness",
   "personal": "Personal",
   "dashboard": "Dashboard",
-  "hello": "Hello"
+  "hello": "Hello",
+  "user_progress": "Good job, ",
+  "user_progress_2": " John! You’ve completed 122 task across 7 projects! Your media catalog has 34 entries and you love 52% of what you have there!",
+  "user_progress_3": "Emil is super proud,\nkeep up the good work!"
 }

@@ -5,6 +5,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:src/animation_test/main.dart';
 import 'package:src/daos/person_dao.dart';
 import 'package:src/models/person.dart';
+import 'package:src/pages/gamification/progress_bar_sheet.dart';
 import 'package:src/pages/tasks/institution_form.dart';
 import 'package:src/pages/tasks/subject_form.dart';
 import 'package:src/themes/colors.dart';
@@ -37,6 +38,7 @@ class _HomePageState extends State<HomePage> {
   int _counter = 0;
   Object redrawObject = Object();
   bool isFavorite = false;
+  List<String> user = ['John Smith', '11', '400'];
   Status status = Status.goingThrough;
   String title = "She-ra and the Princesses of Power",
       synopsis =
@@ -691,6 +693,24 @@ class _HomePageState extends State<HomePage> {
                               scrollController: scrollController,
                             ),
                           )));
+                }),
+            ElevatedButton(
+                child: Text("Progress Bar"),
+                onPressed: () {
+                  showModalBottomSheet(
+                      context: context,
+                      isScrollControlled: true,
+                      backgroundColor: Color(0xFF22252D),
+                      shape: RoundedRectangleBorder(
+                        borderRadius:
+                            BorderRadius.vertical(top: Radius.circular(30.0)),
+                      ),
+                      builder: (context) => Padding(
+                          padding: EdgeInsets.only(
+                              bottom: MediaQuery.of(context).viewInsets.bottom +
+                                  50),
+                          child: ProgressBarSheet(user: user, image: 'assets/images/poster.jpg'),
+                          ));
                 }),
             FutureBuilder(
                 key: ValueKey<Object>(redrawObject),
