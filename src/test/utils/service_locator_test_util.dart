@@ -1,6 +1,5 @@
 import 'package:mockito/annotations.dart';
 import 'package:src/daos/media/media_video_movie_super_dao.dart';
-import 'package:src/daos/media/media_video_super_dao.dart';
 import 'package:src/daos/media/media_video_episode_super_dao.dart';
 import 'package:src/daos/notes/note_book_note_super_dao.dart';
 import 'package:src/daos/notes/note_subject_note_super_dao.dart';
@@ -69,7 +68,6 @@ import 'service_locator_test_util.mocks.dart';
   MoodDao,
   UserBadgeDao,
   UserDao,
-  MediaVideoSuperDao,
   MediaVideoEpisodeSuperDao,
   MediaVideoMovieSuperDao,
   NoteBookNoteSuperDao,
@@ -157,9 +155,6 @@ void setupMockServiceLocatorUnitTests() {
       dependsOn: [AppDatabase]);
 
   // Super DAOs
-  serviceLocator.registerSingletonWithDependencies<MediaVideoSuperDao>(
-      () => MockMediaVideoSuperDao(),
-      dependsOn: [AppDatabase]);
   serviceLocator.registerSingletonWithDependencies<MediaVideoEpisodeSuperDao>(
       () => MockMediaVideoEpisodeSuperDao(),
       dependsOn: [AppDatabase]);

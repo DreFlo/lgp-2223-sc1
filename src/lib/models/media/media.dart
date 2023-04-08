@@ -25,6 +25,8 @@ class Media {
 
   final int xp;
 
+  final String participants;
+
   Media({
     this.id,
     required this.name,
@@ -35,5 +37,6 @@ class Media {
     required this.genres,
     required this.release,
     required this.xp,
+    required this.participants
   });
 }

@@ -11,9 +11,11 @@ class MediaVideoMovieSuperEntity {
   final Status status;
   final bool favorite;
   final String genres;
+  final String participants;
   final DateTime release;
   final int xp;
   final int duration;
+  final String tagline;
 
   MediaVideoMovieSuperEntity({
     this.id,
@@ -26,9 +28,11 @@ class MediaVideoMovieSuperEntity {
     required this.release,
     required this.xp,
     required this.duration,
+    required this.participants,
+    required this.tagline,
   });
 
-  MediaVideoMovieSuperEntity.fromMediaAndVideo(Media media, Video video)
+  MediaVideoMovieSuperEntity.fromMediaAndVideoAndMovie(Media media, Video video, Movie movie)
       : id = media.id,
         name = media.name,
         description = media.description,
@@ -38,7 +42,9 @@ class MediaVideoMovieSuperEntity {
         genres = media.genres,
         release = media.release,
         xp = media.xp,
-        duration = video.duration;
+        participants = media.participants,
+        duration = video.duration,
+        tagline = movie.tagline;
 
   Media toMedia() {
     return Media(
@@ -50,6 +56,7 @@ class MediaVideoMovieSuperEntity {
       favorite: favorite,
       genres: genres,
       release: release,
+      participants: participants,
       xp: xp,
     );
   }
@@ -64,6 +71,7 @@ class MediaVideoMovieSuperEntity {
   Movie toMovie() {
     return Movie(
       id: id!,
+      tagline: tagline,
     );
   }
 
@@ -78,6 +86,8 @@ class MediaVideoMovieSuperEntity {
     DateTime? release,
     int? xp,
     int? duration,
+    String? participants,
+    String? tagline,
   }) {
     return MediaVideoMovieSuperEntity(
       id: id ?? this.id,
@@ -90,6 +100,8 @@ class MediaVideoMovieSuperEntity {
       release: release ?? this.release,
       xp: xp ?? this.xp,
       duration: duration ?? this.duration,
+      participants: participants ?? this.participants,
+      tagline: tagline ?? this.tagline,
     );
   }
 }

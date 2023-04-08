@@ -12,7 +12,7 @@ class MediaBookSuperEntity {
   final String genres;
   final DateTime release;
   final int xp;
-  final String authors;
+  final String participants;
   final int totalPages;
   final int? progressPages;
 
@@ -26,7 +26,7 @@ class MediaBookSuperEntity {
     required this.genres,
     required this.release,
     required this.xp,
-    required this.authors,
+    required this.participants,
     required this.totalPages,
     this.progressPages = 0,
   });
@@ -41,7 +41,7 @@ class MediaBookSuperEntity {
         genres = media.genres,
         release = media.release,
         xp = media.xp,
-        authors = book.authors,
+        participants = media.participants,
         totalPages = book.totalPages,
         progressPages = book.progressPages;
 
@@ -56,13 +56,13 @@ class MediaBookSuperEntity {
       genres: genres,
       release: release,
       xp: xp,
+      participants: participants,
     );
   }
 
   Book toBook() {
     return Book(
       id: id!,
-      authors: authors,
       totalPages: totalPages,
       progressPages: progressPages,
     );
@@ -78,7 +78,7 @@ class MediaBookSuperEntity {
     String? genres,
     DateTime? release,
     int? xp,
-    String? authors,
+    String? participants,
     int? totalPages,
     int? progressPages,
   }) {
@@ -92,7 +92,7 @@ class MediaBookSuperEntity {
       genres: genres ?? this.genres,
       release: release ?? this.release,
       xp: xp ?? this.xp,
-      authors: authors ?? this.authors,
+      participants: participants ?? this.participants,
       totalPages: totalPages ?? this.totalPages,
       progressPages: progressPages ?? this.progressPages,
     );

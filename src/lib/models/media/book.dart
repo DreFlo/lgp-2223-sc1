@@ -17,8 +17,6 @@ class Book {
   @PrimaryKey()
   final int id;
 
-  final String authors;
-
   @ColumnInfo(name: 'total_pages')
   final int totalPages;
 
@@ -27,7 +25,6 @@ class Book {
 
   Book({
     required this.id,
-    required this.authors,
     required this.totalPages,
     this.progressPages = 0,
   });

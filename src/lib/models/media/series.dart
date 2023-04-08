@@ -17,5 +17,7 @@ class Series {
   @PrimaryKey()
   final int id;
 
-  Series({required this.id});
+  final String tagline;
+
+  Series({required this.id, required this.tagline});
 }

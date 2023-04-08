@@ -2,19 +2,16 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:src/daos/media/media_series_super_dao.dart';
 import 'package:src/daos/media/media_video_movie_super_dao.dart';
-import 'package:src/daos/media/media_video_super_dao.dart';
 import 'package:src/daos/media/media_book_super_dao.dart';
 import 'package:src/daos/media/season_dao.dart';
 import 'package:src/models/media/media_book_super_entity.dart';
 import 'package:src/daos/media/movie_dao.dart';
-import 'package:src/daos/media/video_dao.dart';
 import 'package:src/daos/media/media_dao.dart';
 import 'package:src/daos/student/task_group_dao.dart';
 import 'package:src/models/media/media.dart';
 import 'package:src/database/database.dart';
 import 'package:src/models/media/media_series_super_entity.dart';
 import 'package:src/models/media/media_video_movie_super_entity.dart';
-import 'package:src/models/media/media_video_super_entity.dart';
 import 'package:src/models/media/movie.dart';
 import 'package:src/models/media/season.dart';
 import 'package:src/models/notes/note_book_note_super_entity.dart';
@@ -35,7 +32,6 @@ import 'package:src/models/notes/book_note.dart';
 import 'package:src/daos/notes/book_note_dao.dart';
 import 'package:src/models/notes/episode_note.dart';
 import 'package:src/daos/notes/episode_note_dao.dart';
-import 'package:src/models/media/video.dart';
 import 'package:src/utils/enums.dart' as enums;
 import 'package:src/utils/service_locator.dart';
 import 'package:src/daos/user_dao.dart';
@@ -94,32 +90,6 @@ void main() {
     });
   });
 
-  testWidgets('Test SuperDAO', (WidgetTester tester) async {
-    await tester.runAsync(() async {
-      // Just an example test to prove it works
-      MediaVideoSuperEntity mediaVideoSuperEntity = MediaVideoSuperEntity(
-        name: 'name',
-        description: 'description',
-        linkImage: 'linkImage',
-        status: Status.goingThrough,
-        favorite: true,
-        genres: 'genres',
-        release: DateTime.now(),
-        xp: 23,
-        duration: 23,
-      );
-
-      int id = await serviceLocator<MediaVideoSuperDao>()
-          .insertMediaVideoSuperEntity(mediaVideoSuperEntity);
-
-      expect(id, 1);
-
-      Video video = (await serviceLocator<VideoDao>().findVideoById(id).first)!;
-
-      expect(video.duration, 23);
-    });
-  });
-
   testWidgets('Test SuperDAO for MediaVideoEpisode',
       (WidgetTester tester) async {
     await tester.runAsync(() async {
@@ -132,6 +102,8 @@ void main() {
         genres: 'genres',
         release: DateTime.now(),
         xp: 23,
+        participants: "Me",
+        tagline: "Super Cool Test"
       );
 
       int seriesId = await serviceLocator<MediaSeriesSuperDao>()
@@ -159,6 +131,7 @@ void main() {
         duration: 23,
         number: 1,
         seasonId: seasonId,
+        participants: "Me",
       );
 
       int id = await serviceLocator<MediaVideoEpisodeSuperDao>()
@@ -186,6 +159,8 @@ void main() {
         release: DateTime.now(),
         xp: 23,
         duration: 23,
+        participants: "Me",
+        tagline: "Super Cool Test"
       );
 
       int id = await serviceLocator<MediaVideoMovieSuperDao>()
@@ -210,7 +185,7 @@ void main() {
         genres: 'genres',
         release: DateTime.now(),
         xp: 23,
-        authors: 'Me',
+        participants: 'Me',
         totalPages: 23,
       );
 
@@ -236,10 +211,11 @@ void main() {
         genres: 'genres',
         release: DateTime.now(),
         xp: 23,
+        participants: 'Me'
       ));
 
       await serviceLocator<BookDao>().insertBook(
-          Book(id: bookId, authors: 'Me', totalPages: 23, progressPages: 0));
+          Book(id: bookId,  totalPages: 23, progressPages: 0));
 
       NoteBookNoteSuperEntity noteBookNoteSuperEntity = NoteBookNoteSuperEntity(
           title: 'Note 1',
@@ -363,6 +339,8 @@ void main() {
         genres: 'genres',
         release: DateTime.now(),
         xp: 23,
+        participants: "Me",
+        tagline: "Super Cool Test"
       );
 
       int seriesId = await serviceLocator<MediaSeriesSuperDao>()
@@ -390,6 +368,7 @@ void main() {
         duration: 23,
         number: 1,
         seasonId: seasonId,
+        participants: "Me",
       );
 
       int id = await serviceLocator<MediaVideoEpisodeSuperDao>()
@@ -415,6 +394,8 @@ void main() {
         genres: 'genres',
         release: DateTime.now(),
         xp: 23,
+        participants: "Me",
+        tagline: "Super Cool Test"
       );
 
       int seriesId = await serviceLocator<MediaSeriesSuperDao>()
@@ -442,6 +423,7 @@ void main() {
         duration: 23,
         number: 1,
         seasonId: seasonId,
+        participants: 'Me'
       );
 
       int id = await serviceLocator<MediaVideoEpisodeSuperDao>()
@@ -489,9 +471,10 @@ void main() {
         genres: 'genres',
         release: DateTime.now(),
         xp: 23,
+        participants: 'Me'
       ));
 
-      await serviceLocator<SeriesDao>().insertSerie(Series(id: seriesId));
+      await serviceLocator<SeriesDao>().insertSerie(Series(id: seriesId, tagline: 'Super Cool Test'));
 
       TimeslotMediaTimeslotSuperEntity timeslotMediaTimeslotSuperEntity =
           TimeslotMediaTimeslotSuperEntity(
@@ -624,7 +607,7 @@ void main() {
           genres: 'genres',
           release: DateTime.now(),
           xp: 23,
-          authors: 'Me',
+          participants: 'Me',
           totalPages: 23,
           progressPages: -1);
 
@@ -642,7 +625,7 @@ void main() {
           genres: 'genres',
           release: DateTime.now(),
           xp: 23,
-          authors: 'Me',
+          participants: 'Me',
           totalPages: 23,
           progressPages: 30);
 
@@ -664,7 +647,7 @@ void main() {
         genres: 'genres',
         release: DateTime.now(),
         xp: 23,
-        authors: 'Me',
+        participants: 'Me',
         totalPages: 23,
       );
 
@@ -710,7 +693,8 @@ void main() {
           favorite: false,
           genres: 'Video 1',
           release: DateTime.now(),
-          xp: 0));
+          xp: 0,
+          participants: 'Me'));
 
       Review review = Review(
           id: 1,
@@ -736,7 +720,9 @@ void main() {
               favorite: false,
               genres: 'Series 1',
               release: DateTime.now(),
-              xp: 0));
+              xp: 0,
+              participants: "Me",
+              tagline: "Super Cool Test"));
 
       Season season = Season(id: 1, number: -1, seriesId: id);
 
@@ -756,7 +742,9 @@ void main() {
               favorite: false,
               genres: 'Series 1',
               release: DateTime.now(),
-              xp: 0));
+              xp: 0,
+              participants: "Me",
+              tagline: "Super Cool Test"));
 
       int seasonId = await serviceLocator<SeasonDao>()
           .insertSeason(Season(id: 1, number: 1, seriesId: seriesId));
@@ -773,32 +761,12 @@ void main() {
               xp: 0,
               duration: 1,
               number: -1,
-              seasonId: seasonId);
+              seasonId: seasonId,
+              participants: 'Me');
 
       expect(
           () => serviceLocator<MediaVideoEpisodeSuperDao>()
               .insertMediaVideoEpisodeSuperEntity(mediaVideoEpisodeSuperEntity),
-          throwsA(isA<DatabaseException>()));
-    });
-  });
-
-  testWidgets('Test Trigger video_duration', (WidgetTester tester) async {
-    await tester.runAsync(() async {
-      MediaVideoSuperEntity mediaVideoSuperEntity = MediaVideoSuperEntity(
-        name: 'name',
-        description: 'description',
-        linkImage: 'linkImage',
-        status: Status.goingThrough,
-        favorite: true,
-        genres: 'genres',
-        release: DateTime.now(),
-        xp: 23,
-        duration: -1,
-      );
-
-      expect(
-          () => serviceLocator<MediaVideoSuperDao>()
-              .insertMediaVideoSuperEntity(mediaVideoSuperEntity),
           throwsA(isA<DatabaseException>()));
     });
   });

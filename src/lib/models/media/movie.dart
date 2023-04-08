@@ -17,7 +17,10 @@ class Movie {
   @PrimaryKey()
   final int id;
 
+  final String tagline;
+
   Movie({
     required this.id,
+    required this.tagline,
   });
 }

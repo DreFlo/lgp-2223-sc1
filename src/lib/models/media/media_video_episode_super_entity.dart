@@ -13,6 +13,7 @@ class MediaVideoEpisodeSuperEntity {
   final String genres;
   final DateTime release;
   final int xp;
+  final String participants;
   final int duration;
   final int number;
   final int seasonId;
@@ -27,6 +28,7 @@ class MediaVideoEpisodeSuperEntity {
       required this.genres,
       required this.release,
       required this.xp,
+      required this.participants,
       required this.duration,
       required this.number,
       required this.seasonId});
@@ -42,6 +44,7 @@ class MediaVideoEpisodeSuperEntity {
         genres = media.genres,
         release = media.release,
         xp = media.xp,
+        participants = media.participants,
         duration = video.duration,
         number = episode.number,
         seasonId = episode.seasonId;
@@ -56,6 +59,7 @@ class MediaVideoEpisodeSuperEntity {
       favorite: favorite,
       genres: genres,
       release: release,
+      participants: participants,
       xp: xp,
     );
   }
@@ -88,6 +92,7 @@ class MediaVideoEpisodeSuperEntity {
     int? duration,
     int? number,
     int? seasonId,
+    String? participants,
   }) {
     return MediaVideoEpisodeSuperEntity(
       id: id ?? this.id,
@@ -99,6 +104,7 @@ class MediaVideoEpisodeSuperEntity {
       genres: genres ?? this.genres,
       release: release ?? this.release,
       xp: xp ?? this.xp,
+      participants: participants ?? this.participants,
       duration: duration ?? this.duration,
       number: number ?? this.number,
       seasonId: seasonId ?? this.seasonId,

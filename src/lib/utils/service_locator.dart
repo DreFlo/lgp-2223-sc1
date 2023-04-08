@@ -1,6 +1,6 @@
 import 'package:get_it/get_it.dart';
+import 'package:sqflite/sqflite.dart';
 import 'package:src/daos/media/media_video_movie_super_dao.dart';
-import 'package:src/daos/media/media_video_super_dao.dart';
 import 'package:src/daos/media/media_book_super_dao.dart';
 import 'package:src/daos/media/media_series_super_dao.dart';
 import 'package:src/daos/user_badge_dao.dart';
@@ -43,7 +43,7 @@ import 'package:src/daos/mood_dao.dart';
 import 'package:src/daos/user_dao.dart';
 
 import 'package:src/database/callbacks.dart';
-import 'package:sqflite_common/sqlite_api.dart';
+//import 'package:sqflite_common/sqlite_api.dart';
 
 final GetIt serviceLocator = GetIt.instance;
 
@@ -147,9 +147,6 @@ Future<void> setup({bool testing = false}) async {
       dependsOn: [AppDatabase]);
 
   // SuperDAOs
-  serviceLocator.registerSingletonWithDependencies<MediaVideoSuperDao>(
-      () => mediaVideoSuperDao,
-      dependsOn: [AppDatabase]);
   serviceLocator.registerSingletonWithDependencies<MediaVideoEpisodeSuperDao>(
       () => mediaVideoEpisodeSuperDao,
       dependsOn: [AppDatabase]);

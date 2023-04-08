@@ -12,6 +12,8 @@ class MediaSeriesSuperEntity {
   final String genres;
   final DateTime release;
   final int xp;
+  final String participants;
+  final String tagline;
 
   MediaSeriesSuperEntity({
     this.id,
@@ -23,6 +25,8 @@ class MediaSeriesSuperEntity {
     required this.genres,
     required this.release,
     required this.xp,
+    required this.participants,
+    required this.tagline,
   });
 
   MediaSeriesSuperEntity.fromMediaAndSeries(Media media, Series series)
@@ -34,7 +38,9 @@ class MediaSeriesSuperEntity {
         favorite = media.favorite,
         genres = media.genres,
         release = media.release,
-        xp = media.xp;
+        xp = media.xp,
+        participants = media.participants,
+        tagline = series.tagline;
 
   Media toMedia() {
     return Media(
@@ -46,6 +52,7 @@ class MediaSeriesSuperEntity {
       favorite: favorite,
       genres: genres,
       release: release,
+      participants: participants,
       xp: xp,
     );
   }
@@ -53,6 +60,7 @@ class MediaSeriesSuperEntity {
   Series toSeries() {
     return Series(
       id: id!,
+      tagline: tagline,
     );
   }
 
@@ -66,6 +74,8 @@ class MediaSeriesSuperEntity {
     String? genres,
     DateTime? release,
     int? xp,
+    String? participants,
+    String? tagline,
   }) {
     return MediaSeriesSuperEntity(
       id: id ?? this.id,
@@ -77,6 +87,8 @@ class MediaSeriesSuperEntity {
       genres: genres ?? this.genres,
       release: release ?? this.release,
       xp: xp ?? this.xp,
+      participants: participants ?? this.participants,
+      tagline: tagline ?? this.tagline,
     );
   }
 }
