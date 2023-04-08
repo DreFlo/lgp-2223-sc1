@@ -14,16 +14,18 @@ class MediaPage extends StatelessWidget {
   final List<String> cast;
   final Map<String, String> notes;
   final List<int> length;
+  final String image;
 
   const MediaPage(
       {Key? key,
       required this.title,
       required this.synopsis,
       required this.type,
-      required this.cast,
+      required this.cast, //for books, it's the author
       required this.length,
       required this.notes,
       required this.isFavorite,
+      required this.image,
       this.status = Status.nothing})
       : super(key: key);
 
@@ -40,6 +42,21 @@ class MediaPage extends StatelessWidget {
     } else {
       return length[0].toString() + AppLocalizations.of(context).minutes;
     }
+  }
+
+  showImage(String type) {
+    if (type == 'Book'){
+      return Image.network(
+        image,
+        fit: BoxFit.fitWidth,
+      );
+    }
+    else {
+      return Image.network(
+        'https://image.tmdb.org/t/p/w500$image',
+        fit: BoxFit.fitWidth,
+      );
+    } 
   }
 
   @override
@@ -87,10 +104,7 @@ class MediaPage extends StatelessWidget {
                             Rect.fromLTRB(0, 0, rect.width, rect.height));
                       },
                       blendMode: BlendMode.dstOut,
-                      child: Image.asset(
-                        'assets/images/poster.jpg',
-                        fit: BoxFit.fitWidth,
-                      ),
+                      child: showImage(type),
                     ),
                   ),
                 ]),
