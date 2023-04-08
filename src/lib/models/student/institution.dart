@@ -19,11 +19,9 @@ class Institution {
 
   final String name;
 
-  final String picture;
+  final String? picture;
 
   final InstitutionType type;
-
-  final String acronym;
 
   @ColumnInfo(name: 'user_id')
   final int userId;
@@ -31,8 +29,7 @@ class Institution {
   Institution(
       {this.id,
       required this.name,
-      required this.picture,
       required this.type,
-      required this.acronym,
-      required this.userId});
+      required this.userId,
+      this.picture});
 }

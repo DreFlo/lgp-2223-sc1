@@ -133,9 +133,9 @@ class _$AppDatabase extends AppDatabase {
       },
       onCreate: (database, version) async {
         await database.execute(
-            'CREATE TABLE IF NOT EXISTS `institution` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `name` TEXT NOT NULL, `picture` TEXT NOT NULL, `type` INTEGER NOT NULL, `acronym` TEXT NOT NULL, `user_id` INTEGER NOT NULL, FOREIGN KEY (`user_id`) REFERENCES `user` (`id`) ON UPDATE RESTRICT ON DELETE CASCADE)');
+            'CREATE TABLE IF NOT EXISTS `institution` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `name` TEXT NOT NULL, `picture` TEXT, `type` INTEGER NOT NULL, `user_id` INTEGER NOT NULL, FOREIGN KEY (`user_id`) REFERENCES `user` (`id`) ON UPDATE RESTRICT ON DELETE CASCADE)');
         await database.execute(
-            'CREATE TABLE IF NOT EXISTS `subject` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `name` TEXT NOT NULL, `weight_average` REAL NOT NULL, `institution_id` INTEGER NOT NULL, FOREIGN KEY (`institution_id`) REFERENCES `institution` (`id`) ON UPDATE RESTRICT ON DELETE CASCADE)');
+            'CREATE TABLE IF NOT EXISTS `subject` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `name` TEXT NOT NULL, `acronym` TEXT NOT NULL, `weight_average` REAL NOT NULL, `institution_id` INTEGER, FOREIGN KEY (`institution_id`) REFERENCES `institution` (`id`) ON UPDATE RESTRICT ON DELETE CASCADE)');
         await database.execute(
             'CREATE TABLE IF NOT EXISTS `task_group` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `name` TEXT NOT NULL, `description` TEXT NOT NULL, `priority` INTEGER NOT NULL, `deadline` INTEGER NOT NULL)');
         await database.execute(
@@ -334,7 +334,6 @@ class _$InstitutionDao extends InstitutionDao {
                   'name': item.name,
                   'picture': item.picture,
                   'type': item.type.index,
-                  'acronym': item.acronym,
                   'user_id': item.userId
                 },
             changeListener),
@@ -347,7 +346,6 @@ class _$InstitutionDao extends InstitutionDao {
                   'name': item.name,
                   'picture': item.picture,
                   'type': item.type.index,
-                  'acronym': item.acronym,
                   'user_id': item.userId
                 },
             changeListener),
@@ -360,7 +358,6 @@ class _$InstitutionDao extends InstitutionDao {
                   'name': item.name,
                   'picture': item.picture,
                   'type': item.type.index,
-                  'acronym': item.acronym,
                   'user_id': item.userId
                 },
             changeListener);
@@ -383,10 +380,9 @@ class _$InstitutionDao extends InstitutionDao {
         mapper: (Map<String, Object?> row) => Institution(
             id: row['id'] as int?,
             name: row['name'] as String,
-            picture: row['picture'] as String,
             type: InstitutionType.values[row['type'] as int],
-            acronym: row['acronym'] as String,
-            userId: row['user_id'] as int));
+            userId: row['user_id'] as int,
+            picture: row['picture'] as String?));
   }
 
   @override
@@ -395,10 +391,9 @@ class _$InstitutionDao extends InstitutionDao {
         mapper: (Map<String, Object?> row) => Institution(
             id: row['id'] as int?,
             name: row['name'] as String,
-            picture: row['picture'] as String,
             type: InstitutionType.values[row['type'] as int],
-            acronym: row['acronym'] as String,
-            userId: row['user_id'] as int),
+            userId: row['user_id'] as int,
+            picture: row['picture'] as String?),
         arguments: [id],
         queryableName: 'institution',
         isView: false);
@@ -445,6 +440,7 @@ class _$SubjectDao extends SubjectDao {
             (Subject item) => <String, Object?>{
                   'id': item.id,
                   'name': item.name,
+                  'acronym': item.acronym,
                   'weight_average': item.weightAverage,
                   'institution_id': item.institutionId
                 },
@@ -456,6 +452,7 @@ class _$SubjectDao extends SubjectDao {
             (Subject item) => <String, Object?>{
                   'id': item.id,
                   'name': item.name,
+                  'acronym': item.acronym,
                   'weight_average': item.weightAverage,
                   'institution_id': item.institutionId
                 },
@@ -467,6 +464,7 @@ class _$SubjectDao extends SubjectDao {
             (Subject item) => <String, Object?>{
                   'id': item.id,
                   'name': item.name,
+                  'acronym': item.acronym,
                   'weight_average': item.weightAverage,
                   'institution_id': item.institutionId
                 },
@@ -490,8 +488,9 @@ class _$SubjectDao extends SubjectDao {
         mapper: (Map<String, Object?> row) => Subject(
             id: row['id'] as int?,
             name: row['name'] as String,
+            acronym: row['acronym'] as String,
             weightAverage: row['weight_average'] as double,
-            institutionId: row['institution_id'] as int));
+            institutionId: row['institution_id'] as int?));
   }
 
   @override
@@ -500,8 +499,9 @@ class _$SubjectDao extends SubjectDao {
         mapper: (Map<String, Object?> row) => Subject(
             id: row['id'] as int?,
             name: row['name'] as String,
+            acronym: row['acronym'] as String,
             weightAverage: row['weight_average'] as double,
-            institutionId: row['institution_id'] as int),
+            institutionId: row['institution_id'] as int?),
         arguments: [id],
         queryableName: 'subject',
         isView: false);
@@ -514,8 +514,9 @@ class _$SubjectDao extends SubjectDao {
         mapper: (Map<String, Object?> row) => Subject(
             id: row['id'] as int?,
             name: row['name'] as String,
+            acronym: row['acronym'] as String,
             weightAverage: row['weight_average'] as double,
-            institutionId: row['institution_id'] as int),
+            institutionId: row['institution_id'] as int?),
         arguments: [id],
         queryableName: 'subject',
         isView: false);

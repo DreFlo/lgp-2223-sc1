@@ -270,13 +270,13 @@ void main() {
           name: 'name',
           picture: 'picture',
           type: InstitutionType.education,
-          acronym: 'I',
           userId: 1));
 
       await serviceLocator<SubjectDao>().insertSubject(Subject(
         name: 'name',
         weightAverage: 1.0,
         institutionId: 1,
+        acronym: 'acronym',
       ));
 
       await serviceLocator<TaskGroupDao>().insertTaskGroup(TaskGroup(
@@ -323,13 +323,13 @@ void main() {
           name: 'name',
           picture: 'picture',
           type: InstitutionType.education,
-          acronym: 'I',
           userId: 1));
 
       await serviceLocator<SubjectDao>().insertSubject(Subject(
         name: 'name',
         weightAverage: 1.0,
         institutionId: 1,
+        acronym: 'acronym',
       ));
 
       NoteSubjectNoteSuperEntity noteSubjectNoteSuperEntity =
@@ -527,13 +527,13 @@ void main() {
           name: 'name',
           picture: 'picture',
           type: InstitutionType.education,
-          acronym: 'I',
           userId: 1));
 
       await serviceLocator<SubjectDao>().insertSubject(Subject(
         name: 'name',
         weightAverage: 1.0,
         institutionId: 1,
+        acronym: 'acronym',
       ));
 
       await serviceLocator<TaskGroupDao>().insertTaskGroup(TaskGroup(
@@ -822,11 +822,10 @@ void main() {
           name: 'Institution 1',
           picture: 'Institution 1',
           type: InstitutionType.education,
-          acronym: 'I',
           userId: 1));
 
       Subject subject = Subject(
-          id: 1, name: 'Subject 1', weightAverage: -8, institutionId: 1);
+          id: 1, name: 'Subject 1', weightAverage: -8, institutionId: 1, acronym: 'S1');
 
       expect(() => serviceLocator<SubjectDao>().insertSubject(subject),
           throwsA(isA<DatabaseException>()));
@@ -852,11 +851,14 @@ void main() {
           name: 'Institution 1',
           picture: 'Institution 1',
           type: InstitutionType.education,
-          acronym: 'I',
           userId: 1));
 
       await serviceLocator<SubjectDao>().insertSubject(Subject(
-          id: 1, name: 'Subject 1', weightAverage: 8, institutionId: 1));
+          id: 1,
+          name: 'Subject 1',
+          weightAverage: 8,
+          institutionId: 1,
+          acronym: 'S'));
 
       StudentEvaluation studentEvaluation = StudentEvaluation(
           id: 1,
@@ -905,11 +907,10 @@ void main() {
           name: 'Institution 1',
           picture: 'Institution 1',
           type: InstitutionType.education,
-          acronym: 'I',
           userId: 1));
 
       await serviceLocator<SubjectDao>().insertSubject(Subject(
-          id: 1, name: 'Subject 1', weightAverage: 8, institutionId: 1));
+          id: 1, name: 'Subject 1', weightAverage: 8, institutionId: 1, acronym: 'S'));
 
       StudentEvaluation studentEvaluation = StudentEvaluation(
           id: 1,
@@ -986,11 +987,10 @@ void main() {
           name: 'Institution 1',
           picture: 'Institution 1',
           type: InstitutionType.education,
-          acronym: 'I',
           userId: 1));
 
       await serviceLocator<SubjectDao>().insertSubject(Subject(
-          id: 1, name: 'Subject 1', weightAverage: 8, institutionId: 1));
+          id: 1, name: 'Subject 1', weightAverage: 8, institutionId: 1, acronym: 'S'));
 
       Task task = Task(
           id: 1,
