@@ -9,6 +9,7 @@
   "length": "Length",
   "seasons": " seasons, ",
   "episodes": " episodes, ",
+  "episodes_no_duration": " episodes.",
   "episodes_label": "Episodes",
   "minutes_each": " minutes each.",
   "minutes": " minutes.",

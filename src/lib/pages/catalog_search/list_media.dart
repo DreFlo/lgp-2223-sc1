@@ -521,6 +521,7 @@ class ListMedia extends StatelessWidget {
     episodes['episodes'].forEach((item) {
       String name = item['name'] ?? '';
       int episodeNumber = item['episode_number'] ?? 0;
+      //to get all guest stars do makeCastList(item['guest_stars])
       episodeNameMap[episodeNumber] = name;
     });
     return episodeNameMap;
@@ -544,7 +545,9 @@ class ListMedia extends StatelessWidget {
       // Get all episodes
       for (int season = 1; season <= result['number_of_seasons']; season++) {
         Map episodeSeason = await tmdb.v3.tvSeasons.getDetails(id, season);
-        result['runtime'] = episodeSeason['episodes'][0]['runtime'];
+        if (episodeSeason['episodes'][0]['runtime'] != null){
+          result['runtime'] = episodeSeason['episodes'][0]['runtime'];
+        }
         Map episodeNumbersNames = makeEpisodeNameMap(episodeSeason);
         episodes[season] = episodeNumbersNames;
       }

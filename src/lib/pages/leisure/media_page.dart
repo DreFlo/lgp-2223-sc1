@@ -34,6 +34,12 @@ class MediaPage extends StatelessWidget {
 
   String getLength(context) {
     if (type == "TV Show") {
+      if(length[2] == null){
+        return length[0].toString() +
+            AppLocalizations.of(context).seasons +
+            length[1].toString() +
+            AppLocalizations.of(context).episodes_no_duration;
+      }
       return length[0].toString() +
           AppLocalizations.of(context).seasons +
           length[1].toString() +
