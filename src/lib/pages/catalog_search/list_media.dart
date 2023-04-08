@@ -1,6 +1,7 @@
 // ignore_for_file: file_names
 
 import 'package:flutter/material.dart';
+import 'package:tmdb_api/tmdb_api.dart';
 import 'media.dart';
 import 'package:src/themes/colors.dart';
 import 'package:src/utils/service_locator.dart';
@@ -11,6 +12,7 @@ import 'package:src/pages/leisure/book_notes_sheet.dart';
 import 'package:src/pages/leisure/add_book_note_form.dart';
 import 'package:src/pages/leisure/media_page.dart';
 import 'package:src/utils/enums.dart';
+import 'package:src/env/env.dart';
 
 class ListMedia extends StatelessWidget {
   final List media;
@@ -35,92 +37,127 @@ class ListMedia extends StatelessWidget {
         media.where((item) => showWidget(item) != null).toList();
 
     return Padding(
-  padding: EdgeInsets.fromLTRB(40 * fem, 22 * fem, 0, 0),
-  child: SingleChildScrollView(
-    child: Wrap(
-      spacing: 10.0 * fem,
-      runSpacing: 22.0 * fem,
-      children: List.generate(filteredMedia.length, (index) {
-        return SizedBox( // Wrap GestureDetector widget with SizedBox
-          width: 100.0 * fem,
-          height: 150.0 * fem,
-          child: GestureDetector(
-              onTap: () {
-                showModalBottomSheet(
-                    context: context,
-                    isScrollControlled: true,
-                    backgroundColor: Color(0xFF22252D),
-                    shape: RoundedRectangleBorder(
-                      borderRadius:
-                          BorderRadius.vertical(top: Radius.circular(30.0)),
-                    ),
-                    builder: (context) => DraggableScrollableSheet(
-                        expand: false,
-                        minChildSize: 0.35,
-                        maxChildSize: 0.75,
-                        builder: (context, scrollController) => Stack(
-                                alignment: AlignmentDirectional.bottomCenter,
-                                children: [
-                                  SingleChildScrollView(
-                                      controller: scrollController,
-                                      child: showMediaPageBasedOnType(filteredMedia[index])),
-                                  /*Positioned(
+      padding: EdgeInsets.fromLTRB(40 * fem, 22 * fem, 0, 0),
+      child: SingleChildScrollView(
+        child: Wrap(
+          spacing: 10.0 * fem,
+          runSpacing: 22.0 * fem,
+          children: List.generate(filteredMedia.length, (index) {
+            return SizedBox(
+                // Wrap GestureDetector widget with SizedBox
+                width: 100.0 * fem,
+                height: 150.0 * fem,
+                child: GestureDetector(
+                  onTap: () {
+                    showModalBottomSheet(
+                        context: context,
+                        isScrollControlled: true,
+                        backgroundColor: Color(0xFF22252D),
+                        shape: RoundedRectangleBorder(
+                          borderRadius:
+                              BorderRadius.vertical(top: Radius.circular(30.0)),
+                        ),
+                        builder: (context) => DraggableScrollableSheet(
+                            expand: false,
+                            minChildSize: 0.35,
+                            maxChildSize: 0.75,
+                            builder: (context, scrollController) => Stack(
+                                    alignment:
+                                        AlignmentDirectional.bottomCenter,
+                                    children: [
+                                      SingleChildScrollView(
+                                          controller: scrollController,
+                                          child: showMediaPageBasedOnType(
+                                              filteredMedia[index])),
+                                      /*Positioned(
                                         left: 16,
                                         right: 16,
                                         bottom: 16,
                                         child: mediaPageButton())*/
-                                ])));
-              },
-              child: SizedBox(
-                width: 100.0 * fem,
-                height: 150.0 * fem,
-                child: showWidget(filteredMedia[index]),
-              ),
-            ));
+                                    ])));
+                  },
+                  child: SizedBox(
+                    width: 100.0 * fem,
+                    height: 150.0 * fem,
+                    child: showWidget(filteredMedia[index]),
+                  ),
+                ));
           }),
         ),
       ),
     );
   }
 
-  showMediaPageBasedOnType(dynamic item){
+  Future<Map> getDetails(int id, String type) async {
+    final tmdb = TMDB(ApiKeys(Env.tmdbApiKey, 'apiReadAccessTokenv4'));
+
+    if(type == 'Movie'){
+      Map result = await tmdb.v3.movies.getDetails(id);
+      return result;
+    } else if(type == 'TV'){
+      Map result = await tmdb.v3.tv.getDetails(id);
+      return result;
+    } else {
+      return {};
+    }
+  }
+
+  showMediaPageBasedOnType(dynamic item) {
     if (title == 'All Books') {
       return MediaPage(
-        title: item.info.title,
-        synopsis: item.info.description,
-        type: 'Book',
-        length: [item.info.pageCount],
-        cast: item.info.authors,
-        image: item.info.imageLinks['thumbnail'].toString(),
-        notes: notes, //get from DB
-        status: Status.nothing, //get from DB
-        isFavorite: false //get from DB
+          title: item.info.title,
+          synopsis: item.info.description,
+          type: 'Book',
+          length: [item.info.pageCount],
+          cast: item.info.authors,
+          image: item.info.imageLinks['thumbnail'].toString(),
+          notes: notes, //get from DB
+          status: Status.nothing, //get from DB
+          isFavorite: false //get from DB
+          );
+    } else if (title == 'All Movies') {
+      return FutureBuilder<Map>(
+        future: getDetails(item['id'], 'Movie'),
+        builder: (context, snapshot) {
+          if (snapshot.hasData) {
+            return MediaPage(
+                type: 'Movie',
+                image: item['poster_path'],
+                cast: [],
+                notes: notes, //get from DB
+                status: Status.nothing, //get from DB
+                isFavorite: false, //get from DB
+                title: snapshot.data!['title'],
+                synopsis: snapshot.data!['overview'],
+                length: [snapshot.data!['runtime']],
+                );
+          } else if (snapshot.hasError) {
+            return Text('${snapshot.error}');
+          }
+          return CircularProgressIndicator();
+        },
       );
-    }
-    else if (title == 'All Movies') {
-      return MediaPage(
-        title: item.title,
-        synopsis: item.overview,
-        type: 'Movie',
-        length: item.runtime,
-        image: item.poster_path,
-        cast: [],
-        notes: notes, //get from DB
-        status: Status.nothing, //get from DB
-        isFavorite: false //get from DB
-      );
-    }
-    else if (title == 'All Tv Shows') { 
-      return MediaPage(
-        title: item.name,
-        synopsis: item.overview,
-        type: 'TV Show',
-        image: item.poster_path,
-        length: [0],
-        cast: [],
-        notes: notes, //get from DB
-        status: Status.nothing, //get from DB
-        isFavorite: false //get from DB
+    } else if (title == 'All TV Shows') {
+      return FutureBuilder<Map>(
+        future: getDetails(item['id'], 'TV'),
+        builder: (context, snapshot) {
+          if (snapshot.hasData) {
+            return MediaPage(
+                type: 'TV Show',
+                image: item['poster_path'],
+                cast: [],
+                notes: notes, //get from DB
+                status: Status.nothing, //get from DB
+                isFavorite: false, //get from DB
+                title: snapshot.data!['name'],
+                synopsis: snapshot.data!['overview'],
+                length: [snapshot.data!['number_of_seasons'], snapshot.data!['number_of_episodes'], snapshot.data!['runtime']],
+                );
+          } else if (snapshot.hasError) {
+            return Text('${snapshot.error}');
+          }
+          return CircularProgressIndicator();
+        },
       );
     }
   }
