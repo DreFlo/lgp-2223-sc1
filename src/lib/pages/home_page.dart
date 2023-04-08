@@ -560,6 +560,7 @@ class _HomePageState extends State<HomePage> {
                                             image: 'assets/images/poster.jpg',
                                             notes: notes,
                                             status: status,
+                                            leisureTags: [],
                                             isFavorite: isFavorite)),
                                     Positioned(
                                         left: 16,

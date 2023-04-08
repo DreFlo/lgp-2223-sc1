@@ -15,6 +15,8 @@ class MediaPage extends StatelessWidget {
   final Map<String, String> notes;
   final List<int?> length;
   final String image;
+  final List<String> leisureTags;
+
 
   const MediaPage(
       {Key? key,
@@ -26,6 +28,7 @@ class MediaPage extends StatelessWidget {
       required this.notes,
       required this.isFavorite,
       required this.image,
+      required this.leisureTags,
       this.status = Status.nothing})
       : super(key: key);
 
@@ -58,6 +61,7 @@ class MediaPage extends StatelessWidget {
       );
     } 
   }
+
 
   @override
   Widget build(BuildContext context) {
@@ -165,13 +169,9 @@ class MediaPage extends StatelessWidget {
                     spacing: 7.6,
                     alignment: WrapAlignment.start,
                     runSpacing: 7.5,
-                    children: const [
-                      //book: category + year?
-                      //movie/tv: genre + tagline + year?
-                      LeisureTag(text: "85% love it"),
-                      LeisureTag(text: "Fantasy"),
-                      LeisureTag(text: "2015"),
-                      LeisureTag(text: "Right up your alley!")
+                    children: [
+                      for (var i = 0; i < leisureTags.length; i++)
+                        LeisureTag(text: leisureTags[i])
                     ])),
           ])),
       const SizedBox(height: 35),

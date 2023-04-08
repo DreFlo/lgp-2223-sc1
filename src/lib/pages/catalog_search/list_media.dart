@@ -548,7 +548,7 @@ class ListMedia extends StatelessWidget {
         Map episodeNumbersNames = makeEpisodeNameMap(episodeSeason);
         episodes[season] = episodeNumbersNames;
       }
-      
+
       return result;
     } else {
       return {};
@@ -570,6 +570,20 @@ class ListMedia extends StatelessWidget {
 
   showMediaPageBasedOnType(dynamic item) {
     if (title == 'All Books') {
+      List<String> leisureTags = [];
+      if(item.info.maturityRating != null) {
+        leisureTags.add(item.info.maturityRating);
+      }
+      if(item.info.categories != null) {
+        leisureTags.addAll(item.info.categories);
+      }
+      if(item.info.publisher != null) {
+        leisureTags.add(item.info.publisher);
+      }
+      if(item.info.publishedDate != null) {
+        leisureTags.add(item.info.publishedDate.year.toString());
+      }
+
       return MediaPage(
           title: item.info.title,
           synopsis: item.info.description,
@@ -577,6 +591,7 @@ class ListMedia extends StatelessWidget {
           length: [item.info.pageCount],
           cast: item.info.authors,
           image: item.info.imageLinks['thumbnail'].toString(),
+          leisureTags: leisureTags,
           notes: notes, //get from DB
           status: Status.nothing, //get from DB
           isFavorite: false //get from DB
@@ -593,6 +608,7 @@ class ListMedia extends StatelessWidget {
               notes: notes, //get from DB
               status: Status.nothing, //get from DB
               isFavorite: false, //get from DB
+              leisureTags: leisureTags,
               title: snapshot.data!['title'],
               synopsis: snapshot.data!['overview'],
               length: [snapshot.data!['runtime']],
@@ -615,6 +631,7 @@ class ListMedia extends StatelessWidget {
               notes: notes, //get from DB
               status: Status.nothing, //get from DB
               isFavorite: false, //get from DB
+              leisureTags: [],
               title: snapshot.data!['name'],
               synopsis: snapshot.data!['overview'],
               length: [
