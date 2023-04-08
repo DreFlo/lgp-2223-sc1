@@ -12,6 +12,7 @@ import 'package:src/pages/tasks/subject_form.dart';
 import 'package:src/themes/colors.dart';
 import 'package:src/utils/service_locator.dart';
 import 'gamification/gained_xp_toast.dart';
+import 'gamification/level_up_toast.dart';
 import 'leisure/add_to_catalog_form.dart';
 import 'leisure/mark_episodes_sheet.dart';
 import 'leisure/episodes_notes_sheet.dart';
@@ -722,7 +723,19 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                 child: Text("Gaining progress toast"),
                 onPressed: () {
                   var snackBar = SnackBar(
+                    duration: const Duration(seconds: 15),
                     content: GainedXPToast(value: 40, level: 2, points: 10),
+                    backgroundColor: Colors.transparent,
+                    elevation: 0,
+                  );
+                  // Step 3
+                  ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                }),
+            ElevatedButton(
+                child: Text("Level up toast"),
+                onPressed: () {
+                  var snackBar = SnackBar(
+                    content: LevelUpToast(level: 2, points: 20),
                     backgroundColor: Colors.transparent,
                     elevation: 0,
                   );
