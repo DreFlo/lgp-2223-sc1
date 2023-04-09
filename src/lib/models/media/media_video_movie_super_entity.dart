@@ -32,7 +32,8 @@ class MediaVideoMovieSuperEntity {
     required this.tagline,
   });
 
-  MediaVideoMovieSuperEntity.fromMediaAndVideoAndMovie(Media media, Video video, Movie movie)
+  MediaVideoMovieSuperEntity.fromMediaAndVideoAndMovie(
+      Media media, Video video, Movie movie)
       : id = media.id,
         name = media.name,
         description = media.description,

@@ -27,16 +27,15 @@ class Media {
 
   final String participants;
 
-  Media({
-    this.id,
-    required this.name,
-    required this.description,
-    required this.linkImage,
-    required this.status,
-    required this.favorite,
-    required this.genres,
-    required this.release,
-    required this.xp,
-    required this.participants
-  });
+  Media(
+      {this.id,
+      required this.name,
+      required this.description,
+      required this.linkImage,
+      required this.status,
+      required this.favorite,
+      required this.genres,
+      required this.release,
+      required this.xp,
+      required this.participants});
 }

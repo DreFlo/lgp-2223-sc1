@@ -94,17 +94,16 @@ void main() {
       (WidgetTester tester) async {
     await tester.runAsync(() async {
       MediaSeriesSuperEntity mediaSeriesSuperEntity = MediaSeriesSuperEntity(
-        name: 'name',
-        description: 'description',
-        linkImage: 'linkImage',
-        status: Status.goingThrough,
-        favorite: true,
-        genres: 'genres',
-        release: DateTime.now(),
-        xp: 23,
-        participants: "Me",
-        tagline: "Super Cool Test"
-      );
+          name: 'name',
+          description: 'description',
+          linkImage: 'linkImage',
+          status: Status.goingThrough,
+          favorite: true,
+          genres: 'genres',
+          release: DateTime.now(),
+          xp: 23,
+          participants: "Me",
+          tagline: "Super Cool Test");
 
       int seriesId = await serviceLocator<MediaSeriesSuperDao>()
           .insertMediaSeriesSuperEntity(mediaSeriesSuperEntity);
@@ -150,18 +149,17 @@ void main() {
     await tester.runAsync(() async {
       MediaVideoMovieSuperEntity mediaVideoMovieSuperEntity =
           MediaVideoMovieSuperEntity(
-        name: 'name',
-        description: 'description',
-        linkImage: 'linkImage',
-        status: Status.goingThrough,
-        favorite: true,
-        genres: 'genres',
-        release: DateTime.now(),
-        xp: 23,
-        duration: 23,
-        participants: "Me",
-        tagline: "Super Cool Test"
-      );
+              name: 'name',
+              description: 'description',
+              linkImage: 'linkImage',
+              status: Status.goingThrough,
+              favorite: true,
+              genres: 'genres',
+              release: DateTime.now(),
+              xp: 23,
+              duration: 23,
+              participants: "Me",
+              tagline: "Super Cool Test");
 
       int id = await serviceLocator<MediaVideoMovieSuperDao>()
           .insertMediaVideoMovieSuperEntity(mediaVideoMovieSuperEntity);
@@ -203,19 +201,18 @@ void main() {
   testWidgets('Test SuperDAO for Note/BookNote', (WidgetTester tester) async {
     await tester.runAsync(() async {
       int bookId = await serviceLocator<MediaDao>().insertMedia(Media(
-        name: 'name',
-        description: 'description',
-        linkImage: 'linkImage',
-        status: Status.goingThrough,
-        favorite: true,
-        genres: 'genres',
-        release: DateTime.now(),
-        xp: 23,
-        participants: 'Me'
-      ));
+          name: 'name',
+          description: 'description',
+          linkImage: 'linkImage',
+          status: Status.goingThrough,
+          favorite: true,
+          genres: 'genres',
+          release: DateTime.now(),
+          xp: 23,
+          participants: 'Me'));
 
-      await serviceLocator<BookDao>().insertBook(
-          Book(id: bookId,  totalPages: 23, progressPages: 0));
+      await serviceLocator<BookDao>()
+          .insertBook(Book(id: bookId, totalPages: 23, progressPages: 0));
 
       NoteBookNoteSuperEntity noteBookNoteSuperEntity = NoteBookNoteSuperEntity(
           title: 'Note 1',
@@ -331,17 +328,16 @@ void main() {
   testWidgets('Test Video/Episode SuperDAO', (WidgetTester tester) async {
     await tester.runAsync(() async {
       MediaSeriesSuperEntity mediaSeriesSuperEntity = MediaSeriesSuperEntity(
-        name: 'name',
-        description: 'description',
-        linkImage: 'linkImage',
-        status: Status.goingThrough,
-        favorite: true,
-        genres: 'genres',
-        release: DateTime.now(),
-        xp: 23,
-        participants: "Me",
-        tagline: "Super Cool Test"
-      );
+          name: 'name',
+          description: 'description',
+          linkImage: 'linkImage',
+          status: Status.goingThrough,
+          favorite: true,
+          genres: 'genres',
+          release: DateTime.now(),
+          xp: 23,
+          participants: "Me",
+          tagline: "Super Cool Test");
 
       int seriesId = await serviceLocator<MediaSeriesSuperDao>()
           .insertMediaSeriesSuperEntity(mediaSeriesSuperEntity);
@@ -386,17 +382,16 @@ void main() {
   testWidgets('Test Note/EpisodeNote SuperDAO', (WidgetTester tester) async {
     await tester.runAsync(() async {
       MediaSeriesSuperEntity mediaSeriesSuperEntity = MediaSeriesSuperEntity(
-        name: 'name',
-        description: 'description',
-        linkImage: 'linkImage',
-        status: Status.goingThrough,
-        favorite: true,
-        genres: 'genres',
-        release: DateTime.now(),
-        xp: 23,
-        participants: "Me",
-        tagline: "Super Cool Test"
-      );
+          name: 'name',
+          description: 'description',
+          linkImage: 'linkImage',
+          status: Status.goingThrough,
+          favorite: true,
+          genres: 'genres',
+          release: DateTime.now(),
+          xp: 23,
+          participants: "Me",
+          tagline: "Super Cool Test");
 
       int seriesId = await serviceLocator<MediaSeriesSuperDao>()
           .insertMediaSeriesSuperEntity(mediaSeriesSuperEntity);
@@ -412,19 +407,18 @@ void main() {
 
       MediaVideoEpisodeSuperEntity mediaVideoEpisodeSuperEntity =
           MediaVideoEpisodeSuperEntity(
-        name: 'name',
-        description: 'description',
-        linkImage: 'linkImage',
-        status: Status.goingThrough,
-        favorite: true,
-        genres: 'genres',
-        release: DateTime.now(),
-        xp: 23,
-        duration: 23,
-        number: 1,
-        seasonId: seasonId,
-        participants: 'Me'
-      );
+              name: 'name',
+              description: 'description',
+              linkImage: 'linkImage',
+              status: Status.goingThrough,
+              favorite: true,
+              genres: 'genres',
+              release: DateTime.now(),
+              xp: 23,
+              duration: 23,
+              number: 1,
+              seasonId: seasonId,
+              participants: 'Me');
 
       int id = await serviceLocator<MediaVideoEpisodeSuperDao>()
           .insertMediaVideoEpisodeSuperEntity(mediaVideoEpisodeSuperEntity);
@@ -463,18 +457,18 @@ void main() {
           User(userName: 'Emil', password: '1234', xp: 23, imagePath: 'test'));
 
       int seriesId = await serviceLocator<MediaDao>().insertMedia(Media(
-        name: 'name',
-        description: 'description',
-        linkImage: 'linkImage',
-        status: Status.goingThrough,
-        favorite: true,
-        genres: 'genres',
-        release: DateTime.now(),
-        xp: 23,
-        participants: 'Me'
-      ));
+          name: 'name',
+          description: 'description',
+          linkImage: 'linkImage',
+          status: Status.goingThrough,
+          favorite: true,
+          genres: 'genres',
+          release: DateTime.now(),
+          xp: 23,
+          participants: 'Me'));
 
-      await serviceLocator<SeriesDao>().insertSerie(Series(id: seriesId, tagline: 'Super Cool Test'));
+      await serviceLocator<SeriesDao>()
+          .insertSerie(Series(id: seriesId, tagline: 'Super Cool Test'));
 
       TimeslotMediaTimeslotSuperEntity timeslotMediaTimeslotSuperEntity =
           TimeslotMediaTimeslotSuperEntity(
@@ -793,7 +787,11 @@ void main() {
           userId: 1));
 
       Subject subject = Subject(
-          id: 1, name: 'Subject 1', weightAverage: -8, institutionId: 1, acronym: 'S1');
+          id: 1,
+          name: 'Subject 1',
+          weightAverage: -8,
+          institutionId: 1,
+          acronym: 'S1');
 
       expect(() => serviceLocator<SubjectDao>().insertSubject(subject),
           throwsA(isA<DatabaseException>()));
@@ -878,7 +876,11 @@ void main() {
           userId: 1));
 
       await serviceLocator<SubjectDao>().insertSubject(Subject(
-          id: 1, name: 'Subject 1', weightAverage: 8, institutionId: 1, acronym: 'S'));
+          id: 1,
+          name: 'Subject 1',
+          weightAverage: 8,
+          institutionId: 1,
+          acronym: 'S'));
 
       StudentEvaluation studentEvaluation = StudentEvaluation(
           id: 1,
@@ -958,7 +960,11 @@ void main() {
           userId: 1));
 
       await serviceLocator<SubjectDao>().insertSubject(Subject(
-          id: 1, name: 'Subject 1', weightAverage: 8, institutionId: 1, acronym: 'S'));
+          id: 1,
+          name: 'Subject 1',
+          weightAverage: 8,
+          institutionId: 1,
+          acronym: 'S'));
 
       Task task = Task(
           id: 1,
