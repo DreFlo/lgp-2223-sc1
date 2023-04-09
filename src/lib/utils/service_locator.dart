@@ -49,7 +49,7 @@ final GetIt serviceLocator = GetIt.instance;
 /// Setup the GetIt service locator
 /// Used to register singleton variables
 /// Add any singleton variables here
-Future<void> setup({bool testing = false}) async {
+Future<void> setup({bool testing = false, bool deleteDB = false}) async {
   if (testing) {
     await serviceLocator.reset();
     serviceLocator
@@ -59,7 +59,9 @@ Future<void> setup({bool testing = false}) async {
             //.addCallback(unitTestPrintVersionCallback)
             .build());
   } else {
-    deleteDatabase('wokka_database.db');
+    if (deleteDB) {
+      deleteDatabase('wokka_database.db');
+    }
 
     serviceLocator.registerSingletonAsync<AppDatabase>(() async =>
         await $FloorAppDatabase
