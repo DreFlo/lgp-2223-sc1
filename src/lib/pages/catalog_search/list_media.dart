@@ -616,6 +616,7 @@ class ListMedia extends StatelessWidget {
             if(snapshot.data!['release_date'] != null && snapshot.data!['release_date'] != '') {
               leisureTags.add(snapshot.data!['release_date'].substring(0, 4));
             }
+
             return MediaPage(
               type: 'Movie',
               image: item['poster_path'],

@@ -17,7 +17,6 @@ class MediaPage extends StatelessWidget {
   final String image;
   final List<String> leisureTags;
 
-
   const MediaPage(
       {Key? key,
       required this.title,
@@ -34,7 +33,7 @@ class MediaPage extends StatelessWidget {
 
   String getLength(context) {
     if (type == "TV Show") {
-      if(length[2] == null){
+      if (length[2] == null) {
         return length[0].toString() +
             AppLocalizations.of(context).seasons +
             length[1].toString() +
@@ -53,21 +52,36 @@ class MediaPage extends StatelessWidget {
     }
   }
 
+  showSmallCastList(context) {
+    List<dynamic> firstTen;
+    if (cast.length >= 10) {
+      firstTen = cast.sublist(0, 10);
+    } else {
+      firstTen = cast;
+    }
+    return Row(children: [
+      Text(
+        firstTen.join("\n"),
+        softWrap: true,
+        textAlign: TextAlign.justify,
+        style: Theme.of(context).textTheme.bodySmall,
+      )
+    ]);
+  }
+
   showImage(String type) {
-    if (type == 'Book'){
+    if (type == 'Book') {
       return Image.network(
         image,
         fit: BoxFit.fitWidth,
       );
-    }
-    else {
+    } else {
       return Image.network(
         'https://image.tmdb.org/t/p/w500$image',
         fit: BoxFit.fitWidth,
       );
-    } 
+    }
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -170,7 +184,7 @@ class MediaPage extends StatelessWidget {
           child: Row(mainAxisAlignment: MainAxisAlignment.start, children: [
             SizedBox(
                 width: MediaQuery.of(context).size.width * 0.85,
-                height: 18.0*leisureTags.length,
+                height: 18.0 * leisureTags.length,
                 child: Wrap(
                     spacing: 7.6,
                     alignment: WrapAlignment.start,
@@ -213,14 +227,7 @@ class MediaPage extends StatelessWidget {
       Row(children: [
         Padding(
           padding: const EdgeInsets.only(left: 18, right: 18),
-          child: Row(children: [
-            Text(
-              cast.join("\n"),
-              softWrap: true,
-              textAlign: TextAlign.justify,
-              style: Theme.of(context).textTheme.bodySmall,
-            )
-          ]),
+          child: showSmallCastList(context),
         ),
       ]),
       const SizedBox(height: 35),
