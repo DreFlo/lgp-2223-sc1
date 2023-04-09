@@ -545,7 +545,7 @@ class ListMedia extends StatelessWidget {
       // Get all episodes
       for (int season = 1; season <= result['number_of_seasons']; season++) {
         Map episodeSeason = await tmdb.v3.tvSeasons.getDetails(id, season);
-        if (episodeSeason['episodes'][0]['runtime'] != null){
+        if (episodeSeason['episodes'][0]['runtime'] != null) {
           result['runtime'] = episodeSeason['episodes'][0]['runtime'];
         }
         Map episodeNumbersNames = makeEpisodeNameMap(episodeSeason);
@@ -574,16 +574,16 @@ class ListMedia extends StatelessWidget {
   showMediaPageBasedOnType(dynamic item) {
     if (title == 'All Books') {
       List<String> leisureTags = [];
-      if(item.info.maturityRating != null && item.info.maturityRating != '') {
+      if (item.info.maturityRating != null && item.info.maturityRating != '') {
         leisureTags.add(item.info.maturityRating);
       }
-      if(item.info.categories != null && item.info.categories.length != 0) {
+      if (item.info.categories != null && item.info.categories.length != 0) {
         leisureTags.addAll(item.info.categories);
       }
-      if(item.info.publisher != null && item.info.publisher != '') {
+      if (item.info.publisher != null && item.info.publisher != '') {
         leisureTags.add(item.info.publisher);
       }
-      if(item.info.publishedDate != null) {
+      if (item.info.publishedDate != null) {
         leisureTags.add(item.info.publishedDate.year.toString());
       }
 
@@ -605,15 +605,18 @@ class ListMedia extends StatelessWidget {
         builder: (context, snapshot) {
           if (snapshot.hasData) {
             List<String> leisureTags = [];
-            if(snapshot.data!['tagline'] != null && snapshot.data!['tagline'] != '') {
+            if (snapshot.data!['tagline'] != null &&
+                snapshot.data!['tagline'] != '') {
               leisureTags.add(snapshot.data!['tagline']);
             }
-            if(snapshot.data!['genres'] != null && snapshot.data!['genres'].length != 0) {
+            if (snapshot.data!['genres'] != null &&
+                snapshot.data!['genres'].length != 0) {
               snapshot.data!['genres'].forEach((item) {
                 leisureTags.add(item['name']);
               });
             }
-            if(snapshot.data!['release_date'] != null && snapshot.data!['release_date'] != '') {
+            if (snapshot.data!['release_date'] != null &&
+                snapshot.data!['release_date'] != '') {
               leisureTags.add(snapshot.data!['release_date'].substring(0, 4));
             }
 
@@ -641,15 +644,18 @@ class ListMedia extends StatelessWidget {
         builder: (context, snapshot) {
           if (snapshot.hasData) {
             List<String> leisureTags = [];
-            if(snapshot.data!['tagline'] != null && snapshot.data!['tagline'] != '') {
+            if (snapshot.data!['tagline'] != null &&
+                snapshot.data!['tagline'] != '') {
               leisureTags.add(snapshot.data!['tagline']);
             }
-            if(snapshot.data!['genres'] != null && snapshot.data!['genres'].length != 0) {
+            if (snapshot.data!['genres'] != null &&
+                snapshot.data!['genres'].length != 0) {
               snapshot.data!['genres'].forEach((item) {
                 leisureTags.add(item['name']);
               });
             }
-            if(snapshot.data!['first_air_date'] != null && snapshot.data!['first_air_date'] != '') {
+            if (snapshot.data!['first_air_date'] != null &&
+                snapshot.data!['first_air_date'] != '') {
               leisureTags.add(snapshot.data!['first_air_date'].substring(0, 4));
             }
 
