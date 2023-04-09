@@ -41,7 +41,7 @@ class _FinishedMediaFormState extends State<FinishedMediaForm> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-        padding: EdgeInsets.symmetric(horizontal: 18, vertical: 10),
+        padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 10),
         child: Wrap(spacing: 10, children: [
           Row(mainAxisAlignment: MainAxisAlignment.center, children: [
             Container(
@@ -54,7 +54,7 @@ class _FinishedMediaFormState extends State<FinishedMediaForm> {
               ),
             )
           ]),
-          SizedBox(height: 10),
+          const SizedBox(height: 10),
           Row(children: [
             Text(AppLocalizations.of(context).finished_media,
                 softWrap: true,
@@ -146,7 +146,7 @@ class _FinishedMediaFormState extends State<FinishedMediaForm> {
             )
           ]),
           const SizedBox(height: 7.5),
-          Container(
+          SizedBox(
               height: 50,
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -305,7 +305,7 @@ class _FinishedMediaFormState extends State<FinishedMediaForm> {
             )
           ]),
           const SizedBox(height: 7.5),
-          Container(
+          SizedBox(
               height: 50,
               child:
                   Row(mainAxisAlignment: MainAxisAlignment.center, children: [

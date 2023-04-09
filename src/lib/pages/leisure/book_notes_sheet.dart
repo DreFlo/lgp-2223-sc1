@@ -10,7 +10,8 @@ class BookNotesSheet extends StatefulWidget {
   final Map<String, String> notes;
   final Map<Reaction, String>? review;
 
-  const BookNotesSheet({Key? key, required this.notes, this.review}) : super(key: key);
+  const BookNotesSheet({Key? key, required this.notes, this.review})
+      : super(key: key);
 
   @override
   State<BookNotesSheet> createState() => _BookNotesSheetState();
@@ -20,7 +21,7 @@ class _BookNotesSheetState extends State<BookNotesSheet>
     with TickerProviderStateMixin {
   List<Widget> getNotes() {
     List<Widget> notes = [];
-    
+
     if (widget.review != null) {
       notes.add(ReviewNoteBar(
         reaction: widget.review!.keys.first,

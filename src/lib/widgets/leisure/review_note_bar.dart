@@ -46,14 +46,15 @@ class _ReviewNoteBarState extends State<ReviewNoteBar> {
           Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
             Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
               Text(getEmoji(),
-                    style: const TextStyle(
-                        color: Colors.white,
-                        fontSize: 24,
-                        fontWeight: FontWeight.w600))
-              ,
+                  style: const TextStyle(
+                      color: Colors.white,
+                      fontSize: 24,
+                      fontWeight: FontWeight.w600)),
             ]),
             Column(crossAxisAlignment: CrossAxisAlignment.end, children: [
-              LeisureTag(text: AppLocalizations.of(context).your_review.toUpperCase(), backgroundColor: leisureColor)
+              LeisureTag(
+                  text: AppLocalizations.of(context).your_review.toUpperCase(),
+                  backgroundColor: leisureColor)
             ]),
           ]),
           const SizedBox(height: 15),

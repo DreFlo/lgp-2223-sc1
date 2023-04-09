@@ -29,7 +29,6 @@ class _EpisodesNotesSheetState extends State<EpisodesNotesSheet>
 
   @override
   initState() {
-
     controller = TabController(
         length: widget.episodes.length + 1, vsync: this, initialIndex: 0);
 
@@ -71,7 +70,7 @@ class _EpisodesNotesSheetState extends State<EpisodesNotesSheet>
 
   List<Widget> getAllNotes() {
     List<Widget> episodes = [];
-  
+
     if (widget.review != null) {
       episodes.add(ReviewNoteBar(
         reaction: widget.review!.keys.first,

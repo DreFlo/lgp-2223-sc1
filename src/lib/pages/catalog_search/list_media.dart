@@ -185,7 +185,7 @@ class ListMedia extends StatelessWidget {
                                             controller: scrollController,
                                             child: EpisodesNotesSheet(
                                                 notes: notes,
-                                                review: {
+                                                review: const {
                                                   Reaction.dislike:
                                                       "Didn't like it at all."
                                                 },
@@ -463,8 +463,12 @@ class ListMedia extends StatelessWidget {
                       builder: (context) => Padding(
                           padding: EdgeInsets.only(
                               bottom: MediaQuery.of(context).viewInsets.bottom),
-                          child: Stack(children: [
-                            FinishedMediaForm(isFavorite: false, startDate: "04/09/2023", endDate: "04/09/2023", rating: Reaction.hate),
+                          child: Stack(children: const [
+                            FinishedMediaForm(
+                                isFavorite: false,
+                                startDate: "04/09/2023",
+                                endDate: "04/09/2023",
+                                rating: Reaction.hate),
                           ])));
                 },
                 style: ElevatedButton.styleFrom(
@@ -505,7 +509,10 @@ class ListMedia extends StatelessWidget {
                                         child: SingleChildScrollView(
                                             controller: scrollController,
                                             child: BookNotesSheet(
-                                                notes: {}, review: {Reaction.dislike: "Hated it."})))
+                                                notes: const {},
+                                                review: const {
+                                                  Reaction.dislike: "Hated it."
+                                                })))
                                   ])));
                 },
                 style: ElevatedButton.styleFrom(

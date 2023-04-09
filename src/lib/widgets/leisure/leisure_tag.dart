@@ -8,7 +8,9 @@ class LeisureTag extends StatelessWidget {
   final Color? textColor;
   final Color? backgroundColor;
 
-  const LeisureTag({Key? key, required this.text, this.textColor, this.backgroundColor}) : super(key: key);
+  const LeisureTag(
+      {Key? key, required this.text, this.textColor, this.backgroundColor})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -27,8 +29,8 @@ class LeisureTag extends StatelessWidget {
             const EdgeInsets.only(bottom: 5, top: 5, left: 7.5, right: 7.5),
         child: Text(text.toUpperCase(),
             style: TextStyle(
-                      color: (textColor ?? Colors.white),
-                      fontSize: 13,
-                      fontWeight: FontWeight.w600)));
+                color: (textColor ?? Colors.white),
+                fontSize: 13,
+                fontWeight: FontWeight.w600)));
   }
 }
