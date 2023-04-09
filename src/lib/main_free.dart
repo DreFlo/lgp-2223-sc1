@@ -6,6 +6,7 @@ import 'package:src/utils/service_locator.dart';
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   F.appFlavor = Flavor.free;
-  await setup();
+  const testingDB = bool.fromEnvironment('DELETE_DB');
+  await setup(testing: testingDB);
   runApp(const App());
 }

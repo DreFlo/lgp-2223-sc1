@@ -43,7 +43,6 @@ import 'package:src/daos/mood_dao.dart';
 import 'package:src/daos/user_dao.dart';
 
 import 'package:src/database/callbacks.dart';
-//import 'package:sqflite_common/sqlite_api.dart';
 
 final GetIt serviceLocator = GetIt.instance;
 
@@ -60,7 +59,7 @@ Future<void> setup({bool testing = false}) async {
             //.addCallback(unitTestPrintVersionCallback)
             .build());
   } else {
-    //deleteDatabase('wokka_database.db');
+    deleteDatabase('wokka_database.db');
 
     serviceLocator.registerSingletonAsync<AppDatabase>(() async =>
         await $FloorAppDatabase
