@@ -1,6 +1,7 @@
 // ignore_for_file: prefer_const_constructors, sized_box_for_whitespace, must_be_immutable
 
 import 'package:flutter/material.dart';
+import 'package:src/pages/leisure/finished_media_form.dart';
 import 'package:tmdb_api/tmdb_api.dart';
 import 'media.dart';
 import 'package:src/themes/colors.dart';
@@ -184,6 +185,10 @@ class ListMedia extends StatelessWidget {
                                             controller: scrollController,
                                             child: EpisodesNotesSheet(
                                                 notes: notes,
+                                                review: {
+                                                  Reaction.dislike:
+                                                      "Didn't like it at all."
+                                                },
                                                 episodes: episodes)))
                                   ])));
                 },
@@ -313,7 +318,7 @@ class ListMedia extends StatelessWidget {
                     borderRadius: BorderRadius.circular(25.0),
                   ),
                 ),
-                child: Text(AppLocalizations.of(context).progress,
+                child: Text(AppLocalizations.of(context).review,
                     style: Theme.of(context).textTheme.headlineSmall),
               ),
               ElevatedButton(
@@ -438,6 +443,84 @@ class ListMedia extends StatelessWidget {
           ),
           child: Text(AppLocalizations.of(context).add,
               style: Theme.of(context).textTheme.headlineSmall),
+        );
+      } else {
+        return Container(
+          width: MediaQuery.of(context).size.width * 0.95,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              ElevatedButton(
+                onPressed: () {
+                  showModalBottomSheet(
+                      context: context,
+                      isScrollControlled: true,
+                      backgroundColor: Color(0xFF22252D),
+                      shape: RoundedRectangleBorder(
+                        borderRadius:
+                            BorderRadius.vertical(top: Radius.circular(30.0)),
+                      ),
+                      builder: (context) => Padding(
+                          padding: EdgeInsets.only(
+                              bottom: MediaQuery.of(context).viewInsets.bottom),
+                          child: Stack(children: [
+                            FinishedMediaForm(isFavorite: false, startDate: "04/09/2023", endDate: "04/09/2023", rating: Reaction.hate),
+                          ])));
+                },
+                style: ElevatedButton.styleFrom(
+                  minimumSize:
+                      Size(MediaQuery.of(context).size.width * 0.45, 55),
+                  backgroundColor: leisureColor,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(25.0),
+                  ),
+                ),
+                child: Text(AppLocalizations.of(context).progress,
+                    style: Theme.of(context).textTheme.headlineSmall),
+              ),
+              ElevatedButton(
+                onPressed: () {
+                  showModalBottomSheet(
+                      context: context,
+                      isScrollControlled: true,
+                      backgroundColor: Color(0xFF22252D),
+                      shape: RoundedRectangleBorder(
+                        borderRadius:
+                            BorderRadius.vertical(top: Radius.circular(30.0)),
+                      ),
+                      builder: (context) => DraggableScrollableSheet(
+                          expand: false,
+                          initialChildSize: 0.35,
+                          minChildSize: 0.35,
+                          maxChildSize: 0.5,
+                          builder: (context, scrollController) => Stack(
+                                  alignment: AlignmentDirectional.bottomCenter,
+                                  children: [
+                                    Padding(
+                                        padding: EdgeInsets.only(
+                                            bottom: MediaQuery.of(context)
+                                                    .viewInsets
+                                                    .bottom +
+                                                50),
+                                        child: SingleChildScrollView(
+                                            controller: scrollController,
+                                            child: BookNotesSheet(
+                                                notes: {}, review: {Reaction.dislike: "Hated it."})))
+                                  ])));
+                },
+                style: ElevatedButton.styleFrom(
+                  minimumSize:
+                      Size(MediaQuery.of(context).size.width * 0.45, 55),
+                  backgroundColor: leisureColor,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(25.0),
+                  ),
+                ),
+                child: Text(AppLocalizations.of(context).notes,
+                    style: Theme.of(context).textTheme.headlineSmall),
+              )
+            ],
+          ),
         );
       }
     }
@@ -564,7 +647,7 @@ class ListMedia extends StatelessWidget {
           'Book', Status.nothing, context); //get status from DB
     } else if (title == 'All Movies') {
       return mediaPageButton(
-          'Movie', Status.nothing, context); //get status from DB
+          'Movie', Status.done, context); //get status from DB
     } else {
       return mediaPageButton(
           'TV Show', Status.goingThrough, context); //get status from DB

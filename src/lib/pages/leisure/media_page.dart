@@ -194,7 +194,7 @@ class MediaPage extends StatelessWidget {
                         LeisureTag(text: leisureTags[i])
                     ])),
           ])),
-      const SizedBox(height: 35),
+      const SizedBox(height: 15),
       Row(children: [
         Padding(
             padding: const EdgeInsets.only(left: 18),
