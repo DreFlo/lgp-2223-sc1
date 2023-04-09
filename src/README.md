@@ -97,7 +97,7 @@ _IMPORTANT: If you alter the database in any way you need to increment the versi
 in the example that's there. You also need to add this migration strategy in the same way it's already done
 in the ```lib/utils/service_locator.dart``` file._
 
-_IMPORTANT: If you need to delete the database that is in your device add the following command to the run command: 
+_IMPORTANT: If you need to delete the database that is in your device add the following command to the run command:_ 
 ```shell
 --dart-define="DELETE_DB=true"
 ```
