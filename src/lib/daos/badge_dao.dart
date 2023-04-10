@@ -12,6 +12,9 @@ abstract class BadgeDao {
   @insert
   Future<int> insertBadge(Badge badge);
 
+  @insert
+  Future<void> insertBadges(List<Badge> badges);
+
   @update
   Future<void> updateBadge(Badge badge);
 

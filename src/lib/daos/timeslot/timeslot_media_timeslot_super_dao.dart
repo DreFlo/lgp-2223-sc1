@@ -33,6 +33,16 @@ class TimeslotMediaTimeslotSuperDao {
     return timeslotId;
   }
 
+  Future<void> insertTimeslotMediaTimeslotSuperEntities(
+    List<TimeslotMediaTimeslotSuperEntity> timeslotMediaTimeslotSuperEntities,
+  ) async {
+    for (var timeslotMediaTimeslotSuperEntity
+        in timeslotMediaTimeslotSuperEntities) {
+      await insertTimeslotMediaTimeslotSuperEntity(
+          timeslotMediaTimeslotSuperEntity);
+    }
+  }
+
   Future<void> updateTimeslotMediaTimeslotSuperEntity(
     TimeslotMediaTimeslotSuperEntity timeslotMediaTimeslotSuperEntity,
   ) async {

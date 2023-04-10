@@ -12,6 +12,9 @@ abstract class MoodDao {
   @insert
   Future<int> insertMood(Mood mood);
 
+  @insert
+  Future<void> insertMoods(List<Mood> moods);
+
   @update
   Future<void> updateMood(Mood mood);
 
