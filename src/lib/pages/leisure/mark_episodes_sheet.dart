@@ -10,7 +10,7 @@ import '../../utils/enums.dart';
 import 'finished_media_form.dart';
 
 class MarkEpisodesSheet extends StatefulWidget {
-  final Map<int, Map<int, String>> episodes;
+  final Map<int, Map<dynamic, dynamic>> episodes;
 
   const MarkEpisodesSheet({Key? key, required this.episodes}) : super(key: key);
 
