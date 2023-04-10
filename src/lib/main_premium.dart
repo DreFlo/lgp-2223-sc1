@@ -1,4 +1,3 @@
-// ignore: constant_identifier_names
 import 'package:flutter/material.dart';
 import 'package:src/app.dart';
 import 'package:src/flavors.dart';
