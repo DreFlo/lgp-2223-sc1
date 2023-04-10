@@ -35,7 +35,8 @@ class TimeslotStudentTimeslotSuperDao {
   }
 
   Future<void> insertTimeslotStudentTimeslotSuperEntities(
-    List<TimeslotStudentTimeslotSuperEntity> timeslotStudentTimeslotSuperEntities,
+    List<TimeslotStudentTimeslotSuperEntity>
+        timeslotStudentTimeslotSuperEntities,
   ) async {
     for (var timeslotStudentTimeslotSuperEntity
         in timeslotStudentTimeslotSuperEntities) {
