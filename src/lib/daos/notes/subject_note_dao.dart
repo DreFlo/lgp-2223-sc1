@@ -10,8 +10,17 @@ abstract class SubjectNoteDao {
   Stream<SubjectNote?> findSubjectNoteById(int id);
 
   @insert
-  Future<void> insertSubjectNote(SubjectNote subjectNote);
+  Future<int> insertSubjectNote(SubjectNote subjectNote);
 
   @insert
   Future<void> insertSubjectNotes(List<SubjectNote> subjectNotes);
+
+  @update
+  Future<void> updateSubjectNote(SubjectNote subjectNote);
+
+  @update
+  Future<void> updateSubjectNotes(List<SubjectNote> subjectNotes);
+
+  @delete
+  Future<void> deleteSubjectNote(SubjectNote subjectNote);
 }

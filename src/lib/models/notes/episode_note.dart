@@ -9,18 +9,23 @@ import 'package:src/models/media/episode.dart';
       childColumns: ['episode_id'],
       parentColumns: ['id'],
       entity: Episode,
-    )
+    ),
+    ForeignKey(
+      childColumns: ['id'],
+      parentColumns: ['id'],
+      entity: Note,
+    ),
   ],
 )
-class EpisodeNote extends Note {
+class EpisodeNote {
+  @PrimaryKey()
+  final int id;
+
   @ColumnInfo(name: 'episode_id')
   final int episodeId;
 
   EpisodeNote({
-    int? id,
-    required String title,
-    required String content,
-    required DateTime date,
+    required this.id,
     required this.episodeId,
-  }) : super(id: id, title: title, content: content, date: date);
+  });
 }

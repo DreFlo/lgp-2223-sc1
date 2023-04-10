@@ -10,8 +10,17 @@ abstract class EpisodeNoteDao {
   Stream<EpisodeNote?> findEpisodeNoteById(int id);
 
   @insert
-  Future<void> insertEpisodeNote(EpisodeNote episodeNote);
+  Future<int> insertEpisodeNote(EpisodeNote episodeNote);
 
   @insert
   Future<void> insertEpisodeNotes(List<EpisodeNote> episodeNotes);
+
+  @update
+  Future<void> updateEpisodeNote(EpisodeNote episodeNote);
+
+  @update
+  Future<void> updateEpisodeNotes(List<EpisodeNote> episodeNotes);
+
+  @delete
+  Future<void> deleteEpisodeNote(EpisodeNote episodeNote);
 }

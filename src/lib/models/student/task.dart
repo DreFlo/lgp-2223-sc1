@@ -1,5 +1,6 @@
 import 'package:floor/floor.dart';
 import 'package:src/models/student/task_group.dart';
+import 'package:src/models/student/subject.dart';
 import 'package:src/utils/enums.dart';
 
 @Entity(
@@ -8,7 +9,11 @@ import 'package:src/utils/enums.dart';
     ForeignKey(
         childColumns: ['task_group_id'],
         parentColumns: ['id'],
-        entity: TaskGroup,
+        entity: TaskGroup),
+    ForeignKey(
+        childColumns: ['subject_id'],
+        parentColumns: ['id'],
+        entity: Subject,
         onDelete: ForeignKeyAction.cascade,
         onUpdate: ForeignKeyAction.restrict)
   ],
@@ -25,15 +30,21 @@ class Task {
 
   final DateTime deadline;
 
+  final int xp;
+
   @ColumnInfo(name: 'task_group_id')
   final int taskGroupId;
 
-  Task({
-    this.id,
-    required this.name,
-    required this.description,
-    required this.priority,
-    required this.deadline,
-    required this.taskGroupId,
-  });
+  @ColumnInfo(name: 'subject_id')
+  final int? subjectId;
+
+  Task(
+      {this.id,
+      required this.name,
+      required this.description,
+      required this.priority,
+      required this.deadline,
+      required this.taskGroupId,
+      required this.subjectId,
+      required this.xp});
 }

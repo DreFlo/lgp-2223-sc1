@@ -9,18 +9,23 @@ import 'package:src/models/student/task.dart';
       childColumns: ['task_id'],
       parentColumns: ['id'],
       entity: Task,
-    )
+    ),
+    ForeignKey(
+      childColumns: ['id'],
+      parentColumns: ['id'],
+      entity: Note,
+    ),
   ],
 )
-class TaskNote extends Note {
+class TaskNote {
+  @PrimaryKey()
+  final int id;
+
   @ColumnInfo(name: 'task_id')
   final int taskId;
 
   TaskNote({
-    int? id,
-    required String title,
-    required String content,
-    required DateTime date,
+    required this.id,
     required this.taskId,
-  }) : super(id: id, title: title, content: content, date: date);
+  });
 }

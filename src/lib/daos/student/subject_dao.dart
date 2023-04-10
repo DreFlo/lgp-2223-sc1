@@ -13,8 +13,17 @@ abstract class SubjectDao {
   Stream<Subject?> findSubjectByInstitutionId(int id);
 
   @insert
-  Future<void> insertSubject(Subject subject);
+  Future<int> insertSubject(Subject subject);
 
   @insert
   Future<void> insertSubjects(List<Subject> subjects);
+
+  @update
+  Future<void> updateSubject(Subject subject);
+
+  @update
+  Future<void> updateSubjects(List<Subject> subjects);
+
+  @delete
+  Future<void> deleteSubject(Subject subject);
 }
