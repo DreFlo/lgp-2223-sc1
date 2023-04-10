@@ -1,6 +1,5 @@
 import 'package:floor/floor.dart';
 import 'package:src/models/timeslot/timeslot.dart';
-import 'package:src/models/media/media.dart';
 
 @Entity(
   tableName: 'media_timeslot',
@@ -9,13 +8,7 @@ import 'package:src/models/media/media.dart';
       childColumns: ['id'],
       parentColumns: ['id'],
       entity: Timeslot,
-    ),
-    ForeignKey(
-        childColumns: ['media_id'],
-        parentColumns: ['id'],
-        entity: Media,
-        onDelete: ForeignKeyAction.cascade,
-        onUpdate: ForeignKeyAction.restrict)
+    )
   ],
 )
 class MediaTimeslot {
