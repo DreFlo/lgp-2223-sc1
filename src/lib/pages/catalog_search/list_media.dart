@@ -444,9 +444,9 @@ class ListMedia extends StatelessWidget {
           child: Text(AppLocalizations.of(context).add,
               style: Theme.of(context).textTheme.headlineSmall),
         );
-      } else {
+      } else if (status == Status.planTo) {
         return Container(
-          width: MediaQuery.of(context).size.width * 0.95,
+          width: MediaQuery.of(context).size.width,
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
@@ -473,15 +473,20 @@ class ListMedia extends StatelessWidget {
                 },
                 style: ElevatedButton.styleFrom(
                   minimumSize:
-                      Size(MediaQuery.of(context).size.width * 0.45, 55),
+                      Size(MediaQuery.of(context).size.width * 0.90, 55),
                   backgroundColor: leisureColor,
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(25.0),
                   ),
                 ),
-                child: Text(AppLocalizations.of(context).progress,
+                child: Text(AppLocalizations.of(context).review,
                     style: Theme.of(context).textTheme.headlineSmall),
-              ),
+              )]));
+      } else if (status == Status.done) {return Container(
+          width: MediaQuery.of(context).size.width,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
               ElevatedButton(
                 onPressed: () {
                   showModalBottomSheet(
@@ -517,13 +522,13 @@ class ListMedia extends StatelessWidget {
                 },
                 style: ElevatedButton.styleFrom(
                   minimumSize:
-                      Size(MediaQuery.of(context).size.width * 0.45, 55),
+                      Size(MediaQuery.of(context).size.width * 0.90, 55),
                   backgroundColor: leisureColor,
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(25.0),
                   ),
                 ),
-                child: Text(AppLocalizations.of(context).notes,
+                child: Text(AppLocalizations.of(context).your_review,
                     style: Theme.of(context).textTheme.headlineSmall),
               )
             ],
@@ -651,13 +656,13 @@ class ListMedia extends StatelessWidget {
   showMediaPageButton(dynamic item, context) {
     if (title == 'All Books') {
       return mediaPageButton(
-          'Book', Status.nothing, context); //get status from DB
+          'Book', Status.goingThrough, context); //get status from DB
     } else if (title == 'All Movies') {
       return mediaPageButton(
           'Movie', Status.done, context); //get status from DB
     } else {
       return mediaPageButton(
-          'TV Show', Status.goingThrough, context); //get status from DB
+          'TV Show', Status.done, context); //get status from DB
     }
   }
 
