@@ -17,11 +17,6 @@ class TimeslotMediaTimeslotSuperDao {
   Future<int> insertTimeslotMediaTimeslotSuperEntity(
     TimeslotMediaTimeslotSuperEntity timeslotMediaTimeslotSuperEntity,
   ) async {
-    if (timeslotMediaTimeslotSuperEntity.id != null) {
-      throw DatabaseOperationWithId(
-          "Id can't be set for insert for TimeslotMediaTimeslotSuperEntity");
-    }
-
     final timeslot = timeslotMediaTimeslotSuperEntity.toTimeslot();
 
     int timeslotId =
