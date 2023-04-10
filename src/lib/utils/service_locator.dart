@@ -43,13 +43,15 @@ import 'package:src/daos/mood_dao.dart';
 import 'package:src/daos/user_dao.dart';
 
 import 'package:src/database/callbacks.dart';
+import 'package:src/utils/database_seeder.dart';
 
 final GetIt serviceLocator = GetIt.instance;
 
 /// Setup the GetIt service locator
 /// Used to register singleton variables
 /// Add any singleton variables here
-Future<void> setup({bool testing = false, bool deleteDB = false}) async {
+Future<void> setup(
+    {bool testing = false, bool deleteDB = false, bool seedDB = true}) async {
   if (testing) {
     await serviceLocator.reset();
     serviceLocator
@@ -59,7 +61,7 @@ Future<void> setup({bool testing = false, bool deleteDB = false}) async {
             //.addCallback(unitTestPrintVersionCallback)
             .build());
   } else {
-    if (deleteDB) {
+    if (deleteDB || seedDB) {
       deleteDatabase('wokka_database.db');
     }
 
@@ -180,4 +182,9 @@ Future<void> setup({bool testing = false, bool deleteDB = false}) async {
       .registerSingletonWithDependencies<TimeslotStudentTimeslotSuperDao>(
           () => timeslotStudentTimeslotSuperDao,
           dependsOn: [AppDatabase]);
+
+  if (seedDB) {
+    await serviceLocator.allReady();
+    await seedDatabase(serviceLocator);
+  }
 }

@@ -106,6 +106,11 @@ So the full run command should be:
 flutter run --flavor <flavorName> -t lib/main_<flavorName>.dart --dart-define="DELETE_DB=true"
 ```
 
+_To seed the database:_
+```shell
+flutter run --flavor <flavorName> -t lib/main_<flavorName>.dart --dart-define="SEED_DB=true"
+```
+
 #### Service Locator (GetIt)
 
 GetIt allows us to access the database as a Singleton app wide

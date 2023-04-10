@@ -2798,6 +2798,12 @@ class _$UserDao extends UserDao {
   }
 
   @override
+  Future<List<int>> insertUsers(List<User> users) {
+    return _userInsertionAdapter.insertListAndReturnIds(
+        users, OnConflictStrategy.abort);
+  }
+
+  @override
   Future<void> updateUser(User user) async {
     await _userUpdateAdapter.update(user, OnConflictStrategy.abort);
   }
