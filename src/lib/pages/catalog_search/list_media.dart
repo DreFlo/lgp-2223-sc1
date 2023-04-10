@@ -318,7 +318,7 @@ class ListMedia extends StatelessWidget {
                     borderRadius: BorderRadius.circular(25.0),
                   ),
                 ),
-                child: Text(AppLocalizations.of(context).review,
+                child: Text(AppLocalizations.of(context).progress,
                     style: Theme.of(context).textTheme.headlineSmall),
               ),
               ElevatedButton(
