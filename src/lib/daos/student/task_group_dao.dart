@@ -10,8 +10,17 @@ abstract class TaskGroupDao {
   Stream<TaskGroup?> findTaskGroupById(int id);
 
   @insert
-  Future<void> insertTaskGroup(TaskGroup taskGroup);
+  Future<int> insertTaskGroup(TaskGroup taskGroup);
 
   @insert
   Future<void> insertTaskGroups(List<TaskGroup> taskGroups);
+
+  @update
+  Future<void> updateTaskGroup(TaskGroup taskGroup);
+
+  @update
+  Future<void> updateTaskGroups(List<TaskGroup> taskGroups);
+
+  @delete
+  Future<void> deleteTaskGroup(TaskGroup taskGroup);
 }

@@ -10,8 +10,17 @@ abstract class BookNoteDao {
   Stream<BookNote?> findBookNoteById(int id);
 
   @insert
-  Future<void> insertBookNote(BookNote bookNote);
+  Future<int> insertBookNote(BookNote bookNote);
 
   @insert
   Future<void> insertBookNotes(List<BookNote> bookNotes);
+
+  @update
+  Future<void> updateBookNote(BookNote bookNote);
+
+  @update
+  Future<void> updateBookNotes(List<BookNote> bookNotes);
+
+  @delete
+  Future<void> deleteBookNote(BookNote bookNote);
 }

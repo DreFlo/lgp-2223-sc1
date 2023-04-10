@@ -9,18 +9,23 @@ import 'package:src/models/student/subject.dart';
       childColumns: ['subject_id'],
       parentColumns: ['id'],
       entity: Subject,
-    )
+    ),
+    ForeignKey(
+      childColumns: ['id'],
+      parentColumns: ['id'],
+      entity: Note,
+    ),
   ],
 )
-class SubjectNote extends Note {
+class SubjectNote {
+  @PrimaryKey()
+  final int id;
+
   @ColumnInfo(name: 'subject_id')
   final int subjectId;
 
   SubjectNote({
-    int? id,
-    required String title,
-    required String content,
-    required DateTime date,
+    required this.id,
     required this.subjectId,
-  }) : super(id: id, title: title, content: content, date: date);
+  });
 }
