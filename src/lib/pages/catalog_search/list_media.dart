@@ -109,7 +109,7 @@ class ListMedia extends StatelessWidget {
           child: Text(AppLocalizations.of(context).add,
               style: Theme.of(context).textTheme.headlineSmall),
         );
-      } else {
+      } else if (status == Status.goingThrough || status == Status.planTo) {
         // If media is somehow in the catalog, then user should be able to see their notes and edit info.
         return Container(
           width: MediaQuery.of(context).size.width * 0.95,
@@ -185,6 +185,57 @@ class ListMedia extends StatelessWidget {
                                             controller: scrollController,
                                             child: EpisodesNotesSheet(
                                                 notes: notes,
+                                                episodes: episodes)))
+                                  ])));
+                },
+                style: ElevatedButton.styleFrom(
+                  minimumSize:
+                      Size(MediaQuery.of(context).size.width * 0.45, 55),
+                  backgroundColor: leisureColor,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(25.0),
+                  ),
+                ),
+                child: Text(AppLocalizations.of(context).notes,
+                    style: Theme.of(context).textTheme.headlineSmall),
+              )
+            ],
+          ),
+        );
+      } else if (status == Status.done) {
+        return Container(
+          width: MediaQuery.of(context).size.width * 0.95,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              ElevatedButton(
+                onPressed: () {
+                  showModalBottomSheet(
+                      context: context,
+                      isScrollControlled: true,
+                      backgroundColor: Color(0xFF22252D),
+                      shape: RoundedRectangleBorder(
+                        borderRadius:
+                            BorderRadius.vertical(top: Radius.circular(30.0)),
+                      ),
+                      builder: (context) => DraggableScrollableSheet(
+                          expand: false,
+                          initialChildSize: 0.35,
+                          minChildSize: 0.35,
+                          maxChildSize: 0.5,
+                          builder: (context, scrollController) => Stack(
+                                  alignment: AlignmentDirectional.bottomCenter,
+                                  children: [
+                                    Padding(
+                                        padding: EdgeInsets.only(
+                                            bottom: MediaQuery.of(context)
+                                                    .viewInsets
+                                                    .bottom +
+                                                50),
+                                        child: SingleChildScrollView(
+                                            controller: scrollController,
+                                            child: EpisodesNotesSheet(
+                                                notes: notes,
                                                 review: const {
                                                   Reaction.dislike:
                                                       "Didn't like it at all."
@@ -194,7 +245,7 @@ class ListMedia extends StatelessWidget {
                 },
                 style: ElevatedButton.styleFrom(
                   minimumSize:
-                      Size(MediaQuery.of(context).size.width * 0.45, 55),
+                      Size(MediaQuery.of(context).size.width * 0.90, 55),
                   backgroundColor: leisureColor,
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(25.0),
@@ -718,7 +769,7 @@ class ListMedia extends StatelessWidget {
           'Movie', Status.done, context); //get status from DB
     } else {
       return mediaPageButton(
-          'TV Show', Status.done, context); //get status from DB
+          'TV Show', Status.goingThrough, context); //get status from DB
     }
   }
 
