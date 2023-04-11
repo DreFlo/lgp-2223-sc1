@@ -17,11 +17,6 @@ class TimeslotMediaTimeslotSuperDao {
   Future<int> insertTimeslotMediaTimeslotSuperEntity(
     TimeslotMediaTimeslotSuperEntity timeslotMediaTimeslotSuperEntity,
   ) async {
-    if (timeslotMediaTimeslotSuperEntity.id != null) {
-      throw DatabaseOperationWithId(
-          "Id can't be set for insert for TimeslotMediaTimeslotSuperEntity");
-    }
-
     final timeslot = timeslotMediaTimeslotSuperEntity.toTimeslot();
 
     int timeslotId =
@@ -36,6 +31,16 @@ class TimeslotMediaTimeslotSuperDao {
     await serviceLocator<MediaTimeslotDao>().insertMediaTimeslot(mediaTimeslot);
 
     return timeslotId;
+  }
+
+  Future<void> insertTimeslotMediaTimeslotSuperEntities(
+    List<TimeslotMediaTimeslotSuperEntity> timeslotMediaTimeslotSuperEntities,
+  ) async {
+    for (var timeslotMediaTimeslotSuperEntity
+        in timeslotMediaTimeslotSuperEntities) {
+      await insertTimeslotMediaTimeslotSuperEntity(
+          timeslotMediaTimeslotSuperEntity);
+    }
   }
 
   Future<void> updateTimeslotMediaTimeslotSuperEntity(

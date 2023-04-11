@@ -17,11 +17,6 @@ class NoteEpisodeNoteSuperDao {
   Future<int> insertNoteEpisodeNoteSuperEntity(
     NoteEpisodeNoteSuperEntity noteEpisodeNoteSuperEntity,
   ) async {
-    if (noteEpisodeNoteSuperEntity.id != null) {
-      throw DatabaseOperationWithId(
-          "Id can't be set for insert for NoteEpisodeNoteSuperEntity");
-    }
-
     final note = noteEpisodeNoteSuperEntity.toNote();
 
     int noteId = await serviceLocator<NoteDao>().insertNote(note);

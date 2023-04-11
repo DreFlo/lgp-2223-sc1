@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:get_it/get_it.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:src/daos/media/media_video_movie_super_dao.dart';
@@ -43,30 +44,32 @@ import 'package:src/daos/mood_dao.dart';
 import 'package:src/daos/user_dao.dart';
 
 import 'package:src/database/callbacks.dart';
+import 'package:src/database/migrations.dart';
+import 'package:src/utils/database_seeder.dart';
 
 final GetIt serviceLocator = GetIt.instance;
 
 /// Setup the GetIt service locator
 /// Used to register singleton variables
 /// Add any singleton variables here
-Future<void> setup({bool testing = false, bool deleteDB = false}) async {
+Future<void> setup(
+    {bool testing = false, bool deleteDB = false, bool seedDB = false}) async {
   if (testing) {
     await serviceLocator.reset();
-    serviceLocator
-        .registerSingletonAsync<AppDatabase>(() async => await $FloorAppDatabase
+    serviceLocator.registerSingletonAsync<AppDatabase>(() async =>
+        await $FloorAppDatabase
             .inMemoryDatabaseBuilder()
             .addCallback(addConstraintsCallback)
-            //.addCallback(unitTestPrintVersionCallback)
             .build());
   } else {
-    if (deleteDB) {
+    if (deleteDB || seedDB) {
       deleteDatabase('wokka_database.db');
     }
 
     serviceLocator.registerSingletonAsync<AppDatabase>(() async =>
         await $FloorAppDatabase
             .databaseBuilder('wokka_database.db')
-            .addMigrations([])
+            .addMigrations(allMigrations)
             .addCallback(addConstraintsCallback)
             .build());
   }
@@ -180,4 +183,12 @@ Future<void> setup({bool testing = false, bool deleteDB = false}) async {
       .registerSingletonWithDependencies<TimeslotStudentTimeslotSuperDao>(
           () => timeslotStudentTimeslotSuperDao,
           dependsOn: [AppDatabase]);
+
+  if (seedDB) {
+    if (kDebugMode) {
+      print('Seeding database...');
+    }
+    await serviceLocator.allReady();
+    await seedDatabase(serviceLocator);
+  }
 }

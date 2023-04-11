@@ -7,6 +7,7 @@ Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   F.appFlavor = Flavor.free;
   const deleteDB = bool.fromEnvironment('DELETE_DB');
-  await setup(deleteDB: deleteDB);
+  const seedDB = bool.fromEnvironment('SEED_DB');
+  await setup(deleteDB: deleteDB, seedDB: seedDB);
   runApp(const App());
 }

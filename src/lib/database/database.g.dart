@@ -177,7 +177,7 @@ class _$AppDatabase extends AppDatabase {
         await database.execute(
             'CREATE TABLE IF NOT EXISTS `timeslot` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `title` TEXT NOT NULL, `description` TEXT NOT NULL, `start_datetime` INTEGER NOT NULL, `end_datetime` INTEGER NOT NULL, `xp_multiplier` INTEGER NOT NULL, `user_id` INTEGER NOT NULL, FOREIGN KEY (`user_id`) REFERENCES `user` (`id`) ON UPDATE RESTRICT ON DELETE CASCADE)');
         await database.execute(
-            'CREATE TABLE IF NOT EXISTS `media_timeslot` (`id` INTEGER NOT NULL, `media_id` TEXT NOT NULL, FOREIGN KEY (`id`) REFERENCES `timeslot` (`id`) ON UPDATE NO ACTION ON DELETE NO ACTION, FOREIGN KEY (`media_id`) REFERENCES `media` (`id`) ON UPDATE RESTRICT ON DELETE CASCADE, PRIMARY KEY (`id`))');
+            'CREATE TABLE IF NOT EXISTS `media_timeslot` (`id` INTEGER NOT NULL, `media_id` TEXT NOT NULL, FOREIGN KEY (`id`) REFERENCES `timeslot` (`id`) ON UPDATE NO ACTION ON DELETE NO ACTION, PRIMARY KEY (`id`))');
         await database.execute(
             'CREATE TABLE IF NOT EXISTS `student_timeslot` (`id` INTEGER NOT NULL, `task_id` TEXT NOT NULL, FOREIGN KEY (`id`) REFERENCES `timeslot` (`id`) ON UPDATE NO ACTION ON DELETE NO ACTION, FOREIGN KEY (`task_id`) REFERENCES `task` (`id`) ON UPDATE RESTRICT ON DELETE CASCADE, PRIMARY KEY (`id`))');
         await database.execute(
@@ -2301,6 +2301,11 @@ class _$BadgeDao extends BadgeDao {
   }
 
   @override
+  Future<void> insertBadges(List<Badge> badges) async {
+    await _badgeInsertionAdapter.insertList(badges, OnConflictStrategy.abort);
+  }
+
+  @override
   Future<void> updateBadge(Badge badge) async {
     await _badgeUpdateAdapter.update(badge, OnConflictStrategy.abort);
   }
@@ -2393,6 +2398,11 @@ class _$MoodDao extends MoodDao {
   Future<int> insertMood(Mood mood) {
     return _moodInsertionAdapter.insertAndReturnId(
         mood, OnConflictStrategy.abort);
+  }
+
+  @override
+  Future<void> insertMoods(List<Mood> moods) async {
+    await _moodInsertionAdapter.insertList(moods, OnConflictStrategy.abort);
   }
 
   @override
@@ -2795,6 +2805,12 @@ class _$UserDao extends UserDao {
   Future<int> insertUser(User user) {
     return _userInsertionAdapter.insertAndReturnId(
         user, OnConflictStrategy.abort);
+  }
+
+  @override
+  Future<List<int>> insertUsers(List<User> users) {
+    return _userInsertionAdapter.insertListAndReturnIds(
+        users, OnConflictStrategy.abort);
   }
 
   @override

@@ -17,11 +17,6 @@ class TimeslotStudentTimeslotSuperDao {
   Future<int> insertTimeslotStudentTimeslotSuperEntity(
     TimeslotStudentTimeslotSuperEntity timeslotStudentTimeslotSuperEntity,
   ) async {
-    if (timeslotStudentTimeslotSuperEntity.id != null) {
-      throw DatabaseOperationWithId(
-          "Id can't be set for insert for TimeslotStudentTimeslotSuperEntity");
-    }
-
     final timeslot = timeslotStudentTimeslotSuperEntity.toTimeslot();
 
     int timeslotId =
@@ -37,6 +32,17 @@ class TimeslotStudentTimeslotSuperDao {
         .insertStudentTimeslot(studentTimeslot);
 
     return timeslotId;
+  }
+
+  Future<void> insertTimeslotStudentTimeslotSuperEntities(
+    List<TimeslotStudentTimeslotSuperEntity>
+        timeslotStudentTimeslotSuperEntities,
+  ) async {
+    for (var timeslotStudentTimeslotSuperEntity
+        in timeslotStudentTimeslotSuperEntities) {
+      await insertTimeslotStudentTimeslotSuperEntity(
+          timeslotStudentTimeslotSuperEntity);
+    }
   }
 
   Future<void> updateTimeslotStudentTimeslotSuperEntity(

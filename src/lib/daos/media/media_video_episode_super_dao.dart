@@ -18,11 +18,6 @@ class MediaVideoEpisodeSuperDao {
   Future<int> insertMediaVideoEpisodeSuperEntity(
     MediaVideoEpisodeSuperEntity mediaVideoEpisodeSuperEntity,
   ) async {
-    if (mediaVideoEpisodeSuperEntity.id != null) {
-      throw DatabaseOperationWithId(
-          "Id can't be passed to insert for MediaVideoEpisodeSuperEntity");
-    }
-
     final media = mediaVideoEpisodeSuperEntity.toMedia();
 
     int mediaId = await serviceLocator<MediaDao>().insertMedia(media);
@@ -39,6 +34,14 @@ class MediaVideoEpisodeSuperDao {
     await serviceLocator<EpisodeDao>().insertEpisode(episode);
 
     return mediaId;
+  }
+
+  Future<void> insertMediaVideoEpisodeSuperEntities(
+    List<MediaVideoEpisodeSuperEntity> mediaVideoEpisodeSuperEntities,
+  ) async {
+    for (var mediaVideoEpisodeSuperEntity in mediaVideoEpisodeSuperEntities) {
+      await insertMediaVideoEpisodeSuperEntity(mediaVideoEpisodeSuperEntity);
+    }
   }
 
   Future<void> updateMediaVideoEpisodeSuperEntity(

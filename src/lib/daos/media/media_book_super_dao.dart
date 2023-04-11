@@ -15,11 +15,6 @@ class MediaBookSuperDao {
 
   Future<int> insertMediaBookSuperEntity(
       MediaBookSuperEntity mediaBookSuperEntity) async {
-    if (mediaBookSuperEntity.id != null) {
-      throw DatabaseOperationWithId(
-          "Id can't be passed to insert for MediaSeriesSuperEntity");
-    }
-
     final media = mediaBookSuperEntity.toMedia();
 
     int mediaId = await serviceLocator<MediaDao>().insertMedia(media);
@@ -32,6 +27,13 @@ class MediaBookSuperDao {
     await serviceLocator<BookDao>().insertBook(book);
 
     return mediaId;
+  }
+
+  Future<void> insertMediaBookSuperEntities(
+      List<MediaBookSuperEntity> mediaBookSuperEntities) async {
+    for (var mediaBookSuperEntity in mediaBookSuperEntities) {
+      await insertMediaBookSuperEntity(mediaBookSuperEntity);
+    }
   }
 
   Future<void> updateMediaBookSuperEntity(
