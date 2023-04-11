@@ -20,6 +20,7 @@ import 'package:src/env/env.dart';
 import 'package:tmdb_api/tmdb_api.dart';
 import 'package:books_finder/books_finder.dart';
 import 'catalog_search/leisure_module.dart';
+import 'package:src/pages/auth/LandingPage.dart';
 
 import 'tasks/project_form.dart';
 import 'tasks/task_form.dart';
@@ -533,6 +534,25 @@ class _HomePageState extends State<HomePage> {
                 setState(() {
                   redrawObject = Object();
                 });
+              },
+            ),
+            ElevatedButton(
+              style: ButtonStyle(
+                  backgroundColor: MaterialStateProperty.all(
+                      const Color.fromRGBO(0, 250, 100, 1)),
+                  shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                      const RoundedRectangleBorder(
+                          borderRadius: BorderRadius.only(
+                              topRight: Radius.circular(10),
+                              topLeft: Radius.circular(10),
+                              bottomRight: Radius.circular(10),
+                              bottomLeft: Radius.circular(10))))),
+              child: const Text('Auth Pages'),
+              onPressed: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => LandingPage(pageCount: 0)));
               },
             ),
             ElevatedButton(
