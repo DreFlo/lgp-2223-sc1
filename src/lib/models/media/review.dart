@@ -24,9 +24,7 @@ class Review {
 
   final String review;
 
-  final int rating;
-
-  final Emoji emoji;
+  final Reaction emoji;
 
   @ColumnInfo(name: 'media_id')
   final int mediaId;
@@ -36,7 +34,6 @@ class Review {
     required this.startDate,
     required this.endDate,
     required this.review,
-    required this.rating,
     required this.emoji,
     required this.mediaId,
   });

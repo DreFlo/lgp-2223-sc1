@@ -19,12 +19,23 @@ class Media {
 
   final bool favorite;
 
-  Media({
-    this.id,
-    required this.name,
-    required this.description,
-    required this.linkImage,
-    required this.status,
-    required this.favorite,
-  });
+  final String genres;
+
+  final DateTime release;
+
+  final int xp;
+
+  final String participants;
+
+  Media(
+      {this.id,
+      required this.name,
+      required this.description,
+      required this.linkImage,
+      required this.status,
+      required this.favorite,
+      required this.genres,
+      required this.release,
+      required this.xp,
+      required this.participants});
 }

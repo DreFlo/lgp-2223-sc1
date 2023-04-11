@@ -12,7 +12,7 @@ import 'package:src/models/student/subject.dart';
         onUpdate: ForeignKeyAction.restrict)
   ],
 )
-class Evaluation {
+class StudentEvaluation {
   @PrimaryKey(autoGenerate: true)
   final int? id;
 
@@ -27,7 +27,7 @@ class Evaluation {
   @ColumnInfo(name: 'subject_id')
   final int subjectId;
 
-  Evaluation({
+  StudentEvaluation({
     this.id,
     required this.name,
     required this.grade,

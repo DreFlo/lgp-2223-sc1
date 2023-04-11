@@ -18,16 +18,19 @@ class Subject {
 
   final String name;
 
+  final String acronym;
+
   @ColumnInfo(name: 'weight_average')
   final double weightAverage;
 
   @ColumnInfo(name: 'institution_id')
-  final int institutionId;
+  final int? institutionId;
 
   Subject({
     this.id,
     required this.name,
+    required this.acronym,
     required this.weightAverage,
-    required this.institutionId,
+    this.institutionId,
   });
 }

@@ -1,197 +1,116 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:src/animation_test/main.dart';
-import 'package:src/daos/person_dao.dart';
-import 'package:src/models/person.dart';
-import 'package:src/pages/auth/LandingPage.dart';
-import 'package:src/utils/service_locator.dart';
+import 'package:src/widgets/home/homepage_horizontal_scrollview.dart';
+import 'package:src/widgets/home/profile_pic.dart';
+import 'package:src/widgets/home/task_listview.dart';
+import 'package:src/widgets/home/welcome_message.dart';
+
+import '../models/student/task.dart';
+import '../utils/enums.dart';
+import '../widgets/home/badge_placeholder.dart';
 
 class MyHomePage extends StatefulWidget {
-  final String title;
-
-  const MyHomePage({Key? key, required this.title}) : super(key: key);
+  const MyHomePage({Key? key}) : super(key: key);
 
   @override
   State<MyHomePage> createState() => _MyHomePageState();
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
-  Object redrawObject = Object();
+  int _selectedIndex = 0;
+  String name = "Joaquim Almeida"; // TODO Get name from database
 
-  void _incrementCounter() {
-    setState(() {
-      // This call to setState tells the Flutter framework that something has
-      // changed in this State, which causes it to rerun the build method below
-      // so that the display can reflect the updated values. If we changed
-      // _counter without calling setState(), then the build method would not be
-      // called again, and so nothing would appear to happen.
-      _counter++;
-    });
+  // TODO - get tasks from database
+  // TODO - change logic when we have events (leisure) - for now everything is tasks and description is being used to distinguish between modules
+  List<Task> items = [
+    Task(
+        id: 1,
+        name: 'Ginásio',
+        description: 'Student',
+        deadline: DateTime(2023, 3, 31, 5),
+        priority: Priority.high,
+        taskGroupId: 1,
+        subjectId: 1,
+        xp: 0),
+    Task(
+        id: 1,
+        name: 'Kirby & The Forgotten Land',
+        description: 'Leisure',
+        deadline: DateTime(2023, 4, 3, 10),
+        priority: Priority.medium,
+        taskGroupId: 1,
+        subjectId: 1,
+        xp: 0),
+    Task(
+        id: 1,
+        name: 'Caminhar',
+        description: 'Personal',
+        deadline: DateTime(2023, 4, 4, 5),
+        priority: Priority.low,
+        taskGroupId: 1,
+        subjectId: 1,
+        xp: 0),
+    Task(
+        id: 1,
+        name: 'Treino 5 Minutos',
+        description: 'Fitness',
+        deadline: DateTime(2023, 4, 5, 8),
+        priority: Priority.high,
+        taskGroupId: 1,
+        subjectId: 1,
+        xp: 0),
+  ];
+
+  List<Task> filterItems() {
+    switch (_selectedIndex) {
+      case 1:
+        return items
+            .where((element) => element.description == 'Student')
+            .toList();
+      case 2:
+        return items
+            .where((element) => element.description == 'Leisure')
+            .toList();
+      case 3:
+        return items
+            .where((element) => element.description == 'Fitness')
+            .toList();
+      case 4:
+        return items
+            .where((element) => element.description == 'Personal')
+            .toList();
+      default:
+        return items;
+    }
   }
 
   @override
   Widget build(BuildContext context) {
-    final TextEditingController nameInputController = TextEditingController();
-
-    // This method is rerun every time setState is called, for instance as done
-    // by the _incrementCounter method above.
-    //
-    // The Flutter framework has been optimized to make rerunning build methods
-    // fast, so that you can just rebuild anything that needs updating rather
-    // than having to individually change instances of widgets.
     return Scaffold(
-      appBar: AppBar(
-        // Here we take the value from the MyHomePage object that was created by
-        // the App.build method, and use it to set our appbar title.
-        title: Text(widget.title),
+      body: Stack(
+        children: [
+          const Padding(
+              padding: EdgeInsets.only(right: 36, top: 36),
+              child: ProfilePic()),
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Padding(
+                  padding: const EdgeInsets.only(left: 36, top: 90),
+                  child: WelcomeMessage(name: name)),
+              const BadgePlaceholder(),
+              HorizontalScrollView(
+                nItems: items.length,
+                selectedIndex: _selectedIndex,
+                setSelectedIndex: (int index) =>
+                    setState(() => _selectedIndex = index),
+              ),
+              Expanded(
+                child: MyTaskListView(items: filterItems()),
+              )
+            ],
+          ),
+        ],
       ),
-      body: Center(
-        // Center is a layout widget. It takes a single child and positions it
-        // in the middle of the parent.
-        child: Column(
-          // Column is also a layout widget. It takes a list of children and
-          // arranges them vertically. By default, it sizes itself to fit its
-          // children horizontally, and tries to be as tall as its parent.
-          //
-          // Invoke "debug painting" (press "p" in the console, choose the
-          // "Toggle Debug Paint" action from the Flutter Inspector in Android
-          // Studio, or the "Toggle Debug Paint" command in Visual Studio Code)
-          // to see the wireframe for each widget.
-          //
-          // Column has various properties to control how it sizes itself and
-          // how it positions its children. Here we use mainAxisAlignment to
-          // center the children vertically; the main axis here is the vertical
-          // axis because Columns are vertical (the cross axis would be
-          // horizontal).
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Text(
-              AppLocalizations.of(context).helloWorld,
-            ),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headlineMedium,
-            ),
-            ElevatedButton(
-              style: ButtonStyle(
-                  backgroundColor: MaterialStateProperty.all(
-                      const Color.fromRGBO(0, 250, 100, 1)),
-                  shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                      const RoundedRectangleBorder(
-                          borderRadius: BorderRadius.only(
-                              topRight: Radius.circular(10),
-                              topLeft: Radius.circular(10),
-                              bottomRight: Radius.circular(10),
-                              bottomLeft: Radius.circular(10))))),
-              child: const Text('To another view!'),
-              onPressed: () {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => const MainScreenAni()));
-              },
-            ),
-            TextField(
-              decoration: const InputDecoration(
-                  border: OutlineInputBorder(), hintText: 'Input a name'),
-              controller: nameInputController,
-            ),
-            ElevatedButton(
-              style: ButtonStyle(
-                  backgroundColor: MaterialStateProperty.all(
-                      const Color.fromRGBO(0, 250, 100, 1)),
-                  shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                      const RoundedRectangleBorder(
-                          borderRadius: BorderRadius.only(
-                              topRight: Radius.circular(10),
-                              topLeft: Radius.circular(10),
-                              bottomRight: Radius.circular(10),
-                              bottomLeft: Radius.circular(10))))),
-              child: const Text('Add name'),
-              onPressed: () async {
-                await serviceLocator<PersonDao>()
-                    .insertPerson(Person(name: nameInputController.text));
-                setState(() {
-                  redrawObject = Object();
-                });
-              },
-            ),
-            ElevatedButton(
-              style: ButtonStyle(
-                  backgroundColor: MaterialStateProperty.all(
-                      const Color.fromRGBO(0, 250, 100, 1)),
-                  shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                      const RoundedRectangleBorder(
-                          borderRadius: BorderRadius.only(
-                              topRight: Radius.circular(10),
-                              topLeft: Radius.circular(10),
-                              bottomRight: Radius.circular(10),
-                              bottomLeft: Radius.circular(10))))),
-              child: const Text('Auth Pages'),
-              onPressed: () {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => LandingPage(pageCount: 0)));
-              },
-            ),
-            FutureBuilder(
-                key: ValueKey<Object>(redrawObject),
-                future: serviceLocator<PersonDao>().findAllPersons(),
-                builder: (BuildContext context, AsyncSnapshot snapshot) {
-                  List<Widget> children;
-                  if (snapshot.hasData) {
-                    StringBuffer stringBuffer = StringBuffer();
-                    for (Person person in snapshot.data) {
-                      stringBuffer.write('${person.name}, ');
-                    }
-                    children = <Widget>[
-                      Padding(
-                        padding: const EdgeInsets.only(top: 16),
-                        child: Text('Result: ${stringBuffer.toString()}'),
-                      ),
-                    ];
-                  } else if (snapshot.hasError) {
-                    children = <Widget>[
-                      const Icon(
-                        Icons.error_outline,
-                        color: Colors.red,
-                        size: 60,
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.only(top: 16),
-                        child: Text('Error: ${snapshot.error}'),
-                      ),
-                    ];
-                  } else {
-                    children = const <Widget>[
-                      SizedBox(
-                        width: 60,
-                        height: 60,
-                        child: CircularProgressIndicator(),
-                      ),
-                      Padding(
-                        padding: EdgeInsets.only(top: 16),
-                        child: Text('Awaiting result...'),
-                      ),
-                    ];
-                  }
-                  return Center(
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: children,
-                    ),
-                  );
-                })
-          ],
-        ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: const Icon(Icons.add),
-      ), // This trailing comma makes auto-formatting nicer for build methods.
     );
   }
 }
