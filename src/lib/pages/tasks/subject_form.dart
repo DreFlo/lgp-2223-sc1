@@ -2,14 +2,22 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:src/daos/student/subject_dao.dart';
+import 'package:src/models/student/subject.dart';
 import 'package:src/themes/colors.dart';
+import 'package:src/utils/service_locator.dart';
+import 'package:flutter/services.dart';
 
 class SubjectForm extends StatefulWidget {
-  final String? name, acronym;
+  final String? name, acronym, weightAverage;
   final ScrollController scrollController;
 
   const SubjectForm(
-      {Key? key, required this.scrollController, this.name, this.acronym})
+      {Key? key,
+      required this.scrollController,
+      this.name,
+      this.acronym,
+      this.weightAverage})
       : super(key: key);
 
   @override
@@ -19,8 +27,9 @@ class SubjectForm extends StatefulWidget {
 class _SubjectFormState extends State<SubjectForm> {
   TextEditingController controller = TextEditingController();
   TextEditingController controller2 = TextEditingController();
+  TextEditingController controller3 = TextEditingController();
 
-  late String? name, acronym;
+  late String? name, acronym, weightAverage;
 
   @override
   initState() {
@@ -155,9 +164,75 @@ class _SubjectFormState extends State<SubjectForm> {
                       )))
             ]),
             const SizedBox(height: 30),
+            Row(children: [
+              Text(
+                AppLocalizations.of(context).weight_average,
+                style: const TextStyle(
+                    fontFamily: 'Poppins',
+                    color: Color(0xFF71788D),
+                    fontSize: 16,
+                    fontWeight: FontWeight.w400),
+              )
+            ]),
+            const SizedBox(height: 7.5),
+            Row(crossAxisAlignment: CrossAxisAlignment.center, children: [
+              Flexible(
+                  flex: 10,
+                  child: TextField(
+                      onChanged: (value) {
+                        setState(() {
+                          weightAverage = value;
+                        });
+                      },
+                      controller: controller3,
+                      keyboardType: TextInputType.number,
+                      inputFormatters: [
+                        FilteringTextInputFormatter.allow(
+                            RegExp(r'[0-9]+([.][0-9]*)?|[.][0-9]+'))
+                      ],
+                      style: const TextStyle(
+                          fontSize: 20,
+                          color: Colors.white,
+                          fontWeight: FontWeight.w400),
+                      maxLines: 1,
+                      decoration: InputDecoration(
+                        contentPadding: const EdgeInsets.symmetric(
+                            horizontal: 0, vertical: 5),
+                        hintText: AppLocalizations.of(context).weight_average,
+                        hintStyle: const TextStyle(
+                            fontSize: 20,
+                            color: Color(0xFF71788D),
+                            fontWeight: FontWeight.w400),
+                      )))
+            ]),
+            const SizedBox(height: 30),
             ElevatedButton(
-                onPressed: () {
+                onPressed: () async {
                   //TODO: Save stuff + send to database.
+                  bool valid = true;
+                  if (name == null || name == '') {
+                    print('Name is null or empty');
+                    valid = false;
+                  }
+                  if (acronym == null || acronym == '') {
+                    print('Acronym is null or empty');
+                    valid = false;
+                  }
+                  if (weightAverage == null || weightAverage == '') {
+                    print('Weight average is null or empty');
+                    valid = false;
+                  }
+
+                  if(valid){
+                    Subject subject = Subject(
+                      name: name!,
+                      acronym: acronym!,
+                      weightAverage: double.parse(weightAverage!));
+
+                    await serviceLocator<SubjectDao>().insertSubject(subject);
+
+                    Navigator.pop(context);
+                  }
                 },
                 style: ElevatedButton.styleFrom(
                   minimumSize:
