@@ -538,8 +538,7 @@ class _HomePageState extends State<HomePage> {
             ),
             ElevatedButton(
               style: ButtonStyle(
-                  backgroundColor: MaterialStateProperty.all(
-                      const Color.fromRGBO(0, 250, 100, 1)),
+                  backgroundColor: MaterialStateProperty.all(Color(0xFF6C5DD3)),
                   shape: MaterialStateProperty.all<RoundedRectangleBorder>(
                       const RoundedRectangleBorder(
                           borderRadius: BorderRadius.only(
