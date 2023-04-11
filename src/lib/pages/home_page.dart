@@ -20,7 +20,7 @@ import 'package:src/env/env.dart';
 import 'package:tmdb_api/tmdb_api.dart';
 import 'package:books_finder/books_finder.dart';
 import 'catalog_search/leisure_module.dart';
-import 'package:src/pages/auth/LandingPage.dart';
+import 'package:src/pages/auth/landing_page.dart';
 
 import 'tasks/project_form.dart';
 import 'tasks/task_form.dart';
