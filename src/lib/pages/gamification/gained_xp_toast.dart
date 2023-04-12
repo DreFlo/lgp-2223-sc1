@@ -1,8 +1,9 @@
+// ignore_for_file: must_be_immutable
+
 import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:src/animation_test/constants.dart';
 
 import '../../themes/colors.dart';
@@ -20,6 +21,7 @@ class GainedXPToast extends StatefulWidget {
       required this.level,
       required this.points});
 
+  @override
   State<GainedXPToast> createState() => _GainedXPToastState();
 }
 
@@ -86,8 +88,8 @@ class _GainedXPToastState extends State<GainedXPToast>
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Container(
+              children: const [
+                SizedBox(
                     width: 50,
                     child: Image(image: AssetImage('assets/images/emil.png')))
               ],
@@ -100,7 +102,7 @@ class _GainedXPToastState extends State<GainedXPToast>
               Row(children: [
                 Text(
                   AppLocalizations.of(context).gained_xp,
-                  style: TextStyle(
+                  style: const TextStyle(
                     color: Colors.white,
                     fontSize: 20,
                     fontWeight: FontWeight.bold,
