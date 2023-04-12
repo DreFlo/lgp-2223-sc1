@@ -6,7 +6,6 @@
 // tree, read text, and verify that the values of widget properties are correct.
 
 import 'package:flutter_test/flutter_test.dart';
-import 'package:src/pages/home_page.dart';
 import 'package:src/utils/service_locator.dart';
 
 import '../utils/service_locator_test_util.dart';

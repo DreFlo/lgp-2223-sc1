@@ -5,6 +5,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:src/animation_test/main.dart';
 import 'package:src/daos/user_dao.dart';
 import 'package:src/models/user.dart';
+import 'package:src/pages/gamification/no_progress_in_timeslot_modal.dart';
 import 'package:src/pages/gamification/timeslot_finished_modal.dart';
 import 'package:src/pages/leisure/add_book_note_form.dart';
 import 'package:src/pages/leisure/book_notes_sheet.dart';
@@ -26,6 +27,7 @@ import 'package:tmdb_api/tmdb_api.dart';
 import 'package:books_finder/books_finder.dart';
 import 'catalog_search/leisure_module.dart';
 
+import 'gamification/progress_in_timeslot_modal.dart';
 import 'leisure/add_to_catalog_form.dart';
 import 'tasks/project_form.dart';
 import 'tasks/task_form.dart';
@@ -820,6 +822,40 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                                     subjectId: 0,
                                     xp: 10)
                               ])));
+                }),
+                ElevatedButton(
+                child: Text("progress in timeslot"),
+                onPressed: () {
+                  showDialog(
+                      context: context,
+                      builder: (context) => Dialog(
+                          backgroundColor: modalBackground,
+                          insetPadding: EdgeInsets.symmetric(horizontal: 20),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(30),
+                          ),
+                          child: ProgressInTimeslotModal(
+                            modules: const [Module.student, Module.fitness, Module.personal],
+                            taskCount: 5,
+                            finishedTaskCount: 3,
+                          )
+                      )
+                  );
+                }),
+                ElevatedButton(
+                child: Text("no progress in timeslot"),
+                onPressed: () {
+                  showDialog(
+                      context: context,
+                      builder: (context) => Dialog(
+                          backgroundColor: modalBackground,
+                          insetPadding: EdgeInsets.symmetric(horizontal: 20),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(30),
+                          ),
+                          child: NoProgressInTimeslotModal()
+                      )
+                  );
                 }),
             FutureBuilder(
                 key: ValueKey<Object>(redrawObject),
