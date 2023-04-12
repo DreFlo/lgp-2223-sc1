@@ -758,6 +758,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                 child: Text("Finished timeslot <3"),
                 onPressed: () {
                   showDialog(
+                      barrierDismissible: false,
                       context: context,
                       builder: (context) => Dialog(
                           backgroundColor: modalBackground,
@@ -777,6 +778,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                                       .subtract(Duration(hours: 20))),
                               tasks: [
                                 Task(
+                                    id: 0,
                                     name: "Math assignment for Algebra",
                                     description:
                                         "Do 3 problems from page 12 before Thursday",
@@ -787,6 +789,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                                     xp: 10,
                                     finished: false),
                                 Task(
+                                    id: 1,
                                     name: "Math assignment for Algebra",
                                     description:
                                         "Do 3 problems from page 12 before Thursday",
@@ -797,6 +800,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                                     xp: 10,
                                     finished: false),
                                 Task(
+                                    id: 2,
                                     name: "Math assignment for Algebra",
                                     description:
                                         "Do 3 problems from page 12 before Thursday",
@@ -807,6 +811,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                                     xp: 10,
                                     finished: false),
                                 Task(
+                                    id: 3,
                                     name: "Math assignment for Algebra",
                                     description:
                                         "Do 3 problems from page 12 before Thursday",
@@ -817,6 +822,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                                     xp: 10,
                                     finished: false),
                                 Task(
+                                    id: 4,
                                     name: "Math assignment for Algebra",
                                     description:
                                         "Do 3 problems from page 12 before Thursday",

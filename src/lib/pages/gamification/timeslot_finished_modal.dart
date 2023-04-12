@@ -19,21 +19,28 @@ class TimeslotFinishedModal extends StatefulWidget {
 }
 
 class _TimeslotFinishedModalState extends State<TimeslotFinishedModal> {
+  late List<TimeslotTaskBar> tasksState;
+
   List<Widget> getTasks() {
+    tasksState = [];
+
     List<Widget> tasks = [];
 
     for (int i = 0; i < widget.tasks.length; i++) {
+      var task = TimeslotTaskBar(
+          taskId: widget.tasks[i].id!,
+          title: widget.tasks[i].name,
+          dueDate: widget.tasks[i].deadline.toString(),
+          taskStatus: false);
+
       tasks.add(
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            TimeslotTaskBar(
-                title: widget.tasks[i].name,
-                dueDate: widget.tasks[i].deadline.toString(),
-                taskStatus: false)
-          ],
+          children: [task],
         ),
       );
+
+      tasksState.add(task);
 
       if (i != widget.tasks.length - 1) tasks.add(const SizedBox(height: 10));
     }
@@ -45,9 +52,7 @@ class _TimeslotFinishedModalState extends State<TimeslotFinishedModal> {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 15),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
+      child: Column(mainAxisSize: MainAxisSize.min, children: [
         Row(mainAxisAlignment: MainAxisAlignment.center, children: [
           Text(AppLocalizations.of(context).event_finished_1,
               style: const TextStyle(
@@ -94,6 +99,14 @@ class _TimeslotFinishedModalState extends State<TimeslotFinishedModal> {
                 padding: MaterialStateProperty.all(
                     const EdgeInsets.symmetric(vertical: 15, horizontal: 50))),
             onPressed: () {
+              List<int> taskIds = [];
+              for (TimeslotTaskBar t in tasksState) {
+                if (t.taskStatus) {
+                  taskIds.add(t.taskId);
+                }
+              }
+
+              taskIds.add(0);
               //TODO: Use Game class :)
               //TODO: show emil modal <3
             },

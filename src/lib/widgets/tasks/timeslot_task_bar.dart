@@ -4,11 +4,13 @@ import 'package:flutter/material.dart';
 import 'package:src/themes/colors.dart';
 
 class TimeslotTaskBar extends StatefulWidget {
+  final int taskId;
   final String title, dueDate;
-  final bool taskStatus;
+  bool taskStatus;
 
-  const TimeslotTaskBar(
+  TimeslotTaskBar(
       {Key? key,
+      required this.taskId,
       required this.title,
       required this.dueDate,
       required this.taskStatus})
@@ -16,18 +18,10 @@ class TimeslotTaskBar extends StatefulWidget {
 
   @override
   State<TimeslotTaskBar> createState() => _TimeslotTaskBarState();
+
 }
 
 class _TimeslotTaskBarState extends State<TimeslotTaskBar> {
-  late bool taskStatus;
-
-  @override
-  initState() {
-    taskStatus = widget.taskStatus;
-
-    super.initState();
-  }
-
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -59,13 +53,17 @@ class _TimeslotTaskBarState extends State<TimeslotTaskBar> {
               children: [
                 InkWell(
                     onTap: () {
-                      //TODO: Get
+                      return setState(() {
+                        widget.taskStatus = !widget.taskStatus;
+                      });
+
+                      
                     },
                     child: Container(
                       padding: const EdgeInsets.all(5),
                       decoration: BoxDecoration(
                           shape: BoxShape.circle,
-                          color: (taskStatus ? Colors.green : Colors.white)),
+                          color: (widget.taskStatus ? Colors.green : Colors.white)),
                       child: const Icon(Icons.check_rounded, size: 20),
                     ))
               ],
