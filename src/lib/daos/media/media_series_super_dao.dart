@@ -1,5 +1,6 @@
 import 'package:src/daos/media/media_dao.dart';
 import 'package:src/daos/media/series_dao.dart';
+import 'package:src/models/media/media.dart';
 import 'package:src/models/media/media_series_super_entity.dart';
 import 'package:src/utils/service_locator.dart';
 import 'package:src/utils/exceptions.dart';
@@ -12,6 +13,25 @@ class MediaSeriesSuperDao {
   }
 
   MediaSeriesSuperDao._internal();
+
+  Future<List<MediaSeriesSuperEntity>> findAllMediaSeries() {
+    return serviceLocator<SeriesDao>().findAllSeries().then((seriesList) async {
+      List<MediaSeriesSuperEntity> mediaSeriesSuperEntities = [];
+
+      for (var series in seriesList) {
+        final mediaStream = serviceLocator<MediaDao>().findMediaById(series.id);
+        Media? firstNonNullMedia =
+            await mediaStream.firstWhere((media) => media != null);
+        Media media = firstNonNullMedia!;
+
+        mediaSeriesSuperEntities.add(
+            MediaSeriesSuperEntity.fromMediaAndSeries(
+                media, series));
+      }
+
+      return mediaSeriesSuperEntities;
+    });
+  }
 
   Future<int> insertMediaSeriesSuperEntity(
       MediaSeriesSuperEntity mediaSeriesSuperEntity) async {
