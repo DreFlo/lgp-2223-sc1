@@ -496,13 +496,8 @@ class _HomePageState extends State<HomePage> {
               child: const Text('Search/Catalog'),
               onPressed: () {
                 loadmedia();
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => LeisureModule(
-                            trendingMovies: trendingmovies,
-                            trendingTvshows: trendingtvshows,
-                            books: books)));
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => LeisureModule()));
                 // builder: (context) => SearchMedia()));
               },
             ),

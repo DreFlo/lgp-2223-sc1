@@ -47,28 +47,6 @@ class _DashboardState extends State<Dashboard> {
 
   late List<Project> searchResults = items;
 
-  void loadmedia() async {
-    trendingmovies = await serviceLocator<MediaVideoMovieSuperDao>().findAllMediaVideoMovie();
-
-    /*final tmdb = TMDB(ApiKeys(Env.tmdbApiKey, 'apiReadAccessTokenv4'));
-    Map movieresult =
-        await tmdb.v3.trending.getTrending(mediaType: MediaType.movie);
-    Map tvresult = await tmdb.v3.trending
-        .getTrending(mediaType: MediaType.tv); //doesn't have ['results']
-    books = await queryBooks(
-      'batman',
-      maxResults: 40,
-      printType: PrintType.books,
-      orderBy: OrderBy.relevance,
-    );*/
-
-    setState(() {
-      trendingmovies = trendingmovies;
-      trendingtvshows = trendingtvshows;
-      books = books;
-    });
-  }
-
   void search(String query) {
     setState(() {
       searchResults = items
@@ -136,15 +114,12 @@ class _DashboardState extends State<Dashboard> {
                   _selectedIndex == 2
                       ? GestureDetector(
                           onTap: () => {
-                            loadmedia(),
                             // navigate to catalog
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) => LeisureModule(
-                                        trendingMovies: trendingmovies,
-                                        trendingTvshows: trendingtvshows,
-                                        books: books)))
+                                    builder: (context) =>
+                                        const LeisureModule()))
                           },
                           child: Container(
                             margin: const EdgeInsets.only(right: 8),

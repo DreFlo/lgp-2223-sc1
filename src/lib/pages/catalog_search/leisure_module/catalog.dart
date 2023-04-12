@@ -4,30 +4,59 @@ import 'package:src/pages/catalog_search/see_all.dart';
 import 'package:src/themes/colors.dart';
 import '../media.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:src/utils/service_locator.dart';
+import 'package:src/daos/media/media_video_movie_super_dao.dart';
+import 'package:src/daos/media/media_book_super_dao.dart';
+import 'package:src/daos/media/media_series_super_dao.dart';
 
 class Catalog extends StatelessWidget {
-  final List trendingMovies;
-  final List trendingTvshows;
-  final List books;
+  Catalog({Key? key}) : super(key: key);
 
-  const Catalog(
-      {Key? key,
-      required this.trendingMovies,
-      required this.trendingTvshows,
-      required this.books})
-      : super(key: key);
+  List movies = [];
+  List series = [];
+  List books = [];
+
+  Future<List> loadmedia(String type) async {
+    List result = [];
+
+    if (type == 'movie') {
+      result = await serviceLocator<MediaVideoMovieSuperDao>()
+          .findAllMediaVideoMovie();
+      movies = result;
+    } else if (type == 'tv') {
+      result = await serviceLocator<MediaSeriesSuperDao>().findAllMediaSeries();
+      series = result;
+    } else if (type == 'book') {
+      result = await serviceLocator<MediaBookSuperDao>().findAllMediaBooks();
+      books = result;
+    }
+
+    return result;
+  }
+
+  Future<List> loadMovies() async {
+    return await loadmedia('movie');
+  }
+
+  Future<List> loadTv() async {
+    return await loadmedia('tv');
+  }
+
+  Future<List> loadBooks() async {
+    return await loadmedia('book');
+  }
 
   @override
   Widget build(BuildContext context) {
     double baseWidth = 390;
     double fem = MediaQuery.of(context).size.width / baseWidth;
-    int listLength = (trendingMovies.length / 2).round();
     return Scaffold(
         body: ListView(shrinkWrap: true, children: [
       Container(
-          padding: const EdgeInsets.symmetric(horizontal: 18),
-          child:
-              Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+        padding: const EdgeInsets.symmetric(horizontal: 18),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
             Padding(
               padding: EdgeInsets.only(left: 20 * fem),
               child: Row(
@@ -54,7 +83,7 @@ class Catalog extends StatelessWidget {
                                 builder: (context) => SeeAll(
                                     title:
                                         AppLocalizations.of(context).all_movies,
-                                    media: trendingMovies)));
+                                    media: movies)));
                       },
                       child: Text(
                         AppLocalizations.of(context).see_all,
@@ -79,28 +108,39 @@ class Catalog extends StatelessWidget {
                   child: GlowingOverscrollIndicator(
                       axisDirection: AxisDirection.down,
                       color: leisureColor,
-                      child: ListView.builder(
-                        scrollDirection: Axis.horizontal,
-                        itemCount:
-                            listLength, //will be dependent on database size
-                        itemBuilder: (context, index) {
-                          return InkWell(
-                            onTap: () {},
-                            child: Container(
-                              width: 140 * fem,
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Media(
-                                      image: trendingMovies[index]
-                                          ['poster_path'],
-                                      type: 'video'),
-                                ],
-                              ),
-                            ),
-                          );
-                        },
-                      ))),
+                      child: FutureBuilder(
+                          future: loadMovies(),
+                          builder: (context, snapshot) {
+                            if (snapshot.hasData) {
+                              return ListView.builder(
+                                scrollDirection: Axis.horizontal,
+                                itemCount: (snapshot.data as List?)?.length ??
+                                    0, //will be dependent on database size
+                                itemBuilder: (context, index) {
+                                  return InkWell(
+                                    onTap: () {},
+                                    child: Container(
+                                      width: 140 * fem,
+                                      child: Column(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        children: [
+                                          Media(
+                                              image: (snapshot.data
+                                                      as List?)?[index]
+                                                  ?.linkImage,
+                                              type: 'video'),
+                                        ],
+                                      ),
+                                    ),
+                                  );
+                                },
+                              );
+                            } else if (snapshot.hasError) {
+                              return Text("${snapshot.error}");
+                            }
+                            return const CircularProgressIndicator();
+                          }))),
             ),
             Padding(
               padding: EdgeInsets.only(left: 20 * fem),
@@ -128,7 +168,7 @@ class Catalog extends StatelessWidget {
                                 builder: (context) => SeeAll(
                                     title: AppLocalizations.of(context)
                                         .all_tv_shows,
-                                    media: trendingTvshows)));
+                                    media: series)));
                       },
                       child: Text(
                         AppLocalizations.of(context).see_all,
@@ -146,35 +186,47 @@ class Catalog extends StatelessWidget {
               ),
             ),
             Container(
-                padding: const EdgeInsets.symmetric(horizontal: 18),
-                height: 210 * fem,
-                child: ScrollConfiguration(
-                    behavior: const ScrollBehavior(),
-                    child: GlowingOverscrollIndicator(
+              padding: const EdgeInsets.symmetric(horizontal: 18),
+              height: 210 * fem,
+              child: ScrollConfiguration(
+                  behavior: const ScrollBehavior(),
+                  child: GlowingOverscrollIndicator(
                       axisDirection: AxisDirection.down,
                       color: leisureColor,
-                      child: ListView.builder(
-                        scrollDirection: Axis.horizontal,
-                        itemCount: listLength,
-                        itemBuilder: (context, index) {
-                          return InkWell(
-                            onTap: () {},
-                            child: Container(
-                              width: 140 * fem,
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Media(
-                                      image: trendingTvshows[index]
-                                          ['poster_path'],
-                                      type: 'video'),
-                                ],
-                              ),
-                            ),
-                          );
-                        },
-                      ),
-                    ))),
+                      child: FutureBuilder(
+                          future: loadTv(),
+                          builder: (context, snapshot) {
+                            if (snapshot.hasData) {
+                              return ListView.builder(
+                                scrollDirection: Axis.horizontal,
+                                itemCount: (snapshot.data as List?)?.length ??
+                                    0, //will be dependent on database size
+                                itemBuilder: (context, index) {
+                                  return InkWell(
+                                    onTap: () {},
+                                    child: Container(
+                                      width: 140 * fem,
+                                      child: Column(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        children: [
+                                          Media(
+                                              image: (snapshot.data
+                                                      as List?)?[index]
+                                                  ?.linkImage,
+                                              type: 'video'),
+                                        ],
+                                      ),
+                                    ),
+                                  );
+                                },
+                              );
+                            } else if (snapshot.hasError) {
+                              return Text("${snapshot.error}");
+                            }
+                            return const CircularProgressIndicator();
+                          }))),
+            ),
             Padding(
               padding: EdgeInsets.only(left: 20 * fem),
               child: Row(
@@ -219,43 +271,51 @@ class Catalog extends StatelessWidget {
               ),
             ),
             Container(
+              padding: const EdgeInsets.symmetric(horizontal: 18),
               height: 210 * fem,
-              padding: EdgeInsets.symmetric(horizontal: 15 * fem),
               child: ScrollConfiguration(
                   behavior: const ScrollBehavior(),
                   child: GlowingOverscrollIndicator(
                       axisDirection: AxisDirection.down,
                       color: leisureColor,
-                      child: ListView.builder(
-                        scrollDirection: Axis.horizontal,
-                        itemCount: listLength,
-                        itemBuilder: (context, index) {
-                          return InkWell(
-                            onTap: () {
-                              //TODO: Open Media Page
-                            },
-                            radius: 0.1,
-                            splashColor: Colors.transparent,
-                            child: Container(
-                              width: 140 * fem,
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Media(
-                                      image: books[index]
-                                          .info
-                                          .imageLinks['thumbnail']
-                                          .toString(),
-                                      type: 'book'),
-                                ],
-                              ),
-                            ),
-                          );
-                        },
-                      ))),
+                      child: FutureBuilder(
+                          future: loadBooks(),
+                          builder: (context, snapshot) {
+                            if (snapshot.hasData) {
+                              return ListView.builder(
+                                scrollDirection: Axis.horizontal,
+                                itemCount: (snapshot.data as List?)?.length ??
+                                    0, //will be dependent on database size
+                                itemBuilder: (context, index) {
+                                  return InkWell(
+                                    onTap: () {},
+                                    child: Container(
+                                      width: 140 * fem,
+                                      child: Column(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        children: [
+                                          Media(
+                                              image: (snapshot.data
+                                                      as List?)?[index]
+                                                  ?.linkImage,
+                                              type: 'book'),
+                                        ],
+                                      ),
+                                    ),
+                                  );
+                                },
+                              );
+                            } else if (snapshot.hasError) {
+                              return Text("${snapshot.error}");
+                            }
+                            return const CircularProgressIndicator();
+                          }))),
             ),
-          ])),
-      const SizedBox(height: 50),
+            const SizedBox(height: 50),
+          ],
+        ),
+      )
     ]));
   }
 }
