@@ -1,12 +1,21 @@
 import 'package:floor/floor.dart';
 import 'package:src/models/media/media.dart';
-import 'package:src/utils/enums.dart';
 
 @Entity(
   tableName: 'book',
+  foreignKeys: [
+    ForeignKey(
+      childColumns: ['id'],
+      parentColumns: ['id'],
+      entity: Media,
+      onDelete: ForeignKeyAction.cascade,
+      onUpdate: ForeignKeyAction.restrict,
+    ),
+  ],
 )
-class Book extends Media {
-  final String authors;
+class Book {
+  @PrimaryKey()
+  final int id;
 
   @ColumnInfo(name: 'total_pages')
   final int totalPages;
@@ -15,20 +24,8 @@ class Book extends Media {
   final int? progressPages;
 
   Book({
-    int? id,
-    required String name,
-    required String description,
-    required String linkImage,
-    required Status status,
-    required bool favorite,
-    required this.authors,
+    required this.id,
     required this.totalPages,
     this.progressPages = 0,
-  }) : super(
-            id: id,
-            name: name,
-            description: description,
-            linkImage: linkImage,
-            status: status,
-            favorite: favorite);
+  });
 }

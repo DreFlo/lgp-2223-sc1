@@ -3,9 +3,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:src/animation_test/main.dart';
-import 'package:src/daos/person_dao.dart';
-import 'package:src/models/person.dart';
-import 'package:src/pages/gamification/progress_bar_sheet.dart';
+import 'package:src/daos/user_dao.dart';
+import 'package:src/models/user.dart';
 import 'package:src/pages/tasks/institution_form.dart';
 import 'package:src/pages/tasks/subject_form.dart';
 import 'package:src/themes/colors.dart';
@@ -528,8 +527,12 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                               bottomLeft: Radius.circular(10))))),
               child: const Text('Add name'),
               onPressed: () async {
-                await serviceLocator<PersonDao>()
-                    .insertPerson(Person(name: nameInputController.text));
+                await serviceLocator<UserDao>().insertUser(User(
+                    userName: nameInputController.text,
+                    id: 0,
+                    password: 'secure',
+                    xp: 0,
+                    imagePath: ''));
                 setState(() {
                   redrawObject = Object();
                 });
@@ -561,8 +564,10 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                                             type: type,
                                             length: length,
                                             cast: cast,
+                                            image: 'assets/images/poster.jpg',
                                             notes: notes,
                                             status: status,
+                                            leisureTags: const [],
                                             isFavorite: isFavorite)),
                                     Positioned(
                                         left: 16,
@@ -743,13 +748,13 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                 }),
             FutureBuilder(
                 key: ValueKey<Object>(redrawObject),
-                future: serviceLocator<PersonDao>().findAllPersons(),
+                future: serviceLocator<UserDao>().findAllUsers(),
                 builder: (BuildContext context, AsyncSnapshot snapshot) {
                   List<Widget> children;
                   if (snapshot.hasData) {
                     StringBuffer stringBuffer = StringBuffer();
-                    for (Person person in snapshot.data) {
-                      stringBuffer.write('${person.name}, ');
+                    for (User person in snapshot.data) {
+                      stringBuffer.write('${person.userName}, ');
                     }
                     children = <Widget>[
                       Padding(

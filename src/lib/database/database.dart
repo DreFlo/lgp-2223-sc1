@@ -2,11 +2,15 @@ import 'dart:async';
 import 'package:floor/floor.dart';
 // ignore: depend_on_referenced_packages
 import 'package:sqflite/sqflite.dart' as sqflite;
+import 'package:src/models/badge.dart';
+import 'package:src/models/mood.dart';
+import 'package:src/models/timeslot/media_timeslot.dart';
+import 'package:src/models/timeslot/student_timeslot.dart';
+import 'package:src/models/timeslot/timeslot.dart';
+import 'package:src/models/user.dart';
+import 'package:src/models/user_badge.dart';
 import 'package:src/utils/type_converters.dart';
 import 'package:src/utils/enums.dart';
-
-import 'package:src/daos/person_dao.dart';
-import 'package:src/models/person.dart';
 
 import 'package:src/daos/student/institution_dao.dart';
 import 'package:src/models/student/institution.dart';
@@ -62,16 +66,23 @@ import 'package:src/models/notes/task_note.dart';
 import 'package:src/daos/notes/subject_note_dao.dart';
 import 'package:src/models/notes/subject_note.dart';
 
+import 'package:src/daos/badge_dao.dart';
+import 'package:src/daos/mood_dao.dart';
+import 'package:src/daos/timeslot/timeslot_dao.dart';
+import 'package:src/daos/timeslot/media_timeslot_dao.dart';
+import 'package:src/daos/timeslot/student_timeslot_dao.dart';
+import 'package:src/daos/user_badge_dao.dart';
+import 'package:src/daos/user_dao.dart';
+
 part 'database.g.dart'; // the generated code will be there
 
-@TypeConverters([DateTimeConverter])
-@Database(version: 2, entities: [
-  Person,
+@TypeConverters([DateTimeConverter, ListConverter])
+@Database(version: 1, entities: [
   Institution,
   Subject,
   TaskGroup,
   Task,
-  Evaluation,
+  StudentEvaluation,
   Media,
   Book,
   Series,
@@ -85,15 +96,20 @@ part 'database.g.dart'; // the generated code will be there
   TaskNote,
   EpisodeNote,
   BookNote,
+  User,
+  Badge,
+  Mood,
+  Timeslot,
+  MediaTimeslot,
+  StudentTimeslot,
+  UserBadge
 ])
 abstract class AppDatabase extends FloorDatabase {
-  PersonDao get personDao;
-
   InstitutionDao get institutionDao;
   SubjectDao get subjectDao;
   TaskGroupDao get taskGroupDao;
   TaskDao get taskDao;
-  EvaluationDao get evaluationDao;
+  StudentEvaluationDao get evaluationDao;
 
   MediaDao get mediaDao;
   BookDao get bookDao;
@@ -109,4 +125,12 @@ abstract class AppDatabase extends FloorDatabase {
   TaskNoteDao get taskNoteDao;
   EpisodeNoteDao get episodeNoteDao;
   BookNoteDao get bookNoteDao;
+
+  UserBadgeDao get userBadgeDao;
+  BadgeDao get badgeDao;
+  MoodDao get moodDao;
+  TimeslotDao get timeslotDao;
+  MediaTimeslotDao get mediaTimeslotDao;
+  StudentTimeslotDao get studentTimeslotDao;
+  UserDao get userDao;
 }

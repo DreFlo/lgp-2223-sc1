@@ -28,7 +28,7 @@ class TVShows extends StatelessWidget {
       future: loadmedia(),
       builder: (context, snapshot) {
         if (snapshot.hasData) {
-          return ListMedia(title: 'All Tv shows', media: snapshot.data!);
+          return ListMedia(title: 'All TV Shows', media: snapshot.data!);
         } else if (snapshot.hasError) {
           return Text('Error: ${snapshot.error}');
         } else {

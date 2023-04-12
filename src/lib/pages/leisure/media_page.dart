@@ -11,24 +11,34 @@ class MediaPage extends StatelessWidget {
   final String title, synopsis, type;
   final bool isFavorite;
   final Status status;
-  final List<String> cast;
+  final List<dynamic> cast;
   final Map<String, String> notes;
-  final List<int> length;
+  final List<int?> length;
+  final String image;
+  final List<String> leisureTags;
 
   const MediaPage(
       {Key? key,
       required this.title,
       required this.synopsis,
       required this.type,
-      required this.cast,
+      required this.cast, //for books, it's the author
       required this.length,
       required this.notes,
       required this.isFavorite,
+      required this.image,
+      required this.leisureTags,
       this.status = Status.nothing})
       : super(key: key);
 
   String getLength(context) {
     if (type == "TV Show") {
+      if (length[2] == null) {
+        return length[0].toString() +
+            AppLocalizations.of(context).seasons +
+            length[1].toString() +
+            AppLocalizations.of(context).episodes_no_duration;
+      }
       return length[0].toString() +
           AppLocalizations.of(context).seasons +
           length[1].toString() +
@@ -40,6 +50,46 @@ class MediaPage extends StatelessWidget {
     } else {
       return length[0].toString() + AppLocalizations.of(context).minutes;
     }
+  }
+
+  showSmallCastList(context) {
+    List<dynamic> firstTen;
+    if (cast.length >= 10) {
+      firstTen = cast.sublist(0, 10);
+    } else {
+      firstTen = cast;
+    }
+    return Row(children: [
+      Text(
+        firstTen.join("\n"),
+        softWrap: true,
+        textAlign: TextAlign.justify,
+        style: Theme.of(context).textTheme.bodySmall,
+      )
+    ]);
+  }
+
+  showImage(String type) {
+    if (type == 'Book') {
+      return Image.network(
+        image,
+        fit: BoxFit.fitWidth,
+      );
+    } else {
+      return Image.network(
+        'https://image.tmdb.org/t/p/w500$image',
+        fit: BoxFit.fitWidth,
+      );
+    }
+  }
+
+  double countWords() {
+    double wordCount = 0;
+    for (String str in leisureTags) {
+      List<String> wordsList = str.split(" ");
+      wordCount += wordsList.length;
+    }
+    return wordCount;
   }
 
   @override
@@ -87,10 +137,7 @@ class MediaPage extends StatelessWidget {
                             Rect.fromLTRB(0, 0, rect.width, rect.height));
                       },
                       blendMode: BlendMode.dstOut,
-                      child: Image.asset(
-                        'assets/images/poster.jpg',
-                        fit: BoxFit.fitWidth,
-                      ),
+                      child: showImage(type),
                     ),
                   ),
                 ]),
@@ -146,19 +193,17 @@ class MediaPage extends StatelessWidget {
           child: Row(mainAxisAlignment: MainAxisAlignment.start, children: [
             SizedBox(
                 width: MediaQuery.of(context).size.width * 0.85,
-                height: 50,
+                height: 8 * countWords(),
                 child: Wrap(
                     spacing: 7.6,
                     alignment: WrapAlignment.start,
                     runSpacing: 7.5,
-                    children: const [
-                      LeisureTag(text: "85% love it"),
-                      LeisureTag(text: "Fantasy"),
-                      LeisureTag(text: "2015"),
-                      LeisureTag(text: "Right up your alley!")
+                    children: [
+                      for (var i = 0; i < leisureTags.length; i++)
+                        LeisureTag(text: leisureTags[i])
                     ])),
           ])),
-      const SizedBox(height: 35),
+      const SizedBox(height: 15),
       Row(children: [
         Padding(
             padding: const EdgeInsets.only(left: 18),
@@ -191,14 +236,7 @@ class MediaPage extends StatelessWidget {
       Row(children: [
         Padding(
           padding: const EdgeInsets.only(left: 18, right: 18),
-          child: Row(children: [
-            Text(
-              cast.join("\n"),
-              softWrap: true,
-              textAlign: TextAlign.justify,
-              style: Theme.of(context).textTheme.bodySmall,
-            )
-          ]),
+          child: showSmallCastList(context),
         ),
       ]),
       const SizedBox(height: 35),
