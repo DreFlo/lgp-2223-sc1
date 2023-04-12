@@ -1,3 +1,5 @@
+// ignore_for_file: unused_local_variable, dead_code
+
 import 'package:src/utils/enums.dart';
 
 import '../../models/user.dart';
@@ -56,7 +58,7 @@ class Game {
       markTaskAsDone(t);
     }
 
-    int points = 0;
+    int points;
     var lastTimeslot = DateTime.now();
     //TODO: get last "done" timeslot from DB with a query -> last one with finished set to true
 
@@ -83,6 +85,7 @@ class Game {
     }
 
     //TODO: update user XP.
+    (points) => {};
 
     if (checkLevelUp(user.xp, user.level)) {
       return GameState.levelUp;

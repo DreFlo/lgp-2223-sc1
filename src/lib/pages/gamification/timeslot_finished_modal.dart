@@ -82,8 +82,8 @@ class _TimeslotFinishedModalState extends State<TimeslotFinishedModal> {
         SizedBox(
             height: 300,
             child: ScrollConfiguration(
-                behavior: ScrollBehavior(),
-                child: ListView(children: getTasks(), shrinkWrap: true))),
+                behavior: const ScrollBehavior(),
+                child: ListView(shrinkWrap: true, children: getTasks()))),
         const SizedBox(height: 30),
         Row(mainAxisAlignment: MainAxisAlignment.center, children: [
           Expanded(

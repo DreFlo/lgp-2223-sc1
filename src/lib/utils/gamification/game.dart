@@ -1,7 +1,7 @@
+// ignore: unused_import
 import 'dart:math';
 import 'package:src/utils/enums.dart';
 
-import '../../models/user.dart';
 import 'levels.dart';
 
 class Task {
