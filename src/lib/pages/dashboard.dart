@@ -4,7 +4,8 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:src/themes/colors.dart';
 import 'package:src/widgets/dashboard/dashboard_gridview.dart';
 import 'package:tmdb_api/tmdb_api.dart';
-
+import 'package:src/utils/service_locator.dart';
+import 'package:src/daos/media/media_video_movie_super_dao.dart';
 import '../env/env.dart';
 import '../widgets/dashboard/dashboard_horizontal_scrollview.dart';
 import 'catalog_search/leisure_module.dart';
@@ -47,7 +48,9 @@ class _DashboardState extends State<Dashboard> {
   late List<Project> searchResults = items;
 
   void loadmedia() async {
-    final tmdb = TMDB(ApiKeys(Env.tmdbApiKey, 'apiReadAccessTokenv4'));
+    trendingmovies = await serviceLocator<MediaVideoMovieSuperDao>().findAllMediaVideoMovie();
+
+    /*final tmdb = TMDB(ApiKeys(Env.tmdbApiKey, 'apiReadAccessTokenv4'));
     Map movieresult =
         await tmdb.v3.trending.getTrending(mediaType: MediaType.movie);
     Map tvresult = await tmdb.v3.trending
@@ -57,11 +60,11 @@ class _DashboardState extends State<Dashboard> {
       maxResults: 40,
       printType: PrintType.books,
       orderBy: OrderBy.relevance,
-    );
+    );*/
 
     setState(() {
-      trendingmovies = movieresult['results'];
-      trendingtvshows = tvresult['results'];
+      trendingmovies = trendingmovies;
+      trendingtvshows = trendingtvshows;
       books = books;
     });
   }
@@ -133,6 +136,7 @@ class _DashboardState extends State<Dashboard> {
                   _selectedIndex == 2
                       ? GestureDetector(
                           onTap: () => {
+                            loadmedia(),
                             // navigate to catalog
                             Navigator.push(
                                 context,
