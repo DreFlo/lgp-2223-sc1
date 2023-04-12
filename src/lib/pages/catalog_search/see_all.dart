@@ -2,7 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:src/pages/catalog_search/search_bar.dart';
-import 'list_media.dart';
+import 'list_media_catalog.dart';
 
 class SeeAll extends StatefulWidget {
   final List media;
@@ -84,7 +84,7 @@ class SeeAllState extends State<SeeAll> {
         children: [
           SearchBar(onSearch: onSearch),
           Expanded(
-            child: ListMedia(title: widget.title, media: widget.media),
+            child: ListMediaCatalog(title: widget.title, media: widget.media),
           )
         ],
       ),

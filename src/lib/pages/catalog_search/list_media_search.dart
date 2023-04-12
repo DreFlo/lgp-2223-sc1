@@ -15,7 +15,7 @@ import 'package:src/pages/leisure/media_page.dart';
 import 'package:src/utils/enums.dart';
 import 'package:src/env/env.dart';
 
-class ListMedia extends StatelessWidget {
+class ListMediaSearch extends StatelessWidget {
   final List media;
   final String title;
 
@@ -27,7 +27,7 @@ class ListMedia extends StatelessWidget {
 
   Map<int, Map<dynamic, dynamic>> episodes = {};
 
-  ListMedia({Key? key, required this.title, required this.media})
+  ListMediaSearch({Key? key, required this.title, required this.media})
       : super(key: key);
 
   Widget mediaPageButton(String type, Status status, BuildContext context) {

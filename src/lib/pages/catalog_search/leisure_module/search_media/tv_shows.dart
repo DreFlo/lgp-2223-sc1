@@ -2,7 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:tmdb_api/tmdb_api.dart';
-import 'package:src/pages/catalog_search/list_media.dart';
+import 'package:src/pages/catalog_search/list_media_search.dart';
 import 'package:src/env/env.dart';
 
 class TVShows extends StatelessWidget {
@@ -28,7 +28,7 @@ class TVShows extends StatelessWidget {
       future: loadmedia(),
       builder: (context, snapshot) {
         if (snapshot.hasData) {
-          return ListMedia(title: 'All TV Shows', media: snapshot.data!);
+          return ListMediaSearch(title: 'All TV Shows', media: snapshot.data!);
         } else if (snapshot.hasError) {
           return Text('Error: ${snapshot.error}');
         } else {
