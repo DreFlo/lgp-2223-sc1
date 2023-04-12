@@ -784,7 +784,8 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                                     priority: Priority.medium,
                                     taskGroupId: 0,
                                     subjectId: 0,
-                                    xp: 10),
+                                    xp: 10,
+                                    finished: false),
                                 Task(
                                     name: "Math assignment for Algebra",
                                     description:
@@ -793,7 +794,8 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                                     priority: Priority.medium,
                                     taskGroupId: 0,
                                     subjectId: 0,
-                                    xp: 10),
+                                    xp: 10,
+                                    finished: false),
                                 Task(
                                     name: "Math assignment for Algebra",
                                     description:
@@ -802,7 +804,8 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                                     priority: Priority.medium,
                                     taskGroupId: 0,
                                     subjectId: 0,
-                                    xp: 10),
+                                    xp: 10,
+                                    finished: false),
                                 Task(
                                     name: "Math assignment for Algebra",
                                     description:
@@ -811,7 +814,8 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                                     priority: Priority.medium,
                                     taskGroupId: 0,
                                     subjectId: 0,
-                                    xp: 10),
+                                    xp: 10,
+                                    finished: false),
                                 Task(
                                     name: "Math assignment for Algebra",
                                     description:
@@ -820,7 +824,8 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                                     priority: Priority.medium,
                                     taskGroupId: 0,
                                     subjectId: 0,
-                                    xp: 10)
+                                    xp: 10,
+                                    finished: false),
                               ])));
                 }),
                 ElevatedButton(

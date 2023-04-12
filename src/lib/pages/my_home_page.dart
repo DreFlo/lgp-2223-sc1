@@ -30,7 +30,8 @@ class _MyHomePageState extends State<MyHomePage> {
         priority: Priority.high,
         taskGroupId: 1,
         subjectId: 1,
-        xp: 0),
+        xp: 0,
+        finished: false),
     Task(
         id: 1,
         name: 'Kirby & The Forgotten Land',
@@ -39,7 +40,8 @@ class _MyHomePageState extends State<MyHomePage> {
         priority: Priority.medium,
         taskGroupId: 1,
         subjectId: 1,
-        xp: 0),
+        xp: 0,
+        finished: false),
     Task(
         id: 1,
         name: 'Caminhar',
@@ -48,7 +50,8 @@ class _MyHomePageState extends State<MyHomePage> {
         priority: Priority.low,
         taskGroupId: 1,
         subjectId: 1,
-        xp: 0),
+        xp: 0,
+        finished: false),
     Task(
         id: 1,
         name: 'Treino 5 Minutos',
@@ -57,7 +60,8 @@ class _MyHomePageState extends State<MyHomePage> {
         priority: Priority.high,
         taskGroupId: 1,
         subjectId: 1,
-        xp: 0),
+        xp: 0,
+        finished: false),
   ];
 
   List<Task> filterItems() {
