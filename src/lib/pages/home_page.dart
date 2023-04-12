@@ -11,6 +11,7 @@ import 'package:src/themes/colors.dart';
 import 'package:src/utils/service_locator.dart';
 import 'gamification/gained_xp_toast.dart';
 import 'gamification/level_up_toast.dart';
+import 'gamification/progress_bar_sheet.dart';
 import 'leisure/add_to_catalog_form.dart';
 import 'leisure/mark_episodes_sheet.dart';
 import 'leisure/episodes_notes_sheet.dart';
@@ -532,6 +533,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                     id: 0,
                     password: 'secure',
                     xp: 0,
+                    level: 1,
                     imagePath: ''));
                 setState(() {
                   redrawObject = Object();

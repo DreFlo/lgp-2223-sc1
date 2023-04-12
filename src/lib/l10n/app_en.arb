@@ -86,5 +86,9 @@
   "level": "Level",
   "level_up": "Level Up!",
   "level_up_2": "You’ve reached Level ",
-  "level_up_3": "!"
+  "level_up_3": "!",
+  "leisure": "Leisure",
+  "fitness": "Fitness",
+  "personal": "Personal",
+  "student": "Student"
 }
