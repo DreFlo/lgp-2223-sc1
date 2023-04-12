@@ -117,7 +117,7 @@ class _$AppDatabase extends AppDatabase {
     Callback? callback,
   ]) async {
     final databaseOptions = sqflite.OpenDatabaseOptions(
-      version: 1,
+      version: 2,
       onConfigure: (database) async {
         await database.execute('PRAGMA foreign_keys = ON');
         await callback?.onConfigure?.call(database);
@@ -169,7 +169,7 @@ class _$AppDatabase extends AppDatabase {
         await database.execute(
             'CREATE TABLE IF NOT EXISTS `book_note` (`id` INTEGER NOT NULL, `start_page` INTEGER NOT NULL, `end_page` INTEGER NOT NULL, `book_id` INTEGER NOT NULL, FOREIGN KEY (`book_id`) REFERENCES `book` (`id`) ON UPDATE NO ACTION ON DELETE NO ACTION, FOREIGN KEY (`id`) REFERENCES `note` (`id`) ON UPDATE NO ACTION ON DELETE NO ACTION, PRIMARY KEY (`id`))');
         await database.execute(
-            'CREATE TABLE IF NOT EXISTS `user` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `user_name` TEXT NOT NULL, `password` TEXT NOT NULL, `xp` INTEGER NOT NULL, `image_path` TEXT NOT NULL)');
+            'CREATE TABLE IF NOT EXISTS `user` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `user_name` TEXT NOT NULL, `password` TEXT NOT NULL, `xp` INTEGER NOT NULL, `level` INTEGER NOT NULL, `image_path` TEXT NOT NULL)');
         await database.execute(
             'CREATE TABLE IF NOT EXISTS `badge` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `name` TEXT NOT NULL, `description` TEXT NOT NULL, `image_path` TEXT NOT NULL)');
         await database.execute(
@@ -179,7 +179,7 @@ class _$AppDatabase extends AppDatabase {
         await database.execute(
             'CREATE TABLE IF NOT EXISTS `media_timeslot` (`id` INTEGER NOT NULL, `media_id` TEXT NOT NULL, FOREIGN KEY (`id`) REFERENCES `timeslot` (`id`) ON UPDATE NO ACTION ON DELETE NO ACTION, PRIMARY KEY (`id`))');
         await database.execute(
-            'CREATE TABLE IF NOT EXISTS `student_timeslot` (`id` INTEGER NOT NULL, `task_id` TEXT NOT NULL, FOREIGN KEY (`id`) REFERENCES `timeslot` (`id`) ON UPDATE NO ACTION ON DELETE NO ACTION, FOREIGN KEY (`task_id`) REFERENCES `task` (`id`) ON UPDATE RESTRICT ON DELETE CASCADE, PRIMARY KEY (`id`))');
+            'CREATE TABLE IF NOT EXISTS `student_timeslot` (`id` INTEGER NOT NULL, `task_id` TEXT NOT NULL, FOREIGN KEY (`id`) REFERENCES `timeslot` (`id`) ON UPDATE NO ACTION ON DELETE NO ACTION, PRIMARY KEY (`id`))');
         await database.execute(
             'CREATE TABLE IF NOT EXISTS `user_badge` (`user_id` INTEGER NOT NULL, `badge_id` INTEGER NOT NULL, FOREIGN KEY (`user_id`) REFERENCES `user` (`id`) ON UPDATE RESTRICT ON DELETE CASCADE, FOREIGN KEY (`badge_id`) REFERENCES `badge` (`id`) ON UPDATE RESTRICT ON DELETE CASCADE, PRIMARY KEY (`user_id`, `badge_id`))');
 
@@ -2741,6 +2741,7 @@ class _$UserDao extends UserDao {
                   'user_name': item.userName,
                   'password': item.password,
                   'xp': item.xp,
+                  'level': item.level,
                   'image_path': item.imagePath
                 }),
         _userUpdateAdapter = UpdateAdapter(
@@ -2752,6 +2753,7 @@ class _$UserDao extends UserDao {
                   'user_name': item.userName,
                   'password': item.password,
                   'xp': item.xp,
+                  'level': item.level,
                   'image_path': item.imagePath
                 }),
         _userDeletionAdapter = DeletionAdapter(
@@ -2763,6 +2765,7 @@ class _$UserDao extends UserDao {
                   'user_name': item.userName,
                   'password': item.password,
                   'xp': item.xp,
+                  'level': item.level,
                   'image_path': item.imagePath
                 });
 
@@ -2786,6 +2789,7 @@ class _$UserDao extends UserDao {
             userName: row['user_name'] as String,
             password: row['password'] as String,
             xp: row['xp'] as int,
+            level: row['level'] as int,
             imagePath: row['image_path'] as String));
   }
 
@@ -2797,6 +2801,7 @@ class _$UserDao extends UserDao {
             userName: row['user_name'] as String,
             password: row['password'] as String,
             xp: row['xp'] as int,
+            level: row['level'] as int,
             imagePath: row['image_path'] as String),
         arguments: [id]);
   }

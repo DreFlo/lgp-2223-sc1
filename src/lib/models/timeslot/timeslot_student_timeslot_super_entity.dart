@@ -58,6 +58,7 @@ class TimeslotStudentTimeslotSuperEntity {
     String? description,
     DateTime? startDateTime,
     DateTime? endDateTime,
+    DateTime? finishedDate,
     int? xpMultiplier,
     int? userId,
     List<int>? taskId,
