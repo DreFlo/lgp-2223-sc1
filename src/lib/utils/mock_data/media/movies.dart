@@ -7,7 +7,7 @@ final mockMovies = [
       name: 'The Fast and the Furious',
       description:
           'Brian\'s a cop. Dom is a thief. They love each other very much but must learn to look past their differences if the relationship is to last',
-      linkImage: '',
+      linkImage: '/lgCEntS9mHagxdL5hb3qaV49YTd.jpg',
       status: Status.planTo,
       favorite: false,
       genres: 'romance',
@@ -21,7 +21,7 @@ final mockMovies = [
     id: 6,
     name: 'Arrival',
     description: 'Aliens have landed on Earth and are here to stay',
-    linkImage: '',
+    linkImage: '/x2FJsf1ElAgr63Y3PNPtJrcmpoe.jpg',
     status: Status.done,
     favorite: true,
     genres: 'romance',

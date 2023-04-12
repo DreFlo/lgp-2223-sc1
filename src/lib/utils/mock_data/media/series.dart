@@ -7,7 +7,7 @@ final mockSeries = [
       name: 'The Wire',
       description:
           'A look at the Baltimore drug scene as seen through the eyes of drug dealers and law enforcement',
-      linkImage: '',
+      linkImage: '/4lbclFySvugI51fwsyxBTOm4DqK.jpg',
       status: Status.goingThrough,
       favorite: true,
       genres: 'drama',
