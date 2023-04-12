@@ -58,7 +58,7 @@ class Game {
 
     int points = 0;
     var lastTimeslot = DateTime.now();
-    //TODO: get last "done" timeslot from DB with a query.
+    //TODO: get last "done" timeslot from DB with a query -> last one with finished set to true
 
     var taskCount = tasks.length;
     if (taskCount == 0) {

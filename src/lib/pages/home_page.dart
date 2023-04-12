@@ -5,25 +5,28 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:src/animation_test/main.dart';
 import 'package:src/daos/user_dao.dart';
 import 'package:src/models/user.dart';
+import 'package:src/pages/gamification/timeslot_finished_modal.dart';
+import 'package:src/pages/leisure/add_book_note_form.dart';
+import 'package:src/pages/leisure/book_notes_sheet.dart';
+import 'package:src/pages/leisure/episodes_notes_sheet.dart';
+import 'package:src/pages/leisure/mark_episodes_sheet.dart';
+import 'package:src/pages/leisure/media_page.dart';
 import 'package:src/pages/tasks/institution_form.dart';
 import 'package:src/pages/tasks/subject_form.dart';
 import 'package:src/themes/colors.dart';
 import 'package:src/utils/service_locator.dart';
+import '../models/student/task.dart';
+import '../models/timeslot/timeslot.dart';
 import 'gamification/gained_xp_toast.dart';
 import 'gamification/level_up_toast.dart';
 import 'gamification/progress_bar_sheet.dart';
-import 'leisure/add_to_catalog_form.dart';
-import 'leisure/mark_episodes_sheet.dart';
-import 'leisure/episodes_notes_sheet.dart';
-import 'leisure/book_notes_sheet.dart';
-import 'leisure/add_book_note_form.dart';
-import 'leisure/media_page.dart';
 import 'package:src/utils/enums.dart';
 import 'package:src/env/env.dart';
 import 'package:tmdb_api/tmdb_api.dart';
 import 'package:books_finder/books_finder.dart';
 import 'catalog_search/leisure_module.dart';
 
+import 'leisure/add_to_catalog_form.dart';
 import 'tasks/project_form.dart';
 import 'tasks/task_form.dart';
 
@@ -455,7 +458,8 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
       appBar: AppBar(
         title: Text(widget.title),
       ),
-      body: Wrap(spacing: 10, children: [
+      body: SingleChildScrollView(
+          child: Wrap(spacing: 10, children: [
         const SizedBox(height: 30),
         Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -748,6 +752,75 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                   // Step 3
                   ScaffoldMessenger.of(context).showSnackBar(snackBar);
                 }),
+            ElevatedButton(
+                child: Text("Finished timeslot <3"),
+                onPressed: () {
+                  showDialog(
+                      context: context,
+                      builder: (context) => Dialog(
+                          backgroundColor: modalBackground,
+                          insetPadding: EdgeInsets.symmetric(horizontal: 20),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(30),
+                          ),
+                          child: TimeslotFinishedModal(
+                              timeslot: Timeslot(
+                                  title: "Finish LGP project!",
+                                  description: "Finish LGP project!",
+                                  xpMultiplier: 2,
+                                  finished: true,
+                                  userId: 1,
+                                  endDateTime: DateTime.now(),
+                                  startDateTime: DateTime.now()
+                                      .subtract(Duration(hours: 20))),
+                              tasks: [
+                                Task(
+                                    name: "Math assignment for Algebra",
+                                    description:
+                                        "Do 3 problems from page 12 before Thursday",
+                                    deadline: DateTime.now(),
+                                    priority: Priority.medium,
+                                    taskGroupId: 0,
+                                    subjectId: 0,
+                                    xp: 10),
+                                Task(
+                                    name: "Math assignment for Algebra",
+                                    description:
+                                        "Do 3 problems from page 12 before Thursday",
+                                    deadline: DateTime.now(),
+                                    priority: Priority.medium,
+                                    taskGroupId: 0,
+                                    subjectId: 0,
+                                    xp: 10),
+                                Task(
+                                    name: "Math assignment for Algebra",
+                                    description:
+                                        "Do 3 problems from page 12 before Thursday",
+                                    deadline: DateTime.now(),
+                                    priority: Priority.medium,
+                                    taskGroupId: 0,
+                                    subjectId: 0,
+                                    xp: 10),
+                                Task(
+                                    name: "Math assignment for Algebra",
+                                    description:
+                                        "Do 3 problems from page 12 before Thursday",
+                                    deadline: DateTime.now(),
+                                    priority: Priority.medium,
+                                    taskGroupId: 0,
+                                    subjectId: 0,
+                                    xp: 10),
+                                Task(
+                                    name: "Math assignment for Algebra",
+                                    description:
+                                        "Do 3 problems from page 12 before Thursday",
+                                    deadline: DateTime.now(),
+                                    priority: Priority.medium,
+                                    taskGroupId: 0,
+                                    subjectId: 0,
+                                    xp: 10)
+                              ])));
+                }),
             FutureBuilder(
                 key: ValueKey<Object>(redrawObject),
                 future: serviceLocator<UserDao>().findAllUsers(),
@@ -798,7 +871,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                 }),
           ],
         ),
-      ]),
+      ])),
       floatingActionButton: FloatingActionButton(
         onPressed: _incrementCounter,
         tooltip: 'Increment',

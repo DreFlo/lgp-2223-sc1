@@ -7,7 +7,7 @@ import 'package:src/utils/enums.dart';
 import 'package:src/widgets/leisure/review_note_bar.dart';
 import 'package:src/widgets/leisure/season_tag.dart';
 
-import '../../widgets/leisure/episode_note_bar.dart';
+import '../../../widgets/leisure/episode_note_bar.dart';
 
 class EpisodesNotesSheet extends StatefulWidget {
   final Map<String, String> notes;

@@ -90,5 +90,15 @@
   "leisure": "Leisure",
   "fitness": "Fitness",
   "personal": "Personal",
-  "student": "Student"
+  "student": "Student",
+  "event_finished_1": "The event...",
+  "event_finished_2": "...has finished!",
+  "event_finished_3": "Here are the tasks you had planned to finish.\nMark the ones you finished!",
+  "event_progress_1": "You've finished",
+  "event_progress_2": "tasks out of",
+  "event_progress_3": "tasks planned!\nEmil is incredibly proud!",
+  "event_no_progress_1": "Everyone has a bad day!",
+  "event_no_progress_2": "Even if you didn't complete any tasks today,\nEmil is still proud of you!",
+  "event_no_progress_3": "Tomorrow is a new day,\nyou'll get to try again!",
+  "confirm": "Confirm"
 }
