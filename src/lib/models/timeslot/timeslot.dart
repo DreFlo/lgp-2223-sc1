@@ -20,6 +20,8 @@ class Timeslot {
 
   final String description;
 
+  final bool finished;
+
   @ColumnInfo(name: 'start_datetime')
   final DateTime startDateTime;
 
@@ -39,5 +41,6 @@ class Timeslot {
       required this.startDateTime,
       required this.endDateTime,
       required this.xpMultiplier,
+      required this.finished,
       required this.userId});
 }

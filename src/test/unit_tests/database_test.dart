@@ -493,6 +493,7 @@ void main() {
               startDateTime: DateTime.now(),
               endDateTime: DateTime.now().add(const Duration(days: 1)),
               xpMultiplier: 2,
+              finished: false,
               userId: 1,
               mediaId: List.of([1]));
 
@@ -556,6 +557,7 @@ void main() {
               startDateTime: DateTime.now(),
               endDateTime: DateTime.now().add(const Duration(days: 1)),
               xpMultiplier: 2,
+              finished: false,
               userId: 1,
               taskId: List.of([1]));
 
@@ -602,6 +604,7 @@ void main() {
         startDateTime: startDateTime,
         endDateTime: endDateTime,
         xpMultiplier: 1,
+        finished: false,
         userId: userId,
       );
 
