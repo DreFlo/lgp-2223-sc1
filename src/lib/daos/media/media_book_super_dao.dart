@@ -24,9 +24,8 @@ class MediaBookSuperDao {
             await mediaStream.firstWhere((media) => media != null);
         Media media = firstNonNullMedia!;
 
-        mediaBooksSuperEntities.add(
-            MediaBookSuperEntity.fromMediaAndBook(
-                media, book));
+        mediaBooksSuperEntities
+            .add(MediaBookSuperEntity.fromMediaAndBook(media, book));
       }
 
       return mediaBooksSuperEntities;

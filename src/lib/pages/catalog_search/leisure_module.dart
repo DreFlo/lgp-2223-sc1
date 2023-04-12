@@ -7,16 +7,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'search_bar.dart';
 
 class LeisureModule extends StatefulWidget {
-  final List trendingMovies;
-  final List trendingTvshows;
-  final List books;
-
-  const LeisureModule(
-      {Key? key,
-      required this.trendingMovies,
-      required this.trendingTvshows,
-      required this.books})
-      : super(key: key);
+  const LeisureModule({Key? key}) : super(key: key);
 
   @override
   State<LeisureModule> createState() => _LeisureModuleState();
@@ -115,11 +106,7 @@ class _LeisureModuleState extends State<LeisureModule>
               controller: tabController,
               children: [
                 // My Media TabBarView
-                Catalog(
-                  trendingMovies: widget.trendingMovies,
-                  trendingTvshows: widget.trendingTvshows,
-                  books: widget.books,
-                ),
+                Catalog(),
                 // Discover TabBarView
                 SearchMedia(search: searchText),
               ],

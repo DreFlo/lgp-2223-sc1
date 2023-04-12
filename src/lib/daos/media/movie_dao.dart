@@ -2,7 +2,7 @@ import 'package:floor/floor.dart';
 import 'package:src/models/media/movie.dart';
 
 @dao
-abstract class MovieDao {  
+abstract class MovieDao {
   @Query('SELECT * FROM movie')
   Future<List<Movie>> findAllMovie();
 

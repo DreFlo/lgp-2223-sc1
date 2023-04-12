@@ -24,9 +24,8 @@ class MediaSeriesSuperDao {
             await mediaStream.firstWhere((media) => media != null);
         Media media = firstNonNullMedia!;
 
-        mediaSeriesSuperEntities.add(
-            MediaSeriesSuperEntity.fromMediaAndSeries(
-                media, series));
+        mediaSeriesSuperEntities
+            .add(MediaSeriesSuperEntity.fromMediaAndSeries(media, series));
       }
 
       return mediaSeriesSuperEntities;
