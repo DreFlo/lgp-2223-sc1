@@ -9,5 +9,6 @@ final mockTasks = [
       deadline: DateTime.now(),
       taskGroupId: 1,
       subjectId: 1,
-      xp: 30)
+      xp: 30,
+      finished: false),
 ];

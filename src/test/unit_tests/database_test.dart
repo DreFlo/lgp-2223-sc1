@@ -274,7 +274,8 @@ void main() {
           deadline: DateTime.now().subtract(const Duration(days: 1)),
           taskGroupId: 1,
           subjectId: 1,
-          xp: 20));
+          xp: 20,
+          finished: false));
 
       NoteTaskNoteSuperEntity noteTaskNoteSuperEntity = NoteTaskNoteSuperEntity(
           title: 'Note 1',
@@ -548,7 +549,8 @@ void main() {
           deadline: DateTime.now().subtract(const Duration(days: 1)),
           taskGroupId: 1,
           subjectId: 1,
-          xp: 20));
+          xp: 20,
+          finished: false));
 
       TimeslotStudentTimeslotSuperEntity timeslotStudentTimeslotSuperEntity =
           TimeslotStudentTimeslotSuperEntity(
@@ -1017,7 +1019,8 @@ void main() {
           deadline: DateTime.utc(2022, 01, 02),
           taskGroupId: 1,
           subjectId: 1,
-          xp: 1);
+          xp: 1,
+          finished: false);
 
       expect(() => serviceLocator<TaskDao>().insertTask(task),
           throwsA(isA<DatabaseException>()));
