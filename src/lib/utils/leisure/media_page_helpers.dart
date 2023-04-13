@@ -35,8 +35,8 @@ showMediaPageBasedOnType(dynamic item, String title) {
         cast: cast,
         image: item.linkImage,
         notes: notes, //get from DB
-        status: item.status, //get from DB
-        isFavorite: item.favorite, //get from DB
+        status: item.status, 
+        isFavorite: item.favorite, 
         leisureTags: leisureTags,
       );
     } else if (title == 'All Movies') {
@@ -50,8 +50,8 @@ showMediaPageBasedOnType(dynamic item, String title) {
           cast: cast,
           image: item.linkImage,
           notes: notes, //get from DB
-          status: item.status, //get from DB
-          isFavorite: item.favorite, //get from DB
+          status: item.status, 
+          isFavorite: item.favorite, 
           leisureTags: leisureTags,
       );
     } else if (title == 'All TV Shows') {
@@ -65,8 +65,8 @@ showMediaPageBasedOnType(dynamic item, String title) {
           cast: cast,
           image: item.linkImage,
           notes: notes, //get from DB
-          status: item.status, //get from DB
-          isFavorite: item.favorite, //get from DB
+          status: item.status, 
+          isFavorite: item.favorite, 
           leisureTags: leisureTags,
           );
     }
