@@ -1,0 +1,73 @@
+name: Build APK
+
+on: workflow_dispatch
+
+permissions: write-all
+
+jobs:
+  build-apk:
+    name: Build APK
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: src
+    steps:
+      # Checkout rep
+      - name: Clone rep
+        uses: actions/checkout@v3
+      # Set up Flutter
+      - name: Clone Flutter rep with master channel
+        uses: subosito/flutter-action@v2
+      # Get packages
+      - name: Get Flutter packages
+        run: flutter pub get
+      # Generate l10n
+      - name: Gen l10n
+        run: flutter gen-l10n
+      # Generate environment variable
+      - name: Generate environment variables
+        run: flutter pub run build_runner build --delete-conflicting-outputs
+        env:
+          TMDB_API_KEY: ${{ secrets.TMDB_API_KEY }}
+          GOOGLE_BOOKS_API_KEY: ${{ secrets.GOOGLE_BOOKS_API_KEY }}
+          TMDB_API_URL: https://api.themoviedb.org/3/
+          GOOGLE_BOOKS_API_URL: https://www.googleapis.com/books/v1/
+      # Build free apk
+      - name: Build free apk
+        run: flutter build apk --obfuscate --split-debug-info ./debug/android/free/ --flavor free -t lib/main_free.dart
+      # Build premium apk
+      - name: Build premium apk
+        run: flutter build apk --obfuscate --split-debug-info ./debug/android/premium/ --flavor premium -t lib/main_premium.dart
+      # Message
+      - name: iOS and web missing
+        run: echo iOS and web missing
+      # Upload artifacts
+      - name: Upload free apk
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        with:
+          upload_url: ${{ steps.create-release.outputs.upload_url }}
+          asset_path: src/build/app/outputs/flutter-apk/app-free-release.apk
+          asset_name: wokka.free.android.apk
+          asset_content_type: application/x-authorware-bin
+      - name: Upload premium apk
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        with:
+          upload_url: ${{ steps.create-release.outputs.upload_url }}
+          asset_path: src/build/app/outputs/flutter-apk/app-premium-release.apk
+          asset_name: wokka.android.apk
+          asset_content_type: application/x-authorware-bin
+      - name: Zip symbol files
+        run: zip -r symbols.zip debug
+      - name: Upload symbol zip
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        with:
+          upload_url: ${{ steps.create-release.outputs.upload_url }}
+          asset_path: src/symbols.zip
+          asset_name: symbols.zip
+          asset_content_type: application/zip
