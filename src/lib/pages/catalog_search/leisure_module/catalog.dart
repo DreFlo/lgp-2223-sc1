@@ -1,4 +1,4 @@
-// ignore_for_file: file_names, sized_box_for_whitespace
+// ignore_for_file: file_names, sized_box_for_whitespace, use_build_context_synchronously, must_be_immutable
 import 'package:flutter/material.dart';
 import 'package:src/pages/catalog_search/see_all.dart';
 import 'package:src/themes/colors.dart';
@@ -9,6 +9,9 @@ import 'package:src/daos/media/media_video_movie_super_dao.dart';
 import 'package:src/daos/media/media_book_super_dao.dart';
 import 'package:src/daos/media/media_series_super_dao.dart';
 import 'package:src/utils/leisure/media_page_helpers.dart';
+import 'package:src/daos/media/episode_dao.dart';
+import 'package:src/daos/media/video_dao.dart';
+import 'dart:math';
 
 class Catalog extends StatelessWidget {
   Catalog({Key? key}) : super(key: key);
@@ -46,6 +49,18 @@ class Catalog extends StatelessWidget {
   Future<List> loadBooks() async {
     return await loadmedia('book');
   }
+
+ Future<int> loadDuration(int id) async {
+  List<int> ids = await serviceLocator<EpisodeDao>().findEpisodeBySeasonId(id);
+  List<int> duration = [];
+  for (int i = 0; i < ids.length; i++) {
+    duration = await serviceLocator<VideoDao>().findVideoDurationById(ids[i]);
+  }
+
+  int maxDuration = duration.reduce(max);
+
+  return maxDuration;
+}
 
   @override
   Widget build(BuildContext context) {
@@ -150,7 +165,8 @@ class Catalog extends StatelessWidget {
                                                                         index],
                                                                     AppLocalizations.of(
                                                                             context)
-                                                                        .all_movies)),
+                                                                        .all_movies,
+                                                                    0)),
                                                             /*Positioned(
                                         left: 16,
                                         right: 16,
@@ -242,7 +258,9 @@ class Catalog extends StatelessWidget {
                                     0, //will be dependent on database size
                                 itemBuilder: (context, index) {
                                   return InkWell(
-                                    onTap: () {
+                                    onTap: () async {
+                                      int maxDuration = await loadDuration(
+                                          (snapshot.data as List?)?[index]?.id);
                                       showModalBottomSheet(
                                           context: context,
                                           isScrollControlled: true,
@@ -273,7 +291,8 @@ class Catalog extends StatelessWidget {
                                                                         index],
                                                                     AppLocalizations.of(
                                                                             context)
-                                                                        .all_tv_shows)),
+                                                                        .all_tv_shows,
+                                                                    maxDuration)),
                                                             /*Positioned(
                                         left: 16,
                                         right: 16,
@@ -396,7 +415,8 @@ class Catalog extends StatelessWidget {
                                                                         index],
                                                                     AppLocalizations.of(
                                                                             context)
-                                                                        .all_books)),
+                                                                        .all_books,
+                                                                    0)),
                                                             /*Positioned(
                                         left: 16,
                                         right: 16,

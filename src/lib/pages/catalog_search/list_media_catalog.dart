@@ -51,7 +51,7 @@ class ListMediaCatalog extends StatelessWidget {
                                       SingleChildScrollView(
                                           controller: scrollController,
                                           child: showMediaPageBasedOnType(
-                                              filteredMedia[index], title)),
+                                              filteredMedia[index], title,0)),
                                       /*Positioned(
                                         left: 16,
                                         right: 16,

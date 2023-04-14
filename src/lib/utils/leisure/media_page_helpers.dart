@@ -1,5 +1,13 @@
 import 'package:src/pages/catalog_search/media.dart';
 import 'package:src/pages/leisure/media_page.dart';
+import 'package:src/utils/service_locator.dart';
+
+
+Future<List> loadNotes(String type) async {
+  List result = [];
+
+  return result;
+}
 
 Map<String, String> notes = {
   'S04E03':
@@ -17,7 +25,7 @@ showWidget(dynamic item, String title) {
   }
 }
 
-showMediaPageBasedOnType(dynamic item, String title) {
+showMediaPageBasedOnType(dynamic item, String title, int duration ) {
   List<String> leisureTags = [];
 
   leisureTags.add(item.release.year.toString());
@@ -61,7 +69,7 @@ showMediaPageBasedOnType(dynamic item, String title) {
       title: item.name,
       synopsis: item.description,
       type: 'TV Show',
-      length: const [1, 8, 30], //get from DB
+      length: [item.numberSeasons, item.numberEpisodes, duration], //get from DB
       cast: cast,
       image: item.linkImage,
       notes: notes, //get from DB

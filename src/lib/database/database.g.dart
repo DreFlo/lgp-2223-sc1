@@ -1273,6 +1273,13 @@ class _$VideoDao extends VideoDao {
   }
 
   @override
+  Future<List<int>> findVideoDurationById(int id) async {
+    return _queryAdapter.queryList('SELECT duration FROM Video WHERE id = ?1',
+        mapper: (Map<String, Object?> row) => row.values.first as int,
+        arguments: [id]);
+  }
+
+  @override
   Future<int> insertVideo(Video video) {
     return _videoInsertionAdapter.insertAndReturnId(
         video, OnConflictStrategy.abort);
@@ -1652,6 +1659,14 @@ class _$EpisodeDao extends EpisodeDao {
         arguments: [id],
         queryableName: 'episode',
         isView: false);
+  }
+
+  @override
+  Future<List<int>> findEpisodeBySeasonId(int id) async {
+    return _queryAdapter.queryList(
+        'SELECT id FROM episode WHERE season_id = ?1',
+        mapper: (Map<String, Object?> row) => row.values.first as int,
+        arguments: [id]);
   }
 
   @override
