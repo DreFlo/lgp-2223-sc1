@@ -31,6 +31,14 @@ class NoteEpisodeNoteSuperDao {
     return noteId;
   }
 
+  Future<void> insertNoteEpisodeNoteSuperEntities(
+    List<NoteEpisodeNoteSuperEntity> noteEpisodeNoteSuperEntities,
+  ) async {
+    for (var noteEpisodeNoteSuperEntity in noteEpisodeNoteSuperEntities) {
+      await insertNoteEpisodeNoteSuperEntity(noteEpisodeNoteSuperEntity);
+    }
+  }
+
   Future<void> updateNoteEpisodeNoteSuperEntity(
     NoteEpisodeNoteSuperEntity noteEpisodeNoteSuperEntity,
   ) async {

@@ -1,5 +1,6 @@
 import 'package:src/daos/notes/note_dao.dart';
 import 'package:src/daos/notes/book_note_dao.dart';
+import 'package:src/models/notes/note.dart';
 import 'package:src/models/notes/note_book_note_super_entity.dart';
 import 'package:src/utils/service_locator.dart';
 import 'package:src/utils/exceptions.dart';
@@ -13,6 +14,28 @@ class NoteBookNoteSuperDao {
   }
 
   NoteBookNoteSuperDao._internal();
+
+  Future<List<NoteBookNoteSuperEntity>> findNoteBookNoteByBookId(
+      int bookId) {
+    return serviceLocator<BookNoteDao>()
+        .findBookNoteByBookId(bookId)
+        .then((bookNotesList) async {
+      List<NoteBookNoteSuperEntity> noteBookNoteSuperEntities = [];
+
+      final test = await serviceLocator<BookNoteDao>().findAllBookNotes();
+
+      for (var bookNote in bookNotesList) {
+        final noteStream =
+            serviceLocator<NoteDao>().findNoteById(bookNote.id);
+        Note? firstNonNullNote =
+            await noteStream.firstWhere((note) => note != null);
+        Note note = firstNonNullNote!;
+        noteBookNoteSuperEntities
+            .add(NoteBookNoteSuperEntity.fromNoteBookNoteEntity(bookNote, note));
+      }
+        return noteBookNoteSuperEntities;
+        });
+  }
 
   Future<int> insertNoteBookNoteSuperEntity(
     NoteBookNoteSuperEntity noteBookNoteSuperEntity,
@@ -29,6 +52,14 @@ class NoteBookNoteSuperDao {
     await serviceLocator<BookNoteDao>().insertBookNote(bookNote);
 
     return noteId;
+  }
+
+  Future<void> insertNoteBookNoteSuperEntities(
+    List<NoteBookNoteSuperEntity> noteBookNoteSuperEntities,
+  ) async {
+    for (var noteBookNoteSuperEntity in noteBookNoteSuperEntities) {
+      await insertNoteBookNoteSuperEntity(noteBookNoteSuperEntity);
+    }
   }
 
   Future<void> updateNoteBookNoteSuperEntity(
