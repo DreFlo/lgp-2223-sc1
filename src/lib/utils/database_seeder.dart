@@ -7,6 +7,10 @@ import 'package:src/daos/media/media_video_movie_super_dao.dart';
 import 'package:src/daos/media/review_dao.dart';
 import 'package:src/daos/media/season_dao.dart';
 import 'package:src/daos/mood_dao.dart';
+import 'package:src/daos/notes/note_book_note_super_dao.dart';
+import 'package:src/daos/notes/note_episode_note_super_dao.dart';
+import 'package:src/daos/notes/note_task_note_super_dao.dart';
+import 'package:src/daos/notes/note_subject_note_super_dao.dart';
 import 'package:src/daos/student/evaluation_dao.dart';
 import 'package:src/daos/student/institution_dao.dart';
 import 'package:src/daos/student/subject_dao.dart';
@@ -47,4 +51,14 @@ Future<void> seedDatabase(GetIt serviceLocator) async {
       .insertTimeslotMediaTimeslotSuperEntities(mockMediaTimeslots);
   await serviceLocator<TimeslotStudentTimeslotSuperDao>()
       .insertTimeslotStudentTimeslotSuperEntities(mockStudentTimeslots);
+
+  await serviceLocator<NoteBookNoteSuperDao>()
+      .insertNoteBookNoteSuperEntities(mockBookNotes);
+  await serviceLocator<NoteEpisodeNoteSuperDao>()
+      .insertNoteEpisodeNoteSuperEntities(mockEpisodeNotes);
+  await serviceLocator<NoteSubjectNoteSuperDao>()
+      .insertNoteSubjectNoteSuperEntities(mockSubjectNotes);
+  await serviceLocator<NoteTaskNoteSuperDao>()
+      .insertNoteTaskNoteSuperEntities(mockTaskNotes);
+  
 }
