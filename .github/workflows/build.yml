@@ -43,31 +43,25 @@ jobs:
         run: echo iOS and web missing
       # Upload artifacts
       - name: Upload free apk
-        uses: actions/upload-release-asset@v1
+        uses: actions/upload-artifact@v3
         env:
           GITHUB_TOKEN: ${{ github.token }}
         with:
-          upload_url: ${{ steps.create-release.outputs.upload_url }}
-          asset_path: src/build/app/outputs/flutter-apk/app-free-release.apk
-          asset_name: wokka.free.android.apk
-          asset_content_type: application/x-authorware-bin
+          path: src/build/app/outputs/flutter-apk/app-free-release.apk
+          name: wokka.free.android.apk
       - name: Upload premium apk
-        uses: actions/upload-release-asset@v1
+        uses: actions/upload-artifact@v3
         env:
           GITHUB_TOKEN: ${{ github.token }}
         with:
-          upload_url: ${{ steps.create-release.outputs.upload_url }}
-          asset_path: src/build/app/outputs/flutter-apk/app-premium-release.apk
-          asset_name: wokka.android.apk
-          asset_content_type: application/x-authorware-bin
+          path: src/build/app/outputs/flutter-apk/app-premium-release.apk
+          name: wokka.android.apk
       - name: Zip symbol files
         run: zip -r symbols.zip debug
       - name: Upload symbol zip
-        uses: actions/upload-release-asset@v1
+        uses: actions/upload-artifact@v3
         env:
           GITHUB_TOKEN: ${{ github.token }}
         with:
-          upload_url: ${{ steps.create-release.outputs.upload_url }}
-          asset_path: src/symbols.zip
-          asset_name: symbols.zip
-          asset_content_type: application/zip
+          path: src/symbols.zip
+          name: symbols.zip
