@@ -14,20 +14,23 @@ class MediaSeriesSuperEntity {
   final int xp;
   final String participants;
   final String tagline;
+  final int numberEpisodes;
+  final int numberSeasons;
 
-  MediaSeriesSuperEntity({
-    this.id,
-    required this.name,
-    required this.description,
-    required this.linkImage,
-    required this.status,
-    required this.favorite,
-    required this.genres,
-    required this.release,
-    required this.xp,
-    required this.participants,
-    required this.tagline,
-  });
+  MediaSeriesSuperEntity(
+      {this.id,
+      required this.name,
+      required this.description,
+      required this.linkImage,
+      required this.status,
+      required this.favorite,
+      required this.genres,
+      required this.release,
+      required this.xp,
+      required this.participants,
+      required this.tagline,
+      required this.numberEpisodes,
+      required this.numberSeasons});
 
   MediaSeriesSuperEntity.fromMediaAndSeries(Media media, Series series)
       : id = media.id,
@@ -40,7 +43,9 @@ class MediaSeriesSuperEntity {
         release = media.release,
         xp = media.xp,
         participants = media.participants,
-        tagline = series.tagline;
+        tagline = series.tagline,
+        numberEpisodes = series.numberEpisodes,
+        numberSeasons = series.numberSeasons;
 
   Media toMedia() {
     return Media(
@@ -59,9 +64,10 @@ class MediaSeriesSuperEntity {
 
   Series toSeries() {
     return Series(
-      id: id!,
-      tagline: tagline,
-    );
+        id: id!,
+        tagline: tagline,
+        numberEpisodes: numberEpisodes,
+        numberSeasons: numberSeasons);
   }
 
   MediaSeriesSuperEntity copyWith({
@@ -76,6 +82,8 @@ class MediaSeriesSuperEntity {
     int? xp,
     String? participants,
     String? tagline,
+    int? numberEpisodes,
+    int? numberSeasons,
   }) {
     return MediaSeriesSuperEntity(
       id: id ?? this.id,
@@ -89,6 +97,8 @@ class MediaSeriesSuperEntity {
       xp: xp ?? this.xp,
       participants: participants ?? this.participants,
       tagline: tagline ?? this.tagline,
+      numberEpisodes: numberEpisodes ?? this.numberEpisodes,
+      numberSeasons: numberSeasons ?? this.numberSeasons,
     );
   }
 }

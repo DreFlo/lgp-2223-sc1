@@ -1,13 +1,6 @@
 // ignore_for_file: file_names
 
 import 'package:flutter/material.dart';
-import 'package:src/themes/colors.dart';
-import 'package:src/utils/service_locator.dart';
-import 'package:src/pages/leisure/add_to_catalog_form.dart';
-import 'package:src/pages/leisure/mark_episodes_sheet.dart';
-import 'package:src/pages/leisure/episodes_notes_sheet.dart';
-import 'package:src/pages/leisure/book_notes_sheet.dart';
-import 'package:src/pages/leisure/add_book_note_form.dart';
 import 'package:src/utils/leisure/media_page_helpers.dart';
 
 class ListMediaCatalog extends StatelessWidget {

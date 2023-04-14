@@ -120,34 +120,44 @@ class Catalog extends StatelessWidget {
                                 itemBuilder: (context, index) {
                                   return InkWell(
                                     onTap: () {
-                    showModalBottomSheet(
-                        context: context,
-                        isScrollControlled: true,
-                        backgroundColor: const Color(0xFF22252D),
-                        shape: const RoundedRectangleBorder(
-                          borderRadius:
-                              BorderRadius.vertical(top: Radius.circular(30.0)),
-                        ),
-                        builder: (context) => DraggableScrollableSheet(
-                            expand: false,
-                            minChildSize: 0.35,
-                            maxChildSize: 0.75,
-                            builder: (context, scrollController) => Stack(
-                                    alignment:
-                                        AlignmentDirectional.bottomCenter,
-                                    children: [
-                                      SingleChildScrollView(
-                                          controller: scrollController,
-                                          child: showMediaPageBasedOnType(
-                                              (snapshot.data
-                                                      as List?)?[index], AppLocalizations.of(context).all_movies)),
-                                      /*Positioned(
+                                      showModalBottomSheet(
+                                          context: context,
+                                          isScrollControlled: true,
+                                          backgroundColor:
+                                              const Color(0xFF22252D),
+                                          shape: const RoundedRectangleBorder(
+                                            borderRadius: BorderRadius.vertical(
+                                                top: Radius.circular(30.0)),
+                                          ),
+                                          builder: (context) =>
+                                              DraggableScrollableSheet(
+                                                  expand: false,
+                                                  minChildSize: 0.35,
+                                                  maxChildSize: 0.75,
+                                                  builder: (context,
+                                                          scrollController) =>
+                                                      Stack(
+                                                          alignment:
+                                                              AlignmentDirectional
+                                                                  .bottomCenter,
+                                                          children: [
+                                                            SingleChildScrollView(
+                                                                controller:
+                                                                    scrollController,
+                                                                child: showMediaPageBasedOnType(
+                                                                    (snapshot.data
+                                                                            as List?)?[
+                                                                        index],
+                                                                    AppLocalizations.of(
+                                                                            context)
+                                                                        .all_movies)),
+                                                            /*Positioned(
                                         left: 16,
                                         right: 16,
                                         bottom: 16,
                                         child: mediaPageButton())*/
-                                    ])));
-                  },
+                                                          ])));
+                                    },
                                     child: Container(
                                       width: 140 * fem,
                                       child: Column(
@@ -233,35 +243,44 @@ class Catalog extends StatelessWidget {
                                 itemBuilder: (context, index) {
                                   return InkWell(
                                     onTap: () {
-                    showModalBottomSheet(
-                        context: context,
-                        isScrollControlled: true,
-                        backgroundColor: const Color(0xFF22252D),
-                        shape: const RoundedRectangleBorder(
-                          borderRadius:
-                              BorderRadius.vertical(top: Radius.circular(30.0)),
-                        ),
-                        builder: (context) => DraggableScrollableSheet(
-                            expand: false,
-                            minChildSize: 0.35,
-                            maxChildSize: 0.75,
-                            builder: (context, scrollController) => Stack(
-                                    alignment:
-                                        AlignmentDirectional.bottomCenter,
-                                    children: [
-                                      SingleChildScrollView(
-                                          controller: scrollController,
-                                          child: showMediaPageBasedOnType(
-                                              (snapshot.data
-                                                      as List?)?[index], AppLocalizations.of(context)
-                                        .all_tv_shows)),
-                                      /*Positioned(
+                                      showModalBottomSheet(
+                                          context: context,
+                                          isScrollControlled: true,
+                                          backgroundColor:
+                                              const Color(0xFF22252D),
+                                          shape: const RoundedRectangleBorder(
+                                            borderRadius: BorderRadius.vertical(
+                                                top: Radius.circular(30.0)),
+                                          ),
+                                          builder: (context) =>
+                                              DraggableScrollableSheet(
+                                                  expand: false,
+                                                  minChildSize: 0.35,
+                                                  maxChildSize: 0.75,
+                                                  builder: (context,
+                                                          scrollController) =>
+                                                      Stack(
+                                                          alignment:
+                                                              AlignmentDirectional
+                                                                  .bottomCenter,
+                                                          children: [
+                                                            SingleChildScrollView(
+                                                                controller:
+                                                                    scrollController,
+                                                                child: showMediaPageBasedOnType(
+                                                                    (snapshot.data
+                                                                            as List?)?[
+                                                                        index],
+                                                                    AppLocalizations.of(
+                                                                            context)
+                                                                        .all_tv_shows)),
+                                                            /*Positioned(
                                         left: 16,
                                         right: 16,
                                         bottom: 16,
                                         child: mediaPageButton())*/
-                                    ])));
-                  },
+                                                          ])));
+                                    },
                                     child: Container(
                                       width: 140 * fem,
                                       child: Column(
@@ -347,35 +366,44 @@ class Catalog extends StatelessWidget {
                                 itemBuilder: (context, index) {
                                   return InkWell(
                                     onTap: () {
-                    showModalBottomSheet(
-                        context: context,
-                        isScrollControlled: true,
-                        backgroundColor: const Color(0xFF22252D),
-                        shape: const RoundedRectangleBorder(
-                          borderRadius:
-                              BorderRadius.vertical(top: Radius.circular(30.0)),
-                        ),
-                        builder: (context) => DraggableScrollableSheet(
-                            expand: false,
-                            minChildSize: 0.35,
-                            maxChildSize: 0.75,
-                            builder: (context, scrollController) => Stack(
-                                    alignment:
-                                        AlignmentDirectional.bottomCenter,
-                                    children: [
-                                      SingleChildScrollView(
-                                          controller: scrollController,
-                                          child: showMediaPageBasedOnType(
-                                              (snapshot.data
-                                                      as List?)?[index], AppLocalizations.of(context)
-                                        .all_books)),
-                                      /*Positioned(
+                                      showModalBottomSheet(
+                                          context: context,
+                                          isScrollControlled: true,
+                                          backgroundColor:
+                                              const Color(0xFF22252D),
+                                          shape: const RoundedRectangleBorder(
+                                            borderRadius: BorderRadius.vertical(
+                                                top: Radius.circular(30.0)),
+                                          ),
+                                          builder: (context) =>
+                                              DraggableScrollableSheet(
+                                                  expand: false,
+                                                  minChildSize: 0.35,
+                                                  maxChildSize: 0.75,
+                                                  builder: (context,
+                                                          scrollController) =>
+                                                      Stack(
+                                                          alignment:
+                                                              AlignmentDirectional
+                                                                  .bottomCenter,
+                                                          children: [
+                                                            SingleChildScrollView(
+                                                                controller:
+                                                                    scrollController,
+                                                                child: showMediaPageBasedOnType(
+                                                                    (snapshot.data
+                                                                            as List?)?[
+                                                                        index],
+                                                                    AppLocalizations.of(
+                                                                            context)
+                                                                        .all_books)),
+                                                            /*Positioned(
                                         left: 16,
                                         right: 16,
                                         bottom: 16,
                                         child: mediaPageButton())*/
-                                    ])));
-                  },
+                                                          ])));
+                                    },
                                     child: Container(
                                       width: 140 * fem,
                                       child: Column(

@@ -19,5 +19,15 @@ class Series {
 
   final String tagline;
 
-  Series({required this.id, required this.tagline});
+  @ColumnInfo(name: 'number_episodes')
+  final int numberEpisodes;
+
+  @ColumnInfo(name: 'number_seasons')
+  final int numberSeasons;
+
+  Series(
+      {required this.id,
+      required this.tagline,
+      required this.numberEpisodes,
+      required this.numberSeasons});
 }

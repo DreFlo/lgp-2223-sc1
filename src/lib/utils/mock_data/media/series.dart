@@ -15,5 +15,7 @@ final mockSeries = [
       xp: 1000,
       participants:
           'Dominic West, Lance Reddick, Sonja Sohn, Wendell Pierce, Idris Elba',
-      tagline: 'The streets are watching')
+      tagline: 'The streets are watching',
+      numberEpisodes: 60,
+      numberSeasons: 5),
 ];

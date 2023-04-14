@@ -1,12 +1,7 @@
-import 'package:books_finder/books_finder.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:src/themes/colors.dart';
 import 'package:src/widgets/dashboard/dashboard_gridview.dart';
-import 'package:tmdb_api/tmdb_api.dart';
-import 'package:src/utils/service_locator.dart';
-import 'package:src/daos/media/media_video_movie_super_dao.dart';
-import '../env/env.dart';
 import '../widgets/dashboard/dashboard_horizontal_scrollview.dart';
 import 'catalog_search/leisure_module.dart';
 

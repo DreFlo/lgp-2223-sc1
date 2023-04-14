@@ -103,7 +103,9 @@ void main() {
           release: DateTime.now(),
           xp: 23,
           participants: "Me",
-          tagline: "Super Cool Test");
+          tagline: "Super Cool Test",
+          numberEpisodes: 23,
+          numberSeasons: 2);
 
       int seriesId = await serviceLocator<MediaSeriesSuperDao>()
           .insertMediaSeriesSuperEntity(mediaSeriesSuperEntity);
@@ -337,7 +339,9 @@ void main() {
           release: DateTime.now(),
           xp: 23,
           participants: "Me",
-          tagline: "Super Cool Test");
+          tagline: "Super Cool Test",
+          numberEpisodes: 23,
+          numberSeasons: 2);
 
       int seriesId = await serviceLocator<MediaSeriesSuperDao>()
           .insertMediaSeriesSuperEntity(mediaSeriesSuperEntity);
@@ -391,7 +395,9 @@ void main() {
           release: DateTime.now(),
           xp: 23,
           participants: "Me",
-          tagline: "Super Cool Test");
+          tagline: "Super Cool Test",
+          numberEpisodes: 23,
+          numberSeasons: 2);
 
       int seriesId = await serviceLocator<MediaSeriesSuperDao>()
           .insertMediaSeriesSuperEntity(mediaSeriesSuperEntity);
@@ -467,8 +473,11 @@ void main() {
           xp: 23,
           participants: 'Me'));
 
-      await serviceLocator<SeriesDao>()
-          .insertSerie(Series(id: seriesId, tagline: 'Super Cool Test'));
+      await serviceLocator<SeriesDao>().insertSerie(Series(
+          id: seriesId,
+          tagline: 'Super Cool Test',
+          numberEpisodes: 23,
+          numberSeasons: 2));
 
       TimeslotMediaTimeslotSuperEntity timeslotMediaTimeslotSuperEntity =
           TimeslotMediaTimeslotSuperEntity(
@@ -716,7 +725,9 @@ void main() {
               release: DateTime.now(),
               xp: 0,
               participants: "Me",
-              tagline: "Super Cool Test"));
+              tagline: "Super Cool Test",
+              numberEpisodes: 23,
+              numberSeasons: 2));
 
       Season season = Season(id: 1, number: -1, seriesId: id);
 
@@ -738,7 +749,9 @@ void main() {
               release: DateTime.now(),
               xp: 0,
               participants: "Me",
-              tagline: "Super Cool Test"));
+              tagline: "Super Cool Test",
+              numberEpisodes: 23,
+              numberSeasons: 2));
 
       int seasonId = await serviceLocator<SeasonDao>()
           .insertSeason(Season(id: 1, number: 1, seriesId: seriesId));
