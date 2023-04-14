@@ -11,6 +11,8 @@ import 'package:src/daos/media/media_series_super_dao.dart';
 import 'package:src/utils/leisure/media_page_helpers.dart';
 import 'package:src/daos/media/episode_dao.dart';
 import 'package:src/daos/media/video_dao.dart';
+import 'package:src/models/notes/note_book_note_super_entity.dart';
+import 'package:src/daos/notes/note_book_note_super_dao.dart';
 import 'dart:math';
 
 class Catalog extends StatelessWidget {
@@ -61,6 +63,13 @@ class Catalog extends StatelessWidget {
 
   return maxDuration;
 }
+
+  Future<List<NoteBookNoteSuperEntity>> loadBookNotes(int id) async {
+    List<NoteBookNoteSuperEntity> notes =
+        await serviceLocator<NoteBookNoteSuperDao>()
+            .findNoteBookNoteByBookId(id);
+    return notes;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -384,7 +393,7 @@ class Catalog extends StatelessWidget {
                                     0, //will be dependent on database size
                                 itemBuilder: (context, index) {
                                   return InkWell(
-                                    onTap: () {
+                                    onTap: () async {
                                       showModalBottomSheet(
                                           context: context,
                                           isScrollControlled: true,

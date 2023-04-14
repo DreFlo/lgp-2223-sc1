@@ -1485,6 +1485,21 @@ class _$ReviewDao extends ReviewDao {
   }
 
   @override
+  Stream<Review?> findReviewsByMediaId(int mediaId) {
+    return _queryAdapter.queryStream('SELECT * FROM review WHERE media_id = ?1',
+        mapper: (Map<String, Object?> row) => Review(
+            id: row['id'] as int?,
+            startDate: _dateTimeConverter.decode(row['start_date'] as int),
+            endDate: _dateTimeConverter.decode(row['end_date'] as int),
+            review: row['review'] as String,
+            emoji: Reaction.values[row['emoji'] as int],
+            mediaId: row['media_id'] as int),
+        arguments: [mediaId],
+        queryableName: 'review',
+        isView: false);
+  }
+
+  @override
   Future<int> insertReview(Review review) {
     return _reviewInsertionAdapter.insertAndReturnId(
         review, OnConflictStrategy.abort);
@@ -2121,6 +2136,17 @@ class _$BookNoteDao extends BookNoteDao {
         arguments: [id],
         queryableName: 'book_note',
         isView: false);
+  }
+
+  @override
+  Future<List<BookNote>> findBookNoteByBookId(int bookId) async {
+    return _queryAdapter.queryList('SELECT * FROM book_note WHERE book_id = ?1',
+        mapper: (Map<String, Object?> row) => BookNote(
+            id: row['id'] as int,
+            startPage: row['start_page'] as int,
+            endPage: row['end_page'] as int,
+            bookId: row['book_id'] as int),
+        arguments: [bookId]);
   }
 
   @override

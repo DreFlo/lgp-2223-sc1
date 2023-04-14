@@ -797,7 +797,6 @@ class ListMediaSearch extends StatelessWidget {
           cast: item.info.authors,
           image: item.info.imageLinks['thumbnail'].toString(),
           leisureTags: leisureTags,
-          notes: notes, //get from DB
           status: Status.nothing, //get from DB
           isFavorite: false //get from DB
           );
@@ -826,7 +825,6 @@ class ListMediaSearch extends StatelessWidget {
               type: 'Movie',
               image: item['poster_path'],
               cast: snapshot.data!['cast'],
-              notes: notes, //get from DB
               status: Status.nothing, //get from DB
               isFavorite: false, //get from DB
               leisureTags: leisureTags,
@@ -865,7 +863,6 @@ class ListMediaSearch extends StatelessWidget {
               type: 'TV Show',
               image: item['poster_path'],
               cast: snapshot.data!['cast'],
-              notes: notes, //get from DB
               status: Status.nothing, //get from DB
               isFavorite: false, //get from DB
               leisureTags: leisureTags,

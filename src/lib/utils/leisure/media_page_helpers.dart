@@ -1,19 +1,6 @@
 import 'package:src/pages/catalog_search/media.dart';
 import 'package:src/pages/leisure/media_page.dart';
-import 'package:src/utils/service_locator.dart';
 
-
-Future<List> loadNotes(String type) async {
-  List result = [];
-
-  return result;
-}
-
-Map<String, String> notes = {
-  'S04E03':
-      "After Horde Prime takes Glimmer aboard his flagship, she loses her access to magic again in Season 5. This time her combat skills don't cut it against the much stronger antagonists of Horde Prime's clone army- Catra has to save her multiple times. Only until she returns to Etheria's surface does she get her powers back, though she does manage to cast spells on Krytis.",
-  'S02E07': 'Bow is best boy.'
-};
 
 showWidget(dynamic item, String title) {
   if (item.linkImage != null) {
@@ -25,7 +12,7 @@ showWidget(dynamic item, String title) {
   }
 }
 
-showMediaPageBasedOnType(dynamic item, String title, int duration ) {
+showMediaPageBasedOnType(dynamic item, String title, int duration) {
   List<String> leisureTags = [];
 
   leisureTags.add(item.release.year.toString());
@@ -42,7 +29,6 @@ showMediaPageBasedOnType(dynamic item, String title, int duration ) {
       length: [item.totalPages],
       cast: cast,
       image: item.linkImage,
-      notes: notes, //get from DB
       status: item.status,
       isFavorite: item.favorite,
       leisureTags: leisureTags,
@@ -57,7 +43,6 @@ showMediaPageBasedOnType(dynamic item, String title, int duration ) {
       length: [item.duration],
       cast: cast,
       image: item.linkImage,
-      notes: notes, //get from DB
       status: item.status,
       isFavorite: item.favorite,
       leisureTags: leisureTags,
@@ -72,7 +57,6 @@ showMediaPageBasedOnType(dynamic item, String title, int duration ) {
       length: [item.numberSeasons, item.numberEpisodes, duration], //get from DB
       cast: cast,
       image: item.linkImage,
-      notes: notes, //get from DB
       status: item.status,
       isFavorite: item.favorite,
       leisureTags: leisureTags,

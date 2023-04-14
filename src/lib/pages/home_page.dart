@@ -557,7 +557,6 @@ class _HomePageState extends State<HomePage> {
                                             length: length,
                                             cast: cast,
                                             image: 'assets/images/poster.jpg',
-                                            notes: notes,
                                             status: status,
                                             leisureTags: const [],
                                             isFavorite: isFavorite)),

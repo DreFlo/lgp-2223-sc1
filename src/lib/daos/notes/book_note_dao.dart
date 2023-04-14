@@ -9,6 +9,9 @@ abstract class BookNoteDao {
   @Query('SELECT * FROM book_note WHERE id = :id')
   Stream<BookNote?> findBookNoteById(int id);
 
+  @Query('SELECT * FROM book_note WHERE book_id = :bookId')
+  Future<List<BookNote>> findBookNoteByBookId(int bookId);
+
   @insert
   Future<int> insertBookNote(BookNote bookNote);
 

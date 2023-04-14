@@ -22,8 +22,6 @@ class NoteBookNoteSuperDao {
         .then((bookNotesList) async {
       List<NoteBookNoteSuperEntity> noteBookNoteSuperEntities = [];
 
-      final test = await serviceLocator<BookNoteDao>().findAllBookNotes();
-
       for (var bookNote in bookNotesList) {
         final noteStream =
             serviceLocator<NoteDao>().findNoteById(bookNote.id);

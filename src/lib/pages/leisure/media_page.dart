@@ -12,7 +12,6 @@ class MediaPage extends StatelessWidget {
   final bool isFavorite;
   final Status status;
   final List<dynamic> cast;
-  final Map<String, String> notes;
   final List<int?> length;
   final String image;
   final List<String> leisureTags;
@@ -24,7 +23,6 @@ class MediaPage extends StatelessWidget {
       required this.type,
       required this.cast, //for books, it's the author
       required this.length,
-      required this.notes,
       required this.isFavorite,
       required this.image,
       required this.leisureTags,
