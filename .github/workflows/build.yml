@@ -1,6 +1,6 @@
 name: Build APK
 
-on: workflow-dispatch
+on: workflow_dispatch
 
 permissions: write-all
 
