@@ -226,6 +226,6 @@ showMediaPageForBooks(dynamic item, context) async {
                     right: 16,
                     bottom: 16,
                     child: MediaPageButton(
-                        item: item, type: 'Book', notes: notes, review: review))
+                        item: item, type: 'Book', bookNotes: notes, review: review))
               ])));
 }
