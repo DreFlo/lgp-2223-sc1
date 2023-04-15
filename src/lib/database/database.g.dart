@@ -1375,6 +1375,16 @@ class _$SeasonDao extends SeasonDao {
   }
 
   @override
+  Future<List<Season>> findAllSeasonBySeriesId(int id) async {
+    return _queryAdapter.queryList('SELECT * FROM season WHERE series_id = ?1',
+        mapper: (Map<String, Object?> row) => Season(
+            id: row['id'] as int?,
+            number: row['number'] as int,
+            seriesId: row['series_id'] as int),
+        arguments: [id]);
+  }
+
+  @override
   Future<int> insertSeason(Season season) {
     return _seasonInsertionAdapter.insertAndReturnId(
         season, OnConflictStrategy.abort);
