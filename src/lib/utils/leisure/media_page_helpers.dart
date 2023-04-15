@@ -17,30 +17,36 @@ import 'dart:math';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 Future<int> loadDuration(int id) async {
-    List<int> ids =
-        await serviceLocator<EpisodeDao>().findEpisodeBySeasonId(id);
-    List<int> duration = [];
-    for (int i = 0; i < ids.length; i++) {
-      duration = await serviceLocator<VideoDao>().findVideoDurationById(ids[i]);
-    }
-
-    int maxDuration = duration.reduce(max);
-
-    return maxDuration;
+  List<int> ids = await serviceLocator<EpisodeDao>().findEpisodeBySeasonId(id);
+  List<int> duration = [];
+  for (int i = 0; i < ids.length; i++) {
+    duration = await serviceLocator<VideoDao>().findVideoDurationById(ids[i]);
   }
 
+  int maxDuration = duration.reduce(max);
+
+  return maxDuration;
+}
+
 Future<Review?> loadReviews(int id) async {
-    final reviewExists = await serviceLocator<ReviewDao>().countReviewsByMediaId(id);
-    if (reviewExists == 0) {
-      return null;
-    }
-    final reviewStream = serviceLocator<ReviewDao>().findReviewByMediaId(id);
+  final reviewExists =
+      await serviceLocator<ReviewDao>().countReviewsByMediaId(id);
+  if (reviewExists == 0) {
+    return null;
+  }
+  final reviewStream = serviceLocator<ReviewDao>().findReviewByMediaId(id);
 
-    Review? firstNonNullReview =
-        await reviewStream.firstWhere((review) => review != null);
-    Review reviewDB = firstNonNullReview!;
+  Review? firstNonNullReview =
+      await reviewStream.firstWhere((review) => review != null);
+  Review reviewDB = firstNonNullReview!;
 
-    return reviewDB;
+  return reviewDB;
+}
+
+Future<List<NoteBookNoteSuperEntity>> loadBookNotes(int id) async {
+  List<NoteBookNoteSuperEntity> notes =
+      await serviceLocator<NoteBookNoteSuperDao>().findNoteBookNoteByBookId(id);
+  return notes;
 }
 
 showWidget(dynamic item, String title) {
@@ -107,96 +113,95 @@ showMediaPageBasedOnType(dynamic item, String title, int duration) {
 
 showMediaPageButton(dynamic item, String title, Review? review) {
   if (title == 'All Books') {
-    return MediaPageButton(item: item, type:'Book'); 
+    return MediaPageButton(item: item, type: 'Book');
   } else if (title == 'All Movies') {
-    return MediaPageButton(item: item, type:'Movie', review:review); 
+    return MediaPageButton(item: item, type: 'Movie', review: review);
   } else {
-    return MediaPageButton(item: item, type:'TV Show'); 
+    return MediaPageButton(item: item, type: 'TV Show');
   }
 }
 
 showMediaPageForTV(dynamic item, context) async {
-int maxDuration = await loadDuration(
-                                          item.id);
-                                      showModalBottomSheet(
-                                          context: context,
-                                          isScrollControlled: true,
-                                          backgroundColor:
-                                              const Color(0xFF22252D),
-                                          shape: const RoundedRectangleBorder(
-                                            borderRadius: BorderRadius.vertical(
-                                                top: Radius.circular(30.0)),
-                                          ),
-                                          builder: (context) =>
-                                              DraggableScrollableSheet(
-                                                  expand: false,
-                                                  minChildSize: 0.35,
-                                                  maxChildSize: 0.75,
-                                                  builder: (context,
-                                                          scrollController) =>
-                                                      Stack(
-                                                          alignment:
-                                                              AlignmentDirectional
-                                                                  .bottomCenter,
-                                                          children: [
-                                                            SingleChildScrollView(
-                                                                controller:
-                                                                    scrollController,
-                                                                child: showMediaPageBasedOnType(
-                                                                    item,
-                                                                    AppLocalizations.of(
-                                                                            context)
-                                                                        .all_tv_shows,
-                                                                    maxDuration)),
-                                                            /*Positioned(
+  int maxDuration = await loadDuration(item.id);
+  showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      backgroundColor: const Color(0xFF22252D),
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(30.0)),
+      ),
+      builder: (context) => DraggableScrollableSheet(
+          expand: false,
+          minChildSize: 0.35,
+          maxChildSize: 0.75,
+          builder: (context, scrollController) =>
+              Stack(alignment: AlignmentDirectional.bottomCenter, children: [
+                SingleChildScrollView(
+                    controller: scrollController,
+                    child: showMediaPageBasedOnType(
+                        item,
+                        AppLocalizations.of(context).all_tv_shows,
+                        maxDuration)),
+                /*Positioned(
                                         left: 16,
                                         right: 16,
                                         bottom: 16,
                                         child: mediaPageButton())*/
-                                                          ])));
+              ])));
 }
 
-showMediaPageForMovies(dynamic item, context) async{
-  Review? review = await loadReviews(
-                                          item.id);
-                                      showModalBottomSheet(
-                                          context: context,
-                                          isScrollControlled: true,
-                                          backgroundColor:
-                                              const Color(0xFF22252D),
-                                          shape: const RoundedRectangleBorder(
-                                            borderRadius: BorderRadius.vertical(
-                                                top: Radius.circular(30.0)),
-                                          ),
-                                          builder: (context) =>
-                                              DraggableScrollableSheet(
-                                                  expand: false,
-                                                  minChildSize: 0.35,
-                                                  maxChildSize: 0.75,
-                                                  builder: (context,
-                                                          scrollController) =>
-                                                      Stack(
-                                                          alignment:
-                                                              AlignmentDirectional
-                                                                  .bottomCenter,
-                                                          children: [
-                                                            SingleChildScrollView(
-                                                                controller:
-                                                                    scrollController,
-                                                                child: showMediaPageBasedOnType(
-                                                                    item,
-                                                                    AppLocalizations.of(
-                                                                            context)
-                                                                        .all_movies,
-                                                                    0)),
-                                                            Positioned(
-                                                                left: 16,
-                                                                right: 16,
-                                                                bottom: 16,
-                                                                child: MediaPageButton(item: item, type:'Movie', review:review))
-                                                          ])));
+showMediaPageForMovies(dynamic item, context) async {
+  Review? review = await loadReviews(item.id);
+  showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      backgroundColor: const Color(0xFF22252D),
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(30.0)),
+      ),
+      builder: (context) => DraggableScrollableSheet(
+          expand: false,
+          minChildSize: 0.35,
+          maxChildSize: 0.75,
+          builder: (context, scrollController) =>
+              Stack(alignment: AlignmentDirectional.bottomCenter, children: [
+                SingleChildScrollView(
+                    controller: scrollController,
+                    child: showMediaPageBasedOnType(
+                        item, AppLocalizations.of(context).all_movies, 0)),
+                Positioned(
+                    left: 16,
+                    right: 16,
+                    bottom: 16,
+                    child: MediaPageButton(
+                        item: item, type: 'Movie', review: review))
+              ])));
 }
 
-showMediaPageForBooks(dynamic item){
-
+showMediaPageForBooks(dynamic item, context) async {
+  List<NoteBookNoteSuperEntity> notes = await loadBookNotes(item.id);
+  showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      backgroundColor: const Color(0xFF22252D),
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(30.0)),
+      ),
+      builder: (context) => DraggableScrollableSheet(
+          expand: false,
+          minChildSize: 0.35,
+          maxChildSize: 0.75,
+          builder: (context, scrollController) =>
+              Stack(alignment: AlignmentDirectional.bottomCenter, children: [
+                SingleChildScrollView(
+                    controller: scrollController,
+                    child: showMediaPageBasedOnType(
+                        item, AppLocalizations.of(context).all_books, 0)),
+                Positioned(
+                    left: 16,
+                    right: 16,
+                    bottom: 16,
+                    child:
+                        MediaPageButton(item: item, type: 'Book', notes: notes))
+              ])));
 }

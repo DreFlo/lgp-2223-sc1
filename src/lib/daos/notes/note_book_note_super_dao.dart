@@ -15,24 +15,22 @@ class NoteBookNoteSuperDao {
 
   NoteBookNoteSuperDao._internal();
 
-  Future<List<NoteBookNoteSuperEntity>> findNoteBookNoteByBookId(
-      int bookId) {
+  Future<List<NoteBookNoteSuperEntity>> findNoteBookNoteByBookId(int bookId) {
     return serviceLocator<BookNoteDao>()
         .findBookNoteByBookId(bookId)
         .then((bookNotesList) async {
       List<NoteBookNoteSuperEntity> noteBookNoteSuperEntities = [];
 
       for (var bookNote in bookNotesList) {
-        final noteStream =
-            serviceLocator<NoteDao>().findNoteById(bookNote.id);
+        final noteStream = serviceLocator<NoteDao>().findNoteById(bookNote.id);
         Note? firstNonNullNote =
             await noteStream.firstWhere((note) => note != null);
         Note note = firstNonNullNote!;
-        noteBookNoteSuperEntities
-            .add(NoteBookNoteSuperEntity.fromNoteBookNoteEntity(bookNote, note));
+        noteBookNoteSuperEntities.add(
+            NoteBookNoteSuperEntity.fromNoteBookNoteEntity(bookNote, note));
       }
-        return noteBookNoteSuperEntities;
-        });
+      return noteBookNoteSuperEntities;
+    });
   }
 
   Future<int> insertNoteBookNoteSuperEntity(

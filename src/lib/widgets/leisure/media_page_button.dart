@@ -16,31 +16,19 @@ import 'package:src/models/media/review.dart';
 import 'package:src/utils/service_locator.dart';
 import 'package:src/utils/enums.dart';
 
-class MediaPageButton extends StatefulWidget {
+class MediaPageButton extends StatelessWidget {
   final dynamic item;
   final String type;
   final Review? review;
+  final List<NoteBookNoteSuperEntity?>? notes;
 
-  const MediaPageButton({Key? key, required this.item, required this.type, this.review})
+  const MediaPageButton(
+      {Key? key,
+      required this.item,
+      required this.type,
+      this.review,
+      this.notes})
       : super(key: key);
-
-  @override
-  State<MediaPageButton> createState() => _MediaPageButtonState();
-}
-
-class _MediaPageButtonState extends State<MediaPageButton> {
-  List<NoteBookNoteSuperEntity> notes = [];
-  bool _notesLoaded = false;
-
-  void loadBookNotes(int id) async {
-    List<NoteBookNoteSuperEntity> notes =
-        await serviceLocator<NoteBookNoteSuperDao>()
-            .findNoteBookNoteByBookId(id);
-    setState(() {
-      this.notes = notes;
-      _notesLoaded = true;
-    });
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -272,12 +260,11 @@ class _MediaPageButtonState extends State<MediaPageButton> {
         );
       }
     } */
-    if (widget.type == "Book") {
-      if (widget.item.status == Status.nothing) {
+    if (type == "Book") {
+      if (item.status == Status.nothing) {
         // If the media is not in the catalog, show a button to add it.
         return ElevatedButton(
           onPressed: () {
-            loadBookNotes(widget.item.id);
             showModalBottomSheet(
                 context: context,
                 isScrollControlled: true,
@@ -352,8 +339,8 @@ class _MediaPageButtonState extends State<MediaPageButton> {
           child: Text(AppLocalizations.of(context).add,
               style: Theme.of(context).textTheme.headlineSmall),
         );
-      } else if (widget.item.status == Status.goingThrough ||
-          widget.item.status == Status.planTo) {
+      } else if (item.status == Status.goingThrough ||
+          item.status == Status.planTo) {
         // If media is somehow in the catalog, then user should be able to see their notes and edit info.
         return Container(
           width: MediaQuery.of(context).size.width * 0.95,
@@ -362,7 +349,6 @@ class _MediaPageButtonState extends State<MediaPageButton> {
             children: [
               ElevatedButton(
                 onPressed: () {
-                  loadBookNotes(widget.item.id);
                   showModalBottomSheet(
                       context: context,
                       isScrollControlled: true,
@@ -391,37 +377,33 @@ class _MediaPageButtonState extends State<MediaPageButton> {
               ),
               ElevatedButton(
                 onPressed: () {
-                  loadBookNotes(widget.item.id);
-                  if (_notesLoaded) {
-                    showModalBottomSheet(
-                        context: context,
-                        isScrollControlled: true,
-                        backgroundColor: Color(0xFF22252D),
-                        shape: RoundedRectangleBorder(
-                          borderRadius:
-                              BorderRadius.vertical(top: Radius.circular(30.0)),
-                        ),
-                        builder: (context) => DraggableScrollableSheet(
-                            expand: false,
-                            initialChildSize: 0.35,
-                            minChildSize: 0.35,
-                            maxChildSize: 0.5,
-                            builder: (context, scrollController) => Stack(
-                                    alignment:
-                                        AlignmentDirectional.bottomCenter,
-                                    children: [
-                                      Padding(
-                                          padding: EdgeInsets.only(
-                                              bottom: MediaQuery.of(context)
-                                                      .viewInsets
-                                                      .bottom +
-                                                  50),
-                                          child: SingleChildScrollView(
-                                              controller: scrollController,
-                                              child:
-                                                  BookNotesSheet(notes: notes)))
-                                    ])));
-                  }
+                  showModalBottomSheet(
+                      context: context,
+                      isScrollControlled: true,
+                      backgroundColor: Color(0xFF22252D),
+                      shape: RoundedRectangleBorder(
+                        borderRadius:
+                            BorderRadius.vertical(top: Radius.circular(30.0)),
+                      ),
+                      builder: (context) => DraggableScrollableSheet(
+                          expand: false,
+                          initialChildSize: 0.35,
+                          minChildSize: 0.35,
+                          maxChildSize: 0.5,
+                          builder: (context, scrollController) => Stack(
+                                  alignment: AlignmentDirectional.bottomCenter,
+                                  children: [
+                                    Padding(
+                                        padding: EdgeInsets.only(
+                                            bottom: MediaQuery.of(context)
+                                                    .viewInsets
+                                                    .bottom +
+                                                50),
+                                        child: SingleChildScrollView(
+                                            controller: scrollController,
+                                            child:
+                                                BookNotesSheet(notes: notes)))
+                                  ])));
                 },
                 style: ElevatedButton.styleFrom(
                   minimumSize:
@@ -437,7 +419,7 @@ class _MediaPageButtonState extends State<MediaPageButton> {
             ],
           ),
         );
-      } else if (widget.item.status == Status.done) {
+      } else if (item.status == Status.done) {
         // If media is somehow in the catalog, then user should be able to see their notes and edit info.
         return Container(
           width: MediaQuery.of(context).size.width,
@@ -446,38 +428,34 @@ class _MediaPageButtonState extends State<MediaPageButton> {
             children: [
               ElevatedButton(
                 onPressed: () {
-                  loadBookNotes(widget.item.id);
-                  if (_notesLoaded) {
-                    showModalBottomSheet(
-                        context: context,
-                        isScrollControlled: true,
-                        backgroundColor: Color(0xFF22252D),
-                        shape: RoundedRectangleBorder(
-                          borderRadius:
-                              BorderRadius.vertical(top: Radius.circular(30.0)),
-                        ),
-                        builder: (context) => DraggableScrollableSheet(
-                            expand: false,
-                            initialChildSize: 0.35,
-                            minChildSize: 0.35,
-                            maxChildSize: 0.5,
-                            builder: (context, scrollController) => Stack(
-                                    alignment:
-                                        AlignmentDirectional.bottomCenter,
-                                    children: [
-                                      Padding(
-                                          padding: EdgeInsets.only(
-                                              bottom: MediaQuery.of(context)
-                                                      .viewInsets
-                                                      .bottom +
-                                                  50),
-                                          child: SingleChildScrollView(
-                                              controller: scrollController,
-                                              child: BookNotesSheet(
-                                                notes: notes,
-                                              )))
-                                    ])));
-                  }
+                  showModalBottomSheet(
+                      context: context,
+                      isScrollControlled: true,
+                      backgroundColor: Color(0xFF22252D),
+                      shape: RoundedRectangleBorder(
+                        borderRadius:
+                            BorderRadius.vertical(top: Radius.circular(30.0)),
+                      ),
+                      builder: (context) => DraggableScrollableSheet(
+                          expand: false,
+                          initialChildSize: 0.35,
+                          minChildSize: 0.35,
+                          maxChildSize: 0.5,
+                          builder: (context, scrollController) => Stack(
+                                  alignment: AlignmentDirectional.bottomCenter,
+                                  children: [
+                                    Padding(
+                                        padding: EdgeInsets.only(
+                                            bottom: MediaQuery.of(context)
+                                                    .viewInsets
+                                                    .bottom +
+                                                50),
+                                        child: SingleChildScrollView(
+                                            controller: scrollController,
+                                            child: BookNotesSheet(
+                                              notes: notes,
+                                            )))
+                                  ])));
                 },
                 style: ElevatedButton.styleFrom(
                   minimumSize:
@@ -494,8 +472,8 @@ class _MediaPageButtonState extends State<MediaPageButton> {
           ),
         );
       }
-    } else if (widget.type == "Movie") {
-      if (widget.item.status == Status.nothing) {
+    } else if (type == "Movie") {
+      if (item.status == Status.nothing) {
         return ElevatedButton(
           onPressed: () {
             showModalBottomSheet(
@@ -572,7 +550,7 @@ class _MediaPageButtonState extends State<MediaPageButton> {
           child: Text(AppLocalizations.of(context).add,
               style: Theme.of(context).textTheme.headlineSmall),
         );
-      } else if (widget.item.status == Status.planTo) {
+      } else if (item.status == Status.planTo) {
         return Container(
             width: MediaQuery.of(context).size.width,
             child: Row(
@@ -612,7 +590,7 @@ class _MediaPageButtonState extends State<MediaPageButton> {
                         style: Theme.of(context).textTheme.headlineSmall),
                   )
                 ]));
-      } else if (widget.item.status == Status.done) {
+      } else if (item.status == Status.done) {
         return Container(
           width: MediaQuery.of(context).size.width,
           child: Row(
@@ -620,35 +598,34 @@ class _MediaPageButtonState extends State<MediaPageButton> {
             children: [
               ElevatedButton(
                 onPressed: () {
-                    showModalBottomSheet(
-                        context: context,
-                        isScrollControlled: true,
-                        backgroundColor: Color(0xFF22252D),
-                        shape: RoundedRectangleBorder(
-                          borderRadius:
-                              BorderRadius.vertical(top: Radius.circular(30.0)),
-                        ),
-                        builder: (context) => DraggableScrollableSheet(
-                            expand: false,
-                            initialChildSize: 0.35,
-                            minChildSize: 0.35,
-                            maxChildSize: 0.5,
-                            builder: (context, scrollController) => Stack(
-                                    alignment:
-                                        AlignmentDirectional.bottomCenter,
-                                    children: [
-                                      Padding(
-                                          padding: EdgeInsets.only(
-                                              bottom: MediaQuery.of(context)
-                                                      .viewInsets
-                                                      .bottom +
-                                                  50),
-                                          child: SingleChildScrollView(
-                                              controller: scrollController,
-                                              child: BookNotesSheet(
-                                                  notes: const [],
-                                                  review: widget.review)))
-                                    ])));
+                  showModalBottomSheet(
+                      context: context,
+                      isScrollControlled: true,
+                      backgroundColor: Color(0xFF22252D),
+                      shape: RoundedRectangleBorder(
+                        borderRadius:
+                            BorderRadius.vertical(top: Radius.circular(30.0)),
+                      ),
+                      builder: (context) => DraggableScrollableSheet(
+                          expand: false,
+                          initialChildSize: 0.35,
+                          minChildSize: 0.35,
+                          maxChildSize: 0.5,
+                          builder: (context, scrollController) => Stack(
+                                  alignment: AlignmentDirectional.bottomCenter,
+                                  children: [
+                                    Padding(
+                                        padding: EdgeInsets.only(
+                                            bottom: MediaQuery.of(context)
+                                                    .viewInsets
+                                                    .bottom +
+                                                50),
+                                        child: SingleChildScrollView(
+                                            controller: scrollController,
+                                            child: BookNotesSheet(
+                                                notes: const [],
+                                                review: review)))
+                                  ])));
                 },
                 style: ElevatedButton.styleFrom(
                   minimumSize:

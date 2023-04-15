@@ -8,11 +8,10 @@ import 'package:src/models/notes/note_book_note_super_entity.dart';
 import 'package:src/models/media/review.dart';
 
 class BookNotesSheet extends StatefulWidget {
-  final List<NoteBookNoteSuperEntity> notes;
+  final List<NoteBookNoteSuperEntity?>? notes;
   final Review? review;
 
-  const BookNotesSheet({Key? key, required this.notes, this.review})
-      : super(key: key);
+  const BookNotesSheet({Key? key, this.notes, this.review}) : super(key: key);
 
   @override
   State<BookNotesSheet> createState() => _BookNotesSheetState();
@@ -32,14 +31,16 @@ class _BookNotesSheetState extends State<BookNotesSheet>
       notes.add(const SizedBox(height: 15));
     }
 
-    for (var range in widget.notes) {
-      notes.add(BookNoteBar(
-        startPage: range.startPage,
-        endPage: range.endPage,
-        text: range.content,
-      ));
+    if (widget.notes != null) {
+      for (var range in widget.notes!) {
+        notes.add(BookNoteBar(
+          startPage: range!.startPage,
+          endPage: range.endPage,
+          text: range.content,
+        ));
 
-      notes.add(const SizedBox(height: 15));
+        notes.add(const SizedBox(height: 15));
+      }
     }
 
     return notes;

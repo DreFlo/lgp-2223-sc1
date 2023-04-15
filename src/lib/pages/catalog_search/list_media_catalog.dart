@@ -36,6 +36,8 @@ class ListMediaCatalog extends StatelessWidget {
                       showMediaPageForTV(filteredMedia[index], context);
                     } else if (title == 'All Movies') {
                       showMediaPageForMovies(filteredMedia[index], context);
+                    } else if (title == 'All Books') {
+                      showMediaPageForBooks(filteredMedia[index], context);
                     }
                   },
                   child: SizedBox(

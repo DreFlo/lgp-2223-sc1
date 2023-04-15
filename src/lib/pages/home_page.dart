@@ -419,9 +419,10 @@ class _HomePageState extends State<HomePage> {
                                                     .bottom +
                                                 50),
                                         child: SingleChildScrollView(
-                                            controller: scrollController,
-                                            /*child: BookNotesSheet(
-                                                notes: bookNotes)*/))
+                                          controller: scrollController,
+                                          /*child: BookNotesSheet(
+                                                notes: bookNotes)*/
+                                        ))
                                   ])));
                 },
                 style: ElevatedButton.styleFrom(

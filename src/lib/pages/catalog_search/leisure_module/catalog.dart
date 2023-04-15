@@ -54,13 +54,6 @@ class Catalog extends StatelessWidget {
     return await loadmedia('book');
   }
 
-  Future<List<NoteBookNoteSuperEntity>> loadBookNotes(int id) async {
-    List<NoteBookNoteSuperEntity> notes =
-        await serviceLocator<NoteBookNoteSuperDao>()
-            .findNoteBookNoteByBookId(id);
-    return notes;
-  }
-  
   @override
   Widget build(BuildContext context) {
     double baseWidth = 390;
@@ -134,7 +127,9 @@ class Catalog extends StatelessWidget {
                                 itemBuilder: (context, index) {
                                   return InkWell(
                                     onTap: () {
-                                      showMediaPageForMovies((snapshot.data as List?)?[index], context);
+                                      showMediaPageForMovies(
+                                          (snapshot.data as List?)?[index],
+                                          context);
                                     },
                                     child: Container(
                                       width: 140 * fem,
@@ -310,51 +305,9 @@ class Catalog extends StatelessWidget {
                                 itemBuilder: (context, index) {
                                   return InkWell(
                                     onTap: () {
-                                      showModalBottomSheet(
-                                          context: context,
-                                          isScrollControlled: true,
-                                          backgroundColor:
-                                              const Color(0xFF22252D),
-                                          shape: const RoundedRectangleBorder(
-                                            borderRadius: BorderRadius.vertical(
-                                                top: Radius.circular(30.0)),
-                                          ),
-                                          builder: (context) =>
-                                              DraggableScrollableSheet(
-                                                  expand: false,
-                                                  minChildSize: 0.35,
-                                                  maxChildSize: 0.75,
-                                                  builder: (context,
-                                                          scrollController) =>
-                                                      Stack(
-                                                          alignment:
-                                                              AlignmentDirectional
-                                                                  .bottomCenter,
-                                                          children: [
-                                                            SingleChildScrollView(
-                                                                controller:
-                                                                    scrollController,
-                                                                child: showMediaPageBasedOnType(
-                                                                    (snapshot.data
-                                                                            as List?)?[
-                                                                        index],
-                                                                    AppLocalizations.of(
-                                                                            context)
-                                                                        .all_books,
-                                                                    0)),
-                                                            Positioned(
-                                                                left: 16,
-                                                                right: 16,
-                                                                bottom: 16,
-                                                                child: showMediaPageButton(
-                                                                    (snapshot.data
-                                                                            as List?)?[
-                                                                        index],
-                                                                    AppLocalizations.of(
-                                                                            context)
-                                                                        .all_books,
-                                                                    null))
-                                                          ])));
+                                      showMediaPageForBooks(
+                                          (snapshot.data as List?)?[index],
+                                          context);
                                     },
                                     child: Container(
                                       width: 140 * fem,

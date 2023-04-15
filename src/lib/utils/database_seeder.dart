@@ -60,5 +60,4 @@ Future<void> seedDatabase(GetIt serviceLocator) async {
       .insertNoteSubjectNoteSuperEntities(mockSubjectNotes);
   await serviceLocator<NoteTaskNoteSuperDao>()
       .insertNoteTaskNoteSuperEntities(mockTaskNotes);
-  
 }

@@ -391,15 +391,16 @@ class ListMediaSearch extends StatelessWidget {
                                   alignment: AlignmentDirectional.bottomCenter,
                                   children: [
                                     Padding(
-                                        padding: EdgeInsets.only(
-                                            bottom: MediaQuery.of(context)
-                                                    .viewInsets
-                                                    .bottom +
-                                                50),
-                                        /*child: SingleChildScrollView(
+                                      padding: EdgeInsets.only(
+                                          bottom: MediaQuery.of(context)
+                                                  .viewInsets
+                                                  .bottom +
+                                              50),
+                                      /*child: SingleChildScrollView(
                                             controller: scrollController,
                                             child:
-                                                BookNotesSheet(notes: notes))*/)
+                                                BookNotesSheet(notes: notes))*/
+                                    )
                                   ])));
                 },
                 style: ElevatedButton.styleFrom(
@@ -448,12 +449,13 @@ class ListMediaSearch extends StatelessWidget {
                                                     .bottom +
                                                 50),
                                         child: SingleChildScrollView(
-                                            controller: scrollController,
-                                            /*child: BookNotesSheet(
+                                          controller: scrollController,
+                                          /*child: BookNotesSheet(
                                                 notes: const {},
                                                 review: const {
                                                   Reaction.dislike: "Hated it."
-                                                })*/))
+                                                })*/
+                                        ))
                                   ])));
                 },
                 style: ElevatedButton.styleFrom(
@@ -620,12 +622,13 @@ class ListMediaSearch extends StatelessWidget {
                                                     .bottom +
                                                 50),
                                         child: SingleChildScrollView(
-                                            controller: scrollController,
-                                            /*child: BookNotesSheet(
+                                          controller: scrollController,
+                                          /*child: BookNotesSheet(
                                                 notes: const {},
                                                 review: const {
                                                   Reaction.dislike: "Hated it."
-                                                })*/))
+                                                })*/
+                                        ))
                                   ])));
                 },
                 style: ElevatedButton.styleFrom(
