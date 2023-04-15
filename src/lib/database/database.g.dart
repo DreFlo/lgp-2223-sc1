@@ -996,6 +996,31 @@ class _$MediaDao extends MediaDao {
   }
 
   @override
+  Future<int?> countMediaByPhoto(String photo) async {
+    return _queryAdapter.query(
+        'SELECT COUNT() FROM media WHERE link_image = ?1',
+        mapper: (Map<String, Object?> row) => row.values.first as int,
+        arguments: [photo]);
+  }
+
+  @override
+  Future<Media?> findMediaByPhoto(String photo) async {
+    return _queryAdapter.query('SELECT * FROM media WHERE link_image = ?1',
+        mapper: (Map<String, Object?> row) => Media(
+            id: row['id'] as int?,
+            name: row['name'] as String,
+            description: row['description'] as String,
+            linkImage: row['link_image'] as String,
+            status: Status.values[row['status'] as int],
+            favorite: (row['favorite'] as int) != 0,
+            genres: row['genres'] as String,
+            release: _dateTimeConverter.decode(row['release'] as int),
+            xp: row['xp'] as int,
+            participants: row['participants'] as String),
+        arguments: [photo]);
+  }
+
+  @override
   Future<int> insertMedia(Media media) {
     return _mediaInsertionAdapter.insertAndReturnId(
         media, OnConflictStrategy.abort);

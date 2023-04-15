@@ -14,6 +14,8 @@ import 'package:src/pages/leisure/add_book_note_form.dart';
 import 'package:src/pages/leisure/media_page.dart';
 import 'package:src/utils/enums.dart';
 import 'package:src/env/env.dart';
+import 'package:src/utils/service_locator.dart';
+import 'package:src/daos/media/media_dao.dart';
 
 class ListMediaSearch extends StatelessWidget {
   final List media;
@@ -26,6 +28,8 @@ class ListMediaSearch extends StatelessWidget {
   };
 
   Map<int, Map<dynamic, dynamic>> episodes = {};
+
+  dynamic statusFavorite = {};
 
   ListMediaSearch({Key? key, required this.title, required this.media})
       : super(key: key);
@@ -700,8 +704,16 @@ class ListMediaSearch extends StatelessWidget {
                                           left: 16,
                                           right: 16,
                                           bottom: 16,
-                                          child: showMediaPageButton(
-                                              filteredMedia[index], context)),
+                                          child: FutureBuilder<dynamic>(
+                                              future: getStatusFromDB(
+                                                  filteredMedia[index]),
+                                              builder: ((context, snapshot) {
+                                                if (!snapshot.hasData) {
+                                                  return Container();
+                                                }
+                                                return showMediaPageButton(
+                                                    title, context);
+                                              })))
                                     ])));
                   },
                   child: SizedBox(
@@ -767,15 +779,36 @@ class ListMediaSearch extends StatelessWidget {
     }
   }
 
+  getStatusFromDB(dynamic item) async {
+    String photo = '';
+    if (title == 'All Books') {
+      photo = item.info.imageLinks['thumbnail'].toString();
+    } else {
+      photo = item['poster_path'];
+    }
+    //check if media is in catalog
+    final mediaExists =
+        await serviceLocator<MediaDao>().countMediaByPhoto(photo);
+
+    if (mediaExists == 0) {
+      statusFavorite['status'] = Status.nothing;
+      statusFavorite['favorite'] = false;
+      return statusFavorite;
+    }
+
+    final media = await serviceLocator<MediaDao>().findMediaByPhoto(photo);
+    statusFavorite['status'] = media!.status;
+    statusFavorite['favorite'] = media.favorite;
+    return statusFavorite;
+  }
+
   showMediaPageButton(dynamic item, context) {
     if (title == 'All Books') {
-      return mediaPageButton('Book', Status.done, context); //get status from DB
+      return mediaPageButton('Book', statusFavorite['status'], context);
     } else if (title == 'All Movies') {
-      return mediaPageButton(
-          'Movie', Status.done, context); //get status from DB
+      return mediaPageButton('Movie', statusFavorite['status'], context);
     } else {
-      return mediaPageButton(
-          'TV Show', Status.goingThrough, context); //get status from DB
+      return mediaPageButton('TV Show', statusFavorite['status'], context);
     }
   }
 
@@ -795,17 +828,30 @@ class ListMediaSearch extends StatelessWidget {
         leisureTags.add(item.info.publishedDate.year.toString());
       }
 
-      return MediaPage(
-          title: item.info.title,
-          synopsis: item.info.description,
-          type: 'Book',
-          length: [item.info.pageCount],
-          cast: item.info.authors,
-          image: item.info.imageLinks['thumbnail'].toString(),
-          leisureTags: leisureTags,
-          status: Status.nothing, //get from DB
-          isFavorite: false //get from DB
-          );
+      String photo = item.info.imageLinks['thumbnail'].toString();
+      getStatusFromDB(item);
+
+      return FutureBuilder<dynamic>(
+          future: getStatusFromDB(item),
+          builder: (context, snapshot) {
+            if (snapshot.hasData) {
+            return MediaPage(
+                title: item.info.title,
+                synopsis: item.info.description,
+                type: 'Book',
+                length: [item.info.pageCount],
+                cast: item.info.authors,
+                image: photo,
+                leisureTags: leisureTags,
+                status: statusFavorite['status'],
+                isFavorite: statusFavorite['favorite']);
+          
+          } else if (snapshot.hasError) {
+            return Text('${snapshot.error}');
+          }
+          return CircularProgressIndicator();
+        }
+        );
     } else if (title == 'All Movies') {
       return FutureBuilder<Map>(
         future: getDetails(item['id'], 'Movie'),
@@ -827,12 +873,15 @@ class ListMediaSearch extends StatelessWidget {
               leisureTags.add(snapshot.data!['release_date'].substring(0, 4));
             }
 
+            String photo = item['poster_path'];
+            //getStatusFromDB(photo);
+
             return MediaPage(
               type: 'Movie',
-              image: item['poster_path'],
+              image: photo,
               cast: snapshot.data!['cast'],
-              status: Status.nothing, //get from DB
-              isFavorite: false, //get from DB
+              status: statusFavorite['status'],
+              isFavorite: statusFavorite['favorite'],
               leisureTags: leisureTags,
               title: snapshot.data!['title'],
               synopsis: snapshot.data!['overview'],
@@ -865,12 +914,15 @@ class ListMediaSearch extends StatelessWidget {
               leisureTags.add(snapshot.data!['first_air_date'].substring(0, 4));
             }
 
+            String photo = item['poster_path'];
+            //getStatusFromDB(photo);
+
             return MediaPage(
               type: 'TV Show',
-              image: item['poster_path'],
+              image: photo,
               cast: snapshot.data!['cast'],
-              status: Status.nothing, //get from DB
-              isFavorite: false, //get from DB
+              status: statusFavorite['status'],
+              isFavorite: statusFavorite['favorite'],
               leisureTags: leisureTags,
               title: snapshot.data!['name'],
               synopsis: snapshot.data!['overview'],
@@ -892,12 +944,12 @@ class ListMediaSearch extends StatelessWidget {
   showWidget(dynamic item) {
     if (title == 'All Books') {
       if (item.info.imageLinks['thumbnail'] != null) {
-        return Media(
+        return MediaWidget(
             image: item.info.imageLinks['thumbnail'].toString(), type: 'book');
       }
     } else {
       if (item['poster_path'] != null) {
-        return Media(image: item['poster_path'], type: 'video');
+        return MediaWidget(image: item['poster_path'], type: 'video');
       }
     }
   }
