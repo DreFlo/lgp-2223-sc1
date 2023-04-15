@@ -8,7 +8,7 @@ final mockMovies = [
       description:
           'Brian\'s a cop. Dom is a thief. They love each other very much but must learn to look past their differences if the relationship is to last',
       linkImage: '/lgCEntS9mHagxdL5hb3qaV49YTd.jpg',
-      status: Status.planTo,
+      status: Status.done,
       favorite: false,
       genres: 'romance',
       release: DateTime(2001, 6, 22),
@@ -22,7 +22,7 @@ final mockMovies = [
     name: 'Arrival',
     description: 'Aliens have landed on Earth and are here to stay',
     linkImage: '/x2FJsf1ElAgr63Y3PNPtJrcmpoe.jpg',
-    status: Status.done,
+    status: Status.planTo,
     favorite: true,
     genres: 'romance',
     release: DateTime(2016, 11, 11),
