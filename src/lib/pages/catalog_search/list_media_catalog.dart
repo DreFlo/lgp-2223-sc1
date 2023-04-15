@@ -52,11 +52,11 @@ class ListMediaCatalog extends StatelessWidget {
                                           controller: scrollController,
                                           child: showMediaPageBasedOnType(
                                               filteredMedia[index], title,0)),
-                                      /*Positioned(
+                                      Positioned(
                                         left: 16,
                                         right: 16,
                                         bottom: 16,
-                                        child: mediaPageButton())*/
+                                        child: showMediaPageButton(filteredMedia[index], title))
                                     ])));
                   },
                   child: SizedBox(
