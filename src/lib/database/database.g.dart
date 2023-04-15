@@ -1134,6 +1134,13 @@ class _$BookDao extends BookDao {
   }
 
   @override
+  Future<int?> countBooksByMediaId(int id) async {
+    return _queryAdapter.query('SELECT COUNT() FROM book WHERE id = ?1',
+        mapper: (Map<String, Object?> row) => row.values.first as int,
+        arguments: [id]);
+  }
+
+  @override
   Future<int> insertBook(Book book) {
     return _bookInsertionAdapter.insertAndReturnId(
         book, OnConflictStrategy.abort);
@@ -1231,6 +1238,13 @@ class _$SeriesDao extends SeriesDao {
         arguments: [id],
         queryableName: 'series',
         isView: false);
+  }
+
+  @override
+  Future<int?> countSeriesByMediaId(int id) async {
+    return _queryAdapter.query('SELECT COUNT() FROM series WHERE id = ?1',
+        mapper: (Map<String, Object?> row) => row.values.first as int,
+        arguments: [id]);
   }
 
   @override
@@ -1639,6 +1653,13 @@ class _$MovieDao extends MovieDao {
         arguments: [id],
         queryableName: 'movie',
         isView: false);
+  }
+
+  @override
+  Future<int?> countMoviesByMediaId(int id) async {
+    return _queryAdapter.query('SELECT COUNT() FROM movie WHERE id = ?1',
+        mapper: (Map<String, Object?> row) => row.values.first as int,
+        arguments: [id]);
   }
 
   @override

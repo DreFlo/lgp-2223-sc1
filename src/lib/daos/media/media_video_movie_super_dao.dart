@@ -18,10 +18,13 @@ class MediaVideoMovieSuperDao {
 
   MediaVideoMovieSuperDao._internal();
 
-  Future<MediaVideoMovieSuperEntity> findMediaVideoMovieByPhoto(
-      String photo) async {
-    final media = await serviceLocator<MediaDao>().findMediaByPhoto(photo);
-    final videoStream = serviceLocator<VideoDao>().findVideoById(media!.id ?? 0);
+  Future<MediaVideoMovieSuperEntity> findMediaVideoMovieByMediaId(
+      int id) async {
+    final mediaStream = serviceLocator<MediaDao>().findMediaById(id);
+    Media? firstNonNullMedia =
+        await mediaStream.firstWhere((media) => media != null);
+    Media media = firstNonNullMedia!;
+    final videoStream = serviceLocator<VideoDao>().findVideoById(media.id ?? 0);
     Video? firstNonNullVideo =
         await videoStream.firstWhere((video) => video != null);
     Video video = firstNonNullVideo!;

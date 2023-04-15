@@ -15,9 +15,12 @@ class MediaSeriesSuperDao {
 
   MediaSeriesSuperDao._internal();
 
-  Future<MediaSeriesSuperEntity> findMediaSeriesByPhoto(String photo) async {
-    final media = await serviceLocator<MediaDao>().findMediaByPhoto(photo);
-    final seriesStream = serviceLocator<SeriesDao>().findSeriesById(media!.id ?? 0);
+  Future<MediaSeriesSuperEntity> findMediaSeriesByMediaId(int id) async {
+    final mediaStream = serviceLocator<MediaDao>().findMediaById(id);
+    Media? firstNonNullMedia =
+        await mediaStream.firstWhere((media) => media != null);
+    Media media = firstNonNullMedia!;
+    final seriesStream = serviceLocator<SeriesDao>().findSeriesById(media.id ?? 0);
     Series? firstNonNullSeries =
         await seriesStream.firstWhere((series) => series != null);
     Series series = firstNonNullSeries!;

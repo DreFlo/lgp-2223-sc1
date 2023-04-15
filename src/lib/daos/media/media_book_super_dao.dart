@@ -15,9 +15,12 @@ class MediaBookSuperDao {
 
   MediaBookSuperDao._internal();
 
-  Future<MediaBookSuperEntity> findMediaBookByPhoto(String photo) async {
-    final media = await serviceLocator<MediaDao>().findMediaByPhoto(photo);
-    final bookStream = serviceLocator<BookDao>().findBookById(media!.id ?? 0);
+  Future<MediaBookSuperEntity> findMediaBookByMediaId(int id) async {
+    final mediaStream = serviceLocator<MediaDao>().findMediaById(id);
+    Media? firstNonNullMedia =
+        await mediaStream.firstWhere((media) => media != null);
+    Media media = firstNonNullMedia!;
+    final bookStream = serviceLocator<BookDao>().findBookById(media.id ?? 0);
     Book? firstNonNullBook =
         await bookStream.firstWhere((book) => book != null);
     Book book = firstNonNullBook!;
