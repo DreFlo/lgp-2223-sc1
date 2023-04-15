@@ -1692,6 +1692,16 @@ class _$EpisodeDao extends EpisodeDao {
   }
 
   @override
+  Future<List<Episode>> findAllEpisodesBySeasonId(int id) async {
+    return _queryAdapter.queryList('SELECT * FROM episode WHERE season_id = ?1',
+        mapper: (Map<String, Object?> row) => Episode(
+            id: row['id'] as int,
+            number: row['number'] as int,
+            seasonId: row['season_id'] as int),
+        arguments: [id]);
+  }
+
+  @override
   Future<int> insertEpisode(Episode episode) {
     return _episodeInsertionAdapter.insertAndReturnId(
         episode, OnConflictStrategy.abort);
@@ -2043,6 +2053,23 @@ class _$EpisodeNoteDao extends EpisodeNoteDao {
   }
 
   @override
+  Future<int?> countEpisodeNoteByEpisodeId(int episodeId) async {
+    return _queryAdapter.query(
+        'SELECT COUNT() FROM episode_note WHERE episode_id = ?1',
+        mapper: (Map<String, Object?> row) => row.values.first as int,
+        arguments: [episodeId]);
+  }
+
+  @override
+  Future<List<EpisodeNote>> findEpisodeNoteByEpisodeId(int episodeId) async {
+    return _queryAdapter.queryList(
+        'SELECT * FROM episode_note WHERE episode_id = ?1',
+        mapper: (Map<String, Object?> row) => EpisodeNote(
+            id: row['id'] as int, episodeId: row['episode_id'] as int),
+        arguments: [episodeId]);
+  }
+
+  @override
   Future<int> insertEpisodeNote(EpisodeNote episodeNote) {
     return _episodeNoteInsertionAdapter.insertAndReturnId(
         episodeNote, OnConflictStrategy.abort);
@@ -2143,6 +2170,14 @@ class _$BookNoteDao extends BookNoteDao {
         arguments: [id],
         queryableName: 'book_note',
         isView: false);
+  }
+
+  @override
+  Future<int?> countBookNoteByBookId(int bookId) async {
+    return _queryAdapter.query(
+        'SELECT COUNT() FROM book_note WHERE book_id = ?1',
+        mapper: (Map<String, Object?> row) => row.values.first as int,
+        arguments: [bookId]);
   }
 
   @override

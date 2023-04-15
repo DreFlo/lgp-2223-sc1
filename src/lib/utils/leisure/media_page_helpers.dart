@@ -147,6 +147,10 @@ showMediaPageBasedOnType(dynamic item, String title, int duration) {
 
 showMediaPageForTV(dynamic item, context) async {
   int maxDuration = await loadDuration(item.id);
+  Review? review = await loadReviews(item.id);
+  List<Episode> episodes = await loadEpisodes(item.id);
+  List<NoteEpisodeNoteSuperEntity> episodeNotes =
+      await loadEpisodeNotes(episodes);
   showModalBottomSheet(
       context: context,
       isScrollControlled: true,
@@ -166,11 +170,11 @@ showMediaPageForTV(dynamic item, context) async {
                         item,
                         AppLocalizations.of(context).all_tv_shows,
                         maxDuration)),
-                /*Positioned(
+                Positioned(
                                         left: 16,
                                         right: 16,
                                         bottom: 16,
-                                        child: mediaPageButton())*/
+                                        child: MediaPageButton(item: item, type: 'TV Show', review: review, episodeNotes: episodeNotes, episodes: episodes))
               ])));
 }
 
