@@ -106,7 +106,7 @@ class _LeisureModuleState extends State<LeisureModule>
               controller: tabController,
               children: [
                 // My Media TabBarView
-                Catalog(),
+                Catalog(search: searchText),
                 // Discover TabBarView
                 SearchMedia(search: searchText),
               ],

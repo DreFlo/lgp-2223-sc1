@@ -8,10 +8,15 @@ import 'package:src/utils/service_locator.dart';
 import 'package:src/daos/media/media_video_movie_super_dao.dart';
 import 'package:src/daos/media/media_book_super_dao.dart';
 import 'package:src/daos/media/media_series_super_dao.dart';
+import 'package:src/daos/media/media_dao.dart';
+import 'package:src/models/media/media.dart';
+import 'package:src/pages/catalog_search/list_media_catalog.dart';
 import 'package:src/utils/leisure/media_page_helpers.dart';
 
 class Catalog extends StatelessWidget {
-  Catalog({Key? key}) : super(key: key);
+  final String search;
+
+  Catalog({Key? key, required this.search}) : super(key: key);
 
   List movies = [];
   List series = [];
@@ -47,288 +52,319 @@ class Catalog extends StatelessWidget {
     return await loadmedia('book');
   }
 
+  Future<List> searchMedia() async {
+    String query = '%' + search + '%';
+    final results = await serviceLocator<MediaDao>().getMatchingMedia(query);
+    return results;
+  }
+
+  showSearchResultOrCatalog(context, double fem) {
+    if (search == '') {
+      return ListView(shrinkWrap: true, children: [
+        Container(
+          padding: const EdgeInsets.symmetric(horizontal: 18),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Padding(
+                padding: EdgeInsets.only(left: 20 * fem),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      AppLocalizations.of(context).movies,
+                      style: const TextStyle(
+                        fontFamily: 'Poppins',
+                        fontSize: 18,
+                        color: Colors.white,
+                        fontWeight: FontWeight.w600,
+                        height: 1.5,
+                      ),
+                      textAlign: TextAlign.left,
+                    ),
+                    Padding(
+                      padding: EdgeInsets.only(right: 10 * fem),
+                      child: TextButton(
+                        onPressed: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => SeeAll(
+                                      title: AppLocalizations.of(context)
+                                          .all_movies,
+                                      media: movies)));
+                        },
+                        child: Text(
+                          AppLocalizations.of(context).see_all,
+                          style: const TextStyle(
+                            fontFamily: 'Poppins',
+                            fontSize: 14,
+                            color: Color(0xff5e6272),
+                            fontWeight: FontWeight.w400,
+                            height: 1.5,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              Container(
+                padding: const EdgeInsets.symmetric(horizontal: 18),
+                height: 210 * fem,
+                child: ScrollConfiguration(
+                    behavior: const ScrollBehavior(),
+                    child: GlowingOverscrollIndicator(
+                        axisDirection: AxisDirection.down,
+                        color: leisureColor,
+                        child: FutureBuilder(
+                            future: loadMovies(),
+                            builder: (context, snapshot) {
+                              if (snapshot.hasData) {
+                                return ListView.builder(
+                                  scrollDirection: Axis.horizontal,
+                                  itemCount: (snapshot.data as List?)?.length ??
+                                      0, //will be dependent on database size
+                                  itemBuilder: (context, index) {
+                                    return InkWell(
+                                      onTap: () {
+                                        showMediaPageForMovies(
+                                            (snapshot.data as List?)?[index],
+                                            context);
+                                      },
+                                      child: Container(
+                                        width: 140 * fem,
+                                        child: Column(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
+                                          children: [
+                                            MediaWidget(
+                                                image: (snapshot.data
+                                                        as List?)?[index]
+                                                    ?.linkImage,
+                                                type: 'video'),
+                                          ],
+                                        ),
+                                      ),
+                                    );
+                                  },
+                                );
+                              } else if (snapshot.hasError) {
+                                return Text("${snapshot.error}");
+                              }
+                              return const CircularProgressIndicator();
+                            }))),
+              ),
+              Padding(
+                padding: EdgeInsets.only(left: 20 * fem),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      AppLocalizations.of(context).tv_shows,
+                      style: const TextStyle(
+                        fontFamily: 'Poppins',
+                        fontSize: 18,
+                        color: Colors.white,
+                        fontWeight: FontWeight.w600,
+                        height: 1.5,
+                      ),
+                      textAlign: TextAlign.left,
+                    ),
+                    Padding(
+                      padding: EdgeInsets.only(right: 10 * fem),
+                      child: TextButton(
+                        onPressed: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => SeeAll(
+                                      title: AppLocalizations.of(context)
+                                          .all_tv_shows,
+                                      media: series)));
+                        },
+                        child: Text(
+                          AppLocalizations.of(context).see_all,
+                          style: const TextStyle(
+                            fontFamily: 'Poppins',
+                            fontSize: 14,
+                            color: Color(0xff5e6272),
+                            fontWeight: FontWeight.w400,
+                            height: 1.5,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              Container(
+                padding: const EdgeInsets.symmetric(horizontal: 18),
+                height: 210 * fem,
+                child: ScrollConfiguration(
+                    behavior: const ScrollBehavior(),
+                    child: GlowingOverscrollIndicator(
+                        axisDirection: AxisDirection.down,
+                        color: leisureColor,
+                        child: FutureBuilder(
+                            future: loadTv(),
+                            builder: (context, snapshot) {
+                              if (snapshot.hasData) {
+                                return ListView.builder(
+                                  scrollDirection: Axis.horizontal,
+                                  itemCount: (snapshot.data as List?)?.length ??
+                                      0, //will be dependent on database size
+                                  itemBuilder: (context, index) {
+                                    return InkWell(
+                                      onTap: () {
+                                        showMediaPageForTV(
+                                            (snapshot.data as List?)?[index],
+                                            context);
+                                      },
+                                      child: Container(
+                                        width: 140 * fem,
+                                        child: Column(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
+                                          children: [
+                                            MediaWidget(
+                                                image: (snapshot.data
+                                                        as List?)?[index]
+                                                    ?.linkImage,
+                                                type: 'video'),
+                                          ],
+                                        ),
+                                      ),
+                                    );
+                                  },
+                                );
+                              } else if (snapshot.hasError) {
+                                return Text("${snapshot.error}");
+                              }
+                              return const CircularProgressIndicator();
+                            }))),
+              ),
+              Padding(
+                padding: EdgeInsets.only(left: 20 * fem),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      AppLocalizations.of(context).books,
+                      style: const TextStyle(
+                        fontFamily: 'Poppins',
+                        fontSize: 18,
+                        color: Colors.white,
+                        fontWeight: FontWeight.w600,
+                        height: 1.5,
+                      ),
+                      textAlign: TextAlign.left,
+                    ),
+                    Padding(
+                      padding: EdgeInsets.only(right: 10 * fem),
+                      child: TextButton(
+                        onPressed: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => SeeAll(
+                                      title: AppLocalizations.of(context)
+                                          .all_books,
+                                      media: books)));
+                        },
+                        child: Text(
+                          AppLocalizations.of(context).see_all,
+                          style: const TextStyle(
+                            fontFamily: 'Poppins',
+                            fontSize: 14,
+                            color: Color(0xff5e6272),
+                            fontWeight: FontWeight.w400,
+                            height: 1.5,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              Container(
+                padding: const EdgeInsets.symmetric(horizontal: 18),
+                height: 210 * fem,
+                child: ScrollConfiguration(
+                    behavior: const ScrollBehavior(),
+                    child: GlowingOverscrollIndicator(
+                        axisDirection: AxisDirection.down,
+                        color: leisureColor,
+                        child: FutureBuilder(
+                            future: loadBooks(),
+                            builder: (context, snapshot) {
+                              if (snapshot.hasData) {
+                                return ListView.builder(
+                                  scrollDirection: Axis.horizontal,
+                                  itemCount: (snapshot.data as List?)?.length ??
+                                      0, //will be dependent on database size
+                                  itemBuilder: (context, index) {
+                                    return InkWell(
+                                      onTap: () {
+                                        showMediaPageForBooks(
+                                            (snapshot.data as List?)?[index],
+                                            context);
+                                      },
+                                      child: Container(
+                                        width: 140 * fem,
+                                        child: Column(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
+                                          children: [
+                                            MediaWidget(
+                                                image: (snapshot.data
+                                                        as List?)?[index]
+                                                    ?.linkImage,
+                                                type: 'book'),
+                                          ],
+                                        ),
+                                      ),
+                                    );
+                                  },
+                                );
+                              } else if (snapshot.hasError) {
+                                return Text("${snapshot.error}");
+                              }
+                              return const CircularProgressIndicator();
+                            }))),
+              ),
+              const SizedBox(height: 50),
+            ],
+          ),
+        )
+      ]);
+    } else {
+      return FutureBuilder(
+        future: searchMedia(),
+        builder: (context, snapshot) {
+          if (snapshot.hasData) {
+            return Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Expanded(
+                  child: ListMediaCatalog(
+                      title: 'All Movies', media: (snapshot.data as List?)!),
+                )
+              ],
+            );
+          } else if (snapshot.hasError) {
+            return Text("${snapshot.error}");
+          }
+          return const CircularProgressIndicator();
+        },
+      );
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     double baseWidth = 390;
     double fem = MediaQuery.of(context).size.width / baseWidth;
-    return Scaffold(
-        body: ListView(shrinkWrap: true, children: [
-      Container(
-        padding: const EdgeInsets.symmetric(horizontal: 18),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Padding(
-              padding: EdgeInsets.only(left: 20 * fem),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    AppLocalizations.of(context).movies,
-                    style: const TextStyle(
-                      fontFamily: 'Poppins',
-                      fontSize: 18,
-                      color: Colors.white,
-                      fontWeight: FontWeight.w600,
-                      height: 1.5,
-                    ),
-                    textAlign: TextAlign.left,
-                  ),
-                  Padding(
-                    padding: EdgeInsets.only(right: 10 * fem),
-                    child: TextButton(
-                      onPressed: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => SeeAll(
-                                    title:
-                                        AppLocalizations.of(context).all_movies,
-                                    media: movies)));
-                      },
-                      child: Text(
-                        AppLocalizations.of(context).see_all,
-                        style: const TextStyle(
-                          fontFamily: 'Poppins',
-                          fontSize: 14,
-                          color: Color(0xff5e6272),
-                          fontWeight: FontWeight.w400,
-                          height: 1.5,
-                        ),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            Container(
-              padding: const EdgeInsets.symmetric(horizontal: 18),
-              height: 210 * fem,
-              child: ScrollConfiguration(
-                  behavior: const ScrollBehavior(),
-                  child: GlowingOverscrollIndicator(
-                      axisDirection: AxisDirection.down,
-                      color: leisureColor,
-                      child: FutureBuilder(
-                          future: loadMovies(),
-                          builder: (context, snapshot) {
-                            if (snapshot.hasData) {
-                              return ListView.builder(
-                                scrollDirection: Axis.horizontal,
-                                itemCount: (snapshot.data as List?)?.length ??
-                                    0, //will be dependent on database size
-                                itemBuilder: (context, index) {
-                                  return InkWell(
-                                    onTap: () {
-                                      showMediaPageForMovies(
-                                          (snapshot.data as List?)?[index],
-                                          context);
-                                    },
-                                    child: Container(
-                                      width: 140 * fem,
-                                      child: Column(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.center,
-                                        children: [
-                                          MediaWidget(
-                                              image: (snapshot.data
-                                                      as List?)?[index]
-                                                  ?.linkImage,
-                                              type: 'video'),
-                                        ],
-                                      ),
-                                    ),
-                                  );
-                                },
-                              );
-                            } else if (snapshot.hasError) {
-                              return Text("${snapshot.error}");
-                            }
-                            return const CircularProgressIndicator();
-                          }))),
-            ),
-            Padding(
-              padding: EdgeInsets.only(left: 20 * fem),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    AppLocalizations.of(context).tv_shows,
-                    style: const TextStyle(
-                      fontFamily: 'Poppins',
-                      fontSize: 18,
-                      color: Colors.white,
-                      fontWeight: FontWeight.w600,
-                      height: 1.5,
-                    ),
-                    textAlign: TextAlign.left,
-                  ),
-                  Padding(
-                    padding: EdgeInsets.only(right: 10 * fem),
-                    child: TextButton(
-                      onPressed: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => SeeAll(
-                                    title: AppLocalizations.of(context)
-                                        .all_tv_shows,
-                                    media: series)));
-                      },
-                      child: Text(
-                        AppLocalizations.of(context).see_all,
-                        style: const TextStyle(
-                          fontFamily: 'Poppins',
-                          fontSize: 14,
-                          color: Color(0xff5e6272),
-                          fontWeight: FontWeight.w400,
-                          height: 1.5,
-                        ),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            Container(
-              padding: const EdgeInsets.symmetric(horizontal: 18),
-              height: 210 * fem,
-              child: ScrollConfiguration(
-                  behavior: const ScrollBehavior(),
-                  child: GlowingOverscrollIndicator(
-                      axisDirection: AxisDirection.down,
-                      color: leisureColor,
-                      child: FutureBuilder(
-                          future: loadTv(),
-                          builder: (context, snapshot) {
-                            if (snapshot.hasData) {
-                              return ListView.builder(
-                                scrollDirection: Axis.horizontal,
-                                itemCount: (snapshot.data as List?)?.length ??
-                                    0, //will be dependent on database size
-                                itemBuilder: (context, index) {
-                                  return InkWell(
-                                    onTap: () {
-                                      showMediaPageForTV(
-                                          (snapshot.data as List?)?[index],
-                                          context);
-                                    },
-                                    child: Container(
-                                      width: 140 * fem,
-                                      child: Column(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.center,
-                                        children: [
-                                          MediaWidget(
-                                              image: (snapshot.data
-                                                      as List?)?[index]
-                                                  ?.linkImage,
-                                              type: 'video'),
-                                        ],
-                                      ),
-                                    ),
-                                  );
-                                },
-                              );
-                            } else if (snapshot.hasError) {
-                              return Text("${snapshot.error}");
-                            }
-                            return const CircularProgressIndicator();
-                          }))),
-            ),
-            Padding(
-              padding: EdgeInsets.only(left: 20 * fem),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    AppLocalizations.of(context).books,
-                    style: const TextStyle(
-                      fontFamily: 'Poppins',
-                      fontSize: 18,
-                      color: Colors.white,
-                      fontWeight: FontWeight.w600,
-                      height: 1.5,
-                    ),
-                    textAlign: TextAlign.left,
-                  ),
-                  Padding(
-                    padding: EdgeInsets.only(right: 10 * fem),
-                    child: TextButton(
-                      onPressed: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => SeeAll(
-                                    title:
-                                        AppLocalizations.of(context).all_books,
-                                    media: books)));
-                      },
-                      child: Text(
-                        AppLocalizations.of(context).see_all,
-                        style: const TextStyle(
-                          fontFamily: 'Poppins',
-                          fontSize: 14,
-                          color: Color(0xff5e6272),
-                          fontWeight: FontWeight.w400,
-                          height: 1.5,
-                        ),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            Container(
-              padding: const EdgeInsets.symmetric(horizontal: 18),
-              height: 210 * fem,
-              child: ScrollConfiguration(
-                  behavior: const ScrollBehavior(),
-                  child: GlowingOverscrollIndicator(
-                      axisDirection: AxisDirection.down,
-                      color: leisureColor,
-                      child: FutureBuilder(
-                          future: loadBooks(),
-                          builder: (context, snapshot) {
-                            if (snapshot.hasData) {
-                              return ListView.builder(
-                                scrollDirection: Axis.horizontal,
-                                itemCount: (snapshot.data as List?)?.length ??
-                                    0, //will be dependent on database size
-                                itemBuilder: (context, index) {
-                                  return InkWell(
-                                    onTap: () {
-                                      showMediaPageForBooks(
-                                          (snapshot.data as List?)?[index],
-                                          context);
-                                    },
-                                    child: Container(
-                                      width: 140 * fem,
-                                      child: Column(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.center,
-                                        children: [
-                                          MediaWidget(
-                                              image: (snapshot.data
-                                                      as List?)?[index]
-                                                  ?.linkImage,
-                                              type: 'book'),
-                                        ],
-                                      ),
-                                    ),
-                                  );
-                                },
-                              );
-                            } else if (snapshot.hasError) {
-                              return Text("${snapshot.error}");
-                            }
-                            return const CircularProgressIndicator();
-                          }))),
-            ),
-            const SizedBox(height: 50),
-          ],
-        ),
-      )
-    ]));
+    return Scaffold(body: showSearchResultOrCatalog(context, fem));
   }
 }

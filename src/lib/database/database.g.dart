@@ -1021,6 +1021,24 @@ class _$MediaDao extends MediaDao {
   }
 
   @override
+  Future<List<Media>> getMatchingMedia(String query) async {
+    return _queryAdapter.queryList(
+        'SELECT * FROM media WHERE name LIKE ?1 OR description LIKE ?1',
+        mapper: (Map<String, Object?> row) => Media(
+            id: row['id'] as int?,
+            name: row['name'] as String,
+            description: row['description'] as String,
+            linkImage: row['link_image'] as String,
+            status: Status.values[row['status'] as int],
+            favorite: (row['favorite'] as int) != 0,
+            genres: row['genres'] as String,
+            release: _dateTimeConverter.decode(row['release'] as int),
+            xp: row['xp'] as int,
+            participants: row['participants'] as String),
+        arguments: [query]);
+  }
+
+  @override
   Future<int> insertMedia(Media media) {
     return _mediaInsertionAdapter.insertAndReturnId(
         media, OnConflictStrategy.abort);
