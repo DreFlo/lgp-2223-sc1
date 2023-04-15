@@ -7,6 +7,7 @@ import 'package:src/widgets/leisure/review_note_bar.dart';
 import 'package:src/widgets/leisure/season_tag.dart';
 import 'package:src/models/notes/note_episode_note_super_entity.dart';
 import 'package:src/models/media/review.dart';
+import 'package:src/models/media/season.dart';
 import 'package:src/models/media/media_video_episode_super_entity.dart';
 
 import '../../widgets/leisure/episode_note_bar.dart';
@@ -15,9 +16,10 @@ class EpisodesNotesSheet extends StatefulWidget {
   final List<NoteEpisodeNoteSuperEntity?>? notes;
   final Review? review;
   final List<MediaVideoEpisodeSuperEntity> episodes;
+  final List<Season> seasons;
 
   const EpisodesNotesSheet(
-      {Key? key, this.notes, required this.episodes, this.review})
+      {Key? key, this.notes, required this.episodes, required this.seasons, this.review})
       : super(key: key);
 
   @override
@@ -32,7 +34,7 @@ class _EpisodesNotesSheetState extends State<EpisodesNotesSheet>
   @override
   initState() {
     controller = TabController(
-        length: widget.episodes.length + 1, vsync: this, initialIndex: 0);
+        length: widget.seasons.length + 1, vsync: this, initialIndex: 0);
 
     controller?.addListener(() {
       setState(() {
@@ -45,19 +47,20 @@ class _EpisodesNotesSheetState extends State<EpisodesNotesSheet>
 
   List<Widget> getSeasons() {
     List<Widget> seasons = [];
-
     seasons.add(
       Tab(child: SeasonTag(text: AppLocalizations.of(context).all_label)),
     );
 
-    for (int i = 1; i <= widget.episodes.length; i++) {
+    String seasonNumber = "";
+    for (int i = 0; i <= widget.seasons.length - 1; i++) {
+      seasonNumber = widget.seasons[i].number.toString();
       seasons.add(
         Tab(
             child: SeasonTag(
-                text: "${AppLocalizations.of(context).season_label} $i")),
+                text:
+                    "${AppLocalizations.of(context).season_label} $seasonNumber")),
       );
     }
-
     return seasons;
   }
 

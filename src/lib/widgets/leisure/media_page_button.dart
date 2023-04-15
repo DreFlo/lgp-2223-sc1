@@ -180,6 +180,10 @@ class MediaPageButton extends StatelessWidget {
                       .where((episode) => episode != null)
                       .map((episode) => episode!)
                       .toList();
+                  List<Season> noNullSeasons = seasons!
+                      .where((season) => season != null)
+                      .map((season) => season!)
+                      .toList();
                   showModalBottomSheet(
                       context: context,
                       isScrollControlled: true,
@@ -206,7 +210,8 @@ class MediaPageButton extends StatelessWidget {
                                             controller: scrollController,
                                             child: EpisodesNotesSheet(
                                                 notes: episodeNotes,
-                                                episodes: noNullEpisodes)))
+                                                episodes: noNullEpisodes,
+                                                seasons: noNullSeasons)))
                                   ])));
                 },
                 style: ElevatedButton.styleFrom(
@@ -235,6 +240,10 @@ class MediaPageButton extends StatelessWidget {
                       .where((episode) => episode != null)
                       .map((episode) => episode!)
                       .toList();
+                  List<Season> noNullSeasons = seasons!
+                      .where((season) => season != null)
+                      .map((season) => season!)
+                      .toList();
                   showModalBottomSheet(
                       context: context,
                       isScrollControlled: true,
@@ -262,7 +271,7 @@ class MediaPageButton extends StatelessWidget {
                                             child: EpisodesNotesSheet(
                                                 notes: episodeNotes,
                                                 review: review,
-                                                episodes: noNullEpisodes)))
+                                                episodes: noNullEpisodes, seasons: noNullSeasons)))
                                   ])));
                 },
                 style: ElevatedButton.styleFrom(

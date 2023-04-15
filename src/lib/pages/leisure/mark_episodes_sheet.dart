@@ -56,13 +56,13 @@ class _MarkEpisodesSheetState extends State<MarkEpisodesSheet>
 
     for (int j = 0; j <= widget.episodes.length - 1; j++) {
       if (widget.episodes[j].seasonId == seasonId) {
-        
         episodes.add(EpisodeBar(
             code:
                 "S${selectedSeason.toString().padLeft(2, 0.toString())}E${widget.episodes[j].number.toString().padLeft(2, 0.toString())}",
             title: widget.episodes[j].name,
             favorite: widget.episodes[j].favorite,
-            watched: (widget.episodes[j].status == Status.done ? true:false)));
+            watched:
+                (widget.episodes[j].status == Status.done ? true : false)));
 
         episodes.add(const SizedBox(height: 15));
       }
@@ -73,11 +73,14 @@ class _MarkEpisodesSheetState extends State<MarkEpisodesSheet>
 
   List<Widget> getSeasons() {
     List<Widget> seasons = [];
-    for (int i = 1; i <= widget.seasons.length; i++) {
+    String seasonNumber = "";
+    for (int i = 0; i <= widget.seasons.length - 1; i++) {
+      seasonNumber = widget.seasons[i].number.toString();
       seasons.add(
         Tab(
             child: SeasonTag(
-                text: "${AppLocalizations.of(context).season_label} $i")),
+                text:
+                    "${AppLocalizations.of(context).season_label} $seasonNumber")),
       );
     }
     return seasons;
