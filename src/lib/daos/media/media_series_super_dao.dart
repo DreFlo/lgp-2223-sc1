@@ -20,7 +20,8 @@ class MediaSeriesSuperDao {
     Media? firstNonNullMedia =
         await mediaStream.firstWhere((media) => media != null);
     Media media = firstNonNullMedia!;
-    final seriesStream = serviceLocator<SeriesDao>().findSeriesById(media.id ?? 0);
+    final seriesStream =
+        serviceLocator<SeriesDao>().findSeriesById(media.id ?? 0);
     Series? firstNonNullSeries =
         await seriesStream.firstWhere((series) => series != null);
     Series series = firstNonNullSeries!;

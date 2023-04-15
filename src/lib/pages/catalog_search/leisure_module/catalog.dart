@@ -1,5 +1,9 @@
 // ignore_for_file: file_names, sized_box_for_whitespace, use_build_context_synchronously, must_be_immutable
 import 'package:flutter/material.dart';
+import 'package:src/models/media/media_book_super_entity.dart';
+import 'package:src/models/media/media_series_super_entity.dart';
+import 'package:src/models/media/media_video_movie_super_entity.dart';
+import 'package:src/pages/catalog_search/search_results.dart';
 import 'package:src/pages/catalog_search/see_all.dart';
 import 'package:src/themes/colors.dart';
 import '../media.dart';
@@ -9,6 +13,9 @@ import 'package:src/daos/media/media_video_movie_super_dao.dart';
 import 'package:src/daos/media/media_book_super_dao.dart';
 import 'package:src/daos/media/media_series_super_dao.dart';
 import 'package:src/daos/media/media_dao.dart';
+import 'package:src/daos/media/movie_dao.dart';
+import 'package:src/daos/media/series_dao.dart';
+import 'package:src/daos/media/book_dao.dart';
 import 'package:src/models/media/media.dart';
 import 'package:src/pages/catalog_search/list_media_catalog.dart';
 import 'package:src/utils/leisure/media_page_helpers.dart';
@@ -52,10 +59,41 @@ class Catalog extends StatelessWidget {
     return await loadmedia('book');
   }
 
-  Future<List> searchMedia() async {
-    String query = '%' + search + '%';
+  Future<Map> searchMedia() async {
+    List<MediaVideoMovieSuperEntity> movieResults = [];
+    List<MediaBookSuperEntity> bookResults = [];
+    List<MediaSeriesSuperEntity> seriesResults = [];
+    String query = '%$search%';
     final results = await serviceLocator<MediaDao>().getMatchingMedia(query);
-    return results;
+
+    //identify the type of media and add it to the correct list
+    for (Media media in results) {
+      int? isMediaMovie =
+          await serviceLocator<MovieDao>().countMoviesByMediaId(media.id ?? 0);
+      int? isMediaSeries =
+          await serviceLocator<SeriesDao>().countSeriesByMediaId(media.id ?? 0);
+      int? isMediaBook =
+          await serviceLocator<BookDao>().countBooksByMediaId(media.id ?? 0);
+
+      if (isMediaMovie == 1) {
+        movieResults.add(await serviceLocator<MediaVideoMovieSuperDao>()
+            .findMediaVideoMovieByMediaId(media.id ?? 0));
+      }
+      if (isMediaSeries == 1) {
+        seriesResults.add(await serviceLocator<MediaSeriesSuperDao>()
+            .findMediaSeriesByMediaId(media.id ?? 0));
+      }
+      if (isMediaBook == 1) {
+        bookResults.add(await serviceLocator<MediaBookSuperDao>()
+            .findMediaBookByMediaId(media.id ?? 0));
+      }
+    }
+
+    return {
+      'movies': movieResults,
+      'series': seriesResults,
+      'books': bookResults,
+    };
   }
 
   showSearchResultOrCatalog(context, double fem) {
@@ -339,17 +377,14 @@ class Catalog extends StatelessWidget {
         )
       ]);
     } else {
-      return FutureBuilder(
+      return FutureBuilder<Map>(
         future: searchMedia(),
         builder: (context, snapshot) {
           if (snapshot.hasData) {
             return Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Expanded(
-                  child: ListMediaCatalog(
-                      title: 'All Movies', media: (snapshot.data as List?)!),
-                )
+                Expanded(child: SearchResults(media: snapshot.data!)),
               ],
             );
           } else if (snapshot.hasError) {

@@ -17,7 +17,8 @@ class MediaVideoEpisodeSuperDao {
 
   MediaVideoEpisodeSuperDao._internal();
 
-  Future<List<MediaVideoEpisodeSuperEntity>> findMediaVideoEpisodeBySeasonId(int seasonId){
+  Future<List<MediaVideoEpisodeSuperEntity>> findMediaVideoEpisodeBySeasonId(
+      int seasonId) {
     return serviceLocator<EpisodeDao>()
         .findAllEpisodesBySeasonId(seasonId)
         .then((episodeList) async {

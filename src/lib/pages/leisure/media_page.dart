@@ -85,7 +85,7 @@ class MediaPage extends StatelessWidget {
     double wordCount = 0;
     for (String str in leisureTags) {
       List<String> wordsList = str.split(" ");
-      for(String letter in wordsList){
+      for (String letter in wordsList) {
         wordCount += letter.length;
       }
     }

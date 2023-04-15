@@ -271,7 +271,8 @@ class MediaPageButton extends StatelessWidget {
                                             child: EpisodesNotesSheet(
                                                 notes: episodeNotes,
                                                 review: review,
-                                                episodes: noNullEpisodes, seasons: noNullSeasons)))
+                                                episodes: noNullEpisodes,
+                                                seasons: noNullSeasons)))
                                   ])));
                 },
                 style: ElevatedButton.styleFrom(

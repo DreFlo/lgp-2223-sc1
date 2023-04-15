@@ -150,11 +150,10 @@ class ListMediaSearch extends StatelessWidget {
                                                     .bottom +
                                                 50),
                                         child: SingleChildScrollView(
-                                          controller: scrollController,
-                                          child: MarkEpisodesSheet(
+                                            controller: scrollController,
+                                            child: MarkEpisodesSheet(
                                                 episodes: episodesDB,
-                                                seasons: seasons)
-                                        )),
+                                                seasons: seasons))),
                                   ])));
                 },
                 style: ElevatedButton.styleFrom(
@@ -193,12 +192,11 @@ class ListMediaSearch extends StatelessWidget {
                                                     .bottom +
                                                 50),
                                         child: SingleChildScrollView(
-                                          controller: scrollController,
-                                          child: EpisodesNotesSheet(
+                                            controller: scrollController,
+                                            child: EpisodesNotesSheet(
                                                 notes: episodeNotes,
                                                 episodes: episodesDB,
-                                                seasons: seasons)
-                                        ))
+                                                seasons: seasons)))
                                   ])));
                 },
                 style: ElevatedButton.styleFrom(
@@ -246,13 +244,12 @@ class ListMediaSearch extends StatelessWidget {
                                                     .bottom +
                                                 50),
                                         child: SingleChildScrollView(
-                                          controller: scrollController,
-                                          child: EpisodesNotesSheet(
+                                            controller: scrollController,
+                                            child: EpisodesNotesSheet(
                                                 notes: episodeNotes,
                                                 episodes: episodesDB,
                                                 seasons: seasons,
-                                                review: review)
-                                        ))
+                                                review: review)))
                                   ])));
                 },
                 style: ElevatedButton.styleFrom(
@@ -403,16 +400,15 @@ class ListMediaSearch extends StatelessWidget {
                                   alignment: AlignmentDirectional.bottomCenter,
                                   children: [
                                     Padding(
-                                      padding: EdgeInsets.only(
-                                          bottom: MediaQuery.of(context)
-                                                  .viewInsets
-                                                  .bottom +
-                                              50),
-                                      child: SingleChildScrollView(
+                                        padding: EdgeInsets.only(
+                                            bottom: MediaQuery.of(context)
+                                                    .viewInsets
+                                                    .bottom +
+                                                50),
+                                        child: SingleChildScrollView(
                                             controller: scrollController,
-                                            child:
-                                                BookNotesSheet(notes: bookNotes))
-                                    )
+                                            child: BookNotesSheet(
+                                                notes: bookNotes)))
                                   ])));
                 },
                 style: ElevatedButton.styleFrom(
@@ -461,11 +457,10 @@ class ListMediaSearch extends StatelessWidget {
                                                     .bottom +
                                                 50),
                                         child: SingleChildScrollView(
-                                          controller: scrollController,
-                                          child: BookNotesSheet(
+                                            controller: scrollController,
+                                            child: BookNotesSheet(
                                                 notes: bookNotes,
-                                                review: review)
-                                        ))
+                                                review: review)))
                                   ])));
                 },
                 style: ElevatedButton.styleFrom(
@@ -632,11 +627,10 @@ class ListMediaSearch extends StatelessWidget {
                                                     .bottom +
                                                 50),
                                         child: SingleChildScrollView(
-                                          controller: scrollController,
-                                          child: BookNotesSheet(
+                                            controller: scrollController,
+                                            child: BookNotesSheet(
                                                 notes: bookNotes,
-                                                review: review)
-                                        ))
+                                                review: review)))
                                   ])));
                 },
                 style: ElevatedButton.styleFrom(

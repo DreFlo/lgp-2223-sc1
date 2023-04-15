@@ -64,8 +64,9 @@ Future<List<MediaVideoEpisodeSuperEntity>> loadEpisodes(
     List<Season> seasons) async {
   List<MediaVideoEpisodeSuperEntity> episodes = [];
   for (int i = 0; i < seasons.length; i++) {
-    List<MediaVideoEpisodeSuperEntity> episode = await serviceLocator<MediaVideoEpisodeSuperDao>()
-        .findMediaVideoEpisodeBySeasonId(seasons[i].id ?? 0);
+    List<MediaVideoEpisodeSuperEntity> episode =
+        await serviceLocator<MediaVideoEpisodeSuperDao>()
+            .findMediaVideoEpisodeBySeasonId(seasons[i].id ?? 0);
     episodes.addAll(episode);
   }
   return episodes;

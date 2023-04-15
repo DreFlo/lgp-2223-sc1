@@ -19,7 +19,11 @@ class EpisodesNotesSheet extends StatefulWidget {
   final List<Season> seasons;
 
   const EpisodesNotesSheet(
-      {Key? key, this.notes, required this.episodes, required this.seasons, this.review})
+      {Key? key,
+      this.notes,
+      required this.episodes,
+      required this.seasons,
+      this.review})
       : super(key: key);
 
   @override
