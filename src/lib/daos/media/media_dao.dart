@@ -9,6 +9,12 @@ abstract class MediaDao {
   @Query('SELECT * FROM media WHERE id = :id')
   Stream<Media?> findMediaById(int id);
 
+  @Query('SELECT COUNT() FROM media WHERE link_image = :photo')
+  Future<int?> countMediaByPhoto(String photo);
+
+  @Query('SELECT * FROM media WHERE link_image = :photo')
+  Future<Media?> findMediaByPhoto(String photo);
+
   @insert
   Future<int> insertMedia(Media media);
 
