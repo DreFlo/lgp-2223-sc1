@@ -7,7 +7,6 @@ import 'package:src/widgets/leisure/season_tag.dart';
 import 'package:src/widgets/leisure/episode_bar.dart';
 import 'package:src/models/media/episode.dart';
 
-
 import '../../utils/enums.dart';
 import 'finished_media_form.dart';
 

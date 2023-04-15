@@ -66,16 +66,17 @@ Future<List<Episode>> loadEpisodes(int id) async {
 Future<List<NoteEpisodeNoteSuperEntity>> loadEpisodeNotes(
     List<Episode> episodes) async {
   List<NoteEpisodeNoteSuperEntity> notes = [];
-  for(int i=0; i<episodes.length; i++){
-    final noteExists =
-        await serviceLocator<EpisodeNoteDao>().countEpisodeNoteByEpisodeId(episodes[i].id);
+  for (int i = 0; i < episodes.length; i++) {
+    final noteExists = await serviceLocator<EpisodeNoteDao>()
+        .countEpisodeNoteByEpisodeId(episodes[i].id);
 
     if (noteExists == 0) {
       continue;
     }
 
     List<NoteEpisodeNoteSuperEntity> note =
-        await serviceLocator<NoteEpisodeNoteSuperDao>().findNoteEpisodeNoteByEpisodeId(episodes[i].id);
+        await serviceLocator<NoteEpisodeNoteSuperDao>()
+            .findNoteEpisodeNoteByEpisodeId(episodes[i].id);
     notes.addAll(note);
   }
 
@@ -226,6 +227,9 @@ showMediaPageForBooks(dynamic item, context) async {
                     right: 16,
                     bottom: 16,
                     child: MediaPageButton(
-                        item: item, type: 'Book', bookNotes: notes, review: review))
+                        item: item,
+                        type: 'Book',
+                        bookNotes: notes,
+                        review: review))
               ])));
 }

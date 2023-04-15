@@ -10,7 +10,6 @@ import 'package:src/daos/media/media_book_super_dao.dart';
 import 'package:src/daos/media/media_series_super_dao.dart';
 import 'package:src/utils/leisure/media_page_helpers.dart';
 
-
 class Catalog extends StatelessWidget {
   Catalog({Key? key}) : super(key: key);
 

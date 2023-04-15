@@ -141,9 +141,10 @@ class ListMediaSearch extends StatelessWidget {
                                                     .bottom +
                                                 50),
                                         child: SingleChildScrollView(
-                                            controller: scrollController,
-                                            child: MarkEpisodesSheet(
-                                                episodes: episodes))),
+                                          controller: scrollController,
+                                          /*child: MarkEpisodesSheet(
+                                                episodes: episodes)*/
+                                        )),
                                   ])));
                 },
                 style: ElevatedButton.styleFrom(
@@ -182,10 +183,11 @@ class ListMediaSearch extends StatelessWidget {
                                                     .bottom +
                                                 50),
                                         child: SingleChildScrollView(
-                                            controller: scrollController,
-                                            child: EpisodesNotesSheet(
+                                          controller: scrollController,
+                                          /*child: EpisodesNotesSheet(
                                                 notes: notes,
-                                                episodes: episodes)))
+                                                episodes: episodes)*/
+                                        ))
                                   ])));
                 },
                 style: ElevatedButton.styleFrom(
@@ -233,14 +235,15 @@ class ListMediaSearch extends StatelessWidget {
                                                     .bottom +
                                                 50),
                                         child: SingleChildScrollView(
-                                            controller: scrollController,
-                                            child: EpisodesNotesSheet(
+                                          controller: scrollController,
+                                          /*child: EpisodesNotesSheet(
                                                 notes: notes,
                                                 review: const {
                                                   Reaction.dislike:
                                                       "Didn't like it at all."
                                                 },
-                                                episodes: episodes)))
+                                                episodes: episodes)*/
+                                        ))
                                   ])));
                 },
                 style: ElevatedButton.styleFrom(

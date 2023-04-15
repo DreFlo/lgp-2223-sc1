@@ -15,19 +15,22 @@ class NoteEpisodeNoteSuperDao {
 
   NoteEpisodeNoteSuperDao._internal();
 
-   Future<List<NoteEpisodeNoteSuperEntity>> findNoteEpisodeNoteByEpisodeId(int episodeId) {
+  Future<List<NoteEpisodeNoteSuperEntity>> findNoteEpisodeNoteByEpisodeId(
+      int episodeId) {
     return serviceLocator<EpisodeNoteDao>()
         .findEpisodeNoteByEpisodeId(episodeId)
         .then((episodeNotesList) async {
       List<NoteEpisodeNoteSuperEntity> noteEpisodeNoteSuperEntities = [];
 
       for (var episodeNote in episodeNotesList) {
-        final noteStream = serviceLocator<NoteDao>().findNoteById(episodeNote.id);
+        final noteStream =
+            serviceLocator<NoteDao>().findNoteById(episodeNote.id);
         Note? firstNonNullNote =
             await noteStream.firstWhere((note) => note != null);
         Note note = firstNonNullNote!;
         noteEpisodeNoteSuperEntities.add(
-            NoteEpisodeNoteSuperEntity.fromNoteEpisodeNoteEntity(episodeNote, note));
+            NoteEpisodeNoteSuperEntity.fromNoteEpisodeNoteEntity(
+                episodeNote, note));
       }
       return noteEpisodeNoteSuperEntities;
     });
