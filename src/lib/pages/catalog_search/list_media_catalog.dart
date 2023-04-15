@@ -32,32 +32,11 @@ class ListMediaCatalog extends StatelessWidget {
                 height: 150.0 * fem,
                 child: GestureDetector(
                   onTap: () {
-                    showModalBottomSheet(
-                        context: context,
-                        isScrollControlled: true,
-                        backgroundColor: const Color(0xFF22252D),
-                        shape: const RoundedRectangleBorder(
-                          borderRadius:
-                              BorderRadius.vertical(top: Radius.circular(30.0)),
-                        ),
-                        builder: (context) => DraggableScrollableSheet(
-                            expand: false,
-                            minChildSize: 0.35,
-                            maxChildSize: 0.75,
-                            builder: (context, scrollController) => Stack(
-                                    alignment:
-                                        AlignmentDirectional.bottomCenter,
-                                    children: [
-                                      SingleChildScrollView(
-                                          controller: scrollController,
-                                          child: showMediaPageBasedOnType(
-                                              filteredMedia[index], title,0)),
-                                      Positioned(
-                                        left: 16,
-                                        right: 16,
-                                        bottom: 16,
-                                        child: showMediaPageButton(filteredMedia[index], title))
-                                    ])));
+                    if (title == 'All TV Shows') {
+                      showMediaPageForTV(filteredMedia[index], context);
+                    } else if (title == 'All Movies') {
+                      showMediaPageForMovies(filteredMedia[index], context);
+                    }
                   },
                   child: SizedBox(
                     width: 100.0 * fem,

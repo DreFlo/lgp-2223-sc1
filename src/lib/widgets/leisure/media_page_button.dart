@@ -19,8 +19,9 @@ import 'package:src/utils/enums.dart';
 class MediaPageButton extends StatefulWidget {
   final dynamic item;
   final String type;
+  final Review? review;
 
-  const MediaPageButton({Key? key, required this.item, required this.type})
+  const MediaPageButton({Key? key, required this.item, required this.type, this.review})
       : super(key: key);
 
   @override
@@ -29,14 +30,7 @@ class MediaPageButton extends StatefulWidget {
 
 class _MediaPageButtonState extends State<MediaPageButton> {
   List<NoteBookNoteSuperEntity> notes = [];
-  Review review = Review(
-      startDate: DateTime.now(),
-      endDate: DateTime.now(),
-      emoji: Reaction.like,
-      review: "",
-      mediaId: 0);
   bool _notesLoaded = false;
-  bool _reviewsLoaded = false;
 
   void loadBookNotes(int id) async {
     List<NoteBookNoteSuperEntity> notes =
@@ -45,18 +39,6 @@ class _MediaPageButtonState extends State<MediaPageButton> {
     setState(() {
       this.notes = notes;
       _notesLoaded = true;
-    });
-  }
-
-  void loadReviews(int id) async {
-    final reviewStream = serviceLocator<ReviewDao>().findReviewsByMediaId(id);
-    Review? firstNonNullReview =
-        await reviewStream.firstWhere((review) => review != null);
-    Review reviewDB = firstNonNullReview!;
-
-    setState(() {
-      review = reviewDB;
-      _reviewsLoaded = true;
     });
   }
 
@@ -638,8 +620,6 @@ class _MediaPageButtonState extends State<MediaPageButton> {
             children: [
               ElevatedButton(
                 onPressed: () {
-                  loadReviews(widget.item.id);
-                  if (_reviewsLoaded) {
                     showModalBottomSheet(
                         context: context,
                         isScrollControlled: true,
@@ -667,9 +647,8 @@ class _MediaPageButtonState extends State<MediaPageButton> {
                                               controller: scrollController,
                                               child: BookNotesSheet(
                                                   notes: const [],
-                                                  review: review)))
+                                                  review: widget.review)))
                                     ])));
-                  }
                 },
                 style: ElevatedButton.styleFrom(
                   minimumSize:

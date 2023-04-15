@@ -11,6 +11,10 @@ import 'package:src/daos/media/media_series_super_dao.dart';
 import 'package:src/utils/leisure/media_page_helpers.dart';
 import 'package:src/daos/media/episode_dao.dart';
 import 'package:src/daos/media/video_dao.dart';
+import 'package:src/models/notes/note_book_note_super_entity.dart';
+import 'package:src/daos/notes/note_book_note_super_dao.dart';
+import 'package:src/daos/media/review_dao.dart';
+import 'package:src/models/media/review.dart';
 import 'dart:math';
 
 class Catalog extends StatelessWidget {
@@ -50,18 +54,13 @@ class Catalog extends StatelessWidget {
     return await loadmedia('book');
   }
 
- Future<int> loadDuration(int id) async {
-  List<int> ids = await serviceLocator<EpisodeDao>().findEpisodeBySeasonId(id);
-  List<int> duration = [];
-  for (int i = 0; i < ids.length; i++) {
-    duration = await serviceLocator<VideoDao>().findVideoDurationById(ids[i]);
+  Future<List<NoteBookNoteSuperEntity>> loadBookNotes(int id) async {
+    List<NoteBookNoteSuperEntity> notes =
+        await serviceLocator<NoteBookNoteSuperDao>()
+            .findNoteBookNoteByBookId(id);
+    return notes;
   }
-
-  int maxDuration = duration.reduce(max);
-
-  return maxDuration;
-}
-
+  
   @override
   Widget build(BuildContext context) {
     double baseWidth = 390;
@@ -135,48 +134,7 @@ class Catalog extends StatelessWidget {
                                 itemBuilder: (context, index) {
                                   return InkWell(
                                     onTap: () {
-                                      showModalBottomSheet(
-                                          context: context,
-                                          isScrollControlled: true,
-                                          backgroundColor:
-                                              const Color(0xFF22252D),
-                                          shape: const RoundedRectangleBorder(
-                                            borderRadius: BorderRadius.vertical(
-                                                top: Radius.circular(30.0)),
-                                          ),
-                                          builder: (context) =>
-                                              DraggableScrollableSheet(
-                                                  expand: false,
-                                                  minChildSize: 0.35,
-                                                  maxChildSize: 0.75,
-                                                  builder: (context,
-                                                          scrollController) =>
-                                                      Stack(
-                                                          alignment:
-                                                              AlignmentDirectional
-                                                                  .bottomCenter,
-                                                          children: [
-                                                            SingleChildScrollView(
-                                                                controller:
-                                                                    scrollController,
-                                                                child: showMediaPageBasedOnType(
-                                                                    (snapshot.data
-                                                                            as List?)?[
-                                                                        index],
-                                                                    AppLocalizations.of(
-                                                                            context)
-                                                                        .all_movies,
-                                                                    0)),
-                                                            Positioned(
-                                        left: 16,
-                                        right: 16,
-                                        bottom: 16,
-                                        child: showMediaPageButton((snapshot.data
-                                                                            as List?)?[
-                                                                        index], AppLocalizations.of(
-                                                                            context)
-                                                                        .all_movies))
-                                                          ])));
+                                      showMediaPageForMovies((snapshot.data as List?)?[index], context);
                                     },
                                     child: Container(
                                       width: 140 * fem,
@@ -262,47 +220,10 @@ class Catalog extends StatelessWidget {
                                     0, //will be dependent on database size
                                 itemBuilder: (context, index) {
                                   return InkWell(
-                                    onTap: () async {
-                                      int maxDuration = await loadDuration(
-                                          (snapshot.data as List?)?[index]?.id);
-                                      showModalBottomSheet(
-                                          context: context,
-                                          isScrollControlled: true,
-                                          backgroundColor:
-                                              const Color(0xFF22252D),
-                                          shape: const RoundedRectangleBorder(
-                                            borderRadius: BorderRadius.vertical(
-                                                top: Radius.circular(30.0)),
-                                          ),
-                                          builder: (context) =>
-                                              DraggableScrollableSheet(
-                                                  expand: false,
-                                                  minChildSize: 0.35,
-                                                  maxChildSize: 0.75,
-                                                  builder: (context,
-                                                          scrollController) =>
-                                                      Stack(
-                                                          alignment:
-                                                              AlignmentDirectional
-                                                                  .bottomCenter,
-                                                          children: [
-                                                            SingleChildScrollView(
-                                                                controller:
-                                                                    scrollController,
-                                                                child: showMediaPageBasedOnType(
-                                                                    (snapshot.data
-                                                                            as List?)?[
-                                                                        index],
-                                                                    AppLocalizations.of(
-                                                                            context)
-                                                                        .all_tv_shows,
-                                                                    maxDuration)),
-                                                            /*Positioned(
-                                        left: 16,
-                                        right: 16,
-                                        bottom: 16,
-                                        child: mediaPageButton())*/
-                                                          ])));
+                                    onTap: () {
+                                      showMediaPageForTV(
+                                          (snapshot.data as List?)?[index],
+                                          context);
                                     },
                                     child: Container(
                                       width: 140 * fem,
@@ -422,14 +343,17 @@ class Catalog extends StatelessWidget {
                                                                         .all_books,
                                                                     0)),
                                                             Positioned(
-                                        left: 16,
-                                        right: 16,
-                                        bottom: 16,
-                                        child: showMediaPageButton((snapshot.data
+                                                                left: 16,
+                                                                right: 16,
+                                                                bottom: 16,
+                                                                child: showMediaPageButton(
+                                                                    (snapshot.data
                                                                             as List?)?[
-                                                                        index], AppLocalizations.of(
+                                                                        index],
+                                                                    AppLocalizations.of(
                                                                             context)
-                                                                        .all_books))
+                                                                        .all_books,
+                                                                    null))
                                                           ])));
                                     },
                                     child: Container(
