@@ -508,8 +508,8 @@ class _$SubjectDao extends SubjectDao {
   }
 
   @override
-  Stream<Subject?> findSubjectByInstitutionId(int id) {
-    return _queryAdapter.queryStream(
+  Future<List<Subject>> findSubjectByInstitutionId(int id) async {
+    return _queryAdapter.queryList(
         'SELECT * FROM subject WHERE institution_id = ?1',
         mapper: (Map<String, Object?> row) => Subject(
             id: row['id'] as int?,
@@ -517,9 +517,7 @@ class _$SubjectDao extends SubjectDao {
             acronym: row['acronym'] as String,
             weightAverage: row['weight_average'] as double,
             institutionId: row['institution_id'] as int?),
-        arguments: [id],
-        queryableName: 'subject',
-        isView: false);
+        arguments: [id]);
   }
 
   @override

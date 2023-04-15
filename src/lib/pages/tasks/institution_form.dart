@@ -2,15 +2,19 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:src/daos/student/subject_dao.dart';
+import 'package:src/models/student/subject.dart';
 import 'package:src/pages/tasks/subject_form.dart';
 import 'package:src/themes/colors.dart';
 import 'package:src/utils/enums.dart';
+import 'package:src/utils/service_locator.dart';
 import 'package:src/widgets/tasks/subject_bar.dart';
 
 class InstitutionForm extends StatefulWidget {
   final String? name;
   final InstitutionType? type;
   final Map<String, String>? subjects;
+  final int? id;
   final ScrollController scrollController;
 
   const InstitutionForm(
@@ -18,7 +22,8 @@ class InstitutionForm extends StatefulWidget {
       required this.scrollController,
       this.name,
       this.type,
-      this.subjects})
+      this.subjects,
+      this.id})
       : super(key: key);
 
   @override
@@ -295,6 +300,42 @@ class _InstitutionFormState extends State<InstitutionForm> {
               ),
             ]),
             const SizedBox(height: 7.5),
+            widget.id == null
+                ? Text(AppLocalizations.of(context).no_tasks,
+                    style: const TextStyle(
+                        color: Colors.white,
+                        fontSize: 16,
+                        fontWeight: FontWeight.normal))
+                : FutureBuilder(
+                    future: serviceLocator<SubjectDao>()
+                        .findSubjectByInstitutionId(widget.id!),
+                    builder: (BuildContext constex,
+                        AsyncSnapshot<List<Subject?>> snapshot) {
+                      if (snapshot.hasData) {
+                        print("Data: ${snapshot.data!.length}");
+                        List<Widget> subjects = [];
+
+                        if (snapshot.data!.isEmpty) {
+                          subjects.add(Text(
+                              AppLocalizations.of(context).no_tasks,
+                              style: const TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.normal)));
+                        } else {
+                          subjects = snapshot.data!
+                              .map((e) => SubjectBar(
+                                  name: e!.name, acronym: e.acronym, id: e.id!))
+                              .toList();
+                        }
+
+                        return Column(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: subjects);
+                      } else {
+                        return const Center(child: CircularProgressIndicator());
+                      }
+                    }),
             ...getSubjects(),
             const SizedBox(height: 30),
             ElevatedButton(
