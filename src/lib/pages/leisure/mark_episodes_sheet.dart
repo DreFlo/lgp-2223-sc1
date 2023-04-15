@@ -5,15 +5,19 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:src/themes/colors.dart';
 import 'package:src/widgets/leisure/season_tag.dart';
 import 'package:src/widgets/leisure/episode_bar.dart';
-import 'package:src/models/media/episode.dart';
+import 'package:src/models/media/media_video_episode_super_entity.dart';
+import 'package:src/models/media/season.dart';
 
 import '../../utils/enums.dart';
 import 'finished_media_form.dart';
 
 class MarkEpisodesSheet extends StatefulWidget {
-  final List<Episode> episodes;
+  final List<MediaVideoEpisodeSuperEntity> episodes;
+  final List<Season> seasons;
 
-  const MarkEpisodesSheet({Key? key, required this.episodes}) : super(key: key);
+  const MarkEpisodesSheet(
+      {Key? key, required this.episodes, required this.seasons})
+      : super(key: key);
 
   @override
   State<MarkEpisodesSheet> createState() => _MarkEpisodesSheetState();
@@ -29,7 +33,7 @@ class _MarkEpisodesSheetState extends State<MarkEpisodesSheet>
     selectedSeason = 1;
 
     controller = TabController(
-        length: widget.episodes.length,
+        length: widget.seasons.length,
         vsync: this,
         initialIndex: selectedSeason - 1);
 
@@ -45,23 +49,31 @@ class _MarkEpisodesSheetState extends State<MarkEpisodesSheet>
   List<Widget> getEpisodes() {
     List<Widget> episodes = [];
 
-    /*for (int j = 1; j <= widget.episodes[selectedSeason]!.length; j++) {
-      episodes.add(EpisodeBar(
-          code:
-              "S${selectedSeason.toString().padLeft(2, 0.toString())}E${j.toString().padLeft(2, 0.toString())}",
-          title: widget.episodes[selectedSeason]![j]!,
-          favorite: false,
-          watched: true));
+    int? seasonId = widget.seasons
+        .where((season) => season.number == selectedSeason)
+        .first
+        .id;
 
-      episodes.add(const SizedBox(height: 15));
-    }*/
+    for (int j = 0; j <= widget.episodes.length - 1; j++) {
+      if (widget.episodes[j].seasonId == seasonId) {
+        
+        episodes.add(EpisodeBar(
+            code:
+                "S${selectedSeason.toString().padLeft(2, 0.toString())}E${widget.episodes[j].number.toString().padLeft(2, 0.toString())}",
+            title: widget.episodes[j].name,
+            favorite: widget.episodes[j].favorite,
+            watched: (widget.episodes[j].status == Status.done ? true:false)));
+
+        episodes.add(const SizedBox(height: 15));
+      }
+    }
 
     return episodes;
   }
 
   List<Widget> getSeasons() {
     List<Widget> seasons = [];
-    for (int i = 1; i <= widget.episodes.length; i++) {
+    for (int i = 1; i <= widget.seasons.length; i++) {
       seasons.add(
         Tab(
             child: SeasonTag(

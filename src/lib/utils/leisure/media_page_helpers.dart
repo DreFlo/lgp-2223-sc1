@@ -13,6 +13,10 @@ import 'package:src/models/notes/note_book_note_super_entity.dart';
 import 'package:src/daos/notes/note_book_note_super_dao.dart';
 import 'package:src/daos/media/review_dao.dart';
 import 'package:src/models/media/episode.dart';
+import 'package:src/models/media/media_video_episode_super_entity.dart';
+import 'package:src/daos/media/media_video_episode_super_dao.dart';
+import 'package:src/models/media/season.dart';
+import 'package:src/daos/media/season_dao.dart';
 import 'package:src/utils/service_locator.dart';
 import 'dart:math';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -57,18 +61,29 @@ Future<List<NoteBookNoteSuperEntity>> loadBookNotes(int id) async {
   return notes;
 }
 
-Future<List<Episode>> loadEpisodes(int id) async {
-  List<Episode> episodes =
-      await serviceLocator<EpisodeDao>().findAllEpisodesBySeasonId(id);
+Future<List<MediaVideoEpisodeSuperEntity>> loadEpisodes(
+    List<Season> seasons) async {
+  List<MediaVideoEpisodeSuperEntity> episodes = [];
+  for (int i = 0; i < seasons.length; i++) {
+    List<MediaVideoEpisodeSuperEntity> episode = await serviceLocator<MediaVideoEpisodeSuperDao>()
+        .findMediaVideoEpisodeBySeasonId(seasons[i].id ?? 0);
+    episodes.addAll(episode);
+  }
   return episodes;
 }
 
+Future<List<Season>> loadSeasons(int id) async {
+  List<Season> seasons =
+      await serviceLocator<SeasonDao>().findAllSeasonBySeriesId(id);
+  return seasons;
+}
+
 Future<List<NoteEpisodeNoteSuperEntity>> loadEpisodeNotes(
-    List<Episode> episodes) async {
+    List<MediaVideoEpisodeSuperEntity> episodes) async {
   List<NoteEpisodeNoteSuperEntity> notes = [];
   for (int i = 0; i < episodes.length; i++) {
     final noteExists = await serviceLocator<EpisodeNoteDao>()
-        .countEpisodeNoteByEpisodeId(episodes[i].id);
+        .countEpisodeNoteByEpisodeId(episodes[i].id ?? 0);
 
     if (noteExists == 0) {
       continue;
@@ -76,7 +91,7 @@ Future<List<NoteEpisodeNoteSuperEntity>> loadEpisodeNotes(
 
     List<NoteEpisodeNoteSuperEntity> note =
         await serviceLocator<NoteEpisodeNoteSuperDao>()
-            .findNoteEpisodeNoteByEpisodeId(episodes[i].id);
+            .findNoteEpisodeNoteByEpisodeId(episodes[i].id ?? 0);
     notes.addAll(note);
   }
 
@@ -148,7 +163,8 @@ showMediaPageBasedOnType(dynamic item, String title, int duration) {
 showMediaPageForTV(dynamic item, context) async {
   int maxDuration = await loadDuration(item.id);
   Review? review = await loadReviews(item.id);
-  List<Episode> episodes = await loadEpisodes(item.id);
+  List<Season> seasons = await loadSeasons(item.id);
+  List<MediaVideoEpisodeSuperEntity> episodes = await loadEpisodes(seasons);
   List<NoteEpisodeNoteSuperEntity> episodeNotes =
       await loadEpisodeNotes(episodes);
   showModalBottomSheet(
@@ -171,10 +187,16 @@ showMediaPageForTV(dynamic item, context) async {
                         AppLocalizations.of(context).all_tv_shows,
                         maxDuration)),
                 Positioned(
-                                        left: 16,
-                                        right: 16,
-                                        bottom: 16,
-                                        child: MediaPageButton(item: item, type: 'TV Show', review: review, episodeNotes: episodeNotes, episodes: episodes))
+                    left: 16,
+                    right: 16,
+                    bottom: 16,
+                    child: MediaPageButton(
+                        item: item,
+                        type: 'TV Show',
+                        review: review,
+                        episodeNotes: episodeNotes,
+                        episodes: episodes,
+                        seasons: seasons))
               ])));
 }
 

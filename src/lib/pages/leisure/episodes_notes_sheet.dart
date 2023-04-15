@@ -7,14 +7,14 @@ import 'package:src/widgets/leisure/review_note_bar.dart';
 import 'package:src/widgets/leisure/season_tag.dart';
 import 'package:src/models/notes/note_episode_note_super_entity.dart';
 import 'package:src/models/media/review.dart';
-import 'package:src/models/media/episode.dart';
+import 'package:src/models/media/media_video_episode_super_entity.dart';
 
 import '../../widgets/leisure/episode_note_bar.dart';
 
 class EpisodesNotesSheet extends StatefulWidget {
   final List<NoteEpisodeNoteSuperEntity?>? notes;
   final Review? review;
-  final List<Episode> episodes;
+  final List<MediaVideoEpisodeSuperEntity> episodes;
 
   const EpisodesNotesSheet(
       {Key? key, this.notes, required this.episodes, this.review})

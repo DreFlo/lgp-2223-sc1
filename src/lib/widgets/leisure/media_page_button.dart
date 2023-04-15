@@ -11,8 +11,9 @@ import 'package:src/pages/leisure/add_book_note_form.dart';
 import 'package:src/pages/leisure/finished_media_form.dart';
 import 'package:src/models/notes/note_book_note_super_entity.dart';
 import 'package:src/models/notes/note_episode_note_super_entity.dart';
-import 'package:src/models/media/episode.dart';
+import 'package:src/models/media/media_video_episode_super_entity.dart';
 import 'package:src/models/media/review.dart';
+import 'package:src/models/media/season.dart';
 import 'package:src/utils/enums.dart';
 
 class MediaPageButton extends StatelessWidget {
@@ -21,7 +22,8 @@ class MediaPageButton extends StatelessWidget {
   final Review? review;
   final List<NoteBookNoteSuperEntity?>? bookNotes;
   final List<NoteEpisodeNoteSuperEntity?>? episodeNotes;
-  final List<Episode?>? episodes;
+  final List<MediaVideoEpisodeSuperEntity?>? episodes;
+  final List<Season?>? seasons;
 
   const MediaPageButton(
       {Key? key,
@@ -30,7 +32,8 @@ class MediaPageButton extends StatelessWidget {
       this.review,
       this.bookNotes,
       this.episodeNotes,
-      this.episodes})
+      this.episodes,
+      this.seasons})
       : super(key: key);
 
   @override
@@ -123,9 +126,13 @@ class MediaPageButton extends StatelessWidget {
             children: [
               ElevatedButton(
                 onPressed: () {
-                  List<Episode> noNullEpisodes = episodes!
+                  List<MediaVideoEpisodeSuperEntity> noNullEpisodes = episodes!
                       .where((episode) => episode != null)
                       .map((episode) => episode!)
+                      .toList();
+                  List<Season> noNullSeasons = seasons!
+                      .where((season) => season != null)
+                      .map((season) => season!)
                       .toList();
                   showModalBottomSheet(
                       context: context,
@@ -152,7 +159,8 @@ class MediaPageButton extends StatelessWidget {
                                         child: SingleChildScrollView(
                                             controller: scrollController,
                                             child: MarkEpisodesSheet(
-                                                episodes: noNullEpisodes))),
+                                                episodes: noNullEpisodes,
+                                                seasons: noNullSeasons))),
                                   ])));
                 },
                 style: ElevatedButton.styleFrom(
@@ -168,7 +176,7 @@ class MediaPageButton extends StatelessWidget {
               ),
               ElevatedButton(
                 onPressed: () {
-                  List<Episode> noNullEpisodes = episodes!
+                  List<MediaVideoEpisodeSuperEntity> noNullEpisodes = episodes!
                       .where((episode) => episode != null)
                       .map((episode) => episode!)
                       .toList();
@@ -223,7 +231,7 @@ class MediaPageButton extends StatelessWidget {
             children: [
               ElevatedButton(
                 onPressed: () {
-                  List<Episode> noNullEpisodes = episodes!
+                  List<MediaVideoEpisodeSuperEntity> noNullEpisodes = episodes!
                       .where((episode) => episode != null)
                       .map((episode) => episode!)
                       .toList();
