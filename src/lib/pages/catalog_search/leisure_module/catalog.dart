@@ -17,7 +17,6 @@ import 'package:src/daos/media/movie_dao.dart';
 import 'package:src/daos/media/series_dao.dart';
 import 'package:src/daos/media/book_dao.dart';
 import 'package:src/models/media/media.dart';
-import 'package:src/pages/catalog_search/list_media_catalog.dart';
 import 'package:src/utils/leisure/media_page_helpers.dart';
 
 class Catalog extends StatelessWidget {
