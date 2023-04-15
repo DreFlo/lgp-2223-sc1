@@ -2,14 +2,14 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:src/utils/enums.dart';
 import 'package:src/widgets/leisure/book_note_bar.dart';
 import 'package:src/widgets/leisure/review_note_bar.dart';
 import 'package:src/models/notes/note_book_note_super_entity.dart';
+import 'package:src/models/media/review.dart';
 
 class BookNotesSheet extends StatefulWidget {
-  final List <NoteBookNoteSuperEntity> notes;
-  final Map<Reaction, String>? review;
+  final List<NoteBookNoteSuperEntity> notes;
+  final Review? review;
 
   const BookNotesSheet({Key? key, required this.notes, this.review})
       : super(key: key);
@@ -25,8 +25,8 @@ class _BookNotesSheetState extends State<BookNotesSheet>
 
     if (widget.review != null) {
       notes.add(ReviewNoteBar(
-        reaction: widget.review!.keys.first,
-        text: widget.review![widget.review!.keys.first],
+        reaction: widget.review!.emoji,
+        text: widget.review!.review,
       ));
 
       notes.add(const SizedBox(height: 15));

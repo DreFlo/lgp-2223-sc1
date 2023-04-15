@@ -11,6 +11,8 @@ import 'package:src/pages/leisure/add_book_note_form.dart';
 import 'package:src/pages/leisure/finished_media_form.dart';
 import 'package:src/models/notes/note_book_note_super_entity.dart';
 import 'package:src/daos/notes/note_book_note_super_dao.dart';
+import 'package:src/daos/media/review_dao.dart';
+import 'package:src/models/media/review.dart';
 import 'package:src/utils/service_locator.dart';
 import 'package:src/utils/enums.dart';
 
@@ -27,7 +29,14 @@ class MediaPageButton extends StatefulWidget {
 
 class _MediaPageButtonState extends State<MediaPageButton> {
   List<NoteBookNoteSuperEntity> notes = [];
+  Review review = Review(
+      startDate: DateTime.now(),
+      endDate: DateTime.now(),
+      emoji: Reaction.like,
+      review: "",
+      mediaId: 0);
   bool _notesLoaded = false;
+  bool _reviewsLoaded = false;
 
   void loadBookNotes(int id) async {
     List<NoteBookNoteSuperEntity> notes =
@@ -36,6 +45,18 @@ class _MediaPageButtonState extends State<MediaPageButton> {
     setState(() {
       this.notes = notes;
       _notesLoaded = true;
+    });
+  }
+
+  void loadReviews(int id) async {
+    final reviewStream = serviceLocator<ReviewDao>().findReviewsByMediaId(id);
+    Review? firstNonNullReview =
+        await reviewStream.firstWhere((review) => review != null);
+    Review reviewDB = firstNonNullReview!;
+
+    setState(() {
+      review = reviewDB;
+      _reviewsLoaded = true;
     });
   }
 
@@ -273,7 +294,7 @@ class _MediaPageButtonState extends State<MediaPageButton> {
       if (widget.item.status == Status.nothing) {
         // If the media is not in the catalog, show a button to add it.
         return ElevatedButton(
-          onPressed: ()  {
+          onPressed: () {
             loadBookNotes(widget.item.id);
             showModalBottomSheet(
                 context: context,
@@ -358,7 +379,7 @@ class _MediaPageButtonState extends State<MediaPageButton> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               ElevatedButton(
-                onPressed: ()  {
+                onPressed: () {
                   loadBookNotes(widget.item.id);
                   showModalBottomSheet(
                       context: context,
@@ -471,11 +492,8 @@ class _MediaPageButtonState extends State<MediaPageButton> {
                                           child: SingleChildScrollView(
                                               controller: scrollController,
                                               child: BookNotesSheet(
-                                                  notes: notes,
-                                                  review: const {
-                                                    Reaction.dislike:
-                                                        "Hated it."
-                                                  })))
+                                                notes: notes,
+                                              )))
                                     ])));
                   }
                 },
@@ -494,7 +512,7 @@ class _MediaPageButtonState extends State<MediaPageButton> {
           ),
         );
       }
-    } /* else if (widget.type == "Movie") {
+    } else if (widget.type == "Movie") {
       if (widget.item.status == Status.nothing) {
         return ElevatedButton(
           onPressed: () {
@@ -620,36 +638,38 @@ class _MediaPageButtonState extends State<MediaPageButton> {
             children: [
               ElevatedButton(
                 onPressed: () {
-                  showModalBottomSheet(
-                      context: context,
-                      isScrollControlled: true,
-                      backgroundColor: Color(0xFF22252D),
-                      shape: RoundedRectangleBorder(
-                        borderRadius:
-                            BorderRadius.vertical(top: Radius.circular(30.0)),
-                      ),
-                      builder: (context) => DraggableScrollableSheet(
-                          expand: false,
-                          initialChildSize: 0.35,
-                          minChildSize: 0.35,
-                          maxChildSize: 0.5,
-                          builder: (context, scrollController) => Stack(
-                                  alignment: AlignmentDirectional.bottomCenter,
-                                  children: [
-                                    Padding(
-                                        padding: EdgeInsets.only(
-                                            bottom: MediaQuery.of(context)
-                                                    .viewInsets
-                                                    .bottom +
-                                                50),
-                                        child: SingleChildScrollView(
-                                            controller: scrollController,
-                                            child: BookNotesSheet(
-                                                notes: const {},
-                                                review: const {
-                                                  Reaction.dislike: "Hated it."
-                                                })))
-                                  ])));
+                  loadReviews(widget.item.id);
+                  if (_reviewsLoaded) {
+                    showModalBottomSheet(
+                        context: context,
+                        isScrollControlled: true,
+                        backgroundColor: Color(0xFF22252D),
+                        shape: RoundedRectangleBorder(
+                          borderRadius:
+                              BorderRadius.vertical(top: Radius.circular(30.0)),
+                        ),
+                        builder: (context) => DraggableScrollableSheet(
+                            expand: false,
+                            initialChildSize: 0.35,
+                            minChildSize: 0.35,
+                            maxChildSize: 0.5,
+                            builder: (context, scrollController) => Stack(
+                                    alignment:
+                                        AlignmentDirectional.bottomCenter,
+                                    children: [
+                                      Padding(
+                                          padding: EdgeInsets.only(
+                                              bottom: MediaQuery.of(context)
+                                                      .viewInsets
+                                                      .bottom +
+                                                  50),
+                                          child: SingleChildScrollView(
+                                              controller: scrollController,
+                                              child: BookNotesSheet(
+                                                  notes: const [],
+                                                  review: review)))
+                                    ])));
+                  }
                 },
                 style: ElevatedButton.styleFrom(
                   minimumSize:
@@ -666,7 +686,7 @@ class _MediaPageButtonState extends State<MediaPageButton> {
           ),
         );
       }
-    }*/
+    }
 
     return Container();
   }

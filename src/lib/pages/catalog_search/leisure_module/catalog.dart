@@ -167,11 +167,15 @@ class Catalog extends StatelessWidget {
                                                                             context)
                                                                         .all_movies,
                                                                     0)),
-                                                            /*Positioned(
+                                                            Positioned(
                                         left: 16,
                                         right: 16,
                                         bottom: 16,
-                                        child: mediaPageButton())*/
+                                        child: showMediaPageButton((snapshot.data
+                                                                            as List?)?[
+                                                                        index], AppLocalizations.of(
+                                                                            context)
+                                                                        .all_movies))
                                                           ])));
                                     },
                                     child: Container(
