@@ -85,7 +85,9 @@ class MediaPage extends StatelessWidget {
     double wordCount = 0;
     for (String str in leisureTags) {
       List<String> wordsList = str.split(" ");
-      wordCount += wordsList.length;
+      for(String letter in wordsList){
+        wordCount += letter.length;
+      }
     }
     return wordCount;
   }
@@ -191,7 +193,7 @@ class MediaPage extends StatelessWidget {
           child: Row(mainAxisAlignment: MainAxisAlignment.start, children: [
             SizedBox(
                 width: MediaQuery.of(context).size.width * 0.85,
-                height: 8 * countWords(),
+                height: 1.75 * countWords(),
                 child: Wrap(
                     spacing: 7.6,
                     alignment: WrapAlignment.start,
