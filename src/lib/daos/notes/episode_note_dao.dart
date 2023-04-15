@@ -9,6 +9,12 @@ abstract class EpisodeNoteDao {
   @Query('SELECT * FROM episode_note WHERE id = :id')
   Stream<EpisodeNote?> findEpisodeNoteById(int id);
 
+  @Query('SELECT COUNT() FROM episode_note WHERE episode_id = :episodeId')  
+  Future<int?> countEpisodeNoteByEpisodeId(int episodeId);
+
+  @Query('SELECT * FROM episode_note WHERE episode_id = :episodeId')
+  Future<List<EpisodeNote>> findEpisodeNoteByEpisodeId(int episodeId);
+
   @insert
   Future<int> insertEpisodeNote(EpisodeNote episodeNote);
 

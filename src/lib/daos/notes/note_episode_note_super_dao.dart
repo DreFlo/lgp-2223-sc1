@@ -1,6 +1,7 @@
 import 'package:src/daos/notes/note_dao.dart';
 import 'package:src/daos/notes/episode_note_dao.dart';
 import 'package:src/models/notes/note_episode_note_super_entity.dart';
+import 'package:src/models/notes/note.dart';
 import 'package:src/utils/service_locator.dart';
 import 'package:src/utils/exceptions.dart';
 
@@ -13,6 +14,24 @@ class NoteEpisodeNoteSuperDao {
   }
 
   NoteEpisodeNoteSuperDao._internal();
+
+   Future<List<NoteEpisodeNoteSuperEntity>> findNoteEpisodeNoteByEpisodeId(int episodeId) {
+    return serviceLocator<EpisodeNoteDao>()
+        .findEpisodeNoteByEpisodeId(episodeId)
+        .then((episodeNotesList) async {
+      List<NoteEpisodeNoteSuperEntity> noteEpisodeNoteSuperEntities = [];
+
+      for (var episodeNote in episodeNotesList) {
+        final noteStream = serviceLocator<NoteDao>().findNoteById(episodeNote.id);
+        Note? firstNonNullNote =
+            await noteStream.firstWhere((note) => note != null);
+        Note note = firstNonNullNote!;
+        noteEpisodeNoteSuperEntities.add(
+            NoteEpisodeNoteSuperEntity.fromNoteEpisodeNoteEntity(episodeNote, note));
+      }
+      return noteEpisodeNoteSuperEntities;
+    });
+  }
 
   Future<int> insertNoteEpisodeNoteSuperEntity(
     NoteEpisodeNoteSuperEntity noteEpisodeNoteSuperEntity,
