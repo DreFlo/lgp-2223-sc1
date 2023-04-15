@@ -10,26 +10,31 @@ import 'package:src/pages/leisure/add_to_catalog_form.dart';
 import 'package:src/pages/leisure/mark_episodes_sheet.dart';
 import 'package:src/pages/leisure/episodes_notes_sheet.dart';
 import 'package:src/pages/leisure/book_notes_sheet.dart';
+import 'package:src/models/notes/note_book_note_super_entity.dart';
+import 'package:src/models/notes/note_episode_note_super_entity.dart';
+import 'package:src/models/media/media_video_episode_super_entity.dart';
+import 'package:src/models/media/season.dart';
+import 'package:src/models/media/review.dart';
+import 'package:src/utils/service_locator.dart';
 import 'package:src/pages/leisure/add_book_note_form.dart';
 import 'package:src/pages/leisure/media_page.dart';
 import 'package:src/utils/enums.dart';
 import 'package:src/env/env.dart';
-import 'package:src/utils/service_locator.dart';
 import 'package:src/daos/media/media_dao.dart';
+import 'package:src/utils/leisure/media_page_helpers.dart';
 
 class ListMediaSearch extends StatelessWidget {
   final List media;
   final String title;
 
-  Map<String, String> notes = {
-    'S04E03':
-        "After Horde Prime takes Glimmer aboard his flagship, she loses her access to magic again in Season 5. This time her combat skills don't cut it against the much stronger antagonists of Horde Prime's clone army- Catra has to save her multiple times. Only until she returns to Etheria's surface does she get her powers back, though she does manage to cast spells on Krytis.",
-    'S02E07': 'Bow is best boy.'
-  };
-
   Map<int, Map<dynamic, dynamic>> episodes = {};
 
   dynamic statusFavorite = {};
+  List<Season> seasons = [];
+  List<MediaVideoEpisodeSuperEntity> episodesDB = [];
+  List<NoteEpisodeNoteSuperEntity> episodeNotes = [];
+  late Review? review;
+  List<NoteBookNoteSuperEntity> bookNotes = [];
 
   ListMediaSearch({Key? key, required this.title, required this.media})
       : super(key: key);
@@ -146,8 +151,9 @@ class ListMediaSearch extends StatelessWidget {
                                                 50),
                                         child: SingleChildScrollView(
                                           controller: scrollController,
-                                          /*child: MarkEpisodesSheet(
-                                                episodes: episodes)*/
+                                          child: MarkEpisodesSheet(
+                                                episodes: episodesDB,
+                                                seasons: seasons)
                                         )),
                                   ])));
                 },
@@ -188,9 +194,10 @@ class ListMediaSearch extends StatelessWidget {
                                                 50),
                                         child: SingleChildScrollView(
                                           controller: scrollController,
-                                          /*child: EpisodesNotesSheet(
-                                                notes: notes,
-                                                episodes: episodes)*/
+                                          child: EpisodesNotesSheet(
+                                                notes: episodeNotes,
+                                                episodes: episodesDB,
+                                                seasons: seasons)
                                         ))
                                   ])));
                 },
@@ -240,13 +247,11 @@ class ListMediaSearch extends StatelessWidget {
                                                 50),
                                         child: SingleChildScrollView(
                                           controller: scrollController,
-                                          /*child: EpisodesNotesSheet(
-                                                notes: notes,
-                                                review: const {
-                                                  Reaction.dislike:
-                                                      "Didn't like it at all."
-                                                },
-                                                episodes: episodes)*/
+                                          child: EpisodesNotesSheet(
+                                                notes: episodeNotes,
+                                                episodes: episodesDB,
+                                                seasons: seasons,
+                                                review: review)
                                         ))
                                   ])));
                 },
@@ -403,10 +408,10 @@ class ListMediaSearch extends StatelessWidget {
                                                   .viewInsets
                                                   .bottom +
                                               50),
-                                      /*child: SingleChildScrollView(
+                                      child: SingleChildScrollView(
                                             controller: scrollController,
                                             child:
-                                                BookNotesSheet(notes: notes))*/
+                                                BookNotesSheet(notes: bookNotes))
                                     )
                                   ])));
                 },
@@ -457,11 +462,9 @@ class ListMediaSearch extends StatelessWidget {
                                                 50),
                                         child: SingleChildScrollView(
                                           controller: scrollController,
-                                          /*child: BookNotesSheet(
-                                                notes: const {},
-                                                review: const {
-                                                  Reaction.dislike: "Hated it."
-                                                })*/
+                                          child: BookNotesSheet(
+                                                notes: bookNotes,
+                                                review: review)
                                         ))
                                   ])));
                 },
@@ -630,11 +633,9 @@ class ListMediaSearch extends StatelessWidget {
                                                 50),
                                         child: SingleChildScrollView(
                                           controller: scrollController,
-                                          /*child: BookNotesSheet(
-                                                notes: const {},
-                                                review: const {
-                                                  Reaction.dislike: "Hated it."
-                                                })*/
+                                          child: BookNotesSheet(
+                                                notes: bookNotes,
+                                                review: review)
                                         ))
                                   ])));
                 },
@@ -797,7 +798,18 @@ class ListMediaSearch extends StatelessWidget {
     }
 
     final media = await serviceLocator<MediaDao>().findMediaByPhoto(photo);
-    statusFavorite['status'] = media!.status;
+    if (title == 'All Books') {
+      review = await loadReviews(media!.id ?? 0);
+      bookNotes = await loadBookNotes(media.id ?? 0);
+    } else if (title == 'All Movies') {
+      review = await loadReviews(media!.id ?? 0);
+    } else {
+      review = await loadReviews(media!.id ?? 0);
+      seasons = await loadSeasons(media.id ?? 0);
+      episodesDB = await loadEpisodes(seasons);
+      episodeNotes = await loadEpisodeNotes(episodesDB);
+    }
+    statusFavorite['status'] = media.status;
     statusFavorite['favorite'] = media.favorite;
     return statusFavorite;
   }
@@ -835,23 +847,21 @@ class ListMediaSearch extends StatelessWidget {
           future: getStatusFromDB(item),
           builder: (context, snapshot) {
             if (snapshot.hasData) {
-            return MediaPage(
-                title: item.info.title,
-                synopsis: item.info.description,
-                type: 'Book',
-                length: [item.info.pageCount],
-                cast: item.info.authors,
-                image: photo,
-                leisureTags: leisureTags,
-                status: statusFavorite['status'],
-                isFavorite: statusFavorite['favorite']);
-          
-          } else if (snapshot.hasError) {
-            return Text('${snapshot.error}');
-          }
-          return CircularProgressIndicator();
-        }
-        );
+              return MediaPage(
+                  title: item.info.title,
+                  synopsis: item.info.description,
+                  type: 'Book',
+                  length: [item.info.pageCount],
+                  cast: item.info.authors,
+                  image: photo,
+                  leisureTags: leisureTags,
+                  status: statusFavorite['status'],
+                  isFavorite: statusFavorite['favorite']);
+            } else if (snapshot.hasError) {
+              return Text('${snapshot.error}');
+            }
+            return CircularProgressIndicator();
+          });
     } else if (title == 'All Movies') {
       return FutureBuilder<Map>(
         future: getDetails(item['id'], 'Movie'),
