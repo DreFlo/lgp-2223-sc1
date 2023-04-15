@@ -12,6 +12,9 @@ abstract class EpisodeDao {
   @Query('SELECT id FROM episode WHERE season_id = :id')
   Future<List<int>> findEpisodeBySeasonId(int id);
 
+  @Query('SELECT * FROM episode WHERE season_id = :id')
+  Future<List<Episode>> findAllEpisodesBySeasonId(int id);
+
   @insert
   Future<int> insertEpisode(Episode episode);
 

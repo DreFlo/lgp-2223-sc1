@@ -9,13 +9,7 @@ import 'package:src/daos/media/media_video_movie_super_dao.dart';
 import 'package:src/daos/media/media_book_super_dao.dart';
 import 'package:src/daos/media/media_series_super_dao.dart';
 import 'package:src/utils/leisure/media_page_helpers.dart';
-import 'package:src/daos/media/episode_dao.dart';
-import 'package:src/daos/media/video_dao.dart';
-import 'package:src/models/notes/note_book_note_super_entity.dart';
-import 'package:src/daos/notes/note_book_note_super_dao.dart';
-import 'package:src/daos/media/review_dao.dart';
-import 'package:src/models/media/review.dart';
-import 'dart:math';
+
 
 class Catalog extends StatelessWidget {
   Catalog({Key? key}) : super(key: key);

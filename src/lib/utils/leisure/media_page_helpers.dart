@@ -1,3 +1,7 @@
+import 'package:src/daos/notes/book_note_dao.dart';
+import 'package:src/daos/notes/episode_note_dao.dart';
+import 'package:src/daos/notes/note_episode_note_super_dao.dart';
+import 'package:src/models/notes/note_episode_note_super_entity.dart';
 import 'package:src/pages/catalog_search/media.dart';
 import 'package:src/pages/leisure/media_page.dart';
 import 'package:src/widgets/leisure/media_page_button.dart';
@@ -8,11 +12,8 @@ import 'package:flutter/material.dart';
 import 'package:src/models/notes/note_book_note_super_entity.dart';
 import 'package:src/daos/notes/note_book_note_super_dao.dart';
 import 'package:src/daos/media/review_dao.dart';
-import 'package:src/models/media/review.dart';
+import 'package:src/models/media/episode.dart';
 import 'package:src/utils/service_locator.dart';
-import 'package:src/daos/media/media_video_movie_super_dao.dart';
-import 'package:src/daos/media/media_book_super_dao.dart';
-import 'package:src/daos/media/media_series_super_dao.dart';
 import 'dart:math';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
@@ -44,8 +45,40 @@ Future<Review?> loadReviews(int id) async {
 }
 
 Future<List<NoteBookNoteSuperEntity>> loadBookNotes(int id) async {
+  final noteExists =
+      await serviceLocator<BookNoteDao>().countBookNoteByBookId(id);
+
+  if (noteExists == 0) {
+    return [];
+  }
+
   List<NoteBookNoteSuperEntity> notes =
       await serviceLocator<NoteBookNoteSuperDao>().findNoteBookNoteByBookId(id);
+  return notes;
+}
+
+Future<List<Episode>> loadEpisodes(int id) async {
+  List<Episode> episodes =
+      await serviceLocator<EpisodeDao>().findAllEpisodesBySeasonId(id);
+  return episodes;
+}
+
+Future<List<NoteEpisodeNoteSuperEntity>> loadEpisodeNotes(
+    List<Episode> episodes) async {
+  List<NoteEpisodeNoteSuperEntity> notes = [];
+  for(int i=0; i<episodes.length; i++){
+    final noteExists =
+        await serviceLocator<EpisodeNoteDao>().countEpisodeNoteByEpisodeId(episodes[i].id);
+
+    if (noteExists == 0) {
+      continue;
+    }
+
+    List<NoteEpisodeNoteSuperEntity> note =
+        await serviceLocator<NoteEpisodeNoteSuperDao>().findNoteEpisodeNoteByEpisodeId(episodes[i].id);
+    notes.addAll(note);
+  }
+
   return notes;
 }
 
@@ -111,16 +144,6 @@ showMediaPageBasedOnType(dynamic item, String title, int duration) {
   }
 }
 
-showMediaPageButton(dynamic item, String title, Review? review) {
-  if (title == 'All Books') {
-    return MediaPageButton(item: item, type: 'Book');
-  } else if (title == 'All Movies') {
-    return MediaPageButton(item: item, type: 'Movie', review: review);
-  } else {
-    return MediaPageButton(item: item, type: 'TV Show');
-  }
-}
-
 showMediaPageForTV(dynamic item, context) async {
   int maxDuration = await loadDuration(item.id);
   showModalBottomSheet(
@@ -179,7 +202,8 @@ showMediaPageForMovies(dynamic item, context) async {
 }
 
 showMediaPageForBooks(dynamic item, context) async {
-  List<NoteBookNoteSuperEntity> notes = await loadBookNotes(item.id);
+  List<NoteBookNoteSuperEntity?>? notes = await loadBookNotes(item.id);
+  Review? review = await loadReviews(item.id);
   showModalBottomSheet(
       context: context,
       isScrollControlled: true,
@@ -201,7 +225,7 @@ showMediaPageForBooks(dynamic item, context) async {
                     left: 16,
                     right: 16,
                     bottom: 16,
-                    child:
-                        MediaPageButton(item: item, type: 'Book', notes: notes))
+                    child: MediaPageButton(
+                        item: item, type: 'Book', notes: notes, review: review))
               ])));
 }
