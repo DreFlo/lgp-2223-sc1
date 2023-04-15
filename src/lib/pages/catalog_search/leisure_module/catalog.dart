@@ -64,13 +64,6 @@ class Catalog extends StatelessWidget {
   return maxDuration;
 }
 
-  Future<List<NoteBookNoteSuperEntity>> loadBookNotes(int id) async {
-    List<NoteBookNoteSuperEntity> notes =
-        await serviceLocator<NoteBookNoteSuperDao>()
-            .findNoteBookNoteByBookId(id);
-    return notes;
-  }
-
   @override
   Widget build(BuildContext context) {
     double baseWidth = 390;
@@ -393,7 +386,7 @@ class Catalog extends StatelessWidget {
                                     0, //will be dependent on database size
                                 itemBuilder: (context, index) {
                                   return InkWell(
-                                    onTap: () async {
+                                    onTap: () {
                                       showModalBottomSheet(
                                           context: context,
                                           isScrollControlled: true,
@@ -426,11 +419,15 @@ class Catalog extends StatelessWidget {
                                                                             context)
                                                                         .all_books,
                                                                     0)),
-                                                            /*Positioned(
+                                                            Positioned(
                                         left: 16,
                                         right: 16,
                                         bottom: 16,
-                                        child: mediaPageButton())*/
+                                        child: showMediaPageButton((snapshot.data
+                                                                            as List?)?[
+                                                                        index], AppLocalizations.of(
+                                                                            context)
+                                                                        .all_books))
                                                           ])));
                                     },
                                     child: Container(

@@ -1,6 +1,6 @@
 import 'package:src/pages/catalog_search/media.dart';
 import 'package:src/pages/leisure/media_page.dart';
-
+import 'package:src/widgets/leisure/media_page_button.dart';
 
 showWidget(dynamic item, String title) {
   if (item.linkImage != null) {
@@ -61,5 +61,15 @@ showMediaPageBasedOnType(dynamic item, String title, int duration) {
       isFavorite: item.favorite,
       leisureTags: leisureTags,
     );
+  }
+}
+
+showMediaPageButton(dynamic item, String title) {
+  if (title == 'All Books') {
+    return MediaPageButton(item: item, type:'Book'); 
+  } else if (title == 'All Movies') {
+    return MediaPageButton(item: item, type:'Movie'); 
+  } else {
+    return MediaPageButton(item: item, type:'TV Show'); 
   }
 }
