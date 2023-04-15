@@ -6,8 +6,9 @@ import 'package:src/themes/colors.dart';
 
 class SubjectBar extends StatefulWidget {
   final String name, acronym;
+  final int id;
 
-  const SubjectBar({Key? key, required this.name, required this.acronym})
+  const SubjectBar({Key? key, required this.name, required this.acronym, required this.id})
       : super(key: key);
 
   @override
@@ -40,8 +41,7 @@ class _SubjectBarState extends State<SubjectBar> {
                   minChildSize: 0.5,
                   maxChildSize: 0.5,
                   builder: (context, scrollController) => SubjectForm(
-                    name: widget.name,
-                    acronym: widget.acronym,
+                    id: widget.id,
                     scrollController: scrollController,
                   ),
                 )));

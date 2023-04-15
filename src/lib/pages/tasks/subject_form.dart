@@ -12,17 +12,10 @@ import 'package:src/utils/service_locator.dart';
 import 'package:flutter/services.dart';
 
 class SubjectForm extends StatefulWidget {
-  final String? name, acronym, weightAverage;
-  final int? institutionId;
+  final int? id;
   final ScrollController scrollController;
 
-  const SubjectForm(
-      {Key? key,
-      required this.scrollController,
-      this.name,
-      this.acronym,
-      this.weightAverage,
-      this.institutionId})
+  const SubjectForm({Key? key, required this.scrollController, this.id})
       : super(key: key);
 
   @override
@@ -35,37 +28,44 @@ class _SubjectFormState extends State<SubjectForm> {
   TextEditingController controller3 = TextEditingController();
   TextEditingController controller4 = TextEditingController();
 
-  late String? name, acronym, weightAverage;
-  late int? institutionId;
+  late String name, acronym, weightAverage;
+  late int institutionId;
 
   @override
   initState() {
-    name = widget.name;
-    acronym = widget.acronym;
-    weightAverage = widget.weightAverage;
-    institutionId = widget.institutionId;
-
-    if (widget.name != null && widget.acronym != null) {
-      controller.text = widget.name!;
-      controller2.text = widget.acronym!;
-    }
-    if (weightAverage != null) {
-      controller3.text = widget.weightAverage!;
-    }
-    if (widget.institutionId != null) {
-      initInstitution();
-    } else {
-      institutionId = -1;
-    }
+    fillSubjectFields();
 
     super.initState();
   }
 
-  initInstitution() async {
-    Institution? institution = await serviceLocator<InstitutionDao>()
-        .findInstitutionById(widget.institutionId!)
-        .first;
-    controller4.text = institution!.name;
+  fillSubjectFields() async {
+    if (widget.id != null) {
+      Subject? subject =
+          await serviceLocator<SubjectDao>().findSubjectById(widget.id!).first;
+
+      controller.text = subject!.name;
+      controller2.text = subject.acronym;
+      controller3.text = subject.weightAverage.toString();
+
+      if (subject.institutionId != null) {
+        Institution? institution = await serviceLocator<InstitutionDao>()
+            .findInstitutionById(subject.institutionId!)
+            .first;
+
+        institutionId = institution!.id!;
+        controller4.text = institution.name;
+      }
+    } else {
+      controller.clear();
+      controller2.clear();
+      controller3.clear();
+      controller4.clear();
+
+      name = '';
+      acronym = '';
+      weightAverage = '';
+      institutionId = -1;
+    }
   }
 
   @override
@@ -115,11 +115,6 @@ class _SubjectFormState extends State<SubjectForm> {
               Flexible(
                   flex: 10,
                   child: TextField(
-                      onChanged: (value) {
-                        setState(() {
-                          name = value;
-                        });
-                      },
                       controller: controller,
                       style: const TextStyle(
                           fontSize: 20,
@@ -166,11 +161,6 @@ class _SubjectFormState extends State<SubjectForm> {
               Flexible(
                   flex: 10,
                   child: TextField(
-                      onChanged: (value) {
-                        setState(() {
-                          acronym = value;
-                        });
-                      },
                       controller: controller2,
                       style: const TextStyle(
                           fontSize: 20,
@@ -203,11 +193,6 @@ class _SubjectFormState extends State<SubjectForm> {
               Flexible(
                   flex: 10,
                   child: TextField(
-                      onChanged: (value) {
-                        setState(() {
-                          weightAverage = value;
-                        });
-                      },
                       controller: controller3,
                       keyboardType: TextInputType.number,
                       inputFormatters: [
@@ -232,7 +217,7 @@ class _SubjectFormState extends State<SubjectForm> {
             const SizedBox(height: 30),
             Row(children: [
               Text(
-                'Institution',
+                AppLocalizations.of(context).institution,
                 style: const TextStyle(
                     fontFamily: 'Poppins',
                     color: Color(0xFF71788D),
@@ -265,7 +250,7 @@ class _SubjectFormState extends State<SubjectForm> {
                             }).toList(),
                             onSelected: (Institution? institution) {
                               setState(() {
-                                institutionId = institution!.id;
+                                institutionId = institution!.id!;
                               });
                             },
                             initialSelection: snapshot.data![0],
@@ -273,7 +258,6 @@ class _SubjectFormState extends State<SubjectForm> {
                                 fontSize: 20,
                                 color: Colors.white,
                                 fontWeight: FontWeight.w400),
-                            hintText: 'Select an institution',
                             width: MediaQuery.of(context).size.width * 0.85,
                           );
                         } else {
@@ -284,6 +268,10 @@ class _SubjectFormState extends State<SubjectForm> {
             const SizedBox(height: 30),
             ElevatedButton(
                 onPressed: () async {
+                  String name = controller.text;
+                  String acronym = controller2.text;
+                  String weightAverage = controller3.text;
+
                   //TODO: Save stuff + send to database.
                   bool valid = true;
                   if (name == null || name == '') {
@@ -306,20 +294,44 @@ class _SubjectFormState extends State<SubjectForm> {
                   if (valid) {
                     Subject subject;
 
-                    if (institutionId != -1) {
-                      subject = Subject(
-                          name: name!,
-                          acronym: acronym!,
-                          weightAverage: double.parse(weightAverage!),
-                          institutionId: institutionId!);
-                    } else {
-                      subject = Subject(
-                          name: name!,
-                          acronym: acronym!,
-                          weightAverage: double.parse(weightAverage!));
-                    }
+                    if (widget.id != null) {
+                      if (institutionId != -1) {
+                        subject = Subject(
+                            id: widget.id,
+                            name: name,
+                            acronym: acronym,
+                            weightAverage: double.parse(weightAverage),
+                            institutionId: institutionId);
+                      } else {
+                        subject = Subject(
+                            id: widget.id,
+                            name: name,
+                            acronym: acronym,
+                            weightAverage: double.parse(weightAverage));
+                      }
 
-                    await serviceLocator<SubjectDao>().insertSubject(subject);
+                      await serviceLocator<SubjectDao>().updateSubject(subject);
+
+                      Subject? found = await serviceLocator<SubjectDao>()
+                          .findSubjectById(widget.id!)
+                          .first;
+
+                    } else {
+                      if (institutionId != -1) {
+                        subject = Subject(
+                            name: name,
+                            acronym: acronym,
+                            weightAverage: double.parse(weightAverage),
+                            institutionId: institutionId);
+                      } else {
+                        subject = Subject(
+                            name: name,
+                            acronym: acronym,
+                            weightAverage: double.parse(weightAverage));
+                      }
+
+                      await serviceLocator<SubjectDao>().insertSubject(subject);
+                    }
 
                     Navigator.pop(context);
                   }

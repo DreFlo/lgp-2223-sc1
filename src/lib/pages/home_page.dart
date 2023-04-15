@@ -660,8 +660,7 @@ class _HomePageState extends State<HomePage> {
                             minChildSize: 0.5,
                             maxChildSize: 0.5,
                             builder: (context, scrollController) => SubjectForm(
-                              name: "Hello",
-                              acronym: "HI",
+                              id: 1,
                               scrollController: scrollController,
                             ),
                           )));

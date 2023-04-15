@@ -54,7 +54,7 @@ class _InstitutionFormState extends State<InstitutionForm> {
               fontWeight: FontWeight.normal)));
     } else {
       for (var key in subjects!.keys) {
-        subjectsList.add(SubjectBar(acronym: key, name: subjects![key]!));
+        //subjectsList.add(SubjectBar(acronym: key, name: subjects![key]!));
       }
     }
 
