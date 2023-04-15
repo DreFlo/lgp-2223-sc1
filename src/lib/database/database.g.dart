@@ -1485,7 +1485,14 @@ class _$ReviewDao extends ReviewDao {
   }
 
   @override
-  Stream<Review?> findReviewsByMediaId(int mediaId) {
+  Future<int?> countReviewsByMediaId(int mediaId) async {
+    return _queryAdapter.query('SELECT COUNT() FROM review WHERE media_id = ?1',
+        mapper: (Map<String, Object?> row) => row.values.first as int,
+        arguments: [mediaId]);
+  }
+
+  @override
+  Stream<Review?> findReviewByMediaId(int mediaId) {
     return _queryAdapter.queryStream('SELECT * FROM review WHERE media_id = ?1',
         mapper: (Map<String, Object?> row) => Review(
             id: row['id'] as int?,
