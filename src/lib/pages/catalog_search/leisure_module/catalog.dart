@@ -130,7 +130,7 @@ class Catalog extends StatelessWidget {
                                         mainAxisAlignment:
                                             MainAxisAlignment.center,
                                         children: [
-                                          Media(
+                                          MediaWidget(
                                               image: (snapshot.data
                                                       as List?)?[index]
                                                   ?.linkImage,
@@ -219,7 +219,7 @@ class Catalog extends StatelessWidget {
                                         mainAxisAlignment:
                                             MainAxisAlignment.center,
                                         children: [
-                                          Media(
+                                          MediaWidget(
                                               image: (snapshot.data
                                                       as List?)?[index]
                                                   ?.linkImage,
@@ -308,7 +308,7 @@ class Catalog extends StatelessWidget {
                                         mainAxisAlignment:
                                             MainAxisAlignment.center,
                                         children: [
-                                          Media(
+                                          MediaWidget(
                                               image: (snapshot.data
                                                       as List?)?[index]
                                                   ?.linkImage,

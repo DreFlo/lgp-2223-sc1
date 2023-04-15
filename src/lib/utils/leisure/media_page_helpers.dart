@@ -12,7 +12,6 @@ import 'package:flutter/material.dart';
 import 'package:src/models/notes/note_book_note_super_entity.dart';
 import 'package:src/daos/notes/note_book_note_super_dao.dart';
 import 'package:src/daos/media/review_dao.dart';
-import 'package:src/models/media/episode.dart';
 import 'package:src/models/media/media_video_episode_super_entity.dart';
 import 'package:src/daos/media/media_video_episode_super_dao.dart';
 import 'package:src/models/media/season.dart';
@@ -101,9 +100,9 @@ Future<List<NoteEpisodeNoteSuperEntity>> loadEpisodeNotes(
 showWidget(dynamic item, String title) {
   if (item.linkImage != null) {
     if (title == 'All Books') {
-      return Media(image: item.linkImage, type: 'book');
+      return MediaWidget(image: item.linkImage, type: 'book');
     } else {
-      return Media(image: item.linkImage, type: 'video');
+      return MediaWidget(image: item.linkImage, type: 'video');
     }
   }
 }

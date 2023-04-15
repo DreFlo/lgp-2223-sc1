@@ -2,11 +2,11 @@
 
 import 'package:flutter/material.dart';
 
-class Media extends StatelessWidget {
+class MediaWidget extends StatelessWidget {
   final String image;
   final String type;
 
-  const Media({Key? key, required this.image, required this.type})
+  const MediaWidget({Key? key, required this.image, required this.type})
       : super(key: key);
 
   @override
