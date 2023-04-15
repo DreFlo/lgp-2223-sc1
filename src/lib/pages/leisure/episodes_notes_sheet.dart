@@ -3,19 +3,21 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:src/themes/colors.dart';
-import 'package:src/utils/enums.dart';
 import 'package:src/widgets/leisure/review_note_bar.dart';
 import 'package:src/widgets/leisure/season_tag.dart';
+import 'package:src/models/notes/note_episode_note_super_entity.dart';
+import 'package:src/models/media/review.dart';
+import 'package:src/models/media/episode.dart';
 
 import '../../widgets/leisure/episode_note_bar.dart';
 
 class EpisodesNotesSheet extends StatefulWidget {
-  final Map<String, String> notes;
-  final Map<Reaction, String>? review;
-  final Map<int, Map<dynamic, dynamic>> episodes;
+  final List<NoteEpisodeNoteSuperEntity?>? notes;
+  final Review? review;
+  final List<Episode> episodes;
 
   const EpisodesNotesSheet(
-      {Key? key, required this.notes, required this.episodes, this.review})
+      {Key? key, this.notes, required this.episodes, this.review})
       : super(key: key);
 
   @override
@@ -73,20 +75,22 @@ class _EpisodesNotesSheetState extends State<EpisodesNotesSheet>
 
     if (widget.review != null) {
       episodes.add(ReviewNoteBar(
-        reaction: widget.review!.keys.first,
-        text: widget.review![widget.review!.keys.first],
+        reaction: widget.review!.emoji,
+        text: widget.review!.review,
       ));
 
       episodes.add(const SizedBox(height: 15));
     }
 
-    for (var code in widget.notes.keys) {
-      episodes.add(EpisodeNoteBar(
-        code: code,
-        text: widget.notes[code]!,
-      ));
+    if (widget.notes != null) {
+      for (var range in widget.notes!) {
+        episodes.add(EpisodeNoteBar(
+          code: range!.title,
+          text: range.content,
+        ));
 
-      episodes.add(const SizedBox(height: 15));
+        episodes.add(const SizedBox(height: 15));
+      }
     }
 
     return episodes;
@@ -97,15 +101,17 @@ class _EpisodesNotesSheetState extends State<EpisodesNotesSheet>
 
     List<Widget> episodes = [];
 
-    for (var code in widget.notes.keys) {
-      var seasonCode = "S${season.toString().padLeft(2, "0")}";
-      if (code.contains(seasonCode)) {
-        episodes.add(EpisodeNoteBar(
-          code: code,
-          text: widget.notes[code]!,
-        ));
+    if (widget.notes != null) {
+      for (var range in widget.notes!) {
+        var seasonCode = "S${season.toString().padLeft(2, "0")}";
+        if (range!.title.contains(seasonCode)) {
+          episodes.add(EpisodeNoteBar(
+            code: range.title,
+            text: range.content,
+          ));
 
-        episodes.add(const SizedBox(height: 15));
+          episodes.add(const SizedBox(height: 15));
+        }
       }
     }
 
