@@ -113,7 +113,8 @@ class MediaPageButton extends StatelessWidget {
           child: Text(AppLocalizations.of(context).add,
               style: Theme.of(context).textTheme.headlineSmall),
         );
-      } else if (item.status == Status.goingThrough || item.status == Status.planTo) {
+      } else if (item.status == Status.goingThrough ||
+          item.status == Status.planTo) {
         // If media is somehow in the catalog, then user should be able to see their notes and edit info.
         return Container(
           width: MediaQuery.of(context).size.width * 0.95,
@@ -122,6 +123,10 @@ class MediaPageButton extends StatelessWidget {
             children: [
               ElevatedButton(
                 onPressed: () {
+                  List<Episode> noNullEpisodes = episodes!
+                      .where((episode) => episode != null)
+                      .map((episode) => episode!)
+                      .toList();
                   showModalBottomSheet(
                       context: context,
                       isScrollControlled: true,
@@ -147,7 +152,7 @@ class MediaPageButton extends StatelessWidget {
                                         child: SingleChildScrollView(
                                             controller: scrollController,
                                             child: MarkEpisodesSheet(
-                                                episodes: episodes))),
+                                                episodes: noNullEpisodes))),
                                   ])));
                 },
                 style: ElevatedButton.styleFrom(
@@ -163,6 +168,10 @@ class MediaPageButton extends StatelessWidget {
               ),
               ElevatedButton(
                 onPressed: () {
+                  List<Episode> noNullEpisodes = episodes!
+                      .where((episode) => episode != null)
+                      .map((episode) => episode!)
+                      .toList();
                   showModalBottomSheet(
                       context: context,
                       isScrollControlled: true,
@@ -189,7 +198,7 @@ class MediaPageButton extends StatelessWidget {
                                             controller: scrollController,
                                             child: EpisodesNotesSheet(
                                                 notes: episodeNotes,
-                                                episodes: episodes)))
+                                                episodes: noNullEpisodes)))
                                   ])));
                 },
                 style: ElevatedButton.styleFrom(
@@ -214,6 +223,10 @@ class MediaPageButton extends StatelessWidget {
             children: [
               ElevatedButton(
                 onPressed: () {
+                  List<Episode> noNullEpisodes = episodes!
+                      .where((episode) => episode != null)
+                      .map((episode) => episode!)
+                      .toList();
                   showModalBottomSheet(
                       context: context,
                       isScrollControlled: true,
@@ -240,11 +253,8 @@ class MediaPageButton extends StatelessWidget {
                                             controller: scrollController,
                                             child: EpisodesNotesSheet(
                                                 notes: episodeNotes,
-                                                review: const {
-                                                  Reaction.dislike:
-                                                      "Didn't like it at all."
-                                                },
-                                                episodes: episodes)))
+                                                review: review,
+                                                episodes: noNullEpisodes)))
                                   ])));
                 },
                 style: ElevatedButton.styleFrom(
@@ -262,8 +272,7 @@ class MediaPageButton extends StatelessWidget {
           ),
         );
       }
-    } 
-    else if (type == "Book") {
+    } else if (type == "Book") {
       if (item.status == Status.nothing) {
         // If the media is not in the catalog, show a button to add it.
         return ElevatedButton(
@@ -404,8 +413,8 @@ class MediaPageButton extends StatelessWidget {
                                                 50),
                                         child: SingleChildScrollView(
                                             controller: scrollController,
-                                            child:
-                                                BookNotesSheet(notes: bookNotes)))
+                                            child: BookNotesSheet(
+                                                notes: bookNotes)))
                                   ])));
                 },
                 style: ElevatedButton.styleFrom(

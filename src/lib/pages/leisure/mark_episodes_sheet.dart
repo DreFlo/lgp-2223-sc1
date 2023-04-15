@@ -5,12 +5,14 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:src/themes/colors.dart';
 import 'package:src/widgets/leisure/season_tag.dart';
 import 'package:src/widgets/leisure/episode_bar.dart';
+import 'package:src/models/media/episode.dart';
+
 
 import '../../utils/enums.dart';
 import 'finished_media_form.dart';
 
 class MarkEpisodesSheet extends StatefulWidget {
-  final Map<int, Map<dynamic, dynamic>> episodes;
+  final List<Episode> episodes;
 
   const MarkEpisodesSheet({Key? key, required this.episodes}) : super(key: key);
 
@@ -44,7 +46,7 @@ class _MarkEpisodesSheetState extends State<MarkEpisodesSheet>
   List<Widget> getEpisodes() {
     List<Widget> episodes = [];
 
-    for (int j = 1; j <= widget.episodes[selectedSeason]!.length; j++) {
+    /*for (int j = 1; j <= widget.episodes[selectedSeason]!.length; j++) {
       episodes.add(EpisodeBar(
           code:
               "S${selectedSeason.toString().padLeft(2, 0.toString())}E${j.toString().padLeft(2, 0.toString())}",
@@ -53,7 +55,7 @@ class _MarkEpisodesSheetState extends State<MarkEpisodesSheet>
           watched: true));
 
       episodes.add(const SizedBox(height: 15));
-    }
+    }*/
 
     return episodes;
   }
