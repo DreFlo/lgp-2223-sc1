@@ -396,10 +396,10 @@ class ListMediaSearch extends StatelessWidget {
                                                     .viewInsets
                                                     .bottom +
                                                 50),
-                                        child: SingleChildScrollView(
+                                        /*child: SingleChildScrollView(
                                             controller: scrollController,
                                             child:
-                                                BookNotesSheet(notes: notes)))
+                                                BookNotesSheet(notes: notes))*/)
                                   ])));
                 },
                 style: ElevatedButton.styleFrom(
@@ -449,11 +449,11 @@ class ListMediaSearch extends StatelessWidget {
                                                 50),
                                         child: SingleChildScrollView(
                                             controller: scrollController,
-                                            child: BookNotesSheet(
+                                            /*child: BookNotesSheet(
                                                 notes: const {},
                                                 review: const {
                                                   Reaction.dislike: "Hated it."
-                                                })))
+                                                })*/))
                                   ])));
                 },
                 style: ElevatedButton.styleFrom(
@@ -621,11 +621,11 @@ class ListMediaSearch extends StatelessWidget {
                                                 50),
                                         child: SingleChildScrollView(
                                             controller: scrollController,
-                                            child: BookNotesSheet(
+                                            /*child: BookNotesSheet(
                                                 notes: const {},
                                                 review: const {
                                                   Reaction.dislike: "Hated it."
-                                                })))
+                                                })*/))
                                   ])));
                 },
                 style: ElevatedButton.styleFrom(

@@ -5,9 +5,10 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:src/utils/enums.dart';
 import 'package:src/widgets/leisure/book_note_bar.dart';
 import 'package:src/widgets/leisure/review_note_bar.dart';
+import 'package:src/models/notes/note_book_note_super_entity.dart';
 
 class BookNotesSheet extends StatefulWidget {
-  final Map<String, String> notes;
+  final List <NoteBookNoteSuperEntity> notes;
   final Map<Reaction, String>? review;
 
   const BookNotesSheet({Key? key, required this.notes, this.review})
@@ -31,14 +32,11 @@ class _BookNotesSheetState extends State<BookNotesSheet>
       notes.add(const SizedBox(height: 15));
     }
 
-    for (var range in widget.notes.keys) {
-      int startPage = int.parse(range.split('-')[0]),
-          endPage = int.parse(range.split('-')[1]);
-
+    for (var range in widget.notes) {
       notes.add(BookNoteBar(
-        startPage: startPage,
-        endPage: endPage,
-        text: widget.notes[range]!,
+        startPage: range.startPage,
+        endPage: range.endPage,
+        text: range.content,
       ));
 
       notes.add(const SizedBox(height: 15));
