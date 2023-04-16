@@ -297,7 +297,7 @@ class _SubjectFormState extends State<SubjectForm> {
                           String acronym = controller2.text;
                           String weightAverage = controller3.text;
 
-                          //TODO: Save stuff + send to database.
+                          //TODO: Standard way to warn for incorrect input.
                           bool valid = true;
                           if (name == null || name == '') {
                             print('Name is null or empty');
