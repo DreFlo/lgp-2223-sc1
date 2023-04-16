@@ -312,7 +312,6 @@ class _InstitutionFormState extends State<InstitutionForm> {
                     builder: (BuildContext constex,
                         AsyncSnapshot<List<Subject?>> snapshot) {
                       if (snapshot.hasData) {
-                        print("Data: ${snapshot.data!.length}");
                         List<Widget> subjects = [];
 
                         if (snapshot.data!.isEmpty) {
