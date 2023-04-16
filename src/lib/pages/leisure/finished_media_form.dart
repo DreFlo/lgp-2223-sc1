@@ -375,11 +375,7 @@ class _FinishedMediaFormState extends State<FinishedMediaForm> {
                         )))
               ])),
           const SizedBox(height: 50),
-          Positioned(
-              left: 16,
-              right: 16,
-              bottom: 16,
-              child: Padding(
+          Padding(
                   padding: EdgeInsets.only(
                       bottom: MediaQuery.of(context).viewInsets.bottom),
                   child: ElevatedButton(
@@ -431,7 +427,7 @@ class _FinishedMediaFormState extends State<FinishedMediaForm> {
                     ),
                     child: Text(AppLocalizations.of(context).save,
                         style: Theme.of(context).textTheme.headlineSmall),
-                  )))
+                  ))
         ]));
   }
 }
