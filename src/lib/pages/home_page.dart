@@ -686,12 +686,6 @@ class _HomePageState extends State<HomePage> {
                             builder: (context, scrollController) =>
                                 InstitutionForm(
                               id: 1,
-                              name: "Hello",
-                              type: InstitutionType.education,
-                              subjects: const {
-                                "LPOO":
-                                    "Laboratório de Programação Orientada a Objetos"
-                              },
                               scrollController: scrollController,
                             ),
                           )));
