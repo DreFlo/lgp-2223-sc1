@@ -15,9 +15,14 @@ class MarkEpisodesSheet extends StatefulWidget {
   final List<MediaVideoEpisodeSuperEntity> episodes;
   final List<Season> seasons;
   final int mediaId;
+  final VoidCallback? refreshMediaList;
 
   const MarkEpisodesSheet(
-      {Key? key, required this.episodes, required this.seasons, required this.mediaId})
+      {Key? key,
+      required this.episodes,
+      required this.seasons,
+      required this.mediaId,
+      this.refreshMediaList})
       : super(key: key);
 
   @override
@@ -142,7 +147,8 @@ class _MarkEpisodesSheetState extends State<MarkEpisodesSheet>
                                                     .toString()
                                                     .split(" ")[0],
                                                 isFavorite: false,
-                                                mediaId: widget.mediaId,))),
+                                                mediaId: widget.mediaId,
+                                                refreshMediaList: widget.refreshMediaList))),
                                   ])));
                 },
                 child: Text(

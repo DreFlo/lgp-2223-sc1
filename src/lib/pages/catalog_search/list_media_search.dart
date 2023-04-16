@@ -86,7 +86,8 @@ class ListMediaSearch extends StatelessWidget {
                                                   return Container();
                                                 }
                                                 return showMediaPageButton(
-                                                    title, context);
+                                                    filteredMedia[index],
+                                                    context);
                                               })))
                                     ])));
                   },
@@ -167,6 +168,7 @@ class ListMediaSearch extends StatelessWidget {
     if (mediaExists == 0) {
       statusFavorite['status'] = Status.nothing;
       statusFavorite['favorite'] = false;
+      statusFavorite['id'] = 0;
       return statusFavorite;
     }
 
@@ -184,6 +186,7 @@ class ListMediaSearch extends StatelessWidget {
     }
     statusFavorite['status'] = media.status;
     statusFavorite['favorite'] = media.favorite;
+    statusFavorite['id'] = media.id;
     return statusFavorite;
   }
 
@@ -192,6 +195,7 @@ class ListMediaSearch extends StatelessWidget {
       return MediaPageButton(
           item: item,
           type: 'Book',
+          mediaId: statusFavorite['id'],
           status: statusFavorite['status'],
           bookNotes: bookNotes,
           review: review);
@@ -199,12 +203,14 @@ class ListMediaSearch extends StatelessWidget {
       return MediaPageButton(
           item: item,
           type: 'Movie',
+          mediaId: statusFavorite['id'],
           status: statusFavorite['status'],
           review: review);
     } else {
       return MediaPageButton(
           item: item,
           type: 'TV Show',
+          mediaId: statusFavorite['id'],
           status: statusFavorite['status'],
           review: review,
           episodeNotes: episodeNotes,

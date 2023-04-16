@@ -160,7 +160,7 @@ showMediaPageBasedOnType(dynamic item, String title, int duration) {
   }
 }
 
-showMediaPageForTV(dynamic item, context) async {
+showMediaPageForTV(dynamic item, context, refreshMediaList) async {
   int maxDuration = await loadDuration(item.id);
   Review? review = await loadReviews(item.id);
   List<Season> seasons = await loadSeasons(item.id);
@@ -193,15 +193,21 @@ showMediaPageForTV(dynamic item, context) async {
                     child: MediaPageButton(
                         item: item,
                         type: 'TV Show',
+                        mediaId: item.id,
                         status: item.status,
                         review: review,
                         episodeNotes: episodeNotes,
                         episodes: episodes,
-                        seasons: seasons))
+                        seasons: seasons,
+                        refreshMediaList: (){
+                          refreshMediaList();
+                          Navigator.pop(context);
+                          Navigator.pop(context);
+                        }))
               ])));
 }
 
-showMediaPageForMovies(dynamic item, context) async {
+showMediaPageForMovies(dynamic item, context, refreshMediaList) async {
   Review? review = await loadReviews(item.id);
   showModalBottomSheet(
       context: context,
@@ -227,12 +233,19 @@ showMediaPageForMovies(dynamic item, context) async {
                     child: MediaPageButton(
                         item: item,
                         type: 'Movie',
+                        mediaId: item.id,
                         status: item.status,
-                        review: review))
+                        review: review,
+                        refreshMediaList: (){
+                refreshMediaList();
+                Navigator.pop(context);
+                Navigator.pop(context);
+                }
+                        ))
               ])));
 }
 
-showMediaPageForBooks(dynamic item, context) async {
+showMediaPageForBooks(dynamic item, context, refreshMediaList) async {
   List<NoteBookNoteSuperEntity?>? notes = await loadBookNotes(item.id);
   Review? review = await loadReviews(item.id);
   showModalBottomSheet(
@@ -259,8 +272,14 @@ showMediaPageForBooks(dynamic item, context) async {
                     child: MediaPageButton(
                         item: item,
                         type: 'Book',
+                        mediaId: item.id,
                         status: item.status,
                         bookNotes: notes,
-                        review: review))
+                        review: review,
+                        refreshMediaList: (){
+                refreshMediaList();
+                Navigator.pop(context);
+                Navigator.pop(context);
+                }))
               ])));
 }

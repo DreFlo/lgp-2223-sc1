@@ -6,8 +6,9 @@ import 'package:src/utils/leisure/media_page_helpers.dart';
 class ListMediaCatalog extends StatelessWidget {
   final List media;
   final String title;
+  final VoidCallback? refreshMediaList;
 
-  const ListMediaCatalog({Key? key, required this.title, required this.media})
+  const ListMediaCatalog({Key? key, required this.title, required this.media, this.refreshMediaList})
       : super(key: key);
 
   @override
@@ -33,11 +34,12 @@ class ListMediaCatalog extends StatelessWidget {
                 child: GestureDetector(
                   onTap: () {
                     if (title == 'All TV Shows') {
-                      showMediaPageForTV(filteredMedia[index], context);
+                      showMediaPageForTV(filteredMedia[index], context, refreshMediaList);
                     } else if (title == 'All Movies') {
-                      showMediaPageForMovies(filteredMedia[index], context);
+                      showMediaPageForMovies(
+                          filteredMedia[index], context, refreshMediaList);
                     } else if (title == 'All Books') {
-                      showMediaPageForBooks(filteredMedia[index], context);
+                      showMediaPageForBooks(filteredMedia[index], context, refreshMediaList);
                     }
                   },
                   child: SizedBox(

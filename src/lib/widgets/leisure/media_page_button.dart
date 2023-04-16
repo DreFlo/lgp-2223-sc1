@@ -20,22 +20,26 @@ class MediaPageButton extends StatelessWidget {
   final dynamic item;
   final String type;
   final Status status;
+  final int mediaId;
   final Review? review;
   final List<NoteBookNoteSuperEntity?>? bookNotes;
   final List<NoteEpisodeNoteSuperEntity?>? episodeNotes;
   final List<MediaVideoEpisodeSuperEntity?>? episodes;
   final List<Season?>? seasons;
+  final VoidCallback? refreshMediaList;
 
   const MediaPageButton(
       {Key? key,
       required this.item,
       required this.type,
       required this.status,
+      required this.mediaId,
       this.review,
       this.bookNotes,
       this.episodeNotes,
       this.episodes,
-      this.seasons})
+      this.seasons,
+      this.refreshMediaList})
       : super(key: key);
 
   @override
@@ -162,7 +166,9 @@ class MediaPageButton extends StatelessWidget {
                                             child: MarkEpisodesSheet(
                                                 episodes: noNullEpisodes,
                                                 seasons: noNullSeasons,
-                                                mediaId: item.id))),
+                                                mediaId: mediaId,
+                                                refreshMediaList:
+                                                    refreshMediaList!))),
                                   ])));
                 },
                 style: ElevatedButton.styleFrom(
@@ -392,7 +398,7 @@ class MediaPageButton extends StatelessWidget {
                           padding: EdgeInsets.only(
                               bottom: MediaQuery.of(context).viewInsets.bottom),
                           child: Stack(children: [
-                            AddBookNoteForm(mediaId: item.id),
+                            AddBookNoteForm(mediaId: mediaId, refreshMediaList: refreshMediaList),
                           ])));
                 },
                 style: ElevatedButton.styleFrom(
@@ -622,7 +628,8 @@ class MediaPageButton extends StatelessWidget {
                                                         .toString()
                                                         .split(" ")[0],
                                                     isFavorite: false,
-                                                    mediaId: item.id)))
+                                                    mediaId: mediaId,
+                                                    refreshMediaList: refreshMediaList)))
                                       ])));
                     },
                     style: ElevatedButton.styleFrom(

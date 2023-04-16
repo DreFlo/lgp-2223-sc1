@@ -19,11 +19,16 @@ import 'package:src/daos/media/book_dao.dart';
 import 'package:src/models/media/media.dart';
 import 'package:src/utils/leisure/media_page_helpers.dart';
 
-class Catalog extends StatelessWidget {
+class Catalog extends StatefulWidget {
   final String search;
 
-  Catalog({Key? key, required this.search}) : super(key: key);
+  const Catalog({Key? key, required this.search}) : super(key: key);
 
+  @override
+  CatalogState createState() => CatalogState();
+}
+
+class CatalogState extends State<Catalog> {
   List movies = [];
   List series = [];
   List books = [];
@@ -58,11 +63,35 @@ class Catalog extends StatelessWidget {
     return await loadmedia('book');
   }
 
+  Future<void> refreshMediaList() async {
+    loadMovies();
+    loadTv();
+    loadBooks();
+    setState(() {
+      
+    });
+  }
+
+    Future<void> refreshMovies() async {
+      await loadMovies();
+      setState(() {});
+    }
+
+    Future<void> refreshSeries() async {
+      await loadTv();
+      setState(() {});
+    }
+
+    Future<void> refreshBooks() async {
+      await loadBooks();
+      setState(() {});
+    }
+  
   Future<Map> searchMedia() async {
     List<MediaVideoMovieSuperEntity> movieResults = [];
     List<MediaBookSuperEntity> bookResults = [];
     List<MediaSeriesSuperEntity> seriesResults = [];
-    String query = '%$search%';
+    String query = '%${widget.search}%';
     final results = await serviceLocator<MediaDao>().getMatchingMedia(query);
 
     //identify the type of media and add it to the correct list
@@ -95,8 +124,13 @@ class Catalog extends StatelessWidget {
     };
   }
 
+  Future<void> refreshSearch() async {
+    await searchMedia();
+    setState(() {});
+  }
+
   showSearchResultOrCatalog(context, double fem) {
-    if (search == '') {
+    if (widget.search == '') {
       return ListView(shrinkWrap: true, children: [
         Container(
           padding: const EdgeInsets.symmetric(horizontal: 18),
@@ -129,7 +163,7 @@ class Catalog extends StatelessWidget {
                                   builder: (context) => SeeAll(
                                       title: AppLocalizations.of(context)
                                           .all_movies,
-                                      media: movies)));
+                                      media: movies, refreshMediaList: refreshMovies)));
                         },
                         child: Text(
                           AppLocalizations.of(context).see_all,
@@ -167,7 +201,7 @@ class Catalog extends StatelessWidget {
                                       onTap: () {
                                         showMediaPageForMovies(
                                             (snapshot.data as List?)?[index],
-                                            context);
+                                            context, refreshMediaList);
                                       },
                                       child: Container(
                                         width: 140 * fem,
@@ -218,7 +252,7 @@ class Catalog extends StatelessWidget {
                                   builder: (context) => SeeAll(
                                       title: AppLocalizations.of(context)
                                           .all_tv_shows,
-                                      media: series)));
+                                      media: series, refreshMediaList: refreshSeries)));
                         },
                         child: Text(
                           AppLocalizations.of(context).see_all,
@@ -256,7 +290,7 @@ class Catalog extends StatelessWidget {
                                       onTap: () {
                                         showMediaPageForTV(
                                             (snapshot.data as List?)?[index],
-                                            context);
+                                            context, refreshMediaList);
                                       },
                                       child: Container(
                                         width: 140 * fem,
@@ -307,7 +341,7 @@ class Catalog extends StatelessWidget {
                                   builder: (context) => SeeAll(
                                       title: AppLocalizations.of(context)
                                           .all_books,
-                                      media: books)));
+                                      media: books, refreshMediaList: refreshBooks)));
                         },
                         child: Text(
                           AppLocalizations.of(context).see_all,
@@ -345,7 +379,7 @@ class Catalog extends StatelessWidget {
                                       onTap: () {
                                         showMediaPageForBooks(
                                             (snapshot.data as List?)?[index],
-                                            context);
+                                            context, refreshMediaList);
                                       },
                                       child: Container(
                                         width: 140 * fem,
