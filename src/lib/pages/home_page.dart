@@ -619,25 +619,23 @@ class _HomePageState extends State<HomePage> {
                             BorderRadius.vertical(top: Radius.circular(30.0)),
                       ),
                       builder: (context) => Padding(
-                            padding: EdgeInsets.only(
+                          padding: EdgeInsets.only(
                                 bottom:
                                     MediaQuery.of(context).viewInsets.bottom +
-                                        50),
-                            child: DraggableScrollableSheet(
-                                expand: false,
-                                initialChildSize: 0.75,
-                                minChildSize: 0.75,
-                                maxChildSize: 0.75,
-                                builder: (context, scrollController) =>
-                                    ProjectForm(
-                                        scrollController: scrollController,
-                                        title: "Create Project",
-                                        dueDate: "05/04/2023",
-                                        institution: "FEUP",
-                                        subject: "LPOO",
-                                        tasks: const ["", "", ""],
-                                        description: "nothing")),
-                          ));
+                                  50),
+                          child: DraggableScrollableSheet(
+                              expand: false,
+                              initialChildSize: 0.75,
+                              minChildSize: 0.75,
+                              maxChildSize: 0.75,
+                              builder: (context, scrollController) =>
+                                  ProjectForm(
+                                    scrollController: scrollController,
+                                    // id: 3,
+                                    // institutionId: 1,
+                                    // subjectId: 1,
+                                    // tasks: const ["", "", ""],))
+                                  ))));
                 }),
             ElevatedButton(
                 child: Text("Subject Form"),
