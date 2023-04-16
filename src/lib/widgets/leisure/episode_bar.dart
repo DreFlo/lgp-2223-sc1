@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:src/daos/media/media_video_episode_super_dao.dart';
 import 'package:src/themes/colors.dart';
 import 'package:src/utils/enums.dart';
+import 'package:src/utils/service_locator.dart';
 import '../../pages/leisure/add_episode_note_form.dart';
 import 'package:src/models/media/media_video_episode_super_entity.dart';
 
 class EpisodeBar extends StatefulWidget {
   final MediaVideoEpisodeSuperEntity episode;
   final String code;
-  final bool favorite, watched;
 
   EpisodeBar({
     Key? key,
@@ -15,8 +16,6 @@ class EpisodeBar extends StatefulWidget {
     required this.episode,
   })  : code =
             'S${season.toString().padLeft(2, '0')}E${episode.number.toString().padLeft(2, '0')}',
-        favorite = episode.favorite,
-        watched = episode.status == Status.done ? true : false,
         super(key: key);
 
   @override
@@ -24,14 +23,16 @@ class EpisodeBar extends StatefulWidget {
 }
 
 class _EpisodeBarState extends State<EpisodeBar> {
-  late bool favorite, watched;
+  late MediaVideoEpisodeSuperEntity episode;
 
   @override
   initState() {
-    favorite = widget.favorite;
-    watched = widget.watched;
-
+    episode = widget.episode;
     super.initState();
+  }
+
+  bool watched() {
+    return episode.status == Status.done ? true : false;
   }
 
   @override
@@ -65,56 +66,74 @@ class _EpisodeBarState extends State<EpisodeBar> {
           Column(children: [
             Row(mainAxisAlignment: MainAxisAlignment.center, children: [
               ElevatedButton(
-                  onPressed: () {
-                    favorite = !favorite;
-                    setState(() {});
+                  onPressed: () async {
+                    MediaVideoEpisodeSuperEntity newEpisode =
+                        episode.copyWith(favorite: !episode.favorite);
 
-                    //TODO: Add functionality for favoriting episode.
+                    await serviceLocator<MediaVideoEpisodeSuperDao>()
+                        .updateMediaVideoEpisodeSuperEntity(newEpisode);
+                    setState(() {
+                      episode = newEpisode;
+                    });
                   },
                   style: ButtonStyle(
                     minimumSize: MaterialStateProperty.all(const Size(45, 45)),
                     backgroundColor: MaterialStateProperty.all(
-                        favorite ? leisureColor : Colors.white),
+                        episode.favorite ? leisureColor : Colors.white),
                     foregroundColor: MaterialStateProperty.all(
-                        favorite ? Colors.white : leisureColor),
+                        episode.favorite ? Colors.white : leisureColor),
                     shape: MaterialStateProperty.all<CircleBorder>(
                         const CircleBorder()),
                   ),
                   child: const Icon(Icons.favorite_rounded)),
               ElevatedButton(
-                  onPressed: () {
-                    watched = !watched;
-                    setState(() {});
+                  onPressed: () async {
+                    MediaVideoEpisodeSuperEntity newEpisode = episode.copyWith(
+                        status: episode.status == Status.done
+                            ? Status.nothing
+                            : Status.done);
 
-                    //TODO: Add functionality for watching episode.
+                    await serviceLocator<MediaVideoEpisodeSuperDao>()
+                        .updateMediaVideoEpisodeSuperEntity(newEpisode);
+                    setState(() {
+                      episode = newEpisode;
+                    });
                   },
-                  onLongPress: () {
-                    watched = !watched;
-                    setState(() {});
-                    //TODO: Add functionality for watching episode.
+                  onLongPress: () async {
+                    MediaVideoEpisodeSuperEntity newEpisode = episode.copyWith(
+                        status: episode.status == Status.done
+                            ? Status.nothing
+                            : Status.done);
 
-                    showModalBottomSheet(
-                        context: context,
-                        isScrollControlled: true,
-                        backgroundColor: const Color(0xFF22252D),
-                        shape: const RoundedRectangleBorder(
-                          borderRadius:
-                              BorderRadius.vertical(top: Radius.circular(30.0)),
-                        ),
-                        builder: (context) => Padding(
-                            padding: EdgeInsets.only(
-                                bottom:
-                                    MediaQuery.of(context).viewInsets.bottom),
-                            child: Stack(children: [
-                              AddEpisodeNoteForm(code: widget.code),
-                            ])));
+                    await serviceLocator<MediaVideoEpisodeSuperDao>()
+                        .updateMediaVideoEpisodeSuperEntity(newEpisode);
+                    setState(() {
+                      episode = newEpisode;
+                    });
+                    if (context.mounted) {
+                      showModalBottomSheet(
+                          context: context,
+                          isScrollControlled: true,
+                          backgroundColor: const Color(0xFF22252D),
+                          shape: const RoundedRectangleBorder(
+                            borderRadius: BorderRadius.vertical(
+                                top: Radius.circular(30.0)),
+                          ),
+                          builder: (context) => Padding(
+                              padding: EdgeInsets.only(
+                                  bottom:
+                                      MediaQuery.of(context).viewInsets.bottom),
+                              child: Stack(children: [
+                                AddEpisodeNoteForm(code: widget.code),
+                              ])));
+                    }
                   },
                   style: ButtonStyle(
                     minimumSize: MaterialStateProperty.all(const Size(45, 45)),
                     backgroundColor: MaterialStateProperty.all(
-                        watched ? leisureColor : Colors.white),
+                        watched() ? leisureColor : Colors.white),
                     foregroundColor: MaterialStateProperty.all(
-                        watched ? Colors.white : leisureColor),
+                        watched() ? Colors.white : leisureColor),
                     shape: MaterialStateProperty.all<CircleBorder>(
                         const CircleBorder()),
                   ),
