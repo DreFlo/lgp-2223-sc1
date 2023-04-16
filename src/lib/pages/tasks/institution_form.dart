@@ -34,13 +34,11 @@ class _InstitutionFormState extends State<InstitutionForm> {
   }
 
   Future<int> fillInstitutionFields() async {
-    print("fillInstitutionFields");
     if (controller.text.isNotEmpty) {
       return 0;
     }
 
     if (widget.id != null) {
-      print('widget.id: ${widget.id}');
       Institution? institution = await serviceLocator<InstitutionDao>()
           .findInstitutionById(widget.id!)
           .first;
@@ -344,8 +342,6 @@ class _InstitutionFormState extends State<InstitutionForm> {
                     const SizedBox(height: 30),
                     ElevatedButton(
                         onPressed: () {
-                          //TODO: Save stuff + send to database.
-
                           String name = controller.text;
 
                           bool valid = true;
