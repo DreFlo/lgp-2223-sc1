@@ -151,9 +151,8 @@ class SeeAllState extends State<SeeAll> {
             ),
           )),
       body: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: showSearchResultOrSeeAll()
-      ),
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: showSearchResultOrSeeAll()),
     );
   }
 }

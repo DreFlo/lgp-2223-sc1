@@ -19,6 +19,7 @@ import 'package:src/utils/enums.dart';
 class MediaPageButton extends StatelessWidget {
   final dynamic item;
   final String type;
+  final Status status;
   final Review? review;
   final List<NoteBookNoteSuperEntity?>? bookNotes;
   final List<NoteEpisodeNoteSuperEntity?>? episodeNotes;
@@ -29,6 +30,7 @@ class MediaPageButton extends StatelessWidget {
       {Key? key,
       required this.item,
       required this.type,
+      required this.status,
       this.review,
       this.bookNotes,
       this.episodeNotes,
@@ -39,7 +41,7 @@ class MediaPageButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     if (type == "TV Show") {
-      if (item.status == Status.nothing) {
+      if (status == Status.nothing) {
         return ElevatedButton(
           onPressed: () {
             showModalBottomSheet(
@@ -116,8 +118,7 @@ class MediaPageButton extends StatelessWidget {
           child: Text(AppLocalizations.of(context).add,
               style: Theme.of(context).textTheme.headlineSmall),
         );
-      } else if (item.status == Status.goingThrough ||
-          item.status == Status.planTo) {
+      } else if (status == Status.goingThrough || status == Status.planTo) {
         // If media is somehow in the catalog, then user should be able to see their notes and edit info.
         return Container(
           width: MediaQuery.of(context).size.width * 0.95,
@@ -228,7 +229,7 @@ class MediaPageButton extends StatelessWidget {
             ],
           ),
         );
-      } else if (item.status == Status.done) {
+      } else if (status == Status.done) {
         return Container(
           width: MediaQuery.of(context).size.width * 0.95,
           child: Row(
@@ -291,7 +292,7 @@ class MediaPageButton extends StatelessWidget {
         );
       }
     } else if (type == "Book") {
-      if (item.status == Status.nothing) {
+      if (status == Status.nothing) {
         // If the media is not in the catalog, show a button to add it.
         return ElevatedButton(
           onPressed: () {
@@ -369,8 +370,7 @@ class MediaPageButton extends StatelessWidget {
           child: Text(AppLocalizations.of(context).add,
               style: Theme.of(context).textTheme.headlineSmall),
         );
-      } else if (item.status == Status.goingThrough ||
-          item.status == Status.planTo) {
+      } else if (status == Status.goingThrough || status == Status.planTo) {
         // If media is somehow in the catalog, then user should be able to see their notes and edit info.
         return Container(
           width: MediaQuery.of(context).size.width * 0.95,
@@ -449,7 +449,7 @@ class MediaPageButton extends StatelessWidget {
             ],
           ),
         );
-      } else if (item.status == Status.done) {
+      } else if (status == Status.done) {
         // If media is somehow in the catalog, then user should be able to see their notes and edit info.
         return Container(
           width: MediaQuery.of(context).size.width,
@@ -503,7 +503,7 @@ class MediaPageButton extends StatelessWidget {
         );
       }
     } else if (type == "Movie") {
-      if (item.status == Status.nothing) {
+      if (status == Status.nothing) {
         return ElevatedButton(
           onPressed: () {
             showModalBottomSheet(
@@ -580,7 +580,7 @@ class MediaPageButton extends StatelessWidget {
           child: Text(AppLocalizations.of(context).add,
               style: Theme.of(context).textTheme.headlineSmall),
         );
-      } else if (item.status == Status.planTo) {
+      } else if (status == Status.planTo) {
         return Container(
             width: MediaQuery.of(context).size.width,
             child: Row(
@@ -620,7 +620,7 @@ class MediaPageButton extends StatelessWidget {
                         style: Theme.of(context).textTheme.headlineSmall),
                   )
                 ]));
-      } else if (item.status == Status.done) {
+      } else if (status == Status.done) {
         return Container(
           width: MediaQuery.of(context).size.width,
           child: Row(

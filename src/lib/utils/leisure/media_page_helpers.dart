@@ -193,6 +193,7 @@ showMediaPageForTV(dynamic item, context) async {
                     child: MediaPageButton(
                         item: item,
                         type: 'TV Show',
+                        status: item.status,
                         review: review,
                         episodeNotes: episodeNotes,
                         episodes: episodes,
@@ -224,7 +225,10 @@ showMediaPageForMovies(dynamic item, context) async {
                     right: 16,
                     bottom: 16,
                     child: MediaPageButton(
-                        item: item, type: 'Movie', review: review))
+                        item: item,
+                        type: 'Movie',
+                        status: item.status,
+                        review: review))
               ])));
 }
 
@@ -255,6 +259,7 @@ showMediaPageForBooks(dynamic item, context) async {
                     child: MediaPageButton(
                         item: item,
                         type: 'Book',
+                        status: item.status,
                         bookNotes: notes,
                         review: review))
               ])));
