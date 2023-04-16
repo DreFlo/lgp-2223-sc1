@@ -161,7 +161,8 @@ class MediaPageButton extends StatelessWidget {
                                             controller: scrollController,
                                             child: MarkEpisodesSheet(
                                                 episodes: noNullEpisodes,
-                                                seasons: noNullSeasons))),
+                                                seasons: noNullSeasons,
+                                                mediaId: item.id))),
                                   ])));
                 },
                 style: ElevatedButton.styleFrom(
@@ -390,8 +391,8 @@ class MediaPageButton extends StatelessWidget {
                       builder: (context) => Padding(
                           padding: EdgeInsets.only(
                               bottom: MediaQuery.of(context).viewInsets.bottom),
-                          child: Stack(children: const [
-                            AddBookNoteForm(),
+                          child: Stack(children: [
+                            AddBookNoteForm(mediaId: item.id),
                           ])));
                 },
                 style: ElevatedButton.styleFrom(
@@ -620,46 +621,8 @@ class MediaPageButton extends StatelessWidget {
                                                     endDate: DateTime.now()
                                                         .toString()
                                                         .split(" ")[0],
-                                                    isFavorite: false))),
-                                        Positioned(
-                                            left: 16,
-                                            right: 16,
-                                            bottom: 16,
-                                            child: Padding(
-                                                padding: EdgeInsets.only(
-                                                    bottom:
-                                                        MediaQuery.of(context)
-                                                            .viewInsets
-                                                            .bottom),
-                                                child: ElevatedButton(
-                                                  onPressed: () {
-                                                    //TODO: Save stuff + send to database.
-                                                  },
-                                                  style:
-                                                      ElevatedButton.styleFrom(
-                                                    minimumSize: Size(
-                                                        MediaQuery.of(context)
-                                                                .size
-                                                                .width *
-                                                            0.95,
-                                                        55),
-                                                    backgroundColor:
-                                                        leisureColor,
-                                                    shape:
-                                                        RoundedRectangleBorder(
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              25.0),
-                                                    ),
-                                                  ),
-                                                  child: Text(
-                                                      AppLocalizations.of(
-                                                              context)
-                                                          .save,
-                                                      style: Theme.of(context)
-                                                          .textTheme
-                                                          .headlineSmall),
-                                                )))
+                                                    isFavorite: false,
+                                                    mediaId: item.id)))
                                       ])));
                     },
                     style: ElevatedButton.styleFrom(

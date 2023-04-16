@@ -378,8 +378,8 @@ class _HomePageState extends State<HomePage> {
                       builder: (context) => Padding(
                           padding: EdgeInsets.only(
                               bottom: MediaQuery.of(context).viewInsets.bottom),
-                          child: Stack(children: const [
-                            AddBookNoteForm(),
+                          child: Stack(children:  const [
+                            AddBookNoteForm(mediaId: 1),
                           ])));
                 },
                 style: ElevatedButton.styleFrom(

@@ -8,7 +8,8 @@ import '../../utils/enums.dart';
 import 'finished_media_form.dart';
 
 class AddBookNoteForm extends StatefulWidget {
-  const AddBookNoteForm({Key? key}) : super(key: key);
+  final int mediaId;
+  const AddBookNoteForm({Key? key, required this.mediaId}) : super(key: key);
 
   @override
   State<AddBookNoteForm> createState() => _AddBookNoteFormState();
@@ -134,42 +135,11 @@ class _AddBookNoteFormState extends State<AddBookNoteForm> {
                                                 startDate: DateTime.now()
                                                     .toString()
                                                     .split(" ")[0],
-                                                endDate: 'Not Defined',
-                                                isFavorite: false))),
-                                    Positioned(
-                                        left: 16,
-                                        right: 16,
-                                        bottom: 16,
-                                        child: Padding(
-                                            padding: EdgeInsets.only(
-                                                bottom: MediaQuery.of(context)
-                                                    .viewInsets
-                                                    .bottom),
-                                            child: ElevatedButton(
-                                              onPressed: () {
-                                                //TODO: Save stuff + send to database.
-                                              },
-                                              style: ElevatedButton.styleFrom(
-                                                minimumSize: Size(
-                                                    MediaQuery.of(context)
-                                                            .size
-                                                            .width *
-                                                        0.95,
-                                                    55),
-                                                backgroundColor: leisureColor,
-                                                shape: RoundedRectangleBorder(
-                                                  borderRadius:
-                                                      BorderRadius.circular(
-                                                          25.0),
-                                                ),
-                                              ),
-                                              child: Text(
-                                                  AppLocalizations.of(context)
-                                                      .save,
-                                                  style: Theme.of(context)
-                                                      .textTheme
-                                                      .headlineSmall),
-                                            )))
+                                                endDate: DateTime.now()
+                                                    .toString()
+                                                    .split(" ")[0],
+                                                isFavorite: false,
+                                                mediaId: widget.mediaId)))
                                   ])));
                 },
                 child: Text(
