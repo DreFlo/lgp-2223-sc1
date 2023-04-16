@@ -104,8 +104,6 @@ class _EpisodesNotesSheetState extends State<EpisodesNotesSheet>
   }
 
   List<Widget> getSeasonNotes(int season) {
-    //TODO: Better the algorithm out.
-
     List<Widget> episodes = [];
 
     if (widget.notes != null) {

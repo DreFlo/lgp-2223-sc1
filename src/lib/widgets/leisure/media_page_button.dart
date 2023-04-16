@@ -596,17 +596,71 @@ class MediaPageButton extends StatelessWidget {
                             borderRadius: BorderRadius.vertical(
                                 top: Radius.circular(30.0)),
                           ),
-                          builder: (context) => Padding(
-                              padding: EdgeInsets.only(
-                                  bottom:
-                                      MediaQuery.of(context).viewInsets.bottom),
-                              child: Stack(children: const [
-                                FinishedMediaForm(
-                                    isFavorite: false,
-                                    startDate: "04/09/2023",
-                                    endDate: "04/09/2023",
-                                    rating: Reaction.hate),
-                              ])));
+                          builder: (context) => DraggableScrollableSheet(
+                              expand: false,
+                              minChildSize: 0.35,
+                              maxChildSize: 0.75,
+                              builder: (context, scrollController) => Stack(
+                                      alignment:
+                                          AlignmentDirectional.bottomCenter,
+                                      children: [
+                                        Padding(
+                                            padding: EdgeInsets.only(
+                                                bottom: MediaQuery.of(context)
+                                                        .viewInsets
+                                                        .bottom +
+                                                    50),
+                                            child: SingleChildScrollView(
+                                                controller: scrollController,
+                                                child: FinishedMediaForm(
+                                                    rating: Reaction.neutral,
+                                                    startDate: DateTime.now()
+                                                        .toString()
+                                                        .split(" ")[0],
+                                                    endDate: DateTime.now()
+                                                        .toString()
+                                                        .split(" ")[0],
+                                                    isFavorite: false))),
+                                        Positioned(
+                                            left: 16,
+                                            right: 16,
+                                            bottom: 16,
+                                            child: Padding(
+                                                padding: EdgeInsets.only(
+                                                    bottom:
+                                                        MediaQuery.of(context)
+                                                            .viewInsets
+                                                            .bottom),
+                                                child: ElevatedButton(
+                                                  onPressed: () {
+                                                    //TODO: Save stuff + send to database.
+                                                  },
+                                                  style:
+                                                      ElevatedButton.styleFrom(
+                                                    minimumSize: Size(
+                                                        MediaQuery.of(context)
+                                                                .size
+                                                                .width *
+                                                            0.95,
+                                                        55),
+                                                    backgroundColor:
+                                                        leisureColor,
+                                                    shape:
+                                                        RoundedRectangleBorder(
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              25.0),
+                                                    ),
+                                                  ),
+                                                  child: Text(
+                                                      AppLocalizations.of(
+                                                              context)
+                                                          .save,
+                                                      style: Theme.of(context)
+                                                          .textTheme
+                                                          .headlineSmall),
+                                                )))
+                                      ])));
                     },
                     style: ElevatedButton.styleFrom(
                       minimumSize:
