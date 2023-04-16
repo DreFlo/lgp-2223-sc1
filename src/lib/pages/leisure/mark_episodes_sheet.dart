@@ -63,12 +63,9 @@ class _MarkEpisodesSheetState extends State<MarkEpisodesSheet>
     for (int j = 0; j <= widget.episodes.length - 1; j++) {
       if (widget.episodes[j].seasonId == seasonId) {
         episodes.add(EpisodeBar(
-            code:
-                "S${selectedSeason.toString().padLeft(2, 0.toString())}E${widget.episodes[j].number.toString().padLeft(2, 0.toString())}",
-            title: widget.episodes[j].name,
-            favorite: widget.episodes[j].favorite,
-            watched:
-                (widget.episodes[j].status == Status.done ? true : false)));
+          season: selectedSeason,
+          episode: widget.episodes[j],
+        ));
 
         episodes.add(const SizedBox(height: 15));
       }
@@ -148,7 +145,8 @@ class _MarkEpisodesSheetState extends State<MarkEpisodesSheet>
                                                     .split(" ")[0],
                                                 isFavorite: false,
                                                 mediaId: widget.mediaId,
-                                                refreshMediaList: widget.refreshMediaList))),
+                                                refreshMediaList:
+                                                    widget.refreshMediaList))),
                                   ])));
                 },
                 child: Text(

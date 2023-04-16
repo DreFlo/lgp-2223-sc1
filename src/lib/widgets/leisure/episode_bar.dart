@@ -1,18 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:src/themes/colors.dart';
+import 'package:src/utils/enums.dart';
 import '../../pages/leisure/add_episode_note_form.dart';
+import 'package:src/models/media/media_video_episode_super_entity.dart';
 
 class EpisodeBar extends StatefulWidget {
-  final String code, title;
+  final MediaVideoEpisodeSuperEntity episode;
+  final String code;
   final bool favorite, watched;
 
-  const EpisodeBar(
-      {Key? key,
-      required this.code,
-      required this.title,
-      required this.favorite,
-      required this.watched})
-      : super(key: key);
+  EpisodeBar({
+    Key? key,
+    required int season,
+    required this.episode,
+  })  : code =
+            'S${season.toString().padLeft(2, '0')}E${episode.number.toString().padLeft(2, '0')}',
+        favorite = episode.favorite,
+        watched = episode.status == Status.done ? true : false,
+        super(key: key);
 
   @override
   State<EpisodeBar> createState() => _EpisodeBarState();
@@ -48,9 +53,9 @@ class _EpisodeBarState extends State<EpisodeBar> {
             ]),
             Row(mainAxisAlignment: MainAxisAlignment.start, children: [
               Text(
-                  widget.title.length > 20
-                      ? '${widget.title.substring(0, 20)}...'
-                      : widget.title,
+                  widget.episode.name.length > 20
+                      ? '${widget.episode.name.substring(0, 20)}...'
+                      : widget.episode.name,
                   style: const TextStyle(
                       color: Colors.white,
                       fontSize: 16,
