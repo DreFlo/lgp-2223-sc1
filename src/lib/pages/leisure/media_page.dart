@@ -213,16 +213,18 @@ class MediaPage extends StatelessWidget {
             ))
       ]),
       const SizedBox(height: 7.5),
-      Flexible(
-        child: Padding(
-            padding: const EdgeInsets.only(left: 18, right: 18),
-            child: Text(
-              synopsis,
-              softWrap: true,
-              textAlign: TextAlign.justify,
-              style: Theme.of(context).textTheme.bodySmall,
-            )),
-      ),
+      Flex(direction: Axis.horizontal, children: [
+        Flexible(
+          child: Padding(
+              padding: const EdgeInsets.only(left: 18, right: 18),
+              child: Text(
+                synopsis,
+                softWrap: true,
+                textAlign: TextAlign.justify,
+                style: Theme.of(context).textTheme.bodySmall,
+              )),
+        ),
+      ]),
       const SizedBox(height: 35),
       Row(children: [
         Padding(
