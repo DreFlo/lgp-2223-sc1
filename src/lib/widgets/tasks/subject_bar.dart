@@ -23,7 +23,9 @@ class _SubjectBarState extends State<SubjectBar> {
 
   @override
   Widget build(BuildContext context) {
-    return InkWell(
+    return Padding(
+      padding: const EdgeInsetsDirectional.only(bottom: 10),
+      child: InkWell(
       onTap: () {
         showModalBottomSheet(
             context: context,
@@ -75,6 +77,6 @@ class _SubjectBarState extends State<SubjectBar> {
               ]))
         ]),
       ),
-    );
+    ));
   }
 }
