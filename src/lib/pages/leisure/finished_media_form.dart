@@ -16,6 +16,7 @@ class FinishedMediaForm extends StatefulWidget {
   final Reaction rating;
   final bool isFavorite;
   final int mediaId;
+  final VoidCallback? refreshMediaList;
 
   const FinishedMediaForm(
       {Key? key,
@@ -23,7 +24,8 @@ class FinishedMediaForm extends StatefulWidget {
       required this.endDate,
       required this.rating,
       required this.mediaId,
-      required this.isFavorite})
+      required this.isFavorite,
+      required this.refreshMediaList})
       : super(key: key);
 
   @override
@@ -415,7 +417,9 @@ class _FinishedMediaFormState extends State<FinishedMediaForm> {
                           participants: media.participants);
                       await serviceLocator<MediaDao>().updateMedia(newMedia);
 
-                      Navigator.pop(context);
+                      if(widget.refreshMediaList != null){
+                        widget.refreshMediaList!();
+                      }                      
                     },
                     style: ElevatedButton.styleFrom(
                       minimumSize:
