@@ -9,11 +9,10 @@ class SeasonTag extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Expanded(
-        child: Text(text.toUpperCase(),
+    return Text(text.toUpperCase(),
             style: const TextStyle(
                 color: Colors.white,
                 fontSize: 16,
-                fontWeight: FontWeight.w600)));
+                fontWeight: FontWeight.w600));
   }
 }
