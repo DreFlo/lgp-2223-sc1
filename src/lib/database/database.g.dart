@@ -137,7 +137,7 @@ class _$AppDatabase extends AppDatabase {
         await database.execute(
             'CREATE TABLE IF NOT EXISTS `subject` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `name` TEXT NOT NULL, `acronym` TEXT NOT NULL, `weight_average` REAL NOT NULL, `institution_id` INTEGER, FOREIGN KEY (`institution_id`) REFERENCES `institution` (`id`) ON UPDATE RESTRICT ON DELETE CASCADE)');
         await database.execute(
-            'CREATE TABLE IF NOT EXISTS `task_group` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `name` TEXT NOT NULL, `description` TEXT NOT NULL, `priority` INTEGER NOT NULL, `deadline` INTEGER NOT NULL)');
+            'CREATE TABLE IF NOT EXISTS `task_group` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `name` TEXT NOT NULL, `description` TEXT NOT NULL, `priority` INTEGER NOT NULL, `deadline` INTEGER NOT NULL, `subject_id` INTEGER, FOREIGN KEY (`subject_id`) REFERENCES `subject` (`id`) ON UPDATE RESTRICT ON DELETE CASCADE)');
         await database.execute(
             'CREATE TABLE IF NOT EXISTS `task` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `name` TEXT NOT NULL, `description` TEXT NOT NULL, `priority` INTEGER NOT NULL, `deadline` INTEGER NOT NULL, `xp` INTEGER NOT NULL, `task_group_id` INTEGER NOT NULL, `subject_id` INTEGER, FOREIGN KEY (`task_group_id`) REFERENCES `task_group` (`id`) ON UPDATE NO ACTION ON DELETE NO ACTION, FOREIGN KEY (`subject_id`) REFERENCES `subject` (`id`) ON UPDATE RESTRICT ON DELETE CASCADE)');
         await database.execute(
@@ -561,7 +561,8 @@ class _$TaskGroupDao extends TaskGroupDao {
                   'name': item.name,
                   'description': item.description,
                   'priority': item.priority.index,
-                  'deadline': _dateTimeConverter.encode(item.deadline)
+                  'deadline': _dateTimeConverter.encode(item.deadline),
+                  'subject_id': item.subjectId
                 },
             changeListener),
         _taskGroupUpdateAdapter = UpdateAdapter(
@@ -573,7 +574,8 @@ class _$TaskGroupDao extends TaskGroupDao {
                   'name': item.name,
                   'description': item.description,
                   'priority': item.priority.index,
-                  'deadline': _dateTimeConverter.encode(item.deadline)
+                  'deadline': _dateTimeConverter.encode(item.deadline),
+                  'subject_id': item.subjectId
                 },
             changeListener),
         _taskGroupDeletionAdapter = DeletionAdapter(
@@ -585,7 +587,8 @@ class _$TaskGroupDao extends TaskGroupDao {
                   'name': item.name,
                   'description': item.description,
                   'priority': item.priority.index,
-                  'deadline': _dateTimeConverter.encode(item.deadline)
+                  'deadline': _dateTimeConverter.encode(item.deadline),
+                  'subject_id': item.subjectId
                 },
             changeListener);
 
@@ -609,7 +612,8 @@ class _$TaskGroupDao extends TaskGroupDao {
             name: row['name'] as String,
             description: row['description'] as String,
             priority: Priority.values[row['priority'] as int],
-            deadline: _dateTimeConverter.decode(row['deadline'] as int)));
+            deadline: _dateTimeConverter.decode(row['deadline'] as int),
+            subjectId: row['subject_id'] as int?));
   }
 
   @override
@@ -620,7 +624,8 @@ class _$TaskGroupDao extends TaskGroupDao {
             name: row['name'] as String,
             description: row['description'] as String,
             priority: Priority.values[row['priority'] as int],
-            deadline: _dateTimeConverter.decode(row['deadline'] as int)),
+            deadline: _dateTimeConverter.decode(row['deadline'] as int),
+            subjectId: row['subject_id'] as int?),
         arguments: [id],
         queryableName: 'task_group',
         isView: false);
