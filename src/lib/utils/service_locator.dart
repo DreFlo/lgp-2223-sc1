@@ -38,6 +38,8 @@ import 'package:src/daos/timeslot/media_timeslot_dao.dart';
 import 'package:src/daos/timeslot/student_timeslot_dao.dart';
 import 'package:src/daos/timeslot/timeslot_media_timeslot_super_dao.dart';
 import 'package:src/daos/timeslot/timeslot_student_timeslot_super_dao.dart';
+import 'package:src/daos/timeslot/task_student_timeslot_dao.dart';
+import 'package:src/daos/timeslot/media_media_timeslot_dao.dart';
 
 import 'package:src/daos/badge_dao.dart';
 import 'package:src/daos/mood_dao.dart';
@@ -148,6 +150,12 @@ Future<void> setup(
       dependsOn: [AppDatabase]);
   serviceLocator.registerSingletonWithDependencies<UserBadgeDao>(
       () => serviceLocator.get<AppDatabase>().userBadgeDao,
+      dependsOn: [AppDatabase]);
+  serviceLocator.registerSingletonWithDependencies<TaskStudentTimeslotDao>(
+      () => serviceLocator.get<AppDatabase>().taskStudentTimeslotDao,
+      dependsOn: [AppDatabase]);
+  serviceLocator.registerSingletonWithDependencies<MediaMediaTimeslotDao>(
+      () => serviceLocator.get<AppDatabase>().mediaMediaTimeslotDao,
       dependsOn: [AppDatabase]);
 
   // SuperDAOs

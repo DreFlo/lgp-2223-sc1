@@ -15,11 +15,7 @@ class MediaTimeslot {
   @PrimaryKey()
   final int id;
 
-  @ColumnInfo(name: 'media_id')
-  final List<int> mediaId;
-
   MediaTimeslot({
     required this.id,
-    required this.mediaId,
   });
 }
