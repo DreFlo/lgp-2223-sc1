@@ -5,7 +5,8 @@ class SearchResults extends StatelessWidget {
   final Map media;
   final VoidCallback? refreshMedia;
 
-  const SearchResults({Key? key, required this.media, this.refreshMedia}) : super(key: key);
+  const SearchResults({Key? key, required this.media, this.refreshMedia})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -37,12 +38,14 @@ class SearchResults extends StatelessWidget {
                     child: GestureDetector(
                       onTap: () {
                         if (type == 'series') {
-                          showMediaPageForTV(entry.value[index], context, refreshMedia);
+                          showMediaPageForTV(
+                              entry.value[index], context, refreshMedia);
                         } else if (type == 'movies') {
                           showMediaPageForMovies(
                               entry.value[index], context, refreshMedia);
                         } else if (type == 'books') {
-                          showMediaPageForBooks(entry.value[index], context, refreshMedia);
+                          showMediaPageForBooks(
+                              entry.value[index], context, refreshMedia);
                         }
                       },
                       child: SizedBox(

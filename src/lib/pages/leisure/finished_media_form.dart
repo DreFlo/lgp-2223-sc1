@@ -376,58 +376,58 @@ class _FinishedMediaFormState extends State<FinishedMediaForm> {
               ])),
           const SizedBox(height: 50),
           Padding(
-                  padding: EdgeInsets.only(
-                      bottom: MediaQuery.of(context).viewInsets.bottom),
-                  child: ElevatedButton(
-                    onPressed: () async {
-                      String content = controller.text;
-                      //We can send the review with no text
-                      //Start date can't be after end date -> widget takes care of this constraint
-                      DateTime start = DateTime.parse(startDate);
-                      DateTime end = DateTime.parse(endDate);
+              padding: EdgeInsets.only(
+                  bottom: MediaQuery.of(context).viewInsets.bottom),
+              child: ElevatedButton(
+                onPressed: () async {
+                  String content = controller.text;
+                  //We can send the review with no text
+                  //Start date can't be after end date -> widget takes care of this constraint
+                  DateTime start = DateTime.parse(startDate);
+                  DateTime end = DateTime.parse(endDate);
 
-                      Review review = Review(
-                          startDate: start,
-                          endDate: end,
-                          review: content,
-                          emoji: rating,
-                          mediaId: widget.mediaId);
+                  Review review = Review(
+                      startDate: start,
+                      endDate: end,
+                      review: content,
+                      emoji: rating,
+                      mediaId: widget.mediaId);
 
-                      await serviceLocator<ReviewDao>().insertReview(review);
+                  await serviceLocator<ReviewDao>().insertReview(review);
 
-                      final mediaStream = serviceLocator<MediaDao>()
-                          .findMediaById(widget.mediaId);
-                      Media? firstNonNullMedia = await mediaStream
-                          .firstWhere((media) => media != null);
-                      Media media = firstNonNullMedia!;
-                      Media newMedia = Media(
-                          description: media.description,
-                          id: media.id,
-                          name: media.name,
-                          linkImage: media.linkImage,
-                          favorite: isFavorite,
-                          status: Status.done,
-                          genres: media.genres,
-                          release: media.release,
-                          xp: media.xp,
-                          participants: media.participants);
-                      await serviceLocator<MediaDao>().updateMedia(newMedia);
+                  final mediaStream =
+                      serviceLocator<MediaDao>().findMediaById(widget.mediaId);
+                  Media? firstNonNullMedia =
+                      await mediaStream.firstWhere((media) => media != null);
+                  Media media = firstNonNullMedia!;
+                  Media newMedia = Media(
+                      description: media.description,
+                      id: media.id,
+                      name: media.name,
+                      linkImage: media.linkImage,
+                      favorite: isFavorite,
+                      status: Status.done,
+                      genres: media.genres,
+                      release: media.release,
+                      xp: media.xp,
+                      participants: media.participants);
+                  await serviceLocator<MediaDao>().updateMedia(newMedia);
 
-                      if(widget.refreshMediaList != null){
-                        widget.refreshMediaList!();
-                      }                      
-                    },
-                    style: ElevatedButton.styleFrom(
-                      minimumSize:
-                          Size(MediaQuery.of(context).size.width * 0.95, 55),
-                      backgroundColor: leisureColor,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(25.0),
-                      ),
-                    ),
-                    child: Text(AppLocalizations.of(context).save,
-                        style: Theme.of(context).textTheme.headlineSmall),
-                  ))
+                  if (widget.refreshMediaList != null) {
+                    widget.refreshMediaList!();
+                  }
+                },
+                style: ElevatedButton.styleFrom(
+                  minimumSize:
+                      Size(MediaQuery.of(context).size.width * 0.95, 55),
+                  backgroundColor: leisureColor,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(25.0),
+                  ),
+                ),
+                child: Text(AppLocalizations.of(context).save,
+                    style: Theme.of(context).textTheme.headlineSmall),
+              ))
         ]));
   }
 }

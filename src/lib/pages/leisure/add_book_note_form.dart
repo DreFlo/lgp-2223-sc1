@@ -10,7 +10,9 @@ import 'finished_media_form.dart';
 class AddBookNoteForm extends StatefulWidget {
   final int mediaId;
   final VoidCallback? refreshMediaList;
-  const AddBookNoteForm({Key? key, required this.mediaId, this.refreshMediaList}) : super(key: key);
+  const AddBookNoteForm(
+      {Key? key, required this.mediaId, this.refreshMediaList})
+      : super(key: key);
 
   @override
   State<AddBookNoteForm> createState() => _AddBookNoteFormState();
@@ -141,8 +143,8 @@ class _AddBookNoteFormState extends State<AddBookNoteForm> {
                                                     .split(" ")[0],
                                                 isFavorite: false,
                                                 mediaId: widget.mediaId,
-                                                refreshMediaList: widget.refreshMediaList
-                                                )))
+                                                refreshMediaList:
+                                                    widget.refreshMediaList)))
                                   ])));
                 },
                 child: Text(

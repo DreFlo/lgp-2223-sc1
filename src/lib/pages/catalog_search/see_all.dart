@@ -18,7 +18,11 @@ class SeeAll extends StatefulWidget {
   final String title;
   final VoidCallback? refreshMediaList;
 
-  const SeeAll({Key? key, required this.title, required this.media, this.refreshMediaList})
+  const SeeAll(
+      {Key? key,
+      required this.title,
+      required this.media,
+      this.refreshMediaList})
       : super(key: key);
 
   @override
@@ -92,7 +96,9 @@ class SeeAllState extends State<SeeAll> {
             builder: (context, AsyncSnapshot<List> snapshot) {
               if (snapshot.hasData) {
                 return ListMediaCatalog(
-                    title: widget.title, media: snapshot.data ?? [], refreshMediaList: widget.refreshMediaList);
+                    title: widget.title,
+                    media: snapshot.data ?? [],
+                    refreshMediaList: widget.refreshMediaList);
               } else {
                 return const Center(
                   child: CircularProgressIndicator(),

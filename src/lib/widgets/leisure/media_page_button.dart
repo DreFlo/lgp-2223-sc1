@@ -398,7 +398,9 @@ class MediaPageButton extends StatelessWidget {
                           padding: EdgeInsets.only(
                               bottom: MediaQuery.of(context).viewInsets.bottom),
                           child: Stack(children: [
-                            AddBookNoteForm(mediaId: mediaId, refreshMediaList: refreshMediaList),
+                            AddBookNoteForm(
+                                mediaId: mediaId,
+                                refreshMediaList: refreshMediaList),
                           ])));
                 },
                 style: ElevatedButton.styleFrom(
@@ -629,7 +631,8 @@ class MediaPageButton extends StatelessWidget {
                                                         .split(" ")[0],
                                                     isFavorite: false,
                                                     mediaId: mediaId,
-                                                    refreshMediaList: refreshMediaList)))
+                                                    refreshMediaList:
+                                                        refreshMediaList)))
                                       ])));
                     },
                     style: ElevatedButton.styleFrom(

@@ -199,7 +199,7 @@ showMediaPageForTV(dynamic item, context, refreshMediaList) async {
                         episodeNotes: episodeNotes,
                         episodes: episodes,
                         seasons: seasons,
-                        refreshMediaList: (){
+                        refreshMediaList: () {
                           refreshMediaList();
                           Navigator.pop(context);
                           Navigator.pop(context);
@@ -236,12 +236,11 @@ showMediaPageForMovies(dynamic item, context, refreshMediaList) async {
                         mediaId: item.id,
                         status: item.status,
                         review: review,
-                        refreshMediaList: (){
-                refreshMediaList();
-                Navigator.pop(context);
-                Navigator.pop(context);
-                }
-                        ))
+                        refreshMediaList: () {
+                          refreshMediaList();
+                          Navigator.pop(context);
+                          Navigator.pop(context);
+                        }))
               ])));
 }
 
@@ -276,10 +275,10 @@ showMediaPageForBooks(dynamic item, context, refreshMediaList) async {
                         status: item.status,
                         bookNotes: notes,
                         review: review,
-                        refreshMediaList: (){
-                refreshMediaList();
-                Navigator.pop(context);
-                Navigator.pop(context);
-                }))
+                        refreshMediaList: () {
+                          refreshMediaList();
+                          Navigator.pop(context);
+                          Navigator.pop(context);
+                        }))
               ])));
 }

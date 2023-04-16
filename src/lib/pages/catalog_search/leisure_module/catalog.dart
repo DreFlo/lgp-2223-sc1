@@ -67,26 +67,24 @@ class CatalogState extends State<Catalog> {
     loadMovies();
     loadTv();
     loadBooks();
-    setState(() {
-      
-    });
+    setState(() {});
   }
 
-    Future<void> refreshMovies() async {
-      await loadMovies();
-      setState(() {});
-    }
+  Future<void> refreshMovies() async {
+    await loadMovies();
+    setState(() {});
+  }
 
-    Future<void> refreshSeries() async {
-      await loadTv();
-      setState(() {});
-    }
+  Future<void> refreshSeries() async {
+    await loadTv();
+    setState(() {});
+  }
 
-    Future<void> refreshBooks() async {
-      await loadBooks();
-      setState(() {});
-    }
-  
+  Future<void> refreshBooks() async {
+    await loadBooks();
+    setState(() {});
+  }
+
   Future<Map> searchMedia() async {
     List<MediaVideoMovieSuperEntity> movieResults = [];
     List<MediaBookSuperEntity> bookResults = [];
@@ -163,7 +161,8 @@ class CatalogState extends State<Catalog> {
                                   builder: (context) => SeeAll(
                                       title: AppLocalizations.of(context)
                                           .all_movies,
-                                      media: movies, refreshMediaList: refreshMovies)));
+                                      media: movies,
+                                      refreshMediaList: refreshMovies)));
                         },
                         child: Text(
                           AppLocalizations.of(context).see_all,
@@ -201,7 +200,8 @@ class CatalogState extends State<Catalog> {
                                       onTap: () {
                                         showMediaPageForMovies(
                                             (snapshot.data as List?)?[index],
-                                            context, refreshMediaList);
+                                            context,
+                                            refreshMediaList);
                                       },
                                       child: Container(
                                         width: 140 * fem,
@@ -252,7 +252,8 @@ class CatalogState extends State<Catalog> {
                                   builder: (context) => SeeAll(
                                       title: AppLocalizations.of(context)
                                           .all_tv_shows,
-                                      media: series, refreshMediaList: refreshSeries)));
+                                      media: series,
+                                      refreshMediaList: refreshSeries)));
                         },
                         child: Text(
                           AppLocalizations.of(context).see_all,
@@ -290,7 +291,8 @@ class CatalogState extends State<Catalog> {
                                       onTap: () {
                                         showMediaPageForTV(
                                             (snapshot.data as List?)?[index],
-                                            context, refreshMediaList);
+                                            context,
+                                            refreshMediaList);
                                       },
                                       child: Container(
                                         width: 140 * fem,
@@ -341,7 +343,8 @@ class CatalogState extends State<Catalog> {
                                   builder: (context) => SeeAll(
                                       title: AppLocalizations.of(context)
                                           .all_books,
-                                      media: books, refreshMediaList: refreshBooks)));
+                                      media: books,
+                                      refreshMediaList: refreshBooks)));
                         },
                         child: Text(
                           AppLocalizations.of(context).see_all,
@@ -379,7 +382,8 @@ class CatalogState extends State<Catalog> {
                                       onTap: () {
                                         showMediaPageForBooks(
                                             (snapshot.data as List?)?[index],
-                                            context, refreshMediaList);
+                                            context,
+                                            refreshMediaList);
                                       },
                                       child: Container(
                                         width: 140 * fem,
