@@ -2,17 +2,23 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:src/daos/notes/note_task_note_super_dao.dart';
+import 'package:src/models/notes/note_task_note_super_entity.dart';
 import 'package:src/themes/colors.dart';
+import 'package:src/utils/service_locator.dart';
 
 class AddTaskNoteForm extends StatefulWidget {
-  const AddTaskNoteForm({Key? key}) : super(key: key);
+  final int taskId;
+
+  const AddTaskNoteForm({Key? key, required this.taskId}) : super(key: key);
 
   @override
   State<AddTaskNoteForm> createState() => _AddTaskNoteFormState();
 }
 
 class _AddTaskNoteFormState extends State<AddTaskNoteForm> {
-  int? startPage, endPage;
+  final titleController = TextEditingController();
+  final contentController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -40,6 +46,43 @@ class _AddTaskNoteFormState extends State<AddTaskNoteForm> {
                 textAlign: TextAlign.left),
             const SizedBox(height: 10),
           ])),
+      Padding(
+        padding: const EdgeInsets.only(left: 18, right: 18, bottom: 10),
+        child: Row(crossAxisAlignment: CrossAxisAlignment.center, children: [
+          Flexible(
+              flex: 10,
+              child: TextField(
+                  controller: titleController,
+                  style: const TextStyle(
+                      fontSize: 20,
+                      color: Colors.white,
+                      fontWeight: FontWeight.w400),
+                  maxLines: 1,
+                  decoration: InputDecoration(
+                    contentPadding:
+                        const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                    border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10)),
+                    disabledBorder: const OutlineInputBorder(
+                        borderSide: BorderSide(color: Color(0xFF414554))),
+                    hintText: AppLocalizations.of(context).title,
+                    hintStyle: const TextStyle(
+                        fontSize: 20,
+                        color: Color(0xFF71788D),
+                        fontWeight: FontWeight.w400),
+                  ))),
+          const SizedBox(width: 5),
+          Flexible(
+              flex: 1,
+              child: IconButton(
+                  color: Colors.white,
+                  splashRadius: 0.01,
+                  icon: const Icon(Icons.close),
+                  onPressed: () {
+                    titleController.clear();
+                  }))
+        ]),
+      ),
       Row(children: [
         Padding(
             padding: const EdgeInsets.only(left: 18),
@@ -58,6 +101,7 @@ class _AddTaskNoteFormState extends State<AddTaskNoteForm> {
                 child: TextField(
                     style: Theme.of(context).textTheme.bodySmall,
                     maxLines: 10,
+                    controller: contentController,
                     decoration: InputDecoration(
                       filled: true,
                       fillColor: textField,
@@ -71,8 +115,31 @@ class _AddTaskNoteFormState extends State<AddTaskNoteForm> {
       Padding(
           padding: const EdgeInsets.only(left: 18, top: 30),
           child: ElevatedButton(
-              onPressed: () {
-                //TODO: Add functionality for adding note (sending to database).
+              onPressed: () async {
+                //TODO: Standard way to warn for incorrect input.
+                bool valid = true;
+                if (titleController.text.isEmpty) {
+                  print('Title is empty');
+                  valid = false;
+                }
+                if (contentController.text.isEmpty) {
+                  print('Content is empty');
+                  valid = false;
+                }
+
+                if(valid){
+                  NoteTaskNoteSuperEntity note = NoteTaskNoteSuperEntity(
+                    title: titleController.text,
+                    content: contentController.text,
+                    date: DateTime.now(),
+                    taskId: widget.taskId);
+
+                  await serviceLocator<NoteTaskNoteSuperDao>()
+                      .insertNoteTaskNoteSuperEntity(note);
+
+                  Navigator.pop(context);
+                }
+                
               },
               style: ElevatedButton.styleFrom(
                 minimumSize: Size(MediaQuery.of(context).size.width * 0.90, 55),

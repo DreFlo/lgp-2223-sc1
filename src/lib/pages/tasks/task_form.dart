@@ -623,7 +623,8 @@ class _TaskFormState extends State<TaskForm> {
                             BorderRadius.vertical(top: Radius.circular(30.0)),
                       ),
                       builder: (builder) => const SingleChildScrollView(
-                          child: AddTaskNoteForm()));
+                          //TODO: change to real taskId
+                          child: AddTaskNoteForm(taskId: 1)));
                 },
               ),
             ]),
