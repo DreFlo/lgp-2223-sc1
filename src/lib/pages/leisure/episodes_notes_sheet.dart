@@ -9,22 +9,14 @@ import 'package:src/models/notes/note_episode_note_super_entity.dart';
 import 'package:src/models/media/review.dart';
 import 'package:src/models/media/season.dart';
 import 'package:src/models/media/media_video_episode_super_entity.dart';
+import 'package:src/utils/leisure/media_page_helpers.dart';
 
 import '../../widgets/leisure/episode_note_bar.dart';
 
 class EpisodesNotesSheet extends StatefulWidget {
-  final List<NoteEpisodeNoteSuperEntity?>? notes;
-  final Review? review;
-  final List<MediaVideoEpisodeSuperEntity> episodes;
-  final List<Season> seasons;
+  final int mediaId;
 
-  const EpisodesNotesSheet(
-      {Key? key,
-      this.notes,
-      required this.episodes,
-      required this.seasons,
-      this.review})
-      : super(key: key);
+  const EpisodesNotesSheet({Key? key, required this.mediaId}) : super(key: key);
 
   @override
   State<EpisodesNotesSheet> createState() => _EpisodesNotesSheetState();
@@ -32,21 +24,71 @@ class EpisodesNotesSheet extends StatefulWidget {
 
 class _EpisodesNotesSheetState extends State<EpisodesNotesSheet>
     with TickerProviderStateMixin {
-  TabController? controller;
-  int selectedTab = 0;
+  late TabController controller;
+  int selectedTab = 1;
+  List<NoteEpisodeNoteSuperEntity?>? notes;
+  Review? review;
+  List<MediaVideoEpisodeSuperEntity> episodesDB = [];
+  List<Season> seasonsDB = [];
+  bool isDataLoaded = false;
 
   @override
-  initState() {
-    controller = TabController(
-        length: widget.seasons.length + 1, vsync: this, initialIndex: 0);
-
-    controller?.addListener(() {
-      setState(() {
-        selectedTab = controller!.index;
-      });
-    });
-
+  void initState() {
     super.initState();
+    controller = TabController(length: 1, vsync: this);
+    fetchSeasons().then((_) {
+      controller = TabController(
+          length: seasonsDB.length + 1, vsync: this, initialIndex: 0);
+      loadSeasonsEpisodesNotesAndReviews();
+    });
+  }
+
+  @override
+  void dispose() {
+    controller.dispose();
+    super.dispose();
+  }
+
+  Future<List<MediaVideoEpisodeSuperEntity>> fetchEpisodes(
+      List<Season> seasons) async {
+    episodesDB = await loadEpisodes(seasonsDB);
+    setState(() {
+      episodesDB = episodesDB;
+    });
+    return episodesDB;
+  }
+
+  Future<List<Season>> fetchSeasons() async {
+    seasonsDB = await loadSeasons(widget.mediaId);
+    setState(() {
+      seasonsDB = seasonsDB;
+    });
+    return seasonsDB;
+  }
+
+  Future<List<NoteEpisodeNoteSuperEntity?>?> fetchNotes() async {
+    notes = await loadEpisodeNotes(episodesDB);
+    setState(() {
+      notes = notes;
+    });
+    return notes;
+  }
+
+  Future<Review?>? fetchReviews() async {
+    review = await loadReviews(widget.mediaId);
+    setState(() {
+      review = review;
+    });
+    return review;
+  }
+
+  void loadSeasonsEpisodesNotesAndReviews() async {
+    episodesDB = await fetchEpisodes(seasonsDB);
+    notes = await fetchNotes();
+    review = await fetchReviews();
+    setState(() {
+      isDataLoaded = true;
+    });
   }
 
   List<Widget> getSeasons() {
@@ -56,8 +98,8 @@ class _EpisodesNotesSheetState extends State<EpisodesNotesSheet>
     );
 
     String seasonNumber = "";
-    for (int i = 0; i <= widget.seasons.length - 1; i++) {
-      seasonNumber = widget.seasons[i].number.toString();
+    for (int i = 0; i <= seasonsDB.length - 1; i++) {
+      seasonNumber = seasonsDB[i].number.toString();
       seasons.add(
         Tab(
             child: SeasonTag(
@@ -69,6 +111,9 @@ class _EpisodesNotesSheetState extends State<EpisodesNotesSheet>
   }
 
   List<Widget> getNotes(int tab) {
+    if (!isDataLoaded) {
+      return const [CircularProgressIndicator()];
+    }
     switch (tab) {
       case 0:
         return getAllNotes();
@@ -80,17 +125,17 @@ class _EpisodesNotesSheetState extends State<EpisodesNotesSheet>
   List<Widget> getAllNotes() {
     List<Widget> episodes = [];
 
-    if (widget.review != null) {
+    if (review != null) {
       episodes.add(ReviewNoteBar(
-        reaction: widget.review!.emoji,
-        text: widget.review!.review,
+        reaction: review!.emoji,
+        text: review!.review,
       ));
 
       episodes.add(const SizedBox(height: 15));
     }
 
-    if (widget.notes != null) {
-      for (var range in widget.notes!) {
+    if (notes != null) {
+      for (var range in notes!) {
         episodes.add(EpisodeNoteBar(
           code: range!.title,
           text: range.content,
@@ -106,8 +151,8 @@ class _EpisodesNotesSheetState extends State<EpisodesNotesSheet>
   List<Widget> getSeasonNotes(int season) {
     List<Widget> episodes = [];
 
-    if (widget.notes != null) {
-      for (var range in widget.notes!) {
+    if (notes != null) {
+      for (var range in notes!) {
         var seasonCode = "S${season.toString().padLeft(2, "0")}";
         if (range!.title.contains(seasonCode)) {
           episodes.add(EpisodeNoteBar(
