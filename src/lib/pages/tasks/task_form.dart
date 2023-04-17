@@ -278,6 +278,9 @@ class _TaskFormState extends State<TaskForm> {
           xp: 0);
       await serviceLocator<TaskDao>().updateTask(task);
     }
+
+    // My idea
+    // Create here the new notes
     Navigator.pop(context);
   }
 

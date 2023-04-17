@@ -26,7 +26,6 @@ class _SubjectFormState extends State<SubjectForm> {
   TextEditingController controller = TextEditingController();
   TextEditingController controller2 = TextEditingController();
   TextEditingController controller3 = TextEditingController();
-  TextEditingController controller4 = TextEditingController();
 
   late int institutionId;
 
@@ -36,9 +35,11 @@ class _SubjectFormState extends State<SubjectForm> {
   }
 
   Future<int> fillSubjectFields() async {
-    if(controller.text.isNotEmpty || controller2.text.isNotEmpty || controller3.text.isNotEmpty || controller4.text.isNotEmpty) {
-        return 0;
-      }
+    if (controller.text.isNotEmpty ||
+        controller2.text.isNotEmpty ||
+        controller3.text.isNotEmpty) {
+      return 0;
+    }
 
     if (widget.id != null) {
       Subject? subject =
@@ -54,13 +55,13 @@ class _SubjectFormState extends State<SubjectForm> {
             .first;
 
         institutionId = institution!.id!;
-        controller4.text = institution.name;
+      } else {
+        institutionId = -1;
       }
     } else {
       controller.clear();
       controller2.clear();
       controller3.clear();
-      controller4.clear();
 
       institutionId = -1;
     }
@@ -260,33 +261,37 @@ class _SubjectFormState extends State<SubjectForm> {
                                               name: 'None',
                                               type: InstitutionType.other,
                                               userId: 1));
-                                      return DropdownMenu<Institution>(
-                                        controller: controller4,
-                                        dropdownMenuEntries:
-                                            snapshot.data!.map((e) {
-                                          return DropdownMenuEntry<Institution>(
-                                              value: e, label: e.name);
-                                        }).toList(),
-                                        onSelected: (Institution? institution) {
-                                          setState(() {
-                                            institutionId = institution!.id!;
+                                      return DropdownButton<Institution>(
+                                          isExpanded: true,
+                                          value: institutionId == -1
+                                              ? snapshot.data!.first
+                                              : snapshot.data!.firstWhere(
+                                                  (element) =>
+                                                      element.id ==
+                                                      institutionId),
+                                          items: snapshot.data!.map((e) {
+                                            return DropdownMenuItem<
+                                                Institution>(
+                                              value: e,
+                                              child: Text(e.name,
+                                                  style: const TextStyle(
+                                                      fontFamily: 'Poppins',
+                                                      color: Color(0xFF71788D),
+                                                      fontSize: 16,
+                                                      fontWeight:
+                                                          FontWeight.w400),
+                                                  textAlign: TextAlign.center),
+                                            );
+                                          }).toList(),
+                                          onChanged:
+                                              (Institution? institution) {
+                                            setState(() {
+                                              institutionId = institution!.id!;
+                                            });
                                           });
-                                        },
-                                        initialSelection: institutionId == -1
-                                            ? snapshot.data!.first
-                                            : snapshot.data!
-                                                .firstWhere((element) =>
-                                                    element.id == institutionId),
-                                        textStyle: const TextStyle(
-                                            fontSize: 20,
-                                            color: Colors.white,
-                                            fontWeight: FontWeight.w400),
-                                        width:
-                                            MediaQuery.of(context).size.width *
-                                                0.85,
-                                      );
                                     } else {
-                                      return const SizedBox();
+                                      return const Center(
+                                          child: CircularProgressIndicator());
                                     }
                                   }))
                         ]),
