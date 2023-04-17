@@ -21,6 +21,8 @@ class _MyHomePageState extends State<MyHomePage> {
 
   // TODO - get tasks from database
   // TODO - change logic when we have events (leisure) - for now everything is tasks and description is being used to distinguish between modules
+
+  //These should be events and not tasks -> get from DB 
   List<Task> items = [
     Task(
         id: 1,

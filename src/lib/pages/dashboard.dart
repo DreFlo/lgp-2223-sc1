@@ -36,6 +36,8 @@ class _DashboardState extends State<Dashboard> {
   List trendingtvshows = [];
   List books = [];
 
+  //student stuff -> Taskgroup 
+  //media stuff -> Timeslot
   final List<Project> items = [
     Project('Project de LGP', 'Student', 'LGP', 1, "Faculdade"),
     Project('Criar meu Portfolio', 'Personal', 'Profissional', 1),
@@ -46,24 +48,21 @@ class _DashboardState extends State<Dashboard> {
 
   late List<Project> searchResults = items;
 
-  void loadmedia() async {
-    final tmdb = TMDB(ApiKeys(Env.tmdbApiKey, 'apiReadAccessTokenv4'));
-    Map movieresult =
-        await tmdb.v3.trending.getTrending(mediaType: MediaType.movie);
-    Map tvresult = await tmdb.v3.trending
-        .getTrending(mediaType: MediaType.tv); //doesn't have ['results']
-    books = await queryBooks(
-      'batman',
-      maxResults: 40,
-      printType: PrintType.books,
-      orderBy: OrderBy.relevance,
-    );
+  @override
+  void initState() {
+    super.initState();
+  }
 
-    setState(() {
-      trendingmovies = movieresult['results'];
-      trendingtvshows = tvresult['results'];
-      books = books;
-    });
+  void loadEventsDB(){ //only for Media
+
+  }
+
+  void loadTaskGroupsDB() { //lil cards student
+
+  }
+
+  void loadTasksDB() { //lil cards student (tasks that don't have a taskgroup)
+
   }
 
   void search(String query) {
