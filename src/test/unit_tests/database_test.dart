@@ -4,6 +4,8 @@ import 'package:src/daos/media/media_series_super_dao.dart';
 import 'package:src/daos/media/media_video_movie_super_dao.dart';
 import 'package:src/daos/media/media_book_super_dao.dart';
 import 'package:src/daos/media/season_dao.dart';
+import 'package:src/daos/timeslot/media_media_timeslot_dao.dart';
+import 'package:src/daos/timeslot/task_student_timeslot_dao.dart';
 import 'package:src/models/media/media_book_super_entity.dart';
 import 'package:src/daos/media/movie_dao.dart';
 import 'package:src/daos/media/media_dao.dart';
@@ -32,6 +34,8 @@ import 'package:src/models/notes/book_note.dart';
 import 'package:src/daos/notes/book_note_dao.dart';
 import 'package:src/models/notes/episode_note.dart';
 import 'package:src/daos/notes/episode_note_dao.dart';
+import 'package:src/models/timeslot/media_media_timeslot.dart';
+import 'package:src/models/timeslot/task_student_timeslot.dart';
 import 'package:src/utils/enums.dart' as enums;
 import 'package:src/utils/service_locator.dart';
 import 'package:src/daos/user_dao.dart';
@@ -57,9 +61,7 @@ import 'package:src/daos/student/evaluation_dao.dart';
 import 'package:src/models/timeslot/timeslot.dart';
 import 'package:src/daos/timeslot/timeslot_dao.dart';
 import 'package:src/models/timeslot/media_timeslot.dart';
-import 'package:src/daos/timeslot/media_timeslot_dao.dart';
 import 'package:src/models/timeslot/student_timeslot.dart';
-import 'package:src/daos/timeslot/student_timeslot_dao.dart';
 import 'package:src/models/timeslot/timeslot_media_timeslot_super_entity.dart';
 import 'package:src/daos/timeslot/timeslot_media_timeslot_super_dao.dart';
 import 'package:src/models/timeslot/timeslot_student_timeslot_super_entity.dart';
@@ -495,20 +497,13 @@ void main() {
               endDateTime: DateTime.now().add(const Duration(days: 1)),
               xpMultiplier: 2,
               finished: false,
-              userId: 1,
-              mediaId: List.of([1]));
+              userId: 1);
 
       int id = await serviceLocator<TimeslotMediaTimeslotSuperDao>()
           .insertTimeslotMediaTimeslotSuperEntity(
               timeslotMediaTimeslotSuperEntity);
 
       expect(id, 1);
-
-      MediaTimeslot mediaTimeslot = (await serviceLocator<MediaTimeslotDao>()
-          .findMediaTimeslotById(id)
-          .first)!;
-
-      expect(mediaTimeslot.mediaId, List<int>.of([id]));
     });
   });
 
@@ -560,21 +555,124 @@ void main() {
               endDateTime: DateTime.now().add(const Duration(days: 1)),
               xpMultiplier: 2,
               finished: false,
-              userId: 1,
-              taskId: List.of([1]));
+              userId: 1);
 
       int id = await serviceLocator<TimeslotStudentTimeslotSuperDao>()
           .insertTimeslotStudentTimeslotSuperEntity(
               timeslotStudentTimeslotSuperEntity);
 
       expect(id, 1);
+    });
+  });
 
-      StudentTimeslot studentTimeslot =
-          (await serviceLocator<StudentTimeslotDao>()
-              .findStudentTimeslotById(id)
-              .first)!;
+  testWidgets('Test SuperDAO for Media/MediaTimeslot',
+      (WidgetTester tester) async {
+    await tester.runAsync(() async {
+      await serviceLocator<UserDao>().insertUser(
+          User(userName: 'Emil', password: '1234', xp: 23, imagePath: 'test'));
 
-      expect(studentTimeslot.taskId, List<int>.of([id]));
+      int seriesId = await serviceLocator<MediaDao>().insertMedia(Media(
+          name: 'name',
+          description: 'description',
+          linkImage: 'linkImage',
+          status: Status.goingThrough,
+          favorite: true,
+          genres: 'genres',
+          release: DateTime.now(),
+          xp: 23,
+          participants: 'Me'));
+
+      await serviceLocator<SeriesDao>()
+          .insertSerie(Series(id: seriesId, tagline: 'Super Cool Test'));
+
+      TimeslotMediaTimeslotSuperEntity timeslotMediaTimeslotSuperEntity =
+          TimeslotMediaTimeslotSuperEntity(
+              title: 'timeslot 1',
+              description: 'description 1',
+              startDateTime: DateTime.now(),
+              endDateTime: DateTime.now().add(const Duration(days: 1)),
+              xpMultiplier: 2,
+              userId: 1);
+
+      int id = await serviceLocator<TimeslotMediaTimeslotSuperDao>()
+          .insertTimeslotMediaTimeslotSuperEntity(
+              timeslotMediaTimeslotSuperEntity);
+
+      await serviceLocator<MediaMediaTimeslotDao>().insertMediaMediaTimeslot(
+          MediaMediaTimeslot(mediaId: seriesId, mediaTimeslotId: id));
+
+      List<Media> mediaList = await serviceLocator<MediaMediaTimeslotDao>()
+          .findMediaByMediaTimeslotId(id);
+
+      List<MediaTimeslot> mediaTimeslotList =
+          await serviceLocator<MediaMediaTimeslotDao>()
+              .findMediaTimeslotByMediaId(seriesId);
+
+      expect(mediaList.length, 1);
+      expect(mediaTimeslotList.length, 1);
+    });
+  });
+
+  testWidgets('Test SuperDAO for Task/StudentTimeslot',
+      (WidgetTester tester) async {
+    await tester.runAsync(() async {
+      await serviceLocator<UserDao>().insertUser(
+          User(userName: 'Emil', password: '1234', xp: 23, imagePath: 'test'));
+
+      await serviceLocator<InstitutionDao>().insertInstitution(Institution(
+          name: 'name',
+          picture: 'picture',
+          type: InstitutionType.education,
+          userId: 1));
+
+      await serviceLocator<SubjectDao>().insertSubject(Subject(
+        name: 'name',
+        weightAverage: 1.0,
+        institutionId: 1,
+        acronym: 'acronym',
+      ));
+
+      await serviceLocator<TaskGroupDao>().insertTaskGroup(TaskGroup(
+        name: 'name',
+        description: 'description',
+        priority: enums.Priority.high,
+        deadline: DateTime.now(),
+      ));
+
+      int taskId = await serviceLocator<TaskDao>().insertTask(Task(
+          name: 'name',
+          description: 'description',
+          priority: enums.Priority.high,
+          deadline: DateTime.now().subtract(const Duration(days: 1)),
+          taskGroupId: 1,
+          subjectId: 1,
+          xp: 20));
+
+      TimeslotStudentTimeslotSuperEntity timeslotStudentTimeslotSuperEntity =
+          TimeslotStudentTimeslotSuperEntity(
+              title: 'timeslot 1',
+              description: 'description 1',
+              startDateTime: DateTime.now(),
+              endDateTime: DateTime.now().add(const Duration(days: 1)),
+              xpMultiplier: 2,
+              userId: 1);
+
+      int id = await serviceLocator<TimeslotStudentTimeslotSuperDao>()
+          .insertTimeslotStudentTimeslotSuperEntity(
+              timeslotStudentTimeslotSuperEntity);
+
+      await serviceLocator<TaskStudentTimeslotDao>().insertTaskStudentTimeslot(
+          TaskStudentTimeslot(taskId: taskId, studentTimeslotId: id));
+
+      List<Task> taskList = await serviceLocator<TaskStudentTimeslotDao>()
+          .findTaskByStudentTimeslotId(id);
+
+      List<StudentTimeslot> studentTimeslotList =
+          await serviceLocator<TaskStudentTimeslotDao>()
+              .findStudentTimeslotByTaskId(taskId);
+
+      expect(taskList.length, 1);
+      expect(studentTimeslotList.length, 1);
     });
   });
 

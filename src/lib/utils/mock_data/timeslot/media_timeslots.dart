@@ -9,6 +9,5 @@ final mockMediaTimeslots = [
       endDateTime: DateTime.now().add(const Duration(hours: 6)),
       xpMultiplier: 2,
       finished: false,
-      userId: 1,
-      mediaId: List.of([2, 3]))
+      userId: 1)
 ];

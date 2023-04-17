@@ -23,3 +23,5 @@ export 'package:src/utils/mock_data/student/evaluations.dart';
 
 export 'package:src/utils/mock_data/timeslot/media_timeslots.dart';
 export 'package:src/utils/mock_data/timeslot/student_timeslots.dart';
+export 'package:src/utils/mock_data/timeslot/media_media_timeslots.dart';
+export 'package:src/utils/mock_data/timeslot/task_student_timeslots.dart';

@@ -2,9 +2,13 @@ import 'dart:async';
 import 'package:floor/floor.dart';
 // ignore: depend_on_referenced_packages
 import 'package:sqflite/sqflite.dart' as sqflite;
+import 'package:src/daos/timeslot/media_media_timeslot_dao.dart';
+import 'package:src/daos/timeslot/task_student_timeslot_dao.dart';
 import 'package:src/models/badge.dart';
 import 'package:src/models/mood.dart';
+import 'package:src/models/timeslot/media_media_timeslot.dart';
 import 'package:src/models/timeslot/media_timeslot.dart';
+import 'package:src/models/timeslot/task_student_timeslot.dart';
 import 'package:src/models/timeslot/student_timeslot.dart';
 import 'package:src/models/timeslot/timeslot.dart';
 import 'package:src/models/user.dart';
@@ -102,7 +106,9 @@ part 'database.g.dart'; // the generated code will be there
   Timeslot,
   MediaTimeslot,
   StudentTimeslot,
-  UserBadge
+  UserBadge,
+  MediaMediaTimeslot,
+  TaskStudentTimeslot,
 ])
 abstract class AppDatabase extends FloorDatabase {
   InstitutionDao get institutionDao;
@@ -133,4 +139,6 @@ abstract class AppDatabase extends FloorDatabase {
   MediaTimeslotDao get mediaTimeslotDao;
   StudentTimeslotDao get studentTimeslotDao;
   UserDao get userDao;
+  TaskStudentTimeslotDao get taskStudentTimeslotDao;
+  MediaMediaTimeslotDao get mediaMediaTimeslotDao;
 }
