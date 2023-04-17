@@ -7,23 +7,18 @@ import 'package:src/widgets/leisure/season_tag.dart';
 import 'package:src/widgets/leisure/episode_bar.dart';
 import 'package:src/models/media/media_video_episode_super_entity.dart';
 import 'package:src/models/media/season.dart';
-
+import 'package:src/utils/leisure/media_page_helpers.dart';
+import 'package:collection/collection.dart';
 import '../../utils/enums.dart';
 import 'finished_media_form.dart';
 
 class MarkEpisodesSheet extends StatefulWidget {
-  final List<MediaVideoEpisodeSuperEntity> episodes;
-  final List<Season> seasons;
   final int mediaId;
   final VoidCallback? refreshMediaList;
 
-  const MarkEpisodesSheet(
-      {Key? key,
-      required this.episodes,
-      required this.seasons,
-      required this.mediaId,
-      this.refreshMediaList})
+  const MarkEpisodesSheet({Key? key, required this.mediaId, this.refreshMediaList})
       : super(key: key);
+
 
   @override
   State<MarkEpisodesSheet> createState() => _MarkEpisodesSheetState();
@@ -31,40 +26,77 @@ class MarkEpisodesSheet extends StatefulWidget {
 
 class _MarkEpisodesSheetState extends State<MarkEpisodesSheet>
     with TickerProviderStateMixin {
-  late int selectedSeason;
-  late TabController? controller;
+  int selectedSeason = 1;
+  late TabController controller;
+
+  List<MediaVideoEpisodeSuperEntity> episodesDB = [];
+  List<Season> seasonsDB = [];
 
   @override
   initState() {
+    super.initState();
+    controller = TabController(length: 1, vsync: this);
+    loadSeasonsAndEpisodes();
+  }
+
+  @override
+  void dispose() {
+    controller.dispose();
+    super.dispose();
+  }
+
+  Future<List<MediaVideoEpisodeSuperEntity>> fetchEpisodes(
+      List<Season> seasons) async {
+    episodesDB = await loadEpisodes(seasonsDB);
+    setState(() {
+      episodesDB = episodesDB;
+    });
+    return episodesDB;
+  }
+
+  Future<List<Season>> fetchSeasons() async {
+    seasonsDB = await loadSeasons(widget.mediaId);
+    setState(() {
+      seasonsDB = seasonsDB;
+    });
+    return seasonsDB;
+  }
+
+  void loadSeasonsAndEpisodes() async {
+    seasonsDB = await fetchSeasons();
+    episodesDB = await fetchEpisodes(seasonsDB);
+
     selectedSeason = 1;
 
     controller = TabController(
-        length: widget.seasons.length,
-        vsync: this,
-        initialIndex: selectedSeason - 1);
+      length: seasonsDB.length,
+      vsync: this,
+      initialIndex: selectedSeason - 1,
+    );
 
-    controller?.addListener(() {
+    controller.addListener(() {
       setState(() {
-        selectedSeason = controller!.index + 1;
+        selectedSeason = controller.index + 1;
       });
     });
-
-    super.initState();
   }
 
   List<Widget> getEpisodes() {
     List<Widget> episodes = [];
 
-    int? seasonId = widget.seasons
-        .where((season) => season.number == selectedSeason)
-        .first
-        .id;
-
-    for (int j = 0; j <= widget.episodes.length - 1; j++) {
-      if (widget.episodes[j].seasonId == seasonId) {
+  int? seasonId;
+    if (seasonsDB.isNotEmpty) {
+      Season? selectedSeasonObject =
+          seasonsDB.firstWhereOrNull((season) => season.number == selectedSeason);
+      if (selectedSeasonObject != null) {
+        seasonId = selectedSeasonObject.id;
+      }
+    }
+    for (int j = 0; j <= episodesDB.length - 1; j++) {
+      if (episodesDB[j].seasonId == seasonId) {
         episodes.add(EpisodeBar(
           season: selectedSeason,
-          episode: widget.episodes[j],
+          episode: episodesDB[j],
         ));
 
         episodes.add(const SizedBox(height: 15));
@@ -77,8 +109,8 @@ class _MarkEpisodesSheetState extends State<MarkEpisodesSheet>
   List<Widget> getSeasons() {
     List<Widget> seasons = [];
     String seasonNumber = "";
-    for (int i = 0; i <= widget.seasons.length - 1; i++) {
-      seasonNumber = widget.seasons[i].number.toString();
+    for (int i = 0; i <= seasonsDB.length - 1; i++) {
+      seasonNumber = seasonsDB[i].number.toString();
       seasons.add(
         Tab(
             child: SeasonTag(
