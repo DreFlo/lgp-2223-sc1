@@ -6,12 +6,15 @@ import 'package:src/widgets/leisure/book_note_bar.dart';
 import 'package:src/widgets/leisure/review_note_bar.dart';
 import 'package:src/models/notes/note_book_note_super_entity.dart';
 import 'package:src/models/media/review.dart';
+import 'package:src/utils/leisure/media_page_helpers.dart';
 
 class BookNotesSheet extends StatefulWidget {
-  final List<NoteBookNoteSuperEntity?>? notes;
-  final Review? review;
+  final int mediaId;
+  final bool book;
 
-  const BookNotesSheet({Key? key, this.notes, this.review}) : super(key: key);
+  const BookNotesSheet(
+      {Key? key, required this.book, required this.mediaId})
+      : super(key: key);
 
   @override
   State<BookNotesSheet> createState() => _BookNotesSheetState();
@@ -19,20 +22,47 @@ class BookNotesSheet extends StatefulWidget {
 
 class _BookNotesSheetState extends State<BookNotesSheet>
     with TickerProviderStateMixin {
+  List<NoteBookNoteSuperEntity?>? bookNotes;
+  Review? review;
+  @override
+  void initState() {
+    super.initState();
+    if(widget.book){
+      fetchNotes();
+    }
+    fetchReview();
+  }
+
+  void fetchNotes() async {
+    bookNotes = await loadBookNotes(widget.mediaId);
+    setState(() {
+      bookNotes = bookNotes;
+    });
+  }
+
+  void fetchReview() async {
+    review = await loadReviews(widget.mediaId);
+    setState(() {
+      review = review;
+    });
+  }
+
+
+
   List<Widget> getNotes() {
     List<Widget> notes = [];
 
-    if (widget.review != null) {
+    if (review != null) {
       notes.add(ReviewNoteBar(
-        reaction: widget.review!.emoji,
-        text: widget.review!.review,
+        reaction: review!.emoji,
+        text: review!.review,
       ));
 
       notes.add(const SizedBox(height: 15));
     }
 
-    if (widget.notes != null) {
-      for (var range in widget.notes!) {
+    if (bookNotes != null) {
+      for (var range in bookNotes!) {
         notes.add(BookNoteBar(
           startPage: range!.startPage,
           endPage: range.endPage,

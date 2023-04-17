@@ -441,7 +441,7 @@ class MediaPageButton extends StatelessWidget {
                                         child: SingleChildScrollView(
                                             controller: scrollController,
                                             child: BookNotesSheet(
-                                                notes: bookNotes)))
+                                                book: true, mediaId: mediaId)))
                                   ])));
                 },
                 style: ElevatedButton.styleFrom(
@@ -492,7 +492,8 @@ class MediaPageButton extends StatelessWidget {
                                         child: SingleChildScrollView(
                                             controller: scrollController,
                                             child: BookNotesSheet(
-                                              notes: bookNotes,
+                                              book: true,
+                                              mediaId: mediaId
                                             )))
                                   ])));
                 },
@@ -680,8 +681,8 @@ class MediaPageButton extends StatelessWidget {
                                         child: SingleChildScrollView(
                                             controller: scrollController,
                                             child: BookNotesSheet(
-                                                notes: const [],
-                                                review: review)))
+                                                book: false,
+                                                mediaId: mediaId)))
                                   ])));
                 },
                 style: ElevatedButton.styleFrom(
