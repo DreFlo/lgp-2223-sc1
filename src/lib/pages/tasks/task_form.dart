@@ -251,26 +251,31 @@ class _TaskFormState extends State<TaskForm> {
     int? subjectId, taskGroupId;
     if (subject != null) {
       subjectId = subject!.id;
-    } else {
-      subjectId = null;
     }
     if (taskGroup!.id != -1) {
       taskGroupId = taskGroup!.id;
-    } else {
-      taskGroupId = null;
     }
-    task = Task(
-        id: id,
-        name: titleController.text,
-        deadline: date!,
-        priority: priority!,
-        subjectId: subjectId,
-        description: description!,
-        taskGroupId: taskGroupId,
-        xp: 0);
+
     if (id == null) {
+      task = Task(
+          name: titleController.text,
+          deadline: date!,
+          priority: priority!,
+          subjectId: subjectId,
+          description: description!,
+          taskGroupId: taskGroupId,
+          xp: 0);
       id = await serviceLocator<TaskDao>().insertTask(task);
     } else {
+      task = Task(
+          id: id,
+          name: titleController.text,
+          deadline: date!,
+          priority: priority!,
+          subjectId: subjectId,
+          description: description!,
+          taskGroupId: taskGroupId,
+          xp: 0);
       await serviceLocator<TaskDao>().updateTask(task);
     }
     Navigator.pop(context);

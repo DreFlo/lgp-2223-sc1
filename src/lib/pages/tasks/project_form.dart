@@ -178,7 +178,8 @@ class _ProjectFormState extends State<ProjectForm> {
       const SizedBox(height: 30)
     ];
   }
-    List<Widget> getTasks() {
+
+  List<Widget> getTasks() {
     List<Widget> tasksList = [];
 
     // //TODO: Task bar + add it to the list.
@@ -230,67 +231,30 @@ class _ProjectFormState extends State<ProjectForm> {
       return;
     }
     TaskGroup taskGroup;
+    int? subjectId;
     if (subject != null) {
-      taskGroup = TaskGroup(
-        id: id,
-        name: titleController.text,
-        deadline: date!,
-        priority: priority!,
-        subjectId: subject!.id,
-        description: description!,
-      );
-    } else {
-      taskGroup = TaskGroup(
-        id: id,
-        name: titleController.text,
-        deadline: date!,
-        priority: priority!,
-        subjectId: null,
-        description: description!,
-      );
+      subjectId = subject!.id;
     }
-    if (id != null) {
-      if (subject != null) {
-        taskGroup = TaskGroup(
-          id: id,
-          name: titleController.text,
-          deadline: date!,
-          priority: priority!,
-          subjectId: subject!.id,
-          description: description!,
-        );
-      } else {
-        taskGroup = TaskGroup(
-          id: id,
-          name: titleController.text,
-          deadline: date!,
-          priority: priority!,
-          subjectId: null,
-          description: description!,
-        );
-      }
-      //Update
-      await serviceLocator<TaskGroupDao>().updateTaskGroup(taskGroup);
-    } else {
-      if (subject != null) {
-        taskGroup = TaskGroup(
-          name: titleController.text,
-          deadline: date!,
-          priority: priority!,
-          subjectId: subject!.id,
-          description: description!,
-        );
-      } else {
-        taskGroup = TaskGroup(
-          name: titleController.text,
-          deadline: date!,
-          priority: priority!,
-          subjectId: null,
-          description: description!,
-        );
-      }
-      //Create
+
+    if (id == null) {
+      taskGroup = TaskGroup(
+        name: titleController.text,
+        deadline: date!,
+        priority: priority!,
+        subjectId: subjectId,
+        description: description!,
+      );
       id = await serviceLocator<TaskGroupDao>().insertTaskGroup(taskGroup);
+    } else {
+      taskGroup = TaskGroup(
+        id: id,
+        name: titleController.text,
+        deadline: date!,
+        priority: priority!,
+        subjectId: subjectId,
+        description: description!,
+      );
+      await serviceLocator<TaskGroupDao>().updateTaskGroup(taskGroup);
     }
     Navigator.pop(context);
   }
@@ -506,8 +470,8 @@ class _ProjectFormState extends State<ProjectForm> {
                     const SizedBox(height: 30),
                     // Priority
                     Row(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
                           Flexible(
                               flex: 1,
                               child: Column(children: [
@@ -874,7 +838,7 @@ class _ProjectFormState extends State<ProjectForm> {
                           ),
                         ]),
                     const SizedBox(height: 7.5),
-            ...getTasks(),
+                    ...getTasks(),
                     const SizedBox(height: 30),
                     ElevatedButton(
                         onPressed: () {
