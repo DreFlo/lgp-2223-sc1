@@ -569,7 +569,7 @@ void main() {
       (WidgetTester tester) async {
     await tester.runAsync(() async {
       await serviceLocator<UserDao>().insertUser(
-          User(userName: 'Emil', password: '1234', xp: 23, imagePath: 'test'));
+          User(userName: 'Emil', password: '1234', xp: 23, imagePath: 'test', level: 1));
 
       int seriesId = await serviceLocator<MediaDao>().insertMedia(Media(
           name: 'name',
@@ -592,6 +592,7 @@ void main() {
               startDateTime: DateTime.now(),
               endDateTime: DateTime.now().add(const Duration(days: 1)),
               xpMultiplier: 2,
+              finished: false,
               userId: 1);
 
       int id = await serviceLocator<TimeslotMediaTimeslotSuperDao>()
@@ -617,7 +618,7 @@ void main() {
       (WidgetTester tester) async {
     await tester.runAsync(() async {
       await serviceLocator<UserDao>().insertUser(
-          User(userName: 'Emil', password: '1234', xp: 23, imagePath: 'test'));
+          User(userName: 'Emil', password: '1234', xp: 23, imagePath: 'test', level: 1));
 
       await serviceLocator<InstitutionDao>().insertInstitution(Institution(
           name: 'name',
@@ -646,6 +647,7 @@ void main() {
           deadline: DateTime.now().subtract(const Duration(days: 1)),
           taskGroupId: 1,
           subjectId: 1,
+          finished: false,
           xp: 20));
 
       TimeslotStudentTimeslotSuperEntity timeslotStudentTimeslotSuperEntity =
@@ -655,6 +657,7 @@ void main() {
               startDateTime: DateTime.now(),
               endDateTime: DateTime.now().add(const Duration(days: 1)),
               xpMultiplier: 2,
+              finished: false,
               userId: 1);
 
       int id = await serviceLocator<TimeslotStudentTimeslotSuperDao>()
