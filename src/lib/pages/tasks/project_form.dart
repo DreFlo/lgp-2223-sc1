@@ -37,7 +37,6 @@ class _ProjectFormState extends State<ProjectForm> {
   late Priority? priority;
   late Institution institution;
   late Subject? subject;
-  late TaskGroup? taskGroup;
   late bool init = false;
 
   Institution institutionNone =
@@ -49,17 +48,17 @@ class _ProjectFormState extends State<ProjectForm> {
     }
     id = widget.id;
     if (id != null) {
-      taskGroup = await serviceLocator<TaskGroupDao>()
+      TaskGroup taskGroup = await serviceLocator<TaskGroupDao>()
           .findTaskGroupById(id!)
           .first as TaskGroup;
-      titleController.text = taskGroup!.name;
-      date = taskGroup!.deadline;
+      titleController.text = taskGroup.name;
+      date = taskGroup.deadline;
       dueDate = formatter.format(date!);
-      priority = taskGroup!.priority;
-      description = taskGroup!.description;
-      if (taskGroup!.subjectId != null) {
+      priority = taskGroup.priority;
+      description = taskGroup.description;
+      if (taskGroup.subjectId != null) {
         subject = await serviceLocator<SubjectDao>()
-            .findSubjectById(taskGroup!.subjectId!)
+            .findSubjectById(taskGroup.subjectId!)
             .first as Subject;
         if (subject!.institutionId != null) {
           institution = await serviceLocator<InstitutionDao>()
