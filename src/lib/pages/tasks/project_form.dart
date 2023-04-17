@@ -506,8 +506,7 @@ class _ProjectFormState extends State<ProjectForm> {
                             ])),
                     const SizedBox(height: 30),
                     // Priority
-                    InkWell(
-                        child: Row(
+                    Row(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                           Flexible(
@@ -521,7 +520,7 @@ class _ProjectFormState extends State<ProjectForm> {
                                       shape: BoxShape.circle,
                                     ),
                                     child: const Icon(
-                                      Icons.account_balance_rounded,
+                                      Icons.priority_high_rounded,
                                       color: Color(0xFF71788D),
                                       size: 20,
                                     ))
@@ -547,34 +546,134 @@ class _ProjectFormState extends State<ProjectForm> {
                                       mainAxisAlignment:
                                           MainAxisAlignment.start,
                                       children: [
-                                        DropdownButton<Priority>(
-                                          value: priority,
-                                          // controller: controller2,
-                                          items: (priorities!)
-                                              .map((e) => DropdownMenuItem<
-                                                      Priority>(
-                                                  value: e[0] as Priority,
-                                                  child: Text(e[1] as String,
-                                                      style: const TextStyle(
-                                                          fontFamily: 'Poppins',
-                                                          color:
-                                                              Color(0xFF71788D),
-                                                          fontSize: 16,
-                                                          fontWeight:
-                                                              FontWeight.w400),
+                                        InkWell(
+                                          highlightColor: lightGray,
+                                          child: Column(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.center,
+                                            children: [
+                                              Container(
+                                                  padding: const EdgeInsets
+                                                          .symmetric(
+                                                      horizontal: 15,
+                                                      vertical: 10),
+                                                  decoration: BoxDecoration(
+                                                    borderRadius:
+                                                        const BorderRadius.only(
+                                                            topLeft:
+                                                                Radius.circular(
+                                                                    10),
+                                                            bottomLeft:
+                                                                Radius.circular(
+                                                                    10)),
+                                                    color: (priority ==
+                                                            Priority.low
+                                                        ? primaryColor
+                                                        : lightGray),
+                                                  ),
+                                                  alignment:
+                                                      const Alignment(0, 0),
+                                                  child: Text(
+                                                      AppLocalizations.of(
+                                                              context)
+                                                          .low,
                                                       textAlign:
-                                                          TextAlign.center)))
-                                              .toList(),
-                                          onChanged: (Priority? newPriority) {
-                                            setState(() {
-                                              priority = newPriority;
-                                            });
+                                                          TextAlign.center,
+                                                      style: const TextStyle(
+                                                          fontSize: 12,
+                                                          fontWeight: FontWeight
+                                                              .normal)))
+                                            ],
+                                          ),
+                                          onTap: () {
+                                            priority = Priority.low;
+                                            setState(() {});
                                           },
-                                        )
+                                        ),
+                                        const SizedBox(width: 5),
+                                        InkWell(
+                                          highlightColor: lightGray,
+                                          child: Column(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.center,
+                                            children: [
+                                              Container(
+                                                  padding: const EdgeInsets
+                                                          .symmetric(
+                                                      horizontal: 15,
+                                                      vertical: 10),
+                                                  color: (priority ==
+                                                          Priority.medium
+                                                      ? primaryColor
+                                                      : lightGray),
+                                                  alignment:
+                                                      const Alignment(0, 0),
+                                                  child: Text(
+                                                      AppLocalizations.of(
+                                                              context)
+                                                          .medium,
+                                                      textAlign:
+                                                          TextAlign.center,
+                                                      style: const TextStyle(
+                                                          fontSize: 12,
+                                                          fontWeight: FontWeight
+                                                              .normal)))
+                                            ],
+                                          ),
+                                          onTap: () {
+                                            priority = Priority.medium;
+                                            setState(() {});
+                                          },
+                                        ),
+                                        const SizedBox(width: 5),
+                                        InkWell(
+                                          highlightColor: lightGray,
+                                          child: Column(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.center,
+                                            children: [
+                                              Container(
+                                                  decoration: BoxDecoration(
+                                                    borderRadius:
+                                                        const BorderRadius.only(
+                                                            topRight:
+                                                                Radius.circular(
+                                                                    10),
+                                                            bottomRight:
+                                                                Radius.circular(
+                                                                    10)),
+                                                    color: (priority ==
+                                                            Priority.high
+                                                        ? primaryColor
+                                                        : lightGray),
+                                                  ),
+                                                  padding: const EdgeInsets
+                                                          .symmetric(
+                                                      horizontal: 15,
+                                                      vertical: 10),
+                                                  alignment:
+                                                      const Alignment(0, 0),
+                                                  child: Text(
+                                                      AppLocalizations.of(
+                                                              context)
+                                                          .high,
+                                                      textAlign:
+                                                          TextAlign.center,
+                                                      style: const TextStyle(
+                                                          fontSize: 12,
+                                                          fontWeight: FontWeight
+                                                              .normal)))
+                                            ],
+                                          ),
+                                          onTap: () {
+                                            priority = Priority.high;
+                                            setState(() {});
+                                          },
+                                        ),
                                       ],
                                     )
                                   ]))
-                        ])),
+                        ]),
                     const SizedBox(height: 30),
                     // Institution
                     InkWell(
