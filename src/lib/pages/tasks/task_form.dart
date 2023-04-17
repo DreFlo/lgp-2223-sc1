@@ -3,10 +3,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:intl/intl.dart';
+import 'package:src/daos/notes/note_dao.dart';
+import 'package:src/daos/notes/note_task_note_super_dao.dart';
+import 'package:src/daos/notes/task_note_dao.dart';
 import 'package:src/daos/student/institution_dao.dart';
 import 'package:src/daos/student/subject_dao.dart';
 import 'package:src/daos/student/task_dao.dart';
 import 'package:src/daos/student/task_group_dao.dart';
+import 'package:src/models/notes/note.dart';
+import 'package:src/models/notes/note_task_note_super_entity.dart';
+import 'package:src/models/notes/task_note.dart';
 import 'package:src/models/student/institution.dart';
 import 'package:src/models/student/subject.dart';
 import 'package:src/models/student/task.dart';
@@ -16,6 +22,7 @@ import 'package:src/themes/colors.dart';
 import 'dart:math' as Math;
 import 'package:src/utils/enums.dart';
 import 'package:src/utils/service_locator.dart';
+import 'package:src/widgets/note_bar.dart';
 
 final DateFormat formatter = DateFormat('dd/MM/yyyy');
 
@@ -41,7 +48,6 @@ class _TaskFormState extends State<TaskForm> {
   late Institution institution;
   late Subject? subject;
   late TaskGroup? taskGroup;
-  late List<String>? notes;
   late int? id;
   bool init = false;
 
@@ -54,23 +60,37 @@ class _TaskFormState extends State<TaskForm> {
       priority: Priority.high,
       deadline: DateTime.now());
 
+  List<Note> notes = [];
+  List<Note> dbNotes = [];
+  List<Note> toRemoveNotes = [];
+
   List<Widget> getNotes() {
     List<Widget> notesList = [];
 
-    // if (notes == null) {
-    //   notesList.add(Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-    //     Text(AppLocalizations.of(context).no_notes,
-    //         style: const TextStyle(
-    //             color: Colors.white,
-    //             fontSize: 16,
-    //             fontWeight: FontWeight.normal))
-    //   ]));
-    // } else {
-    //   for (int i = 0; i < notes!.length; i++) {
-    //     notesList.add(NoteBar(text: notes![i]));
-    //   }
-    // }
-
+    if (notes == [] && dbNotes == []) {
+      notesList.add(Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+        Text(AppLocalizations.of(context).no_notes,
+            style: const TextStyle(
+                color: Colors.white,
+                fontSize: 16,
+                fontWeight: FontWeight.normal))
+      ]));
+    } else {
+      for (int i = 0; i < notes.length; i++) {
+        notesList.add(NoteBar(
+            key: ValueKey(notes[i]),
+            note: notes[i],
+            onSelected: removeNote,
+            onUnselected: unremoveNote));
+      }
+      for (int i = 0; i < dbNotes.length; i++) {
+        notesList.add(NoteBar(
+            key: ValueKey(dbNotes[i]),
+            note: dbNotes[i],
+            onSelected: removeNote,
+            onUnselected: unremoveNote));
+      }
+    }
     return notesList;
   }
 
@@ -108,6 +128,15 @@ class _TaskFormState extends State<TaskForm> {
             .first as TaskGroup;
       } else {
         taskGroup = taskGroupNone;
+      }
+
+      List<TaskNote> taskNotes =
+          await serviceLocator<TaskNoteDao>().findTaskNotesByTaskId(task.id!);
+
+      for (int i = taskNotes.length-1; i >= 0; i--) {
+        dbNotes.add(await serviceLocator<NoteDao>()
+            .findNoteById(taskNotes[i].id)
+            .first as Note);
       }
     } else {
       titleController.text = 'Your new task';
@@ -277,6 +306,36 @@ class _TaskFormState extends State<TaskForm> {
           taskGroupId: taskGroupId,
           xp: 0);
       await serviceLocator<TaskDao>().updateTask(task);
+    }
+
+    //Save notes
+    for (int i = 0; i < notes.length; i++) {
+      Note note = notes[i];
+      if (toRemoveNotes.contains(note)) {
+        continue;
+      } else {
+        NoteTaskNoteSuperEntity noteTaskNoteSuperEntity =
+            NoteTaskNoteSuperEntity(
+                title: note.title,
+                content: note.content,
+                date: note.date,
+                taskId: id!);
+        await serviceLocator<NoteTaskNoteSuperDao>()
+            .insertNoteTaskNoteSuperEntity(noteTaskNoteSuperEntity);
+      }
+    }
+    for (int i = 0; i < dbNotes.length; i++) {
+      Note note = dbNotes[i];
+      NoteTaskNoteSuperEntity noteTaskNoteSuperEntity = NoteTaskNoteSuperEntity(
+          id: note.id,
+          title: note.title,
+          content: note.content,
+          date: note.date,
+          taskId: id!);
+      if (toRemoveNotes.contains(note)) {
+        await serviceLocator<NoteTaskNoteSuperDao>()
+            .deleteNoteTaskNoteSuperEntity(noteTaskNoteSuperEntity);
+      }
     }
 
     // My idea
@@ -1024,9 +1083,9 @@ class _TaskFormState extends State<TaskForm> {
                                     borderRadius: BorderRadius.vertical(
                                         top: Radius.circular(30.0)),
                                   ),
-                                  builder: (builder) =>
-                                      const SingleChildScrollView(
-                                          child: AddTaskNoteForm()));
+                                  builder: (builder) => SingleChildScrollView(
+                                      child:
+                                          AddTaskNoteForm(callback: addNote)));
                             },
                           ),
                         ]),
@@ -1053,5 +1112,23 @@ class _TaskFormState extends State<TaskForm> {
             return const Center(child: CircularProgressIndicator());
           }
         });
+  }
+
+  addNote(Note note) {
+    setState(() {
+      notes.insert(0, note);
+    });
+  }
+
+  removeNote(Note note) {
+    setState(() {
+      toRemoveNotes.add(note);
+    });
+  }
+
+  unremoveNote(Note note) {
+    setState(() {
+      toRemoveNotes.remove(note);
+    });
   }
 }

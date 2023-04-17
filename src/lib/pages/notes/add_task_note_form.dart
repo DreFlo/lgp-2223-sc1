@@ -3,14 +3,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:src/daos/notes/note_task_note_super_dao.dart';
+import 'package:src/models/notes/note.dart';
 import 'package:src/models/notes/note_task_note_super_entity.dart';
 import 'package:src/themes/colors.dart';
 import 'package:src/utils/service_locator.dart';
 
 class AddTaskNoteForm extends StatefulWidget {
-  final int taskId;
+  final int? taskId;
+  final Function? callback;
 
-  const AddTaskNoteForm({Key? key, required this.taskId}) : super(key: key);
+  const AddTaskNoteForm({Key? key, this.taskId, this.callback})
+      : super(key: key);
 
   @override
   State<AddTaskNoteForm> createState() => _AddTaskNoteFormState();
@@ -127,19 +130,25 @@ class _AddTaskNoteFormState extends State<AddTaskNoteForm> {
                   valid = false;
                 }
 
-                if(valid){
-                  NoteTaskNoteSuperEntity note = NoteTaskNoteSuperEntity(
-                    title: titleController.text,
-                    content: contentController.text,
-                    date: DateTime.now(),
-                    taskId: widget.taskId);
+                if (valid) {
+                  if (widget.callback != null && widget.taskId == null) {
+                    Note note = Note(
+                        title: titleController.text,
+                        content: contentController.text,
+                        date: DateTime.now());
+                    widget.callback!(note);
+                  } else {
+                    NoteTaskNoteSuperEntity note = NoteTaskNoteSuperEntity(
+                        title: titleController.text,
+                        content: contentController.text,
+                        date: DateTime.now(),
+                        taskId: widget.taskId!);
 
-                  await serviceLocator<NoteTaskNoteSuperDao>()
-                      .insertNoteTaskNoteSuperEntity(note);
-
+                    await serviceLocator<NoteTaskNoteSuperDao>()
+                        .insertNoteTaskNoteSuperEntity(note);
+                  }
                   Navigator.pop(context);
                 }
-                
               },
               style: ElevatedButton.styleFrom(
                 minimumSize: Size(MediaQuery.of(context).size.width * 0.90, 55),

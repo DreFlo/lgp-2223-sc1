@@ -1,36 +1,85 @@
 // ignore_for_file: file_names
 
 import 'package:flutter/material.dart';
+import 'package:src/models/notes/note.dart';
 import 'package:src/themes/colors.dart';
 
 class NoteBar extends StatefulWidget {
-  final String text;
+  final Note note;
+  final Function onSelected, onUnselected;
 
-  const NoteBar({Key? key, required this.text}) : super(key: key);
+  const NoteBar(
+      {Key? key,
+      required this.note,
+      required this.onSelected,
+      required this.onUnselected})
+      : super(key: key);
 
   @override
   State<NoteBar> createState() => _NoteBarState();
 }
 
 class _NoteBarState extends State<NoteBar> {
+  late Note note;
+  late Function onSelected, onUnselected;
+  bool selected = false;
+
+  @override
+  initState() {
+    note = widget.note;
+    onUnselected = widget.onUnselected;
+    onSelected = widget.onSelected;
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Container(
-        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 15),
-        width: MediaQuery.of(context).size.width * 0.9,
-        decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(10), color: lightGray),
-        child: Column(children: [
-          Row(mainAxisAlignment: MainAxisAlignment.start, children: [
-            Flexible(
-                child: Text(widget.text,
-                    softWrap: true,
-                    textAlign: TextAlign.justify,
-                    style: const TextStyle(
-                        color: Colors.white,
-                        fontSize: 16,
-                        fontWeight: FontWeight.normal)))
-          ])
-        ]));
+    return InkWell(
+        child: Container(
+            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 15),
+            width: MediaQuery.of(context).size.width * 0.9,
+            decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(10),
+                color: selected ? grayButton : lightGray),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Flexible(
+                    flex: 3,
+                    child: Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(note.title,
+                              softWrap: true,
+                              textAlign: TextAlign.justify,
+                              style: TextStyle(
+                                  color: selected ? Colors.black : Colors.white,
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.normal))
+                        ])),
+                Flexible(
+                    flex: 1,
+                    child: Column(mainAxisSize: MainAxisSize.min, children: [
+                      ElevatedButton(
+                          child: Icon(Icons.delete),
+                          onPressed: () {
+                            if (selected) {
+                              onUnselected(note);
+                            } else {
+                              onSelected(note);
+                            }
+                            setState(() {
+                              selected = !selected;
+                            });
+                          }),
+                      ElevatedButton(
+                          child: Icon(Icons.edit),
+                          onPressed: () {
+                            // do nothing rn
+                          })
+                    ]))
+              ],
+            )));
   }
 }
