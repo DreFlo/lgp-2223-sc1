@@ -1908,6 +1908,14 @@ class _$TaskNoteDao extends TaskNoteDao {
   }
 
   @override
+  Future<List<TaskNote>> findTaskNotesByTaskId(int taskId) async {
+    return _queryAdapter.queryList('SELECT * FROM task_note WHERE task_id = ?1',
+        mapper: (Map<String, Object?> row) =>
+            TaskNote(id: row['id'] as int, taskId: row['task_id'] as int),
+        arguments: [taskId]);
+  }
+
+  @override
   Future<int> insertTaskNote(TaskNote taskNote) {
     return _taskNoteInsertionAdapter.insertAndReturnId(
         taskNote, OnConflictStrategy.abort);
