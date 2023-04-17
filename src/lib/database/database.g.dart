@@ -2740,7 +2740,7 @@ class _$UserDao extends UserDao {
   _$UserDao(
     this.database,
     this.changeListener,
-  )   : _queryAdapter = QueryAdapter(database),
+  )   : _queryAdapter = QueryAdapter(database, changeListener),
         _userInsertionAdapter = InsertionAdapter(
             database,
             'user',
@@ -2751,7 +2751,8 @@ class _$UserDao extends UserDao {
                   'xp': item.xp,
                   'level': item.level,
                   'image_path': item.imagePath
-                }),
+                },
+            changeListener),
         _userUpdateAdapter = UpdateAdapter(
             database,
             'user',
@@ -2763,7 +2764,8 @@ class _$UserDao extends UserDao {
                   'xp': item.xp,
                   'level': item.level,
                   'image_path': item.imagePath
-                }),
+                },
+            changeListener),
         _userDeletionAdapter = DeletionAdapter(
             database,
             'user',
@@ -2775,7 +2777,8 @@ class _$UserDao extends UserDao {
                   'xp': item.xp,
                   'level': item.level,
                   'image_path': item.imagePath
-                });
+                },
+            changeListener);
 
   final sqflite.DatabaseExecutor database;
 
@@ -2802,8 +2805,8 @@ class _$UserDao extends UserDao {
   }
 
   @override
-  Future<User?> findUserById(int id) async {
-    return _queryAdapter.query('SELECT * FROM user WHERE id = ?1',
+  Stream<User?> findUserById(int id) {
+    return _queryAdapter.queryStream('SELECT * FROM user WHERE id = ?1',
         mapper: (Map<String, Object?> row) => User(
             id: row['id'] as int?,
             userName: row['user_name'] as String,
@@ -2811,7 +2814,9 @@ class _$UserDao extends UserDao {
             xp: row['xp'] as int,
             level: row['level'] as int,
             imagePath: row['image_path'] as String),
-        arguments: [id]);
+        arguments: [id],
+        queryableName: 'user',
+        isView: false);
   }
 
   @override

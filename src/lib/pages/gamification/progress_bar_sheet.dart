@@ -6,6 +6,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:src/themes/colors.dart';
+import 'package:src/utils/service_locator.dart';
+import 'package:src/models/user.dart';
+import 'package:src/daos/user_dao.dart';
 
 class ProgressBarSheet extends StatefulWidget {
   final List<String> user;
@@ -71,8 +74,27 @@ class _ProgressBarSheetState extends State<ProgressBarSheet> {
                         onPressed: () async {
                           XFile? pickedFile = await ImagePicker()
                               .pickImage(source: ImageSource.gallery);
+                          //While authentication isn't done, make sure to seed the DB before running this
+                          final userStream = serviceLocator<UserDao>().findUserById(
+                              1); //hardcoded id but should be authenticated user's id
+                          User? firstNonNullUser = await userStream
+                              .firstWhere((user) => user != null);
+                          User user = firstNonNullUser!;
+
+                          //update user
+                          User userNew = User(
+                              id: user.id,
+                              userName: user.userName,
+                              password: user.password,
+                              xp: user.xp,
+                              level: user.level,
+                              imagePath: pickedFile!.path);
+                          await serviceLocator<UserDao>().updateUser(userNew);
+
+                          dynamic users=
+                              await serviceLocator<UserDao>().findAllUsers();
                           setState(() {
-                            image = pickedFile!.path;
+                            image = pickedFile.path;
                           });
                         }))
               ],

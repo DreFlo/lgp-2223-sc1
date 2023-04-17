@@ -71,7 +71,7 @@ Future<void> setup(
     serviceLocator.registerSingletonAsync<AppDatabase>(() async =>
         await $FloorAppDatabase
             .databaseBuilder('wokka_database.db')
-            .addMigrations(allMigrations)
+           //.addMigrations(allMigrations)
             .addCallback(addConstraintsCallback)
             .build());
   }
