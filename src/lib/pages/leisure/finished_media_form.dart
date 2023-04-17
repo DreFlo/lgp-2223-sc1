@@ -413,9 +413,10 @@ class _FinishedMediaFormState extends State<FinishedMediaForm> {
                       participants: media.participants);
                   await serviceLocator<MediaDao>().updateMedia(newMedia);
 
-                  if (widget.refreshMediaList != null) {
+                  /*if (widget.refreshMediaList != null) {
                     widget.refreshMediaList!();
-                  }
+                  }*/
+                  Navigator.of(context).pop();
                 },
                 style: ElevatedButton.styleFrom(
                   minimumSize:

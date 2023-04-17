@@ -21,11 +21,6 @@ class MediaPageButton extends StatelessWidget {
   final String type;
   final Status status;
   final int mediaId;
-  final Review? review;
-  final List<NoteBookNoteSuperEntity?>? bookNotes;
-  final List<NoteEpisodeNoteSuperEntity?>? episodeNotes;
-  final List<MediaVideoEpisodeSuperEntity?>? episodes;
-  final List<Season?>? seasons;
   final VoidCallback? refreshMediaList;
 
   const MediaPageButton(
@@ -34,11 +29,6 @@ class MediaPageButton extends StatelessWidget {
       required this.type,
       required this.status,
       required this.mediaId,
-      this.review,
-      this.bookNotes,
-      this.episodeNotes,
-      this.episodes,
-      this.seasons,
       this.refreshMediaList})
       : super(key: key);
 
@@ -131,14 +121,6 @@ class MediaPageButton extends StatelessWidget {
             children: [
               ElevatedButton(
                 onPressed: () {
-                  List<MediaVideoEpisodeSuperEntity> noNullEpisodes = episodes!
-                      .where((episode) => episode != null)
-                      .map((episode) => episode!)
-                      .toList();
-                  List<Season> noNullSeasons = seasons!
-                      .where((season) => season != null)
-                      .map((season) => season!)
-                      .toList();
                   showModalBottomSheet(
                       context: context,
                       isScrollControlled: true,
@@ -164,8 +146,6 @@ class MediaPageButton extends StatelessWidget {
                                         child: SingleChildScrollView(
                                             controller: scrollController,
                                             child: MarkEpisodesSheet(
-                                                episodes: noNullEpisodes,
-                                                seasons: noNullSeasons,
                                                 mediaId: mediaId,
                                                 refreshMediaList:
                                                     refreshMediaList!))),
@@ -184,14 +164,6 @@ class MediaPageButton extends StatelessWidget {
               ),
               ElevatedButton(
                 onPressed: () {
-                  List<MediaVideoEpisodeSuperEntity> noNullEpisodes = episodes!
-                      .where((episode) => episode != null)
-                      .map((episode) => episode!)
-                      .toList();
-                  List<Season> noNullSeasons = seasons!
-                      .where((season) => season != null)
-                      .map((season) => season!)
-                      .toList();
                   showModalBottomSheet(
                       context: context,
                       isScrollControlled: true,
@@ -216,10 +188,7 @@ class MediaPageButton extends StatelessWidget {
                                                 50),
                                         child: SingleChildScrollView(
                                             controller: scrollController,
-                                            child: EpisodesNotesSheet(
-                                                notes: episodeNotes,
-                                                episodes: noNullEpisodes,
-                                                seasons: noNullSeasons)))
+                                            child: EpisodesNotesSheet(mediaId: mediaId,)))
                                   ])));
                 },
                 style: ElevatedButton.styleFrom(
@@ -244,14 +213,6 @@ class MediaPageButton extends StatelessWidget {
             children: [
               ElevatedButton(
                 onPressed: () {
-                  List<MediaVideoEpisodeSuperEntity> noNullEpisodes = episodes!
-                      .where((episode) => episode != null)
-                      .map((episode) => episode!)
-                      .toList();
-                  List<Season> noNullSeasons = seasons!
-                      .where((season) => season != null)
-                      .map((season) => season!)
-                      .toList();
                   showModalBottomSheet(
                       context: context,
                       isScrollControlled: true,
@@ -276,11 +237,8 @@ class MediaPageButton extends StatelessWidget {
                                                 50),
                                         child: SingleChildScrollView(
                                             controller: scrollController,
-                                            child: EpisodesNotesSheet(
-                                                notes: episodeNotes,
-                                                review: review,
-                                                episodes: noNullEpisodes,
-                                                seasons: noNullSeasons)))
+                                            child: EpisodesNotesSheet(mediaId: mediaId,
+                                                )))
                                   ])));
                 },
                 style: ElevatedButton.styleFrom(
