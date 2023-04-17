@@ -94,9 +94,9 @@ class _ProjectFormState extends State<ProjectForm> {
   }
 
   List<Widget> getSubject() {
-    if (institution.id == -1) {
-      return [];
-    }
+    // if (institution.id == -1) {
+    //   return [];
+    // }
     return [
       InkWell(
           child: Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
