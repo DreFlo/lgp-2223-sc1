@@ -16,7 +16,7 @@ class FinishedMediaForm extends StatefulWidget {
   final Reaction rating;
   final bool isFavorite;
   final int mediaId;
-  final VoidCallback? refreshMediaList;
+  //final VoidCallback? refreshMediaList;
 
   const FinishedMediaForm(
       {Key? key,
@@ -25,7 +25,8 @@ class FinishedMediaForm extends StatefulWidget {
       required this.rating,
       required this.mediaId,
       required this.isFavorite,
-      required this.refreshMediaList})
+      //required this.refreshMediaList
+      })
       : super(key: key);
 
   @override

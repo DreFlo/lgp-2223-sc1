@@ -147,9 +147,7 @@ class _AddBookNoteFormState extends State<AddBookNoteForm> {
                                                     .toString()
                                                     .split(" ")[0],
                                                 isFavorite: false,
-                                                mediaId: widget.book.id!,
-                                                refreshMediaList:
-                                                    widget.refreshMediaList)))
+                                                mediaId: widget.book.id!)))
                                   ])));
                 },
                 child: Text(

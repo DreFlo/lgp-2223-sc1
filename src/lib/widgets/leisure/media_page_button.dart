@@ -146,9 +146,7 @@ class MediaPageButton extends StatelessWidget {
                                         child: SingleChildScrollView(
                                             controller: scrollController,
                                             child: MarkEpisodesSheet(
-                                                mediaId: mediaId,
-                                                refreshMediaList:
-                                                    refreshMediaList!))),
+                                                mediaId: mediaId,))),
                                   ])));
                 },
                 style: ElevatedButton.styleFrom(
@@ -589,9 +587,7 @@ class MediaPageButton extends StatelessWidget {
                                                         .toString()
                                                         .split(" ")[0],
                                                     isFavorite: false,
-                                                    mediaId: mediaId,
-                                                    refreshMediaList:
-                                                        refreshMediaList)))
+                                                    mediaId: mediaId,)))
                                       ])));
                     },
                     style: ElevatedButton.styleFrom(
