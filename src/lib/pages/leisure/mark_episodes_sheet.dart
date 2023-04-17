@@ -123,6 +123,9 @@ class _MarkEpisodesSheetState extends State<MarkEpisodesSheet>
 
   @override
   Widget build(BuildContext context) {
+    if (seasonsDB.isEmpty || episodesDB.isEmpty) {
+    return const Center(child: CircularProgressIndicator());
+  }
     return Wrap(spacing: 10, children: [
       Row(mainAxisAlignment: MainAxisAlignment.center, children: [
         Padding(
