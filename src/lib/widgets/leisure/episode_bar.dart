@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:src/daos/media/media_video_episode_super_dao.dart';
 import 'package:src/themes/colors.dart';
@@ -37,6 +38,10 @@ class _EpisodeBarState extends State<EpisodeBar> {
 
   @override
   Widget build(BuildContext context) {
+    if (kDebugMode) {
+      print('EpisodeBar: build');
+      print(episode.status);
+    }
     return Container(
         padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 15),
         width: MediaQuery.of(context).size.width * 0.9,
@@ -124,7 +129,10 @@ class _EpisodeBarState extends State<EpisodeBar> {
                                   bottom:
                                       MediaQuery.of(context).viewInsets.bottom),
                               child: Stack(children: [
-                                AddEpisodeNoteForm(code: widget.code),
+                                AddEpisodeNoteForm(
+                                  code: widget.code,
+                                  episode: episode,
+                                ),
                               ])));
                     }
                   },
