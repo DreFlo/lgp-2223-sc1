@@ -2,16 +2,20 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:src/daos/notes/note_book_note_super_dao.dart';
+import 'package:src/models/media/media_book_super_entity.dart';
+import 'package:src/models/notes/note_book_note_super_entity.dart';
 import 'package:src/themes/colors.dart';
+import 'package:src/utils/service_locator.dart';
 
 import '../../utils/enums.dart';
 import 'finished_media_form.dart';
 
 class AddBookNoteForm extends StatefulWidget {
-  final int mediaId;
+  final MediaBookSuperEntity book;
   final VoidCallback? refreshMediaList;
   const AddBookNoteForm(
-      {Key? key, required this.mediaId, this.refreshMediaList})
+      {Key? key, required this.book, this.refreshMediaList})
       : super(key: key);
 
   @override
@@ -19,7 +23,8 @@ class AddBookNoteForm extends StatefulWidget {
 }
 
 class _AddBookNoteFormState extends State<AddBookNoteForm> {
-  int? startPage, endPage;
+  int startPage = 0, endPage = 0;
+  final TextEditingController _controller = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -142,7 +147,7 @@ class _AddBookNoteFormState extends State<AddBookNoteForm> {
                                                     .toString()
                                                     .split(" ")[0],
                                                 isFavorite: false,
-                                                mediaId: widget.mediaId,
+                                                mediaId: widget.book.id!,
                                                 refreshMediaList:
                                                     widget.refreshMediaList)))
                                   ])));
@@ -184,8 +189,19 @@ class _AddBookNoteFormState extends State<AddBookNoteForm> {
       Padding(
           padding: const EdgeInsets.only(left: 18, top: 30),
           child: ElevatedButton(
-              onPressed: () {
-                //TODO: Add functionality for adding note (sending to database).
+              onPressed: () async {
+                NoteBookNoteSuperEntity note = NoteBookNoteSuperEntity(
+                    bookId: widget.book.id!,
+                    title: widget.book.name,
+                    date: DateTime.now(),
+                    content: _controller.text,
+                    startPage: startPage,
+                    endPage: endPage);
+
+                await serviceLocator<NoteBookNoteSuperDao>()
+                    .insertNoteBookNoteSuperEntity(note);
+
+                //TODO: Whatever frontend stuff you want to do here
               },
               style: ElevatedButton.styleFrom(
                 minimumSize: Size(MediaQuery.of(context).size.width * 0.90, 55),
