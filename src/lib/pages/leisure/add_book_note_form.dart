@@ -174,6 +174,7 @@ class _AddBookNoteFormState extends State<AddBookNoteForm> {
                 width: MediaQuery.of(context).size.width * 0.90,
                 height: 200,
                 child: TextField(
+                    controller: _controller,
                     style: Theme.of(context).textTheme.bodySmall,
                     maxLines: 10,
                     decoration: InputDecoration(

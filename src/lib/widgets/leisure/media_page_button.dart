@@ -399,7 +399,7 @@ class MediaPageButton extends StatelessWidget {
                               bottom: MediaQuery.of(context).viewInsets.bottom),
                           child: Stack(children: [
                             AddBookNoteForm(
-                                mediaId: mediaId,
+                                book: item,
                                 refreshMediaList: refreshMediaList),
                           ])));
                 },
