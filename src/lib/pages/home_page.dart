@@ -597,14 +597,7 @@ class _HomePageState extends State<HomePage> {
                                 builder: (context, scrollController) =>
                                     TaskForm(
                                         scrollController: scrollController,
-                                        title: "Create Task",
-                                        project: "No",
-                                        dueDate: "05/04/2023",
-                                        priority: Priority.high,
-                                        notes: const ["nothing"],
-                                        institution: "FEUP",
-                                        subject: "LPOO",
-                                        description: "nothing")),
+                                        )),
                           ));
                 }),
             ElevatedButton(
