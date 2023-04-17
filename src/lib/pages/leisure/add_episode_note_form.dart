@@ -76,7 +76,7 @@ class _AddEpisodeNoteFormState extends State<AddEpisodeNoteForm> {
                     date: DateTime.now(),
                     episodeId: widget.episode.id!);
 
-                serviceLocator<NoteEpisodeNoteSuperDao>()
+                await serviceLocator<NoteEpisodeNoteSuperDao>()
                     .insertNoteEpisodeNoteSuperEntity(note);
               },
               style: ElevatedButton.styleFrom(
