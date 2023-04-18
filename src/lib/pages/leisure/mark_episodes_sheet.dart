@@ -14,8 +14,9 @@ import 'finished_media_form.dart';
 
 class MarkEpisodesSheet extends StatefulWidget {
   final int mediaId;
+  final VoidCallback? refreshStatus;
 
-  const MarkEpisodesSheet({Key? key, required this.mediaId})
+  const MarkEpisodesSheet({Key? key, required this.mediaId, this.refreshStatus})
       : super(key: key);
 
 
@@ -179,6 +180,10 @@ class _MarkEpisodesSheetState extends State<MarkEpisodesSheet>
                                                     .split(" ")[0],
                                                 isFavorite: false,
                                                 mediaId: widget.mediaId,
+                                                 refreshStatus: () {
+                                                  widget.refreshStatus!();
+                                                  Navigator.pop(context);
+                                                }
                                                 ))),
                                   ])));
                 },

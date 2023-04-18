@@ -9,32 +9,58 @@ import 'package:src/pages/leisure/episodes_notes_sheet.dart';
 import 'package:src/pages/leisure/book_notes_sheet.dart';
 import 'package:src/pages/leisure/add_book_note_form.dart';
 import 'package:src/pages/leisure/finished_media_form.dart';
-import 'package:src/models/notes/note_book_note_super_entity.dart';
-import 'package:src/models/notes/note_episode_note_super_entity.dart';
-import 'package:src/models/media/media_video_episode_super_entity.dart';
-import 'package:src/models/media/review.dart';
-import 'package:src/models/media/season.dart';
 import 'package:src/utils/enums.dart';
+import 'package:src/daos/media/media_dao.dart';
+import 'package:src/utils/service_locator.dart';
 
-class MediaPageButton extends StatelessWidget {
+class MediaPageButton extends StatefulWidget {
   final dynamic item;
   final String type;
-  final Status status;
   final int mediaId;
-  final VoidCallback? refreshMediaList;
 
   const MediaPageButton(
       {Key? key,
       required this.item,
       required this.type,
-      required this.status,
-      required this.mediaId,
-      this.refreshMediaList})
+      required this.mediaId,})
       : super(key: key);
 
   @override
+  State<MediaPageButton> createState() => _MediaPageButtonState();
+}
+
+class _MediaPageButtonState extends State<MediaPageButton> {
+  Status status = Status.nothing;
+  bool isStatusLoaded = false;
+
+  @override
+  initState() {
+    super.initState();
+    loadStatus();
+  }
+
+  Future<void> loadStatus() async {
+    final mediaStatus =
+        await serviceLocator<MediaDao>().findMediaStatusById(widget.mediaId);
+    setState(() {
+      status = mediaStatus!;
+      isStatusLoaded = true;
+    });
+  }
+
+  Future<void> refreshStatus() async {
+    isStatusLoaded = false;
+    loadStatus();
+    setState(() {});
+  }
+
+  @override
   Widget build(BuildContext context) {
-    if (type == "TV Show") {
+    if(!isStatusLoaded) {
+      // Show a loading indicator while the status is being loaded.
+      return CircularProgressIndicator();
+    }
+    if (widget.type == "TV Show") {
       if (status == Status.nothing) {
         return ElevatedButton(
           onPressed: () {
@@ -146,7 +172,8 @@ class MediaPageButton extends StatelessWidget {
                                         child: SingleChildScrollView(
                                             controller: scrollController,
                                             child: MarkEpisodesSheet(
-                                                mediaId: mediaId,))),
+                                              mediaId: widget.mediaId,
+                                            ))),
                                   ])));
                 },
                 style: ElevatedButton.styleFrom(
@@ -186,7 +213,9 @@ class MediaPageButton extends StatelessWidget {
                                                 50),
                                         child: SingleChildScrollView(
                                             controller: scrollController,
-                                            child: EpisodesNotesSheet(mediaId: mediaId,)))
+                                            child: EpisodesNotesSheet(
+                                              mediaId: widget.mediaId,
+                                            )))
                                   ])));
                 },
                 style: ElevatedButton.styleFrom(
@@ -235,8 +264,9 @@ class MediaPageButton extends StatelessWidget {
                                                 50),
                                         child: SingleChildScrollView(
                                             controller: scrollController,
-                                            child: EpisodesNotesSheet(mediaId: mediaId,
-                                                )))
+                                            child: EpisodesNotesSheet(
+                                              mediaId: widget.mediaId,
+                                            )))
                                   ])));
                 },
                 style: ElevatedButton.styleFrom(
@@ -254,7 +284,7 @@ class MediaPageButton extends StatelessWidget {
           ),
         );
       }
-    } else if (type == "Book") {
+    } else if (widget.type == "Book") {
       if (status == Status.nothing) {
         // If the media is not in the catalog, show a button to add it.
         return ElevatedButton(
@@ -355,8 +385,11 @@ class MediaPageButton extends StatelessWidget {
                               bottom: MediaQuery.of(context).viewInsets.bottom),
                           child: Stack(children: [
                             AddBookNoteForm(
-                                book: item,
-                                refreshMediaList: refreshMediaList),
+                                book: widget.item,
+                                refreshStatus: () {
+                                                  refreshStatus();
+                                                  Navigator.pop(context);
+                                                }),
                           ])));
                 },
                 style: ElevatedButton.styleFrom(
@@ -397,7 +430,8 @@ class MediaPageButton extends StatelessWidget {
                                         child: SingleChildScrollView(
                                             controller: scrollController,
                                             child: BookNotesSheet(
-                                                book: true, mediaId: mediaId)))
+                                                book: true,
+                                                mediaId: widget.mediaId)))
                                   ])));
                 },
                 style: ElevatedButton.styleFrom(
@@ -448,9 +482,8 @@ class MediaPageButton extends StatelessWidget {
                                         child: SingleChildScrollView(
                                             controller: scrollController,
                                             child: BookNotesSheet(
-                                              book: true,
-                                              mediaId: mediaId
-                                            )))
+                                                book: true,
+                                                mediaId: widget.mediaId)))
                                   ])));
                 },
                 style: ElevatedButton.styleFrom(
@@ -468,7 +501,7 @@ class MediaPageButton extends StatelessWidget {
           ),
         );
       }
-    } else if (type == "Movie") {
+    } else if (widget.type == "Movie") {
       if (status == Status.nothing) {
         return ElevatedButton(
           onPressed: () {
@@ -579,15 +612,19 @@ class MediaPageButton extends StatelessWidget {
                                             child: SingleChildScrollView(
                                                 controller: scrollController,
                                                 child: FinishedMediaForm(
-                                                    rating: Reaction.neutral,
-                                                    startDate: DateTime.now()
-                                                        .toString()
-                                                        .split(" ")[0],
-                                                    endDate: DateTime.now()
-                                                        .toString()
-                                                        .split(" ")[0],
-                                                    isFavorite: false,
-                                                    mediaId: mediaId,)))
+                                                  rating: Reaction.neutral,
+                                                  startDate: DateTime.now()
+                                                      .toString()
+                                                      .split(" ")[0],
+                                                  endDate: DateTime.now()
+                                                      .toString()
+                                                      .split(" ")[0],
+                                                  isFavorite: false,
+                                                  mediaId: widget.mediaId,
+                                                   refreshStatus: () {
+                                                    refreshStatus();
+                                                    Navigator.pop(context);
+                                                })))
                                       ])));
                     },
                     style: ElevatedButton.styleFrom(
@@ -636,7 +673,7 @@ class MediaPageButton extends StatelessWidget {
                                             controller: scrollController,
                                             child: BookNotesSheet(
                                                 book: false,
-                                                mediaId: mediaId)))
+                                                mediaId: widget.mediaId)))
                                   ])));
                 },
                 style: ElevatedButton.styleFrom(
