@@ -2,7 +2,6 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:src/daos/notes/note_dao.dart';
 import 'package:src/daos/notes/note_task_note_super_dao.dart';
 import 'package:src/models/notes/note.dart';
 import 'package:src/models/notes/note_task_note_super_entity.dart';
@@ -10,13 +9,11 @@ import 'package:src/themes/colors.dart';
 import 'package:src/utils/service_locator.dart';
 
 class AddTaskNoteForm extends StatefulWidget {
-  final int? id;
   final int? taskId;
   final Function? callback;
   final Note? note;
 
-  const AddTaskNoteForm(
-      {Key? key, this.id, this.taskId, this.callback, this.note})
+  const AddTaskNoteForm({Key? key, this.taskId, this.callback, this.note})
       : super(key: key);
 
   @override
@@ -32,13 +29,7 @@ class _AddTaskNoteFormState extends State<AddTaskNoteForm> {
       return 0;
     }
 
-    if (widget.id != null) {
-      Note? note =
-          await serviceLocator<NoteDao>().findNoteById(widget.id!).first;
-
-      titleController.text = note!.title;
-      contentController.text = note.content;
-    } else if (widget.note != null) {
+    if (widget.note != null) {
       titleController.text = widget.note!.title;
       contentController.text = widget.note!.content;
     } else {
@@ -165,43 +156,61 @@ class _AddTaskNoteFormState extends State<AddTaskNoteForm> {
                         }
 
                         if (valid) {
-                          if (widget.callback != null &&
-                              widget.taskId == null) {
-                            Note note;
+                          if (widget.taskId != null) {
+                            // Note for an existing task
+                            NoteTaskNoteSuperEntity note;
+                            Note simpleNote;
+                            DateTime now = DateTime.now();
                             if (widget.note != null) {
-                              note = Note(
+                              // Edit an already existing note
+                              note = NoteTaskNoteSuperEntity(
+                                  id: widget.note!.id!,
+                                  title: titleController.text,
+                                  content: contentController.text,
+                                  date: now,
+                                  taskId: widget.taskId!);
+                              await serviceLocator<NoteTaskNoteSuperDao>()
+                                  .updateNoteTaskNoteSuperEntity(note);
+                              simpleNote = Note(
                                   id: widget.note!.id,
                                   title: titleController.text,
                                   content: contentController.text,
-                                  date: DateTime.now());
+                                  date: now);
                             } else {
-                              note = Note(
+                              // Add a new note to an existing task
+                              note = NoteTaskNoteSuperEntity(
                                   title: titleController.text,
                                   content: contentController.text,
-                                  date: DateTime.now());
+                                  date: now,
+                                  taskId: widget.taskId!);
+
+                              int id =
+                                  await serviceLocator<NoteTaskNoteSuperDao>()
+                                      .insertNoteTaskNoteSuperEntity(note);
+
+                              simpleNote = Note(
+                                  id: id,
+                                  title: titleController.text,
+                                  content: contentController.text,
+                                  date: now);
                             }
-                            widget.callback!(note);
-                          } else if (widget.id != null) {
-                            NoteTaskNoteSuperEntity note =
-                                NoteTaskNoteSuperEntity(
-                                    id: widget.id!,
-                                    title: titleController.text,
-                                    content: contentController.text,
-                                    date: DateTime.now(),
-                                    taskId: widget.taskId!);
-
-                            await serviceLocator<NoteTaskNoteSuperDao>()
-                                .updateNoteTaskNoteSuperEntity(note);
+                            if (widget.callback != null) {
+                              widget.callback!(simpleNote);
+                            } else {
+                              throw Exception(
+                                  'Task note creator without task should have a callback');
+                            }
                           } else {
-                            NoteTaskNoteSuperEntity note =
-                                NoteTaskNoteSuperEntity(
-                                    title: titleController.text,
-                                    content: contentController.text,
-                                    date: DateTime.now(),
-                                    taskId: widget.taskId!);
-
-                            await serviceLocator<NoteTaskNoteSuperDao>()
-                                .insertNoteTaskNoteSuperEntity(note);
+                            Note note = Note(
+                                title: titleController.text,
+                                content: contentController.text,
+                                date: DateTime.now());
+                            if (widget.callback != null) {
+                              widget.callback!(note);
+                            } else {
+                              throw Exception(
+                                  'Task note creator without task should have a callback');
+                            }
                           }
 
                           Navigator.pop(context);

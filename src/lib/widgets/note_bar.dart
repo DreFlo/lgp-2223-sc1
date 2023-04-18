@@ -7,7 +7,7 @@ import 'package:src/pages/notes/add_task_note_form.dart';
 
 class NoteBar extends StatefulWidget {
   final Note note;
-  final Function onSelected, onUnselected;
+  final Function onSelected, onUnselected, editNote;
   final int? taskId;
 
   const NoteBar(
@@ -15,6 +15,7 @@ class NoteBar extends StatefulWidget {
       required this.note,
       required this.onSelected,
       required this.onUnselected,
+      required this.editNote,
       this.taskId})
       : super(key: key);
 
@@ -24,7 +25,8 @@ class NoteBar extends StatefulWidget {
 
 class _NoteBarState extends State<NoteBar> {
   late Note note;
-  late Function onSelected, onUnselected;
+  late Function onSelected, onUnselected, editNote;
+  late int? taskId;
   bool selected = false;
 
   @override
@@ -32,6 +34,8 @@ class _NoteBarState extends State<NoteBar> {
     note = widget.note;
     onUnselected = widget.onUnselected;
     onSelected = widget.onSelected;
+    editNote = widget.editNote;
+    taskId = widget.taskId;
     super.initState();
   }
 
@@ -88,18 +92,13 @@ class _NoteBarState extends State<NoteBar> {
                                       top: Radius.circular(30.0)),
                                 ),
                                 builder: (builder) => SingleChildScrollView(
-                                    child: widget.taskId == null
-                                        ? AddTaskNoteForm(
-                                            note: note, callback: editNote)
-                                        : AddTaskNoteForm(
-                                            taskId: widget.taskId)));
+                                    child: AddTaskNoteForm(
+                                        note: note,
+                                        taskId: taskId,
+                                        callback: editNote)));
                           })
                     ]))
               ],
             )));
-  }
-
-  editNote(Note note) {
-    print('edited note: ${note.title}, ${note.content}');
   }
 }

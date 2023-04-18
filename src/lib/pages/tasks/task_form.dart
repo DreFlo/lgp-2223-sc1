@@ -61,13 +61,12 @@ class _TaskFormState extends State<TaskForm> {
       deadline: DateTime.now());
 
   List<Note> notes = [];
-  List<Note> dbNotes = [];
   List<Note> toRemoveNotes = [];
 
   List<Widget> getNotes() {
     List<Widget> notesList = [];
 
-    if (notes == [] && dbNotes == []) {
+    if (notes == []) {
       notesList.add(Row(mainAxisAlignment: MainAxisAlignment.center, children: [
         Text(AppLocalizations.of(context).no_notes,
             style: const TextStyle(
@@ -78,17 +77,13 @@ class _TaskFormState extends State<TaskForm> {
     } else {
       for (int i = 0; i < notes.length; i++) {
         notesList.add(NoteBar(
-            key: ValueKey(notes[i]),
-            note: notes[i],
-            onSelected: removeNote,
-            onUnselected: unremoveNote));
-      }
-      for (int i = 0; i < dbNotes.length; i++) {
-        notesList.add(NoteBar(
-            key: ValueKey(dbNotes[i]),
-            note: dbNotes[i],
-            onSelected: removeNote,
-            onUnselected: unremoveNote));
+          key: ValueKey(notes[i]),
+          taskId: id,
+          note: notes[i],
+          onSelected: removeNote,
+          onUnselected: unremoveNote,
+          editNote: id == null ? editTempNoteFactory(notes[i]) : editNote,
+        ));
       }
     }
     return notesList;
@@ -131,14 +126,14 @@ class _TaskFormState extends State<TaskForm> {
       }
 
       List<TaskNote> taskNotes =
-          // await serviceLocator<TaskNoteDao>().findTaskNotesByTaskId(task.id!);
-          await serviceLocator<TaskNoteDao>().findAllTaskNotes();
+          await serviceLocator<TaskNoteDao>().findTaskNotesByTaskId(task.id!);
 
-      for (int i = taskNotes.length - 1; i >= 0; i--) {
-        dbNotes.add(await serviceLocator<NoteDao>()
+      for (int i = 0; i < taskNotes.length; i++) {
+        notes.add(await serviceLocator<NoteDao>()
             .findNoteById(taskNotes[i].id)
             .first as Note);
       }
+      notes.sort((a, b) => a.date.isBefore(b.date) ? 1 : -1);
     } else {
       titleController.text = 'Your new task';
       date = DateTime.now();
@@ -286,6 +281,7 @@ class _TaskFormState extends State<TaskForm> {
       taskGroupId = taskGroup!.id;
     }
 
+    int? newId;
     if (id == null) {
       task = Task(
           name: titleController.text,
@@ -295,7 +291,7 @@ class _TaskFormState extends State<TaskForm> {
           description: description!,
           taskGroupId: taskGroupId,
           xp: 0);
-      id = await serviceLocator<TaskDao>().insertTask(task);
+      newId = await serviceLocator<TaskDao>().insertTask(task);
     } else {
       task = Task(
           id: id,
@@ -310,32 +306,38 @@ class _TaskFormState extends State<TaskForm> {
     }
 
     //Save notes
-    for (int i = 0; i < notes.length; i++) {
-      Note note = notes[i];
-      if (toRemoveNotes.contains(note)) {
-        continue;
-      } else {
-        NoteTaskNoteSuperEntity noteTaskNoteSuperEntity =
-            NoteTaskNoteSuperEntity(
-                title: note.title,
-                content: note.content,
-                date: note.date,
-                taskId: id!);
-        await serviceLocator<NoteTaskNoteSuperDao>()
-            .insertNoteTaskNoteSuperEntity(noteTaskNoteSuperEntity);
+    if (id != null) {
+      // Notes are being updated directly upon edit
+      for (int i = 0; i < notes.length; i++) {
+        Note note = notes[i];
+        if (toRemoveNotes.contains(note)) {
+          NoteTaskNoteSuperEntity noteTaskNoteSuperEntity =
+              NoteTaskNoteSuperEntity(
+                  id: note.id,
+                  title: note.title,
+                  content: note.content,
+                  date: note.date,
+                  taskId: id!);
+          await serviceLocator<NoteTaskNoteSuperDao>()
+              .deleteNoteTaskNoteSuperEntity(noteTaskNoteSuperEntity);
+        }
       }
-    }
-    for (int i = 0; i < dbNotes.length; i++) {
-      Note note = dbNotes[i];
-      NoteTaskNoteSuperEntity noteTaskNoteSuperEntity = NoteTaskNoteSuperEntity(
-          id: note.id,
-          title: note.title,
-          content: note.content,
-          date: note.date,
-          taskId: id!);
-      if (toRemoveNotes.contains(note)) {
-        await serviceLocator<NoteTaskNoteSuperDao>()
-            .deleteNoteTaskNoteSuperEntity(noteTaskNoteSuperEntity);
+    } else {
+      // Create notes for the task that was just made
+      for (int i = 0; i < notes.length; i++) {
+        Note note = notes[i];
+        if (toRemoveNotes.contains(note)) {
+          continue;
+        } else {
+          NoteTaskNoteSuperEntity noteTaskNoteSuperEntity =
+              NoteTaskNoteSuperEntity(
+                  title: note.title,
+                  content: note.content,
+                  date: note.date,
+                  taskId: newId!);
+          await serviceLocator<NoteTaskNoteSuperDao>()
+              .insertNoteTaskNoteSuperEntity(noteTaskNoteSuperEntity);
+        }
       }
     }
 
@@ -1131,5 +1133,38 @@ class _TaskFormState extends State<TaskForm> {
     setState(() {
       toRemoveNotes.remove(note);
     });
+  }
+
+  editNote(Note note) {
+    setState(() {
+      if (id != null) {
+        // Our notes have an id and were updated in the addTaskNoteForm
+        for (int i = 0; i < notes.length; i++) {
+          if (notes[i].id == note.id) {
+            notes[i] = note;
+            break;
+          }
+        }
+      }else{
+        throw Exception("Task id is null for edit note callback");
+      }
+    });
+  }
+
+  editTempNoteFactory(Note oldNote) {
+    return (Note note) {
+      setState(() {
+        if (id == null) {
+          for (int i = 0; i < notes.length; i++) {
+            if (notes[i] == oldNote) {
+              notes[i] = note;
+              break;
+            }
+          }
+        } else {
+          throw Exception("Task id is not null for edit temp note callback");
+        }
+      });
+    };
   }
 }
