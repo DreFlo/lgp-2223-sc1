@@ -56,10 +56,31 @@ class _DashboardState extends State<Dashboard> {
 
   late List<Project> searchResults = items;*/
 
+  late dynamic searchResults = items;
+
   @override
   void initState() {
     super.initState();
     loadDataDB();
+  }
+
+  List<dynamic> get items {
+    if (loadedAllData) {
+      final List<dynamic> combined = [];
+      if (tasks.isNotEmpty) {
+        combined.addAll(tasks);
+      }
+      if (taskGroups.isNotEmpty) {
+        combined.addAll(taskGroups);
+      }
+      if (mediaEvents.isNotEmpty) {
+        combined.addAll(mediaEvents);
+      }
+      
+      searchResults = combined;
+      return combined;
+    }
+    return [];
   }
 
   void loadEventsDB() async {
@@ -96,25 +117,39 @@ class _DashboardState extends State<Dashboard> {
     });
   }
 
-  /*void search(String query) {
+  void search(String query) {
     setState(() {
       searchResults = items
           .where((element) =>
-              element.title.toLowerCase().contains(query.toLowerCase()))
+              element is Task &&
+                  element.name.toLowerCase().contains(query.toLowerCase()) ||
+              element is TaskGroup &&
+                  element.name.toLowerCase().contains(query.toLowerCase()) ||
+              element is TimeslotMediaTimeslotSuperEntity &&
+                  element.title.toLowerCase().contains(query.toLowerCase()))
           .toList();
     });
-  }*/
+  }
 
   showWidget() {
-    switch (_selectedIndex) {
-      case 1:
-        return DashBoardGridView(
-        tasks: tasks, taskGroups: taskGroups);
-      case 2:
-        return DashBoardGridView(
-        mediaEvents: mediaEvents);
-      default:
-        return DashBoardGridView(tasks: tasks, taskGroups: taskGroups, mediaEvents: mediaEvents);
+    if (loadedAllData) {
+      List<Task> taskResults = searchResults.whereType<Task>().toList();
+      List<TaskGroup> taskGroupResults =
+          searchResults.whereType<TaskGroup>().toList();
+      List<TimeslotMediaTimeslotSuperEntity> mediaResults =
+          searchResults.whereType<TimeslotMediaTimeslotSuperEntity>().toList();
+      switch (_selectedIndex) {
+        case 1:
+          return DashBoardGridView(
+              tasks: taskResults, taskGroups: taskGroupResults);
+        case 2:
+          return DashBoardGridView(mediaEvents: mediaResults);
+        default:
+          return DashBoardGridView(
+              tasks: taskResults,
+              taskGroups: taskGroupResults,
+              mediaEvents: mediaResults);
+      }
     }
   }
 
@@ -198,7 +233,7 @@ class _DashboardState extends State<Dashboard> {
                   GestureDetector(
                     onTap: () => {
                       setState(() => _searching = !_searching),
-                      //if (!_searching) search("")
+                      if (!_searching) search("")
                     },
                     child: Container(
                       margin: EdgeInsets.only(right: _searching ? 0 : 31),
@@ -224,7 +259,7 @@ class _DashboardState extends State<Dashboard> {
                             style: Theme.of(context).textTheme.labelSmall,
                             onChanged: (value) => {
                               setState(() {
-                                //search(value);
+                                search(value);
                               })
                             },
                           ),
@@ -234,8 +269,7 @@ class _DashboardState extends State<Dashboard> {
               )
             ],
           ),
-          Expanded(
-              child:showWidget())
+          Expanded(child: showWidget())
         ],
       ),
     );
