@@ -79,7 +79,7 @@ class _DashboardCardState extends State<DashboardCard> {
       //id = widget.taskGroup?.subjectId; //when student-backend is merged with this branch
     //}
     if(id != null){
-      final subjectStream = serviceLocator<SubjectDao>().findSubjectById(id!);
+      final subjectStream = serviceLocator<SubjectDao>().findSubjectById(id);
       Subject? firstNonNullSubject = await subjectStream.firstWhere((subject) => subject != null, orElse: () => null);
       return firstNonNullSubject?.name ?? '';
     }

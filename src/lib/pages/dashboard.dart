@@ -46,7 +46,7 @@ class _DashboardState extends State<Dashboard> {
 
   //student stuff -> Taskgroup
   //media stuff -> Timeslot
-  final List<Project> items = [
+  /*final List<Project> items = [
     Project('Project de LGP', 'Student', 'LGP', 1, "Faculdade"),
     Project('Criar meu Portfolio', 'Personal', 'Profissional', 1),
     Project('Ver o último episódio de The Last of Us', 'Leisure', 'Tv Show'),
@@ -54,7 +54,7 @@ class _DashboardState extends State<Dashboard> {
     Project('Treino 5 Minutos', 'Fitness', 'Fitness'),
   ];
 
-  late List<Project> searchResults = items;
+  late List<Project> searchResults = items;*/
 
   @override
   void initState() {
@@ -96,14 +96,14 @@ class _DashboardState extends State<Dashboard> {
     });
   }
 
-  void search(String query) {
+  /*void search(String query) {
     setState(() {
       searchResults = items
           .where((element) =>
               element.title.toLowerCase().contains(query.toLowerCase()))
           .toList();
     });
-  }
+  }*/
 
   showWidget() {
     switch (_selectedIndex) {
@@ -118,7 +118,7 @@ class _DashboardState extends State<Dashboard> {
     }
   }
 
-  List<Project> filterItems() {
+  /*List<Project> filterItems() {
     switch (_selectedIndex) {
       case 1:
         return searchResults
@@ -139,7 +139,7 @@ class _DashboardState extends State<Dashboard> {
       default:
         return searchResults;
     }
-  }
+  }*/
 
   @override
   Widget build(BuildContext context) {
@@ -151,7 +151,7 @@ class _DashboardState extends State<Dashboard> {
           Padding(
             padding: const EdgeInsets.only(top: 33),
             child: HorizontalScrollView(
-              nItems: items.length,
+              nItems: tasks.length + taskGroups.length + mediaEvents.length,
               selectedIndex: _selectedIndex,
               setSelectedIndex: (int index) =>
                   setState(() => _selectedIndex = index),
@@ -198,7 +198,7 @@ class _DashboardState extends State<Dashboard> {
                   GestureDetector(
                     onTap: () => {
                       setState(() => _searching = !_searching),
-                      if (!_searching) search("")
+                      //if (!_searching) search("")
                     },
                     child: Container(
                       margin: EdgeInsets.only(right: _searching ? 0 : 31),
@@ -224,7 +224,7 @@ class _DashboardState extends State<Dashboard> {
                             style: Theme.of(context).textTheme.labelSmall,
                             onChanged: (value) => {
                               setState(() {
-                                search(value);
+                                //search(value);
                               })
                             },
                           ),

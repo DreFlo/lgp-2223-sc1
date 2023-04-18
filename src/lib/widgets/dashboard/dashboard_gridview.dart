@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:src/pages/dashboard.dart';
 import 'package:src/widgets/dashboard/dashboard_card.dart';
 import 'package:src/models/student/task.dart';
 import 'package:src/models/student/task_group.dart';
