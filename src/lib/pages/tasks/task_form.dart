@@ -639,7 +639,9 @@ class _TaskFormState extends State<TaskForm> {
                               initialDate: DateTime.now(),
                               firstDate: DateTime.now(),
                               lastDate: DateTime(2100));
-
+                          if (date == null) {
+                            return;
+                          }
                           setState(() {
                             this.date = date;
                             dueDate = formatter.format(this.date!);
@@ -1145,7 +1147,7 @@ class _TaskFormState extends State<TaskForm> {
             break;
           }
         }
-      }else{
+      } else {
         throw Exception("Task id is null for edit note callback");
       }
     });

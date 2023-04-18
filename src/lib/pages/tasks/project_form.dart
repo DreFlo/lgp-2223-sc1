@@ -398,7 +398,9 @@ class _ProjectFormState extends State<ProjectForm> {
                               initialDate: DateTime.now(),
                               firstDate: DateTime.now(),
                               lastDate: DateTime(2100));
-
+                          if (date == null) {
+                            return;
+                          }
                           setState(() {
                             this.date = date;
                             dueDate = formatter.format(this.date!);
