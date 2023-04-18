@@ -286,6 +286,15 @@ final addConstraintsCallback = Callback(
     END;
   ''');
 
+    await database.execute('''
+  CREATE TRIGGER task_note_remove_parent_note
+  BEFORE DELETE ON task_note
+  FOR EACH ROW
+  BEGIN
+    DELETE FROM note WHERE id = OLD.id;
+  END;
+  ''');
+
     //await database.execute('COMMIT');
     await database.execute('PRAGMA foreign_keys = ON');
   },
