@@ -29,6 +29,7 @@ class _InstitutionFormState extends State<InstitutionForm> {
   late InstitutionType type;
   List<Subject> noDbSubjects = [];
   bool init = false;
+  Map<String, String> errors = {};
 
   @override
   initState() {
@@ -125,8 +126,7 @@ class _InstitutionFormState extends State<InstitutionForm> {
                                     disabledBorder: const OutlineInputBorder(
                                         borderSide: BorderSide(
                                             color: Color(0xFF414554))),
-                                    hintText:
-                                        AppLocalizations.of(context).name,
+                                    hintText: AppLocalizations.of(context).name,
                                     hintStyle: const TextStyle(
                                         fontSize: 20,
                                         color: Color(0xFF71788D),
@@ -143,6 +143,15 @@ class _InstitutionFormState extends State<InstitutionForm> {
                                     controller.clear();
                                   }))
                         ]),
+                    errors.containsKey('name')
+                        ? Padding(
+                            padding: const EdgeInsets.only(top: 5.0),
+                            child: Text(errors['name']!,
+                                style: const TextStyle(
+                                    color: Colors.red,
+                                    fontSize: 12,
+                                    fontWeight: FontWeight.w400)))
+                        : const SizedBox(height: 0),
                     const SizedBox(height: 30),
                     Row(children: [
                       Text(
@@ -313,13 +322,9 @@ class _InstitutionFormState extends State<InstitutionForm> {
                         onPressed: () async {
                           String name = controller.text;
 
-                          bool valid = true;
-                          if (name.isEmpty) {
-                            print("Name is empty");
-                            valid = false;
-                          }
+                          validate();
 
-                          if (valid) {
+                          if (errors.isEmpty) {
                             //TODO: Change to real user id
                             print('NEED TO CHANGE USER ID WHEN AUTH IS DONE');
                             int id;
@@ -440,6 +445,16 @@ class _InstitutionFormState extends State<InstitutionForm> {
   }
 
   onSubjectSave() {
+    setState(() {});
+  }
+
+  validate() {
+    errors = {};
+
+    if (controller.text.isEmpty) {
+      errors['name'] = 'Name is required';
+    }
+
     setState(() {});
   }
 }

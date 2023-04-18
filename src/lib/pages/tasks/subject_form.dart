@@ -37,6 +37,8 @@ class _SubjectFormState extends State<SubjectForm> {
   TextEditingController weightAverageController = TextEditingController();
 
   late int institutionId;
+  Map<String, String> errors = {};
+  bool init = false;
 
   @override
   initState() {
@@ -44,9 +46,7 @@ class _SubjectFormState extends State<SubjectForm> {
   }
 
   Future<int> fillSubjectFields() async {
-    if (nameController.text.isNotEmpty ||
-        acronymController.text.isNotEmpty ||
-        weightAverageController.text.isNotEmpty) {
+    if (init) {
       return 0;
     }
 
@@ -80,6 +80,8 @@ class _SubjectFormState extends State<SubjectForm> {
 
       institutionId = -1;
     }
+
+    init = true;
 
     return 0;
   }
@@ -152,8 +154,7 @@ class _SubjectFormState extends State<SubjectForm> {
                                     disabledBorder: const OutlineInputBorder(
                                         borderSide: BorderSide(
                                             color: Color(0xFF414554))),
-                                    hintText:
-                                        AppLocalizations.of(context).title,
+                                    hintText: AppLocalizations.of(context).name,
                                     hintStyle: const TextStyle(
                                         fontSize: 20,
                                         color: Color(0xFF71788D),
@@ -170,6 +171,15 @@ class _SubjectFormState extends State<SubjectForm> {
                                     nameController.clear();
                                   }))
                         ]),
+                    errors.containsKey('name')
+                        ? Padding(
+                            padding: const EdgeInsets.only(top: 5.0),
+                            child: Text(errors['name']!,
+                                style: const TextStyle(
+                                    color: Colors.red,
+                                    fontSize: 12,
+                                    fontWeight: FontWeight.w400)))
+                        : const SizedBox(height: 0),
                     const SizedBox(height: 30),
                     Row(children: [
                       Text(
@@ -205,6 +215,15 @@ class _SubjectFormState extends State<SubjectForm> {
                                         fontWeight: FontWeight.w400),
                                   )))
                         ]),
+                    errors.containsKey('acronym')
+                        ? Padding(
+                            padding: const EdgeInsets.only(top: 5.0),
+                            child: Text(errors['acronym']!,
+                                style: const TextStyle(
+                                    color: Colors.red,
+                                    fontSize: 12,
+                                    fontWeight: FontWeight.w400)))
+                        : const SizedBox(height: 0),
                     const SizedBox(height: 30),
                     Row(children: [
                       Text(
@@ -245,6 +264,15 @@ class _SubjectFormState extends State<SubjectForm> {
                                         fontWeight: FontWeight.w400),
                                   )))
                         ]),
+                    errors.containsKey('weightAverage')
+                        ? Padding(
+                            padding: const EdgeInsets.only(top: 5.0),
+                            child: Text(errors['weightAverage']!,
+                                style: const TextStyle(
+                                    color: Colors.red,
+                                    fontSize: 12,
+                                    fontWeight: FontWeight.w400)))
+                        : const SizedBox(height: 0),
                     const SizedBox(height: 30),
                     ...institutionSelection(),
                     ElevatedButton(
@@ -253,26 +281,9 @@ class _SubjectFormState extends State<SubjectForm> {
                           String acronym = acronymController.text;
                           String weightAverage = weightAverageController.text;
 
-                          //TODO: Standard way to warn for incorrect input.
-                          bool valid = true;
-                          if (name == null || name == '') {
-                            print('Name is null or empty');
-                            valid = false;
-                          }
-                          if (acronym == null || acronym == '') {
-                            print('Acronym is null or empty');
-                            valid = false;
-                          }
-                          if (weightAverage == null || weightAverage == '') {
-                            print('Weight average is null or empty');
-                            valid = false;
-                          }
-                          if (institutionId == null) {
-                            print('Institution id is null');
-                            valid = false;
-                          }
+                          validate();
 
-                          if (valid) {
+                          if (errors.isEmpty) {
                             Subject subject;
                             if (widget.id != null) {
                               subject = Subject(
@@ -407,5 +418,25 @@ class _SubjectFormState extends State<SubjectForm> {
     }
 
     return widgets;
+  }
+
+  validate() {
+    errors = {};
+
+    String name = nameController.text;
+    String acronym = acronymController.text;
+    String weightAverage = weightAverageController.text;
+
+    if (name.isEmpty) {
+      errors['name'] = 'Name is required';
+    }
+    if (acronym.isEmpty) {
+      errors['acronym'] = 'Acronym is required';
+    }
+    if (weightAverage.isEmpty) {
+      errors['weightAverage'] = 'Weight average is required';
+    }
+
+    setState(() {});
   }
 }
