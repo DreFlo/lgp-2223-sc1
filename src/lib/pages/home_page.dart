@@ -596,8 +596,9 @@ class _HomePageState extends State<HomePage> {
                                 maxChildSize: 0.60,
                                 builder: (context, scrollController) =>
                                     TaskForm(
-                                        scrollController: scrollController,
-                                        id: 1)),
+                                      scrollController: scrollController,
+                                      // id: 1
+                                    )),
                           ));
                 }),
             ElevatedButton(
@@ -623,10 +624,7 @@ class _HomePageState extends State<HomePage> {
                               builder: (context, scrollController) =>
                                   ProjectForm(
                                     scrollController: scrollController,
-                                    id: 1,
-                                    // institutionId: 1,
-                                    // subjectId: 1,
-                                    // tasks: const ["", "", ""],))
+                                    // id: 1,
                                   ))));
                 }),
             ElevatedButton(
