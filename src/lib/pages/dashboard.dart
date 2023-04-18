@@ -6,7 +6,9 @@ import '../widgets/dashboard/dashboard_horizontal_scrollview.dart';
 import 'catalog_search/leisure_module.dart';
 import 'package:src/utils/service_locator.dart';
 import 'package:src/daos/student/task_dao.dart';
+import 'package:src/daos/student/task_group_dao.dart';
 import 'package:src/models/student/task.dart';
+import 'package:src/models/student/task_group.dart';
 
 class Dashboard extends StatefulWidget {
   const Dashboard({Key? key}) : super(key: key);
@@ -36,6 +38,8 @@ class _DashboardState extends State<Dashboard> {
   List books = [];
 
   List<Task> tasks = [];
+  List<TaskGroup> taskGroups = [];
+  bool loadedAllData = false;
 
   //student stuff -> Taskgroup 
   //media stuff -> Timeslot
@@ -52,14 +56,18 @@ class _DashboardState extends State<Dashboard> {
   @override
   void initState() {
     super.initState();
-    loadTasksDB();
+    loadDataDB();
   }
 
   void loadEventsDB(){ //only for Media
 
   }
 
-  void loadTaskGroupsDB() { //lil cards student
+  void loadTaskGroupsDB() async { //lil cards student
+    taskGroups = await serviceLocator<TaskGroupDao>().findAllTaskGroups();
+    setState(() {
+      taskGroups = taskGroups;
+    });
 
   }
 
@@ -68,7 +76,15 @@ class _DashboardState extends State<Dashboard> {
     setState(() {
       tasks = tasks;
     });
+  }
 
+  void loadDataDB() async {
+    loadTaskGroupsDB();
+    loadTasksDB();
+    loadEventsDB();
+    setState(() {
+      loadedAllData = true;
+    });
   }
 
   void search(String query) {
