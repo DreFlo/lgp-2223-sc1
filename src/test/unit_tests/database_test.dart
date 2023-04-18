@@ -4,6 +4,7 @@ import 'package:src/daos/media/media_series_super_dao.dart';
 import 'package:src/daos/media/media_video_movie_super_dao.dart';
 import 'package:src/daos/media/media_book_super_dao.dart';
 import 'package:src/daos/media/season_dao.dart';
+import 'package:src/daos/notes/note_dao.dart';
 import 'package:src/models/media/media_book_super_entity.dart';
 import 'package:src/daos/media/movie_dao.dart';
 import 'package:src/daos/media/media_dao.dart';
@@ -14,6 +15,7 @@ import 'package:src/models/media/media_series_super_entity.dart';
 import 'package:src/models/media/media_video_movie_super_entity.dart';
 import 'package:src/models/media/movie.dart';
 import 'package:src/models/media/season.dart';
+import 'package:src/models/notes/note.dart';
 import 'package:src/models/notes/note_book_note_super_entity.dart';
 import 'package:src/daos/notes/note_book_note_super_dao.dart';
 import 'package:src/models/notes/note_subject_note_super_entity.dart';
@@ -231,6 +233,15 @@ void main() {
           (await serviceLocator<BookNoteDao>().findBookNoteById(id).first)!;
 
       expect(bookNote.startPage, 1);
+
+      await serviceLocator<BookNoteDao>().deleteBookNote(bookNote);
+      BookNote? bookNoteDeleted =
+          await serviceLocator<BookNoteDao>().findBookNoteById(id).first;
+      Note? noteDeleted =
+          await serviceLocator<NoteDao>().findNoteById(id).first;
+
+      expect(bookNoteDeleted, null);
+      expect(noteDeleted, null);
     });
   });
 
@@ -283,6 +294,16 @@ void main() {
           (await serviceLocator<TaskNoteDao>().findTaskNoteById(id).first)!;
 
       expect(taskNote.taskId, 1);
+
+      //Test delete callback
+      await serviceLocator<TaskNoteDao>().deleteTaskNote(taskNote);
+      TaskNote? taskNoteDeleted =
+          await serviceLocator<TaskNoteDao>().findTaskNoteById(id).first;
+      Note? noteDeleted =
+          await serviceLocator<NoteDao>().findNoteById(id).first;
+
+      expect(taskNoteDeleted, null);
+      expect(noteDeleted, null);
     });
   });
 
@@ -322,6 +343,16 @@ void main() {
           .first)!;
 
       expect(subjectNote.subjectId, 1);
+
+      //Test delete callback
+      await serviceLocator<SubjectNoteDao>().deleteSubjectNote(subjectNote);
+      SubjectNote? subjectNoteDeleted =
+          await serviceLocator<SubjectNoteDao>().findSubjectNoteById(id).first;
+      Note? noteDeleted =
+          await serviceLocator<NoteDao>().findNoteById(id).first;
+
+      expect(subjectNoteDeleted, null);
+      expect(noteDeleted, null);
     });
   });
 
@@ -447,6 +478,16 @@ void main() {
           .first)!;
 
       expect(episodeNote.episodeId, id);
+
+      //Test delete callback
+      await serviceLocator<EpisodeNoteDao>().deleteEpisodeNote(episodeNote);
+      EpisodeNote? episodeNoteDeleted =
+          await serviceLocator<EpisodeNoteDao>().findEpisodeNoteById(id).first;
+      Note? noteDeleted =
+          await serviceLocator<NoteDao>().findNoteById(id).first;
+
+      expect(episodeNoteDeleted, null);
+      expect(noteDeleted, null);
     });
   });
 
