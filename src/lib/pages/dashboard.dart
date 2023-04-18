@@ -62,12 +62,13 @@ class _DashboardState extends State<Dashboard> {
     loadDataDB();
   }
 
-  void loadEventsDB() async { //only for Media
-    mediaEvents = await serviceLocator<TimeslotMediaTimeslotSuperDao>().findAllTimeslotMediaTimeslot();
+  void loadEventsDB() async {
+    //only for Media
+    mediaEvents = await serviceLocator<TimeslotMediaTimeslotSuperDao>()
+        .findAllTimeslotMediaTimeslot();
     setState(() {
       mediaEvents = mediaEvents;
     });
-  
   }
 
   void loadTaskGroupsDB() async {
@@ -102,6 +103,19 @@ class _DashboardState extends State<Dashboard> {
               element.title.toLowerCase().contains(query.toLowerCase()))
           .toList();
     });
+  }
+
+  showWidget() {
+    switch (_selectedIndex) {
+      case 1:
+        return DashBoardGridView(
+        tasks: tasks, taskGroups: taskGroups);
+      case 2:
+        return DashBoardGridView(
+        mediaEvents: mediaEvents);
+      default:
+        return DashBoardGridView(tasks: tasks, taskGroups: taskGroups, mediaEvents: mediaEvents);
+    }
   }
 
   List<Project> filterItems() {
@@ -220,7 +234,8 @@ class _DashboardState extends State<Dashboard> {
               )
             ],
           ),
-          Expanded(child: DashBoardGridView(items: filterItems()))
+          Expanded(
+              child:showWidget())
         ],
       ),
     );
