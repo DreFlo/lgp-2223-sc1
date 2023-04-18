@@ -63,13 +63,6 @@ class CatalogState extends State<Catalog> {
     return await loadmedia('book');
   }
 
-  Future<void> refreshMediaList() async {
-    loadMovies();
-    loadTv();
-    loadBooks();
-    setState(() {});
-  }
-
   Future<void> refreshMovies() async {
     await loadMovies();
     setState(() {});
@@ -200,8 +193,7 @@ class CatalogState extends State<Catalog> {
                                       onTap: () {
                                         showMediaPageForMovies(
                                             (snapshot.data as List?)?[index],
-                                            context,
-                                            refreshMediaList);
+                                            context);
                                       },
                                       child: Container(
                                         width: 140 * fem,
@@ -291,8 +283,7 @@ class CatalogState extends State<Catalog> {
                                       onTap: () {
                                         showMediaPageForTV(
                                             (snapshot.data as List?)?[index],
-                                            context,
-                                            refreshMediaList);
+                                            context);
                                       },
                                       child: Container(
                                         width: 140 * fem,
@@ -382,8 +373,8 @@ class CatalogState extends State<Catalog> {
                                       onTap: () {
                                         showMediaPageForBooks(
                                             (snapshot.data as List?)?[index],
-                                            context,
-                                            refreshMediaList);
+                                            context
+                                            );
                                       },
                                       child: Container(
                                         width: 140 * fem,

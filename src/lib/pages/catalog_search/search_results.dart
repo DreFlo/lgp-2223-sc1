@@ -39,13 +39,13 @@ class SearchResults extends StatelessWidget {
                       onTap: () {
                         if (type == 'series') {
                           showMediaPageForTV(
-                              entry.value[index], context, refreshMedia);
+                              entry.value[index], context);
                         } else if (type == 'movies') {
                           showMediaPageForMovies(
-                              entry.value[index], context, refreshMedia);
+                              entry.value[index], context);
                         } else if (type == 'books') {
                           showMediaPageForBooks(
-                              entry.value[index], context, refreshMedia);
+                              entry.value[index], context);
                         }
                       },
                       child: SizedBox(

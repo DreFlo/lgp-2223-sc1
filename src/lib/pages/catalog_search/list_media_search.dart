@@ -195,21 +195,18 @@ class ListMediaSearch extends StatelessWidget {
       return MediaPageButton(
           item: item,
           type: 'Book',
-          mediaId: statusFavorite['id'],
-          status: statusFavorite['status']);
+          mediaId: statusFavorite['id']);
     } else if (title == 'All Movies') {
       return MediaPageButton(
           item: item,
           type: 'Movie',
-          mediaId: statusFavorite['id'],
-          status: statusFavorite['status'],
+          mediaId: statusFavorite['id']
           );
     } else {
       return MediaPageButton(
           item: item,
           type: 'TV Show',
-          mediaId: statusFavorite['id'],
-          status: statusFavorite['status'],
+          mediaId: statusFavorite['id']
          );
     }
   }

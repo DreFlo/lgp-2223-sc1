@@ -39,13 +39,13 @@ class ListMediaCatalog extends StatelessWidget {
                   onTap: () {
                     if (title == 'All TV Shows') {
                       showMediaPageForTV(
-                          filteredMedia[index], context, refreshMediaList);
+                          filteredMedia[index], context);
                     } else if (title == 'All Movies') {
                       showMediaPageForMovies(
-                          filteredMedia[index], context, refreshMediaList);
+                          filteredMedia[index], context);
                     } else if (title == 'All Books') {
                       showMediaPageForBooks(
-                          filteredMedia[index], context, refreshMediaList);
+                          filteredMedia[index], context);
                     }
                   },
                   child: SizedBox(
