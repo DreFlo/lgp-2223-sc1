@@ -5,15 +5,18 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:intl/intl.dart';
 import 'package:src/daos/student/subject_dao.dart';
 import 'package:src/daos/student/institution_dao.dart';
+import 'package:src/daos/student/task_dao.dart';
 import 'package:src/daos/student/task_group_dao.dart';
 import 'package:src/models/student/institution.dart';
 import 'package:src/models/student/subject.dart';
+import 'package:src/models/student/task.dart';
 import 'package:src/models/student/task_group.dart';
 import 'package:src/pages/tasks/task_form.dart';
 import 'package:src/themes/colors.dart';
 import 'dart:math' as Math;
 import 'package:src/utils/enums.dart';
 import 'package:src/utils/service_locator.dart';
+import 'package:src/widgets/tasks/task_bar.dart';
 
 final DateFormat formatter = DateFormat('dd/MM/yyyy');
 
@@ -41,6 +44,9 @@ class _ProjectFormState extends State<ProjectForm> {
 
   Institution institutionNone =
       Institution(id: -1, name: 'None', type: InstitutionType.other, userId: 1);
+
+  List<Task> tasks = [];
+  List<Task> toRemoveTasks = [];
 
   Future<int> initData() async {
     if (init) {
@@ -72,6 +78,10 @@ class _ProjectFormState extends State<ProjectForm> {
         subject = null;
         institution = institutionNone;
       }
+
+      //Tasks
+      tasks = await serviceLocator<TaskDao>().findTasksByTaskGroupId(id!);
+      tasks.sort((a, b) => a.deadline.compareTo(b.deadline));
     } else {
       titleController.text = 'Your new Project';
       date = DateTime.now();
@@ -180,8 +190,38 @@ class _ProjectFormState extends State<ProjectForm> {
   }
 
   List<Widget> getTasks() {
-    List<Widget> tasksList = [];
+    List<Widget> taskList = [];
 
+    if (tasks == []) {
+      taskList.add(Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+        Text(AppLocalizations.of(context).no_tasks,
+            style: const TextStyle(
+                color: Colors.white,
+                fontSize: 16,
+                fontWeight: FontWeight.normal))
+      ]));
+    } else {
+      for (int i = 0; i < tasks.length; i++) {
+        // taskList.add(TaskBar(
+        //   key: ValueKey(tasks[i]),
+        //   taskGroupId: id,
+        //   task: tasks[i],
+        //   onSelected: removeTask,
+        //   onUnselected: unremoveNote,
+        //   editTask: id == null? editTempTask : editTask,
+        // );
+        taskList.add(TaskBar(
+          title: tasks[i].name,
+          dueDate: tasks[i].deadline.toString(),
+          taskStatus: true,
+          task: tasks[i],
+          onSelected: removeTask,
+          onUnselected: unremoveTask,
+          editTask: id == null ? editTempTask(tasks[i]) : editTask,
+          taskGroupId: id,
+        ));
+      }
+    }
     // //TODO: Task bar + add it to the list.
     // for (int i = 0; i < tasks!.length; i++) {
     //   tasksList.add(
@@ -199,7 +239,7 @@ class _ProjectFormState extends State<ProjectForm> {
     //           fontWeight: FontWeight.normal)));
     // }
 
-    return tasksList;
+    return taskList;
   }
 
   Map<String, String> validate() {
@@ -830,9 +870,11 @@ class _ProjectFormState extends State<ProjectForm> {
                                         expand: false,
                                         initialChildSize: 0.60,
                                         minChildSize: 0.60,
-                                        maxChildSize: 0.60,
+                                        maxChildSize: 0.80,
                                         builder: (context, scrollController) =>
                                             TaskForm(
+                                          taskGroupId: id,
+                                          callback: addTask,
                                           scrollController: scrollController,
                                         ),
                                       )));
@@ -862,5 +904,17 @@ class _ProjectFormState extends State<ProjectForm> {
             return const Center(child: CircularProgressIndicator());
           }
         });
+  }
+
+  addTask(Task task) {}
+
+  removeTask(Task task) {}
+
+  unremoveTask(Task task) {}
+
+  editTask(Task task) {}
+
+  editTempTask(Task oldTask) {
+    return (Task task) {};
   }
 }

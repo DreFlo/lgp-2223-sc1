@@ -28,12 +28,18 @@ final DateFormat formatter = DateFormat('dd/MM/yyyy');
 
 class TaskForm extends StatefulWidget {
   final int? id;
+  final int? taskGroupId;
+  final Function? callback;
+  final Task? task;
   final ScrollController scrollController;
 
   const TaskForm({
     Key? key,
     required this.scrollController,
     this.id,
+    this.taskGroupId,
+    this.callback,
+    this.task
   }) : super(key: key);
 
   @override
@@ -292,6 +298,16 @@ class _TaskFormState extends State<TaskForm> {
           taskGroupId: taskGroupId,
           xp: 0);
       newId = await serviceLocator<TaskDao>().insertTask(task);
+
+      task = Task(
+          id: newId,
+          name: titleController.text,
+          deadline: date!,
+          priority: priority!,
+          subjectId: subjectId,
+          description: description!,
+          taskGroupId: taskGroupId,
+          xp: 0);
     } else {
       task = Task(
           id: id,
@@ -338,6 +354,9 @@ class _TaskFormState extends State<TaskForm> {
           await serviceLocator<NoteTaskNoteSuperDao>()
               .insertNoteTaskNoteSuperEntity(noteTaskNoteSuperEntity);
         }
+      }
+      if (widget.callback != null) {
+        widget.callback!(task);
       }
     }
 
