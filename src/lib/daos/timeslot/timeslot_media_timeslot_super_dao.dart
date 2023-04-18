@@ -1,5 +1,6 @@
 import 'package:src/daos/timeslot/timeslot_dao.dart';
 import 'package:src/daos/timeslot/media_timeslot_dao.dart';
+import 'package:src/models/timeslot/timeslot.dart';
 import 'package:src/models/timeslot/timeslot_media_timeslot_super_entity.dart';
 import 'package:src/utils/service_locator.dart';
 import 'package:src/utils/exceptions.dart';
@@ -13,6 +14,28 @@ class TimeslotMediaTimeslotSuperDao {
   }
 
   TimeslotMediaTimeslotSuperDao._internal();
+
+  Future<List<TimeslotMediaTimeslotSuperEntity>> findAllTimeslotMediaTimeslot() {
+    return serviceLocator<MediaTimeslotDao>().findAllMediaTimeslots().then((mediaTimeslots) async {
+      List<TimeslotMediaTimeslotSuperEntity> timeslotMediaTimeslotSuperEntities =
+          [];
+      
+      for (var mediaTimeslot in mediaTimeslots) {
+        final timeslot = await
+            serviceLocator<TimeslotDao>().findTimeslotById(mediaTimeslot.id);
+       
+         if (timeslot != null) {
+            final timeslotMediaTimeslotSuperEntity = TimeslotMediaTimeslotSuperEntity.fromTimeslotMediaTimeslotEntity(
+          mediaTimeslot,
+          timeslot,
+        );
+        timeslotMediaTimeslotSuperEntities.add(timeslotMediaTimeslotSuperEntity);
+      }
+    }
+
+    return timeslotMediaTimeslotSuperEntities;
+  });
+}
 
   Future<int> insertTimeslotMediaTimeslotSuperEntity(
     TimeslotMediaTimeslotSuperEntity timeslotMediaTimeslotSuperEntity,

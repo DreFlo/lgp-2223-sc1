@@ -9,6 +9,8 @@ import 'package:src/daos/student/task_dao.dart';
 import 'package:src/daos/student/task_group_dao.dart';
 import 'package:src/models/student/task.dart';
 import 'package:src/models/student/task_group.dart';
+import 'package:src/models/timeslot/timeslot_media_timeslot_super_entity.dart';
+import 'package:src/daos/timeslot/timeslot_media_timeslot_super_dao.dart';
 
 class Dashboard extends StatefulWidget {
   const Dashboard({Key? key}) : super(key: key);
@@ -39,9 +41,10 @@ class _DashboardState extends State<Dashboard> {
 
   List<Task> tasks = [];
   List<TaskGroup> taskGroups = [];
+  List<TimeslotMediaTimeslotSuperEntity> mediaEvents = [];
   bool loadedAllData = false;
 
-  //student stuff -> Taskgroup 
+  //student stuff -> Taskgroup
   //media stuff -> Timeslot
   final List<Project> items = [
     Project('Project de LGP', 'Student', 'LGP', 1, "Faculdade"),
@@ -59,19 +62,24 @@ class _DashboardState extends State<Dashboard> {
     loadDataDB();
   }
 
-  void loadEventsDB(){ //only for Media
-
+  void loadEventsDB() async { //only for Media
+    mediaEvents = await serviceLocator<TimeslotMediaTimeslotSuperDao>().findAllTimeslotMediaTimeslot();
+    setState(() {
+      mediaEvents = mediaEvents;
+    });
+  
   }
 
-  void loadTaskGroupsDB() async { //lil cards student
+  void loadTaskGroupsDB() async {
+    //lil cards student
     taskGroups = await serviceLocator<TaskGroupDao>().findAllTaskGroups();
     setState(() {
       taskGroups = taskGroups;
     });
-
   }
 
-  void loadTasksDB() async { //lil cards student (tasks that don't have a taskgroup)
+  void loadTasksDB() async {
+    //lil cards student (tasks that don't have a taskgroup)
     tasks = await serviceLocator<TaskDao>().findTasksWithoutTaskGroup();
     setState(() {
       tasks = tasks;
