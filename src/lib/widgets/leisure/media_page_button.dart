@@ -18,12 +18,12 @@ class MediaPageButton extends StatefulWidget {
   final String type;
   final int mediaId;
 
-  const MediaPageButton(
-      {Key? key,
-      required this.item,
-      required this.type,
-      required this.mediaId,})
-      : super(key: key);
+  const MediaPageButton({
+    Key? key,
+    required this.item,
+    required this.type,
+    required this.mediaId,
+  }) : super(key: key);
 
   @override
   State<MediaPageButton> createState() => _MediaPageButtonState();
@@ -56,7 +56,7 @@ class _MediaPageButtonState extends State<MediaPageButton> {
 
   @override
   Widget build(BuildContext context) {
-    if(!isStatusLoaded) {
+    if (!isStatusLoaded) {
       // Show a loading indicator while the status is being loaded.
       return CircularProgressIndicator();
     }
@@ -387,9 +387,9 @@ class _MediaPageButtonState extends State<MediaPageButton> {
                             AddBookNoteForm(
                                 book: widget.item,
                                 refreshStatus: () {
-                                                  refreshStatus();
-                                                  Navigator.pop(context);
-                                                }),
+                                  refreshStatus();
+                                  Navigator.pop(context);
+                                }),
                           ])));
                 },
                 style: ElevatedButton.styleFrom(
@@ -612,19 +612,19 @@ class _MediaPageButtonState extends State<MediaPageButton> {
                                             child: SingleChildScrollView(
                                                 controller: scrollController,
                                                 child: FinishedMediaForm(
-                                                  rating: Reaction.neutral,
-                                                  startDate: DateTime.now()
-                                                      .toString()
-                                                      .split(" ")[0],
-                                                  endDate: DateTime.now()
-                                                      .toString()
-                                                      .split(" ")[0],
-                                                  isFavorite: false,
-                                                  mediaId: widget.mediaId,
-                                                   refreshStatus: () {
-                                                    refreshStatus();
-                                                    Navigator.pop(context);
-                                                })))
+                                                    rating: Reaction.neutral,
+                                                    startDate: DateTime.now()
+                                                        .toString()
+                                                        .split(" ")[0],
+                                                    endDate: DateTime.now()
+                                                        .toString()
+                                                        .split(" ")[0],
+                                                    isFavorite: false,
+                                                    mediaId: widget.mediaId,
+                                                    refreshStatus: () {
+                                                      refreshStatus();
+                                                      Navigator.pop(context);
+                                                    })))
                                       ])));
                     },
                     style: ElevatedButton.styleFrom(

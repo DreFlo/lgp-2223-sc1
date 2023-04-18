@@ -38,14 +38,11 @@ class ListMediaCatalog extends StatelessWidget {
                 child: GestureDetector(
                   onTap: () {
                     if (title == 'All TV Shows') {
-                      showMediaPageForTV(
-                          filteredMedia[index], context);
+                      showMediaPageForTV(filteredMedia[index], context);
                     } else if (title == 'All Movies') {
-                      showMediaPageForMovies(
-                          filteredMedia[index], context);
+                      showMediaPageForMovies(filteredMedia[index], context);
                     } else if (title == 'All Books') {
-                      showMediaPageForBooks(
-                          filteredMedia[index], context);
+                      showMediaPageForBooks(filteredMedia[index], context);
                     }
                   },
                   child: SizedBox(

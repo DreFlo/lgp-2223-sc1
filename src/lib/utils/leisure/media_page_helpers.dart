@@ -73,9 +73,9 @@ Future<List<MediaVideoEpisodeSuperEntity>> loadEpisodes(
 }
 
 Future<List<Season>> loadSeasons(int id) async {
-    List<Season> seasons =
-        await serviceLocator<SeasonDao>().findAllSeasonBySeriesId(id);
-    return seasons;
+  List<Season> seasons =
+      await serviceLocator<SeasonDao>().findAllSeasonBySeriesId(id);
+  return seasons;
 }
 
 Future<List<NoteEpisodeNoteSuperEntity>> loadEpisodeNotes(
@@ -186,9 +186,10 @@ showMediaPageForTV(dynamic item, context) async {
                     right: 16,
                     bottom: 16,
                     child: MediaPageButton(
-                        item: item,
-                        type: 'TV Show',
-                        mediaId: item.id,))
+                      item: item,
+                      type: 'TV Show',
+                      mediaId: item.id,
+                    ))
               ])));
 }
 
@@ -215,9 +216,7 @@ showMediaPageForMovies(dynamic item, context) async {
                     right: 16,
                     bottom: 16,
                     child: MediaPageButton(
-                        item: item,
-                        type: 'Movie',
-                        mediaId: item.id))
+                        item: item, type: 'Movie', mediaId: item.id))
               ])));
 }
 
@@ -244,9 +243,9 @@ showMediaPageForBooks(dynamic item, context) async {
                     right: 16,
                     bottom: 16,
                     child: MediaPageButton(
-                        item: item,
-                        type: 'Book',
-                        mediaId: item.id,
-                        ))
+                      item: item,
+                      type: 'Book',
+                      mediaId: item.id,
+                    ))
               ])));
 }

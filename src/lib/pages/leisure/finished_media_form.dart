@@ -25,8 +25,7 @@ class FinishedMediaForm extends StatefulWidget {
       required this.rating,
       required this.mediaId,
       required this.isFavorite,
-      required this.refreshStatus
-      })
+      required this.refreshStatus})
       : super(key: key);
 
   @override

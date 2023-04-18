@@ -373,8 +373,7 @@ class CatalogState extends State<Catalog> {
                                       onTap: () {
                                         showMediaPageForBooks(
                                             (snapshot.data as List?)?[index],
-                                            context
-                                            );
+                                            context);
                                       },
                                       child: Container(
                                         width: 140 * fem,

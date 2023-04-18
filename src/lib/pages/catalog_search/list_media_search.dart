@@ -193,21 +193,13 @@ class ListMediaSearch extends StatelessWidget {
   showMediaPageButton(dynamic item, context) {
     if (title == 'All Books') {
       return MediaPageButton(
-          item: item,
-          type: 'Book',
-          mediaId: statusFavorite['id']);
+          item: item, type: 'Book', mediaId: statusFavorite['id']);
     } else if (title == 'All Movies') {
       return MediaPageButton(
-          item: item,
-          type: 'Movie',
-          mediaId: statusFavorite['id']
-          );
+          item: item, type: 'Movie', mediaId: statusFavorite['id']);
     } else {
       return MediaPageButton(
-          item: item,
-          type: 'TV Show',
-          mediaId: statusFavorite['id']
-         );
+          item: item, type: 'TV Show', mediaId: statusFavorite['id']);
     }
   }
 

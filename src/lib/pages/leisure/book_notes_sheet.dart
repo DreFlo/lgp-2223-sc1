@@ -12,8 +12,7 @@ class BookNotesSheet extends StatefulWidget {
   final int mediaId;
   final bool book;
 
-  const BookNotesSheet(
-      {Key? key, required this.book, required this.mediaId})
+  const BookNotesSheet({Key? key, required this.book, required this.mediaId})
       : super(key: key);
 
   @override
@@ -27,7 +26,7 @@ class _BookNotesSheetState extends State<BookNotesSheet>
   @override
   void initState() {
     super.initState();
-    if(widget.book){
+    if (widget.book) {
       fetchNotes();
     }
     fetchReview();
@@ -46,8 +45,6 @@ class _BookNotesSheetState extends State<BookNotesSheet>
       review = review;
     });
   }
-
-
 
   List<Widget> getNotes() {
     List<Widget> notes = [];

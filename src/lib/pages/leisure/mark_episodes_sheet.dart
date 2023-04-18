@@ -19,7 +19,6 @@ class MarkEpisodesSheet extends StatefulWidget {
   const MarkEpisodesSheet({Key? key, required this.mediaId, this.refreshStatus})
       : super(key: key);
 
-
   @override
   State<MarkEpisodesSheet> createState() => _MarkEpisodesSheetState();
 }
@@ -84,10 +83,10 @@ class _MarkEpisodesSheetState extends State<MarkEpisodesSheet>
   List<Widget> getEpisodes() {
     List<Widget> episodes = [];
 
-  int? seasonId;
+    int? seasonId;
     if (seasonsDB.isNotEmpty) {
-      Season? selectedSeasonObject =
-          seasonsDB.firstWhereOrNull((season) => season.number == selectedSeason);
+      Season? selectedSeasonObject = seasonsDB
+          .firstWhereOrNull((season) => season.number == selectedSeason);
       if (selectedSeasonObject != null) {
         seasonId = selectedSeasonObject.id;
       }
@@ -124,8 +123,8 @@ class _MarkEpisodesSheetState extends State<MarkEpisodesSheet>
   @override
   Widget build(BuildContext context) {
     if (seasonsDB.isEmpty || episodesDB.isEmpty) {
-    return const Center(child: CircularProgressIndicator());
-  }
+      return const Center(child: CircularProgressIndicator());
+    }
     return Wrap(spacing: 10, children: [
       Row(mainAxisAlignment: MainAxisAlignment.center, children: [
         Padding(
@@ -180,11 +179,10 @@ class _MarkEpisodesSheetState extends State<MarkEpisodesSheet>
                                                     .split(" ")[0],
                                                 isFavorite: false,
                                                 mediaId: widget.mediaId,
-                                                 refreshStatus: () {
+                                                refreshStatus: () {
                                                   widget.refreshStatus!();
                                                   Navigator.pop(context);
-                                                }
-                                                ))),
+                                                }))),
                                   ])));
                 },
                 child: Text(
