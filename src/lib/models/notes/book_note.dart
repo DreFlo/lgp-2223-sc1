@@ -10,11 +10,15 @@ import 'package:src/models/media/book.dart';
       childColumns: ['book_id'],
       parentColumns: ['id'],
       entity: Book,
+      onDelete: ForeignKeyAction.cascade,
+      onUpdate: ForeignKeyAction.restrict,
     ),
     ForeignKey(
       childColumns: ['id'],
       parentColumns: ['id'],
       entity: Note,
+      onDelete: ForeignKeyAction.cascade,
+      onUpdate: ForeignKeyAction.restrict,
     ),
   ],
 )
