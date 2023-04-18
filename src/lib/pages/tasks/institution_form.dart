@@ -23,11 +23,12 @@ class InstitutionForm extends StatefulWidget {
   State<InstitutionForm> createState() => _InstitutionFormState();
 }
 
-//TODO: force reload of subjects when adding new subject
 class _InstitutionFormState extends State<InstitutionForm> {
   TextEditingController controller = TextEditingController();
 
   late InstitutionType type;
+  List<Subject> noDbSubjects = [];
+  bool init = false;
 
   @override
   initState() {
@@ -35,7 +36,7 @@ class _InstitutionFormState extends State<InstitutionForm> {
   }
 
   Future<int> fillInstitutionFields() async {
-    if (controller.text.isNotEmpty) {
+    if (init) {
       return 0;
     }
 
@@ -47,10 +48,12 @@ class _InstitutionFormState extends State<InstitutionForm> {
       controller.text = institution!.name;
       type = institution.type;
     } else {
+      print('new institution');
+      type = InstitutionType.other;
       controller.clear();
-      type = InstitutionType.education;
     }
 
+    init = true;
     return 0;
   }
 
@@ -123,7 +126,7 @@ class _InstitutionFormState extends State<InstitutionForm> {
                                         borderSide: BorderSide(
                                             color: Color(0xFF414554))),
                                     hintText:
-                                        AppLocalizations.of(context).title,
+                                        AppLocalizations.of(context).name,
                                     hintStyle: const TextStyle(
                                         fontSize: 20,
                                         color: Color(0xFF71788D),
@@ -296,53 +299,18 @@ class _InstitutionFormState extends State<InstitutionForm> {
                                         builder: (context, scrollController) =>
                                             SubjectForm(
                                           scrollController: scrollController,
+                                          callback: addNoDbSubject,
+                                          selectInstitution: false,
                                         ),
                                       )));
                             },
                           ),
                         ]),
                     const SizedBox(height: 7.5),
-                    widget.id == null
-                        ? Text(AppLocalizations.of(context).no_tasks,
-                            style: const TextStyle(
-                                color: Colors.white,
-                                fontSize: 16,
-                                fontWeight: FontWeight.normal))
-                        : FutureBuilder(
-                            future: serviceLocator<SubjectDao>()
-                                .findSubjectByInstitutionId(widget.id!),
-                            builder: (BuildContext constex,
-                                AsyncSnapshot<List<Subject?>> snapshot) {
-                              if (snapshot.hasData) {
-                                List<Widget> subjects = [];
-
-                                if (snapshot.data!.isEmpty) {
-                                  subjects.add(Text(
-                                      AppLocalizations.of(context).no_tasks,
-                                      style: const TextStyle(
-                                          color: Colors.white,
-                                          fontSize: 16,
-                                          fontWeight: FontWeight.normal)));
-                                } else {
-                                  subjects = snapshot.data!
-                                      .map((e) => SubjectBar(
-                                          name: e!.name,
-                                          acronym: e.acronym,
-                                          id: e.id!))
-                                      .toList();
-                                }
-
-                                return Column(
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    children: subjects);
-                              } else {
-                                return const Center(
-                                    child: CircularProgressIndicator());
-                              }
-                            }),
+                    displaySubjects(),
                     const SizedBox(height: 30),
                     ElevatedButton(
-                        onPressed: () {
+                        onPressed: () async {
                           String name = controller.text;
 
                           bool valid = true;
@@ -354,8 +322,9 @@ class _InstitutionFormState extends State<InstitutionForm> {
                           if (valid) {
                             //TODO: Change to real user id
                             print('NEED TO CHANGE USER ID WHEN AUTH IS DONE');
+                            int id;
                             if (widget.id == null) {
-                              serviceLocator<InstitutionDao>()
+                              id = await serviceLocator<InstitutionDao>()
                                   .insertInstitution(Institution(
                                       name: name, type: type, userId: 1));
                             } else {
@@ -365,7 +334,20 @@ class _InstitutionFormState extends State<InstitutionForm> {
                                       name: name,
                                       type: type,
                                       userId: 1));
+                              id = widget.id!;
                             }
+
+                            for (Subject subject in noDbSubjects) {
+                              Subject newSubject = Subject(
+                                name: subject.name,
+                                acronym: subject.acronym,
+                                weightAverage: subject.weightAverage,
+                                institutionId: id,
+                              );
+                              await serviceLocator<SubjectDao>()
+                                  .insertSubject(newSubject);
+                            }
+
                             Navigator.pop(context);
                           }
                         },
@@ -385,5 +367,79 @@ class _InstitutionFormState extends State<InstitutionForm> {
             return const Center(child: CircularProgressIndicator());
           }
         });
+  }
+
+  displaySubjects() {
+    if (widget.id == null) {
+      if (noDbSubjects.isEmpty) {
+        return Text(AppLocalizations.of(context).no_tasks,
+            style: const TextStyle(
+                color: Colors.white,
+                fontSize: 16,
+                fontWeight: FontWeight.normal));
+      } else {
+        return Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: noDbSubjects
+                .map((e) => SubjectBar(
+                      subject: e,
+                      callback: editNoDbSubject,
+                      selectInstitution: false,
+                    ))
+                .toList());
+      }
+    } else {
+      FutureBuilder(
+          future: serviceLocator<SubjectDao>()
+              .findSubjectByInstitutionId(widget.id!),
+          builder:
+              (BuildContext constex, AsyncSnapshot<List<Subject?>> snapshot) {
+            if (snapshot.hasData) {
+              List<Widget> subjects = [];
+
+              if (snapshot.data!.isEmpty && noDbSubjects.isEmpty) {
+                subjects.add(Text(AppLocalizations.of(context).no_tasks,
+                    style: const TextStyle(
+                        color: Colors.white,
+                        fontSize: 16,
+                        fontWeight: FontWeight.normal)));
+              } else {
+                subjects = snapshot.data!
+                    .map((e) => SubjectBar(
+                        subject: e!, id: e.id!, callback: onSubjectSave))
+                    .toList();
+
+                subjects.addAll(noDbSubjects
+                    .map((e) => SubjectBar(
+                          subject: e,
+                          callback: editNoDbSubject,
+                          selectInstitution: false,
+                        ))
+                    .toList());
+              }
+
+              return Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: subjects);
+            } else {
+              return const Center(child: CircularProgressIndicator());
+            }
+          });
+    }
+  }
+
+  addNoDbSubject(Subject subject) {
+    noDbSubjects.add(subject);
+    setState(() {});
+  }
+
+  editNoDbSubject(Subject subject) {
+    noDbSubjects.removeWhere((element) => element.id == subject.id);
+    noDbSubjects.add(subject);
+    setState(() {});
+  }
+
+  onSubjectSave() {
+    setState(() {});
   }
 }

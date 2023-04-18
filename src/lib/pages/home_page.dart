@@ -597,8 +597,7 @@ class _HomePageState extends State<HomePage> {
                                 builder: (context, scrollController) =>
                                     TaskForm(
                                         scrollController: scrollController,
-                                        id: 1
-                                        )),
+                                        id: 1)),
                           ));
                 }),
             ElevatedButton(
@@ -614,8 +613,7 @@ class _HomePageState extends State<HomePage> {
                       ),
                       builder: (context) => Padding(
                           padding: EdgeInsets.only(
-                                bottom:
-                                    MediaQuery.of(context).viewInsets.bottom +
+                              bottom: MediaQuery.of(context).viewInsets.bottom +
                                   50),
                           child: DraggableScrollableSheet(
                               expand: false,
@@ -679,7 +677,6 @@ class _HomePageState extends State<HomePage> {
                             maxChildSize: 0.5,
                             builder: (context, scrollController) =>
                                 InstitutionForm(
-                              id: 1,
                               scrollController: scrollController,
                             ),
                           )));
