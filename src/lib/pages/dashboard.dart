@@ -1,13 +1,12 @@
-import 'package:books_finder/books_finder.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:src/themes/colors.dart';
 import 'package:src/widgets/dashboard/dashboard_gridview.dart';
-import 'package:tmdb_api/tmdb_api.dart';
-
-import '../env/env.dart';
 import '../widgets/dashboard/dashboard_horizontal_scrollview.dart';
 import 'catalog_search/leisure_module.dart';
+import 'package:src/utils/service_locator.dart';
+import 'package:src/daos/student/task_dao.dart';
+import 'package:src/models/student/task.dart';
 
 class Dashboard extends StatefulWidget {
   const Dashboard({Key? key}) : super(key: key);
@@ -36,6 +35,8 @@ class _DashboardState extends State<Dashboard> {
   List trendingtvshows = [];
   List books = [];
 
+  List<Task> tasks = [];
+
   //student stuff -> Taskgroup 
   //media stuff -> Timeslot
   final List<Project> items = [
@@ -51,6 +52,7 @@ class _DashboardState extends State<Dashboard> {
   @override
   void initState() {
     super.initState();
+    loadTasksDB();
   }
 
   void loadEventsDB(){ //only for Media
@@ -61,7 +63,11 @@ class _DashboardState extends State<Dashboard> {
 
   }
 
-  void loadTasksDB() { //lil cards student (tasks that don't have a taskgroup)
+  void loadTasksDB() async { //lil cards student (tasks that don't have a taskgroup)
+    tasks = await serviceLocator<TaskDao>().findTasksWithoutTaskGroup();
+    setState(() {
+      tasks = tasks;
+    });
 
   }
 

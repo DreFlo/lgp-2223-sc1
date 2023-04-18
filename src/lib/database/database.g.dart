@@ -143,7 +143,7 @@ class _$AppDatabase extends AppDatabase {
         await database.execute(
             'CREATE TABLE IF NOT EXISTS `task_group` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `name` TEXT NOT NULL, `description` TEXT NOT NULL, `priority` INTEGER NOT NULL, `deadline` INTEGER NOT NULL)');
         await database.execute(
-            'CREATE TABLE IF NOT EXISTS `task` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `name` TEXT NOT NULL, `description` TEXT NOT NULL, `priority` INTEGER NOT NULL, `deadline` INTEGER NOT NULL, `xp` INTEGER NOT NULL, `finished` INTEGER NOT NULL, `task_group_id` INTEGER NOT NULL, `subject_id` INTEGER, FOREIGN KEY (`task_group_id`) REFERENCES `task_group` (`id`) ON UPDATE NO ACTION ON DELETE NO ACTION, FOREIGN KEY (`subject_id`) REFERENCES `subject` (`id`) ON UPDATE RESTRICT ON DELETE CASCADE)');
+            'CREATE TABLE IF NOT EXISTS `task` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `name` TEXT NOT NULL, `description` TEXT NOT NULL, `priority` INTEGER NOT NULL, `deadline` INTEGER NOT NULL, `xp` INTEGER NOT NULL, `task_group_id` INTEGER, `subject_id` INTEGER, `finished` INTEGER NOT NULL, FOREIGN KEY (`task_group_id`) REFERENCES `task_group` (`id`) ON UPDATE NO ACTION ON DELETE NO ACTION, FOREIGN KEY (`subject_id`) REFERENCES `subject` (`id`) ON UPDATE RESTRICT ON DELETE CASCADE)');
         await database.execute(
             'CREATE TABLE IF NOT EXISTS `evaluation` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `name` TEXT NOT NULL, `weight` REAL NOT NULL, `minimum` REAL NOT NULL, `grade` REAL NOT NULL, `subject_id` INTEGER NOT NULL, FOREIGN KEY (`subject_id`) REFERENCES `subject` (`id`) ON UPDATE RESTRICT ON DELETE CASCADE)');
         await database.execute(
@@ -692,9 +692,9 @@ class _$TaskDao extends TaskDao {
                   'priority': item.priority.index,
                   'deadline': _dateTimeConverter.encode(item.deadline),
                   'xp': item.xp,
-                  'finished': item.finished ? 1 : 0,
                   'task_group_id': item.taskGroupId,
-                  'subject_id': item.subjectId
+                  'subject_id': item.subjectId,
+                  'finished': item.finished ? 1 : 0
                 },
             changeListener),
         _taskUpdateAdapter = UpdateAdapter(
@@ -708,9 +708,9 @@ class _$TaskDao extends TaskDao {
                   'priority': item.priority.index,
                   'deadline': _dateTimeConverter.encode(item.deadline),
                   'xp': item.xp,
-                  'finished': item.finished ? 1 : 0,
                   'task_group_id': item.taskGroupId,
-                  'subject_id': item.subjectId
+                  'subject_id': item.subjectId,
+                  'finished': item.finished ? 1 : 0
                 },
             changeListener),
         _taskDeletionAdapter = DeletionAdapter(
@@ -724,9 +724,9 @@ class _$TaskDao extends TaskDao {
                   'priority': item.priority.index,
                   'deadline': _dateTimeConverter.encode(item.deadline),
                   'xp': item.xp,
-                  'finished': item.finished ? 1 : 0,
                   'task_group_id': item.taskGroupId,
-                  'subject_id': item.subjectId
+                  'subject_id': item.subjectId,
+                  'finished': item.finished ? 1 : 0
                 },
             changeListener);
 
@@ -751,10 +751,10 @@ class _$TaskDao extends TaskDao {
             description: row['description'] as String,
             priority: Priority.values[row['priority'] as int],
             deadline: _dateTimeConverter.decode(row['deadline'] as int),
-            finished: (row['finished'] as int) != 0,
-            taskGroupId: row['task_group_id'] as int,
+            taskGroupId: row['task_group_id'] as int?,
             subjectId: row['subject_id'] as int?,
-            xp: row['xp'] as int));
+            xp: row['xp'] as int,
+            finished: (row['finished'] as int) != 0));
   }
 
   @override
@@ -766,13 +766,29 @@ class _$TaskDao extends TaskDao {
             description: row['description'] as String,
             priority: Priority.values[row['priority'] as int],
             deadline: _dateTimeConverter.decode(row['deadline'] as int),
-            finished: (row['finished'] as int) != 0,
-            taskGroupId: row['task_group_id'] as int,
+            taskGroupId: row['task_group_id'] as int?,
             subjectId: row['subject_id'] as int?,
-            xp: row['xp'] as int),
+            xp: row['xp'] as int,
+            finished: (row['finished'] as int) != 0),
         arguments: [id],
         queryableName: 'task',
         isView: false);
+  }
+
+  @override
+  Future<List<Task>> findTasksWithoutTaskGroup() async {
+    return _queryAdapter.queryList(
+        'SELECT * FROM task WHERE task_group_id IS NULL',
+        mapper: (Map<String, Object?> row) => Task(
+            id: row['id'] as int?,
+            name: row['name'] as String,
+            description: row['description'] as String,
+            priority: Priority.values[row['priority'] as int],
+            deadline: _dateTimeConverter.decode(row['deadline'] as int),
+            taskGroupId: row['task_group_id'] as int?,
+            subjectId: row['subject_id'] as int?,
+            xp: row['xp'] as int,
+            finished: (row['finished'] as int) != 0));
   }
 
   @override
@@ -2924,7 +2940,7 @@ class _$TaskStudentTimeslotDao extends TaskStudentTimeslotDao {
   Future<List<Task>> findTaskByStudentTimeslotId(int id) async {
     return _queryAdapter.queryList(
         'SELECT T.*            FROM task_student_timeslot TT JOIN task T ON TT.task_id = T.id            WHERE TT.student_timeslot_id = ?1',
-        mapper: (Map<String, Object?> row) => Task(id: row['id'] as int?, name: row['name'] as String, description: row['description'] as String, priority: Priority.values[row['priority'] as int], deadline: _dateTimeConverter.decode(row['deadline'] as int), finished: (row['finished'] as int) != 0, taskGroupId: row['task_group_id'] as int, subjectId: row['subject_id'] as int?, xp: row['xp'] as int),
+        mapper: (Map<String, Object?> row) => Task(id: row['id'] as int?, name: row['name'] as String, description: row['description'] as String, priority: Priority.values[row['priority'] as int], deadline: _dateTimeConverter.decode(row['deadline'] as int), taskGroupId: row['task_group_id'] as int?, subjectId: row['subject_id'] as int?, xp: row['xp'] as int, finished: (row['finished'] as int) != 0),
         arguments: [id]);
   }
 
