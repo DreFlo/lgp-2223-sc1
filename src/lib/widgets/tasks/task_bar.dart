@@ -4,25 +4,24 @@ import 'package:flutter/material.dart';
 import 'package:src/models/student/task.dart';
 import 'package:src/pages/tasks/task_form.dart';
 import 'package:src/themes/colors.dart';
+import 'package:src/utils/date_formatter.dart';
 
 class TaskBar extends StatefulWidget {
-  final String title, dueDate;
   final bool taskStatus;
 
   final Task task;
-  final Function onSelected, onUnselected, editTask;
+  final Function onSelected, onUnselected, editTask, taskGroupDate;
   final int? taskGroupId;
 
   const TaskBar(
       {Key? key,
-      required this.title,
-      required this.dueDate,
       required this.taskStatus,
       required this.task,
       required this.onSelected,
       required this.onUnselected,
       required this.editTask,
-      this.taskGroupId})
+      this.taskGroupId,
+      required this.taskGroupDate})
       : super(key: key);
 
   @override
@@ -33,7 +32,7 @@ class _TaskBarState extends State<TaskBar> {
   late bool taskStatus;
 
   late Task task;
-  late Function onSelected, onUnselected, editTask;
+  late Function onSelected, onUnselected, editTask, taskGroupDate;
   late int? taskGroupId;
   bool selected = false;
 
@@ -46,6 +45,7 @@ class _TaskBarState extends State<TaskBar> {
     onSelected = widget.onSelected;
     editTask = widget.editTask;
     taskGroupId = widget.taskGroupId;
+    taskGroupDate = widget.taskGroupDate;
 
     super.initState();
   }
@@ -70,8 +70,9 @@ class _TaskBarState extends State<TaskBar> {
                       minChildSize: 0.75,
                       maxChildSize: 0.75,
                       builder: (context, scrollController) => TaskForm(
-                            task: task,
+                            id: task.id,
                             taskGroupId: taskGroupId,
+                            taskGroupDate: taskGroupDate,
                             callback: editTask,
                             scrollController: scrollController,
                           ))));
@@ -79,7 +80,8 @@ class _TaskBarState extends State<TaskBar> {
         child: Container(
             padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 15),
             decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(10), color: lightGray),
+                borderRadius: BorderRadius.circular(10),
+                color: selected ? grayButton : lightGray),
             child: Expanded(
               child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -89,16 +91,18 @@ class _TaskBarState extends State<TaskBar> {
                         child: Column(children: [
                           Row(children: [
                             Expanded(
-                              child: Text(widget.title,
+                              child: Text(task.name,
                                   overflow: TextOverflow.ellipsis,
-                                  style: const TextStyle(
-                                      color: Colors.white,
+                                  style: TextStyle(
+                                      color: selected
+                                          ? Colors.black
+                                          : Colors.white,
                                       fontSize: 20,
                                       fontWeight: FontWeight.w600)),
                             )
                           ]),
                           Row(children: [
-                            Text(widget.dueDate,
+                            Text(DateFormatter.format(task.deadline),
                                 style: const TextStyle(
                                     color: Color.fromARGB(255, 127, 127, 127),
                                     fontSize: 16,
