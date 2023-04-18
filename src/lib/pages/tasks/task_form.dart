@@ -131,9 +131,10 @@ class _TaskFormState extends State<TaskForm> {
       }
 
       List<TaskNote> taskNotes =
-          await serviceLocator<TaskNoteDao>().findTaskNotesByTaskId(task.id!);
+          // await serviceLocator<TaskNoteDao>().findTaskNotesByTaskId(task.id!);
+          await serviceLocator<TaskNoteDao>().findAllTaskNotes();
 
-      for (int i = taskNotes.length-1; i >= 0; i--) {
+      for (int i = taskNotes.length - 1; i >= 0; i--) {
         dbNotes.add(await serviceLocator<NoteDao>()
             .findNoteById(taskNotes[i].id)
             .first as Note);
@@ -1084,8 +1085,8 @@ class _TaskFormState extends State<TaskForm> {
                                         top: Radius.circular(30.0)),
                                   ),
                                   builder: (builder) => SingleChildScrollView(
-                                      child:
-                                          AddTaskNoteForm(callback: addNote)));
+                                      child: AddTaskNoteForm(
+                                          taskId: id, callback: addNote)));
                             },
                           ),
                         ]),

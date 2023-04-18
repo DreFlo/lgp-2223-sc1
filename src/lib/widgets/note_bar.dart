@@ -8,12 +8,14 @@ import 'package:src/pages/notes/add_task_note_form.dart';
 class NoteBar extends StatefulWidget {
   final Note note;
   final Function onSelected, onUnselected;
+  final int? taskId;
 
   const NoteBar(
       {Key? key,
       required this.note,
       required this.onSelected,
-      required this.onUnselected})
+      required this.onUnselected,
+      this.taskId})
       : super(key: key);
 
   @override
@@ -63,7 +65,7 @@ class _NoteBarState extends State<NoteBar> {
                     flex: 1,
                     child: Column(mainAxisSize: MainAxisSize.min, children: [
                       ElevatedButton(
-                          child: Icon(Icons.delete),
+                          child: const Icon(Icons.delete),
                           onPressed: () {
                             if (selected) {
                               onUnselected(note);
@@ -75,7 +77,7 @@ class _NoteBarState extends State<NoteBar> {
                             });
                           }),
                       ElevatedButton(
-                          child: Icon(Icons.edit),
+                          child: const Icon(Icons.edit),
                           onPressed: () {
                             showModalBottomSheet(
                                 context: context,
@@ -86,8 +88,11 @@ class _NoteBarState extends State<NoteBar> {
                                       top: Radius.circular(30.0)),
                                 ),
                                 builder: (builder) => SingleChildScrollView(
-                                    child: AddTaskNoteForm(
-                                        note: note, callback: editNote)));
+                                    child: widget.taskId == null
+                                        ? AddTaskNoteForm(
+                                            note: note, callback: editNote)
+                                        : AddTaskNoteForm(
+                                            taskId: widget.taskId)));
                           })
                     ]))
               ],

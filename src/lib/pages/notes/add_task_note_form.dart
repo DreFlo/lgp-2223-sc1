@@ -28,7 +28,7 @@ class _AddTaskNoteFormState extends State<AddTaskNoteForm> {
   final contentController = TextEditingController();
 
   Future<int> fillTaskFields() async {
-    if(titleController.text.isNotEmpty || contentController.text.isNotEmpty) {
+    if (titleController.text.isNotEmpty || contentController.text.isNotEmpty) {
       return 0;
     }
 
@@ -167,10 +167,19 @@ class _AddTaskNoteFormState extends State<AddTaskNoteForm> {
                         if (valid) {
                           if (widget.callback != null &&
                               widget.taskId == null) {
-                            Note note = Note(
-                                title: titleController.text,
-                                content: contentController.text,
-                                date: DateTime.now());
+                            Note note;
+                            if (widget.note != null) {
+                              note = Note(
+                                  id: widget.note!.id,
+                                  title: titleController.text,
+                                  content: contentController.text,
+                                  date: DateTime.now());
+                            } else {
+                              note = Note(
+                                  title: titleController.text,
+                                  content: contentController.text,
+                                  date: DateTime.now());
+                            }
                             widget.callback!(note);
                           } else if (widget.id != null) {
                             NoteTaskNoteSuperEntity note =
