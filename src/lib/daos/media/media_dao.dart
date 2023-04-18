@@ -1,5 +1,6 @@
 import 'package:floor/floor.dart';
 import 'package:src/models/media/media.dart';
+import 'package:src/utils/enums.dart';
 
 @dao
 abstract class MediaDao {
@@ -14,6 +15,9 @@ abstract class MediaDao {
 
   @Query('SELECT * FROM media WHERE link_image = :photo')
   Future<Media?> findMediaByPhoto(String photo);
+
+  @Query('SELECT status FROM media WHERE id = :id')
+  Future<Status?> findMediaStatusById(int id);
 
   @Query(
       'SELECT * FROM media WHERE name LIKE :query OR description LIKE :query')
