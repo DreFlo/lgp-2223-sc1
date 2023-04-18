@@ -24,8 +24,11 @@ class _AddTaskNoteFormState extends State<AddTaskNoteForm> {
   final titleController = TextEditingController();
   final contentController = TextEditingController();
 
+  Map<String, String> errors = {};
+  bool init = false;
+
   Future<int> fillTaskFields() async {
-    if (titleController.text.isNotEmpty || contentController.text.isNotEmpty) {
+    if (init) {
       return 0;
     }
 
@@ -36,6 +39,8 @@ class _AddTaskNoteFormState extends State<AddTaskNoteForm> {
       titleController.clear();
       contentController.clear();
     }
+
+    init = true;
 
     return 0;
   }
@@ -71,7 +76,7 @@ class _AddTaskNoteFormState extends State<AddTaskNoteForm> {
                     const SizedBox(height: 10),
                   ])),
               Padding(
-                padding: const EdgeInsets.only(left: 18, right: 18, bottom: 10),
+                padding: const EdgeInsets.only(left: 18, right: 18),
                 child: Row(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
@@ -110,9 +115,18 @@ class _AddTaskNoteFormState extends State<AddTaskNoteForm> {
                               }))
                     ]),
               ),
+              errors.containsKey('title')
+                  ? Padding(
+                      padding: const EdgeInsets.only(left: 18, top: 5),
+                      child: Text(errors['title']!,
+                          style: const TextStyle(
+                              color: Colors.red,
+                              fontSize: 12,
+                              fontWeight: FontWeight.w400)))
+                  : const SizedBox(height: 0),
               Row(children: [
                 Padding(
-                    padding: const EdgeInsets.only(left: 18),
+                    padding: const EdgeInsets.only(left: 18, top: 10),
                     child: Text(
                       AppLocalizations.of(context).add_note,
                       style: Theme.of(context).textTheme.displayMedium,
@@ -140,22 +154,22 @@ class _AddTaskNoteFormState extends State<AddTaskNoteForm> {
                               ),
                             ))))
               ]),
+              errors.containsKey('content')
+                  ? Padding(
+                      padding: const EdgeInsets.only(left: 18, top: 5.0),
+                      child: Text(errors['content']!,
+                          style: const TextStyle(
+                              color: Colors.red,
+                              fontSize: 12,
+                              fontWeight: FontWeight.w400)))
+                  : const SizedBox(height: 0),
               Padding(
                   padding: const EdgeInsets.only(left: 18, top: 30),
                   child: ElevatedButton(
                       onPressed: () async {
-                        //TODO: Standard way to warn for incorrect input.
-                        bool valid = true;
-                        if (titleController.text.isEmpty) {
-                          print('Title is empty');
-                          valid = false;
-                        }
-                        if (contentController.text.isEmpty) {
-                          print('Content is empty');
-                          valid = false;
-                        }
+                        validate();
 
-                        if (valid) {
+                        if (errors.isEmpty) {
                           if (widget.taskId != null) {
                             // Note for an existing task
                             NoteTaskNoteSuperEntity note;
@@ -232,5 +246,19 @@ class _AddTaskNoteFormState extends State<AddTaskNoteForm> {
             return const Center(child: CircularProgressIndicator());
           }
         });
+  }
+
+  validate() {
+    errors = {};
+
+    if (titleController.text.isEmpty) {
+      errors['title'] = 'Title is required';
+    }
+
+    if (contentController.text.isEmpty) {
+      errors['content'] = 'Content is required';
+    }
+
+    setState(() {});
   }
 }
