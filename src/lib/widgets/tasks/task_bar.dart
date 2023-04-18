@@ -54,96 +54,107 @@ class _TaskBarState extends State<TaskBar> {
   Widget build(BuildContext context) {
     return InkWell(
         onTap: () {
-          //TODO: Open task form filled out.
+          showModalBottomSheet(
+              context: context,
+              isScrollControlled: true,
+              backgroundColor: const Color(0xFF22252D),
+              shape: const RoundedRectangleBorder(
+                borderRadius: BorderRadius.vertical(top: Radius.circular(30.0)),
+              ),
+              builder: (context) => Padding(
+                  padding: EdgeInsets.only(
+                      bottom: MediaQuery.of(context).viewInsets.bottom + 50),
+                  child: DraggableScrollableSheet(
+                      expand: false,
+                      initialChildSize: 0.75,
+                      minChildSize: 0.75,
+                      maxChildSize: 0.75,
+                      builder: (context, scrollController) => TaskForm(
+                            task: task,
+                            taskGroupId: taskGroupId,
+                            callback: editTask,
+                            scrollController: scrollController,
+                          ))));
         },
         child: Container(
-          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 15),
-          width: MediaQuery.of(context).size.width * 0.9,
-          decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(10), color: lightGray),
-          child:
-              Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-            Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-              Row(mainAxisAlignment: MainAxisAlignment.start, children: [
-                Text(widget.title,
-                    style: const TextStyle(
-                        color: Colors.white,
-                        fontSize: 20,
-                        fontWeight: FontWeight.w600))
-              ]),
-              Row(mainAxisAlignment: MainAxisAlignment.start, children: [
-                Text(widget.dueDate,
-                    style: const TextStyle(
-                        color: Color.fromARGB(255, 127, 127, 127),
-                        fontSize: 16,
-                        fontWeight: FontWeight.normal))
-              ])
-            ]),
-            Column(
-              children: [
-                Row(
+            padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 15),
+            decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(10), color: lightGray),
+            child: Expanded(
+              child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    InkWell(
-                        onTap: () {
-                          setState(() {
-                            taskStatus = !taskStatus;
-                          });
-                        },
-                        child: Container(
-                          padding: const EdgeInsets.all(5),
-                          decoration: BoxDecoration(
-                              shape: BoxShape.circle,
-                              color:
-                                  (taskStatus ? Colors.green : Colors.white)),
-                          child: const Icon(Icons.check_rounded, size: 20),
-                        )),
-                    ElevatedButton(
-                        child: const Icon(Icons.delete),
-                        onPressed: () {
-                          if (selected) {
-                            onUnselected(task);
-                          } else {
-                            onSelected(task);
-                          }
-                          setState(() {
-                            selected = !selected;
-                          });
-                        }),
-                    ElevatedButton(
-                        child: const Icon(Icons.edit),
-                        onPressed: () {
-                          showModalBottomSheet(
-                              context: context,
-                              isScrollControlled: true,
-                              backgroundColor: const Color(0xFF22252D),
-                              shape: const RoundedRectangleBorder(
-                                borderRadius: BorderRadius.vertical(
-                                    top: Radius.circular(30.0)),
-                              ),
-                              builder: (context) => Padding(
-                                  padding: EdgeInsets.only(
-                                      bottom: MediaQuery.of(context)
-                                              .viewInsets
-                                              .bottom +
-                                          50),
-                                  child: DraggableScrollableSheet(
-                                      expand: false,
-                                      initialChildSize: 0.75,
-                                      minChildSize: 0.75,
-                                      maxChildSize: 0.75,
-                                      builder: (context, scrollController) =>
-                                          TaskForm(
-                                            task: task,
-                                            taskGroupId: taskGroupId,
-                                            callback: editTask,
-                                            scrollController: scrollController,
-                                          ))));
-                        })
-                  ],
-                )
-              ],
-            )
-          ]),
-        ));
+                    Flexible(
+                        flex: 6,
+                        child: Column(children: [
+                          Row(children: [
+                            Expanded(
+                              child: Text(widget.title,
+                                  overflow: TextOverflow.ellipsis,
+                                  style: const TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 20,
+                                      fontWeight: FontWeight.w600)),
+                            )
+                          ]),
+                          Row(children: [
+                            Text(widget.dueDate,
+                                style: const TextStyle(
+                                    color: Color.fromARGB(255, 127, 127, 127),
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.normal))
+                          ])
+                        ])),
+                    Flexible(
+                        flex: 2,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.end,
+                          children: [
+                            Row(
+                              children: [
+                                InkWell(
+                                    onTap: () {
+                                      setState(() {
+                                        taskStatus = !taskStatus;
+                                      });
+                                    },
+                                    child: Container(
+                                      padding: const EdgeInsets.all(5),
+                                      decoration: BoxDecoration(
+                                          shape: BoxShape.circle,
+                                          color: (taskStatus
+                                              ? Colors.green
+                                              : Colors.white)),
+                                      child: Icon(Icons.check_rounded,
+                                          color: (!taskStatus
+                                              ? Colors.green
+                                              : Colors.white)),
+                                    )),
+                                const SizedBox(width: 10),
+                                InkWell(
+                                    onTap: () {
+                                      if (selected) {
+                                        onUnselected(task);
+                                      } else {
+                                        onSelected(task);
+                                      }
+                                      setState(() {
+                                        selected = !selected;
+                                      });
+                                    },
+                                    child: Container(
+                                      padding: const EdgeInsets.all(5),
+                                      decoration: const BoxDecoration(
+                                          shape: BoxShape.circle,
+                                          color: primaryColor),
+                                      child: const Icon(Icons.delete,
+                                          color: Colors.white),
+                                    )),
+                              ],
+                            )
+                          ],
+                        ))
+                  ]),
+            )));
   }
 }
