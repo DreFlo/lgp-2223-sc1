@@ -754,6 +754,22 @@ class _$TaskDao extends TaskDao {
   }
 
   @override
+  Future<List<Task>> findTasksByTaskGroupId(int taskGroupId) async {
+    return _queryAdapter.queryList(
+        'SELECT * FROM task WHERE task_group_id = ?1',
+        mapper: (Map<String, Object?> row) => Task(
+            id: row['id'] as int?,
+            name: row['name'] as String,
+            description: row['description'] as String,
+            priority: Priority.values[row['priority'] as int],
+            deadline: _dateTimeConverter.decode(row['deadline'] as int),
+            taskGroupId: row['task_group_id'] as int?,
+            subjectId: row['subject_id'] as int?,
+            xp: row['xp'] as int),
+        arguments: [taskGroupId]);
+  }
+
+  @override
   Future<int> insertTask(Task task) {
     return _taskInsertionAdapter.insertAndReturnId(
         task, OnConflictStrategy.abort);
