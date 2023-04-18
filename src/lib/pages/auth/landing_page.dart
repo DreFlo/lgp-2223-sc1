@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:src/pages/auth/login_page.dart';
+import 'package:src/pages/auth/signup_page.dart';
+import 'package:src/themes/colors.dart';
 
 class LandingPage extends StatelessWidget {
-  int pageCount = 0;
+  int _pageCount = 0;
 
-  LandingPage({Key? key, required this.pageCount}) : super(key: key);
+  LandingPage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -13,43 +16,79 @@ class LandingPage extends StatelessWidget {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
-          Row(children: [Text("Wokka Icon!", textAlign: TextAlign.center)],),
-          Row(children: [Text("Caroussel of phrases!", textAlign: TextAlign.center)],),
-          ElevatedButton(
-              style: ButtonStyle(
-                  backgroundColor: MaterialStateProperty.all(
-                      Color.fromARGB(0, 46, 42, 78)),
-                  shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                      const RoundedRectangleBorder(
-                          borderRadius: BorderRadius.only(
-                              topRight: Radius.circular(10),
-                              topLeft: Radius.circular(10),
-                              bottomRight: Radius.circular(10),
-                              bottomLeft: Radius.circular(10))))),
-              child: const Text('Sign Up'),
-              onPressed: () {
-                print("Pressed Sign In!");
-              },),
+          Text(
+            "Wokka Icon!",
+            style: Theme.of(context).textTheme.titleLarge,
+            textAlign: TextAlign.center,
+          ),
+          //TODO: Finish the horizontal list view to be closer to mockup and to have dot indicators
+          SizedBox(
+            height: 100,
+            child: ListView(
+              scrollDirection: Axis.horizontal,
+              children: <Widget>[
+                Text(
+                  "Caroussel of phrases 1!",
+                  style: Theme.of(context).textTheme.labelLarge,
+                  textAlign: TextAlign.center,
+                ),
+                Text(
+                  "Caroussel of phrases 2!",
+                  style: Theme.of(context).textTheme.labelLarge,
+                  textAlign: TextAlign.center,
+                ),
+                Text(
+                  "Caroussel of phrases 3!",
+                  style: Theme.of(context).textTheme.labelLarge,
+                  textAlign: TextAlign.center,
+                ),
+              ],
+            ),
+          ),
           ElevatedButton(
             style: ButtonStyle(
-                  backgroundColor: MaterialStateProperty.all(
-                      Color.fromARGB(0, 33, 8, 201)),
-                  shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                      const RoundedRectangleBorder(
-                          borderRadius: BorderRadius.only(
-                              topRight: Radius.circular(10),
-                              topLeft: Radius.circular(10),
-                              bottomRight: Radius.circular(10),
-                              bottomLeft: Radius.circular(10))))),
-              child: const Text('Login'),
-              onPressed: () {
-                print("Pressed LogIn!");
-              },),
-          Row(children: [
+                backgroundColor:
+                    MaterialStateProperty.all(Color.fromARGB(0, 46, 42, 78)),
+                shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                    const RoundedRectangleBorder(
+                        borderRadius: BorderRadius.only(
+                            topRight: Radius.circular(10),
+                            topLeft: Radius.circular(10),
+                            bottomRight: Radius.circular(10),
+                            bottomLeft: Radius.circular(10))))),
+            child: const Text('Sign Up'),
+            onPressed: () {
+              print("Pressed Sign Up!");
+              Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => SignUpPage()));
+            },
+          ),
+          ElevatedButton(
+            style: ButtonStyle(
+                backgroundColor:
+                    MaterialStateProperty.all(Color.fromARGB(0, 33, 8, 201)),
+                shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                    const RoundedRectangleBorder(
+                        borderRadius: BorderRadius.only(
+                            topRight: Radius.circular(10),
+                            topLeft: Radius.circular(10),
+                            bottomRight: Radius.circular(10),
+                            bottomLeft: Radius.circular(10))))),
+            child: const Text('Login'),
+            onPressed: () {
+              print("Pressed LogIn!");
+              Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => LoginPage()));
+            },
+          ),
+          Row(mainAxisAlignment: MainAxisAlignment.center, children: [
             ElevatedButton(
               style: ButtonStyle(
-                  backgroundColor: MaterialStateProperty.all(
-                      Color(0x2E2A4E)),
+                  backgroundColor: MaterialStateProperty.all(Color(0x2E2A4E)),
                   shape: MaterialStateProperty.all<RoundedRectangleBorder>(
                       const RoundedRectangleBorder(
                           borderRadius: BorderRadius.only(
@@ -60,11 +99,11 @@ class LandingPage extends StatelessWidget {
               child: const Text('Google'),
               onPressed: () {
                 print("Pressed Google Button!");
-              },),
-          ElevatedButton(
-            style: ButtonStyle(
-                  backgroundColor: MaterialStateProperty.all(
-                      Color(0x2E2A4E)),
+              },
+            ),
+            ElevatedButton(
+              style: ButtonStyle(
+                  backgroundColor: MaterialStateProperty.all(Color(0x2E2A4E)),
                   shape: MaterialStateProperty.all<RoundedRectangleBorder>(
                       const RoundedRectangleBorder(
                           borderRadius: BorderRadius.only(
@@ -75,7 +114,8 @@ class LandingPage extends StatelessWidget {
               child: const Text('Facebook'),
               onPressed: () {
                 print("Pressed FacebookButton!");
-              },),
+              },
+            ),
           ]),
         ],
       ),
