@@ -3,6 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:src/models/notes/note.dart';
 import 'package:src/themes/colors.dart';
+import 'package:src/pages/notes/add_task_note_form.dart';
 
 class NoteBar extends StatefulWidget {
   final Note note;
@@ -76,10 +77,24 @@ class _NoteBarState extends State<NoteBar> {
                       ElevatedButton(
                           child: Icon(Icons.edit),
                           onPressed: () {
-                            // do nothing rn
+                            showModalBottomSheet(
+                                context: context,
+                                isScrollControlled: true,
+                                backgroundColor: const Color(0xFF22252D),
+                                shape: const RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.vertical(
+                                      top: Radius.circular(30.0)),
+                                ),
+                                builder: (builder) => SingleChildScrollView(
+                                    child: AddTaskNoteForm(
+                                        note: note, callback: editNote)));
                           })
                     ]))
               ],
             )));
+  }
+
+  editNote(Note note) {
+    print('edited note: ${note.title}, ${note.content}');
   }
 }
