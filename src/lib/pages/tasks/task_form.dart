@@ -164,17 +164,17 @@ class _TaskFormState extends State<TaskForm> {
     now = DateFormatter.day(now);
     if (isChild()) {
       if (date!.isAfter(widget.taskGroupDate!())) {
-        errors['date'] = "Task deadline can't be after task group deadline";
+        errors['date'] = AppLocalizations.of(context).studentErrorTaskGroupAfterDate;
       }
       // Date can't be after parent task
     } else {
       if (taskGroup!.id != -1) {
         if (date!.isAfter(taskGroup!.deadline)) {
-          errors['date'] = "Task deadline can't be after task group deadline";
+        errors['date'] = AppLocalizations.of(context).studentErrorTaskGroupAfterDate;
         }
       } else {
         if (date!.isAfter(now)) {
-          errors['date'] = 'Please select a date in the future';
+          errors['date'] = AppLocalizations.of(context).studentErrorPastDate;
         }
       }
     }
@@ -183,17 +183,17 @@ class _TaskFormState extends State<TaskForm> {
   validate() {
     errors = {};
     if (titleController.text == "") {
-      errors['title'] = 'Please enter a title';
+      errors['title'] = AppLocalizations.of(context).studentErrorTitle;
     }
 
     if (priority == null) {
-      errors['priority'] = 'Please select a priority';
+      errors['priority'] = AppLocalizations.of(context).studentErrorPriority;
     }
     validateDate();
     if (institution.id != -1 && subject!.id == -1) {
       // Must either not have an institution and no subject
       // Or have both an institution and a subject
-      errors['subject'] = 'Please select a subject';
+      errors['subject'] = AppLocalizations.of(context).studentErrorSubject;
     }
   }
 

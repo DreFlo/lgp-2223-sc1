@@ -84,5 +84,10 @@
   "dashboard": "Dashboard",
   "hello": "Hello",
   "weight_average": "Weight for Average",
-  "name": "Name"
+  "name": "Name",
+  "studentErrorTitle": "Missing title",
+  "studentErrorPastDate": "Date should not be in the past",
+  "studentErrorTaskGroupAfterDate": "Date should not be after project date",
+  "studentErrorPriority": "Missing priority",
+  "studentErrorSubject": "Subject must be selected or institution must be none"
 }

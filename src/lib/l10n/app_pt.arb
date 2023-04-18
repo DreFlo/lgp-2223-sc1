@@ -12,5 +12,10 @@
   "minutes_each": " minutos cada.",
   "minutes": " minutos.",
   "pages": " páginas.",
-  "add": "Adicionar ao Catálogo"
+  "add": "Adicionar ao Catálogo",
+  "studentErrorTitle": "Título em falta",
+  "studentErrorPastDate": "Data não deve ser no passado",
+  "studentErrorTaskGroupAfterDate": "Data não deve ser após data do projeto",
+  "studentErrorPriority": "Prioridade em falta",
+  "studentErrorSubject": "Disciplina deve ser selecionada ou instituição deve ser preenchida"
 }

@@ -105,21 +105,21 @@ class _ProjectFormState extends State<ProjectForm> {
   validate() {
     errors = {};
     if (titleController.text == "") {
-      errors['title'] = 'Please enter a title';
+      AppLocalizations.of(context).studentErrorTitle;
     }
 
     DateTime now = DateTime.now();
     now = DateTime(now.year, now.month, now.day);
     if (date!.isBefore(now)) {
-      errors['date'] = 'Please select a date in the future';
+      errors['date'] = AppLocalizations.of(context).studentErrorPastDate;
     }
     if (priority == null) {
-      errors['priority'] = 'Please select a priority';
+      errors['priority'] = AppLocalizations.of(context).studentErrorPriority;
     }
     if (institution.id != -1 && subject!.id == -1) {
       // Must either not have an institution and no subject
       // Or have both an institution and a subject
-      errors['subject'] = 'Please select a subject';
+      errors['subject'] = AppLocalizations.of(context).studentErrorSubject;
     }
   }
 
