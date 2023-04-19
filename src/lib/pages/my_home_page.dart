@@ -3,6 +3,11 @@ import 'package:src/widgets/home/homepage_horizontal_scrollview.dart';
 import 'package:src/widgets/home/profile_pic.dart';
 import 'package:src/widgets/home/task_listview.dart';
 import 'package:src/widgets/home/welcome_message.dart';
+import 'package:src/models/timeslot/timeslot_media_timeslot_super_entity.dart';
+import 'package:src/daos/timeslot/timeslot_media_timeslot_super_dao.dart';
+import 'package:src/utils/service_locator.dart';
+import 'package:src/models/timeslot/timeslot_student_timeslot_super_entity.dart';
+import 'package:src/daos/timeslot/timeslot_student_timeslot_super_dao.dart';
 
 import '../models/student/task.dart';
 import '../utils/enums.dart';
@@ -17,6 +22,9 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   int _selectedIndex = 0;
+  List<TimeslotMediaTimeslotSuperEntity> mediaEvents = [];
+  bool loadedAllData = false;
+  List<TimeslotStudentTimeslotSuperEntity> studentEvents = [];
   String name = "Joaquim Almeida"; // TODO Get name from database
 
   // TODO - get tasks from database
@@ -65,6 +73,29 @@ class _MyHomePageState extends State<MyHomePage> {
         xp: 0,
         finished: false),
   ];
+
+  @override 
+  void initState() {
+    super.initState();
+    loadMediaEventsDB();
+    loadStudentEventsDB();
+  }
+
+  void loadMediaEventsDB() async {
+    mediaEvents = await serviceLocator<TimeslotMediaTimeslotSuperDao>()
+        .findAllTimeslotMediaTimeslot();
+    setState(() {
+      mediaEvents = mediaEvents;
+    });
+  }
+
+  void loadStudentEventsDB() async {
+    studentEvents = await serviceLocator<TimeslotStudentTimeslotSuperDao>()
+        .findAllTimeslotStudentTimeslot();
+    setState(() {
+      studentEvents = studentEvents;
+    });
+  }
 
   List<Task> filterItems() {
     switch (_selectedIndex) {

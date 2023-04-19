@@ -15,7 +15,7 @@ class TimeslotStudentTimeslotSuperDao {
 
   TimeslotStudentTimeslotSuperDao._internal();
 
-    Future<List<TimeslotStudentTimeslotSuperEntity>> findAllTimeslotMediaTimeslot() {
+    Future<List<TimeslotStudentTimeslotSuperEntity>> findAllTimeslotStudentTimeslot() {
     return serviceLocator<StudentTimeslotDao>().findAllStudentTimeslots().then((studentTimeslots) async {
       List<TimeslotStudentTimeslotSuperEntity> timeslotStudentTimeslotSuperEntities =
           [];
