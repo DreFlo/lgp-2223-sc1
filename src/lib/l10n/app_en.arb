@@ -98,5 +98,7 @@
   "delete": "Delete",
   "delete_institution": "Delete Institution",
   "cancel": "Cancel",
-  "delete_institution_message": "Are you sure you want to delete this institution?\n\nThis will delete all subjects and tasks associated with this institution."
+  "delete_institution_message": "Are you sure you want to delete this institution?\n\nThis will delete all subjects and tasks associated with this institution.",
+  "delete_subject": "Delete Subject",
+  "delete_subject_message":"Are you sure you want to delete this subject?\n\nThis will delete all the projects and tasks associated with this subject."
 }

@@ -456,7 +456,7 @@ class _SubjectFormState extends State<SubjectForm> {
           const SizedBox(width: 20),
           ElevatedButton(
               onPressed: () async {
-                showDeleteConfirmation(context);
+                await showDeleteConfirmation(context);
               },
               style: ElevatedButton.styleFrom(
                 minimumSize: Size(MediaQuery.of(context).size.width * 0.4, 55),
@@ -497,16 +497,20 @@ class _SubjectFormState extends State<SubjectForm> {
 
         Navigator.pop(context);
         Navigator.pop(context);
+
+        if (widget.callback != null) {
+          widget.callback!();
+        }
       },
     );
 
     AlertDialog alert = AlertDialog(
-      title: Text('Delete Subject',
+      title: Text(AppLocalizations.of(context).delete_subject,
           style: const TextStyle(
               color: Colors.white, fontSize: 20, fontWeight: FontWeight.w600),
           textAlign: TextAlign.center),
       content: Text(
-          'Are you sure you want to delete this subject?\n\nThis will delete all the projects and tasks associated with this subject.',
+          AppLocalizations.of(context).delete_subject_message,
           style: const TextStyle(
               color: Colors.white, fontSize: 14, fontWeight: FontWeight.w600),
           textAlign: TextAlign.center),
