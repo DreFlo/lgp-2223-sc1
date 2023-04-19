@@ -24,6 +24,9 @@ class _MyEventListViewState extends State<MyEventListView> {
     if (widget.studentEvents != null) {
       combined.addAll(widget.studentEvents!);
     }
+
+    // Sort events by startDateTime
+    combined.sort((a, b) => a.startDateTime.compareTo(b.startDateTime));
     return combined;
   }
 
