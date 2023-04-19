@@ -1,4 +1,5 @@
 import 'package:src/daos/timeslot/timeslot_dao.dart';
+import 'package:src/models/timeslot/timeslot.dart';
 import 'package:src/daos/timeslot/student_timeslot_dao.dart';
 import 'package:src/models/timeslot/timeslot_student_timeslot_super_entity.dart';
 import 'package:src/utils/service_locator.dart';
@@ -13,6 +14,28 @@ class TimeslotStudentTimeslotSuperDao {
   }
 
   TimeslotStudentTimeslotSuperDao._internal();
+
+    Future<List<TimeslotStudentTimeslotSuperEntity>> findAllTimeslotMediaTimeslot() {
+    return serviceLocator<StudentTimeslotDao>().findAllStudentTimeslots().then((studentTimeslots) async {
+      List<TimeslotStudentTimeslotSuperEntity> timeslotStudentTimeslotSuperEntities =
+          [];
+
+      for (var studentTimeslot in studentTimeslots) {
+        final timeslot = await
+            serviceLocator<TimeslotDao>().findTimeslotById(studentTimeslot.id);
+
+         if (timeslot != null) {
+            final timeslotStudentTimeslotSuperEntity = TimeslotStudentTimeslotSuperEntity.fromTimeslotStudentTimeslotEntity(
+          studentTimeslot,
+          timeslot,
+        );
+        timeslotStudentTimeslotSuperEntities.add(timeslotStudentTimeslotSuperEntity);
+      }
+    }
+
+    return timeslotStudentTimeslotSuperEntities;
+  });
+}
 
   Future<int> insertTimeslotStudentTimeslotSuperEntity(
     TimeslotStudentTimeslotSuperEntity timeslotStudentTimeslotSuperEntity,

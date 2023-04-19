@@ -23,6 +23,7 @@ class DashboardCard extends StatefulWidget {
 
 //nTasks and institution can be added I guess? Only for student
 //Possible to check what's the type of media for media events?
+//Show deadline for tasks and task groups?
 
   @override
   State<DashboardCard> createState() => _DashboardCardState();
