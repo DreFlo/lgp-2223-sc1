@@ -14,6 +14,7 @@ import 'package:flutter/material.dart';
 import 'package:src/pages/catalog_search/search_bar.dart';
 import 'package:src/pages/catalog_search/leisure_module/search.dart';
 
+
 import '../utils/service_locator_test_util.dart';
 
 class LocalizationsInjector extends StatelessWidget {
@@ -91,4 +92,26 @@ void main() {
     expect(find.text('TV Shows'), findsOneWidget);
     expect(find.text('Books'), findsOneWidget);
   });
+
+  testWidgets('SearchBar widget should call onSearch with the entered text', (WidgetTester tester) async {
+  String searchedText = '';
+
+  await tester.pumpWidget(LocalizationsInjector(child: SearchBar(
+      onSearch: (text) {
+        searchedText = text;
+      },
+    ),
+  ));
+
+  // Enter text into the search bar
+  await tester.enterText(find.byType(TextField), 'test search');
+
+  // Submit the search
+  await tester.testTextInput.receiveAction(TextInputAction.search);
+
+  // Verify that onSearch was called with the entered text
+  expect(searchedText, equals('test search'));
+});
+
+
 }
