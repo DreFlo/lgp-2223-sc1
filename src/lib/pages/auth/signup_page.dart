@@ -1,23 +1,43 @@
 import 'package:flutter/material.dart';
+import 'package:src/pages/auth/login_page.dart';
 import 'package:src/themes/colors.dart';
 
 class SignUpPage extends StatefulWidget {
-
   SignUpPage({Key? key}) : super(key: key);
 
   @override
   State<SignUpPage> createState() => _SignUpPageState();
 }
 
-class _SignUpPageState extends State<SignUpPage> {
+class _SignUpPageState extends State<SignUpPage>
+    with SingleTickerProviderStateMixin {
   TextEditingController controller = TextEditingController();
+  late AnimationController _animationController;
+
   int _pageCount = 0;
+
+  @override
+  void initState() {
+    _animationController = AnimationController(
+        vsync: this, duration: const Duration(milliseconds: 300));
+
+    _animationController.forward();
+
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    _animationController.dispose();
+    super.dispose();
+  }
 
   List<Widget> getAllSignUpPages(BuildContext context) {
     List<Widget> result = [];
 
     result.add(
       SizedBox(
+        key: const ValueKey("signUp-page1"),
         width: MediaQuery.of(context).size.width,
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 18),
@@ -69,6 +89,7 @@ class _SignUpPageState extends State<SignUpPage> {
                 onPressed: () {
                   setState(() {
                     _pageCount++;
+                    _animationController.forward(from: 0.0);
                   });
                 },
                 style: ElevatedButton.styleFrom(
@@ -90,6 +111,7 @@ class _SignUpPageState extends State<SignUpPage> {
 
     result.add(
       SizedBox(
+        key: const ValueKey("signUp-page2"),
         width: MediaQuery.of(context).size.width,
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 18),
@@ -141,6 +163,7 @@ class _SignUpPageState extends State<SignUpPage> {
                 onPressed: () {
                   setState(() {
                     _pageCount++;
+                    _animationController.forward(from: 0.0);
                   });
                 },
                 style: ElevatedButton.styleFrom(
@@ -162,6 +185,7 @@ class _SignUpPageState extends State<SignUpPage> {
 
     result.add(
       SizedBox(
+        key: const ValueKey("signUp-page3"),
         width: MediaQuery.of(context).size.width,
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 18),
@@ -213,6 +237,13 @@ class _SignUpPageState extends State<SignUpPage> {
               ElevatedButton(
                 onPressed: () {
                   print("END! :)");
+
+                  //TODO: Necessary sign up checks and requests to db
+
+                  //This "pops" the modal and sends the user to the login page
+                  Navigator.pop(context);
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => LoginPage()));
                 },
                 style: ElevatedButton.styleFrom(
                   minimumSize:
@@ -242,16 +273,34 @@ class _SignUpPageState extends State<SignUpPage> {
     return SizedBox(
       child: Column(
         children: [
-          SizedBox(
-            child: Text(
-              "Dots!",
-              style: Theme.of(context).textTheme.bodySmall,
-              textAlign: TextAlign.center,
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: 10.0),
+            child: SizedBox(
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Icon(_pageCount == 0 ? Icons.circle : Icons.circle_outlined,
+                      color: _pageCount == 0 ? primaryColor : Colors.white,
+                      size: 15.0),
+                   Icon(_pageCount == 1 ? Icons.circle : Icons.circle_outlined,
+                      color: _pageCount == 1 ? primaryColor : Colors.white,
+                      size: 15.0),
+                  Icon(_pageCount == 2 ? Icons.circle : Icons.circle_outlined,
+                      color: _pageCount == 2 ? primaryColor : Colors.white,
+                      size: 15.0),
+                ],
+              ),
             ),
           ),
           SizedBox(
             height: MediaQuery.of(context).size.height * 0.5,
-            child: pages[_pageCount]
+            child: SlideTransition(
+              position: Tween<Offset>(
+                begin: const Offset(1.0, 0.0),
+                end: Offset.zero,
+              ).animate(_animationController),
+              child: pages[_pageCount],
+            ),
           ),
         ],
       ),
