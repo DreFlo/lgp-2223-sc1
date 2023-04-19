@@ -425,6 +425,7 @@ class _SubjectFormState extends State<SubjectForm> {
   Widget displayEndButtons(BuildContext context) {
     if (widget.id == null) {
       return ElevatedButton(
+          key: const Key('saveSubjectButton'),
           onPressed: () async {
             await save(context);
           },
