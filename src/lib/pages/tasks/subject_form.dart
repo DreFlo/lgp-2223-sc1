@@ -275,74 +275,7 @@ class _SubjectFormState extends State<SubjectForm> {
                         : const SizedBox(height: 0),
                     const SizedBox(height: 30),
                     ...institutionSelection(),
-                    ElevatedButton(
-                        onPressed: () async {
-                          String name = nameController.text;
-                          String acronym = acronymController.text;
-                          String weightAverage = weightAverageController.text;
-
-                          validate();
-
-                          if (errors.isEmpty) {
-                            Subject subject;
-                            if (widget.id != null) {
-                              subject = Subject(
-                                  id: widget.id,
-                                  name: name,
-                                  acronym: acronym,
-                                  weightAverage: double.parse(weightAverage),
-                                  institutionId: institutionId != -1
-                                      ? institutionId
-                                      : null);
-
-                              await serviceLocator<SubjectDao>()
-                                  .updateSubject(subject);
-
-                              if (widget.callback != null) {
-                                widget.callback!();
-                              }
-                            } else {
-                              if (widget.callback == null) {
-                                subject = Subject(
-                                    name: name,
-                                    acronym: acronym,
-                                    weightAverage: double.parse(weightAverage),
-                                    institutionId: institutionId != -1
-                                        ? institutionId
-                                        : null);
-
-                                await serviceLocator<SubjectDao>()
-                                    .insertSubject(subject);
-                              } else {
-                                subject = Subject(
-                                  id: widget.subject == null
-                                      ? null
-                                      : widget.subject!.id,
-                                  name: name,
-                                  acronym: acronym,
-                                  weightAverage: double.parse(weightAverage),
-                                  institutionId: institutionId != -1
-                                      ? institutionId
-                                      : null,
-                                );
-
-                                widget.callback!(subject);
-                              }
-                            }
-
-                            Navigator.pop(context);
-                          }
-                        },
-                        style: ElevatedButton.styleFrom(
-                          minimumSize: Size(
-                              MediaQuery.of(context).size.width * 0.95, 55),
-                          backgroundColor: primaryColor,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(25.0),
-                          ),
-                        ),
-                        child: Text(AppLocalizations.of(context).save,
-                            style: Theme.of(context).textTheme.headlineSmall))
+                    displayEndButtons(context),
                   ]),
                 ));
           } else {
@@ -434,9 +367,161 @@ class _SubjectFormState extends State<SubjectForm> {
       errors['acronym'] = AppLocalizations.of(context).acronym_error;
     }
     if (weightAverage.isEmpty) {
-      errors['weightAverage'] = AppLocalizations.of(context).weight_average_error;
+      errors['weightAverage'] =
+          AppLocalizations.of(context).weight_average_error;
     }
 
     setState(() {});
+  }
+
+  save(BuildContext context) async {
+    String name = nameController.text;
+    String acronym = acronymController.text;
+    String weightAverage = weightAverageController.text;
+
+    validate();
+
+    if (errors.isEmpty) {
+      Subject subject;
+      if (widget.id != null) {
+        subject = Subject(
+            id: widget.id,
+            name: name,
+            acronym: acronym,
+            weightAverage: double.parse(weightAverage),
+            institutionId: institutionId != -1 ? institutionId : null);
+
+        await serviceLocator<SubjectDao>().updateSubject(subject);
+
+        if (widget.callback != null) {
+          widget.callback!();
+        }
+      } else {
+        if (widget.callback == null) {
+          subject = Subject(
+              name: name,
+              acronym: acronym,
+              weightAverage: double.parse(weightAverage),
+              institutionId: institutionId != -1 ? institutionId : null);
+
+          await serviceLocator<SubjectDao>().insertSubject(subject);
+        } else {
+          subject = Subject(
+            id: widget.subject == null ? null : widget.subject!.id,
+            name: name,
+            acronym: acronym,
+            weightAverage: double.parse(weightAverage),
+            institutionId: institutionId != -1 ? institutionId : null,
+          );
+
+          widget.callback!(subject);
+        }
+      }
+
+      Navigator.pop(context);
+    }
+  }
+
+  Widget displayEndButtons(BuildContext context) {
+    if (widget.id == null) {
+      return ElevatedButton(
+          onPressed: () async {
+            await save(context);
+          },
+          style: ElevatedButton.styleFrom(
+            minimumSize: Size(MediaQuery.of(context).size.width * 0.95, 55),
+            backgroundColor: primaryColor,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(25.0),
+            ),
+          ),
+          child: Text(AppLocalizations.of(context).save,
+              style: Theme.of(context).textTheme.headlineSmall));
+    } else {
+      return Row(
+        children: [
+          ElevatedButton(
+              onPressed: () async {
+                await save(context);
+              },
+              style: ElevatedButton.styleFrom(
+                minimumSize: Size(MediaQuery.of(context).size.width * 0.4, 55),
+                backgroundColor: primaryColor,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(25.0),
+                ),
+              ),
+              child: Text(AppLocalizations.of(context).save,
+                  style: Theme.of(context).textTheme.headlineSmall)),
+          const SizedBox(width: 20),
+          ElevatedButton(
+              onPressed: () async {
+                showDeleteConfirmation(context);
+              },
+              style: ElevatedButton.styleFrom(
+                minimumSize: Size(MediaQuery.of(context).size.width * 0.4, 55),
+                backgroundColor: Colors.red,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(25.0),
+                ),
+              ),
+              child: Text(AppLocalizations.of(context).delete,
+                  style: Theme.of(context).textTheme.headlineSmall))
+        ],
+      );
+    }
+  }
+
+  showDeleteConfirmation(BuildContext context) {
+    Widget cancelButton = TextButton(
+      child: Text(AppLocalizations.of(context).cancel,
+          style: const TextStyle(
+              color: Colors.white, fontSize: 16, fontWeight: FontWeight.w600),
+          textAlign: TextAlign.left),
+      onPressed: () {
+        Navigator.pop(context);
+      },
+    );
+
+    Widget deleteButton = TextButton(
+      child: Text(AppLocalizations.of(context).delete,
+          style: const TextStyle(
+              color: Colors.white, fontSize: 16, fontWeight: FontWeight.w600),
+          textAlign: TextAlign.center),
+      onPressed: () async {
+        Subject? subject = await serviceLocator<SubjectDao>()
+            .findSubjectById(widget.id!)
+            .first;
+
+        await serviceLocator<SubjectDao>().deleteSubject(subject!);
+
+        Navigator.pop(context);
+        Navigator.pop(context);
+      },
+    );
+
+    AlertDialog alert = AlertDialog(
+      title: Text('Delete Subject',
+          style: const TextStyle(
+              color: Colors.white, fontSize: 20, fontWeight: FontWeight.w600),
+          textAlign: TextAlign.center),
+      content: Text(
+          'Are you sure you want to delete this subject?\n\nThis will delete all the projects and tasks associated with this subject.',
+          style: const TextStyle(
+              color: Colors.white, fontSize: 14, fontWeight: FontWeight.w600),
+          textAlign: TextAlign.center),
+      actions: [
+        cancelButton,
+        deleteButton,
+      ],
+      backgroundColor: primaryColor,
+    );
+
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return alert;
+      },
+    );
   }
 }
