@@ -8,22 +8,14 @@
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import 'package:flutter_test/flutter_test.dart';
-import 'package:mockito/mockito.dart';
 import 'package:src/utils/service_locator.dart';
 import 'package:src/pages/catalog_search/leisure_module.dart';
 import 'package:flutter/material.dart';
 import 'package:src/pages/catalog_search/search_bar.dart';
-import 'package:src/pages/catalog_search/search_results.dart';
-import 'package:src/pages/leisure/finished_media_form.dart';
-import 'package:src/models/media/media.dart';
-import 'package:src/daos/media/media_dao.dart';
-import 'package:src/models/media/review.dart';
-import 'package:src/daos/media/review_dao.dart';
+
 import 'package:src/pages/catalog_search/leisure_module/search.dart';
-import 'package:src/utils/enums.dart';
 
 import '../utils/service_locator_test_util.dart';
-import '../utils/service_locator_test_util.mocks.dart';
 
 class LocalizationsInjector extends StatelessWidget {
   final Widget child;
@@ -126,13 +118,4 @@ void main() {
     // Verify that onSearch was called with the entered text
     expect(searchedText, equals('test search'));
   });
-
-  // Submit the search
-  await tester.testTextInput.receiveAction(TextInputAction.search);
-
-  // Verify that onSearch was called with the entered text
-  expect(searchedText, equals('test search'));
-});
-
-
 }

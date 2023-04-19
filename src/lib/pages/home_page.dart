@@ -10,7 +10,6 @@ import 'package:src/pages/tasks/subject_form.dart';
 import 'package:src/themes/colors.dart';
 import 'package:src/utils/service_locator.dart';
 import 'leisure/add_to_catalog_form.dart';
-import 'leisure/add_book_note_form.dart';
 import 'leisure/media_page.dart';
 import 'package:src/utils/enums.dart';
 import 'package:src/env/env.dart';

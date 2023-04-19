@@ -4,8 +4,7 @@ import 'package:src/utils/leisure/media_page_helpers.dart';
 class SearchResults extends StatelessWidget {
   final Map media;
 
-  const SearchResults({Key? key, required this.media})
-      : super(key: key);
+  const SearchResults({Key? key, required this.media}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
