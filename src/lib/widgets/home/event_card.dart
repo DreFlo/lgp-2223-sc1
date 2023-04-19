@@ -42,15 +42,11 @@ class _MyEventCardState extends State<MyEventCard> {
     bool isTomorrow = DateTime.now().day + 1 == date.day && DateTime.now().month == date.month && DateTime.now().year == date.year;
     int daysDifference = date.difference(DateTime.now()).inDays;
 
-    if (isToday) return 'Today at ${DateFormat("ha").format(date)}';
-    if (isTomorrow) return 'Tomorrow at ${DateFormat("ha").format(date)}';
-    if (daysDifference > 0 && daysDifference < 7) return DateFormat("EEEE - ha").format(date);
-    return DateFormat("MMM d'$ordinalDay' - ha").format(date);
-
-    /*return DateFormat("MMM d'$ordinalDay' - ha")
-        .format(date)
-        .replaceAll('AM', 'am')
-        .replaceAll('PM', 'pm');*/
+    if (isToday) return 'Today at ${DateFormat("ha").format(date).replaceAll('AM', 'am').replaceAll('PM', 'pm')}';
+    if (isTomorrow) return 'Tomorrow at ${DateFormat("ha").format(date).replaceAll('AM', 'am').replaceAll('PM', 'pm')}';
+    if (daysDifference > 0 && daysDifference < 7) return DateFormat("EEEE - ha").format(date).replaceAll('AM', 'am').replaceAll('PM', 'pm');
+    return DateFormat("MMM d'$ordinalDay' - ha").format(date).replaceAll('AM', 'am')
+        .replaceAll('PM', 'pm');
   }
 
   @override
