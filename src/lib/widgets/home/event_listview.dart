@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../models/student/task.dart';
-import 'task_card.dart';
+import 'event_card.dart';
 
 class MyTaskListView extends StatefulWidget {
   final List<Task> items;
