@@ -27,10 +27,6 @@ class _MyHomePageState extends State<MyHomePage> {
   List<TimeslotStudentTimeslotSuperEntity> studentEvents = [];
   String name = "Joaquim Almeida"; // TODO Get name from database
 
-  // TODO - get tasks from database
-  // TODO - change logic when we have events (leisure) - for now everything is tasks and description is being used to distinguish between modules
-
-  //These should be events and not tasks -> get from DB 
   List<Task> items = [
     Task(
         id: 1,
@@ -77,27 +73,22 @@ class _MyHomePageState extends State<MyHomePage> {
   @override 
   void initState() {
     super.initState();
-    loadMediaEventsDB();
-    loadStudentEventsDB();
+    loadEventsDB();
   }
 
-  void loadMediaEventsDB() async {
+  void loadEventsDB() async {
     mediaEvents = await serviceLocator<TimeslotMediaTimeslotSuperDao>()
         .findAllTimeslotMediaTimeslot();
-    setState(() {
-      mediaEvents = mediaEvents;
-    });
-  }
-
-  void loadStudentEventsDB() async {
     studentEvents = await serviceLocator<TimeslotStudentTimeslotSuperDao>()
         .findAllTimeslotStudentTimeslot();
     setState(() {
+      mediaEvents = mediaEvents;
       studentEvents = studentEvents;
+      loadedAllData = true;
     });
   }
 
-  List<Task> filterItems() {
+  /*List<Task> filterItems() {
     switch (_selectedIndex) {
       case 1:
         return items
@@ -118,7 +109,7 @@ class _MyHomePageState extends State<MyHomePage> {
       default:
         return items;
     }
-  }
+  }*/
 
     showWidget() {
     switch (_selectedIndex) {
@@ -154,9 +145,8 @@ class _MyHomePageState extends State<MyHomePage> {
                 setSelectedIndex: (int index) =>
                     setState(() => _selectedIndex = index),
               ),
-              Expanded(
-                child: showWidget(),
-              )
+              loadedAllData ? Expanded(
+                child: showWidget()) : Container()
             ],
           ),
         ],
