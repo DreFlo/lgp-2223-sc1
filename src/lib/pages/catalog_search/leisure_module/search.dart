@@ -20,6 +20,7 @@ class _SearchMediaState extends State<SearchMedia>
   late TabController tabController;
   late bool showSplashScreen;
   static bool _hasShownSplashScreen = false;
+  Timer? _timer;
 
   @override
   void initState() {
@@ -30,7 +31,7 @@ class _SearchMediaState extends State<SearchMedia>
     } else {
       showSplashScreen = true;
       _hasShownSplashScreen = true;
-      Timer(const Duration(seconds: 2), () {
+      _timer = Timer(const Duration(seconds: 2), () {
         setState(() {
           showSplashScreen = false;
         });
@@ -41,6 +42,7 @@ class _SearchMediaState extends State<SearchMedia>
   @override
   void dispose() {
     tabController.dispose();
+    _timer?.cancel();
     super.dispose();
   }
 

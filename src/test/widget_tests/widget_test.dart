@@ -12,6 +12,7 @@ import 'package:src/utils/service_locator.dart';
 import 'package:src/pages/catalog_search/leisure_module.dart';
 import 'package:flutter/material.dart';
 import 'package:src/pages/catalog_search/search_bar.dart';
+import 'package:src/pages/catalog_search/leisure_module/search.dart';
 
 import '../utils/service_locator_test_util.dart';
 
@@ -72,5 +73,22 @@ void main() {
 
     // Verify that the widget displays a search bar
     expect(find.widgetWithIcon(SearchBar, Icons.search), findsOneWidget);
+  });
+
+  testWidgets('SearchMedia widget displays splash screen and tabs', (WidgetTester tester) async {
+    // Build the widget
+    await tester.pumpWidget(const LocalizationsInjector(child: SearchMedia(search: 'test')));
+
+    // Verify that the splash screen is displayed
+    expect(find.byType(Image), findsOneWidget);
+
+    // Wait for the splash screen to disappear
+    //await tester.pump(const Duration(seconds: 2));
+
+    // Verify that the tabs are displayed
+    expect(find.byType(TabBar), findsOneWidget);
+    expect(find.text('Movies'), findsOneWidget);
+    expect(find.text('TV Shows'), findsOneWidget);
+    expect(find.text('Books'), findsOneWidget);
   });
 }
