@@ -3,16 +3,16 @@ import 'package:flutter/material.dart';
 import '../../models/student/task.dart';
 import 'event_card.dart';
 
-class MyTaskListView extends StatefulWidget {
+class MyEventListView extends StatefulWidget {
   final List<Task> items;
 
-  const MyTaskListView({Key? key, required this.items}) : super(key: key);
+  const MyEventListView({Key? key, required this.items}) : super(key: key);
 
   @override
-  State<MyTaskListView> createState() => _MyTaskListViewState();
+  State<MyEventListView> createState() => _MyEventListViewState();
 }
 
-class _MyTaskListViewState extends State<MyTaskListView> {
+class _MyEventListViewState extends State<MyEventListView> {
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
@@ -20,7 +20,7 @@ class _MyTaskListViewState extends State<MyTaskListView> {
         child: Column(
           children: [
             for (var item in widget.items)
-              MyTaskCard(
+              MyEventCard(
                   name: item.name,
                   deadline: item.deadline,
                   module: item.description)

@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:src/themes/colors.dart';
 
-class MyTaskCard extends StatefulWidget {
+class MyEventCard extends StatefulWidget {
   final String name;
   final DateTime deadline;
   final String module;
 
-  const MyTaskCard(
+  const MyEventCard(
       {Key? key,
       required this.name,
       required this.deadline,
@@ -15,10 +15,10 @@ class MyTaskCard extends StatefulWidget {
       : super(key: key);
 
   @override
-  State<MyTaskCard> createState() => _MyTaskCardState();
+  State<MyEventCard> createState() => _MyEventCardState();
 }
 
-class _MyTaskCardState extends State<MyTaskCard> {
+class _MyEventCardState extends State<MyEventCard> {
   final Map<String, Color> moduleColors = {
     'Student': studentColor,
     'Leisure': leisureColor,
