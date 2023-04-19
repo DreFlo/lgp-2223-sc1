@@ -10,13 +10,15 @@ class SubjectBar extends StatefulWidget {
   final Function? callback;
   final bool selectInstitution;
   final Subject subject;
+  final Function removeCallback;
 
   const SubjectBar(
       {Key? key,
       required this.subject,
       this.id,
       this.callback,
-      this.selectInstitution = true})
+      this.selectInstitution = true,
+      required this.removeCallback})
       : super(key: key);
 
   @override
@@ -87,7 +89,18 @@ class _SubjectBarState extends State<SubjectBar> {
                                 color: Colors.white,
                                 fontSize: 15,
                                 fontWeight: FontWeight.normal))
-                      ]))
+                      ])),
+              IconButton(
+                  color: Colors.white,
+                  splashRadius: 0.01,
+                  icon: const Icon(Icons.close),
+                  onPressed: () {
+                    if(widget.id != null){
+                      widget.removeCallback(widget.id);
+                    } else {
+                      widget.removeCallback(widget.subject);
+                    }
+                  })
             ]),
           ),
         ));

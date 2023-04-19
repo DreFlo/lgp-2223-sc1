@@ -347,6 +347,7 @@ class _InstitutionFormState extends State<InstitutionForm> {
                       subject: e,
                       callback: editNoDbSubject,
                       selectInstitution: false,
+                      removeCallback: removeNoDbSubject,
                     ))
                 .toList());
       }
@@ -368,7 +369,7 @@ class _InstitutionFormState extends State<InstitutionForm> {
               } else {
                 subjects = snapshot.data!
                     .map((e) => SubjectBar(
-                        subject: e!, id: e.id!, callback: onSubjectSave))
+                        subject: e!, id: e.id!, callback: onSubjectSave, removeCallback: removeSubject))
                     .toList();
 
                 subjects.addAll(noDbSubjects
@@ -376,6 +377,7 @@ class _InstitutionFormState extends State<InstitutionForm> {
                           subject: e,
                           callback: editNoDbSubject,
                           selectInstitution: false,
+                          removeCallback: removeNoDbSubject,
                         ))
                     .toList());
               }
@@ -510,6 +512,27 @@ class _InstitutionFormState extends State<InstitutionForm> {
     setState(() {});
   }
 
+  removeNoDbSubject(Subject subject) {
+    noDbSubjects.removeWhere((element) => element.id == subject.id);
+    setState(() {});
+  }
+
+  removeSubject(int id) async {
+    Subject? subject =
+        await serviceLocator<SubjectDao>().findSubjectById(id).first;
+
+    Subject newSubject = Subject(
+        id: subject!.id,
+        name: subject.name,
+        acronym: subject.acronym,
+        weightAverage: subject.weightAverage,
+        institutionId: null);
+
+    await serviceLocator<SubjectDao>().updateSubject(newSubject);
+
+    setState(() {});
+  }
+
   onSubjectSave() {
     setState(() {});
   }
@@ -557,8 +580,7 @@ class _InstitutionFormState extends State<InstitutionForm> {
           style: const TextStyle(
               color: Colors.white, fontSize: 20, fontWeight: FontWeight.w600),
           textAlign: TextAlign.center),
-      content: Text(
-          AppLocalizations.of(context).delete_institution_message,
+      content: Text(AppLocalizations.of(context).delete_institution_message,
           style: const TextStyle(
               color: Colors.white, fontSize: 14, fontWeight: FontWeight.w600),
           textAlign: TextAlign.center),
