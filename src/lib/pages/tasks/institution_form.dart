@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:src/daos/student/institution_dao.dart';
 import 'package:src/daos/student/subject_dao.dart';
+import 'package:src/daos/student/task_dao.dart';
+import 'package:src/daos/student/task_group_dao.dart';
 import 'package:src/models/student/subject.dart';
 import 'package:src/models/student/institution.dart';
 import 'package:src/pages/tasks/subject_form.dart';
@@ -11,6 +13,9 @@ import 'package:src/themes/colors.dart';
 import 'package:src/utils/enums.dart';
 import 'package:src/utils/service_locator.dart';
 import 'package:src/widgets/tasks/subject_bar.dart';
+
+import 'package:src/models/student/task.dart';
+import 'package:src/models/student/task_group.dart';
 
 class InstitutionForm extends StatefulWidget {
   final int? id;
@@ -49,7 +54,6 @@ class _InstitutionFormState extends State<InstitutionForm> {
       controller.text = institution!.name;
       type = institution.type;
     } else {
-      print('new institution');
       type = InstitutionType.other;
       controller.clear();
     }
@@ -318,54 +322,7 @@ class _InstitutionFormState extends State<InstitutionForm> {
                     const SizedBox(height: 7.5),
                     displaySubjects(),
                     const SizedBox(height: 30),
-                    ElevatedButton(
-                        onPressed: () async {
-                          String name = controller.text;
-
-                          validate();
-
-                          if (errors.isEmpty) {
-                            //TODO: Change to real user id
-                            print('NEED TO CHANGE USER ID WHEN AUTH IS DONE');
-                            int id;
-                            if (widget.id == null) {
-                              id = await serviceLocator<InstitutionDao>()
-                                  .insertInstitution(Institution(
-                                      name: name, type: type, userId: 1));
-                            } else {
-                              serviceLocator<InstitutionDao>()
-                                  .updateInstitution(Institution(
-                                      id: widget.id!,
-                                      name: name,
-                                      type: type,
-                                      userId: 1));
-                              id = widget.id!;
-                            }
-
-                            for (Subject subject in noDbSubjects) {
-                              Subject newSubject = Subject(
-                                name: subject.name,
-                                acronym: subject.acronym,
-                                weightAverage: subject.weightAverage,
-                                institutionId: id,
-                              );
-                              await serviceLocator<SubjectDao>()
-                                  .insertSubject(newSubject);
-                            }
-
-                            Navigator.pop(context);
-                          }
-                        },
-                        style: ElevatedButton.styleFrom(
-                          minimumSize: Size(
-                              MediaQuery.of(context).size.width * 0.95, 55),
-                          backgroundColor: primaryColor,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(25.0),
-                          ),
-                        ),
-                        child: Text(AppLocalizations.of(context).save,
-                            style: Theme.of(context).textTheme.headlineSmall))
+                    displayEndButtons(),
                   ]),
                 ));
           } else {
@@ -374,7 +331,7 @@ class _InstitutionFormState extends State<InstitutionForm> {
         });
   }
 
-  displaySubjects() {
+  Widget displaySubjects() {
     if (widget.id == null) {
       if (noDbSubjects.isEmpty) {
         return Text(AppLocalizations.of(context).no_tasks,
@@ -394,7 +351,7 @@ class _InstitutionFormState extends State<InstitutionForm> {
                 .toList());
       }
     } else {
-      FutureBuilder(
+      return FutureBuilder(
           future: serviceLocator<SubjectDao>()
               .findSubjectByInstitutionId(widget.id!),
           builder:
@@ -433,6 +390,115 @@ class _InstitutionFormState extends State<InstitutionForm> {
     }
   }
 
+  Widget displayEndButtons() {
+    if (widget.id == null) {
+      return ElevatedButton(
+          onPressed: () async {
+            String name = controller.text;
+
+            validate();
+
+            if (errors.isEmpty) {
+              //TODO: Change to real user id
+              print('NEED TO CHANGE USER ID WHEN AUTH IS DONE');
+              int id;
+              if (widget.id == null) {
+                id = await serviceLocator<InstitutionDao>().insertInstitution(
+                    Institution(name: name, type: type, userId: 1));
+              } else {
+                serviceLocator<InstitutionDao>().updateInstitution(Institution(
+                    id: widget.id!, name: name, type: type, userId: 1));
+                id = widget.id!;
+              }
+
+              for (Subject subject in noDbSubjects) {
+                Subject newSubject = Subject(
+                  name: subject.name,
+                  acronym: subject.acronym,
+                  weightAverage: subject.weightAverage,
+                  institutionId: id,
+                );
+                await serviceLocator<SubjectDao>().insertSubject(newSubject);
+              }
+
+              Navigator.pop(context);
+            }
+          },
+          style: ElevatedButton.styleFrom(
+            minimumSize: Size(MediaQuery.of(context).size.width * 0.95, 55),
+            backgroundColor: primaryColor,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(25.0),
+            ),
+          ),
+          child: Text(AppLocalizations.of(context).save,
+              style: Theme.of(context).textTheme.headlineSmall));
+    } else {
+      return Row(
+        children: [
+          ElevatedButton(
+              onPressed: () async {
+                String name = controller.text;
+
+                validate();
+
+                if (errors.isEmpty) {
+                  //TODO: Change to real user id
+                  print('NEED TO CHANGE USER ID WHEN AUTH IS DONE');
+                  int id;
+                  if (widget.id == null) {
+                    id = await serviceLocator<InstitutionDao>()
+                        .insertInstitution(
+                            Institution(name: name, type: type, userId: 1));
+                  } else {
+                    serviceLocator<InstitutionDao>().updateInstitution(
+                        Institution(
+                            id: widget.id!, name: name, type: type, userId: 1));
+                    id = widget.id!;
+                  }
+
+                  for (Subject subject in noDbSubjects) {
+                    Subject newSubject = Subject(
+                      name: subject.name,
+                      acronym: subject.acronym,
+                      weightAverage: subject.weightAverage,
+                      institutionId: id,
+                    );
+                    await serviceLocator<SubjectDao>()
+                        .insertSubject(newSubject);
+                  }
+
+                  Navigator.pop(context);
+                }
+              },
+              style: ElevatedButton.styleFrom(
+                minimumSize: Size(MediaQuery.of(context).size.width * 0.4, 55),
+                backgroundColor: primaryColor,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(25.0),
+                ),
+              ),
+              child: Text(AppLocalizations.of(context).save,
+                  style: Theme.of(context).textTheme.headlineSmall)),
+          const SizedBox(width: 20),
+          ElevatedButton(
+              onPressed: () async {
+                showDeleteConfirmation(context);
+              },
+              style: ElevatedButton.styleFrom(
+                minimumSize: Size(MediaQuery.of(context).size.width * 0.4, 55),
+                backgroundColor: Colors.red,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(25.0),
+                ),
+              ),
+              child: Text('Delete',
+                  style: Theme.of(context).textTheme.headlineSmall))
+        ],
+      );
+    }
+  }
+
   addNoDbSubject(Subject subject) {
     noDbSubjects.add(subject);
     setState(() {});
@@ -452,9 +518,62 @@ class _InstitutionFormState extends State<InstitutionForm> {
     errors = {};
 
     if (controller.text.isEmpty) {
-      errors['name'] = AppLocalizations.of(context).nameError;
+      errors['name'] = AppLocalizations.of(context).name_error;
     }
 
     setState(() {});
+  }
+
+  showDeleteConfirmation(BuildContext context) {
+    Widget cancelButton = TextButton(
+      child: Text(AppLocalizations.of(context).cancel,
+          style: const TextStyle(
+              color: Colors.white, fontSize: 16, fontWeight: FontWeight.w600),
+          textAlign: TextAlign.left),
+      onPressed: () {
+        Navigator.pop(context);
+      },
+    );
+
+    Widget deleteButton = TextButton(
+      child: Text(AppLocalizations.of(context).delete,
+          style: const TextStyle(
+              color: Colors.white, fontSize: 16, fontWeight: FontWeight.w600),
+          textAlign: TextAlign.center),
+      onPressed: () async {
+        Institution? institution = await serviceLocator<InstitutionDao>()
+            .findInstitutionById(widget.id!)
+            .first;
+
+        await serviceLocator<InstitutionDao>().deleteInstitution(institution!);
+
+        Navigator.pop(context);
+        Navigator.pop(context);
+      },
+    );
+
+    AlertDialog alert = AlertDialog(
+      title: Text(AppLocalizations.of(context).delete_institution,
+          style: const TextStyle(
+              color: Colors.white, fontSize: 20, fontWeight: FontWeight.w600),
+          textAlign: TextAlign.center),
+      content: Text(
+          AppLocalizations.of(context).delete_institution_message,
+          style: const TextStyle(
+              color: Colors.white, fontSize: 14, fontWeight: FontWeight.w600),
+          textAlign: TextAlign.center),
+      actions: [
+        cancelButton,
+        deleteButton,
+      ],
+      backgroundColor: primaryColor,
+    );
+
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return alert;
+      },
+    );
   }
 }

@@ -90,9 +90,13 @@
   "studentErrorTaskGroupAfterDate": "Date should not be after project date",
   "studentErrorPriority": "Missing priority",
   "studentErrorSubject": "Subject must be selected or institution must be none",
-  "nameError": "Name is required",
-  "acronymError": "Acronym is required",
-  "weightAverageError": "Weight for Average is required",
-  "titleError": "Title is required",
-  "contentError": "Content is required"
+  "name_error": "Name is required",
+  "acronym_error": "Acronym is required",
+  "weight_average_error": "Weight for Average is required",
+  "title_error": "Title is required",
+  "content_error": "Content is required",
+  "delete": "Delete",
+  "delete_institution": "Delete Institution",
+  "cancel": "Cancel",
+  "delete_institution_message": "Are you sure you want to delete this institution?\n\nThis will delete all subjects and tasks associated with this institution."
 }
