@@ -1,5 +1,4 @@
 import 'package:src/daos/timeslot/timeslot_dao.dart';
-import 'package:src/models/timeslot/timeslot.dart';
 import 'package:src/daos/timeslot/student_timeslot_dao.dart';
 import 'package:src/models/timeslot/timeslot_student_timeslot_super_entity.dart';
 import 'package:src/utils/service_locator.dart';

@@ -77,6 +77,11 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   void loadEventsDB() async {
+    //Now it's getting all events but should get the events for today only except if there's no events 
+    //for today then it should get the next event
+    //or just ordered them so that the events for today are first
+    //TODO: Get events for today only
+
     mediaEvents = await serviceLocator<TimeslotMediaTimeslotSuperDao>()
         .findAllTimeslotMediaTimeslot();
     studentEvents = await serviceLocator<TimeslotStudentTimeslotSuperDao>()

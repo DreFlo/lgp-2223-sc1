@@ -5,8 +5,8 @@ final mockMediaTimeslots = [
       id: 1,
       title: 'Bruh I\'m done with this',
       description: 'word words words words words',
-      startDateTime: DateTime.now().add(const Duration(hours: 4)),
-      endDateTime: DateTime.now().add(const Duration(hours: 6)),
+      startDateTime: DateTime(2023, 4, 25, 12, 0),
+      endDateTime: DateTime(2023, 4, 25, 16, 0),
       xpMultiplier: 2,
       finished: false,
       userId: 1)

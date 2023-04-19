@@ -26,34 +26,36 @@ class _MyEventCardState extends State<MyEventCard> {
     'Fitness': fitnessColor,
   };
 
-  formatDeadline(DateTime deadline) {
+  String formatDate(DateTime date) {
+    // Use Today; Tomorrow and in X days (using start date for the calculation)
     Map<int, String> suffixes = {
       1: 'st',
       2: 'nd',
       3: 'rd',
     };
 
-    String ordinalDay = (deadline.day >= 11 && deadline.day <= 13)
+    String ordinalDay = (date.day >= 11 && date.day <= 13)
         ? 'th'
-        : suffixes[deadline.day % 10] ?? 'th';
+        : suffixes[date.day % 10] ?? 'th';
+    
+    bool isToday = DateTime.now().day == date.day && DateTime.now().month == date.month && DateTime.now().year == date.year;
+    bool isTomorrow = DateTime.now().day + 1 == date.day && DateTime.now().month == date.month && DateTime.now().year == date.year;
+    int daysDifference = date.difference(DateTime.now()).inDays;
 
-    return DateFormat("MMM d'$ordinalDay' - ha")
-        .format(deadline)
+    if (isToday) return 'Today at ${DateFormat("ha").format(date)}';
+    if (isTomorrow) return 'Tomorrow at ${DateFormat("ha").format(date)}';
+    if (daysDifference > 0 && daysDifference < 7) return DateFormat("EEEE - ha").format(date);
+    return DateFormat("MMM d'$ordinalDay' - ha").format(date);
+
+    /*return DateFormat("MMM d'$ordinalDay' - ha")
+        .format(date)
         .replaceAll('AM', 'am')
-        .replaceAll('PM', 'pm');
-  }
-
-  String getDate(item) { //maybe just use Margarida's function? It looks so pretty but don't need time
-    String startDate =
-          "${item.startDateTime.day.toString()}/${item.startDateTime.month.toString()}";
-    String endDate =
-          "${item.endDateTime.day.toString()}/${item.endDateTime.month.toString()}";
-    return "$startDate-$endDate";
+        .replaceAll('PM', 'pm');*/
   }
 
   @override
   Widget build(BuildContext context) {
-     dynamic item = widget.mediaEvent ?? widget.studentEvent;
+    dynamic item = widget.mediaEvent ?? widget.studentEvent;
     return GestureDetector(
         onTap: () {
           // TODO - Navigate to task page
@@ -89,8 +91,7 @@ class _MyEventCardState extends State<MyEventCard> {
                   ),
                   const SizedBox(height: 5),
                   Text(
-                    //formatDeadline(item.startDateTime),
-                    getDate(item),
+                    formatDate(item.startDateTime),
                     style: Theme.of(context).textTheme.bodyLarge,
                   ),
                 ],
