@@ -11,10 +11,7 @@ class MyEventCard extends StatefulWidget {
   final String module;
 
   const MyEventCard(
-      {Key? key,
-      this.mediaEvent,
-      this.studentEvent,
-      required this.module})
+      {Key? key, this.mediaEvent, this.studentEvent, required this.module})
       : super(key: key);
 
   @override
@@ -46,8 +43,17 @@ class _MyEventCardState extends State<MyEventCard> {
         .replaceAll('PM', 'pm');
   }
 
+  String getDate(item) { //maybe just use Margarida's function? It looks so pretty but don't need time
+    String startDate =
+          "${item.startDateTime.day.toString()}/${item.startDateTime.month.toString()}";
+    String endDate =
+          "${item.endDateTime.day.toString()}/${item.endDateTime.month.toString()}";
+    return "$startDate-$endDate";
+  }
+
   @override
   Widget build(BuildContext context) {
+     dynamic item = widget.mediaEvent ?? widget.studentEvent;
     return GestureDetector(
         onTap: () {
           // TODO - Navigate to task page
@@ -77,13 +83,14 @@ class _MyEventCardState extends State<MyEventCard> {
                 children: [
                   SizedBox(
                     width: 200, // Set width of Text widget to 200
-                    child: Text(widget.mediaEvent!.title,
+                    child: Text(item.title,
                         overflow: TextOverflow.ellipsis,
                         style: Theme.of(context).textTheme.labelLarge),
                   ),
                   const SizedBox(height: 5),
                   Text(
-                    formatDeadline(widget.mediaEvent!.startDateTime),
+                    //formatDeadline(item.startDateTime),
+                    getDate(item),
                     style: Theme.of(context).textTheme.bodyLarge,
                   ),
                 ],
