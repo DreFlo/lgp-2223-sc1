@@ -76,42 +76,36 @@ class _DashboardState extends State<Dashboard> {
       if (mediaEvents.isNotEmpty) {
         combined.addAll(mediaEvents);
       }
-      
+
       searchResults = combined;
       return combined;
     }
     return [];
   }
 
-  void loadEventsDB() async {
+  Future<List<TimeslotMediaTimeslotSuperEntity>> loadEventsDB() async {
     //only for Media
     mediaEvents = await serviceLocator<TimeslotMediaTimeslotSuperDao>()
         .findAllTimeslotMediaTimeslot();
-    setState(() {
-      mediaEvents = mediaEvents;
-    });
+    return mediaEvents;
   }
 
-  void loadTaskGroupsDB() async {
+  Future<List<TaskGroup>> loadTaskGroupsDB() async {
     //lil cards student
     taskGroups = await serviceLocator<TaskGroupDao>().findAllTaskGroups();
-    setState(() {
-      taskGroups = taskGroups;
-    });
+    return taskGroups;
   }
 
-  void loadTasksDB() async {
+  Future<List<Task>> loadTasksDB() async {
     //lil cards student (tasks that don't have a taskgroup)
     tasks = await serviceLocator<TaskDao>().findTasksWithoutTaskGroup();
-    setState(() {
-      tasks = tasks;
-    });
+    return tasks;
   }
 
   void loadDataDB() async {
-    loadTaskGroupsDB();
-    loadTasksDB();
-    loadEventsDB();
+    taskGroups = await loadTaskGroupsDB();
+    tasks = await loadTasksDB();
+    mediaEvents = await loadEventsDB();
     setState(() {
       loadedAllData = true;
     });
@@ -133,6 +127,9 @@ class _DashboardState extends State<Dashboard> {
 
   showWidget() {
     if (loadedAllData) {
+      if (searchResults == null || searchResults.isEmpty) {
+        searchResults = items;
+      }
       List<Task> taskResults = searchResults.whereType<Task>().toList();
       List<TaskGroup> taskGroupResults =
           searchResults.whereType<TaskGroup>().toList();
@@ -269,7 +266,7 @@ class _DashboardState extends State<Dashboard> {
               )
             ],
           ),
-          Expanded(child: showWidget())
+          loadedAllData ? Expanded(child: showWidget()) : Container(),
         ],
       ),
     );
