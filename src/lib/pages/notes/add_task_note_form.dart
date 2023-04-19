@@ -252,11 +252,11 @@ class _AddTaskNoteFormState extends State<AddTaskNoteForm> {
     errors = {};
 
     if (titleController.text.isEmpty) {
-      errors['title'] = 'Title is required';
+      errors['title'] = AppLocalizations.of(context).titleError;
     }
 
     if (contentController.text.isEmpty) {
-      errors['content'] = 'Content is required';
+      errors['content'] = AppLocalizations.of(context).contentError;
     }
 
     setState(() {});

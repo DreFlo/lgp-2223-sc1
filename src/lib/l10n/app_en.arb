@@ -89,5 +89,10 @@
   "studentErrorPastDate": "Date should not be in the past",
   "studentErrorTaskGroupAfterDate": "Date should not be after project date",
   "studentErrorPriority": "Missing priority",
-  "studentErrorSubject": "Subject must be selected or institution must be none"
+  "studentErrorSubject": "Subject must be selected or institution must be none",
+  "nameError": "Name is required",
+  "acronymError": "Acronym is required",
+  "weightAverageError": "Weight for Average is required",
+  "titleError": "Title is required",
+  "contentError": "Content is required"
 }

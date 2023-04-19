@@ -428,13 +428,13 @@ class _SubjectFormState extends State<SubjectForm> {
     String weightAverage = weightAverageController.text;
 
     if (name.isEmpty) {
-      errors['name'] = 'Name is required';
+      errors['name'] = AppLocalizations.of(context).nameError;
     }
     if (acronym.isEmpty) {
-      errors['acronym'] = 'Acronym is required';
+      errors['acronym'] = AppLocalizations.of(context).acronymError;
     }
     if (weightAverage.isEmpty) {
-      errors['weightAverage'] = 'Weight average is required';
+      errors['weightAverage'] = AppLocalizations.of(context).weightAverageError;
     }
 
     setState(() {});

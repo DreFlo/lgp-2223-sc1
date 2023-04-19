@@ -452,7 +452,7 @@ class _InstitutionFormState extends State<InstitutionForm> {
     errors = {};
 
     if (controller.text.isEmpty) {
-      errors['name'] = 'Name is required';
+      errors['name'] = AppLocalizations.of(context).nameError;
     }
 
     setState(() {});
