@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:src/widgets/home/homepage_horizontal_scrollview.dart';
 import 'package:src/widgets/home/profile_pic.dart';
-import 'package:src/widgets/home/task_listview.dart';
+import 'package:src/widgets/home/event_listview.dart';
 import 'package:src/widgets/home/welcome_message.dart';
 import 'package:src/models/timeslot/timeslot_media_timeslot_super_entity.dart';
 import 'package:src/daos/timeslot/timeslot_media_timeslot_super_dao.dart';
@@ -120,6 +120,19 @@ class _MyHomePageState extends State<MyHomePage> {
     }
   }
 
+    showWidget() {
+    switch (_selectedIndex) {
+      case 1:
+        return MyEventListView(
+        studentEvents: studentEvents);
+      case 2:
+        return MyEventListView(
+        mediaEvents: mediaEvents);
+      default:
+        return MyEventListView(studentEvents: studentEvents, mediaEvents: mediaEvents);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -142,7 +155,7 @@ class _MyHomePageState extends State<MyHomePage> {
                     setState(() => _selectedIndex = index),
               ),
               Expanded(
-                child: MyTaskListView(items: filterItems()),
+                child: showWidget(),
               )
             ],
           ),
