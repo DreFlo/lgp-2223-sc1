@@ -32,7 +32,7 @@ class _MyEventListViewState extends State<MyEventListView> {
 
   showCard(dynamic item) {
     if (widget.studentEvents != null &&
-       item is TimeslotStudentTimeslotSuperEntity) {
+        item is TimeslotStudentTimeslotSuperEntity) {
       return MyEventCard(module: 'Student', studentEvent: item);
     } else if (widget.mediaEvents != null &&
         item is TimeslotMediaTimeslotSuperEntity) {
@@ -48,8 +48,7 @@ class _MyEventListViewState extends State<MyEventListView> {
         scrollDirection: Axis.vertical,
         child: Column(
           children: [
-            for (var item in items)
-              showCard(item),
+            for (var item in items) showCard(item),
           ],
         ));
   }

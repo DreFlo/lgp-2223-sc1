@@ -32,7 +32,7 @@ class TimeslotStudentTimeslotSuperEntity {
         xpMultiplier = timeslot.xpMultiplier,
         finished = timeslot.finished,
         userId = timeslot.userId;
-        
+
   Timeslot toTimeslot() {
     return Timeslot(
       id: id,

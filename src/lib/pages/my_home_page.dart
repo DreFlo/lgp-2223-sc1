@@ -70,7 +70,7 @@ class _MyHomePageState extends State<MyHomePage> {
         finished: false),
   ];
 
-  @override 
+  @override
   void initState() {
     super.initState();
     loadEventsDB();
@@ -111,16 +111,15 @@ class _MyHomePageState extends State<MyHomePage> {
     }
   }*/
 
-    showWidget() {
+  showWidget() {
     switch (_selectedIndex) {
       case 1:
-        return MyEventListView(
-        studentEvents: studentEvents);
+        return MyEventListView(studentEvents: studentEvents);
       case 2:
-        return MyEventListView(
-        mediaEvents: mediaEvents);
+        return MyEventListView(mediaEvents: mediaEvents);
       default:
-        return MyEventListView(studentEvents: studentEvents, mediaEvents: mediaEvents);
+        return MyEventListView(
+            studentEvents: studentEvents, mediaEvents: mediaEvents);
     }
   }
 
@@ -145,8 +144,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 setSelectedIndex: (int index) =>
                     setState(() => _selectedIndex = index),
               ),
-              loadedAllData ? Expanded(
-                child: showWidget()) : Container()
+              loadedAllData ? Expanded(child: showWidget()) : Container()
             ],
           ),
         ],

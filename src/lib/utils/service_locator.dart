@@ -68,10 +68,10 @@ Future<void> setup(
       deleteDatabase('wokka_database.db');
     }
 
-    serviceLocator.registerSingletonAsync<AppDatabase>(() async =>
-        await $FloorAppDatabase
+    serviceLocator
+        .registerSingletonAsync<AppDatabase>(() async => await $FloorAppDatabase
             .databaseBuilder('wokka_database.db')
-           //.addMigrations(allMigrations)
+            //.addMigrations(allMigrations)
             .addCallback(addConstraintsCallback)
             .build());
   }

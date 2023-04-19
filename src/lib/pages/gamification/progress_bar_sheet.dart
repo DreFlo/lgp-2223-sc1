@@ -91,7 +91,7 @@ class _ProgressBarSheetState extends State<ProgressBarSheet> {
                               imagePath: pickedFile!.path);
                           await serviceLocator<UserDao>().updateUser(userNew);
 
-                          dynamic users=
+                          dynamic users =
                               await serviceLocator<UserDao>().findAllUsers();
                           setState(() {
                             image = pickedFile.path;

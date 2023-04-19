@@ -10,7 +10,9 @@ class DashBoardGridView extends StatefulWidget {
   final List<TaskGroup?>? taskGroups; //student
   final List<TimeslotMediaTimeslotSuperEntity?>? mediaEvents; //media
 
-  const DashBoardGridView({Key? key, this.tasks, this.taskGroups, this.mediaEvents}) : super(key: key);
+  const DashBoardGridView(
+      {Key? key, this.tasks, this.taskGroups, this.mediaEvents})
+      : super(key: key);
 
   @override
   State<DashBoardGridView> createState() => _DashBoardGridViewState();
@@ -25,14 +27,16 @@ class _DashBoardGridViewState extends State<DashBoardGridView> {
     if (widget.taskGroups != null) {
       combined.addAll(widget.taskGroups!);
     }
-    if(widget.mediaEvents != null){
+    if (widget.mediaEvents != null) {
       combined.addAll(widget.mediaEvents!);
     }
     return combined;
   }
 
   int getLength() {
-    if (widget.tasks != null && widget.taskGroups != null && widget.mediaEvents != null) {
+    if (widget.tasks != null &&
+        widget.taskGroups != null &&
+        widget.mediaEvents != null) {
       return items.length;
     } else if (widget.mediaEvents != null) {
       return widget.mediaEvents!.length;
@@ -43,21 +47,14 @@ class _DashBoardGridViewState extends State<DashBoardGridView> {
     }
   }
 
-  showCard(int index){
+  showCard(int index) {
     if (widget.tasks != null && items[index] is Task) {
-        return DashboardCard(
-          module: 'Student',
-          task: items[index]);
+      return DashboardCard(module: 'Student', task: items[index]);
     } else if (widget.taskGroups != null && items[index] is TaskGroup) {
-      return DashboardCard(
-          module: 'Student',
-          taskGroup: items[index]
-          );
-    } else if (widget.mediaEvents != null && items[index] is TimeslotMediaTimeslotSuperEntity) {
-      return DashboardCard(
-          module: 'Leisure',
-          mediaEvent: items[index]
-      );
+      return DashboardCard(module: 'Student', taskGroup: items[index]);
+    } else if (widget.mediaEvents != null &&
+        items[index] is TimeslotMediaTimeslotSuperEntity) {
+      return DashboardCard(module: 'Leisure', mediaEvent: items[index]);
     } else {
       return Container();
     }

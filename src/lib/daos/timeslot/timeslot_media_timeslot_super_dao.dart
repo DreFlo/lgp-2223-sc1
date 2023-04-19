@@ -14,27 +14,32 @@ class TimeslotMediaTimeslotSuperDao {
 
   TimeslotMediaTimeslotSuperDao._internal();
 
-  Future<List<TimeslotMediaTimeslotSuperEntity>> findAllTimeslotMediaTimeslot() {
-    return serviceLocator<MediaTimeslotDao>().findAllMediaTimeslots().then((mediaTimeslots) async {
-      List<TimeslotMediaTimeslotSuperEntity> timeslotMediaTimeslotSuperEntities =
-          [];
-      
-      for (var mediaTimeslot in mediaTimeslots) {
-        final timeslot = await
-            serviceLocator<TimeslotDao>().findTimeslotById(mediaTimeslot.id);
-       
-         if (timeslot != null) {
-            final timeslotMediaTimeslotSuperEntity = TimeslotMediaTimeslotSuperEntity.fromTimeslotMediaTimeslotEntity(
-          mediaTimeslot,
-          timeslot,
-        );
-        timeslotMediaTimeslotSuperEntities.add(timeslotMediaTimeslotSuperEntity);
-      }
-    }
+  Future<List<TimeslotMediaTimeslotSuperEntity>>
+      findAllTimeslotMediaTimeslot() {
+    return serviceLocator<MediaTimeslotDao>()
+        .findAllMediaTimeslots()
+        .then((mediaTimeslots) async {
+      List<TimeslotMediaTimeslotSuperEntity>
+          timeslotMediaTimeslotSuperEntities = [];
 
-    return timeslotMediaTimeslotSuperEntities;
-  });
-}
+      for (var mediaTimeslot in mediaTimeslots) {
+        final timeslot = await serviceLocator<TimeslotDao>()
+            .findTimeslotById(mediaTimeslot.id);
+
+        if (timeslot != null) {
+          final timeslotMediaTimeslotSuperEntity =
+              TimeslotMediaTimeslotSuperEntity.fromTimeslotMediaTimeslotEntity(
+            mediaTimeslot,
+            timeslot,
+          );
+          timeslotMediaTimeslotSuperEntities
+              .add(timeslotMediaTimeslotSuperEntity);
+        }
+      }
+
+      return timeslotMediaTimeslotSuperEntities;
+    });
+  }
 
   Future<int> insertTimeslotMediaTimeslotSuperEntity(
     TimeslotMediaTimeslotSuperEntity timeslotMediaTimeslotSuperEntity,

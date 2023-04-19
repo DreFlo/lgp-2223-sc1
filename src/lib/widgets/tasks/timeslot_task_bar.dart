@@ -18,7 +18,6 @@ class TimeslotTaskBar extends StatefulWidget {
 
   @override
   State<TimeslotTaskBar> createState() => _TimeslotTaskBarState();
-
 }
 
 class _TimeslotTaskBarState extends State<TimeslotTaskBar> {
@@ -56,14 +55,14 @@ class _TimeslotTaskBarState extends State<TimeslotTaskBar> {
                       return setState(() {
                         widget.taskStatus = !widget.taskStatus;
                       });
-
-                      
                     },
                     child: Container(
                       padding: const EdgeInsets.all(5),
                       decoration: BoxDecoration(
                           shape: BoxShape.circle,
-                          color: (widget.taskStatus ? Colors.green : Colors.white)),
+                          color: (widget.taskStatus
+                              ? Colors.green
+                              : Colors.white)),
                       child: const Icon(Icons.check_rounded, size: 20),
                     ))
               ],

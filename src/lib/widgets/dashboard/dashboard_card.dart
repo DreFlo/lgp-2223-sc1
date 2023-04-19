@@ -42,8 +42,8 @@ class _DashboardCardState extends State<DashboardCard> {
   void initState() {
     super.initState();
     getSubjectOrDate().then((value) => setState(() {
-      subjectOrDate = value;
-    }));
+          subjectOrDate = value;
+        }));
   }
 
   String getTitle() {
@@ -58,14 +58,16 @@ class _DashboardCardState extends State<DashboardCard> {
     }
   }
 
-  Future<String> getSubjectOrDate() async{
+  Future<String> getSubjectOrDate() async {
     if (widget.task != null) {
       return await loadSubject();
     } else if (widget.taskGroup != null) {
       return await loadSubject();
     } else if (widget.mediaEvent != null) {
-      String startDate = "${widget.mediaEvent!.startDateTime.day.toString()}/${widget.mediaEvent!.startDateTime.month.toString()}";
-      String endDate = "${widget.mediaEvent!.endDateTime.day.toString()}/${widget.mediaEvent!.endDateTime.month.toString()}";
+      String startDate =
+          "${widget.mediaEvent!.startDateTime.day.toString()}/${widget.mediaEvent!.startDateTime.month.toString()}";
+      String endDate =
+          "${widget.mediaEvent!.endDateTime.day.toString()}/${widget.mediaEvent!.endDateTime.month.toString()}";
       return "$startDate-$endDate";
     } else {
       return '';
@@ -77,11 +79,12 @@ class _DashboardCardState extends State<DashboardCard> {
     if (widget.task != null) {
       id = widget.task?.subjectId;
     } //else if (widget.taskGroup != null) {
-      //id = widget.taskGroup?.subjectId; //when student-backend is merged with this branch
+    //id = widget.taskGroup?.subjectId; //when student-backend is merged with this branch
     //}
-    if(id != null){
+    if (id != null) {
       final subjectStream = serviceLocator<SubjectDao>().findSubjectById(id);
-      Subject? firstNonNullSubject = await subjectStream.firstWhere((subject) => subject != null, orElse: () => null);
+      Subject? firstNonNullSubject = await subjectStream
+          .firstWhere((subject) => subject != null, orElse: () => null);
       return firstNonNullSubject?.name ?? '';
     }
     return '';

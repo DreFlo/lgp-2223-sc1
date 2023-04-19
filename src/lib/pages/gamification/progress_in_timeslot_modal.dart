@@ -99,11 +99,8 @@ class _ProgressInTimeslotModalState extends State<ProgressInTimeslotModal> {
           Text("we're missing an Emil variation here")
           //TODO: add Emil
         ]),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-          Text(
-            AppLocalizations.of(context).event_progress_5,
+        Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+          Text(AppLocalizations.of(context).event_progress_5,
               style: Theme.of(context).textTheme.displayMedium,
               textAlign: TextAlign.center)
         ]),

@@ -69,6 +69,4 @@ class Points {
   }
 }
 
-
-
 //Note for Friday meeting or whenever we can talk to André: show the formula + ask what do we need to store in xpMultiplier

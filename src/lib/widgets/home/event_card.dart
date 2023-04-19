@@ -37,15 +37,30 @@ class _MyEventCardState extends State<MyEventCard> {
     String ordinalDay = (date.day >= 11 && date.day <= 13)
         ? 'th'
         : suffixes[date.day % 10] ?? 'th';
-    
-    bool isToday = DateTime.now().day == date.day && DateTime.now().month == date.month && DateTime.now().year == date.year;
-    bool isTomorrow = DateTime.now().day + 1 == date.day && DateTime.now().month == date.month && DateTime.now().year == date.year;
+
+    bool isToday = DateTime.now().day == date.day &&
+        DateTime.now().month == date.month &&
+        DateTime.now().year == date.year;
+    bool isTomorrow = DateTime.now().day + 1 == date.day &&
+        DateTime.now().month == date.month &&
+        DateTime.now().year == date.year;
     int daysDifference = date.difference(DateTime.now()).inDays;
 
-    if (isToday) return 'Today at ${DateFormat("ha").format(date).replaceAll('AM', 'am').replaceAll('PM', 'pm')}';
-    if (isTomorrow) return 'Tomorrow at ${DateFormat("ha").format(date).replaceAll('AM', 'am').replaceAll('PM', 'pm')}';
-    if (daysDifference > 0 && daysDifference < 7) return DateFormat("EEEE - ha").format(date).replaceAll('AM', 'am').replaceAll('PM', 'pm');
-    return DateFormat("MMM d'$ordinalDay' - ha").format(date).replaceAll('AM', 'am')
+    if (isToday) {
+      return 'Today at ${DateFormat("ha").format(date).replaceAll('AM', 'am').replaceAll('PM', 'pm')}';
+    }
+    if (isTomorrow) {
+      return 'Tomorrow at ${DateFormat("ha").format(date).replaceAll('AM', 'am').replaceAll('PM', 'pm')}';
+    }
+    if (daysDifference > 0 && daysDifference < 7) {
+      return DateFormat("EEEE - ha")
+          .format(date)
+          .replaceAll('AM', 'am')
+          .replaceAll('PM', 'pm');
+    }
+    return DateFormat("MMM d'$ordinalDay' - ha")
+        .format(date)
+        .replaceAll('AM', 'am')
         .replaceAll('PM', 'pm');
   }
 

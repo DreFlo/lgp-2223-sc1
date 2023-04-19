@@ -568,8 +568,12 @@ void main() {
   testWidgets('Test SuperDAO for Media/MediaTimeslot',
       (WidgetTester tester) async {
     await tester.runAsync(() async {
-      await serviceLocator<UserDao>().insertUser(
-          User(userName: 'Emil', password: '1234', xp: 23, imagePath: 'test', level: 1));
+      await serviceLocator<UserDao>().insertUser(User(
+          userName: 'Emil',
+          password: '1234',
+          xp: 23,
+          imagePath: 'test',
+          level: 1));
 
       int seriesId = await serviceLocator<MediaDao>().insertMedia(Media(
           name: 'name',
@@ -617,8 +621,12 @@ void main() {
   testWidgets('Test SuperDAO for Task/StudentTimeslot',
       (WidgetTester tester) async {
     await tester.runAsync(() async {
-      await serviceLocator<UserDao>().insertUser(
-          User(userName: 'Emil', password: '1234', xp: 23, imagePath: 'test', level: 1));
+      await serviceLocator<UserDao>().insertUser(User(
+          userName: 'Emil',
+          password: '1234',
+          xp: 23,
+          imagePath: 'test',
+          level: 1));
 
       await serviceLocator<InstitutionDao>().insertInstitution(Institution(
           name: 'name',

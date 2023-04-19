@@ -834,7 +834,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                                     finished: false),
                               ])));
                 }),
-                ElevatedButton(
+            ElevatedButton(
                 child: Text("progress in timeslot"),
                 onPressed: () {
                   showDialog(
@@ -846,14 +846,16 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                             borderRadius: BorderRadius.circular(30),
                           ),
                           child: ProgressInTimeslotModal(
-                            modules: const [Module.student, Module.fitness, Module.personal],
+                            modules: const [
+                              Module.student,
+                              Module.fitness,
+                              Module.personal
+                            ],
                             taskCount: 5,
                             finishedTaskCount: 3,
-                          )
-                      )
-                  );
+                          )));
                 }),
-                ElevatedButton(
+            ElevatedButton(
                 child: Text("no progress in timeslot"),
                 onPressed: () {
                   showDialog(
@@ -864,9 +866,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(30),
                           ),
-                          child: NoProgressInTimeslotModal()
-                      )
-                  );
+                          child: NoProgressInTimeslotModal()));
                 }),
             FutureBuilder(
                 key: ValueKey<Object>(redrawObject),
