@@ -1,16 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:src/models/timeslot/timeslot_media_timeslot_super_entity.dart';
+import 'package:src/models/timeslot/timeslot_student_timeslot_super_entity.dart';
+
 import 'package:src/themes/colors.dart';
 
 class MyEventCard extends StatefulWidget {
-  final String name;
-  final DateTime deadline;
+  final TimeslotMediaTimeslotSuperEntity? mediaEvent;
+  final TimeslotStudentTimeslotSuperEntity? studentEvent;
   final String module;
 
   const MyEventCard(
       {Key? key,
-      required this.name,
-      required this.deadline,
+      this.mediaEvent,
+      this.studentEvent,
       required this.module})
       : super(key: key);
 
@@ -74,13 +77,13 @@ class _MyEventCardState extends State<MyEventCard> {
                 children: [
                   SizedBox(
                     width: 200, // Set width of Text widget to 200
-                    child: Text(widget.name,
+                    child: Text(widget.mediaEvent!.title,
                         overflow: TextOverflow.ellipsis,
                         style: Theme.of(context).textTheme.labelLarge),
                   ),
                   const SizedBox(height: 5),
                   Text(
-                    formatDeadline(widget.deadline),
+                    formatDeadline(widget.mediaEvent!.startDateTime),
                     style: Theme.of(context).textTheme.bodyLarge,
                   ),
                 ],
