@@ -3,9 +3,8 @@ import 'package:src/utils/leisure/media_page_helpers.dart';
 
 class SearchResults extends StatelessWidget {
   final Map media;
-  final VoidCallback? refreshMedia;
 
-  const SearchResults({Key? key, required this.media, this.refreshMedia})
+  const SearchResults({Key? key, required this.media})
       : super(key: key);
 
   @override
