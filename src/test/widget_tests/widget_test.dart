@@ -8,14 +8,22 @@
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import 'package:flutter_test/flutter_test.dart';
+import 'package:mockito/mockito.dart';
 import 'package:src/utils/service_locator.dart';
 import 'package:src/pages/catalog_search/leisure_module.dart';
 import 'package:flutter/material.dart';
 import 'package:src/pages/catalog_search/search_bar.dart';
+import 'package:src/pages/catalog_search/search_results.dart';
+import 'package:src/pages/leisure/finished_media_form.dart';
+import 'package:src/models/media/media.dart';
+import 'package:src/daos/media/media_dao.dart';
+import 'package:src/models/media/review.dart';
+import 'package:src/daos/media/review_dao.dart';
 import 'package:src/pages/catalog_search/leisure_module/search.dart';
-
+import 'package:src/utils/enums.dart';
 
 import '../utils/service_locator_test_util.dart';
+import '../utils/service_locator_test_util.mocks.dart';
 
 class LocalizationsInjector extends StatelessWidget {
   final Widget child;
@@ -60,9 +68,11 @@ void main() {
     expect(find.text('1'), findsOneWidget);
   });*/
 
-  testWidgets('LeisureModule displays two tabs and a search bar', (WidgetTester tester) async {
+  testWidgets('LeisureModule displays two tabs and a search bar',
+      (WidgetTester tester) async {
     // Build the LeisureModule widget
-    await tester.pumpWidget(const LocalizationsInjector(child: LeisureModule()));
+    await tester
+        .pumpWidget(const LocalizationsInjector(child: LeisureModule()));
 
     // Verify that the widget displays two tabs
     expect(find.text('My Media'), findsOneWidget);
@@ -76,9 +86,11 @@ void main() {
     expect(find.widgetWithIcon(SearchBar, Icons.search), findsOneWidget);
   });
 
-  testWidgets('SearchMedia widget displays splash screen and tabs', (WidgetTester tester) async {
+  testWidgets('SearchMedia widget displays splash screen and tabs',
+      (WidgetTester tester) async {
     // Build the widget
-    await tester.pumpWidget(const LocalizationsInjector(child: SearchMedia(search: 'test')));
+    await tester.pumpWidget(
+        const LocalizationsInjector(child: SearchMedia(search: 'test')));
 
     // Verify that the splash screen is displayed
     expect(find.byType(Image), findsOneWidget);
@@ -93,18 +105,27 @@ void main() {
     expect(find.text('Books'), findsOneWidget);
   });
 
-  testWidgets('SearchBar widget should call onSearch with the entered text', (WidgetTester tester) async {
-  String searchedText = '';
+  testWidgets('SearchBar widget should call onSearch with the entered text',
+      (WidgetTester tester) async {
+    String searchedText = '';
 
-  await tester.pumpWidget(LocalizationsInjector(child: SearchBar(
-      onSearch: (text) {
-        searchedText = text;
-      },
-    ),
-  ));
+    await tester.pumpWidget(LocalizationsInjector(
+      child: SearchBar(
+        onSearch: (text) {
+          searchedText = text;
+        },
+      ),
+    ));
 
-  // Enter text into the search bar
-  await tester.enterText(find.byType(TextField), 'test search');
+    // Enter text into the search bar
+    await tester.enterText(find.byType(TextField), 'test search');
+
+    // Submit the search
+    await tester.testTextInput.receiveAction(TextInputAction.search);
+
+    // Verify that onSearch was called with the entered text
+    expect(searchedText, equals('test search'));
+  });
 
   // Submit the search
   await tester.testTextInput.receiveAction(TextInputAction.search);
