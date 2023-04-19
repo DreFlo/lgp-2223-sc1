@@ -140,7 +140,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   child: WelcomeMessage(name: name)),
               const BadgePlaceholder(),
               HorizontalScrollView(
-                nItems: items.length,
+                nItems: studentEvents.length + mediaEvents.length,
                 selectedIndex: _selectedIndex,
                 setSelectedIndex: (int index) =>
                     setState(() => _selectedIndex = index),
