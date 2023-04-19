@@ -8,8 +8,8 @@ class MyEventListView extends StatefulWidget {
   final List<TimeslotMediaTimeslotSuperEntity?>? mediaEvents;
   final List<TimeslotStudentTimeslotSuperEntity?>? studentEvents;
 
-  const MyEventListView({Key? key, this.mediaEvents
-  , this.studentEvents}) : super(key: key);
+  const MyEventListView({Key? key, this.mediaEvents, this.studentEvents})
+      : super(key: key);
 
   @override
   State<MyEventListView> createState() => _MyEventListViewState();
@@ -27,6 +27,18 @@ class _MyEventListViewState extends State<MyEventListView> {
     return combined;
   }
 
+  showCard(dynamic item) {
+    if (widget.studentEvents != null &&
+       item is TimeslotStudentTimeslotSuperEntity) {
+      return MyEventCard(module: 'Student', studentEvent: item);
+    } else if (widget.mediaEvents != null &&
+        item is TimeslotMediaTimeslotSuperEntity) {
+      return MyEventCard(module: 'Leisure', mediaEvent: item);
+    } else {
+      return Container();
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
@@ -34,10 +46,7 @@ class _MyEventListViewState extends State<MyEventListView> {
         child: Column(
           children: [
             for (var item in items)
-              MyEventCard(
-                  name: item.name,
-                  deadline: item.deadline,
-                  module: item.description)
+              showCard(item),
           ],
         ));
   }
