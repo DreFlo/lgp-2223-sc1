@@ -26,9 +26,10 @@ class _NoProgressInTimeslotModalState extends State<NoProgressInTimeslotModal> {
         ]),
         const SizedBox(height: 5),
         Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-          Text(AppLocalizations.of(context).event_no_progress_2,
-              textAlign: TextAlign.center,
-              style: Theme.of(context).textTheme.displayMedium)
+          Expanded(
+              child: Text(AppLocalizations.of(context).event_no_progress_2,
+                  textAlign: TextAlign.center,
+                  style: Theme.of(context).textTheme.displayMedium))
         ]),
         const SizedBox(height: 30),
         Row(mainAxisAlignment: MainAxisAlignment.center, children: const [

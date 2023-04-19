@@ -5,9 +5,14 @@
 // gestures. You can also use WidgetTester to find child widgets in the widget
 // tree, read text, and verify that the values of widget properties are correct.
 
+import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:mockito/mockito.dart';
+import 'package:src/daos/student/institution_dao.dart';
+import 'package:src/pages/gamification/gained_xp_toast.dart';
 import 'package:src/utils/service_locator.dart';
 
+import '../utils/locations_injector.dart';
 import '../utils/service_locator_test_util.dart';
 
 void main() {
@@ -39,3 +44,4 @@ void main() {
     // expect(find.text('1'), findsOneWidget);*/
   });
 }
+

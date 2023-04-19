@@ -101,7 +101,9 @@ class _GainedXPToastState extends State<GainedXPToast>
                 Column(mainAxisAlignment: MainAxisAlignment.center, children: [
               Row(children: [
                 Text(
+                  
                   AppLocalizations.of(context).gained_xp,
+                  key: const Key("gained_xp_toast_text"),
                   style: const TextStyle(
                     color: Colors.white,
                     fontSize: 20,
