@@ -139,6 +139,7 @@ class _SubjectFormState extends State<SubjectForm> {
                           Flexible(
                               flex: 10,
                               child: TextField(
+                                  key: const Key('nameField'),
                                   controller: nameController,
                                   style: const TextStyle(
                                       fontSize: 20,
@@ -198,6 +199,7 @@ class _SubjectFormState extends State<SubjectForm> {
                           Flexible(
                               flex: 10,
                               child: TextField(
+                                  key: const Key('acronymField'),
                                   controller: acronymController,
                                   style: const TextStyle(
                                       fontSize: 20,
@@ -242,6 +244,7 @@ class _SubjectFormState extends State<SubjectForm> {
                           Flexible(
                               flex: 10,
                               child: TextField(
+                                  key: const Key('weightAverageField'),
                                   controller: weightAverageController,
                                   keyboardType: TextInputType.number,
                                   inputFormatters: [
@@ -317,6 +320,7 @@ class _SubjectFormState extends State<SubjectForm> {
                             type: InstitutionType.other,
                             userId: 1));
                     return DropdownButton<Institution>(
+                        key: const Key('institutionField'),
                         isExpanded: true,
                         value: institutionId == -1
                             ? snapshot.data!.first
@@ -442,6 +446,7 @@ class _SubjectFormState extends State<SubjectForm> {
       return Row(
         children: [
           ElevatedButton(
+              key: const Key('saveSubjectButton'),
               onPressed: () async {
                 await save(context);
               },
@@ -456,6 +461,7 @@ class _SubjectFormState extends State<SubjectForm> {
                   style: Theme.of(context).textTheme.headlineSmall)),
           const SizedBox(width: 20),
           ElevatedButton(
+              key: const Key('deleteSubjectButton'),
               onPressed: () async {
                 await showDeleteConfirmation(context);
               },
@@ -475,6 +481,7 @@ class _SubjectFormState extends State<SubjectForm> {
 
   showDeleteConfirmation(BuildContext context) {
     Widget cancelButton = TextButton(
+      key: const Key('cancelDeleteSubjectButton'),
       child: Text(AppLocalizations.of(context).cancel,
           style: const TextStyle(
               color: Colors.white, fontSize: 16, fontWeight: FontWeight.w600),
@@ -485,6 +492,7 @@ class _SubjectFormState extends State<SubjectForm> {
     );
 
     Widget deleteButton = TextButton(
+      key: const Key('deleteSubjectConfirmationButton'),
       child: Text(AppLocalizations.of(context).delete,
           style: const TextStyle(
               color: Colors.white, fontSize: 16, fontWeight: FontWeight.w600),
@@ -510,8 +518,7 @@ class _SubjectFormState extends State<SubjectForm> {
           style: const TextStyle(
               color: Colors.white, fontSize: 20, fontWeight: FontWeight.w600),
           textAlign: TextAlign.center),
-      content: Text(
-          AppLocalizations.of(context).delete_subject_message,
+      content: Text(AppLocalizations.of(context).delete_subject_message,
           style: const TextStyle(
               color: Colors.white, fontSize: 14, fontWeight: FontWeight.w600),
           textAlign: TextAlign.center),
