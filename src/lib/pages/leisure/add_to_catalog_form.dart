@@ -8,12 +8,14 @@ import 'package:src/utils/enums.dart';
 class AddToCatalogForm extends StatefulWidget {
   final String startDate, endDate;
   final Status status;
+  final ValueSetter<Status> onStatusChanged;
 
   const AddToCatalogForm(
       {Key? key,
       required this.startDate,
       required this.endDate,
-      required this.status})
+      required this.status,
+      required this.onStatusChanged})
       : super(key: key);
 
   @override
@@ -64,36 +66,38 @@ class _AddToCatalogFormState extends State<AddToCatalogForm> {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
-                Expanded(child: 
-                InkWell(
-                  highlightColor: lightGray,
-                  borderRadius: const BorderRadius.all(Radius.circular(10)),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Container(
-                          height: 50,
-                          padding: const EdgeInsets.only(left: 20, right: 20),
-                          alignment: const Alignment(0, 0),
-                          decoration: BoxDecoration(
-                              borderRadius:
-                                  const BorderRadius.all(Radius.circular(10)),
-                              color: (status == Status.planTo
-                                  ? leisureColor
-                                  : lightGray)),
-                          child: Text(AppLocalizations.of(context).plan_to,
-                              style: Theme.of(context).textTheme.bodySmall)),
-                    ],
+                Expanded(
+                  child: InkWell(
+                    highlightColor: lightGray,
+                    borderRadius: const BorderRadius.all(Radius.circular(10)),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Container(
+                            height: 50,
+                            padding: const EdgeInsets.only(left: 20, right: 20),
+                            alignment: const Alignment(0, 0),
+                            decoration: BoxDecoration(
+                                borderRadius:
+                                    const BorderRadius.all(Radius.circular(10)),
+                                color: (status == Status.planTo
+                                    ? leisureColor
+                                    : lightGray)),
+                            child: Text(AppLocalizations.of(context).plan_to,
+                                style: Theme.of(context).textTheme.bodySmall)),
+                      ],
+                    ),
+                    onTap: () {
+                      setState(() {
+                        status = Status.planTo;
+                      });
+                      widget.onStatusChanged(status);
+                    },
                   ),
-                  onTap: () {
-                    status = Status.planTo;
-
-                    setState(() {});
-                  },
                 ),
-                ),
-                const SizedBox(width: 15), 
-                Expanded(child: InkWell(
+                const SizedBox(width: 15),
+                Expanded(
+                    child: InkWell(
                   highlightColor: lightGray,
                   borderRadius: const BorderRadius.all(Radius.circular(10)),
                   child: Column(
@@ -115,20 +119,21 @@ class _AddToCatalogFormState extends State<AddToCatalogForm> {
                     ],
                   ),
                   onTap: () {
-                    status = Status.goingThrough;
-
-                    setState(() {});
+                    setState(() {
+                      status = Status.goingThrough;
+                    });
+                    widget.onStatusChanged(status);
                   },
                 )),
               ],
             ),
             const SizedBox(height: 10),
-            const SizedBox(width: 5), 
+            const SizedBox(width: 5),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
-                Expanded(child: 
-                InkWell(
+                Expanded(
+                    child: InkWell(
                   highlightColor: lightGray,
                   borderRadius: const BorderRadius.all(Radius.circular(10)),
                   child: Column(
@@ -149,13 +154,15 @@ class _AddToCatalogFormState extends State<AddToCatalogForm> {
                     ],
                   ),
                   onTap: () {
-                    status = Status.done;
-
-                    setState(() {});
+                    setState(() {
+                      status = Status.done;
+                    });
+                    widget.onStatusChanged(status);
                   },
                 )),
-                const SizedBox(width: 15), 
-                Expanded(child: InkWell(
+                const SizedBox(width: 15),
+                Expanded(
+                    child: InkWell(
                   highlightColor: lightGray,
                   borderRadius: const BorderRadius.all(Radius.circular(10)),
                   child: Column(
@@ -176,9 +183,10 @@ class _AddToCatalogFormState extends State<AddToCatalogForm> {
                     ],
                   ),
                   onTap: () {
-                    status = Status.dropped;
-
-                    setState(() {});
+                    setState(() {
+                      status = Status.dropped;
+                    });
+                    widget.onStatusChanged(status);
                   },
                 ))
               ],

@@ -137,7 +137,8 @@ class _HomePageState extends State<HomePage> {
                                           startDate: DateTime.now()
                                               .toString()
                                               .split(" ")[0],
-                                          endDate: 'Not Defined'))),
+                                          endDate: 'Not Defined',
+                                          onStatusChanged: (value) => value,))),
                               Positioned(
                                   left: 16,
                                   right: 16,
@@ -312,7 +313,8 @@ class _HomePageState extends State<HomePage> {
                                           startDate: DateTime.now()
                                               .toString()
                                               .split(" ")[0],
-                                          endDate: 'Not Defined'))),
+                                          endDate: 'Not Defined',
+                                          onStatusChanged: (value) => value,))),
                               Positioned(
                                   left: 16,
                                   right: 16,

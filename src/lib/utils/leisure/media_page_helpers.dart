@@ -253,49 +253,49 @@ showMediaPageForBooks(dynamic item, context) async {
 }
 
 List<String> makeCastList(Map cast) {
-    List<String> castList = [];
-    cast['cast'].forEach((item) {
-      String name = item['name'] ?? '';
-      castList.add(name);
-    });
-    return castList;
-  }
+  List<String> castList = [];
+  cast['cast'].forEach((item) {
+    String name = item['name'] ?? '';
+    castList.add(name);
+  });
+  return castList;
+}
 
 Future<Map> getDetails(int id, String type) async {
-    final tmdb = TMDB(ApiKeys(Env.tmdbApiKey, 'apiReadAccessTokenv4'));
-    final Map<int, Map<dynamic, dynamic>> episodes = {};
-    final Map<int, List<dynamic>> fullEpisodes = {};
+  final tmdb = TMDB(ApiKeys(Env.tmdbApiKey, 'apiReadAccessTokenv4'));
+  final Map<int, Map<dynamic, dynamic>> episodes = {};
+  final Map<int, List<dynamic>> fullEpisodes = {};
 
-    if (type == 'Movie') {
-      Map result = await tmdb.v3.movies.getDetails(id);
-      Map cast = await tmdb.v3.movies.getCredits(id);
-      List<String> castNames = makeCastList(cast);
-      result['cast'] = castNames;
-      return result;
-    } else if (type == 'TV') {
-      Map result = await tmdb.v3.tv.getDetails(id);
-      Map cast = await tmdb.v3.tv.getCredits(id);
-      List<String> castNames = makeCastList(cast);
-      result['cast'] = castNames;
+  if (type == 'Movie') {
+    Map result = await tmdb.v3.movies.getDetails(id);
+    Map cast = await tmdb.v3.movies.getCredits(id);
+    List<String> castNames = makeCastList(cast);
+    result['cast'] = castNames;
+    return result;
+  } else if (type == 'TV') {
+    Map result = await tmdb.v3.tv.getDetails(id);
+    Map cast = await tmdb.v3.tv.getCredits(id);
+    List<String> castNames = makeCastList(cast);
+    result['cast'] = castNames;
 
-      // Get all episodes
-      for (int season = 1; season <= result['number_of_seasons']; season++) {
-        Map episodeSeason = await tmdb.v3.tvSeasons.getDetails(id, season);
-        if (episodeSeason['episodes'][0]['runtime'] != null) {
-          result['runtime'] = episodeSeason['episodes'][0]['runtime'];
-        }
-        Map episodeNumbersNames = makeEpisodeNameMap(episodeSeason);
-        episodes[season] = episodeNumbersNames;
-        fullEpisodes[season] = episodeSeason['episodes'];
+    // Get all episodes
+    for (int season = 1; season <= result['number_of_seasons']; season++) {
+      Map episodeSeason = await tmdb.v3.tvSeasons.getDetails(id, season);
+      if (episodeSeason['episodes'][0]['runtime'] != null) {
+        result['runtime'] = episodeSeason['episodes'][0]['runtime'];
       }
-      result['episodes'] = episodes;
-      result['full_episodes'] = fullEpisodes;
-      return result;
-    } else {
-      return {};
+      Map episodeNumbersNames = makeEpisodeNameMap(episodeSeason);
+      episodes[season] = episodeNumbersNames;
+      fullEpisodes[season] = episodeSeason['episodes'];
     }
+    result['episodes'] = episodes;
+    result['full_episodes'] = fullEpisodes;
+    return result;
+  } else {
+    return {};
   }
-  
+}
+
 Map<int, String> makeEpisodeNameMap(Map episodes) {
   Map<int, String> episodeNameMap = {};
   episodes['episodes'].forEach((item) {

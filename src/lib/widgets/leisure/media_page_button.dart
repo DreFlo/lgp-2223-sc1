@@ -67,6 +67,7 @@ class _MediaPageButtonState extends State<MediaPageButton> {
   @override
   Widget build(BuildContext context) {
     final tmdb = TMDB(ApiKeys(Env.tmdbApiKey, 'apiReadAccessTokenv4'));
+    Status selectedStatus = status;
 
     if (!isStatusLoaded) {
       // Show a loading indicator while the status is being loaded.
@@ -101,11 +102,14 @@ class _MediaPageButtonState extends State<MediaPageButton> {
                                   child: SingleChildScrollView(
                                       controller: scrollController,
                                       child: AddToCatalogForm(
-                                          status: Status.nothing,
-                                          startDate: DateTime.now()
-                                              .toString()
-                                              .split(" ")[0],
-                                          endDate: 'Not Defined'))),
+                                        status: Status.nothing,
+                                        startDate: DateTime.now()
+                                            .toString()
+                                            .split(" ")[0],
+                                        endDate: 'Not Defined',
+                                        onStatusChanged: (value) =>
+                                            selectedStatus = value,
+                                      ))),
                               Positioned(
                                   left: 16,
                                   right: 16,
@@ -134,7 +138,7 @@ class _MediaPageButtonState extends State<MediaPageButton> {
                                                 widget.item['overview'],
                                             linkImage:
                                                 widget.item['poster_path'],
-                                            status: status,
+                                            status: selectedStatus,
                                             favorite: false,
                                             genres: 'genres',
                                             release: DateTime.parse(
@@ -174,31 +178,31 @@ class _MediaPageButtonState extends State<MediaPageButton> {
                                               i <=
                                                   details['number_of_episodes'];
                                               i++) {
-                                                if (details['full_episodes'][i] == null) {
-                                                  continue;
-                                                }
+                                            if (details['full_episodes'][i] ==
+                                                null) {
+                                              continue;
+                                            }
+                                            // TODO Add episodes to database with same status as the series, doesn't make the most sense
                                             details['full_episodes'][i]!
                                                 .forEach((value) {
-                                              serviceLocator<
-                                                      MediaVideoEpisodeSuperDao>()
+                                              serviceLocator<MediaVideoEpisodeSuperDao>()
                                                   .insertMediaVideoEpisodeSuperEntity(
                                                       MediaVideoEpisodeSuperEntity(
                                                           name: value['name'],
-                                                          description: value[
-                                                              'overview'],
+                                                          description:
+                                                              value['overview'],
                                                           linkImage: value[
                                                               'still_path'],
-                                                          status: status,
+                                                          status: selectedStatus,
                                                           favorite: false,
                                                           genres: 'genres',
-                                                          release: DateTime.parse(
-                                                              value[
+                                                          release: DateTime
+                                                              .parse(value[
                                                                   'air_date']),
                                                           xp: 0,
                                                           participants: '',
                                                           duration:
-                                                              value[
-                                                                  'runtime'],
+                                                              value['runtime'],
                                                           number: value[
                                                               'episode_number'],
                                                           seasonId:
@@ -419,11 +423,14 @@ class _MediaPageButtonState extends State<MediaPageButton> {
                                   child: SingleChildScrollView(
                                       controller: scrollController,
                                       child: AddToCatalogForm(
-                                          status: Status.nothing,
-                                          startDate: DateTime.now()
-                                              .toString()
-                                              .split(" ")[0],
-                                          endDate: 'Not Defined'))),
+                                        status: Status.nothing,
+                                        startDate: DateTime.now()
+                                            .toString()
+                                            .split(" ")[0],
+                                        endDate: 'Not Defined',
+                                        onStatusChanged: (value) =>
+                                            selectedStatus = value,
+                                      ))),
                               Positioned(
                                   left: 16,
                                   right: 16,
@@ -635,11 +642,14 @@ class _MediaPageButtonState extends State<MediaPageButton> {
                                   child: SingleChildScrollView(
                                       controller: scrollController,
                                       child: AddToCatalogForm(
-                                          status: Status.nothing,
-                                          startDate: DateTime.now()
-                                              .toString()
-                                              .split(" ")[0],
-                                          endDate: 'Not Defined'))),
+                                        status: Status.nothing,
+                                        startDate: DateTime.now()
+                                            .toString()
+                                            .split(" ")[0],
+                                        endDate: 'Not Defined',
+                                        onStatusChanged: (value) =>
+                                            selectedStatus = value,
+                                      ))),
                               Positioned(
                                   left: 16,
                                   right: 16,
