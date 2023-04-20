@@ -6,7 +6,7 @@ final mockMediaTimeslots = [
       title: 'Bruh I\'m done with this',
       description: 'word words words words words',
       startDateTime: DateTime(2023, 4, 25, 12, 0),
-      endDateTime: DateTime(2023, 4, 25, 16, 0),
+      endDateTime: DateTime(2023, 4, 26, 16, 0),
       xpMultiplier: 2,
       finished: false,
       userId: 1)
