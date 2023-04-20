@@ -77,6 +77,8 @@ class _TaskFormState extends State<TaskForm> {
     }
     id = widget.id;
     if (id != null) {
+      //Edit created task
+      //Edit created task from created project
       Task task =
           await serviceLocator<TaskDao>().findTaskById(id!).first as Task;
       titleController.text = task.name;
@@ -84,6 +86,7 @@ class _TaskFormState extends State<TaskForm> {
       dueDate = DateFormatter.format(date!);
       priority = task.priority;
       description = task.description;
+
       if (task.subjectId != null) {
         subject = await serviceLocator<SubjectDao>()
             .findSubjectById(task.subjectId!)
@@ -99,6 +102,7 @@ class _TaskFormState extends State<TaskForm> {
         institution = institutionNone;
         subject = null;
       }
+
       if (task.taskGroupId != null) {
         taskGroup = await serviceLocator<TaskGroupDao>()
             .findTaskGroupById(task.taskGroupId!)
@@ -116,38 +120,60 @@ class _TaskFormState extends State<TaskForm> {
             .first as Note);
       }
       notes.sort((a, b) => a.date.isBefore(b.date) ? 1 : -1);
-    } else if (widget.task != null) {
     } else {
-      titleController.text = 'Your new task';
-      date = DateTime.now();
-      date = DateTime(date!.year, date!.month, date!.day);
-      dueDate = DateFormatter.format(date!);
-      priority = null;
-      description = "Your new task description";
-      notes = [];
-      if (widget.taskGroupId != null) {
-        taskGroup = await serviceLocator<TaskGroupDao>()
-            .findTaskGroupById(widget.taskGroupId!)
-            .first as TaskGroup;
-        if (taskGroup!.subjectId != null) {
-          subject = await serviceLocator<SubjectDao>()
-              .findSubjectById(taskGroup!.subjectId!)
-              .first as Subject;
-          if (subject!.institutionId != null) {
-            institution = await serviceLocator<InstitutionDao>()
-                .findInstitutionById(subject!.institutionId!)
-                .first as Institution;
+      // Create task
+      // Create task from created project
+      // Create task from non-created project
+      // Edit task from non-created project
+
+      if (widget.task != null) {
+        // Edit task from non-created project
+        titleController.text = widget.task!.name;
+        date = widget.task!.deadline;
+        dueDate = DateFormatter.format(date!);
+        priority = widget.task!.priority;
+        description = widget.task!.description;
+        notes = [];
+        //Non created project: Can't select institution, subject, task group
+      } else {
+        // Create task
+        // Create task from non-created project
+        // Create task from created project
+        titleController.text = 'Your new task';
+        date = DateTime.now();
+        date = DateTime(date!.year, date!.month, date!.day);
+        dueDate = DateFormatter.format(date!);
+        priority = null;
+        description = "Your new task description";
+        notes = [];
+        if (widget.taskGroupId != null) {
+          // Create task from created project
+          taskGroup = await serviceLocator<TaskGroupDao>()
+              .findTaskGroupById(widget.taskGroupId!)
+              .first as TaskGroup;
+          if (taskGroup!.subjectId != null) {
+            subject = await serviceLocator<SubjectDao>()
+                .findSubjectById(taskGroup!.subjectId!)
+                .first as Subject;
+            if (subject!.institutionId != null) {
+              institution = await serviceLocator<InstitutionDao>()
+                  .findInstitutionById(subject!.institutionId!)
+                  .first as Institution;
+            } else {
+              institution = institutionNone;
+            }
           } else {
+            subject = null;
             institution = institutionNone;
           }
         } else {
-          subject = null;
+          // Create task (base case)
+          // Create task from non-created project
+          // Distinction will be made on the options for the user through isChildOfNotCreated()
           institution = institutionNone;
+          subject = null;
+          taskGroup = taskGroupNone;
         }
-      } else {
-        institution = institutionNone;
-        subject = null;
-        taskGroup = taskGroupNone;
       }
     }
 
@@ -304,6 +330,10 @@ class _TaskFormState extends State<TaskForm> {
 
     Navigator.pop(context);
     Navigator.pop(context);
+
+    if (widget.deleteCallback != null) {
+      widget.deleteCallback!();
+    }
   }
 
   @override
@@ -397,39 +427,7 @@ class _TaskFormState extends State<TaskForm> {
                           ))
                     ]),
                     const SizedBox(height: 30),
-                    Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(AppLocalizations.of(context).notes,
-                              style: const TextStyle(
-                                  fontFamily: 'Poppins',
-                                  color: Color(0xFF71788D),
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.w400),
-                              textAlign: TextAlign.center),
-                          IconButton(
-                            padding: const EdgeInsets.all(0),
-                            icon: const Icon(Icons.add),
-                            color: const Color(0xFF71788D),
-                            iconSize: 20,
-                            splashRadius: 0.1,
-                            constraints: const BoxConstraints(
-                                maxWidth: 20, maxHeight: 20),
-                            onPressed: () {
-                              showModalBottomSheet(
-                                  context: context,
-                                  isScrollControlled: true,
-                                  backgroundColor: const Color(0xFF22252D),
-                                  shape: const RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.vertical(
-                                        top: Radius.circular(30.0)),
-                                  ),
-                                  builder: (builder) => SingleChildScrollView(
-                                      child: AddTaskNoteForm(
-                                          taskId: id, callback: addNote)));
-                            },
-                          ),
-                        ]),
+                    getAddNoteButton(context),
                     const SizedBox(height: 7.5),
                     ...getNotes(),
                     const SizedBox(height: 30),
@@ -739,7 +737,10 @@ class _TaskFormState extends State<TaskForm> {
     return [priorityWidget, errorWidget];
   }
 
-  InkWell getProject(BuildContext context) {
+  Widget getProject(BuildContext context) {
+    if (isChildOfNotCreated()) {
+      return SizedBox();
+    }
     return InkWell(
         child: Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
       Flexible(
@@ -873,7 +874,10 @@ class _TaskFormState extends State<TaskForm> {
     }
   }
 
-  InkWell getInstitution(BuildContext context) {
+  Widget getInstitution(BuildContext context) {
+    if (isChildOfNotCreated()) {
+      return SizedBox();
+    }
     return InkWell(
         child: Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
       Flexible(
@@ -985,6 +989,9 @@ class _TaskFormState extends State<TaskForm> {
   }
 
   List<Widget> getSubject() {
+    if (isChildOfNotCreated()) {
+      return [];
+    }
     Widget subjectWidget = InkWell(
         child: Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
       Flexible(
@@ -1087,6 +1094,41 @@ class _TaskFormState extends State<TaskForm> {
     } else {
       return const SizedBox();
     }
+  }
+
+  Widget getAddNoteButton(BuildContext context) {
+    if (isChildOfNotCreated()) {
+      return SizedBox();
+    }
+
+    return Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+      Text(AppLocalizations.of(context).notes,
+          style: const TextStyle(
+              fontFamily: 'Poppins',
+              color: Color(0xFF71788D),
+              fontSize: 16,
+              fontWeight: FontWeight.w400),
+          textAlign: TextAlign.center),
+      IconButton(
+        padding: const EdgeInsets.all(0),
+        icon: const Icon(Icons.add),
+        color: const Color(0xFF71788D),
+        iconSize: 20,
+        splashRadius: 0.1,
+        constraints: const BoxConstraints(maxWidth: 20, maxHeight: 20),
+        onPressed: () {
+          showModalBottomSheet(
+              context: context,
+              isScrollControlled: true,
+              backgroundColor: const Color(0xFF22252D),
+              shape: const RoundedRectangleBorder(
+                borderRadius: BorderRadius.vertical(top: Radius.circular(30.0)),
+              ),
+              builder: (builder) => SingleChildScrollView(
+                  child: AddTaskNoteForm(taskId: id, callback: addNote)));
+        },
+      ),
+    ]);
   }
 
   List<Widget> getNotes() {
@@ -1272,6 +1314,10 @@ class _TaskFormState extends State<TaskForm> {
 
   isChild() {
     //If we are making a new task inside of a taks group
-    return widget.taskGroupId != null;
+    return widget.callback != null;
+  }
+
+  isChildOfNotCreated() {
+    return isChild() && widget.taskGroupId == null;
   }
 }
