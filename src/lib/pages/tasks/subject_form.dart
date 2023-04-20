@@ -320,6 +320,7 @@ class _SubjectFormState extends State<SubjectForm> {
                             type: InstitutionType.other,
                             userId: 1));
                     return DropdownButton<Institution>(
+                        key: const Key('institutionField'),
                         isExpanded: true,
                         value: institutionId == -1
                             ? snapshot.data!.first
@@ -445,6 +446,7 @@ class _SubjectFormState extends State<SubjectForm> {
       return Row(
         children: [
           ElevatedButton(
+              key: const Key('saveSubjectButton'),
               onPressed: () async {
                 await save(context);
               },
@@ -459,6 +461,7 @@ class _SubjectFormState extends State<SubjectForm> {
                   style: Theme.of(context).textTheme.headlineSmall)),
           const SizedBox(width: 20),
           ElevatedButton(
+              key: const Key('deleteSubjectButton'),
               onPressed: () async {
                 await showDeleteConfirmation(context);
               },
@@ -478,6 +481,7 @@ class _SubjectFormState extends State<SubjectForm> {
 
   showDeleteConfirmation(BuildContext context) {
     Widget cancelButton = TextButton(
+      key: const Key('cancelDeleteSubjectButton'),
       child: Text(AppLocalizations.of(context).cancel,
           style: const TextStyle(
               color: Colors.white, fontSize: 16, fontWeight: FontWeight.w600),
@@ -488,6 +492,7 @@ class _SubjectFormState extends State<SubjectForm> {
     );
 
     Widget deleteButton = TextButton(
+      key: const Key('deleteSubjectConfirmationButton'),
       child: Text(AppLocalizations.of(context).delete,
           style: const TextStyle(
               color: Colors.white, fontSize: 16, fontWeight: FontWeight.w600),
