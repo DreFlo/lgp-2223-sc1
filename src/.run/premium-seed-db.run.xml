@@ -1,0 +1,8 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="premium-seed-db" type="FlutterRunConfigurationType" factoryName="Flutter">
+    <option name="additionalArgs" value="--dart-define=&quot;SEED_DB=true&quot;" />
+    <option name="buildFlavor" value="premium" />
+    <option name="filePath" value="$PROJECT_DIR$/lib/main_premium.dart" />
+    <method v="2" />
+  </configuration>
+</component>
