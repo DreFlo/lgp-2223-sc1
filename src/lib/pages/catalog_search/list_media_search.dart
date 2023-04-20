@@ -11,7 +11,6 @@ import 'package:src/models/media/review.dart';
 import 'package:src/utils/service_locator.dart';
 import 'package:src/pages/leisure/media_page.dart';
 import 'package:src/utils/enums.dart';
-import 'package:src/env/env.dart';
 import 'package:src/daos/media/media_dao.dart';
 import 'package:src/utils/leisure/media_page_helpers.dart';
 import 'package:src/widgets/leisure/media_page_button.dart';
@@ -19,8 +18,6 @@ import 'package:src/widgets/leisure/media_page_button.dart';
 class ListMediaSearch extends StatelessWidget {
   final List media;
   final String title;
-
-  Map<int, Map<dynamic, dynamic>> episodes = {};
 
   dynamic statusFavorite = {};
   List<Season> seasons = [];
@@ -101,57 +98,6 @@ class ListMediaSearch extends StatelessWidget {
         ),
       ),
     );
-  }
-
-  List<String> makeCastList(Map cast) {
-    List<String> castList = [];
-    cast['cast'].forEach((item) {
-      String name = item['name'] ?? '';
-      castList.add(name);
-    });
-    return castList;
-  }
-
-  Map<int, String> makeEpisodeNameMap(Map episodes) {
-    Map<int, String> episodeNameMap = {};
-    episodes['episodes'].forEach((item) {
-      String name = item['name'] ?? '';
-      int episodeNumber = item['episode_number'] ?? 0;
-      //to get all guest stars do makeCastList(item['guest_stars])
-      episodeNameMap[episodeNumber] = name;
-    });
-    return episodeNameMap;
-  }
-
-  Future<Map> getDetails(int id, String type) async {
-    final tmdb = TMDB(ApiKeys(Env.tmdbApiKey, 'apiReadAccessTokenv4'));
-
-    if (type == 'Movie') {
-      Map result = await tmdb.v3.movies.getDetails(id);
-      Map cast = await tmdb.v3.movies.getCredits(id);
-      List<String> castNames = makeCastList(cast);
-      result['cast'] = castNames;
-      return result;
-    } else if (type == 'TV') {
-      Map result = await tmdb.v3.tv.getDetails(id);
-      Map cast = await tmdb.v3.tv.getCredits(id);
-      List<String> castNames = makeCastList(cast);
-      result['cast'] = castNames;
-
-      // Get all episodes
-      for (int season = 1; season <= result['number_of_seasons']; season++) {
-        Map episodeSeason = await tmdb.v3.tvSeasons.getDetails(id, season);
-        if (episodeSeason['episodes'][0]['runtime'] != null) {
-          result['runtime'] = episodeSeason['episodes'][0]['runtime'];
-        }
-        Map episodeNumbersNames = makeEpisodeNameMap(episodeSeason);
-        episodes[season] = episodeNumbersNames;
-      }
-
-      return result;
-    } else {
-      return {};
-    }
   }
 
   getStatusFromDB(dynamic item) async {

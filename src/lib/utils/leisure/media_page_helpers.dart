@@ -1,6 +1,7 @@
 import 'package:src/daos/notes/book_note_dao.dart';
 import 'package:src/daos/notes/episode_note_dao.dart';
 import 'package:src/daos/notes/note_episode_note_super_dao.dart';
+import 'package:src/env/env.dart';
 import 'package:src/models/notes/note_episode_note_super_entity.dart';
 import 'package:src/pages/catalog_search/media.dart';
 import 'package:src/pages/leisure/media_page.dart';
@@ -19,6 +20,7 @@ import 'package:src/daos/media/season_dao.dart';
 import 'package:src/utils/service_locator.dart';
 import 'dart:math';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:tmdb_api/tmdb_api.dart';
 
 Future<int> loadDuration(int id) async {
   List<int> ids = await serviceLocator<EpisodeDao>().findEpisodeBySeasonId(id);
@@ -27,7 +29,7 @@ Future<int> loadDuration(int id) async {
     duration = await serviceLocator<VideoDao>().findVideoDurationById(ids[i]);
   }
 
-  int maxDuration = duration.reduce(max);
+  int maxDuration = duration.isNotEmpty ? duration.reduce(max) : 0;
 
   return maxDuration;
 }
@@ -249,3 +251,55 @@ showMediaPageForBooks(dynamic item, context) async {
                     ))
               ])));
 }
+
+List<String> makeCastList(Map cast) {
+    List<String> castList = [];
+    cast['cast'].forEach((item) {
+      String name = item['name'] ?? '';
+      castList.add(name);
+    });
+    return castList;
+  }
+
+Future<Map> getDetails(int id, String type) async {
+    final tmdb = TMDB(ApiKeys(Env.tmdbApiKey, 'apiReadAccessTokenv4'));
+    final Map<int, Map<dynamic, dynamic>> episodes = {};
+
+    if (type == 'Movie') {
+      Map result = await tmdb.v3.movies.getDetails(id);
+      Map cast = await tmdb.v3.movies.getCredits(id);
+      List<String> castNames = makeCastList(cast);
+      result['cast'] = castNames;
+      return result;
+    } else if (type == 'TV') {
+      Map result = await tmdb.v3.tv.getDetails(id);
+      Map cast = await tmdb.v3.tv.getCredits(id);
+      List<String> castNames = makeCastList(cast);
+      result['cast'] = castNames;
+
+      // Get all episodes
+      for (int season = 1; season <= result['number_of_seasons']; season++) {
+        Map episodeSeason = await tmdb.v3.tvSeasons.getDetails(id, season);
+        if (episodeSeason['episodes'][0]['runtime'] != null) {
+          result['runtime'] = episodeSeason['episodes'][0]['runtime'];
+        }
+        Map episodeNumbersNames = makeEpisodeNameMap(episodeSeason);
+        episodes[season] = episodeNumbersNames;
+      }
+      result['episodes'] = episodes;
+      return result;
+    } else {
+      return {};
+    }
+  }
+  
+  Map<int, String> makeEpisodeNameMap(Map episodes) {
+    Map<int, String> episodeNameMap = {};
+    episodes['episodes'].forEach((item) {
+      String name = item['name'] ?? '';
+      int episodeNumber = item['episode_number'] ?? 0;
+      //to get all guest stars do makeCastList(item['guest_stars])
+      episodeNameMap[episodeNumber] = name;
+    });
+    return episodeNameMap;
+  }
