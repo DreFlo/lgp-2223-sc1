@@ -10,10 +10,15 @@ import 'package:src/utils/service_locator.dart';
 
 class AddTaskNoteForm extends StatefulWidget {
   final int? taskId;
-  final Function? callback;
+  final Function? callback, deleteNoteCallback;
   final Note? note;
 
-  const AddTaskNoteForm({Key? key, this.taskId, this.callback, this.note})
+  const AddTaskNoteForm(
+      {Key? key,
+      this.taskId,
+      this.callback,
+      this.note,
+      this.deleteNoteCallback})
       : super(key: key);
 
   @override
@@ -163,83 +168,7 @@ class _AddTaskNoteFormState extends State<AddTaskNoteForm> {
                               fontSize: 12,
                               fontWeight: FontWeight.w400)))
                   : const SizedBox(height: 0),
-              Padding(
-                  padding: const EdgeInsets.only(left: 18, top: 30),
-                  child: ElevatedButton(
-                      onPressed: () async {
-                        validate();
-
-                        if (errors.isEmpty) {
-                          if (widget.taskId != null) {
-                            // Note for an existing task
-                            NoteTaskNoteSuperEntity note;
-                            Note simpleNote;
-                            DateTime now = DateTime.now();
-                            if (widget.note != null) {
-                              // Edit an already existing note
-                              note = NoteTaskNoteSuperEntity(
-                                  id: widget.note!.id!,
-                                  title: titleController.text,
-                                  content: contentController.text,
-                                  date: now,
-                                  taskId: widget.taskId!);
-                              await serviceLocator<NoteTaskNoteSuperDao>()
-                                  .updateNoteTaskNoteSuperEntity(note);
-                              simpleNote = Note(
-                                  id: widget.note!.id,
-                                  title: titleController.text,
-                                  content: contentController.text,
-                                  date: now);
-                            } else {
-                              // Add a new note to an existing task
-                              note = NoteTaskNoteSuperEntity(
-                                  title: titleController.text,
-                                  content: contentController.text,
-                                  date: now,
-                                  taskId: widget.taskId!);
-
-                              int id =
-                                  await serviceLocator<NoteTaskNoteSuperDao>()
-                                      .insertNoteTaskNoteSuperEntity(note);
-
-                              simpleNote = Note(
-                                  id: id,
-                                  title: titleController.text,
-                                  content: contentController.text,
-                                  date: now);
-                            }
-                            if (widget.callback != null) {
-                              widget.callback!(simpleNote);
-                            } else {
-                              throw Exception(
-                                  'Task note creator without task should have a callback');
-                            }
-                          } else {
-                            Note note = Note(
-                                title: titleController.text,
-                                content: contentController.text,
-                                date: DateTime.now());
-                            if (widget.callback != null) {
-                              widget.callback!(note);
-                            } else {
-                              throw Exception(
-                                  'Task note creator without task should have a callback');
-                            }
-                          }
-
-                          Navigator.pop(context);
-                        }
-                      },
-                      style: ElevatedButton.styleFrom(
-                        minimumSize:
-                            Size(MediaQuery.of(context).size.width * 0.90, 55),
-                        backgroundColor: primaryColor,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(25.0),
-                        ),
-                      ),
-                      child: Text(AppLocalizations.of(context).save,
-                          style: Theme.of(context).textTheme.headlineSmall))),
+              displayEndButtons(),
               const SizedBox(height: 150)
             ]);
           } else {
@@ -260,5 +189,186 @@ class _AddTaskNoteFormState extends State<AddTaskNoteForm> {
     }
 
     setState(() {});
+  }
+
+  save() async {
+    validate();
+
+    if (errors.isEmpty) {
+      if (widget.taskId != null) {
+        // Note for an existing task
+        NoteTaskNoteSuperEntity note;
+        Note simpleNote;
+        DateTime now = DateTime.now();
+        if (widget.note != null) {
+          // Edit an already existing note
+          note = NoteTaskNoteSuperEntity(
+              id: widget.note!.id!,
+              title: titleController.text,
+              content: contentController.text,
+              date: now,
+              taskId: widget.taskId!);
+          await serviceLocator<NoteTaskNoteSuperDao>()
+              .updateNoteTaskNoteSuperEntity(note);
+          simpleNote = Note(
+              id: widget.note!.id,
+              title: titleController.text,
+              content: contentController.text,
+              date: now);
+        } else {
+          // Add a new note to an existing task
+          note = NoteTaskNoteSuperEntity(
+              title: titleController.text,
+              content: contentController.text,
+              date: now,
+              taskId: widget.taskId!);
+
+          int id = await serviceLocator<NoteTaskNoteSuperDao>()
+              .insertNoteTaskNoteSuperEntity(note);
+
+          simpleNote = Note(
+              id: id,
+              title: titleController.text,
+              content: contentController.text,
+              date: now);
+        }
+        if (widget.callback != null) {
+          widget.callback!(simpleNote);
+        } else {
+          throw Exception(
+              'Task note creator without task should have a callback');
+        }
+      } else {
+        Note note = Note(
+            title: titleController.text,
+            content: contentController.text,
+            date: DateTime.now());
+        if (widget.callback != null) {
+          widget.callback!(note);
+        } else {
+          throw Exception(
+              'Task note creator without task should have a callback');
+        }
+      }
+
+      Navigator.pop(context);
+    }
+  }
+
+  Widget displayEndButtons() {
+    if (widget.note == null || widget.taskId == null) {
+      return Padding(
+          padding: const EdgeInsets.only(left: 40, top: 30),
+          child: ElevatedButton(
+              onPressed: () async {
+                await save();
+              },
+              style: ElevatedButton.styleFrom(
+                minimumSize: Size(MediaQuery.of(context).size.width * 0.80, 55),
+                backgroundColor: primaryColor,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(25.0),
+                ),
+              ),
+              child: Text(AppLocalizations.of(context).save,
+                  style: Theme.of(context).textTheme.headlineSmall)));
+    } else {
+      return Padding(
+          padding: const EdgeInsets.only(left: 25, top: 30),
+          child: Row(
+            children: [
+              ElevatedButton(
+                  onPressed: () async {
+                    await save();
+                  },
+                  style: ElevatedButton.styleFrom(
+                    minimumSize:
+                        Size(MediaQuery.of(context).size.width * 0.4, 55),
+                    backgroundColor: primaryColor,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(25.0),
+                    ),
+                  ),
+                  child: Text(AppLocalizations.of(context).save,
+                      style: Theme.of(context).textTheme.headlineSmall)),
+              const SizedBox(width: 20),
+              ElevatedButton(
+                  onPressed: () async {
+                    await showDeleteConfirmation(context);
+                  },
+                  style: ElevatedButton.styleFrom(
+                    minimumSize:
+                        Size(MediaQuery.of(context).size.width * 0.4, 55),
+                    backgroundColor: Colors.red,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(25.0),
+                    ),
+                  ),
+                  child: Text(AppLocalizations.of(context).delete,
+                      style: Theme.of(context).textTheme.headlineSmall))
+            ],
+          ));
+    }
+  }
+
+  showDeleteConfirmation(BuildContext context) {
+    Widget cancelButton = TextButton(
+      child: Text(AppLocalizations.of(context).cancel,
+          style: const TextStyle(
+              color: Colors.white, fontSize: 16, fontWeight: FontWeight.w600),
+          textAlign: TextAlign.left),
+      onPressed: () {
+        Navigator.pop(context);
+      },
+    );
+
+    Widget deleteButton = TextButton(
+      child: Text(AppLocalizations.of(context).delete,
+          style: const TextStyle(
+              color: Colors.white, fontSize: 16, fontWeight: FontWeight.w600),
+          textAlign: TextAlign.center),
+      onPressed: () async {
+        NoteTaskNoteSuperEntity noteTaskNoteSuperEntity =
+            NoteTaskNoteSuperEntity(
+                id: widget.note!.id,
+                title: widget.note!.title,
+                content: widget.note!.content,
+                date: widget.note!.date,
+                taskId: widget.taskId!);
+
+        await serviceLocator<NoteTaskNoteSuperDao>()
+            .deleteNoteTaskNoteSuperEntity(noteTaskNoteSuperEntity);
+
+        Navigator.pop(context);
+        Navigator.pop(context);
+
+        if (widget.deleteNoteCallback != null) {
+          widget.deleteNoteCallback!(widget.note);
+        }
+      },
+    );
+
+    AlertDialog alert = AlertDialog(
+      title: Text('Delete Note',
+          style: const TextStyle(
+              color: Colors.white, fontSize: 20, fontWeight: FontWeight.w600),
+          textAlign: TextAlign.center),
+      content: Text('Are you sure you want to delete this note?',
+          style: const TextStyle(
+              color: Colors.white, fontSize: 14, fontWeight: FontWeight.w600),
+          textAlign: TextAlign.center),
+      actions: [
+        cancelButton,
+        deleteButton,
+      ],
+      backgroundColor: primaryColor,
+    );
+
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return alert;
+      },
+    );
   }
 }

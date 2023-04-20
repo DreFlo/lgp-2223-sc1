@@ -164,13 +164,15 @@ class _TaskFormState extends State<TaskForm> {
     now = DateFormatter.day(now);
     if (isChild()) {
       if (date!.isAfter(widget.taskGroupDate!())) {
-        errors['date'] = AppLocalizations.of(context).studentErrorTaskGroupAfterDate;
+        errors['date'] =
+            AppLocalizations.of(context).studentErrorTaskGroupAfterDate;
       }
       // Date can't be after parent task
     } else {
       if (taskGroup!.id != -1) {
         if (date!.isAfter(taskGroup!.deadline)) {
-        errors['date'] = AppLocalizations.of(context).studentErrorTaskGroupAfterDate;
+          errors['date'] =
+              AppLocalizations.of(context).studentErrorTaskGroupAfterDate;
         }
       } else {
         if (date!.isAfter(now)) {
@@ -1108,6 +1110,7 @@ class _TaskFormState extends State<TaskForm> {
           onSelected: removeNote,
           onUnselected: unremoveNote,
           editNote: id == null ? editTempNoteFactory(notes[i]) : editNote,
+          deleteNote: id == null ? null : removeAlreadyDeletedNote,
         ));
       }
     }
@@ -1168,5 +1171,11 @@ class _TaskFormState extends State<TaskForm> {
   isChild() {
     //If we are making a new task inside of a taks group
     return widget.taskGroupId != null;
+  }
+
+  removeAlreadyDeletedNote(Note note){
+    setState(() {
+      notes.remove(note);
+    });
   }
 }
