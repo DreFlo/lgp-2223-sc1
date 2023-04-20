@@ -10,7 +10,7 @@ class TaskBar extends StatefulWidget {
   final bool taskStatus;
 
   final Task task;
-  final Function onSelected, onUnselected, editTask, taskGroupDate;
+  final Function onSelected, onUnselected, editTask, deleteTask, taskGroupDate;
   final int? taskGroupId;
 
   const TaskBar(
@@ -20,6 +20,7 @@ class TaskBar extends StatefulWidget {
       required this.onSelected,
       required this.onUnselected,
       required this.editTask,
+      required this.deleteTask,
       this.taskGroupId,
       required this.taskGroupDate})
       : super(key: key);
@@ -32,7 +33,7 @@ class _TaskBarState extends State<TaskBar> {
   late bool taskStatus;
 
   late Task task;
-  late Function onSelected, onUnselected, editTask, taskGroupDate;
+  late Function onSelected, onUnselected, editTask, deleteTask, taskGroupDate;
   late int? taskGroupId;
   bool selected = false;
 
@@ -44,6 +45,7 @@ class _TaskBarState extends State<TaskBar> {
     onUnselected = widget.onUnselected;
     onSelected = widget.onSelected;
     editTask = widget.editTask;
+    deleteTask = widget.deleteTask;
     taskGroupId = widget.taskGroupId;
     taskGroupDate = widget.taskGroupDate;
 
@@ -74,6 +76,7 @@ class _TaskBarState extends State<TaskBar> {
                             taskGroupId: taskGroupId,
                             taskGroupDate: taskGroupDate,
                             callback: editTask,
+                            deleteCallback: deleteTask,
                             scrollController: scrollController,
                           ))));
         },

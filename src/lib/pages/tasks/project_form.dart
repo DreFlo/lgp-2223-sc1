@@ -821,6 +821,7 @@ class _ProjectFormState extends State<ProjectForm> {
           onSelected: removeTask,
           onUnselected: unremoveTask,
           editTask: id == null ? editTempTask(tasks[i]) : editTask,
+          deleteTask: deleteTask,
           taskGroupId: id,
           taskGroupDate: () {
             return date!;
