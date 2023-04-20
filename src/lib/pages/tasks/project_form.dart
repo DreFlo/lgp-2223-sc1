@@ -123,7 +123,7 @@ class _ProjectFormState extends State<ProjectForm> {
     }
   }
 
-  void save() async {
+  save(BuildContext context) async {
     validate();
     if (errors.isNotEmpty) {
       widget.scrollController.animateTo(0,
@@ -167,16 +167,16 @@ class _ProjectFormState extends State<ProjectForm> {
     Navigator.pop(context);
   }
 
-  // else {
-  //   serviceLocator<TaskGroupDao>().updateTaskGroup(TaskGroup(
-  //     id: id,
-  //     name: title,
-  //     deadline: dueDate,
-  //     priority: priority,
-  //     subjectId: subject.id,
-  //     description: description,
-  //   ));
-  // }
+  delete(BuildContext context) async {
+    if (id != null) {
+      TaskGroup taskGroup = await serviceLocator<TaskGroupDao>()
+          .findTaskGroupById(id!)
+          .first as TaskGroup;
+      await serviceLocator<TaskGroupDao>().deleteTaskGroup(taskGroup);
+    }
+    Navigator.pop(context);
+    Navigator.pop(context);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -260,7 +260,7 @@ class _ProjectFormState extends State<ProjectForm> {
                     const SizedBox(height: 7.5),
                     ...getTasks(),
                     const SizedBox(height: 30),
-                    getSave(context)
+                    getEndButtons(context),
                   ]),
                 ));
           } else {
@@ -821,6 +821,7 @@ class _ProjectFormState extends State<ProjectForm> {
           onSelected: removeTask,
           onUnselected: unremoveTask,
           editTask: id == null ? editTempTask(tasks[i]) : editTask,
+          deleteTask: deleteTask,
           taskGroupId: id,
           taskGroupDate: () {
             return date!;
@@ -832,21 +833,102 @@ class _ProjectFormState extends State<ProjectForm> {
     return taskList;
   }
 
-  ElevatedButton getSave(BuildContext context) {
-    return ElevatedButton(
-        onPressed: () {
-          save();
-        },
-        style: ElevatedButton.styleFrom(
-          minimumSize: Size(MediaQuery.of(context).size.width * 0.95, 55),
-          backgroundColor: primaryColor,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(25.0),
+  Widget getEndButtons(BuildContext context) {
+    if (widget.id == null) {
+      return ElevatedButton(
+          key: const Key('saveSubjectButton'),
+          onPressed: () async {
+            await save(context);
+          },
+          style: ElevatedButton.styleFrom(
+            minimumSize: Size(MediaQuery.of(context).size.width * 0.95, 55),
+            backgroundColor: primaryColor,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(25.0),
+            ),
           ),
-        ),
-        child: Text(AppLocalizations.of(context).save,
-            style: Theme.of(context).textTheme.headlineSmall));
+          child: Text(AppLocalizations.of(context).save,
+              style: Theme.of(context).textTheme.headlineSmall));
+    } else {
+      return Row(
+        children: [
+          ElevatedButton(
+              onPressed: () async {
+                await save(context);
+              },
+              style: ElevatedButton.styleFrom(
+                minimumSize: Size(MediaQuery.of(context).size.width * 0.4, 55),
+                backgroundColor: primaryColor,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(25.0),
+                ),
+              ),
+              child: Text(AppLocalizations.of(context).save,
+                  style: Theme.of(context).textTheme.headlineSmall)),
+          const SizedBox(width: 20),
+          ElevatedButton(
+              onPressed: () async {
+                await showDeleteConfirmation(context);
+              },
+              style: ElevatedButton.styleFrom(
+                minimumSize: Size(MediaQuery.of(context).size.width * 0.4, 55),
+                backgroundColor: Colors.red,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(25.0),
+                ),
+              ),
+              child: Text(AppLocalizations.of(context).delete,
+                  style: Theme.of(context).textTheme.headlineSmall))
+        ],
+      );
+    }
   }
+
+  showDeleteConfirmation(BuildContext context) {
+    Widget cancelButton = TextButton(
+      child: Text(AppLocalizations.of(context).cancel,
+          style: const TextStyle(
+              color: Colors.white, fontSize: 16, fontWeight: FontWeight.w600),
+          textAlign: TextAlign.left),
+      onPressed: () {
+        Navigator.pop(context);
+      },
+    );
+
+    Widget deleteButton = TextButton(
+      child: Text(AppLocalizations.of(context).delete,
+          style: const TextStyle(
+              color: Colors.white, fontSize: 16, fontWeight: FontWeight.w600),
+          textAlign: TextAlign.center),
+      onPressed: () async {
+        await delete(context);
+      },
+    );
+
+    AlertDialog alert = AlertDialog(
+      title: Text(AppLocalizations.of(context).delete_subject,
+          style: const TextStyle(
+              color: Colors.white, fontSize: 20, fontWeight: FontWeight.w600),
+          textAlign: TextAlign.center),
+      content: Text(AppLocalizations.of(context).delete_subject_message,
+          style: const TextStyle(
+              color: Colors.white, fontSize: 14, fontWeight: FontWeight.w600),
+          textAlign: TextAlign.center),
+      actions: [
+        cancelButton,
+        deleteButton,
+      ],
+      backgroundColor: primaryColor,
+    );
+
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return alert;
+      },
+    );
+  }
+
 
   addTask(Task task) {
     setState(() {
@@ -883,15 +965,35 @@ class _ProjectFormState extends State<ProjectForm> {
 
   editTempTask(Task oldTask) {
     return (Task task) {
-      if (id == null) {
-        for (int i = 0; i < tasks.length; i++) {
-          if (tasks[i] == oldTask) {
-            tasks[i] = task;
+      setState(() {
+        if (id == null) {
+          for (int i = 0; i < tasks.length; i++) {
+            if (tasks[i] == oldTask) {
+              tasks[i] = task;
+              break;
+            }
           }
+        } else {
+          throw Exception("Task id is not null for edit temp task calback");
         }
-      } else {
-        throw Exception("Task id is not null for edit temp task calback");
-      }
+      });
     };
+  }
+
+  deleteTask(Task oldTask) {
+    setState(() {
+      for (int i = 0; i < tasks.length; i++) {
+        if (tasks[i].id == oldTask.id) {
+          tasks.removeAt(i);
+          break;
+        }
+      }
+      for (int i = 0; i < toRemoveTasks.length; i++) {
+        if (toRemoveTasks[i].id == oldTask.id) {
+          toRemoveTasks.removeAt(i);
+          break;
+        }
+      }
+    });
   }
 }

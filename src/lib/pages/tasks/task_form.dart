@@ -28,7 +28,7 @@ import 'package:src/widgets/note_bar.dart';
 class TaskForm extends StatefulWidget {
   final int? id;
   final int? taskGroupId;
-  final Function? callback, taskGroupDate;
+  final Function? callback, deleteCallback, taskGroupDate;
   final Task? task;
   final ScrollController scrollController;
 
@@ -39,6 +39,7 @@ class TaskForm extends StatefulWidget {
       this.taskGroupId,
       this.taskGroupDate,
       this.callback,
+      this.deleteCallback,
       this.task})
       : super(key: key);
 
@@ -199,11 +200,11 @@ class _TaskFormState extends State<TaskForm> {
     }
   }
 
-  void save() async {
+  save(BuildContext context) async {
     validate();
     if (errors.isNotEmpty) {
       widget.scrollController.animateTo(0,
-          duration: Duration(milliseconds: 500), curve: Curves.ease);
+          duration: const Duration(milliseconds: 500), curve: Curves.ease);
       setState(() {});
       return;
     }
@@ -291,6 +292,17 @@ class _TaskFormState extends State<TaskForm> {
     }
     // My idea
     // Create here the new notes
+    Navigator.pop(context);
+  }
+
+  delete(BuildContext context) async {
+    if (id != null) {
+      Task task =
+          await serviceLocator<TaskDao>().findTaskById(id!).first as Task;
+      serviceLocator<TaskDao>().deleteTask(task);
+    }
+
+    Navigator.pop(context);
     Navigator.pop(context);
   }
 
@@ -421,20 +433,7 @@ class _TaskFormState extends State<TaskForm> {
                     const SizedBox(height: 7.5),
                     ...getNotes(),
                     const SizedBox(height: 30),
-                    ElevatedButton(
-                        onPressed: () {
-                          save();
-                        },
-                        style: ElevatedButton.styleFrom(
-                          minimumSize: Size(
-                              MediaQuery.of(context).size.width * 0.95, 55),
-                          backgroundColor: primaryColor,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(25.0),
-                          ),
-                        ),
-                        child: Text(AppLocalizations.of(context).save,
-                            style: Theme.of(context).textTheme.headlineSmall))
+                    getEndButtons(context),
                   ]),
                 ));
           } else {
@@ -1110,11 +1109,107 @@ class _TaskFormState extends State<TaskForm> {
           onSelected: removeNote,
           onUnselected: unremoveNote,
           editNote: id == null ? editTempNoteFactory(notes[i]) : editNote,
-          deleteNote: id == null ? null : removeAlreadyDeletedNote,
+          deleteNote: deleteNote,
         ));
       }
     }
     return notesList;
+  }
+
+  Widget getEndButtons(BuildContext context) {
+    if (widget.id == null) {
+      return ElevatedButton(
+          key: const Key('saveSubjectButton'),
+          onPressed: () async {
+            await save(context);
+          },
+          style: ElevatedButton.styleFrom(
+            minimumSize: Size(MediaQuery.of(context).size.width * 0.95, 55),
+            backgroundColor: primaryColor,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(25.0),
+            ),
+          ),
+          child: Text(AppLocalizations.of(context).save,
+              style: Theme.of(context).textTheme.headlineSmall));
+    } else {
+      return Row(
+        children: [
+          ElevatedButton(
+              onPressed: () async {
+                await save(context);
+              },
+              style: ElevatedButton.styleFrom(
+                minimumSize: Size(MediaQuery.of(context).size.width * 0.4, 55),
+                backgroundColor: primaryColor,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(25.0),
+                ),
+              ),
+              child: Text(AppLocalizations.of(context).save,
+                  style: Theme.of(context).textTheme.headlineSmall)),
+          const SizedBox(width: 20),
+          ElevatedButton(
+              onPressed: () async {
+                await showDeleteConfirmation(context);
+              },
+              style: ElevatedButton.styleFrom(
+                minimumSize: Size(MediaQuery.of(context).size.width * 0.4, 55),
+                backgroundColor: Colors.red,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(25.0),
+                ),
+              ),
+              child: Text(AppLocalizations.of(context).delete,
+                  style: Theme.of(context).textTheme.headlineSmall))
+        ],
+      );
+    }
+  }
+
+  showDeleteConfirmation(BuildContext context) {
+    Widget cancelButton = TextButton(
+      child: Text(AppLocalizations.of(context).cancel,
+          style: const TextStyle(
+              color: Colors.white, fontSize: 16, fontWeight: FontWeight.w600),
+          textAlign: TextAlign.left),
+      onPressed: () {
+        Navigator.pop(context);
+      },
+    );
+
+    Widget deleteButton = TextButton(
+      child: Text(AppLocalizations.of(context).delete,
+          style: const TextStyle(
+              color: Colors.white, fontSize: 16, fontWeight: FontWeight.w600),
+          textAlign: TextAlign.center),
+      onPressed: () async {
+        await delete(context);
+      },
+    );
+
+    AlertDialog alert = AlertDialog(
+      title: Text(AppLocalizations.of(context).delete_subject,
+          style: const TextStyle(
+              color: Colors.white, fontSize: 20, fontWeight: FontWeight.w600),
+          textAlign: TextAlign.center),
+      content: Text(AppLocalizations.of(context).delete_subject_message,
+          style: const TextStyle(
+              color: Colors.white, fontSize: 14, fontWeight: FontWeight.w600),
+          textAlign: TextAlign.center),
+      actions: [
+        cancelButton,
+        deleteButton,
+      ],
+      backgroundColor: primaryColor,
+    );
+
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return alert;
+      },
+    );
   }
 
   addNote(Note note) {
@@ -1168,14 +1263,15 @@ class _TaskFormState extends State<TaskForm> {
     };
   }
 
+  deleteNote(Note note) {
+    setState(() {
+      notes.remove(note);
+      toRemoveNotes.remove(note);
+    });
+  }
+
   isChild() {
     //If we are making a new task inside of a taks group
     return widget.taskGroupId != null;
-  }
-
-  removeAlreadyDeletedNote(Note note){
-    setState(() {
-      notes.remove(note);
-    });
   }
 }
