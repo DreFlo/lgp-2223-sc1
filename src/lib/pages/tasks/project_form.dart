@@ -821,7 +821,7 @@ class _ProjectFormState extends State<ProjectForm> {
           onSelected: removeTask,
           onUnselected: unremoveTask,
           editTask: id == null ? editTempTask(tasks[i]) : editTask,
-          deleteTask: deleteTask,
+          deleteTask: deleteTask(tasks[i]),
           taskGroupId: id,
           taskGroupDate: () {
             return date!;
@@ -929,7 +929,6 @@ class _ProjectFormState extends State<ProjectForm> {
     );
   }
 
-
   addTask(Task task) {
     setState(() {
       tasks.insert(0, task);
@@ -981,19 +980,21 @@ class _ProjectFormState extends State<ProjectForm> {
   }
 
   deleteTask(Task oldTask) {
-    setState(() {
-      for (int i = 0; i < tasks.length; i++) {
-        if (tasks[i].id == oldTask.id) {
-          tasks.removeAt(i);
-          break;
+    return () {
+      setState(() {
+        for (int i = 0; i < tasks.length; i++) {
+          if (tasks[i].id == oldTask.id) {
+            tasks.removeAt(i);
+            break;
+          }
         }
-      }
-      for (int i = 0; i < toRemoveTasks.length; i++) {
-        if (toRemoveTasks[i].id == oldTask.id) {
-          toRemoveTasks.removeAt(i);
-          break;
+        for (int i = 0; i < toRemoveTasks.length; i++) {
+          if (toRemoveTasks[i].id == oldTask.id) {
+            toRemoveTasks.removeAt(i);
+            break;
+          }
         }
-      }
-    });
+      });
+    };
   }
 }
