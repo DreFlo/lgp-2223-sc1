@@ -11,10 +11,10 @@ class ActivityBar extends StatefulWidget {
 
   const ActivityBar(
       {Key? key,
-        required this.id,
-        required this.title,
-        required this.description,
-        required this.removeActivityCallback})
+      required this.id,
+      required this.title,
+      required this.description,
+      required this.removeActivityCallback})
       : super(key: key);
 
   @override
@@ -22,7 +22,6 @@ class ActivityBar extends StatefulWidget {
 }
 
 class _ActivityBarState extends State<ActivityBar> {
-
   @override
   initState() {
     super.initState();
@@ -40,7 +39,7 @@ class _ActivityBarState extends State<ActivityBar> {
           decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(10), color: lightGray),
           child:
-          Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+              Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
             Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
               Row(mainAxisAlignment: MainAxisAlignment.start, children: [
                 Text(widget.title,
@@ -62,13 +61,14 @@ class _ActivityBarState extends State<ActivityBar> {
                 Row(
                   children: [
                     InkWell(
-                        onTap: () {
-                          setState(() {
-                            widget.removeActivityCallback();
-                          });
-                        },
-                        child: const Icon(Icons.clear, color: Colors.white, size: 20),
-                        )
+                      onTap: () {
+                        setState(() {
+                          widget.removeActivityCallback();
+                        });
+                      },
+                      child: const Icon(Icons.clear,
+                          color: Colors.white, size: 20),
+                    )
                   ],
                 )
               ],

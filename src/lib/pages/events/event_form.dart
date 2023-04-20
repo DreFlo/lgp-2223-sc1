@@ -22,6 +22,7 @@ class Activity {
 class EventForm extends StatefulWidget {
   final String? title, startTime, endTime, description;
   final ScrollController scrollController;
+  final List<Activity>? activities;
 
   const EventForm(
       {Key? key,
@@ -29,7 +30,8 @@ class EventForm extends StatefulWidget {
       this.title,
       this.startTime,
       this.endTime,
-      this.description})
+      this.description,
+      this.activities})
       : super(key: key);
 
   @override
@@ -63,7 +65,7 @@ class _EventFormState extends State<EventForm> {
   }
 
   List<ChooseMedia> getMedia() {
-    //TODO(eventos): Get tasks from database.
+    //TODO(eventos): Get media from database and transform to ChooseMedia.
 
     List<ChooseMedia> tasks = [];
 
@@ -92,7 +94,7 @@ class _EventFormState extends State<EventForm> {
   }
 
   List<ChooseTask> getTasks() {
-    //TODO(eventos): Get tasks from database.
+    //TODO(eventos): Get tasks from database and transform to ChooseTask.
 
     List<ChooseTask> tasks = [];
 
@@ -172,7 +174,7 @@ class _EventFormState extends State<EventForm> {
     startTime = widget.startTime;
     endTime = widget.endTime;
     description = widget.description;
-    activities = [];
+    activities = widget.activities ?? [];
 
     controller.text = title!;
 
@@ -555,7 +557,7 @@ class _EventFormState extends State<EventForm> {
                   textAlign: TextAlign.center),
               IconButton(
                 padding: const EdgeInsets.all(0),
-                icon: const Icon(Icons.add),
+                icon: const Icon(Icons.playlist_add_rounded),
                 color: const Color(0xFF71788D),
                 iconSize: 20,
                 splashRadius: 0.1,

@@ -135,7 +135,9 @@ class _ChooseTaskFormState extends State<ChooseTaskForm> {
                 onPressed: () {
                   //TODO: Add selected tasks to event
                   for (ChooseTask task in tasks!) {
-                    if (task.isSelected) widget.addActivityCallback(task.id, task.name, formatDeadline(task.deadline));
+                    if (task.isSelected)
+                      widget.addActivityCallback(
+                          task.id, task.name, formatDeadline(task.deadline));
                   }
                   Navigator.pop(context);
                 },

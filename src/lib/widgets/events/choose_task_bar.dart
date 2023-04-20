@@ -8,17 +8,13 @@ import 'package:src/themes/colors.dart';
 class ChooseTaskBar extends StatefulWidget {
   final ChooseTask task;
 
-  const ChooseTaskBar(
-      {Key? key,
-        required this.task})
-      : super(key: key);
+  const ChooseTaskBar({Key? key, required this.task}) : super(key: key);
 
   @override
   State<ChooseTaskBar> createState() => _ChooseTaskBarState();
 }
 
 class _ChooseTaskBarState extends State<ChooseTaskBar> {
-
   formatDeadline(DateTime deadline) {
     Map<int, String> suffixes = {
       1: 'st',
@@ -48,7 +44,7 @@ class _ChooseTaskBarState extends State<ChooseTaskBar> {
           decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(10), color: lightGray),
           child:
-          Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+              Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
             Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
               Row(mainAxisAlignment: MainAxisAlignment.start, children: [
                 Text(widget.task.name,
@@ -77,10 +73,9 @@ class _ChooseTaskBarState extends State<ChooseTaskBar> {
                         },
                         child: widget.task.isSelected
                             ? const Icon(Icons.check_box,
-                            color: Colors.white, size: 30)
+                                color: Colors.white, size: 30)
                             : const Icon(Icons.check_box_outline_blank,
-                            color: Colors.white, size: 30)
-                        )
+                                color: Colors.white, size: 30))
                   ],
                 )
               ],

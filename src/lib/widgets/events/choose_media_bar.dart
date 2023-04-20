@@ -7,17 +7,13 @@ import 'package:src/themes/colors.dart';
 class ChooseMediaBar extends StatefulWidget {
   final ChooseMedia media;
 
-  const ChooseMediaBar(
-      {Key? key,
-        required this.media})
-      : super(key: key);
+  const ChooseMediaBar({Key? key, required this.media}) : super(key: key);
 
   @override
   State<ChooseMediaBar> createState() => _ChooseMediaBarState();
 }
 
 class _ChooseMediaBarState extends State<ChooseMediaBar> {
-
   @override
   Widget build(BuildContext context) {
     return InkWell(
@@ -30,7 +26,7 @@ class _ChooseMediaBarState extends State<ChooseMediaBar> {
           decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(10), color: lightGray),
           child:
-          Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+              Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
             Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
               Row(mainAxisAlignment: MainAxisAlignment.start, children: [
                 Text(widget.media.name,
@@ -59,10 +55,9 @@ class _ChooseMediaBarState extends State<ChooseMediaBar> {
                         },
                         child: widget.media.isSelected
                             ? const Icon(Icons.check_box,
-                            color: Colors.white, size: 30)
+                                color: Colors.white, size: 30)
                             : const Icon(Icons.check_box_outline_blank,
-                            color: Colors.white, size: 30)
-                    )
+                                color: Colors.white, size: 30))
                   ],
                 )
               ],

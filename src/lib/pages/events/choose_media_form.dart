@@ -14,9 +14,9 @@ class ChooseMedia {
 
   ChooseMedia(
       {required this.id,
-        required this.name,
-        required this.type,
-        required this.isSelected});
+      required this.name,
+      required this.type,
+      required this.isSelected});
 }
 
 class ChooseMediaForm extends StatefulWidget {
@@ -26,9 +26,9 @@ class ChooseMediaForm extends StatefulWidget {
 
   const ChooseMediaForm(
       {Key? key,
-        required this.scrollController,
-        required this.media,
-        required this.addActivityCallback})
+      required this.scrollController,
+      required this.media,
+      required this.addActivityCallback})
       : super(key: key);
 
   @override
@@ -93,14 +93,15 @@ class _ChooseMediaFormState extends State<ChooseMediaForm> {
             Row(children: [
               Container(
                   padding:
-                  const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                      const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
                   decoration: BoxDecoration(
                       color: const Color(0xFF17181C),
                       shape: BoxShape.rectangle,
                       borderRadius: BorderRadius.circular(10)),
                   child: Wrap(children: [
                     Row(children: [
-                      const Icon(Icons.live_tv_rounded, color: Colors.white, size: 20),
+                      const Icon(Icons.live_tv_rounded,
+                          color: Colors.white, size: 20),
                       const SizedBox(width: 10),
                       Text(AppLocalizations.of(context).choose_media,
                           style: const TextStyle(
@@ -118,13 +119,15 @@ class _ChooseMediaFormState extends State<ChooseMediaForm> {
                 onPressed: () {
                   //TODO: Add selected media to event
                   for (ChooseMedia mediaItem in media!) {
-                    if (mediaItem.isSelected) widget.addActivityCallback(mediaItem.id, mediaItem.name, mediaItem.type);
+                    if (mediaItem.isSelected)
+                      widget.addActivityCallback(
+                          mediaItem.id, mediaItem.name, mediaItem.type);
                   }
                   Navigator.pop(context);
                 },
                 style: ElevatedButton.styleFrom(
                   minimumSize:
-                  Size(MediaQuery.of(context).size.width * 0.95, 55),
+                      Size(MediaQuery.of(context).size.width * 0.95, 55),
                   backgroundColor: primaryColor,
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(25.0),
