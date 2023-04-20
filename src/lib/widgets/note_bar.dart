@@ -9,6 +9,7 @@ class NoteBar extends StatefulWidget {
   final Note note;
   final Function onSelected, onUnselected, editNote;
   final int? taskId;
+  final Function? deleteNote;
 
   const NoteBar(
       {Key? key,
@@ -16,7 +17,8 @@ class NoteBar extends StatefulWidget {
       required this.onSelected,
       required this.onUnselected,
       required this.editNote,
-      this.taskId})
+      this.taskId,
+      this.deleteNote})
       : super(key: key);
 
   @override
@@ -95,7 +97,9 @@ class _NoteBarState extends State<NoteBar> {
                                     child: AddTaskNoteForm(
                                         note: note,
                                         taskId: taskId,
-                                        callback: editNote)));
+                                        callback: editNote,
+                                        deleteNoteCallback:
+                                            widget.deleteNote)));
                           })
                     ]))
               ],

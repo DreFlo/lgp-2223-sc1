@@ -369,7 +369,10 @@ class _InstitutionFormState extends State<InstitutionForm> {
               } else {
                 subjects = snapshot.data!
                     .map((e) => SubjectBar(
-                        subject: e!, id: e.id!, callback: onSubjectSave, removeCallback: removeSubject))
+                        subject: e!,
+                        id: e.id!,
+                        callback: onSubjectSave,
+                        removeCallback: removeSubject))
                     .toList();
 
                 subjects.addAll(noDbSubjects
@@ -392,39 +395,43 @@ class _InstitutionFormState extends State<InstitutionForm> {
     }
   }
 
+  save() async {
+    String name = controller.text;
+
+    validate();
+
+    if (errors.isEmpty) {
+      //TODO: Change to real user id
+      print('NEED TO CHANGE USER ID WHEN AUTH IS DONE');
+      int id;
+      if (widget.id == null) {
+        id = await serviceLocator<InstitutionDao>()
+            .insertInstitution(Institution(name: name, type: type, userId: 1));
+      } else {
+        serviceLocator<InstitutionDao>().updateInstitution(
+            Institution(id: widget.id!, name: name, type: type, userId: 1));
+        id = widget.id!;
+      }
+
+      for (Subject subject in noDbSubjects) {
+        Subject newSubject = Subject(
+          name: subject.name,
+          acronym: subject.acronym,
+          weightAverage: subject.weightAverage,
+          institutionId: id,
+        );
+        await serviceLocator<SubjectDao>().insertSubject(newSubject);
+      }
+
+      Navigator.pop(context);
+    }
+  }
+
   Widget displayEndButtons() {
     if (widget.id == null) {
       return ElevatedButton(
           onPressed: () async {
-            String name = controller.text;
-
-            validate();
-
-            if (errors.isEmpty) {
-              //TODO: Change to real user id
-              print('NEED TO CHANGE USER ID WHEN AUTH IS DONE');
-              int id;
-              if (widget.id == null) {
-                id = await serviceLocator<InstitutionDao>().insertInstitution(
-                    Institution(name: name, type: type, userId: 1));
-              } else {
-                serviceLocator<InstitutionDao>().updateInstitution(Institution(
-                    id: widget.id!, name: name, type: type, userId: 1));
-                id = widget.id!;
-              }
-
-              for (Subject subject in noDbSubjects) {
-                Subject newSubject = Subject(
-                  name: subject.name,
-                  acronym: subject.acronym,
-                  weightAverage: subject.weightAverage,
-                  institutionId: id,
-                );
-                await serviceLocator<SubjectDao>().insertSubject(newSubject);
-              }
-
-              Navigator.pop(context);
-            }
+            await save();
           },
           style: ElevatedButton.styleFrom(
             minimumSize: Size(MediaQuery.of(context).size.width * 0.95, 55),
@@ -440,38 +447,7 @@ class _InstitutionFormState extends State<InstitutionForm> {
         children: [
           ElevatedButton(
               onPressed: () async {
-                String name = controller.text;
-
-                validate();
-
-                if (errors.isEmpty) {
-                  //TODO: Change to real user id
-                  print('NEED TO CHANGE USER ID WHEN AUTH IS DONE');
-                  int id;
-                  if (widget.id == null) {
-                    id = await serviceLocator<InstitutionDao>()
-                        .insertInstitution(
-                            Institution(name: name, type: type, userId: 1));
-                  } else {
-                    serviceLocator<InstitutionDao>().updateInstitution(
-                        Institution(
-                            id: widget.id!, name: name, type: type, userId: 1));
-                    id = widget.id!;
-                  }
-
-                  for (Subject subject in noDbSubjects) {
-                    Subject newSubject = Subject(
-                      name: subject.name,
-                      acronym: subject.acronym,
-                      weightAverage: subject.weightAverage,
-                      institutionId: id,
-                    );
-                    await serviceLocator<SubjectDao>()
-                        .insertSubject(newSubject);
-                  }
-
-                  Navigator.pop(context);
-                }
+                await save();
               },
               style: ElevatedButton.styleFrom(
                 minimumSize: Size(MediaQuery.of(context).size.width * 0.4, 55),
@@ -494,7 +470,7 @@ class _InstitutionFormState extends State<InstitutionForm> {
                   borderRadius: BorderRadius.circular(25.0),
                 ),
               ),
-              child: Text('Delete',
+              child: Text(AppLocalizations.of(context).delete,
                   style: Theme.of(context).textTheme.headlineSmall))
         ],
       );
