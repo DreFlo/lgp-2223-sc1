@@ -96,9 +96,9 @@ class _ProgressInTimeslotModalState extends State<ProgressInTimeslotModal> {
         ]),
         const SizedBox(height: 30),
         Row(mainAxisAlignment: MainAxisAlignment.center, children: const [
-          Text("we're missing an Emil variation here")
-          //TODO: add Emil
+          Image(image: AssetImage('assets/images/determined_emil.png'))
         ]),
+        const SizedBox(height: 30),
         Row(mainAxisAlignment: MainAxisAlignment.center, children: [
           Text(AppLocalizations.of(context).event_progress_5,
               style: Theme.of(context).textTheme.displayMedium,

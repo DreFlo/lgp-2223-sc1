@@ -91,7 +91,7 @@ class _GainedXPToastState extends State<GainedXPToast>
               children: const [
                 SizedBox(
                     width: 50,
-                    child: Image(image: AssetImage('assets/images/emil.png')))
+                    child: Image(image: AssetImage('assets/images/excited_emil.png')))
               ],
             )),
         const SizedBox(width: 30),

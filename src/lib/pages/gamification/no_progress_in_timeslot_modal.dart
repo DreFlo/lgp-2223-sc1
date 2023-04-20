@@ -33,8 +33,7 @@ class _NoProgressInTimeslotModalState extends State<NoProgressInTimeslotModal> {
         ]),
         const SizedBox(height: 30),
         Row(mainAxisAlignment: MainAxisAlignment.center, children: const [
-          Text("we're missing an Emil variation here")
-          //TODO: add Emil
+          Image(image: AssetImage('assets/images/sad_emil.png'))
         ]),
         const SizedBox(height: 30),
         Row(mainAxisAlignment: MainAxisAlignment.center, children: [
