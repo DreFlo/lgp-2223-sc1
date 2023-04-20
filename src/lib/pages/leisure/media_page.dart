@@ -32,10 +32,17 @@ class MediaPage extends StatelessWidget {
   String getLength(context) {
     if (type == "TV Show") {
       if (length[2] == null) {
-        return length[0].toString() +
-            AppLocalizations.of(context).seasons +
-            length[1].toString() +
-            AppLocalizations.of(context).episodes_no_duration;
+        if (length[0]! > 1) {
+          return length[0].toString() +
+              AppLocalizations.of(context).seasons +
+              length[1].toString() +
+              AppLocalizations.of(context).episodes_no_duration;
+        } else {
+          return length[0].toString() +
+              AppLocalizations.of(context).season +
+              length[1].toString() +
+              AppLocalizations.of(context).episodes_no_duration;
+        }
       }
       return length[0].toString() +
           AppLocalizations.of(context).seasons +
@@ -54,8 +61,10 @@ class MediaPage extends StatelessWidget {
     List<dynamic> firstTen;
     if (cast.length >= 10) {
       firstTen = cast.sublist(0, 10);
-    } else {
+    } else if (cast.length > 0) {
       firstTen = cast;
+    } else {
+      firstTen = [AppLocalizations.of(context).no_cast];
     }
     return Row(children: [
       Text(
