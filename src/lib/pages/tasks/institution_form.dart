@@ -115,6 +115,7 @@ class _InstitutionFormState extends State<InstitutionForm> {
                           Flexible(
                               flex: 10,
                               child: TextField(
+                                  key: const Key('institutionNameField'),
                                   controller: controller,
                                   style: const TextStyle(
                                       fontSize: 20,
@@ -430,6 +431,7 @@ class _InstitutionFormState extends State<InstitutionForm> {
   Widget displayEndButtons() {
     if (widget.id == null) {
       return ElevatedButton(
+          key: const Key('saveButton'),
           onPressed: () async {
             await save();
           },
@@ -446,6 +448,7 @@ class _InstitutionFormState extends State<InstitutionForm> {
       return Row(
         children: [
           ElevatedButton(
+              key: const Key('saveButton'),
               onPressed: () async {
                 await save();
               },
@@ -460,6 +463,7 @@ class _InstitutionFormState extends State<InstitutionForm> {
                   style: Theme.of(context).textTheme.headlineSmall)),
           const SizedBox(width: 20),
           ElevatedButton(
+              key: const Key('deleteButton'),
               onPressed: () async {
                 showDeleteConfirmation(context);
               },
@@ -525,6 +529,7 @@ class _InstitutionFormState extends State<InstitutionForm> {
 
   showDeleteConfirmation(BuildContext context) {
     Widget cancelButton = TextButton(
+      key: const Key('cancelConfirmationButton'),
       child: Text(AppLocalizations.of(context).cancel,
           style: const TextStyle(
               color: Colors.white, fontSize: 16, fontWeight: FontWeight.w600),
@@ -535,6 +540,7 @@ class _InstitutionFormState extends State<InstitutionForm> {
     );
 
     Widget deleteButton = TextButton(
+      key: const Key('deleteConfirmationButton'),
       child: Text(AppLocalizations.of(context).delete,
           style: const TextStyle(
               color: Colors.white, fontSize: 16, fontWeight: FontWeight.w600),

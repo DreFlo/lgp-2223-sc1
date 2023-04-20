@@ -1,43 +1,20 @@
-// This is a basic Flutter widget test.
-//
-// To perform an interaction with a widget in your test, use the WidgetTester
-// utility that Flutter provides. For example, you can send tap and scroll
-// gestures. You can also use WidgetTester to find child widgets in the widget
-// tree, read text, and verify that the values of widget properties are correct.
-
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:src/models/student/institution.dart';
-import 'package:src/models/student/subject.dart';
-import 'package:src/pages/tasks/subject_form.dart';
 import 'package:src/utils/enums.dart';
 import 'package:src/utils/service_locator.dart';
-
 import '../utils/service_locator_test_util.dart';
+import 'package:mockito/mockito.dart';
+import '../utils/model_mocks_util.mocks.dart';
+import 'widget_tests_utils.dart';
+
+import 'package:src/models/student/institution.dart';
+import 'package:src/models/student/subject.dart';
 
 import 'package:src/daos/student/institution_dao.dart';
 import 'package:src/daos/student/subject_dao.dart';
 
-import 'package:mockito/mockito.dart';
-
-import '../utils/model_mocks_util.mocks.dart';
-
-class LocalizationsInjector extends StatelessWidget {
-  final Widget child;
-  const LocalizationsInjector({Key? key, required this.child})
-      : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      localizationsDelegates: AppLocalizations.localizationsDelegates,
-      supportedLocales: AppLocalizations.supportedLocales,
-      home: Material(child: child),
-    );
-  }
-}
+import 'package:src/pages/tasks/subject_form.dart';
+import 'package:src/pages/tasks/institution_form.dart';
 
 void main() {
   setUp(() async {
@@ -74,7 +51,7 @@ void main() {
     expect(find.text('Weight for Average is required'), findsOneWidget);
   });
 
-  testWidgets('Create subject normally', (WidgetTester widgetTester) async {
+  testWidgets('Create subject test', (WidgetTester widgetTester) async {
     final mockInstitutionDao = serviceLocator.get<InstitutionDao>();
     when(mockInstitutionDao.findAllInstitutions()).thenAnswer((_) async => []);
 
@@ -116,7 +93,7 @@ void main() {
     expect(find.text('Weight for Average is required'), findsNothing);
   });
 
-  testWidgets('Load correct subject information',
+  testWidgets('Load correct subject information test',
       (WidgetTester widgetTester) async {
     final mockInstitutionDao = serviceLocator.get<InstitutionDao>();
     when(mockInstitutionDao.findAllInstitutions()).thenAnswer((_) async => [
@@ -153,7 +130,7 @@ void main() {
     expect(find.text('inst_name').last, findsOneWidget);
   });
 
-  testWidgets('Edit Subject', (WidgetTester widgetTester) async {
+  testWidgets('Edit Subject test', (WidgetTester widgetTester) async {
     final mockInstitutionDao = serviceLocator.get<InstitutionDao>();
     when(mockInstitutionDao.findAllInstitutions()).thenAnswer((_) async => []);
 
@@ -202,7 +179,7 @@ void main() {
     expect(find.textContaining('3'), findsNothing);
   });
 
-  testWidgets('Delete subject', (WidgetTester widgetTester) async {
+  testWidgets('Delete subject test', (WidgetTester widgetTester) async {
     final mockInstitutionDao = serviceLocator.get<InstitutionDao>();
     when(mockInstitutionDao.findAllInstitutions()).thenAnswer((_) async => []);
 
@@ -248,4 +225,56 @@ void main() {
     expect(find.text('sub_acronym'), findsNothing);
     expect(find.textContaining('3'), findsNothing);
   });
+
+  testWidgets('Create institution with incorrect fields test',
+      (WidgetTester widgetTester) async {
+    await widgetTester.pumpWidget(LocalizationsInjector(
+        child: InstitutionForm(scrollController: ScrollController())));
+
+    await widgetTester.pumpAndSettle();
+
+    Finder saveButton = find.byKey(const Key('saveButton'));
+
+    Finder scroll = find.byType(Scrollable).last;
+
+    await widgetTester.scrollUntilVisible(saveButton, 100, scrollable: scroll);
+    await widgetTester
+        .tap(find.byKey(const Key('saveButton'), skipOffstage: false));
+
+    await widgetTester.pumpAndSettle();
+
+    expect(find.text('Name is required'), findsOneWidget);
+  });
+
+  testWidgets('Create institution normally test',
+      (WidgetTester widgetTester) async {
+    final mockInstitutionDao = serviceLocator.get<InstitutionDao>();
+
+    when(mockInstitutionDao.insertInstitution(MockInstitution()))
+        .thenAnswer((_) async => 1);
+
+    await widgetTester.pumpWidget(LocalizationsInjector(
+        child: InstitutionForm(scrollController: ScrollController())));
+
+    await widgetTester.pumpAndSettle();
+
+    await widgetTester.enterText(
+        find.byKey(const Key('institutionNameField')), 'inst_name');
+
+    expect(find.text('inst_name'), findsOneWidget);
+
+    Finder saveButton = find.byKey(const Key('saveButton'));
+
+    Finder scroll = find.byType(Scrollable).last;
+
+    await widgetTester.scrollUntilVisible(saveButton, 100, scrollable: scroll);
+    await widgetTester
+        .tap(find.byKey(const Key('saveButton'), skipOffstage: false));
+
+    await widgetTester.pumpAndSettle();
+
+    expect(find.text('inst_name'), findsNothing);
+  });
+
+  
 }
