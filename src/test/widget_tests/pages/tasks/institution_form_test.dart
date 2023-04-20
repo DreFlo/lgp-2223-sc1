@@ -188,4 +188,39 @@ void main() {
 
     expect(find.text('inst_name'), findsNothing);
   });
+
+  //NOT WORKING - NOT SURE IF IT'S POSSIBLE TO TEST THIS
+  /* testWidgets('Disassociate subject from institution test',
+      (WidgetTester widgetTester) async {
+    final mockInstitutionDao = serviceLocator.get<InstitutionDao>();
+    when(mockInstitutionDao.findInstitutionById(1)).thenAnswer((_) =>
+        Stream.value(Institution(
+            id: 1, name: 'inst_name', type: InstitutionType.other, userId: 1)));
+
+    final mockSubjectDao = serviceLocator.get<SubjectDao>();
+    when(mockSubjectDao.findSubjectByInstitutionId(1)).thenAnswer((_) async => [
+          Subject(
+              id: 1, name: 'sub_name', acronym: 'sub_acronym', weightAverage: 3)
+        ]);
+
+    await widgetTester.pumpWidget(LocalizationsInjector(
+        child: InstitutionForm(scrollController: ScrollController(), id: 1)));
+
+    await widgetTester.pumpAndSettle();
+
+    expect(find.text('sub_name'), findsOneWidget);
+    expect(find.text('sub_acronym'), findsOneWidget);
+
+    final disassociateIcon = find.byType(IconButton).last;
+    Finder scroll = find.byType(Scrollable).last;
+
+    await widgetTester.scrollUntilVisible(disassociateIcon, 100,
+        scrollable: scroll);
+    await widgetTester.tap(disassociateIcon);
+
+    await widgetTester.pumpAndSettle();
+
+    expect(find.text('sub_name'), findsNothing);
+    expect(find.text('sub_acronym'), findsNothing);
+  }); */
 }
