@@ -1,7 +1,6 @@
 // ignore_for_file: prefer_const_constructors, sized_box_for_whitespace, must_be_immutable
 
 import 'package:flutter/material.dart';
-import 'package:tmdb_api/tmdb_api.dart';
 import 'media.dart';
 import 'package:src/models/notes/note_book_note_super_entity.dart';
 import 'package:src/models/notes/note_episode_note_super_entity.dart';

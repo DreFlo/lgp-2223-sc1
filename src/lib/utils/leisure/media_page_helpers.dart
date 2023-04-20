@@ -264,6 +264,7 @@ List<String> makeCastList(Map cast) {
 Future<Map> getDetails(int id, String type) async {
     final tmdb = TMDB(ApiKeys(Env.tmdbApiKey, 'apiReadAccessTokenv4'));
     final Map<int, Map<dynamic, dynamic>> episodes = {};
+    final Map<int, List<dynamic>> fullEpisodes = {};
 
     if (type == 'Movie') {
       Map result = await tmdb.v3.movies.getDetails(id);
@@ -285,21 +286,23 @@ Future<Map> getDetails(int id, String type) async {
         }
         Map episodeNumbersNames = makeEpisodeNameMap(episodeSeason);
         episodes[season] = episodeNumbersNames;
+        fullEpisodes[season] = episodeSeason['episodes'];
       }
       result['episodes'] = episodes;
+      result['full_episodes'] = fullEpisodes;
       return result;
     } else {
       return {};
     }
   }
   
-  Map<int, String> makeEpisodeNameMap(Map episodes) {
-    Map<int, String> episodeNameMap = {};
-    episodes['episodes'].forEach((item) {
-      String name = item['name'] ?? '';
-      int episodeNumber = item['episode_number'] ?? 0;
-      //to get all guest stars do makeCastList(item['guest_stars])
-      episodeNameMap[episodeNumber] = name;
-    });
-    return episodeNameMap;
-  }
+Map<int, String> makeEpisodeNameMap(Map episodes) {
+  Map<int, String> episodeNameMap = {};
+  episodes['episodes'].forEach((item) {
+    String name = item['name'] ?? '';
+    int episodeNumber = item['episode_number'] ?? 0;
+    //to get all guest stars do makeCastList(item['guest_stars])
+    episodeNameMap[episodeNumber] = name;
+  });
+  return episodeNameMap;
+}
