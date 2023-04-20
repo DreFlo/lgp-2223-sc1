@@ -191,7 +191,7 @@ class _AddTaskNoteFormState extends State<AddTaskNoteForm> {
     setState(() {});
   }
 
-  save() async {
+  save(BuildContext context) async {
     validate();
 
     if (errors.isEmpty) {
@@ -255,13 +255,32 @@ class _AddTaskNoteFormState extends State<AddTaskNoteForm> {
     }
   }
 
+  delete(BuildContext context) async {
+    NoteTaskNoteSuperEntity noteTaskNoteSuperEntity = NoteTaskNoteSuperEntity(
+        id: widget.note!.id,
+        title: widget.note!.title,
+        content: widget.note!.content,
+        date: widget.note!.date,
+        taskId: widget.taskId!);
+
+    await serviceLocator<NoteTaskNoteSuperDao>()
+        .deleteNoteTaskNoteSuperEntity(noteTaskNoteSuperEntity);
+
+    Navigator.pop(context);
+    Navigator.pop(context);
+
+    if (widget.deleteNoteCallback != null) {
+      widget.deleteNoteCallback!(widget.note);
+    }
+  }
+
   Widget displayEndButtons() {
     if (widget.note == null || widget.taskId == null) {
       return Padding(
           padding: const EdgeInsets.only(left: 40, top: 30),
           child: ElevatedButton(
               onPressed: () async {
-                await save();
+                await save(context);
               },
               style: ElevatedButton.styleFrom(
                 minimumSize: Size(MediaQuery.of(context).size.width * 0.80, 55),
@@ -279,7 +298,7 @@ class _AddTaskNoteFormState extends State<AddTaskNoteForm> {
             children: [
               ElevatedButton(
                   onPressed: () async {
-                    await save();
+                    await save(context);
                   },
                   style: ElevatedButton.styleFrom(
                     minimumSize:
@@ -328,23 +347,7 @@ class _AddTaskNoteFormState extends State<AddTaskNoteForm> {
               color: Colors.white, fontSize: 16, fontWeight: FontWeight.w600),
           textAlign: TextAlign.center),
       onPressed: () async {
-        NoteTaskNoteSuperEntity noteTaskNoteSuperEntity =
-            NoteTaskNoteSuperEntity(
-                id: widget.note!.id,
-                title: widget.note!.title,
-                content: widget.note!.content,
-                date: widget.note!.date,
-                taskId: widget.taskId!);
-
-        await serviceLocator<NoteTaskNoteSuperDao>()
-            .deleteNoteTaskNoteSuperEntity(noteTaskNoteSuperEntity);
-
-        Navigator.pop(context);
-        Navigator.pop(context);
-
-        if (widget.deleteNoteCallback != null) {
-          widget.deleteNoteCallback!(widget.note);
-        }
+        delete(context);
       },
     );
 
