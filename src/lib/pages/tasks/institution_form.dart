@@ -175,11 +175,14 @@ class _InstitutionFormState extends State<InstitutionForm> {
                         Flexible(
                             flex: 1,
                             child: InkWell(
+                              key: const Key('educationInstitutionTypeButton'),
                               highlightColor: lightGray,
                               child: Column(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
                                   Container(
+                                      key:
+                                          const Key('educationInstitutionType'),
                                       padding: const EdgeInsets.symmetric(
                                           horizontal: 15, vertical: 10),
                                       decoration: BoxDecoration(
@@ -215,6 +218,7 @@ class _InstitutionFormState extends State<InstitutionForm> {
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
                                   Container(
+                                      key: const Key('workInstitutionType'),
                                       padding: const EdgeInsets.symmetric(
                                           horizontal: 15, vertical: 10),
                                       color: (type == InstitutionType.work
@@ -243,6 +247,7 @@ class _InstitutionFormState extends State<InstitutionForm> {
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
                                 Container(
+                                    key: const Key('otherInstitutionType'),
                                     decoration: BoxDecoration(
                                       borderRadius: const BorderRadius.only(
                                           topRight: Radius.circular(10),
