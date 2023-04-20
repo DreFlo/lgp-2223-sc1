@@ -9,14 +9,20 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:src/models/student/institution.dart';
+import 'package:src/models/student/subject.dart';
 import 'package:src/pages/tasks/subject_form.dart';
+import 'package:src/utils/enums.dart';
 import 'package:src/utils/service_locator.dart';
 
 import '../utils/service_locator_test_util.dart';
 
 import 'package:src/daos/student/institution_dao.dart';
+import 'package:src/daos/student/subject_dao.dart';
 
 import 'package:mockito/mockito.dart';
+
+import '../utils/model_mocks_util.mocks.dart';
 
 class LocalizationsInjector extends StatelessWidget {
   final Widget child;
@@ -34,12 +40,13 @@ class LocalizationsInjector extends StatelessWidget {
 }
 
 void main() {
-  setUp(() async {
+  setUpAll(() async {
     setupMockServiceLocatorUnitTests();
     await serviceLocator.allReady();
   });
 
-  testWidgets('Create empty subject test', (WidgetTester widgetTester) async {
+  testWidgets('Create subject with incorrect fields test',
+      (WidgetTester widgetTester) async {
     final mockInstitutionDao = serviceLocator.get<InstitutionDao>();
     when(mockInstitutionDao.findAllInstitutions()).thenAnswer((_) async => []);
 
@@ -63,25 +70,40 @@ void main() {
     expect(find.text('Weight for Average is required'), findsOneWidget);
   });
 
-  /*testWidgets('Counter increments smoke test', (WidgetTester tester) async {
-    final mockPersonDao = serviceLocator.get<PersonDao>();
-    when(mockPersonDao.findAllPersons()).thenAnswer((_) async => []);
+  testWidgets('Create subject normally', (WidgetTester widgetTester) async {
+    final mockInstitutionDao = serviceLocator.get<InstitutionDao>();
+    when(mockInstitutionDao.findAllInstitutions()).thenAnswer((_) async =>
+        [Institution(name: 'name', type: InstitutionType.other, userId: 1)]);
 
-    // Build our app and trigger a frame.
-    await tester.pumpWidget(const App());
+    final mockSubjectDao = serviceLocator.get<SubjectDao>();
+    when(mockSubjectDao.insertSubject(MockSubject()))
+        .thenAnswer((_) async => 1);
 
-    await tester.pump(const Duration(seconds: 10));
-    //
-    // // Verify that our counter starts at 0.
-    expect(find.text('0'), findsOneWidget);
-    expect(find.text('1'), findsNothing);
-    //
-    // // Tap the '+' icon and trigger a frame.
-    await tester.tap(find.byIcon(Icons.add));
-    await tester.pumpAndSettle(const Duration(seconds: 10));
-    //
-    // // Verify that our counter has incremented.
-    expect(find.text('0'), findsNothing);
-    expect(find.text('1'), findsOneWidget);
-  });*/
+    await widgetTester.pumpWidget(LocalizationsInjector(
+        child: SubjectForm(scrollController: ScrollController())));
+
+    await widgetTester.pump(const Duration(seconds: 10));
+
+    await widgetTester.enterText(find.byKey(const Key('nameField')), 'name');
+
+    await widgetTester.enterText(
+        find.byKey(const Key('acronymField')), 'acronym');
+
+    await widgetTester.enterText(
+        find.byKey(const Key('weightAverageField')), '1');
+
+    Finder saveButton = find.byKey(const Key('saveSubjectButton'));
+
+    Finder scroll = find.byType(Scrollable).last;
+
+    await widgetTester.scrollUntilVisible(saveButton, 100, scrollable: scroll);
+    await widgetTester
+        .tap(find.byKey(const Key('saveSubjectButton'), skipOffstage: false));
+
+    await widgetTester.pump(const Duration(seconds: 10));
+
+    expect(find.text('Name is required'), findsNothing);
+    expect(find.text('Acronym is required'), findsNothing);
+    expect(find.text('Weight for Average is required'), findsNothing);
+  });
 }

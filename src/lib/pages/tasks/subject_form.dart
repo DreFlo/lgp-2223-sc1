@@ -139,6 +139,7 @@ class _SubjectFormState extends State<SubjectForm> {
                           Flexible(
                               flex: 10,
                               child: TextField(
+                                  key: const Key('nameField'),
                                   controller: nameController,
                                   style: const TextStyle(
                                       fontSize: 20,
@@ -198,6 +199,7 @@ class _SubjectFormState extends State<SubjectForm> {
                           Flexible(
                               flex: 10,
                               child: TextField(
+                                  key: const Key('acronymField'),
                                   controller: acronymController,
                                   style: const TextStyle(
                                       fontSize: 20,
@@ -242,6 +244,7 @@ class _SubjectFormState extends State<SubjectForm> {
                           Flexible(
                               flex: 10,
                               child: TextField(
+                                  key: const Key('weightAverageField'),
                                   controller: weightAverageController,
                                   keyboardType: TextInputType.number,
                                   inputFormatters: [
@@ -510,8 +513,7 @@ class _SubjectFormState extends State<SubjectForm> {
           style: const TextStyle(
               color: Colors.white, fontSize: 20, fontWeight: FontWeight.w600),
           textAlign: TextAlign.center),
-      content: Text(
-          AppLocalizations.of(context).delete_subject_message,
+      content: Text(AppLocalizations.of(context).delete_subject_message,
           style: const TextStyle(
               color: Colors.white, fontSize: 14, fontWeight: FontWeight.w600),
           textAlign: TextAlign.center),
