@@ -43,7 +43,7 @@ class _MediaPageButtonState extends State<MediaPageButton> {
     final mediaStatus =
         await serviceLocator<MediaDao>().findMediaStatusById(widget.mediaId);
     setState(() {
-      status = mediaStatus!;
+      status = mediaStatus ?? Status.nothing;
       isStatusLoaded = true;
     });
   }
