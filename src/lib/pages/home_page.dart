@@ -161,9 +161,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                                               .viewInsets
                                               .bottom),
                                       child: ElevatedButton(
-                                        onPressed: () {
-                                          //TODO: Save stuff + send to database.
-                                        },
+                                        onPressed: () {},
                                         style: ElevatedButton.styleFrom(
                                           minimumSize: Size(
                                               MediaQuery.of(context)
@@ -334,9 +332,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                                               .viewInsets
                                               .bottom),
                                       child: ElevatedButton(
-                                        onPressed: () {
-                                          //TODO: Save stuff + send to database.
-                                        },
+                                        onPressed: () {},
                                         style: ElevatedButton.styleFrom(
                                           minimumSize: Size(
                                               MediaQuery.of(context)

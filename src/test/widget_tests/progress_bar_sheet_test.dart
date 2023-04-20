@@ -15,7 +15,8 @@ void main() {
 
     setUp(() {
       mockImagePicker = MockImagePicker();
-      progressBarSheet = const LocalizationsInjector(child: ProgressBarSheet(
+      progressBarSheet = const LocalizationsInjector(
+          child: ProgressBarSheet(
         user: ['test_user', '50'],
         image: 'test_image',
         level: 1,

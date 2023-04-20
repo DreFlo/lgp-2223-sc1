@@ -91,7 +91,8 @@ class _GainedXPToastState extends State<GainedXPToast>
               children: const [
                 SizedBox(
                     width: 50,
-                    child: Image(image: AssetImage('assets/images/excited_emil.png')))
+                    child: Image(
+                        image: AssetImage('assets/images/excited_emil.png')))
               ],
             )),
         const SizedBox(width: 30),
@@ -101,7 +102,6 @@ class _GainedXPToastState extends State<GainedXPToast>
                 Column(mainAxisAlignment: MainAxisAlignment.center, children: [
               Row(children: [
                 Text(
-                  
                   AppLocalizations.of(context).gained_xp,
                   key: const Key("gained_xp_toast_text"),
                   style: const TextStyle(

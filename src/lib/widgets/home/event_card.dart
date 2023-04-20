@@ -69,7 +69,7 @@ class _MyEventCardState extends State<MyEventCard> {
     dynamic item = widget.mediaEvent ?? widget.studentEvent;
     return GestureDetector(
         onTap: () {
-          // TODO - Navigate to task page
+          // TODO - Navigate to event page
         },
         child: Container(
           height: 80,

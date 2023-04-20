@@ -19,7 +19,6 @@ class Dashboard extends StatefulWidget {
   State<Dashboard> createState() => _DashboardState();
 }
 
-// TODO: Replace with real data
 class Project {
   final String title;
   final String module;

@@ -28,17 +28,13 @@ void main() {
         (WidgetTester tester) async {
       disableOverflowErrors();
 
-      await tester.pumpWidget(const
-        LocalizationsInjector(
-            child: ProgressInTimeslotModal(
-                taskCount: 10,
-                finishedTaskCount: 5,
-                modules: [Module.leisure, Module.student]))
-      );
+      await tester.pumpWidget(const LocalizationsInjector(
+          child: ProgressInTimeslotModal(
+              taskCount: 10,
+              finishedTaskCount: 5,
+              modules: [Module.leisure, Module.student])));
       expect(find.byType(ElevatedButton), findsOneWidget);
-      expect(
-          find.text(
-              "Emil is incredibly proud!\nKeep up the good work!"),
+      expect(find.text("Emil is incredibly proud!\nKeep up the good work!"),
           findsOneWidget);
       expect(find.text("5 tasks"), findsOneWidget);
       expect(find.text("out of 10 tasks planned!"), findsOneWidget);
