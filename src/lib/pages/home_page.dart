@@ -1,26 +1,27 @@
 // ignore_for_file: prefer_const_constructors, sized_box_for_whitespace, file_names
 
+import 'package:books_finder/books_finder.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:src/animation_test/main.dart';
 import 'package:src/daos/user_dao.dart';
+import 'package:src/env/env.dart';
 import 'package:src/models/user.dart';
+import 'package:src/pages/events/event_form.dart';
 import 'package:src/pages/tasks/institution_form.dart';
 import 'package:src/pages/tasks/subject_form.dart';
 import 'package:src/themes/colors.dart';
-import 'package:src/utils/service_locator.dart';
-import 'leisure/add_to_catalog_form.dart';
-import 'leisure/mark_episodes_sheet.dart';
-import 'leisure/episodes_notes_sheet.dart';
-import 'leisure/book_notes_sheet.dart';
-import 'leisure/add_book_note_form.dart';
-import 'leisure/media_page.dart';
 import 'package:src/utils/enums.dart';
-import 'package:src/env/env.dart';
+import 'package:src/utils/service_locator.dart';
 import 'package:tmdb_api/tmdb_api.dart';
-import 'package:books_finder/books_finder.dart';
-import 'catalog_search/leisure_module.dart';
 
+import 'catalog_search/leisure_module.dart';
+import 'leisure/add_book_note_form.dart';
+import 'leisure/add_to_catalog_form.dart';
+import 'leisure/book_notes_sheet.dart';
+import 'leisure/episodes_notes_sheet.dart';
+import 'leisure/mark_episodes_sheet.dart';
+import 'leisure/media_page.dart';
 import 'tasks/project_form.dart';
 import 'tasks/task_form.dart';
 
@@ -451,7 +452,7 @@ class _HomePageState extends State<HomePage> {
       appBar: AppBar(
         title: Text(widget.title),
       ),
-      body: Wrap(spacing: 10, children: [
+      body: ListView(children: [
         const SizedBox(height: 30),
         Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -697,6 +698,37 @@ class _HomePageState extends State<HomePage> {
                               scrollController: scrollController,
                             ),
                           )));
+                }),
+            ElevatedButton(
+                child: Text("Event Form"),
+                onPressed: () {
+                  showModalBottomSheet(
+                      context: context,
+                      isScrollControlled: true,
+                      backgroundColor: Color(0xFF22252D),
+                      shape: RoundedRectangleBorder(
+                        borderRadius:
+                            BorderRadius.vertical(top: Radius.circular(30.0)),
+                      ),
+                      builder: (context) => Padding(
+                            padding: EdgeInsets.only(
+                                bottom:
+                                    MediaQuery.of(context).viewInsets.bottom +
+                                        50),
+                            child: DraggableScrollableSheet(
+                                expand: false,
+                                initialChildSize: 0.75,
+                                minChildSize: 0.75,
+                                maxChildSize: 0.75,
+                                builder: (context, scrollController) =>
+                                    EventForm(
+                                      title: "Create Event",
+                                      description: "nothing",
+                                      startTime: "05/04/2023 2:15PM",
+                                      endTime: "05/04/2023 3:15PM",
+                                      scrollController: scrollController,
+                                    )),
+                          ));
                 }),
             FutureBuilder(
                 key: ValueKey<Object>(redrawObject),
