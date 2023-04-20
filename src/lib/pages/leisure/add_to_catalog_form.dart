@@ -64,6 +64,7 @@ class _AddToCatalogFormState extends State<AddToCatalogForm> {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
+                Expanded(child: 
                 InkWell(
                   highlightColor: lightGray,
                   borderRadius: const BorderRadius.all(Radius.circular(10)),
@@ -90,7 +91,9 @@ class _AddToCatalogFormState extends State<AddToCatalogForm> {
                     setState(() {});
                   },
                 ),
-                InkWell(
+                ),
+                const SizedBox(width: 15), 
+                Expanded(child: InkWell(
                   highlightColor: lightGray,
                   borderRadius: const BorderRadius.all(Radius.circular(10)),
                   child: Column(
@@ -116,7 +119,15 @@ class _AddToCatalogFormState extends State<AddToCatalogForm> {
 
                     setState(() {});
                   },
-                ),
+                )),
+              ],
+            ),
+            const SizedBox(height: 10),
+            const SizedBox(width: 5), 
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                Expanded(child: 
                 InkWell(
                   highlightColor: lightGray,
                   borderRadius: const BorderRadius.all(Radius.circular(10)),
@@ -142,40 +153,9 @@ class _AddToCatalogFormState extends State<AddToCatalogForm> {
 
                     setState(() {});
                   },
-                ),
-              ],
-            ),
-            const SizedBox(height: 10),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                InkWell(
-                  highlightColor: lightGray,
-                  borderRadius: const BorderRadius.all(Radius.circular(10)),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Container(
-                          height: 50,
-                          padding: const EdgeInsets.only(left: 30, right: 30),
-                          alignment: const Alignment(0, 0),
-                          decoration: BoxDecoration(
-                              borderRadius:
-                                  const BorderRadius.all(Radius.circular(10)),
-                              color: (status == Status.nothing
-                                  ? leisureColor
-                                  : lightGray)),
-                          child: Text(AppLocalizations.of(context).nothing,
-                              style: Theme.of(context).textTheme.bodySmall)),
-                    ],
-                  ),
-                  onTap: () {
-                    status = Status.nothing;
-
-                    setState(() {});
-                  },
-                ),
-                InkWell(
+                )),
+                const SizedBox(width: 15), 
+                Expanded(child: InkWell(
                   highlightColor: lightGray,
                   borderRadius: const BorderRadius.all(Radius.circular(10)),
                   child: Column(
@@ -200,7 +180,7 @@ class _AddToCatalogFormState extends State<AddToCatalogForm> {
 
                     setState(() {});
                   },
-                )
+                ))
               ],
             )
           ])),
