@@ -127,7 +127,7 @@ class _ProjectFormState extends State<ProjectForm> {
     validate();
     if (errors.isNotEmpty) {
       widget.scrollController.animateTo(0,
-          duration: Duration(milliseconds: 500), curve: Curves.ease);
+          duration: const Duration(milliseconds: 500), curve: Curves.ease);
       setState(() {});
       return;
     }
@@ -164,7 +164,9 @@ class _ProjectFormState extends State<ProjectForm> {
       }
     }
 
-    Navigator.pop(context);
+    if (context.mounted) {
+      Navigator.pop(context);
+    }
   }
 
   delete(BuildContext context) async {
@@ -174,8 +176,11 @@ class _ProjectFormState extends State<ProjectForm> {
           .first as TaskGroup;
       await serviceLocator<TaskGroupDao>().deleteTaskGroup(taskGroup);
     }
-    Navigator.pop(context);
-    Navigator.pop(context);
+
+    if (context.mounted) {
+      Navigator.pop(context);
+      Navigator.pop(context);
+    }
   }
 
   @override

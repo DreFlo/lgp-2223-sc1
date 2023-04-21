@@ -1,5 +1,3 @@
-// ignore_for_file: file_names
-
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:src/daos/notes/note_task_note_super_dao.dart';
@@ -253,7 +251,9 @@ class _AddTaskNoteFormState extends State<AddTaskNoteForm> {
         }
       }
 
-      Navigator.pop(context);
+      if (context.mounted) {
+        Navigator.pop(context);
+      }
     }
   }
 
@@ -268,8 +268,10 @@ class _AddTaskNoteFormState extends State<AddTaskNoteForm> {
     await serviceLocator<NoteTaskNoteSuperDao>()
         .deleteNoteTaskNoteSuperEntity(noteTaskNoteSuperEntity);
 
-    Navigator.pop(context);
-    Navigator.pop(context);
+    if (context.mounted) {
+      Navigator.pop(context);
+      Navigator.pop(context);
+    }
 
     if (widget.deleteNoteCallback != null) {
       widget.deleteNoteCallback!(widget.note);

@@ -318,7 +318,9 @@ class _TaskFormState extends State<TaskForm> {
     }
     // My idea
     // Create here the new notes
-    Navigator.pop(context);
+    if (context.mounted) {
+      Navigator.pop(context);
+    }
   }
 
   delete(BuildContext context) async {
@@ -328,8 +330,10 @@ class _TaskFormState extends State<TaskForm> {
       serviceLocator<TaskDao>().deleteTask(task);
     }
 
-    Navigator.pop(context);
-    Navigator.pop(context);
+    if (context.mounted) {
+      Navigator.pop(context);
+      Navigator.pop(context);
+    }
 
     if (widget.deleteCallback != null) {
       widget.deleteCallback!();
@@ -739,7 +743,7 @@ class _TaskFormState extends State<TaskForm> {
 
   Widget getProject(BuildContext context) {
     if (isChildOfNotCreated()) {
-      return SizedBox();
+      return const SizedBox();
     }
     return InkWell(
         child: Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
@@ -876,7 +880,7 @@ class _TaskFormState extends State<TaskForm> {
 
   Widget getInstitution(BuildContext context) {
     if (isChildOfNotCreated()) {
-      return SizedBox();
+      return const SizedBox();
     }
     return InkWell(
         child: Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
@@ -1098,7 +1102,7 @@ class _TaskFormState extends State<TaskForm> {
 
   Widget getAddNoteButton(BuildContext context) {
     if (isChildOfNotCreated()) {
-      return SizedBox();
+      return const SizedBox();
     }
 
     return Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
