@@ -19,8 +19,8 @@ class DashBoardGridView extends StatefulWidget {
 }
 
 class _DashBoardGridViewState extends State<DashBoardGridView> {
-  List<dynamic> get items {
-    final List<dynamic> combined = [];
+  List get items {
+    final List combined = [];
     if (widget.tasks != null) {
       combined.addAll(widget.tasks!);
     }

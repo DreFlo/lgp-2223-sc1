@@ -55,7 +55,7 @@ class _DashboardState extends State<Dashboard> {
 
   late List<Project> searchResults = items;*/
 
-  late dynamic searchResults = items;
+  late List searchResults = items;
 
   @override
   void initState() {
@@ -63,9 +63,9 @@ class _DashboardState extends State<Dashboard> {
     loadDataDB();
   }
 
-  List<dynamic> get items {
+  List get items {
     if (loadedAllData) {
-      final List<dynamic> combined = [];
+      final List combined = [];
       if (tasks.isNotEmpty) {
         combined.addAll(tasks);
       }

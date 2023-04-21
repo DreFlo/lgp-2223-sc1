@@ -16,8 +16,8 @@ class MyEventListView extends StatefulWidget {
 }
 
 class _MyEventListViewState extends State<MyEventListView> {
-  List<dynamic> get items {
-    final List<dynamic> combined = [];
+  List get items {
+    final List combined = [];
     if (widget.mediaEvents != null) {
       combined.addAll(widget.mediaEvents!);
     }
@@ -30,7 +30,7 @@ class _MyEventListViewState extends State<MyEventListView> {
     return combined;
   }
 
-  showCard(dynamic item) {
+  showCard(Object? item) {
     if (widget.studentEvents != null &&
         item is TimeslotStudentTimeslotSuperEntity) {
       return MyEventCard(module: 'Student', studentEvent: item);
