@@ -189,8 +189,7 @@ void main() {
     expect(find.text('inst_name'), findsNothing);
   });
 
-  //NOT WORKING - NOT SURE IF IT'S POSSIBLE TO TEST THIS
-  /* testWidgets('Disassociate subject from institution test',
+  testWidgets('Add new subject from institution test',
       (WidgetTester widgetTester) async {
     final mockInstitutionDao = serviceLocator.get<InstitutionDao>();
     when(mockInstitutionDao.findInstitutionById(1)).thenAnswer((_) =>
@@ -198,29 +197,108 @@ void main() {
             id: 1, name: 'inst_name', type: InstitutionType.other, userId: 1)));
 
     final mockSubjectDao = serviceLocator.get<SubjectDao>();
-    when(mockSubjectDao.findSubjectByInstitutionId(1)).thenAnswer((_) async => [
-          Subject(
-              id: 1, name: 'sub_name', acronym: 'sub_acronym', weightAverage: 3)
-        ]);
+    when(mockSubjectDao.findSubjectByInstitutionId(1))
+        .thenAnswer((_) async => []);
 
     await widgetTester.pumpWidget(LocalizationsInjector(
         child: InstitutionForm(scrollController: ScrollController(), id: 1)));
 
     await widgetTester.pumpAndSettle();
 
-    expect(find.text('sub_name'), findsOneWidget);
-    expect(find.text('sub_acronym'), findsOneWidget);
+    expect(find.text('sub_name'), findsNothing);
+    expect(find.text('sub_acronym'), findsNothing);
 
-    final disassociateIcon = find.byType(IconButton).last;
+    final addSubjectIcon = find.byIcon(Icons.add).last;
     Finder scroll = find.byType(Scrollable).last;
 
-    await widgetTester.scrollUntilVisible(disassociateIcon, 100,
+    await widgetTester.scrollUntilVisible(addSubjectIcon, 100,
         scrollable: scroll);
-    await widgetTester.tap(disassociateIcon);
+    await widgetTester.tap(addSubjectIcon);
+
+    await widgetTester.pumpAndSettle();
+
+    await widgetTester.enterText(
+        find.byKey(const Key('nameField')), 'sub_name');
+
+    await widgetTester.enterText(
+        find.byKey(const Key('acronymField')), 'sub_acronym');
+
+    await widgetTester.enterText(
+        find.byKey(const Key('weightAverageField')), '3');
+
+    Finder saveButton = find.byKey(const Key('saveSubjectButton'));
+
+    scroll = find.byType(Scrollable).last;
+
+    await widgetTester.scrollUntilVisible(saveButton, 100, scrollable: scroll);
+    await widgetTester
+        .tap(find.byKey(const Key('saveSubjectButton'), skipOffstage: false));
+
+    await widgetTester.pumpAndSettle();
+
+    expect(find.text('sub_name'), findsOneWidget);
+    expect(find.text('sub_acronym'), findsOneWidget);
+  });
+
+  testWidgets('Disassociate temporary subject from institution',
+      (WidgetTester widgetTester) async {
+    final mockInstitutionDao = serviceLocator.get<InstitutionDao>();
+    when(mockInstitutionDao.findInstitutionById(1)).thenAnswer((_) =>
+        Stream.value(Institution(
+            id: 1, name: 'inst_name', type: InstitutionType.other, userId: 1)));
+
+    final mockSubjectDao = serviceLocator.get<SubjectDao>();
+    when(mockSubjectDao.findSubjectByInstitutionId(1))
+        .thenAnswer((_) async => []);
+
+    await widgetTester.pumpWidget(LocalizationsInjector(
+        child: InstitutionForm(scrollController: ScrollController(), id: 1)));
 
     await widgetTester.pumpAndSettle();
 
     expect(find.text('sub_name'), findsNothing);
     expect(find.text('sub_acronym'), findsNothing);
-  }); */
+
+    final addSubjectIcon = find.byIcon(Icons.add).last;
+    Finder scroll = find.byType(Scrollable).last;
+
+    await widgetTester.scrollUntilVisible(addSubjectIcon, 100,
+        scrollable: scroll);
+    await widgetTester.tap(addSubjectIcon);
+
+    await widgetTester.pumpAndSettle();
+
+    await widgetTester.enterText(
+        find.byKey(const Key('nameField')), 'sub_name');
+
+    await widgetTester.enterText(
+        find.byKey(const Key('acronymField')), 'sub_acronym');
+
+    await widgetTester.enterText(
+        find.byKey(const Key('weightAverageField')), '3');
+
+    Finder saveButton = find.byKey(const Key('saveSubjectButton'));
+
+    scroll = find.byType(Scrollable).last;
+
+    await widgetTester.scrollUntilVisible(saveButton, 100, scrollable: scroll);
+    await widgetTester
+        .tap(find.byKey(const Key('saveSubjectButton'), skipOffstage: false));
+
+    await widgetTester.pumpAndSettle();
+
+    Finder disassociateButton = find.byType(IconButton).last;
+
+    scroll = find.byType(Scrollable).last;
+
+    await widgetTester.scrollUntilVisible(disassociateButton, 100,
+        scrollable: scroll);
+    await widgetTester.tap(disassociateButton);
+
+    await widgetTester.pumpAndSettle();
+
+    expect(find.text('sub_name'), findsNothing);
+    expect(find.text('sub_acronym'), findsNothing);
+    expect(find.textContaining('3'), findsNothing);
+  });
 }
