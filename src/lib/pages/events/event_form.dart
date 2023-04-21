@@ -5,14 +5,13 @@ import 'dart:math' as Math;
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:intl/intl.dart';
-import 'package:src/pages/events/choose_media_form.dart';
-import 'package:src/pages/events/choose_task_form.dart';
+import 'package:src/pages/events/choose_activity_form.dart';
 import 'package:src/themes/colors.dart';
 import 'package:src/utils/enums.dart';
 import 'package:src/widgets/events/activity_bar.dart';
 
 class Activity {
-  final int id;
+  final int id; // TODO(eventos): I put this here because I think it is useful for the backend, but idk, feel free to change
   final String title;
   final String description;
 
@@ -64,58 +63,75 @@ class _EventFormState extends State<EventForm> {
     });
   }
 
-  List<ChooseMedia> getMedia() {
-    //TODO(eventos): Get media from database and transform to ChooseMedia.
+  formatDeadline(DateTime deadline) {
+    Map<int, String> suffixes = {
+      1: 'st',
+      2: 'nd',
+      3: 'rd',
+    };
 
-    List<ChooseMedia> tasks = [];
+    String ordinalDay = (deadline.day >= 11 && deadline.day <= 13)
+        ? 'th'
+        : suffixes[deadline.day % 10] ?? 'th';
 
-    tasks.add(ChooseMedia(
-      id: 1,
-      name: "Media 1",
-      type: 'TV Show',
-      isSelected: false,
-    ));
-
-    tasks.add(ChooseMedia(
-      id: 2,
-      name: "Media 2",
-      type: 'Movie',
-      isSelected: false,
-    ));
-
-    tasks.add(ChooseMedia(
-      id: 3,
-      name: "Media 3",
-      type: 'Book',
-      isSelected: false,
-    ));
-
-    return tasks;
+    return DateFormat("MMM d'$ordinalDay' - ha")
+        .format(deadline)
+        .replaceAll('AM', 'am')
+        .replaceAll('PM', 'pm');
   }
 
-  List<ChooseTask> getTasks() {
-    //TODO(eventos): Get tasks from database and transform to ChooseTask.
+  List<ChooseActivity> getMedia() {
+    //TODO(eventos): Get media from database and transform to ChooseActivity.
 
-    List<ChooseTask> tasks = [];
+    List<ChooseActivity> media = [];
 
-    tasks.add(ChooseTask(
+    media.add(ChooseActivity(
       id: 1,
-      name: "Task 1",
-      deadline: DateTime.now(),
+      title: "Media 1",
+      description: 'TV Show',
       isSelected: false,
     ));
 
-    tasks.add(ChooseTask(
+    media.add(ChooseActivity(
       id: 2,
-      name: "Task 2",
-      deadline: DateTime.now(),
+      title: "Media 2",
+      description: 'Movie',
       isSelected: false,
     ));
 
-    tasks.add(ChooseTask(
+    media.add(ChooseActivity(
       id: 3,
-      name: "Task 3",
-      deadline: DateTime.now(),
+      title: "Media 3",
+      description: 'Book',
+      isSelected: false,
+    ));
+
+    return media;
+  }
+
+  List<ChooseActivity> getTasks() {
+    //TODO(eventos): Get tasks from database and transform to ChooseActivity.
+
+    List<ChooseActivity> tasks = [];
+
+    tasks.add(ChooseActivity(
+      id: 1,
+      title: "Task 1",
+      description: formatDeadline(DateTime.now()),
+      isSelected: false,
+    ));
+
+    tasks.add(ChooseActivity(
+      id: 2,
+      title: "Task 2",
+      description: formatDeadline(DateTime.now()),
+      isSelected: false,
+    ));
+
+    tasks.add(ChooseActivity(
+      id: 3,
+      title: "Task 3",
+      description: formatDeadline(DateTime.now()),
       isSelected: false,
     ));
 
@@ -266,8 +282,10 @@ class _EventFormState extends State<EventForm> {
                               ).then((value) {
                                 if (value != null) {
                                   setState(() {
-                                    _moduleColor = value;
-                                    activities = [];
+                                    if (value != _moduleColor) {
+                                      _moduleColor = value;
+                                      activities = [];
+                                    }
                                   });
                                 }
                               });
@@ -582,14 +600,14 @@ class _EventFormState extends State<EventForm> {
                               maxChildSize: 0.60,
                               builder: (context, scrollController) =>
                                   _moduleColor == studentColor
-                                      ? ChooseTaskForm(
+                                      ? ChooseActivityForm(
                                           scrollController: scrollController,
-                                          tasks: getTasks(),
+                                          activities: getTasks(),
                                           addActivityCallback:
                                               addActivityCallback)
-                                      : ChooseMediaForm(
+                                      : ChooseActivityForm(
                                           scrollController: scrollController,
-                                          media: getMedia(),
+                                          activities: getMedia(),
                                           addActivityCallback:
                                               addActivityCallback))));
                 },

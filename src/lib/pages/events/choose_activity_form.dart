@@ -2,87 +2,70 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:intl/intl.dart';
 import 'package:src/themes/colors.dart';
-import 'package:src/widgets/events/choose_task_bar.dart';
 
-class ChooseTask {
+import '../../widgets/events/choose_activity_bar.dart';
+
+class ChooseActivity {
   final int id;
-  final String name;
-  final DateTime deadline;
+  final String title;
+  final String description;
   bool isSelected;
 
-  ChooseTask(
-      {required this.id,
-      required this.name,
-      required this.deadline,
-      required this.isSelected});
+  ChooseActivity(
+      {required this.id, // TODO(eventos): I put this here because I think it is useful for the backend, but idk, feel free to change
+        required this.title,
+        required this.description,
+        required this.isSelected});
 }
 
-class ChooseTaskForm extends StatefulWidget {
-  final List<ChooseTask> tasks;
+class ChooseActivityForm extends StatefulWidget {
+  final List<ChooseActivity> activities;
   final ScrollController scrollController;
   final Function(int, String, String) addActivityCallback;
 
-  const ChooseTaskForm(
+  const ChooseActivityForm(
       {Key? key,
-      required this.scrollController,
-      required this.tasks,
-      required this.addActivityCallback})
+        required this.scrollController,
+        required this.activities,
+        required this.addActivityCallback})
       : super(key: key);
 
   @override
-  State<ChooseTaskForm> createState() => _ChooseTaskFormState();
+  State<ChooseActivityForm> createState() => _ChooseActivityFormState();
 }
 
-class _ChooseTaskFormState extends State<ChooseTaskForm> {
+class _ChooseActivityFormState extends State<ChooseActivityForm> {
   TextEditingController controller = TextEditingController();
 
-  late List<ChooseTask>? tasks;
+  late List<ChooseActivity>? activities;
 
-  List<Widget> getTasks() {
-    List<Widget> tasksList = [];
+  List<Widget> getActivities() {
+    List<Widget> activitiesList = [];
 
-    for (int i = 0; i < tasks!.length; i++) {
-      ChooseTask task = tasks![i];
-      tasksList.add(ChooseTaskBar(task: task));
-      if (i != tasks!.length - 1) {
-        tasksList.add(const SizedBox(height: 15));
+    for (int i = 0; i < activities!.length; i++) {
+      ChooseActivity activity = activities![i];
+      activitiesList.add(ChooseActivityBar(activity: activity));
+      if (i != activities!.length - 1) {
+        activitiesList.add(const SizedBox(height: 15));
       }
     }
 
-    if (tasks == null || tasks!.isEmpty) {
-      tasksList.add(Text(AppLocalizations.of(context).no_tasks,
+    if (activities == null || activities!.isEmpty) {
+      activitiesList.add(Text(AppLocalizations.of(context).no_media,
           style: const TextStyle(
               color: Colors.white,
               fontSize: 16,
               fontWeight: FontWeight.normal)));
     }
 
-    return tasksList;
-  }
-
-  formatDeadline(DateTime deadline) {
-    Map<int, String> suffixes = {
-      1: 'st',
-      2: 'nd',
-      3: 'rd',
-    };
-
-    String ordinalDay = (deadline.day >= 11 && deadline.day <= 13)
-        ? 'th'
-        : suffixes[deadline.day % 10] ?? 'th';
-
-    return DateFormat("MMM d'$ordinalDay' - ha")
-        .format(deadline)
-        .replaceAll('AM', 'am')
-        .replaceAll('PM', 'pm');
+    return activitiesList;
   }
 
   @override
   initState() {
-    tasks = widget.tasks;
-    tasks ??= [];
+    activities = widget.activities;
+    activities ??= [];
 
     super.initState();
   }
@@ -110,16 +93,17 @@ class _ChooseTaskFormState extends State<ChooseTaskForm> {
             Row(children: [
               Container(
                   padding:
-                      const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                  const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
                   decoration: BoxDecoration(
                       color: const Color(0xFF17181C),
                       shape: BoxShape.rectangle,
                       borderRadius: BorderRadius.circular(10)),
                   child: Wrap(children: [
                     Row(children: [
-                      const Icon(Icons.task, color: Colors.white, size: 20),
+                      const Icon(Icons.live_tv_rounded,
+                          color: Colors.white, size: 20),
                       const SizedBox(width: 10),
-                      Text(AppLocalizations.of(context).choose_tasks,
+                      Text(AppLocalizations.of(context).choose_media,
                           style: const TextStyle(
                               color: Colors.white,
                               fontSize: 16,
@@ -129,21 +113,21 @@ class _ChooseTaskFormState extends State<ChooseTaskForm> {
                   ]))
             ]),
             const SizedBox(height: 30),
-            ...getTasks(),
+            ...getActivities(),
             const SizedBox(height: 30),
             ElevatedButton(
                 onPressed: () {
-                  //TODO: Add selected tasks to event
-                  for (ChooseTask task in tasks!) {
-                    if (task.isSelected)
+                  for (ChooseActivity activity in activities!) {
+                    if (activity.isSelected) {
                       widget.addActivityCallback(
-                          task.id, task.name, formatDeadline(task.deadline));
+                          activity.id, activity.title, activity.description);
+                    }
                   }
                   Navigator.pop(context);
                 },
                 style: ElevatedButton.styleFrom(
                   minimumSize:
-                      Size(MediaQuery.of(context).size.width * 0.95, 55),
+                  Size(MediaQuery.of(context).size.width * 0.95, 55),
                   backgroundColor: primaryColor,
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(25.0),
