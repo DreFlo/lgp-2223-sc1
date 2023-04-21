@@ -399,9 +399,25 @@ class _TaskFormState extends State<TaskForm> {
                     // Subject
                     ...getSubject(),
                     const SizedBox(height: 30),
-                    ...getDescription(context),
+                    ...getLabelDescription(context),
                     const SizedBox(height: 7.5),
-                    Row(children: [
+                    getDescription(),
+                    const SizedBox(height: 30),
+                    getAddNoteButton(context),
+                    const SizedBox(height: 7.5),
+                    ...getNotes(),
+                    const SizedBox(height: 30),
+                    getEndButtons(context),
+                  ]),
+                ));
+          } else {
+            return const Center(child: CircularProgressIndicator());
+          }
+        });
+  }
+
+  Row getDescription() {
+    return Row(children: [
                       Flexible(
                           flex: 1,
                           child: TextField(
@@ -508,7 +524,7 @@ class _TaskFormState extends State<TaskForm> {
     return [titleWidget, errorWidget];
   }
 
-  List<Widget> getDescription(BuildContext context) {
+  List<Widget> getLabelDescription(BuildContext context) {
     Widget descriptionWidget = Row(children: [
       Text(AppLocalizations.of(context).description,
           style: const TextStyle(
