@@ -52,7 +52,9 @@ debug/
 
 # ENV related
 .env
-lib/env/env.g.dart
 
 # Mock related
 **.mocks.dart
+
+# Generated related
+**.g.dart

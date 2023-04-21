@@ -8,6 +8,5 @@ final mockStudentTimeslots = [
       startDateTime: DateTime.now().add(const Duration(hours: 6)),
       endDateTime: DateTime.now().add(const Duration(hours: 7)),
       xpMultiplier: 2,
-      userId: 1,
-      taskId: List.of([1]))
+      userId: 1)
 ];

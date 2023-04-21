@@ -9,7 +9,6 @@ class TimeslotMediaTimeslotSuperEntity {
   final DateTime endDateTime;
   final int xpMultiplier;
   final int userId;
-  final List<int> mediaId;
 
   TimeslotMediaTimeslotSuperEntity({
     this.id,
@@ -19,7 +18,6 @@ class TimeslotMediaTimeslotSuperEntity {
     required this.endDateTime,
     required this.xpMultiplier,
     required this.userId,
-    required this.mediaId,
   });
 
   TimeslotMediaTimeslotSuperEntity.fromTimeslotMediaTimeslotEntity(
@@ -30,8 +28,7 @@ class TimeslotMediaTimeslotSuperEntity {
         startDateTime = timeslot.startDateTime,
         endDateTime = timeslot.endDateTime,
         xpMultiplier = timeslot.xpMultiplier,
-        userId = timeslot.userId,
-        mediaId = mediaTimeslot.mediaId;
+        userId = timeslot.userId;
 
   Timeslot toTimeslot() {
     return Timeslot(
@@ -48,7 +45,6 @@ class TimeslotMediaTimeslotSuperEntity {
   MediaTimeslot toMediaTimeslot() {
     return MediaTimeslot(
       id: id!,
-      mediaId: mediaId,
     );
   }
 
@@ -60,7 +56,6 @@ class TimeslotMediaTimeslotSuperEntity {
     DateTime? endDateTime,
     int? xpMultiplier,
     int? userId,
-    List<int>? mediaId,
   }) {
     return TimeslotMediaTimeslotSuperEntity(
       id: id ?? this.id,
@@ -70,7 +65,6 @@ class TimeslotMediaTimeslotSuperEntity {
       endDateTime: endDateTime ?? this.endDateTime,
       xpMultiplier: xpMultiplier ?? this.xpMultiplier,
       userId: userId ?? this.userId,
-      mediaId: mediaId ?? this.mediaId,
     );
   }
 }

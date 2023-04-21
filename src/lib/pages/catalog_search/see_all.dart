@@ -1,8 +1,8 @@
-// ignore_for_file: file_names,  sized_box_for_whitespace
+// ignore_for_file: sized_box_for_whitespace
 
 import 'package:flutter/material.dart';
 import 'package:src/pages/catalog_search/search_bar.dart';
-import 'list_media.dart';
+import 'package:src/pages/catalog_search/list_media.dart';
 
 class SeeAll extends StatefulWidget {
   final List media;
