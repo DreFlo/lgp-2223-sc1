@@ -1,4 +1,4 @@
-// ignore_for_file: sized_box_for_whitespace
+// ignore_for_file: sized_box_for_whitespace, avoid_dynamic_calls
 import 'package:flutter/material.dart';
 import 'package:src/pages/catalog_search/see_all.dart';
 import 'package:src/themes/colors.dart';

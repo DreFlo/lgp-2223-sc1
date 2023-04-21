@@ -1,4 +1,4 @@
-// ignore_for_file: prefer_const_constructors, sized_box_for_whitespace, must_be_immutable
+// ignore_for_file: prefer_const_constructors, sized_box_for_whitespace, must_be_immutable, avoid_dynamic_calls
 import 'package:flutter/material.dart';
 import 'package:src/pages/leisure/finished_media_form.dart';
 import 'package:tmdb_api/tmdb_api.dart';
