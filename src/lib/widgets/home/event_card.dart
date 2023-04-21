@@ -66,7 +66,18 @@ class _MyEventCardState extends State<MyEventCard> {
 
   @override
   Widget build(BuildContext context) {
-    dynamic item = widget.mediaEvent ?? widget.studentEvent;
+    Object? item = widget.mediaEvent ?? widget.studentEvent;
+    String title = '';
+    String date = '';
+
+    if (item is TimeslotMediaTimeslotSuperEntity) {
+      title = item.title;
+      date = formatDate(item.startDateTime);
+    } else if (item is TimeslotStudentTimeslotSuperEntity) {
+      title = item.title;
+      date = formatDate(item.startDateTime);
+    }
+
     return GestureDetector(
         onTap: () {
           // TODO - Navigate to event page
@@ -96,13 +107,13 @@ class _MyEventCardState extends State<MyEventCard> {
                 children: [
                   SizedBox(
                     width: 200, // Set width of Text widget to 200
-                    child: Text(item.title,
+                    child: Text(title,
                         overflow: TextOverflow.ellipsis,
                         style: Theme.of(context).textTheme.labelLarge),
                   ),
                   const SizedBox(height: 5),
                   Text(
-                    formatDate(item.startDateTime),
+                    date,
                     style: Theme.of(context).textTheme.bodyLarge,
                   ),
                 ],
