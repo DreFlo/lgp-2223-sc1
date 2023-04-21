@@ -14,8 +14,9 @@ class LandingPage extends StatelessWidget {
 
     return Center(
       child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.start,
         children: <Widget>[
+          Padding( padding: EdgeInsets.only(bottom: MediaQuery.of(context).size.height * 0.25)),
           Text(
             "Wokka Icon!",
             style: Theme.of(context).textTheme.titleLarge,
@@ -45,18 +46,18 @@ class LandingPage extends StatelessWidget {
               ],
             ),
           ),
+          Padding( padding: EdgeInsets.only(bottom: MediaQuery.of(context).size.height * 0.2)),
           ElevatedButton(
-            style: ButtonStyle(
-                backgroundColor:
-                    MaterialStateProperty.all(Color.fromARGB(0, 46, 42, 78)),
-                shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                    const RoundedRectangleBorder(
-                        borderRadius: BorderRadius.only(
-                            topRight: Radius.circular(10),
-                            topLeft: Radius.circular(10),
-                            bottomRight: Radius.circular(10),
-                            bottomLeft: Radius.circular(10))))),
-            child: const Text('Sign Up'),
+            style: ElevatedButton.styleFrom(
+                      minimumSize:
+                          Size(MediaQuery.of(context).size.width * 0.75, 55),
+                      backgroundColor: grayButton,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(25.0),
+                      ),
+                    ),
+            child: Text("Sign Up",
+                        style: Theme.of(context).textTheme.labelLarge),
             onPressed: () {
               print("Pressed Sign Up!");
               Navigator.push(
@@ -65,18 +66,18 @@ class LandingPage extends StatelessWidget {
                         builder: (context) => SignUpPage()));
             },
           ),
+          const SizedBox(height: 10.0),
           ElevatedButton(
-            style: ButtonStyle(
-                backgroundColor:
-                    MaterialStateProperty.all(Color.fromARGB(0, 33, 8, 201)),
-                shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                    const RoundedRectangleBorder(
-                        borderRadius: BorderRadius.only(
-                            topRight: Radius.circular(10),
-                            topLeft: Radius.circular(10),
-                            bottomRight: Radius.circular(10),
-                            bottomLeft: Radius.circular(10))))),
-            child: const Text('Login'),
+            style: ElevatedButton.styleFrom(
+                      minimumSize:
+                          Size(MediaQuery.of(context).size.width * 0.75, 55),
+                      backgroundColor: primaryColor,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(25.0),
+                      ),
+                    ),
+            child: Text("Login",
+                        style: Theme.of(context).textTheme.labelLarge),
             onPressed: () {
               print("Pressed LogIn!");
               Navigator.push(
@@ -85,35 +86,39 @@ class LandingPage extends StatelessWidget {
                         builder: (context) => LoginPage()));
             },
           ),
+          const SizedBox(height: 10.0),
           Row(mainAxisAlignment: MainAxisAlignment.center, children: [
             ElevatedButton(
-              style: ButtonStyle(
-                  backgroundColor: MaterialStateProperty.all(Color(0x2E2A4E)),
-                  shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                      const RoundedRectangleBorder(
-                          borderRadius: BorderRadius.only(
-                              topRight: Radius.circular(10),
-                              topLeft: Radius.circular(10),
-                              bottomRight: Radius.circular(10),
-                              bottomLeft: Radius.circular(10))))),
-              child: const Text('Google'),
+              style: ElevatedButton.styleFrom(
+                      minimumSize:
+                          Size(MediaQuery.of(context).size.width * 0.35, 55),
+                      backgroundColor: grayButton,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(25.0),
+                      ),
+                    ),
+            child: const Icon(Icons.g_mobiledata_rounded, size: 50.0, color: personalColor), //TODO: Get Google Icon and colors
               onPressed: () {
                 print("Pressed Google Button!");
+
+                //TODO: Connection with google
               },
             ),
+          const SizedBox(width: 15),
             ElevatedButton(
-              style: ButtonStyle(
-                  backgroundColor: MaterialStateProperty.all(Color(0x2E2A4E)),
-                  shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                      const RoundedRectangleBorder(
-                          borderRadius: BorderRadius.only(
-                              topRight: Radius.circular(10),
-                              topLeft: Radius.circular(10),
-                              bottomRight: Radius.circular(10),
-                              bottomLeft: Radius.circular(10))))),
-              child: const Text('Facebook'),
+              style: ElevatedButton.styleFrom(
+                      minimumSize:
+                          Size(MediaQuery.of(context).size.width * 0.35, 55),
+                      backgroundColor: grayButton,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(25.0),
+                      ),
+                    ),
+            child: const Icon(Icons.facebook, size: 40.0, color: fitnessColor), //TODO: Get Facebook Color
               onPressed: () {
                 print("Pressed FacebookButton!");
+
+                //TODO: Connection with Facebook
               },
             ),
           ]),
