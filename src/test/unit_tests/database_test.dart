@@ -17,6 +17,7 @@ import 'package:src/models/media/media_video_movie_super_entity.dart';
 import 'package:src/models/media/movie.dart';
 import 'package:src/models/media/season.dart';
 import 'package:src/models/notes/note.dart';
+import 'package:src/daos/notes/note_dao.dart';
 import 'package:src/models/notes/note_book_note_super_entity.dart';
 import 'package:src/daos/notes/note_book_note_super_dao.dart';
 import 'package:src/models/notes/note_subject_note_super_entity.dart';

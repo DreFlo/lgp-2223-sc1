@@ -80,6 +80,8 @@ import 'service_locator_test_util.mocks.dart';
   MockSpec<MediaSeriesSuperDao>(),
   MockSpec<TimeslotMediaTimeslotSuperDao>(),
   MockSpec<TimeslotStudentTimeslotSuperDao>(),
+  MockSpec<MediaMediaTimeslotDao>(),
+  MockSpec<TaskStudentTimeslotDao>()
 ])
 void setupMockServiceLocatorUnitTests() {
   serviceLocator
