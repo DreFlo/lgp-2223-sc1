@@ -15,6 +15,9 @@ class _SignUpPageState extends State<SignUpPage>
   late AnimationController _animationController;
 
   int _pageCount = 0;
+  String _name = "";
+  String _email = "";
+  String _password = "";
 
   @override
   void initState() {
@@ -42,66 +45,83 @@ class _SignUpPageState extends State<SignUpPage>
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 18),
           child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.end,
             children: <Widget>[
-              Text(
-                "Hello!",
-                style: Theme.of(context).textTheme.titleLarge,
-                textAlign: TextAlign.start,
-              ),
-              Text(
-                "Let's start your journey",
-                style: Theme.of(context).textTheme.bodyMedium,
-                textAlign: TextAlign.start,
-              ),
-              Row(children: [
-                Text(
-                  "YOUR NAME",
-                  style: const TextStyle(
-                      fontFamily: 'Poppins',
-                      color: Color(0xFF71788D),
-                      fontSize: 10,
-                      fontWeight: FontWeight.w400),
-                )
-              ]),
-              const SizedBox(height: 7.5),
-              Padding(
-                padding: const EdgeInsets.only(left: 18),
-                child: SizedBox(
-                  width: MediaQuery.of(context).size.width * 0.90,
-                  height: 100,
-                  child: TextField(
-                    style: Theme.of(context).textTheme.bodySmall,
-                    maxLines: 1,
-                    decoration: InputDecoration(
-                      filled: true,
-                      fillColor: textField,
-                      helperStyle: Theme.of(context).textTheme.labelSmall,
-                      border: OutlineInputBorder(
-                        borderSide: BorderSide.none,
-                        borderRadius: BorderRadius.circular(10.0),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    "Hello!",
+                    style: Theme.of(context).textTheme.titleLarge,
+                    textAlign: TextAlign.start,
+                  ),
+                  Text(
+                    "Let's start your journey",
+                    style: Theme.of(context).textTheme.bodyMedium,
+                    textAlign: TextAlign.start,
+                  ),
+                  const SizedBox(height: 7.5),
+                  Text(
+                    "YOUR NAME",
+                    style: const TextStyle(
+                        fontFamily: 'Poppins',
+                        color: Color(0xFF71788D),
+                        fontSize: 10,
+                        fontWeight: FontWeight.w400),
+                  ),
+                  const SizedBox(height: 7.5),
+                  Padding(
+                    padding: const EdgeInsets.only(left: 18),
+                    child: SizedBox(
+                      width: MediaQuery.of(context).size.width * 0.90,
+                      height: 100,
+                      child: TextField(
+                        style: Theme.of(context).textTheme.bodySmall,
+                        maxLines: 1,
+                        controller: controller,
+                        decoration: InputDecoration(
+                          filled: true,
+                          fillColor: textField,
+                          helperStyle: Theme.of(context).textTheme.labelSmall,
+                          border: OutlineInputBorder(
+                            borderSide: BorderSide.none,
+                            borderRadius: BorderRadius.circular(10.0),
+                          ),
+                        ),
+                        onEditingComplete: () {
+                          setState( () {
+                            //TODO: Do checks for valid input
+
+                            _name = controller.text;
+                          });
+                        },
                       ),
                     ),
                   ),
-                ),
+                ],
               ),
-              ElevatedButton(
-                onPressed: () {
-                  setState(() {
-                    _pageCount++;
-                    _animationController.forward(from: 0.0);
-                  });
-                },
-                style: ElevatedButton.styleFrom(
-                  minimumSize:
-                      Size(MediaQuery.of(context).size.width * 0.25, 55),
-                  backgroundColor: primaryColor,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(25.0),
+              Column(
+                children: [
+                  ElevatedButton(
+                    onPressed: () {
+                      setState(() {
+                        controller.text = "";
+                        _pageCount++;
+                        _animationController.forward(from: 0.0);
+                      });
+                    },
+                    style: ElevatedButton.styleFrom(
+                      minimumSize:
+                          Size(MediaQuery.of(context).size.width * 0.25, 55),
+                      backgroundColor: primaryColor,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(25.0),
+                      ),
+                    ),
+                    child: Text("Next",
+                        style: Theme.of(context).textTheme.headlineSmall),
                   ),
-                ),
-                child: Text("Next",
-                    style: Theme.of(context).textTheme.headlineSmall),
+                ],
               ),
             ],
           ),
@@ -116,66 +136,83 @@ class _SignUpPageState extends State<SignUpPage>
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 18),
           child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.end,
             children: <Widget>[
-              Text(
-                "Tell us your email",
-                style: Theme.of(context).textTheme.titleLarge,
-                textAlign: TextAlign.start,
-              ),
-              Text(
-                "We promise not to send you annoying emails!",
-                style: Theme.of(context).textTheme.bodyMedium,
-                textAlign: TextAlign.start,
-              ),
-              Row(children: [
-                Text(
-                  "YOUR E-MAIL",
-                  style: const TextStyle(
-                      fontFamily: 'Poppins',
-                      color: Color(0xFF71788D),
-                      fontSize: 10,
-                      fontWeight: FontWeight.w400),
-                )
-              ]),
-              const SizedBox(height: 7.5),
-              Padding(
-                padding: const EdgeInsets.only(left: 18),
-                child: SizedBox(
-                  width: MediaQuery.of(context).size.width * 0.90,
-                  height: 100,
-                  child: TextField(
-                    style: Theme.of(context).textTheme.bodySmall,
-                    maxLines: 1,
-                    decoration: InputDecoration(
-                      filled: true,
-                      fillColor: textField,
-                      helperStyle: Theme.of(context).textTheme.labelSmall,
-                      border: OutlineInputBorder(
-                        borderSide: BorderSide.none,
-                        borderRadius: BorderRadius.circular(10.0),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    "Tell us your email",
+                    style: Theme.of(context).textTheme.titleLarge,
+                    textAlign: TextAlign.start,
+                  ),
+                  Text(
+                    "We promise not to send you annoying emails!",
+                    style: Theme.of(context).textTheme.bodyMedium,
+                    textAlign: TextAlign.start,
+                  ),
+                  const SizedBox(height: 7.5),
+                  Text(
+                    "YOUR E-MAIL",
+                    style: const TextStyle(
+                        fontFamily: 'Poppins',
+                        color: Color(0xFF71788D),
+                        fontSize: 10,
+                        fontWeight: FontWeight.w400),
+                  ),
+                  const SizedBox(height: 7.5),
+                  Padding(
+                    padding: const EdgeInsets.only(left: 18),
+                    child: SizedBox(
+                      width: MediaQuery.of(context).size.width * 0.90,
+                      height: 100,
+                      child: TextField(
+                        style: Theme.of(context).textTheme.bodySmall,
+                        maxLines: 1,
+                        controller: controller,
+                        decoration: InputDecoration(
+                          filled: true,
+                          fillColor: textField,
+                          helperStyle: Theme.of(context).textTheme.labelSmall,
+                          border: OutlineInputBorder(
+                            borderSide: BorderSide.none,
+                            borderRadius: BorderRadius.circular(10.0),
+                          ),
+                        ),
+                        onEditingComplete: () {
+                          setState( () {
+                            //TODO: Do checks for valid input
+
+                            _email = controller.text;
+                          });
+                        },
                       ),
                     ),
                   ),
-                ),
+                ],
               ),
-              ElevatedButton(
-                onPressed: () {
-                  setState(() {
-                    _pageCount++;
-                    _animationController.forward(from: 0.0);
-                  });
-                },
-                style: ElevatedButton.styleFrom(
-                  minimumSize:
-                      Size(MediaQuery.of(context).size.width * 0.25, 55),
-                  backgroundColor: primaryColor,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(25.0),
+              Column(
+                children: [
+                  ElevatedButton(
+                    onPressed: () {
+                      setState(() {
+                        controller.text = "";
+                        _pageCount++;
+                        _animationController.forward(from: 0.0);
+                      });
+                    },
+                    style: ElevatedButton.styleFrom(
+                      minimumSize:
+                          Size(MediaQuery.of(context).size.width * 0.25, 55),
+                      backgroundColor: primaryColor,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(25.0),
+                      ),
+                    ),
+                    child: Text("Next",
+                        style: Theme.of(context).textTheme.headlineSmall),
                   ),
-                ),
-                child: Text("Next",
-                    style: Theme.of(context).textTheme.headlineSmall),
+                ],
               ),
             ],
           ),
@@ -190,71 +227,90 @@ class _SignUpPageState extends State<SignUpPage>
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 18),
           child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.end,
             children: <Widget>[
-              Text(
-                "Password",
-                style: Theme.of(context).textTheme.titleLarge,
-                textAlign: TextAlign.start,
-              ),
-              Text(
-                "And no... 'password123' is not a good one.",
-                style: Theme.of(context).textTheme.bodyMedium,
-                textAlign: TextAlign.start,
-              ),
-              Row(children: [
-                Text(
-                  "YOUR PASSWORD",
-                  style: const TextStyle(
-                      fontFamily: 'Poppins',
-                      color: Color(0xFF71788D),
-                      fontSize: 10,
-                      fontWeight: FontWeight.w400),
-                )
-              ]),
-              const SizedBox(height: 7.5),
-              Padding(
-                padding: const EdgeInsets.only(left: 18),
-                child: SizedBox(
-                  width: MediaQuery.of(context).size.width * 0.90,
-                  height: 100,
-                  child: TextField(
-                    style: Theme.of(context).textTheme.bodySmall,
-                    maxLines: 1,
-                    keyboardType: TextInputType.visiblePassword,
-                    decoration: InputDecoration(
-                      filled: true,
-                      fillColor: textField,
-                      helperStyle: Theme.of(context).textTheme.labelSmall,
-                      border: OutlineInputBorder(
-                        borderSide: BorderSide.none,
-                        borderRadius: BorderRadius.circular(10.0),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    "Password",
+                    style: Theme.of(context).textTheme.titleLarge,
+                    textAlign: TextAlign.start,
+                  ),
+                  Text(
+                    "And no... 'password123' is not a good one.",
+                    style: Theme.of(context).textTheme.bodyMedium,
+                    textAlign: TextAlign.start,
+                  ),
+                  const SizedBox(height: 7.5),
+                  Text(
+                    "YOUR PASSWORD",
+                    style: const TextStyle(
+                        fontFamily: 'Poppins',
+                        color: Color(0xFF71788D),
+                        fontSize: 10,
+                        fontWeight: FontWeight.w400),
+                  ),
+                  const SizedBox(height: 7.5),
+                  Padding(
+                    padding: const EdgeInsets.only(left: 18),
+                    child: SizedBox(
+                      width: MediaQuery.of(context).size.width * 0.90,
+                      height: 100,
+                      child: TextField(
+                        style: Theme.of(context).textTheme.bodySmall,
+                        maxLines: 1,
+                        obscureText: true,
+                        controller: controller,
+                        decoration: InputDecoration(
+                          filled: true,
+                          fillColor: textField,
+                          helperStyle: Theme.of(context).textTheme.labelSmall,
+                          border: OutlineInputBorder(
+                            borderSide: BorderSide.none,
+                            borderRadius: BorderRadius.circular(10.0),
+                          ),
+                        ),
+                        onEditingComplete: () {
+                          setState( () {
+                            //TODO: Do checks for valid input
+
+                            _password = controller.text; //TODO: Encript the password
+                          });
+                        },
                       ),
                     ),
                   ),
-                ),
+                ],
               ),
-              ElevatedButton(
-                onPressed: () {
-                  print("END! :)");
+              Column(
+                children: [
+                  ElevatedButton(
+                    onPressed: () {
+                      setState(() {
+                        controller.text = "";
 
-                  //TODO: Necessary sign up checks and requests to db
+                        // TODO: Save things in database
+                        print("Name: " + _name);
+                        print("Email: " + _email);
+                        print("Password: " + _password);
 
-                  //This "pops" the modal and sends the user to the login page
-                  Navigator.pop(context);
-                  Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => LoginPage()));
-                },
-                style: ElevatedButton.styleFrom(
-                  minimumSize:
-                      Size(MediaQuery.of(context).size.width * 0.25, 55),
-                  backgroundColor: primaryColor,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(25.0),
+                        //Pop the modal and send to Landing page
+                        Navigator.pop(context);
+                      });
+                    },
+                    style: ElevatedButton.styleFrom(
+                      minimumSize:
+                          Size(MediaQuery.of(context).size.width * 0.25, 55),
+                      backgroundColor: primaryColor,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(25.0),
+                      ),
+                    ),
+                    child: Text("Next",
+                        style: Theme.of(context).textTheme.headlineSmall),
                   ),
-                ),
-                child: Text("Next",
-                    style: Theme.of(context).textTheme.headlineSmall),
+                ],
               ),
             ],
           ),
@@ -282,7 +338,7 @@ class _SignUpPageState extends State<SignUpPage>
                   Icon(_pageCount == 0 ? Icons.circle : Icons.circle_outlined,
                       color: _pageCount == 0 ? primaryColor : Colors.white,
                       size: 15.0),
-                   Icon(_pageCount == 1 ? Icons.circle : Icons.circle_outlined,
+                  Icon(_pageCount == 1 ? Icons.circle : Icons.circle_outlined,
                       color: _pageCount == 1 ? primaryColor : Colors.white,
                       size: 15.0),
                   Icon(_pageCount == 2 ? Icons.circle : Icons.circle_outlined,
