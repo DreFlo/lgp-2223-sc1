@@ -1,9 +1,8 @@
 // ignore_for_file: prefer_const_constructors, sized_box_for_whitespace, must_be_immutable
-
 import 'package:flutter/material.dart';
 import 'package:src/pages/leisure/finished_media_form.dart';
 import 'package:tmdb_api/tmdb_api.dart';
-import 'media.dart';
+import 'package:src/pages/catalog_search/media.dart';
 import 'package:src/themes/colors.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:src/pages/leisure/add_to_catalog_form.dart';
