@@ -10,6 +10,8 @@ import 'package:src/themes/colors.dart';
 import 'package:src/utils/enums.dart';
 import 'package:src/widgets/events/activity_bar.dart';
 
+import '../../utils/formatters.dart';
+
 class Activity {
   final int id; // TODO(eventos): I put this here because I think it is useful for the backend, but idk, feel free to change
   final String title;
@@ -61,23 +63,6 @@ class _EventFormState extends State<EventForm> {
     setState(() {
       activities.removeAt(index);
     });
-  }
-
-  formatDeadline(DateTime deadline) {
-    Map<int, String> suffixes = {
-      1: 'st',
-      2: 'nd',
-      3: 'rd',
-    };
-
-    String ordinalDay = (deadline.day >= 11 && deadline.day <= 13)
-        ? 'th'
-        : suffixes[deadline.day % 10] ?? 'th';
-
-    return DateFormat("MMM d'$ordinalDay' - ha")
-        .format(deadline)
-        .replaceAll('AM', 'am')
-        .replaceAll('PM', 'pm');
   }
 
   List<ChooseActivity> getMedia() {
