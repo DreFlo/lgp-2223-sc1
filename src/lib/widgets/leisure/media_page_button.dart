@@ -247,7 +247,7 @@ class _MediaPageButtonState extends State<MediaPageButton> {
           child: Text(AppLocalizations.of(context).add,
               style: Theme.of(context).textTheme.headlineSmall),
         );
-      } else if (status == Status.goingThrough || status == Status.planTo) {
+      } else if (status == Status.goingThrough || status == Status.planTo || status == Status.dropped) {
         // If media is somehow in the catalog, then user should be able to see their notes and edit info.
         return Container(
           width: MediaQuery.of(context).size.width * 0.95,
@@ -475,7 +475,7 @@ class _MediaPageButtonState extends State<MediaPageButton> {
           child: Text(AppLocalizations.of(context).add,
               style: Theme.of(context).textTheme.headlineSmall),
         );
-      } else if (status == Status.goingThrough || status == Status.planTo) {
+      } else if (status == Status.goingThrough || status == Status.planTo || status == Status.dropped) {
         // If media is somehow in the catalog, then user should be able to see their notes and edit info.
         return Container(
           width: MediaQuery.of(context).size.width * 0.95,
@@ -694,7 +694,7 @@ class _MediaPageButtonState extends State<MediaPageButton> {
           child: Text(AppLocalizations.of(context).add,
               style: Theme.of(context).textTheme.headlineSmall),
         );
-      } else if (status == Status.planTo) {
+      } else if (status == Status.planTo || status == Status.dropped) {
         return Container(
             width: MediaQuery.of(context).size.width,
             child: Row(
