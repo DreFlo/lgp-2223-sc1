@@ -521,6 +521,18 @@ class _$SubjectDao extends SubjectDao {
   }
 
   @override
+  Future<List<Subject>> findSubjectByInstitutionIdNull() async {
+    return _queryAdapter.queryList(
+        'SELECT * FROM subject WHERE institution_id IS NULL',
+        mapper: (Map<String, Object?> row) => Subject(
+            id: row['id'] as int?,
+            name: row['name'] as String,
+            acronym: row['acronym'] as String,
+            weightAverage: row['weight_average'] as double,
+            institutionId: row['institution_id'] as int?));
+  }
+
+  @override
   Future<int> insertSubject(Subject subject) {
     return _subjectInsertionAdapter.insertAndReturnId(
         subject, OnConflictStrategy.abort);

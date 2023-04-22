@@ -58,14 +58,20 @@ class _TaskFormState extends State<TaskForm> {
   late int? id;
   bool init = false;
 
-  Institution institutionNone =
-      Institution(id: -1, name: 'None', type: InstitutionType.other, userId: 1);
   TaskGroup taskGroupNone = TaskGroup(
       id: -1,
       name: "None",
       description: "",
       priority: Priority.high,
       deadline: DateTime.now());
+  Institution institutionNone =
+      Institution(id: -1, name: 'None', type: InstitutionType.other, userId: 1);
+  Subject subjectNone = Subject(
+    id: -1,
+    name: 'None',
+    acronym: 'None',
+    weightAverage: 1,
+  );
 
   List<Note> notes = [];
   List<Note> toRemoveNotes = [];
@@ -100,7 +106,7 @@ class _TaskFormState extends State<TaskForm> {
         }
       } else {
         institution = institutionNone;
-        subject = null;
+        subject = subjectNone;
       }
 
       if (task.taskGroupId != null) {
@@ -163,7 +169,7 @@ class _TaskFormState extends State<TaskForm> {
               institution = institutionNone;
             }
           } else {
-            subject = null;
+            subject = subjectNone;
             institution = institutionNone;
           }
         } else {
@@ -171,7 +177,7 @@ class _TaskFormState extends State<TaskForm> {
           // Create task from non-created project
           // Distinction will be made on the options for the user through isChildOfNotCreated()
           institution = institutionNone;
-          subject = null;
+          subject = subjectNone;
           taskGroup = taskGroupNone;
         }
       }
@@ -418,42 +424,29 @@ class _TaskFormState extends State<TaskForm> {
 
   Row getDescription() {
     return Row(children: [
-                      Flexible(
-                          flex: 1,
-                          child: TextField(
-                            controller:
-                                TextEditingController(text: description),
-                            style: const TextStyle(
-                                fontFamily: 'Poppins',
-                                fontSize: 14,
-                                fontWeight: FontWeight.normal),
-                            decoration: const InputDecoration(
-                              filled: true,
-                              fillColor: Color(0xFF17181C),
-                              border: OutlineInputBorder(
-                                borderSide: BorderSide.none,
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(10)),
-                              ),
-                            ),
-                            maxLines: 5,
-                            onChanged: (input) {
-                              description = input;
-                            },
-                          ))
-                    ]),
-                    const SizedBox(height: 30),
-                    getAddNoteButton(context),
-                    const SizedBox(height: 7.5),
-                    ...getNotes(),
-                    const SizedBox(height: 30),
-                    getEndButtons(context),
-                  ]),
-                ));
-          } else {
-            return const Center(child: CircularProgressIndicator());
-          }
-        });
+      Flexible(
+          flex: 1,
+          child: TextField(
+            key: const Key('taskDescription'),
+            controller: TextEditingController(text: description),
+            style: const TextStyle(
+                fontFamily: 'Poppins',
+                fontSize: 14,
+                fontWeight: FontWeight.normal),
+            decoration: const InputDecoration(
+              filled: true,
+              fillColor: Color(0xFF17181C),
+              border: OutlineInputBorder(
+                borderSide: BorderSide.none,
+                borderRadius: BorderRadius.all(Radius.circular(10)),
+              ),
+            ),
+            maxLines: 5,
+            onChanged: (input) {
+              description = input;
+            },
+          ))
+    ]);
   }
 
   List<Widget> getTitle(BuildContext context) {
@@ -486,6 +479,7 @@ class _TaskFormState extends State<TaskForm> {
       Flexible(
           flex: 10,
           child: TextField(
+              key: const Key('taskTitle'),
               controller: titleController,
               style: const TextStyle(
                   fontSize: 20,
@@ -665,6 +659,7 @@ class _TaskFormState extends State<TaskForm> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Container(
+                          key: const Key('priorityLow'),
                           padding: const EdgeInsets.symmetric(
                               horizontal: 15, vertical: 10),
                           decoration: BoxDecoration(
@@ -694,6 +689,7 @@ class _TaskFormState extends State<TaskForm> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Container(
+                          key: const Key('priorityMedium'),
                           padding: const EdgeInsets.symmetric(
                               horizontal: 15, vertical: 10),
                           color: (priority == Priority.medium
@@ -718,6 +714,7 @@ class _TaskFormState extends State<TaskForm> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Container(
+                          key: const Key('priorityHigh'),
                           decoration: BoxDecoration(
                             borderRadius: const BorderRadius.only(
                                 topRight: Radius.circular(10),
@@ -796,6 +793,7 @@ class _TaskFormState extends State<TaskForm> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     FutureBuilder(
+                        key: ValueKey(taskGroup),
                         future:
                             serviceLocator<TaskGroupDao>().findAllTaskGroups(),
                         builder: (BuildContext context,
@@ -813,6 +811,7 @@ class _TaskFormState extends State<TaskForm> {
   Widget projectFutureBuilder(AsyncSnapshot<List<TaskGroup>> snapshot) {
     if (isChild()) {
       return DropdownMenuItem<TaskGroup>(
+          key: const Key('taskTaskGroup'),
           value: taskGroup,
           child: Text(taskGroup!.name,
               style: const TextStyle(
@@ -841,11 +840,13 @@ class _TaskFormState extends State<TaskForm> {
       }
 
       return DropdownButton<TaskGroup>(
+        key: const Key('taskTaskGroup'),
         value: taskGroup,
         items: snapshot.data!.map((t) {
           return DropdownMenuItem<TaskGroup>(
               value: t,
               child: Text(t.name,
+                  key: ValueKey("taskGroup_${t.name}"),
                   style: const TextStyle(
                       fontFamily: 'Poppins',
                       color: Color(0xFF71788D),
@@ -858,25 +859,21 @@ class _TaskFormState extends State<TaskForm> {
             //We might have changes to institution/subject
             if (newTaskGroup.subjectId == null) {
               institution = institutionNone;
-              subject = null;
+              subject = subjectNone;
             } else {
-              if (subject != null && subject!.id == newTaskGroup.subjectId) {
-                //do nothing
+              subject = await serviceLocator<SubjectDao>()
+                  .findSubjectById(newTaskGroup.subjectId!)
+                  .first as Subject;
+              if (subject!.institutionId == null) {
+                institution = institutionNone;
               } else {
-                subject = await serviceLocator<SubjectDao>()
-                    .findSubjectById(newTaskGroup.subjectId!)
-                    .first as Subject;
-                if (subject!.institutionId == null) {
-                  institution = institutionNone;
-                } else {
-                  institution = await serviceLocator<InstitutionDao>()
-                      .findInstitutionById(subject!.institutionId!)
-                      .first as Institution;
-                }
+                institution = await serviceLocator<InstitutionDao>()
+                    .findInstitutionById(subject!.institutionId!)
+                    .first as Institution;
               }
             }
-            taskGroup = newTaskGroup;
           }
+          taskGroup = newTaskGroup;
 
           setState(() {
             institution = institution;
@@ -930,6 +927,7 @@ class _TaskFormState extends State<TaskForm> {
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
                 FutureBuilder(
+                    key: ValueKey(institution),
                     future:
                         serviceLocator<InstitutionDao>().findAllInstitutions(),
                     builder: (BuildContext context,
@@ -948,6 +946,7 @@ class _TaskFormState extends State<TaskForm> {
         return const SizedBox();
       }
       return DropdownMenuItem(
+          key: const Key("taskInstitution"),
           value: institution,
           child: Text(institution.name,
               style: const TextStyle(
@@ -977,11 +976,13 @@ class _TaskFormState extends State<TaskForm> {
       }
 
       return DropdownButton<Institution>(
+        key: const Key('taskInstitution'),
         value: institution,
         items: snapshot.data!.map((i) {
           return DropdownMenuItem<Institution>(
               value: i,
               child: Text(i.name,
+                  key: ValueKey("institution_${i.name}"),
                   style: const TextStyle(
                       fontFamily: 'Poppins',
                       color: Color(0xFF71788D),
@@ -993,7 +994,7 @@ class _TaskFormState extends State<TaskForm> {
           setState(() {
             if (institution.id != newInstitution!.id) {
               taskGroup = taskGroupNone;
-              subject = null;
+              subject = subjectNone;
             }
             institution = newInstitution;
           });
@@ -1044,8 +1045,12 @@ class _TaskFormState extends State<TaskForm> {
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
                 FutureBuilder(
-                    future: serviceLocator<SubjectDao>()
-                        .findSubjectByInstitutionId(institution.id!),
+                    key: ValueKey(subject),
+                    future: institution.id == -1
+                        ? serviceLocator<SubjectDao>()
+                            .findSubjectByInstitutionIdNull()
+                        : serviceLocator<SubjectDao>()
+                            .findSubjectByInstitutionId(institution.id!),
                     builder: (BuildContext context,
                         AsyncSnapshot<List<Subject>> snapshot) {
                       return subjectFutureBuilder(snapshot);
@@ -1068,6 +1073,7 @@ class _TaskFormState extends State<TaskForm> {
         return const SizedBox();
       }
       return DropdownMenuItem(
+          key: const Key('taskSubject'),
           value: subject!,
           child: Text(subject!.name,
               style: const TextStyle(
@@ -1078,21 +1084,33 @@ class _TaskFormState extends State<TaskForm> {
               textAlign: TextAlign.center));
     }
     if (snapshot.hasData) {
-      if (subject != null) {
-        for (final s in snapshot.data!) {
-          if (s.id == subject!.id) {
-            subject = s;
-            break;
-          }
+      bool subjectFound = false;
+      bool subjectNoneFound = false;
+      for (final s in snapshot.data!) {
+        if (s.id == subject!.id) {
+          subject = s;
+          subjectFound = true;
+        }
+        if (s.id == subjectNone.id) {
+          subjectNoneFound = true;
         }
       }
 
+      if (!subjectFound) {
+        subject = subjectNone;
+      }
+      if (!subjectNoneFound) {
+        snapshot.data!.insert(0, subjectNone);
+      }
+
       return DropdownButton<Subject>(
+        key: const Key('taskSubject'),
         value: subject,
         items: snapshot.data!.map((s) {
           return DropdownMenuItem<Subject>(
               value: s,
               child: Text(s.acronym,
+                  key: ValueKey("subject_${s.acronym}"),
                   style: const TextStyle(
                       fontFamily: 'Poppins',
                       color: Color(0xFF71788D),
@@ -1126,6 +1144,7 @@ class _TaskFormState extends State<TaskForm> {
               fontWeight: FontWeight.w400),
           textAlign: TextAlign.center),
       IconButton(
+        key: const Key('addNoteButton'),
         padding: const EdgeInsets.all(0),
         icon: const Icon(Icons.add),
         color: const Color(0xFF71788D),
@@ -1177,7 +1196,7 @@ class _TaskFormState extends State<TaskForm> {
   Widget getEndButtons(BuildContext context) {
     if (widget.id == null) {
       return ElevatedButton(
-          key: const Key('saveSubjectButton'),
+          key: const Key('saveButton'),
           onPressed: () async {
             await save(context);
           },
@@ -1194,6 +1213,7 @@ class _TaskFormState extends State<TaskForm> {
       return Row(
         children: [
           ElevatedButton(
+              key: const Key('saveButton'),
               onPressed: () async {
                 await save(context);
               },
@@ -1208,6 +1228,7 @@ class _TaskFormState extends State<TaskForm> {
                   style: Theme.of(context).textTheme.headlineSmall)),
           const SizedBox(width: 20),
           ElevatedButton(
+              key: const Key('deleteButton'),
               onPressed: () async {
                 await showDeleteConfirmation(context);
               },
