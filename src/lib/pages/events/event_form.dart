@@ -107,15 +107,18 @@ class _EventFormState extends State<EventForm> {
     return activities;
   }
 
-  FutureBuilder<List<ChooseActivity>> getMediaActivitiesForm(
-      context, scrollController) {
+  FutureBuilder<List<ChooseActivity>> futureChooseActivityForm(
+      BuildContext context,
+      ScrollController scrollController,
+      String title,
+      Future<List<ChooseActivity>> activities) {
     return FutureBuilder<List<ChooseActivity>>(
-      future: getMediaActivities(),
+      future: activities,
       builder: (context, snapshot) {
         if (snapshot.hasData) {
           return ChooseActivityForm(
               scrollController: scrollController,
-              title: AppLocalizations.of(context).choose_media,
+              title: title,
               activities: snapshot.data!,
               addActivityCallback: addActivityCallback);
         } else {
@@ -125,22 +128,16 @@ class _EventFormState extends State<EventForm> {
     );
   }
 
-  FutureBuilder<List<ChooseActivity>> getTasksActivitiesForm(
-      context, scrollController) {
-    return FutureBuilder<List<ChooseActivity>>(
-      future: getTasksActivities(),
-      builder: (context, snapshot) {
-        if (snapshot.hasData) {
-          return ChooseActivityForm(
-              scrollController: scrollController,
-              title: AppLocalizations.of(context).choose_tasks,
-              activities: snapshot.data!,
-              addActivityCallback: addActivityCallback);
-        } else {
-          return const Center(child: CircularProgressIndicator());
-        }
-      },
-    );
+  FutureBuilder<List<ChooseActivity>> futureChooseMediaActivityForm(
+      BuildContext context, ScrollController scrollController) {
+    return futureChooseActivityForm(context, scrollController,
+        AppLocalizations.of(context).choose_media, getMediaActivities());
+  }
+
+  FutureBuilder<List<ChooseActivity>> futureChooseTasksActivityForm(
+      BuildContext context, ScrollController scrollController) {
+    return futureChooseActivityForm(context, scrollController,
+        AppLocalizations.of(context).choose_tasks, getTasksActivities());
   }
 
   List<Widget> getActivities() {
@@ -605,9 +602,9 @@ class _EventFormState extends State<EventForm> {
                               maxChildSize: 0.60,
                               builder: (context, scrollController) =>
                                   _moduleColor == studentColor
-                                      ? getTasksActivitiesForm(
+                                      ? futureChooseTasksActivityForm(
                                           context, scrollController)
-                                      : getMediaActivitiesForm(
+                                      : futureChooseMediaActivityForm(
                                           context, scrollController))));
                 },
               ),
