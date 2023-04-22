@@ -11,6 +11,9 @@ import 'package:src/utils/service_locator.dart';
 import 'package:src/models/timeslot/timeslot_student_timeslot_super_entity.dart';
 import 'package:src/daos/timeslot/timeslot_student_timeslot_super_dao.dart';
 import 'package:src/widgets/events/calendar_timeslot_bar.dart';
+import 'package:src/widgets/events/day_view_timeslot_tile.dart';
+
+import '../widgets/events/day_view_timeslot_tile_full_day.dart';
 
 class CalendarPage extends StatefulWidget {
   const CalendarPage({super.key});
@@ -89,12 +92,54 @@ class _CalendarPageState extends State<CalendarPage> {
           child: CalendarTimeslotBar(
               timeslotTitle: timeslot.title, timeslotColor: timeslot.color),
           onTap: () {
-            //TODO: Open day view.
             Navigator.of(context).push(MaterialPageRoute(
                 builder: (context) => Material(
+                      color: appBackground,
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 10),
                         child: DayView(
-                      controller: eventController,
-                    ))));
+                          initialDay: timeslot.date,
+                          showVerticalLine: true,
+                          controller: eventController,
+                          backgroundColor: lightGray,
+                          dateStringBuilder: (date, {secondaryDate}) {
+                            return DateFormat('EEEE, MMMM d yyyy')
+                                .format(date)
+                                .toString();
+                          },
+                          timeLineBuilder: (date) {
+                            return Padding(
+                                padding: const EdgeInsets.only(left: 18),
+                                child: Text(
+                                  DateFormat('h:mm a').format(date),
+                                  style: const TextStyle(
+                                      fontFamily: 'Poppins',
+                                      color: Colors.white,
+                                      fontSize: 12,
+                                      fontWeight: FontWeight.w600),
+                                ));
+                          },
+                          verticalLineOffset: 10,
+                          heightPerMinute: 1.5,
+                          headerStyle: const HeaderStyle(
+                            leftIcon:
+                                Icon(Icons.calendar_month, color: Colors.white),
+                            rightIconVisible: false,
+                            decoration: BoxDecoration(color: appBackground),
+                            headerTextStyle: TextStyle(
+                                fontFamily: 'Poppins',
+                                color: Colors.white,
+                                fontSize: 16,
+                                fontWeight: FontWeight.w600),
+                          ),
+                          eventTileBuilder: (date, events, boundary,
+                                  startDuration, endDuration) =>
+                              DayViewTimeslotTile(event: events.single),
+                          // fullDayEventBuilder: (events, date) =>
+                          //     DayViewTimeslotTileFullDay(event: events.single)),
+                        ),
+                      ),
+                    )));
           }));
     }
 
@@ -108,67 +153,70 @@ class _CalendarPageState extends State<CalendarPage> {
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.done) {
           return Container(
-            alignment: Alignment.center,
-            child: Wrap(children: [
-            CalendarControllerProvider<Object>(
-              controller: eventController,
-              child: MonthView(
-                showBorder: false,
-                initialMonth: DateTime.now(),
+              alignment: Alignment.center,
+              child: CalendarControllerProvider<Object>(
                 controller: eventController,
-                headerStyle: const HeaderStyle(
-                  leftIcon: Icon(Icons.calendar_month, color: Colors.white),
-                  decoration: BoxDecoration(color: appBackground),
-                  headerTextStyle: TextStyle(
-                      fontFamily: 'Poppins',
-                      color: Colors.white,
-                      fontSize: 16,
-                      fontWeight: FontWeight.w600),
-                ),
-                headerStringBuilder: (date, {secondaryDate}) {
-                  return "${DateFormat.MMMM().format(date)} ${date.year}";
-                },
-                weekDayBuilder: (day) {
-                  return Container(
-                      color: appBackground,
-                      padding: const EdgeInsets.all(5),
-                      alignment: Alignment.center,
-                      child: Text(DateFormat.EEEE().format(DateTime(day))[0],
-                          style: const TextStyle(
-                              fontFamily: 'Poppins',
-                              color: Colors.white,
-                              fontSize: 12,
-                              fontWeight: FontWeight.w600)));
-                },
-                cellBuilder: (date, timeslots, isToday, isInMonth) {
-                  return Container(
-                      padding: const EdgeInsets.all(5),
-                      alignment: Alignment.topCenter,
-                      foregroundDecoration: BoxDecoration(
-                        border: Border.all(color: Colors.transparent, width: 0),
-                      ),
-                      decoration: BoxDecoration(
-                        color: (isInMonth ? lightGray : grayButton),
-                        border: Border.all(width: 0, color: Colors.transparent),
-                      ),
-                      child: Wrap(spacing: 10, children: [
-                        Text(
-                          date.day.toString(),
-                          style: TextStyle(
-                              fontFamily: 'Poppins',
-                              color: (isToday ? primaryColor : Colors.white),
-                              fontSize: 12,
-                              fontWeight: (isToday
-                                  ? FontWeight.w600
-                                  : FontWeight.w500)),
+                child: MonthView(
+                  showBorder: false,
+                  useAvailableVerticalSpace: true,
+                  initialMonth: DateTime.now(),
+                  controller: eventController,
+                  headerStyle: const HeaderStyle(
+                    headerPadding: EdgeInsets.symmetric(vertical: 10),
+                    leftIcon: Icon(Icons.calendar_month, color: Colors.white),
+                    rightIconVisible: false,
+                    decoration: BoxDecoration(color: appBackground),
+                    headerTextStyle: TextStyle(
+                        fontFamily: 'Poppins',
+                        color: Colors.white,
+                        fontSize: 16,
+                        fontWeight: FontWeight.w600),
+                  ),
+                  headerStringBuilder: (date, {secondaryDate}) {
+                    return "${DateFormat.MMMM().format(date)} ${date.year}";
+                  },
+                  weekDayBuilder: (day) {
+                    return Container(
+                        color: appBackground,
+                        padding: const EdgeInsets.all(5),
+                        alignment: Alignment.center,
+                        child: Text(DateFormat.EEEE().format(DateTime(day))[0],
+                            style: const TextStyle(
+                                fontFamily: 'Poppins',
+                                color: Colors.white,
+                                fontSize: 12,
+                                fontWeight: FontWeight.w600)));
+                  },
+                  cellBuilder: (date, timeslots, isToday, isInMonth) {
+                    return Container(
+                        padding: const EdgeInsets.all(5),
+                        alignment: Alignment.topLeft,
+                        foregroundDecoration: BoxDecoration(
+                          border:
+                              Border.all(color: Colors.transparent, width: 0),
                         ),
-                        ...getTimeslots(timeslots)
-                      ]));
-                },
-                cellAspectRatio: 0.5,
-              ),
-            )
-          ]));
+                        decoration: BoxDecoration(
+                          color: (isInMonth ? lightGray : grayButton),
+                          border:
+                              Border.all(width: 0, color: Colors.transparent),
+                        ),
+                        child: Wrap(spacing: 10, children: [
+                          Text(
+                            date.day.toString(),
+                            style: TextStyle(
+                                fontFamily: 'Poppins',
+                                color: (isToday ? primaryColor : Colors.white),
+                                fontSize: 12,
+                                fontWeight: (isToday
+                                    ? FontWeight.w600
+                                    : FontWeight.w500)),
+                          ),
+                          ...getTimeslots(timeslots)
+                        ]));
+                  },
+                  cellAspectRatio: 0.5,
+                ),
+              ));
         } else {
           return const Center(child: CircularProgressIndicator());
         }
