@@ -24,10 +24,18 @@ class MediaStatus {
   });
 }
 
-class ListMediaSearch extends StatelessWidget {
+class ListMediaSearch extends StatefulWidget {
   final List media;
   final String title;
 
+  const ListMediaSearch({Key? key, required this.title, required this.media})
+      : super(key: key);
+
+  @override
+  ListMediaSearchState createState() => ListMediaSearchState();
+}
+
+class ListMediaSearchState extends State<ListMediaSearch> {
   MediaStatus statusFavorite = MediaStatus(status: Status.nothing, favorite: false, id: 0);
   List<Season> seasons = [];
   List<MediaVideoEpisodeSuperEntity> episodesDB = [];
@@ -35,8 +43,6 @@ class ListMediaSearch extends StatelessWidget {
   Review? review;
   List<NoteBookNoteSuperEntity> bookNotes = [];
 
-  ListMediaSearch({Key? key, required this.title, required this.media})
-      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -45,7 +51,7 @@ class ListMediaSearch extends StatelessWidget {
 
     // Filter out null images
     List filteredMedia =
-        media.where((item) => showWidget(item) != null).toList();
+        widget.media.where((item) => showWidget(item) != null).toList();
 
     return Padding(
       padding: EdgeInsets.fromLTRB(40 * fem, 22 * fem, 0, 0),
@@ -111,7 +117,7 @@ class ListMediaSearch extends StatelessWidget {
 
   getStatusFromDB(dynamic item) async {
     String photo = '';
-    if (title == 'All Books') {
+    if (widget.title == 'All Books') {
       photo = item.info.imageLinks['thumbnail'].toString();
     } else {
       photo = item['poster_path'];
@@ -126,10 +132,10 @@ class ListMediaSearch extends StatelessWidget {
     }
 
     final media = await serviceLocator<MediaDao>().findMediaByPhoto(photo);
-    if (title == 'All Books') {
+    if (widget.title == 'All Books') {
       review = await loadReviews(media!.id ?? 0);
       bookNotes = await loadBookNotes(media.id ?? 0);
-    } else if (title == 'All Movies') {
+    } else if (widget.title == 'All Movies') {
       review = await loadReviews(media!.id ?? 0);
     } else {
       review = await loadReviews(media!.id ?? 0);
@@ -143,10 +149,10 @@ class ListMediaSearch extends StatelessWidget {
   }
 
   showMediaPageButton(dynamic item, context) {
-    if (title == 'All Books') {
+    if (widget.title == 'All Books') {
       return MediaPageButton(
           item: item, type: 'Book', mediaId: statusFavorite.id);
-    } else if (title == 'All Movies') {
+    } else if (widget.title == 'All Movies') {
       return MediaPageButton(
           item: item, type: 'Movie', mediaId: statusFavorite.id);
     } else {
@@ -156,7 +162,7 @@ class ListMediaSearch extends StatelessWidget {
   }
 
   showMediaPageBasedOnType(dynamic item) {
-    if (title == 'All Books') {
+    if (widget.title == 'All Books') {
       List<String> leisureTags = [];
       if (item.info.maturityRating != null && item.info.maturityRating != '') {
         leisureTags.add(item.info.maturityRating);
@@ -193,7 +199,7 @@ class ListMediaSearch extends StatelessWidget {
             }
             return const CircularProgressIndicator();
           });
-    } else if (title == 'All Movies') {
+    } else if (widget.title == 'All Movies') {
       return FutureBuilder<Map>(
         future: getDetails(item['id'], 'Movie'),
         builder: (context, snapshot) {
@@ -234,7 +240,7 @@ class ListMediaSearch extends StatelessWidget {
           return const CircularProgressIndicator();
         },
       );
-    } else if (title == 'All TV Shows') {
+    } else if (widget.title == 'All TV Shows') {
       return FutureBuilder<Map>(
         future: getDetails(item['id'], 'TV'),
         builder: (context, snapshot) {
@@ -283,7 +289,7 @@ class ListMediaSearch extends StatelessWidget {
   }
 
   showWidget(dynamic item) {
-    if (title == 'All Books') {
+    if (widget.title == 'All Books') {
       if (item.info.imageLinks['thumbnail'] != null) {
         return MediaWidget(
             image: item.info.imageLinks['thumbnail'].toString(), type: 'book');
