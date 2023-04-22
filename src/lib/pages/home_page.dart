@@ -7,7 +7,6 @@ import 'package:src/animation_test/main.dart';
 import 'package:src/daos/user_dao.dart';
 import 'package:src/env/env.dart';
 import 'package:src/models/user.dart';
-import 'package:src/pages/events/event_form.dart';
 import 'package:src/pages/tasks/institution_form.dart';
 import 'package:src/pages/tasks/subject_form.dart';
 import 'package:src/themes/colors.dart';
@@ -698,37 +697,6 @@ class _HomePageState extends State<HomePage> {
                               scrollController: scrollController,
                             ),
                           )));
-                }),
-            ElevatedButton(
-                child: Text("Event Form"),
-                onPressed: () {
-                  showModalBottomSheet(
-                      context: context,
-                      isScrollControlled: true,
-                      backgroundColor: Color(0xFF22252D),
-                      shape: RoundedRectangleBorder(
-                        borderRadius:
-                            BorderRadius.vertical(top: Radius.circular(30.0)),
-                      ),
-                      builder: (context) => Padding(
-                            padding: EdgeInsets.only(
-                                bottom:
-                                    MediaQuery.of(context).viewInsets.bottom +
-                                        50),
-                            child: DraggableScrollableSheet(
-                                expand: false,
-                                initialChildSize: 0.75,
-                                minChildSize: 0.75,
-                                maxChildSize: 0.75,
-                                builder: (context, scrollController) =>
-                                    EventForm(
-                                      title: "Create Event",
-                                      description: "nothing",
-                                      startTime: "05/04/2023 2:15PM",
-                                      endTime: "05/04/2023 3:15PM",
-                                      scrollController: scrollController,
-                                    )),
-                          ));
                 }),
             FutureBuilder(
                 key: ValueKey<Object>(redrawObject),
