@@ -1,11 +1,13 @@
-// ignore_for_file: prefer_const_constructors, sized_box_for_whitespace
+// ignore_for_file: prefer_const_constructors, sized_box_for_whitespace, avoid_dynamic_calls
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:src/daos/media/media_book_super_dao.dart';
 import 'package:src/daos/media/media_series_super_dao.dart';
 import 'package:src/daos/media/media_video_episode_super_dao.dart';
 import 'package:src/daos/media/season_dao.dart';
 import 'package:src/env/env.dart';
+import 'package:src/models/media/media_book_super_entity.dart';
 import 'package:src/models/media/media_series_super_entity.dart';
 import 'package:src/models/media/media_video_episode_super_entity.dart';
 import 'package:src/models/media/season.dart';
@@ -442,7 +444,38 @@ class _MediaPageButtonState extends State<MediaPageButton> {
                                               .viewInsets
                                               .bottom),
                                       child: ElevatedButton(
-                                        onPressed: () {
+                                        onPressed: () async {
+                                          if (kDebugMode) {
+                                            print(widget.item.info);
+                                          }
+
+                                          MediaBookSuperEntity book =
+                                              MediaBookSuperEntity(
+                                            name: widget.item.info.title,
+                                            description:
+                                                widget.item.info.description,
+                                            linkImage: widget.item.info
+                                                .imageLinks['thumbnail'].toString(),
+                                            status: selectedStatus,
+                                            favorite: false,
+                                            genres: widget.item.info.categories.join(
+                                                ', '),
+                                            release: widget.item.info.publishedDate,
+                                            xp: 0,
+                                            participants:
+                                                widget.item.info.authors.join(
+                                                    ', '),
+                                            totalPages:
+                                                widget.item.info.pageCount,
+                                          );
+
+                                          await serviceLocator<MediaBookSuperDao>()
+                                              .insertMediaBookSuperEntity(book);
+
+                                          if (kDebugMode) {
+                                            print('Book added to catalog');
+                                          }
+
                                           //TODO: Save stuff + send to database.
                                         },
                                         style: ElevatedButton.styleFrom(
