@@ -14,27 +14,33 @@ class TimeslotStudentTimeslotSuperDao {
 
   TimeslotStudentTimeslotSuperDao._internal();
 
-    Future<List<TimeslotStudentTimeslotSuperEntity>> findAllTimeslotStudentTimeslot() {
-    return serviceLocator<StudentTimeslotDao>().findAllStudentTimeslots().then((studentTimeslots) async {
-      List<TimeslotStudentTimeslotSuperEntity> timeslotStudentTimeslotSuperEntities =
-          [];
+  Future<List<TimeslotStudentTimeslotSuperEntity>>
+      findAllTimeslotStudentTimeslot() {
+    return serviceLocator<StudentTimeslotDao>()
+        .findAllStudentTimeslots()
+        .then((studentTimeslots) async {
+      List<TimeslotStudentTimeslotSuperEntity>
+          timeslotStudentTimeslotSuperEntities = [];
 
       for (var studentTimeslot in studentTimeslots) {
-        final timeslot = await
-            serviceLocator<TimeslotDao>().findTimeslotById(studentTimeslot.id);
+        final timeslot = await serviceLocator<TimeslotDao>()
+            .findTimeslotById(studentTimeslot.id);
 
-         if (timeslot != null) {
-            final timeslotStudentTimeslotSuperEntity = TimeslotStudentTimeslotSuperEntity.fromTimeslotStudentTimeslotEntity(
-          studentTimeslot,
-          timeslot,
-        );
-        timeslotStudentTimeslotSuperEntities.add(timeslotStudentTimeslotSuperEntity);
+        if (timeslot != null) {
+          final timeslotStudentTimeslotSuperEntity =
+              TimeslotStudentTimeslotSuperEntity
+                  .fromTimeslotStudentTimeslotEntity(
+            studentTimeslot,
+            timeslot,
+          );
+          timeslotStudentTimeslotSuperEntities
+              .add(timeslotStudentTimeslotSuperEntity);
+        }
       }
-    }
 
-    return timeslotStudentTimeslotSuperEntities;
-  });
-}
+      return timeslotStudentTimeslotSuperEntities;
+    });
+  }
 
   Future<int> insertTimeslotStudentTimeslotSuperEntity(
     TimeslotStudentTimeslotSuperEntity timeslotStudentTimeslotSuperEntity,

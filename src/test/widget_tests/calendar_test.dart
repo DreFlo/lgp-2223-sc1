@@ -38,13 +38,14 @@ void main() {
         xpMultiplier: 1,
         id: 2,
         userId: 1);
-    
+
     final mockMediaEventDao =
         serviceLocator.get<TimeslotMediaTimeslotSuperDao>();
     when(mockMediaEventDao.findAllTimeslotMediaTimeslot())
         .thenAnswer((_) async => [mediaEvent]);
-    
-    final mockStudentEventDao = serviceLocator.get<TimeslotStudentTimeslotSuperDao>();
+
+    final mockStudentEventDao =
+        serviceLocator.get<TimeslotStudentTimeslotSuperDao>();
     when(mockStudentEventDao.findAllTimeslotStudentTimeslot())
         .thenAnswer((_) async => [studentEvent]);
 
@@ -52,6 +53,6 @@ void main() {
     await tester.pumpAndSettle();
 
     expect(find.text('My Media Event'), findsOneWidget);
-    expect(find.text('My Student Event'), findsOneWidget);    
+    expect(find.text('My Student Event'), findsOneWidget);
   });
 }

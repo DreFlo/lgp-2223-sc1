@@ -12,7 +12,6 @@ import 'package:src/daos/timeslot/timeslot_student_timeslot_super_dao.dart';
 import 'package:src/widgets/events/calendar_timeslot_bar.dart';
 import 'package:src/widgets/events/day_view_timeslot_tile.dart';
 
-
 class CalendarPage extends StatefulWidget {
   const CalendarPage({super.key});
 
@@ -68,7 +67,8 @@ class _CalendarPageState extends State<CalendarPage> {
 
   checkStudentEventMultipleDays() {
     for (var i = 0; i < studentEvents.length; i++) {
-      if (studentEvents[i].startDateTime.day != studentEvents[i].endDateTime.day) {
+      if (studentEvents[i].startDateTime.day !=
+          studentEvents[i].endDateTime.day) {
         final TimeslotStudentTimeslotSuperEntity subEvent =
             TimeslotStudentTimeslotSuperEntity(
                 title: studentEvents[i].title,

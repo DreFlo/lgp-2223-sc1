@@ -24,10 +24,7 @@ class DayViewTimeslotTile extends StatelessWidget {
               borderRadius: BorderRadius.circular(5),
               color: event.color,
             ),
-            child: Wrap(
-              spacing: 5,
-              runSpacing: 5,
-              children: [
+            child: Wrap(spacing: 5, runSpacing: 5, children: [
               Text(event.title,
                   maxLines: 2,
                   overflow: TextOverflow.fade,

@@ -14,9 +14,9 @@ class ChooseActivity {
 
   ChooseActivity(
       {required this.id, // TODO(eventos): I put this here because I think it is useful for the backend, but idk, feel free to change
-        required this.title,
-        required this.description,
-        required this.isSelected});
+      required this.title,
+      required this.description,
+      required this.isSelected});
 }
 
 class ChooseActivityForm extends StatefulWidget {
@@ -26,9 +26,9 @@ class ChooseActivityForm extends StatefulWidget {
 
   const ChooseActivityForm(
       {Key? key,
-        required this.scrollController,
-        required this.activities,
-        required this.addActivityCallback})
+      required this.scrollController,
+      required this.activities,
+      required this.addActivityCallback})
       : super(key: key);
 
   @override
@@ -93,7 +93,7 @@ class _ChooseActivityFormState extends State<ChooseActivityForm> {
             Row(children: [
               Container(
                   padding:
-                  const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                      const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
                   decoration: BoxDecoration(
                       color: const Color(0xFF17181C),
                       shape: BoxShape.rectangle,
@@ -127,7 +127,7 @@ class _ChooseActivityFormState extends State<ChooseActivityForm> {
                 },
                 style: ElevatedButton.styleFrom(
                   minimumSize:
-                  Size(MediaQuery.of(context).size.width * 0.95, 55),
+                      Size(MediaQuery.of(context).size.width * 0.95, 55),
                   backgroundColor: primaryColor,
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(25.0),

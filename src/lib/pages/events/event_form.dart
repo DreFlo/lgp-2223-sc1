@@ -13,7 +13,8 @@ import 'package:src/widgets/events/activity_bar.dart';
 import '../../utils/formatters.dart';
 
 class Activity {
-  final int id; // TODO(eventos): I put this here because I think it is useful for the backend, but idk, feel free to change
+  final int
+      id; // TODO(eventos): I put this here because I think it is useful for the backend, but idk, feel free to change
   final String title;
   final String description;
 
