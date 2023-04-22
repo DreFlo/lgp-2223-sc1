@@ -16,21 +16,10 @@ class Dashboard extends StatefulWidget {
   const Dashboard({Key? key}) : super(key: key);
 
   @override
-  State<Dashboard> createState() => _DashboardState();
+  State<Dashboard> createState() => DashboardState();
 }
 
-class Project {
-  final String title;
-  final String module;
-  final String subject;
-  final String institution;
-  final int nTasks;
-
-  Project(this.title, this.module, this.subject,
-      [this.nTasks = 0, this.institution = ""]);
-}
-
-class _DashboardState extends State<Dashboard> {
+class DashboardState extends State<Dashboard> {
   int _selectedIndex = 0;
   bool _searching = false;
 
@@ -42,18 +31,7 @@ class _DashboardState extends State<Dashboard> {
   List<TaskGroup> taskGroups = [];
   List<TimeslotMediaTimeslotSuperEntity> mediaEvents = [];
   bool loadedAllData = false;
-
-  //student stuff -> Taskgroup
-  //media stuff -> Timeslot
-  /*final List<Project> items = [
-    Project('Project de LGP', 'Student', 'LGP', 1, "Faculdade"),
-    Project('Criar meu Portfolio', 'Personal', 'Profissional', 1),
-    Project('Ver o último episódio de The Last of Us', 'Leisure', 'Tv Show'),
-    Project('Ver John Wick', 'Leisure', 'Movie'),
-    Project('Treino 5 Minutos', 'Fitness', 'Fitness'),
-  ];
-
-  late List<Project> searchResults = items;*/
+  bool loadedWidgets = false;
 
   late List searchResults = items;
 
@@ -135,12 +113,16 @@ class _DashboardState extends State<Dashboard> {
       List<TimeslotMediaTimeslotSuperEntity> mediaResults =
           searchResults.whereType<TimeslotMediaTimeslotSuperEntity>().toList();
       switch (_selectedIndex) {
+        
         case 1:
+          loadedWidgets = true;
           return DashBoardGridView(
               tasks: taskResults, taskGroups: taskGroupResults);
         case 2:
+          loadedWidgets = true;
           return DashBoardGridView(mediaEvents: mediaResults);
         default:
+          loadedWidgets = true;
           return DashBoardGridView(
               tasks: taskResults,
               taskGroups: taskGroupResults,
@@ -148,29 +130,6 @@ class _DashboardState extends State<Dashboard> {
       }
     }
   }
-
-  /*List<Project> filterItems() {
-    switch (_selectedIndex) {
-      case 1:
-        return searchResults
-            .where((element) => element.module == 'Student')
-            .toList();
-      case 2:
-        return searchResults
-            .where((element) => element.module == 'Leisure')
-            .toList();
-      case 3:
-        return searchResults
-            .where((element) => element.module == 'Fitness')
-            .toList();
-      case 4:
-        return searchResults
-            .where((element) => element.module == 'Personal')
-            .toList();
-      default:
-        return searchResults;
-    }
-  }*/
 
   @override
   Widget build(BuildContext context) {
