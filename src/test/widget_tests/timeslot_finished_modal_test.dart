@@ -4,10 +4,8 @@ import 'package:image_picker/image_picker.dart';
 import 'package:mockito/mockito.dart';
 import 'package:src/models/student/task.dart';
 import 'package:src/models/timeslot/timeslot.dart';
-import 'package:src/pages/gamification/level_up_toast.dart';
 import 'package:src/pages/gamification/timeslot_finished_modal.dart';
 import 'package:src/utils/enums.dart';
-import 'package:src/widgets/tasks/task_bar.dart';
 
 import '../utils/locations_injector.dart';
 
@@ -21,7 +19,7 @@ void disableOverflowErrors() {
             (e) => e.value.toString().startsWith("A RenderFlex overflowed by"));
 
     if (isOverflowError) {
-      print(details);
+      //print(details);
     } else {
       FlutterError.presentError(details);
     }

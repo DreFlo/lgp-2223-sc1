@@ -10,9 +10,6 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
 import 'package:src/daos/student/institution_dao.dart';
 import 'package:src/pages/gamification/gained_xp_toast.dart';
-import 'package:src/pages/gamification/level_up_toast.dart';
-import 'package:src/pages/gamification/no_progress_in_timeslot_modal.dart';
-import 'package:src/pages/gamification/progress_bar_sheet.dart';
 import 'package:src/utils/service_locator.dart';
 
 import '../utils/locations_injector.dart';
@@ -28,7 +25,7 @@ void main() {
     final mockInstitutionDao = serviceLocator.get<InstitutionDao>();
     when(mockInstitutionDao.findAllInstitutions()).thenAnswer((_) async => []);
 
-    await widgetTester.pumpWidget(LocalizationsInjector(
+    await widgetTester.pumpWidget(const LocalizationsInjector(
         child: GainedXPToast(value: 10, level: 1, points: 20)));
 
     await widgetTester.pump(const Duration(seconds: 10));

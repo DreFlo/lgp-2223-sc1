@@ -1,5 +1,3 @@
-// ignore_for_file: must_be_immutable
-
 import 'dart:async';
 
 import 'package:flutter/material.dart';
@@ -12,10 +10,9 @@ class GainedXPToast extends StatefulWidget {
   final int value;
   final int level;
   final int points;
-  late int progress;
   final int levelXP = 100;
 
-  GainedXPToast(
+  const GainedXPToast(
       {super.key,
       required this.value,
       required this.level,
@@ -27,6 +24,7 @@ class GainedXPToast extends StatefulWidget {
 
 class _GainedXPToastState extends State<GainedXPToast>
     with TickerProviderStateMixin {
+  late int progress;
   late AnimationController controller;
   late AnimationController opacityController;
   late Animation<double> animation;
@@ -44,7 +42,7 @@ class _GainedXPToastState extends State<GainedXPToast>
         .animate(controller)
       ..addListener(() {
         setState(() {
-          widget.progress = animation.value.toInt();
+          progress = animation.value.toInt();
         });
       });
 
@@ -55,7 +53,7 @@ class _GainedXPToastState extends State<GainedXPToast>
         Tween<double>(begin: 0, end: 1).animate(opacityController)
           ..addListener(() {
             setState(() {
-              widget.progress = opacityAnimation.value.toInt();
+              progress = opacityAnimation.value.toInt();
             });
           });
 

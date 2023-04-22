@@ -1,5 +1,3 @@
-// ignore_for_file: unused_local_variable, dead_code
-
 import 'package:src/utils/enums.dart';
 
 import '../../models/user.dart';
@@ -53,12 +51,12 @@ class Game {
     //TODO: update task status in the DB.
   }
 
-  GameState check(List<Task> tasks, User user) {
+  GameState check(List<Task> tasks, User user, bool differentModules) {
     for (Task t in tasks) {
       markTaskAsDone(t);
     }
 
-    int points;
+    int points = 0;
     var lastTimeslot = DateTime.now();
     //TODO: get last "done" timeslot from DB with a query -> last one with finished set to true
 
@@ -72,7 +70,7 @@ class Game {
       // We may have a module combo.
 
       //Check if second/third... timeslot of the day is for a different module than the timeslot that came first -> if true, get ModuleComboPoints
-      bool differentModules = true;
+      //bool differentModules = true;
 
       if (differentModules) {
         points = getTaskComboPoints(tasks) + getModuleComboPoints(tasks);
@@ -85,7 +83,7 @@ class Game {
     }
 
     //TODO: update user XP.
-    (points) => {};
+    //(points) => {};
 
     if (checkLevelUp(user.xp, user.level)) {
       return GameState.levelUp;
@@ -97,7 +95,7 @@ class Game {
   GameState checkNonEvent(Task task, User user) {
     markTaskAsDone(task);
 
-    int points = getImmediatePoints();
+    //int points = getImmediatePoints();
 
     //TODO: update user XP.
 

@@ -1,8 +1,5 @@
-// ignore_for_file: unused_import
-
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:src/pages/gamification/progress_in_timeslot_modal.dart';
 import 'package:src/utils/enums.dart';
 import '../utils/locations_injector.dart';
@@ -15,7 +12,7 @@ void disableOverflowErrors() {
             (e) => e.value.toString().startsWith("A RenderFlex overflowed by"));
 
     if (isOverflowError) {
-      print(details);
+      //print(details);
     } else {
       FlutterError.presentError(details);
     }

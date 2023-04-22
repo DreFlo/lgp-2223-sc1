@@ -1,8 +1,5 @@
-// ignore_for_file: unused_import
-
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import '../utils/locations_injector.dart';
 import 'package:src/pages/gamification/no_progress_in_timeslot_modal.dart';
 
@@ -14,7 +11,7 @@ void disableOverflowErrors() {
             (e) => e.value.toString().startsWith("A RenderFlex overflowed by"));
 
     if (isOverflowError) {
-      print(details);
+      //print(details);
     } else {
       FlutterError.presentError(details);
     }
@@ -27,7 +24,7 @@ void main() {
         (WidgetTester tester) async {
       disableOverflowErrors();
 
-      await tester.pumpWidget(Wrap(children: [
+      await tester.pumpWidget(Wrap(children: const [
         LocalizationsInjector(child: NoProgressInTimeslotModal())
       ]));
       expect(find.byType(ElevatedButton), findsOneWidget);
