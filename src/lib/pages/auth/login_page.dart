@@ -2,8 +2,24 @@ import 'package:flutter/material.dart';
 import 'package:src/themes/colors.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
-class LoginPage extends StatelessWidget {
+class LoginPage extends StatefulWidget {
   LoginPage({Key? key}) : super(key: key);
+
+  @override
+  State<LoginPage> createState() => _LoginPageState();
+}
+
+class _LoginPageState extends State<LoginPage> {
+  TextEditingController firstController = TextEditingController();
+  TextEditingController secondController = TextEditingController();
+
+  @override
+  void dispose() {
+    // Clean up the controllers
+    firstController.dispose();
+    secondController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -28,6 +44,7 @@ class LoginPage extends StatelessWidget {
                   padding: EdgeInsets.only(
                       bottom: MediaQuery.of(context).size.height * 0.05)),
               TextField(
+                controller: firstController,
                 style: Theme.of(context).textTheme.bodySmall,
                 decoration: const InputDecoration(
                   border: UnderlineInputBorder(),
@@ -44,6 +61,7 @@ class LoginPage extends StatelessWidget {
                   padding: EdgeInsets.only(
                       bottom: MediaQuery.of(context).size.height * 0.025)),
               TextField(
+                  controller: secondController,
                   style: Theme.of(context).textTheme.bodySmall,
                   obscureText: true,
                   decoration: const InputDecoration(
@@ -63,6 +81,18 @@ class LoginPage extends StatelessWidget {
                 ElevatedButton(
                   onPressed: () {
                     print("Pressed signin btn!");
+                    showDialog(
+                      context: context,
+                      builder: (context) {
+                        return AlertDialog(
+                            // Retrieve the text by using the
+                            // TextEditingController.
+                            content: Text(
+                                "Email: ${firstController.text} \nPassword: ${secondController.text}",
+                                style:
+                                    Theme.of(context).textTheme.labelMedium));
+                      },
+                    );
                     // setState(() {
                     //   //TODO: Add effect of pressing the button
                     // });
