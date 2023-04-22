@@ -38,8 +38,8 @@ void main() {
     await serviceLocator.allReady();
   });
 
-  tearDown(() {
-    serviceLocator.reset();
+  tearDown(() async {
+    await serviceLocator.reset();
   });
 
   /*testWidgets('Counter increments smoke test', (WidgetTester tester) async {
