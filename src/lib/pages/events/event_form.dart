@@ -6,7 +6,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:intl/intl.dart';
 import 'package:src/daos/student/task_dao.dart';
+import 'package:src/daos/timeslot/media_media_timeslot_dao.dart';
+import 'package:src/daos/timeslot/task_student_timeslot_dao.dart';
+import 'package:src/daos/timeslot/timeslot_media_timeslot_super_dao.dart';
+import 'package:src/daos/timeslot/timeslot_student_timeslot_super_dao.dart';
 import 'package:src/models/student/task.dart';
+import 'package:src/models/timeslot/media_media_timeslot.dart';
+import 'package:src/models/timeslot/task_student_timeslot.dart';
+import 'package:src/models/timeslot/timeslot_media_timeslot_super_entity.dart';
+import 'package:src/models/timeslot/timeslot_student_timeslot_super_entity.dart';
 import 'package:src/pages/events/choose_activity_form.dart';
 import 'package:src/themes/colors.dart';
 import 'package:src/utils/enums.dart';
@@ -197,6 +205,60 @@ class _EventFormState extends State<EventForm> {
     ));
 
     return modulesMenuItems;
+  }
+
+  DateTime formatDateTime(DateTime date, TimeOfDay time) {
+    return DateTime(date.year, date.month, date.day, time.hour, time.minute);
+  }
+
+  void saveMediaEvent() async {
+    // TODO(eventos): correct xp formula and get user logged id
+
+    TimeslotMediaTimeslotSuperEntity mediaTimeslot =
+        TimeslotMediaTimeslotSuperEntity(
+      title: title!,
+      description: description!,
+      startDateTime: formatDateTime(startDate!, startTimeOfDay!),
+      endDateTime: formatDateTime(endDate!, endTimeOfDay!),
+      xpMultiplier: 2,
+      userId: 1,
+    );
+
+    int id = await serviceLocator<TimeslotMediaTimeslotSuperDao>()
+        .insertTimeslotMediaTimeslotSuperEntity(mediaTimeslot);
+
+    List<MediaMediaTimeslot> mediaMediaTimeslots = activities
+        .map((activity) =>
+            MediaMediaTimeslot(mediaId: activity.id, mediaTimeslotId: id))
+        .toList();
+
+    await serviceLocator<MediaMediaTimeslotDao>()
+        .insertMediaMediaTimeslots(mediaMediaTimeslots);
+  }
+
+  void saveStudentEvent() async {
+    // TODO(eventos): correct xp formula and get user logged id
+
+    TimeslotStudentTimeslotSuperEntity studentTimeslot =
+        TimeslotStudentTimeslotSuperEntity(
+      title: title!,
+      description: description!,
+      startDateTime: formatDateTime(startDate!, startTimeOfDay!),
+      endDateTime: formatDateTime(endDate!, endTimeOfDay!),
+      xpMultiplier: 2,
+      userId: 1,
+    );
+
+    int id = await serviceLocator<TimeslotStudentTimeslotSuperDao>()
+        .insertTimeslotStudentTimeslotSuperEntity(studentTimeslot);
+
+    List<TaskStudentTimeslot> taskStudentTimeslots = activities
+        .map((activity) =>
+            TaskStudentTimeslot(taskId: activity.id, studentTimeslotId: id))
+        .toList();
+
+    await serviceLocator<TaskStudentTimeslotDao>()
+        .insertTaskStudentTimeslots(taskStudentTimeslots);
   }
 
   @override
@@ -626,9 +688,9 @@ class _EventFormState extends State<EventForm> {
             ...getActivities(),
             const SizedBox(height: 30),
             ElevatedButton(
-                onPressed: () {
-                  //TODO(eventos): Save event on db or edit event
-                },
+                onPressed: _moduleColor == studentColor
+                    ? saveStudentEvent
+                    : saveMediaEvent,
                 style: ElevatedButton.styleFrom(
                   minimumSize:
                       Size(MediaQuery.of(context).size.width * 0.95, 55),

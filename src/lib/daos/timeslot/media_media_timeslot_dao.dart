@@ -19,7 +19,7 @@ abstract class MediaMediaTimeslotDao {
   Future<void> insertMediaMediaTimeslot(MediaMediaTimeslot mediaMediaTimeslot);
 
   @insert
-  Future<List<int>> insertMediaMediaTimeslots(
+  Future<void> insertMediaMediaTimeslots(
       List<MediaMediaTimeslot> mediaMediaTimeslots);
 
   @update
