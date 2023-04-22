@@ -59,7 +59,7 @@ class MediaPage extends StatelessWidget {
     List<dynamic> firstTen;
     if (cast.length >= 10) {
       firstTen = cast.sublist(0, 10);
-    } else if (cast.length > 0) {
+    } else if (cast.isNotEmpty) {
       firstTen = cast;
     } else {
       firstTen = [AppLocalizations.of(context).no_cast];

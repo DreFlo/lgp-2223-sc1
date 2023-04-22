@@ -1,5 +1,3 @@
-// ignore_for_file: prefer_const_constructors, sized_box_for_whitespace, must_be_immutable
-
 import 'package:flutter/material.dart';
 import 'media.dart';
 import 'package:src/models/notes/note_book_note_super_entity.dart';
@@ -53,8 +51,8 @@ class ListMediaSearch extends StatelessWidget {
                     showModalBottomSheet(
                         context: context,
                         isScrollControlled: true,
-                        backgroundColor: Color(0xFF22252D),
-                        shape: RoundedRectangleBorder(
+                        backgroundColor: const Color(0xFF22252D),
+                        shape: const RoundedRectangleBorder(
                           borderRadius:
                               BorderRadius.vertical(top: Radius.circular(30.0)),
                         ),
@@ -184,7 +182,7 @@ class ListMediaSearch extends StatelessWidget {
             } else if (snapshot.hasError) {
               return Text('${snapshot.error}');
             }
-            return CircularProgressIndicator();
+            return const CircularProgressIndicator();
           });
     } else if (title == 'All Movies') {
       return FutureBuilder<Map>(
@@ -224,7 +222,7 @@ class ListMediaSearch extends StatelessWidget {
           } else if (snapshot.hasError) {
             return Text('${snapshot.error}');
           }
-          return CircularProgressIndicator();
+          return const CircularProgressIndicator();
         },
       );
     } else if (title == 'All TV Shows') {
@@ -269,7 +267,7 @@ class ListMediaSearch extends StatelessWidget {
           } else if (snapshot.hasError) {
             return Text('${snapshot.error}');
           }
-          return CircularProgressIndicator();
+          return const CircularProgressIndicator();
         },
       );
     }

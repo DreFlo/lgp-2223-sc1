@@ -172,8 +172,6 @@ class _MediaPageButtonState extends State<MediaPageButton> {
                                                         seriesId: seriesId));
                                           }
 
-                                          print('HEREEEEEEEEEEEEEE');
-
                                           for (int i = 1;
                                               i <=
                                                   details['number_of_episodes'];

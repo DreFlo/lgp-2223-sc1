@@ -1,5 +1,3 @@
-// ignore_for_file: file_names,  sized_box_for_whitespace
-
 import 'package:flutter/material.dart';
 
 class MediaWidget extends StatelessWidget {
@@ -11,7 +9,7 @@ class MediaWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return SizedBox(
       height: 200,
       child: AspectRatio(
         aspectRatio: 2 / 3,

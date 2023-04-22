@@ -1,4 +1,3 @@
-// ignore_for_file: file_names, sized_box_for_whitespace, use_build_context_synchronously, must_be_immutable
 import 'package:flutter/material.dart';
 import 'package:src/models/media/media_book_super_entity.dart';
 import 'package:src/models/media/media_series_super_entity.dart';
@@ -195,7 +194,7 @@ class CatalogState extends State<Catalog> {
                                             (snapshot.data as List?)?[index],
                                             context);
                                       },
-                                      child: Container(
+                                      child: SizedBox(
                                         width: 140 * fem,
                                         child: Column(
                                           mainAxisAlignment:
@@ -285,7 +284,7 @@ class CatalogState extends State<Catalog> {
                                             (snapshot.data as List?)?[index],
                                             context);
                                       },
-                                      child: Container(
+                                      child: SizedBox(
                                         width: 140 * fem,
                                         child: Column(
                                           mainAxisAlignment:
@@ -375,7 +374,7 @@ class CatalogState extends State<Catalog> {
                                             (snapshot.data as List?)?[index],
                                             context);
                                       },
-                                      child: Container(
+                                      child: SizedBox(
                                         width: 140 * fem,
                                         child: Column(
                                           mainAxisAlignment:
