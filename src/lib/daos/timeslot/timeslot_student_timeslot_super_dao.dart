@@ -14,6 +14,28 @@ class TimeslotStudentTimeslotSuperDao {
 
   TimeslotStudentTimeslotSuperDao._internal();
 
+    Future<List<TimeslotStudentTimeslotSuperEntity>> findAllTimeslotStudentTimeslot() {
+    return serviceLocator<StudentTimeslotDao>().findAllStudentTimeslots().then((studentTimeslots) async {
+      List<TimeslotStudentTimeslotSuperEntity> timeslotStudentTimeslotSuperEntities =
+          [];
+
+      for (var studentTimeslot in studentTimeslots) {
+        final timeslot = await
+            serviceLocator<TimeslotDao>().findTimeslotById(studentTimeslot.id);
+
+         if (timeslot != null) {
+            final timeslotStudentTimeslotSuperEntity = TimeslotStudentTimeslotSuperEntity.fromTimeslotStudentTimeslotEntity(
+          studentTimeslot,
+          timeslot,
+        );
+        timeslotStudentTimeslotSuperEntities.add(timeslotStudentTimeslotSuperEntity);
+      }
+    }
+
+    return timeslotStudentTimeslotSuperEntities;
+  });
+}
+
   Future<int> insertTimeslotStudentTimeslotSuperEntity(
     TimeslotStudentTimeslotSuperEntity timeslotStudentTimeslotSuperEntity,
   ) async {
