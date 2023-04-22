@@ -38,6 +38,10 @@ void main() {
     await serviceLocator.allReady();
   });
 
+  tearDown(() {
+    serviceLocator.reset();
+  });
+
   /*testWidgets('Counter increments smoke test', (WidgetTester tester) async {
     final mockPersonDao = serviceLocator.get<PersonDao>();
     when(mockPersonDao.findAllPersons()).thenAnswer((_) async => []);
