@@ -21,6 +21,7 @@ import 'package:tmdb_api/tmdb_api.dart';
 import 'package:books_finder/books_finder.dart';
 import 'catalog_search/leisure_module.dart';
 import 'package:src/pages/auth/landing_page.dart';
+import 'package:src/pages/auth/password_recov_page.dart';
 
 import 'tasks/project_form.dart';
 import 'tasks/task_form.dart';
@@ -548,10 +549,26 @@ class _HomePageState extends State<HomePage> {
                               bottomLeft: Radius.circular(10))))),
               child: const Text('Auth Pages'),
               onPressed: () {
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => LandingPage()));
+              },
+            ),
+            ElevatedButton(
+              style: ButtonStyle(
+                  backgroundColor: MaterialStateProperty.all(Color(0xFF6C5DD3)),
+                  shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                      const RoundedRectangleBorder(
+                          borderRadius: BorderRadius.only(
+                              topRight: Radius.circular(10),
+                              topLeft: Radius.circular(10),
+                              bottomRight: Radius.circular(10),
+                              bottomLeft: Radius.circular(10))))),
+              child: const Text('Pass Recovery Page'),
+              onPressed: () {
                 Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => LandingPage()));
+                        builder: (context) => PasswordRecovPage()));
               },
             ),
             ElevatedButton(
