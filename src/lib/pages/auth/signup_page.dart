@@ -11,7 +11,7 @@ class SignUpPage extends StatefulWidget {
 
 class _SignUpPageState extends State<SignUpPage>
     with SingleTickerProviderStateMixin {
-  TextEditingController controller = TextEditingController();
+  TextEditingController inputController = TextEditingController();
   late AnimationController _animationController;
 
   int _pageCount = 0;
@@ -43,7 +43,7 @@ class _SignUpPageState extends State<SignUpPage>
         key: const ValueKey("signUp-page1"),
         width: MediaQuery.of(context).size.width,
         child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 18),
+          padding: const EdgeInsets.symmetric(horizontal: 20),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.end,
             children: <Widget>[
@@ -57,55 +57,45 @@ class _SignUpPageState extends State<SignUpPage>
                   ),
                   Text(
                     "Let's start your journey",
-                    style: Theme.of(context).textTheme.bodyMedium,
+                    style: Theme.of(context).textTheme.bodySmall,
                     textAlign: TextAlign.start,
                   ),
-                  const SizedBox(height: 7.5),
-                  Text(
-                    "YOUR NAME",
-                    style: const TextStyle(
-                        fontFamily: 'Poppins',
-                        color: Color(0xFF71788D),
-                        fontSize: 10,
-                        fontWeight: FontWeight.w400),
-                  ),
-                  const SizedBox(height: 7.5),
                   Padding(
-                    padding: const EdgeInsets.only(left: 18),
-                    child: SizedBox(
-                      width: MediaQuery.of(context).size.width * 0.90,
-                      height: 100,
-                      child: TextField(
-                        style: Theme.of(context).textTheme.bodySmall,
-                        maxLines: 1,
-                        controller: controller,
-                        decoration: InputDecoration(
-                          filled: true,
-                          fillColor: textField,
-                          helperStyle: Theme.of(context).textTheme.labelSmall,
-                          border: OutlineInputBorder(
-                            borderSide: BorderSide.none,
-                            borderRadius: BorderRadius.circular(10.0),
-                          ),
-                        ),
-                        onEditingComplete: () {
-                          setState( () {
-                            //TODO: Do checks for valid input
+                      padding: EdgeInsets.only(
+                          bottom: MediaQuery.of(context).size.height * 0.05)),
+                  TextField(
+                    style: Theme.of(context).textTheme.bodySmall,
+                    controller: inputController,
+                    onEditingComplete: () {
+                      setState(() {
+                        //TODO: Change the time of save of input to when button is pressed
+                        //TODO: Do checks for valid input
 
-                            _name = controller.text;
-                          });
-                        },
-                      ),
+                        _name = inputController.text;
+                      });
+                    },
+                    decoration: const InputDecoration(
+                      border: UnderlineInputBorder(),
+                      labelText: 'YOUR NAME',
+                      labelStyle: TextStyle(
+                          fontFamily: "Poppins",
+                          color: Color(0xFF5E6272),
+                          fontSize: 14,
+                          fontWeight: FontWeight.w600),
+                      contentPadding: EdgeInsets.only(bottom: 2.5),
                     ),
                   ),
                 ],
               ),
+              Padding(
+                      padding: EdgeInsets.only(
+                          bottom: MediaQuery.of(context).size.height * 0.05)),
               Column(
                 children: [
                   ElevatedButton(
                     onPressed: () {
                       setState(() {
-                        controller.text = "";
+                        inputController.text = "";
                         _pageCount++;
                         _animationController.forward(from: 0.0);
                       });
@@ -148,55 +138,44 @@ class _SignUpPageState extends State<SignUpPage>
                   ),
                   Text(
                     "We promise not to send you annoying emails!",
-                    style: Theme.of(context).textTheme.bodyMedium,
+                    style: Theme.of(context).textTheme.bodySmall,
                     textAlign: TextAlign.start,
                   ),
-                  const SizedBox(height: 7.5),
-                  Text(
-                    "YOUR E-MAIL",
-                    style: const TextStyle(
-                        fontFamily: 'Poppins',
-                        color: Color(0xFF71788D),
-                        fontSize: 10,
-                        fontWeight: FontWeight.w400),
-                  ),
-                  const SizedBox(height: 7.5),
                   Padding(
-                    padding: const EdgeInsets.only(left: 18),
-                    child: SizedBox(
-                      width: MediaQuery.of(context).size.width * 0.90,
-                      height: 100,
-                      child: TextField(
-                        style: Theme.of(context).textTheme.bodySmall,
-                        maxLines: 1,
-                        controller: controller,
-                        decoration: InputDecoration(
-                          filled: true,
-                          fillColor: textField,
-                          helperStyle: Theme.of(context).textTheme.labelSmall,
-                          border: OutlineInputBorder(
-                            borderSide: BorderSide.none,
-                            borderRadius: BorderRadius.circular(10.0),
-                          ),
-                        ),
-                        onEditingComplete: () {
-                          setState( () {
-                            //TODO: Do checks for valid input
+                      padding: EdgeInsets.only(
+                          bottom: MediaQuery.of(context).size.height * 0.05)),
+                  TextField(
+                    style: Theme.of(context).textTheme.bodySmall,
+                    controller: inputController,
+                    onEditingComplete: () {
+                      setState(() {
+                        //TODO: Do checks for valid input
 
-                            _email = controller.text;
-                          });
-                        },
-                      ),
+                        _email = inputController.text;
+                      });
+                    },
+                    decoration: const InputDecoration(
+                      border: UnderlineInputBorder(),
+                      labelText: 'YOUR E-MAIL',
+                      labelStyle: TextStyle(
+                          fontFamily: "Poppins",
+                          color: Color(0xFF5E6272),
+                          fontSize: 14,
+                          fontWeight: FontWeight.w600),
+                      contentPadding: EdgeInsets.only(bottom: 2.5),
                     ),
                   ),
                 ],
               ),
+              Padding(
+                      padding: EdgeInsets.only(
+                          bottom: MediaQuery.of(context).size.height * 0.05)),
               Column(
                 children: [
                   ElevatedButton(
                     onPressed: () {
                       setState(() {
-                        controller.text = "";
+                        inputController.text = "";
                         _pageCount++;
                         _animationController.forward(from: 0.0);
                       });
@@ -239,58 +218,47 @@ class _SignUpPageState extends State<SignUpPage>
                   ),
                   Text(
                     "And no... 'password123' is not a good one.",
-                    style: Theme.of(context).textTheme.bodyMedium,
+                    style: Theme.of(context).textTheme.bodySmall,
                     textAlign: TextAlign.start,
                   ),
-                  const SizedBox(height: 7.5),
-                  Text(
-                    "YOUR PASSWORD",
-                    style: const TextStyle(
-                        fontFamily: 'Poppins',
-                        color: Color(0xFF71788D),
-                        fontSize: 10,
-                        fontWeight: FontWeight.w400),
-                  ),
-                  const SizedBox(height: 7.5),
                   Padding(
-                    padding: const EdgeInsets.only(left: 18),
-                    child: SizedBox(
-                      width: MediaQuery.of(context).size.width * 0.90,
-                      height: 100,
-                      child: TextField(
-                        style: Theme.of(context).textTheme.bodySmall,
-                        maxLines: 1,
-                        obscureText: true,
-                        controller: controller,
-                        decoration: InputDecoration(
-                          filled: true,
-                          fillColor: textField,
-                          helperStyle: Theme.of(context).textTheme.labelSmall,
-                          border: OutlineInputBorder(
-                            borderSide: BorderSide.none,
-                            borderRadius: BorderRadius.circular(10.0),
-                          ),
-                        ),
-                        onEditingComplete: () {
-                          setState( () {
-                            //TODO: Do checks for valid input
+                      padding: EdgeInsets.only(
+                          bottom: MediaQuery.of(context).size.height * 0.05)),
+                  TextField(
+                    style: Theme.of(context).textTheme.bodySmall,
+                    obscureText: true,
+                    controller: inputController,
+                    onEditingComplete: () {
+                      setState(() {
+                        //TODO: Do checks for valid input
 
-                            _password = controller.text; //TODO: Encript the password
-                          });
-                        },
-                      ),
+                        _password = inputController.text; //TODO: Encript the password
+                      });
+                    },
+                    decoration: const InputDecoration(
+                      border: UnderlineInputBorder(),
+                      labelText: 'YOUR PASSWORD',
+                      labelStyle: TextStyle(
+                          fontFamily: "Poppins",
+                          color: Color(0xFF5E6272),
+                          fontSize: 14,
+                          fontWeight: FontWeight.w600),
+                      contentPadding: EdgeInsets.only(bottom: 2.5),
                     ),
                   ),
                 ],
               ),
+              Padding(
+                      padding: EdgeInsets.only(
+                          bottom: MediaQuery.of(context).size.height * 0.05)),
               Column(
                 children: [
                   ElevatedButton(
                     onPressed: () {
                       setState(() {
-                        controller.text = "";
+                        inputController.text = "";
 
-                        // TODO: Save things in database
+                        // TODO(auth): Save things in database
                         print("Name: " + _name);
                         print("Email: " + _email);
                         print("Password: " + _password);
@@ -323,7 +291,6 @@ class _SignUpPageState extends State<SignUpPage>
 
   @override
   Widget build(BuildContext context) {
-    //TODO: Implement signUp page
     List<Widget> pages = getAllSignUpPages(context);
 
     return SizedBox(
@@ -348,6 +315,9 @@ class _SignUpPageState extends State<SignUpPage>
               ),
             ),
           ),
+          Padding(
+                      padding: EdgeInsets.only(
+                          bottom: MediaQuery.of(context).size.height * 0.07)),
           SizedBox(
             height: MediaQuery.of(context).size.height * 0.5,
             child: SlideTransition(
