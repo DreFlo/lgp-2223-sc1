@@ -18,8 +18,7 @@ import 'package:src/models/media/media.dart';
 import '../../utils/formatters.dart';
 
 class Activity {
-  final int
-      id; // TODO(eventos): I put this here because I think it is useful for the backend, but idk, feel free to change
+  final int id;
   final String title;
   final String description;
 
@@ -74,43 +73,48 @@ class _EventFormState extends State<EventForm> {
   Future<List<ChooseActivity>> getMediaActivities() async {
     // TODO(eventos): findUnfinishedMedia()??
 
-    List<ChooseActivity> activities = [];
+    List<ChooseActivity> mediaActivities = [];
     List<Media> media = await serviceLocator<MediaDao>().findAllMedia();
 
     for (Media m in media) {
-      activities.add(ChooseActivity(
-        id: m.id!,
-        title: m.name,
-        description: m.description,
-        isSelected: false,
-      ));
+      if (activities.every((element) => element.id != m.id)) {
+        mediaActivities.add(ChooseActivity(
+          id: m.id!,
+          title: m.name,
+          description: m.description,
+          isSelected: false,
+        ));
+      }
     }
 
-    return activities;
+    return mediaActivities;
   }
 
   Future<List<ChooseActivity>> getTasksActivities() async {
     // TODO(eventos): findUnfinishedTasks()??
 
-    List<ChooseActivity> activities = [];
+    List<ChooseActivity> tasksActivities = [];
     List<Task> tasks = await serviceLocator<TaskDao>().findAllTasks();
 
     for (Task t in tasks) {
-      activities.add(ChooseActivity(
-        id: t.id!,
-        title: t.name,
-        description: formatDeadline(t.deadline),
-        isSelected: false,
-      ));
+      if (activities.every((element) => element.id != t.id)) {
+        tasksActivities.add(ChooseActivity(
+          id: t.id!,
+          title: t.name,
+          description: formatDeadline(t.deadline),
+          isSelected: false,
+        ));
+      }
     }
 
-    return activities;
+    return tasksActivities;
   }
 
   FutureBuilder<List<ChooseActivity>> futureChooseActivityForm(
       BuildContext context,
       ScrollController scrollController,
       String title,
+      String noActivityText,
       Future<List<ChooseActivity>> activities) {
     return FutureBuilder<List<ChooseActivity>>(
       future: activities,
@@ -119,6 +123,7 @@ class _EventFormState extends State<EventForm> {
           return ChooseActivityForm(
               scrollController: scrollController,
               title: title,
+              noActivityText: noActivityText,
               activities: snapshot.data!,
               addActivityCallback: addActivityCallback);
         } else {
@@ -130,14 +135,22 @@ class _EventFormState extends State<EventForm> {
 
   FutureBuilder<List<ChooseActivity>> futureChooseMediaActivityForm(
       BuildContext context, ScrollController scrollController) {
-    return futureChooseActivityForm(context, scrollController,
-        AppLocalizations.of(context).choose_media, getMediaActivities());
+    return futureChooseActivityForm(
+        context,
+        scrollController,
+        AppLocalizations.of(context).choose_media,
+        AppLocalizations.of(context).no_media,
+        getMediaActivities());
   }
 
   FutureBuilder<List<ChooseActivity>> futureChooseTasksActivityForm(
       BuildContext context, ScrollController scrollController) {
-    return futureChooseActivityForm(context, scrollController,
-        AppLocalizations.of(context).choose_tasks, getTasksActivities());
+    return futureChooseActivityForm(
+        context,
+        scrollController,
+        AppLocalizations.of(context).choose_tasks,
+        AppLocalizations.of(context).no_tasks,
+        getTasksActivities());
   }
 
   List<Widget> getActivities() {
