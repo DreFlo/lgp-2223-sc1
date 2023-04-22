@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:calendar_view/calendar_view.dart';
@@ -13,7 +12,6 @@ import 'package:src/daos/timeslot/timeslot_student_timeslot_super_dao.dart';
 import 'package:src/widgets/events/calendar_timeslot_bar.dart';
 import 'package:src/widgets/events/day_view_timeslot_tile.dart';
 
-import '../widgets/events/day_view_timeslot_tile_full_day.dart';
 
 class CalendarPage extends StatefulWidget {
   const CalendarPage({super.key});
