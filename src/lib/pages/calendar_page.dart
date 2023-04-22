@@ -1,9 +1,14 @@
+import 'dart:async';
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:calendar_view/calendar_view.dart';
-import 'package:src/models/timeslot/timeslot.dart';
 import 'package:src/themes/colors.dart';
+import 'package:src/models/timeslot/timeslot_media_timeslot_super_entity.dart';
+import 'package:src/daos/timeslot/timeslot_media_timeslot_super_dao.dart';
+import 'package:src/utils/service_locator.dart';
+import 'package:src/models/timeslot/timeslot_student_timeslot_super_entity.dart';
+import 'package:src/daos/timeslot/timeslot_student_timeslot_super_dao.dart';
 
 class CalendarPage extends StatefulWidget {
   const CalendarPage({super.key});
@@ -13,62 +18,96 @@ class CalendarPage extends StatefulWidget {
 }
 
 class _CalendarPageState extends State<CalendarPage> {
-  EventController<Timeslot> eventController = EventController<Timeslot>();
+  EventController<Object> eventController = EventController<Object>();
+  List<TimeslotMediaTimeslotSuperEntity> mediaEvents = [];
+  bool loadedAllData = false;
+  List<TimeslotStudentTimeslotSuperEntity> studentEvents = [];
 
   @override
   initState() {
     super.initState();
-    //TODO: Get events from database.
-    var databaseTimeslots = [
-      Timeslot(
-          id: 1,
-          title: "Test",
-          description: "Test",
-          startDateTime: DateTime.now(),
-          endDateTime: DateTime.now().add(Duration(hours: 1)),
-          userId: 1,
-          xpMultiplier: 2),
-      Timeslot(
-          id: 2,
-          title: "Test2",
-          description: "Test",
-          startDateTime: DateTime.now().add(Duration(days: 1)),
-          endDateTime:
-              DateTime.now().add(Duration(days: 1)).add(Duration(hours: 1)),
-          userId: 1,
-          xpMultiplier: 2),
-    ];
+    loadEventsDB();
+  }
 
-    for (var timeslot in databaseTimeslots) {
-      eventController.add(CalendarEventData(
-          title: timeslot.title,
-          date: timeslot.startDateTime,
-          startTime: timeslot.startDateTime,
-          endTime: timeslot.endDateTime,
-          color: leisureColor));
+  void loadEventsDB() async {
+    mediaEvents = await serviceLocator<TimeslotMediaTimeslotSuperDao>()
+        .findAllTimeslotMediaTimeslot();
+    studentEvents = await serviceLocator<TimeslotStudentTimeslotSuperDao>()
+        .findAllTimeslotStudentTimeslot();
+    setState(() {
+      mediaEvents = mediaEvents;
+      studentEvents = studentEvents;
+      loadedAllData = true;
+    });
+    addEventToCalendar();
+  }
+
+  List get items {
+    if (loadedAllData) {
+      final List combined = [];
+      if (mediaEvents.isNotEmpty) {
+        combined.addAll(mediaEvents);
+      }
+      if (studentEvents.isNotEmpty) {
+        combined.addAll(studentEvents);
+      }
+
+      return combined;
+    }
+    return [];
+  }
+
+  Future<void> addEventToCalendar() async {
+    if (loadedAllData) {
+      for (var timeslot in items) {
+        Color eventColor = timeslot is TimeslotMediaTimeslotSuperEntity
+            ? leisureColor
+            : timeslot is TimeslotStudentTimeslotSuperEntity
+                ? studentColor
+                : primaryColor;
+        eventController.add(CalendarEventData(
+            title: timeslot.title,
+            date: timeslot.startDateTime,
+            startTime: timeslot.startDateTime,
+            endTime: timeslot.endDateTime,
+            color: eventColor));
+      }
+      // Manually complete the future when the data is ready
+      _eventsAddedCompleter.complete();
     }
   }
 
+  Completer<void> _eventsAddedCompleter = Completer<void>();
+
   @override
   Widget build(BuildContext context) {
-    return CalendarControllerProvider<Timeslot>(
-        controller: eventController,
-        child: MonthView(
-          controller: eventController,
-          // to provide custom UI for month cells.
-          minMonth: DateTime(1990),
-          maxMonth: DateTime(2050),
-          initialMonth: DateTime(2021),
-          cellAspectRatio: 1,
-          onPageChange: (date, pageIndex) => print("$date, $pageIndex"),
-          onCellTap: (events, date) {
-            // Implement callback when user taps on a cell.
-            
-          },
-          startDay: WeekDays.monday, // To change the first day of the week.
-          // This callback will only work if cellBuilder is null.
-          onEventTap: (event, date) => print(event),
-          onDateLongPress: (date) => print(date),
-        ));
+    return FutureBuilder(
+      future: _eventsAddedCompleter.future,
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.done) {
+          return CalendarControllerProvider<Object>(
+            controller: eventController,
+            child: MonthView(
+              controller: eventController,
+              // to provide custom UI for month cells.
+              minMonth: DateTime(1990),
+              maxMonth: DateTime(2050),
+              initialMonth: DateTime.now(),
+              cellAspectRatio: 1,
+              onPageChange: (date, pageIndex) => print("$date, $pageIndex"),
+              onCellTap: (events, date) {
+                // Implement callback when user taps on a cell.
+              },
+              startDay: WeekDays.monday, // To change the first day of the week.
+              // This callback will only work if cellBuilder is null.
+              onEventTap: (event, date) => print(event),
+              onDateLongPress: (date) => print(date),
+            ),
+          );
+        } else {
+          return const Center(child: CircularProgressIndicator());
+        }
+      },
+    );
   }
 }

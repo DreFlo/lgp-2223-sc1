@@ -5,8 +5,8 @@ final mockStudentTimeslots = [
       id: 2,
       title: 'Needs doing quick',
       description: 'word words words words words',
-      startDateTime: DateTime.now().add(const Duration(hours: 6)),
-      endDateTime: DateTime.now().add(const Duration(hours: 7)),
+      startDateTime: DateTime.now().add(const Duration(days:1)).add(const Duration(hours: 6)),
+      endDateTime: DateTime.now().add(const Duration(days:1)).add(const Duration(hours: 7)),
       xpMultiplier: 2,
       userId: 1)
 ];
