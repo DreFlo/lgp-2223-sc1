@@ -51,6 +51,7 @@ dependencies:
   like_button: ^2.0.5
   emojis: ^0.9.9
   sqflite_common: ^2.0.1
+  calendar_view: ^1.0.3
 
 dev_dependencies:
   integration_test:
