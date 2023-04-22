@@ -77,7 +77,7 @@ class _CalendarPageState extends State<CalendarPage> {
     }
   }
 
-  Completer<void> _eventsAddedCompleter = Completer<void>();
+  final Completer<void> _eventsAddedCompleter = Completer<void>();
 
   @override
   Widget build(BuildContext context) {
