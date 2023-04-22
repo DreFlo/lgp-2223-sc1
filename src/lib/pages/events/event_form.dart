@@ -13,7 +13,8 @@ import 'package:src/widgets/events/activity_bar.dart';
 import '../../utils/formatters.dart';
 
 class Activity {
-  final int id; // TODO(eventos): I put this here because I think it is useful for the backend, but idk, feel free to change
+  final int
+      id; // TODO(eventos): I put this here because I think it is useful for the backend, but idk, feel free to change
   final String title;
   final String description;
 
@@ -587,11 +588,15 @@ class _EventFormState extends State<EventForm> {
                                   _moduleColor == studentColor
                                       ? ChooseActivityForm(
                                           scrollController: scrollController,
+                                          title: AppLocalizations.of(context)
+                                              .choose_tasks,
                                           activities: getTasks(),
                                           addActivityCallback:
                                               addActivityCallback)
                                       : ChooseActivityForm(
                                           scrollController: scrollController,
+                                          title: AppLocalizations.of(context)
+                                              .choose_media,
                                           activities: getMedia(),
                                           addActivityCallback:
                                               addActivityCallback))));
