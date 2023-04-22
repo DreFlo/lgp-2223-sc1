@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:src/themes/colors.dart';
 import 'package:src/utils/service_locator.dart';
 
 import 'flavors.dart';
@@ -34,7 +35,7 @@ class App extends StatelessWidget {
             theme: ThemeData(
                 fontFamily: 'Poppins',
                 primarySwatch: const MaterialColor(0xFF6C5DD3, color),
-                scaffoldBackgroundColor: const Color(0xFF181A20),
+                scaffoldBackgroundColor: appBackground,
                 textTheme: const TextTheme(
                   labelSmall: TextStyle(
                       color: Color(0xFF71788D),
