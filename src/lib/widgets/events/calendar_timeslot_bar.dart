@@ -26,7 +26,7 @@ class CalendarTimeslotBar extends StatelessWidget {
             const EdgeInsets.only(bottom: 5, top: 5, left: 7.5, right: 7.5),
         child: Text(timeslotTitle,
             maxLines: 1,
-            overflow: TextOverflow.fade,
+            overflow: TextOverflow.ellipsis,
             textAlign: TextAlign.justify,
             style: TextStyle(
                 color: (timeslotColor == studentColor

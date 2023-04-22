@@ -88,59 +88,14 @@ class _CalendarPageState extends State<CalendarPage> {
     List<Widget> timeslotWidgets = [];
 
     for (var timeslot in timeslots) {
-      timeslotWidgets.add(InkWell(
-          child: CalendarTimeslotBar(
-              timeslotTitle: timeslot.title, timeslotColor: timeslot.color),
-          onTap: () {
-            Navigator.of(context).push(MaterialPageRoute(
-                builder: (context) => Material(
-                      color: appBackground,
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 10),
-                        child: DayView(
-                          initialDay: timeslot.date,
-                          showVerticalLine: true,
-                          controller: eventController,
-                          backgroundColor: lightGray,
-                          dateStringBuilder: (date, {secondaryDate}) {
-                            return DateFormat('EEEE, MMMM d yyyy')
-                                .format(date)
-                                .toString();
-                          },
-                          timeLineBuilder: (date) {
-                            return Padding(
-                                padding: const EdgeInsets.only(left: 18),
-                                child: Text(
-                                  DateFormat('h:mm a').format(date),
-                                  style: const TextStyle(
-                                      fontFamily: 'Poppins',
-                                      color: Colors.white,
-                                      fontSize: 12,
-                                      fontWeight: FontWeight.w600),
-                                ));
-                          },
-                          verticalLineOffset: 10,
-                          heightPerMinute: 1.5,
-                          headerStyle: const HeaderStyle(
-                            leftIcon:
-                                Icon(Icons.calendar_month, color: Colors.white),
-                            rightIconVisible: false,
-                            decoration: BoxDecoration(color: appBackground),
-                            headerTextStyle: TextStyle(
-                                fontFamily: 'Poppins',
-                                color: Colors.white,
-                                fontSize: 16,
-                                fontWeight: FontWeight.w600),
-                          ),
-                          eventTileBuilder: (date, events, boundary,
-                                  startDuration, endDuration) =>
-                              DayViewTimeslotTile(event: events.single),
-                          // fullDayEventBuilder: (events, date) =>
-                          //     DayViewTimeslotTileFullDay(event: events.single)),
-                        ),
-                      ),
-                    )));
-          }));
+      timeslotWidgets.add(Padding(
+          padding: const EdgeInsets.only(bottom: 5),
+          child: InkWell(
+              child: CalendarTimeslotBar(
+                  timeslotTitle: timeslot.title, timeslotColor: timeslot.color),
+              onTap: () {
+                //TODO: Open timeslot form.
+              })));
     }
 
     return timeslotWidgets;
@@ -215,6 +170,61 @@ class _CalendarPageState extends State<CalendarPage> {
                         ]));
                   },
                   cellAspectRatio: 0.5,
+                  onCellTap: (events, date) {
+                    Navigator.of(context).push(MaterialPageRoute(
+                        builder: (context) => Material(
+                              color: appBackground,
+                              child: Padding(
+                                padding:
+                                    const EdgeInsets.symmetric(vertical: 10),
+                                child: DayView(
+                                  initialDay: date,
+                                  showVerticalLine: true,
+                                  controller: eventController,
+                                  backgroundColor: lightGray,
+                                  dateStringBuilder: (date, {secondaryDate}) {
+                                    return DateFormat('EEEE, MMMM d yyyy')
+                                        .format(date)
+                                        .toString();
+                                  },
+                                  timeLineBuilder: (date) {
+                                    return Padding(
+                                        padding:
+                                            const EdgeInsets.only(left: 18),
+                                        child: Text(
+                                          DateFormat('h:mm a').format(date),
+                                          style: const TextStyle(
+                                              fontFamily: 'Poppins',
+                                              color: Colors.white,
+                                              fontSize: 12,
+                                              fontWeight: FontWeight.w600),
+                                        ));
+                                  },
+                                  verticalLineOffset: 10,
+                                  heightPerMinute: 1.5,
+                                  headerStyle: const HeaderStyle(
+                                    headerPadding:
+                                        EdgeInsets.symmetric(vertical: 10),
+                                    leftIcon: Icon(Icons.calendar_month,
+                                        color: Colors.white),
+                                    rightIconVisible: false,
+                                    decoration:
+                                        BoxDecoration(color: appBackground),
+                                    headerTextStyle: TextStyle(
+                                        fontFamily: 'Poppins',
+                                        color: Colors.white,
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.w600),
+                                  ),
+                                  eventTileBuilder: (date, events, boundary,
+                                          startDuration, endDuration) =>
+                                      DayViewTimeslotTile(event: events.single),
+                                  fullDayEventBuilder: (events, date) =>
+                                       DayViewTimeslotTileFullDay(event: events.single)),
+                                ),
+                              ),
+                            ));
+                  },
                 ),
               ));
         } else {

@@ -6,9 +6,7 @@ import 'package:src/themes/colors.dart';
 class DayViewTimeslotTile extends StatelessWidget {
   final CalendarEventData event;
 
-  const DayViewTimeslotTile(
-      {Key? key, required this.event})
-      : super(key: key);
+  const DayViewTimeslotTile({Key? key, required this.event}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -26,28 +24,31 @@ class DayViewTimeslotTile extends StatelessWidget {
               borderRadius: BorderRadius.circular(5),
               color: event.color,
             ),
-            child: Column(
+            child: Wrap(
+              spacing: 5,
+              runSpacing: 5,
               children: [
-                Row(children: [
-                Text(event.title,
-                  maxLines: 1,
+              Text(event.title,
+                  maxLines: 2,
                   overflow: TextOverflow.fade,
-                  textAlign: TextAlign.justify,
+                  textAlign: TextAlign.left,
                   style: TextStyle(
-                      color: (event.color == studentColor ? Colors.black : Colors.white),
+                      color: (event.color == studentColor
+                          ? Colors.black
+                          : Colors.white),
                       fontSize: 16,
-                      fontWeight: FontWeight.w600))]),
-                Row(children: [
-                  Text("${DateFormat('hh:mm').format(event.startTime!)} - ${DateFormat('hh:mm').format(event.endTime!)}",
+                      fontWeight: FontWeight.w600)),
+              Text(
+                  "${DateFormat('hh:mm').format(event.startTime!)} - ${DateFormat('hh:mm').format(event.endTime!)}",
                   maxLines: 1,
                   overflow: TextOverflow.fade,
                   textAlign: TextAlign.justify,
                   style: TextStyle(
-                      color: (event.color == studentColor ? Colors.black : Colors.white),
+                      color: (event.color == studentColor
+                          ? Colors.black
+                          : Colors.white),
                       fontSize: 14,
                       fontWeight: FontWeight.w400))
-                ])
-                
             ])));
   }
 }
