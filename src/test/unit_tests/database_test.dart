@@ -567,8 +567,11 @@ void main() {
           xp: 23,
           participants: 'Me'));
 
-      await serviceLocator<SeriesDao>()
-          .insertSerie(Series(id: seriesId, tagline: 'Super Cool Test', numberEpisodes: 23, numberSeasons: 2));
+      await serviceLocator<SeriesDao>().insertSerie(Series(
+          id: seriesId,
+          tagline: 'Super Cool Test',
+          numberEpisodes: 23,
+          numberSeasons: 2));
 
       TimeslotMediaTimeslotSuperEntity timeslotMediaTimeslotSuperEntity =
           TimeslotMediaTimeslotSuperEntity(

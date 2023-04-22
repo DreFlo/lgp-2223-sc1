@@ -133,12 +133,13 @@ class _HomePageState extends State<HomePage> {
                                   child: SingleChildScrollView(
                                       controller: scrollController,
                                       child: AddToCatalogForm(
-                                          status: Status.nothing,
-                                          startDate: DateTime.now()
-                                              .toString()
-                                              .split(" ")[0],
-                                          endDate: 'Not Defined',
-                                          onStatusChanged: (value) => value,))),
+                                        status: Status.nothing,
+                                        startDate: DateTime.now()
+                                            .toString()
+                                            .split(" ")[0],
+                                        endDate: 'Not Defined',
+                                        onStatusChanged: (value) => value,
+                                      ))),
                               Positioned(
                                   left: 16,
                                   right: 16,
@@ -309,12 +310,13 @@ class _HomePageState extends State<HomePage> {
                                   child: SingleChildScrollView(
                                       controller: scrollController,
                                       child: AddToCatalogForm(
-                                          status: Status.nothing,
-                                          startDate: DateTime.now()
-                                              .toString()
-                                              .split(" ")[0],
-                                          endDate: 'Not Defined',
-                                          onStatusChanged: (value) => value,))),
+                                        status: Status.nothing,
+                                        startDate: DateTime.now()
+                                            .toString()
+                                            .split(" ")[0],
+                                        endDate: 'Not Defined',
+                                        onStatusChanged: (value) => value,
+                                      ))),
                               Positioned(
                                   left: 16,
                                   right: 16,

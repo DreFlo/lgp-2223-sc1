@@ -36,13 +36,13 @@ class ListMediaSearch extends StatefulWidget {
 }
 
 class ListMediaSearchState extends State<ListMediaSearch> {
-  MediaStatus statusFavorite = MediaStatus(status: Status.nothing, favorite: false, id: 0);
+  MediaStatus statusFavorite =
+      MediaStatus(status: Status.nothing, favorite: false, id: 0);
   List<Season> seasons = [];
   List<MediaVideoEpisodeSuperEntity> episodesDB = [];
   List<NoteEpisodeNoteSuperEntity> episodeNotes = [];
   Review? review;
   List<NoteBookNoteSuperEntity> bookNotes = [];
-
 
   @override
   Widget build(BuildContext context) {
@@ -127,7 +127,8 @@ class ListMediaSearchState extends State<ListMediaSearch> {
         await serviceLocator<MediaDao>().countMediaByPhoto(photo);
 
     if (mediaExists == 0) {
-      statusFavorite = MediaStatus(status: Status.nothing, favorite: false, id: 0);
+      statusFavorite =
+          MediaStatus(status: Status.nothing, favorite: false, id: 0);
       return statusFavorite;
     }
 
@@ -144,7 +145,8 @@ class ListMediaSearchState extends State<ListMediaSearch> {
       episodeNotes = await loadEpisodeNotes(episodesDB);
     }
 
-    statusFavorite = MediaStatus(status: media.status, favorite: media.favorite, id: media.id ?? 0);
+    statusFavorite = MediaStatus(
+        status: media.status, favorite: media.favorite, id: media.id ?? 0);
     return statusFavorite;
   }
 

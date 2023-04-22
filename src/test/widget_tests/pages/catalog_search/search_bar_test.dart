@@ -4,8 +4,8 @@ import 'package:src/utils/service_locator.dart';
 import 'package:flutter/material.dart';
 import 'package:src/pages/catalog_search/search_bar.dart';
 
-
 import '../../../utils/service_locator_test_util.dart';
+
 void main() {
   setUp(() async {
     setupMockServiceLocatorUnitTests();

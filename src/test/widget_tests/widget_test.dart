@@ -12,6 +12,5 @@ import 'pages/catalog_search/search_test.dart' as search_test;
 void main() {
   leisure_module_test.main();
   search_bar_test.main();
-  search_test.main(); 
-  
+  search_test.main();
 }

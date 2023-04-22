@@ -319,62 +319,69 @@ class _FinishedMediaFormState extends State<FinishedMediaForm> {
           ]),
           const SizedBox(height: 7.5),
           SingleChildScrollView(
-  scrollDirection: Axis.horizontal,
-  child: 
-          SizedBox(
-              height: 50,
-              child:
-                  Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-                ElevatedButton(
-                    onPressed: () {
-                      isFavorite = !isFavorite;
+              scrollDirection: Axis.horizontal,
+              child: SizedBox(
+                  height: 50,
+                  child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        ElevatedButton(
+                            onPressed: () {
+                              isFavorite = !isFavorite;
 
-                      setState(() {});
-                    },
-                    style: ButtonStyle(
-                        fixedSize: MaterialStateProperty.all(Size.copy(Size(
-                            (((MediaQuery.of(context).size.width * 0.9) - 10) /
-                                2),
-                            50))),
-                        shape: MaterialStateProperty.all(
-                            const RoundedRectangleBorder(
-                                borderRadius: BorderRadius.only(
-                                    topLeft: Radius.circular(10),
-                                    bottomLeft: Radius.circular(10)))),
-                        backgroundColor: MaterialStateProperty.all(
-                            isFavorite ? leisureColor : lightGray)),
-                    child: Text(AppLocalizations.of(context).yes,
-                        style: const TextStyle(
-                          color: Colors.white,
-                          fontWeight: FontWeight.normal,
-                          fontSize: 16,
-                        ))),
-                const VerticalDivider(color: modalBackground, thickness: 10),
-                ElevatedButton(
-                    onPressed: () {
-                      isFavorite = !isFavorite;
+                              setState(() {});
+                            },
+                            style: ButtonStyle(
+                                fixedSize: MaterialStateProperty.all(Size.copy(
+                                    Size(
+                                        (((MediaQuery.of(context).size.width *
+                                                    0.9) -
+                                                10) /
+                                            2),
+                                        50))),
+                                shape: MaterialStateProperty.all(
+                                    const RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.only(
+                                            topLeft: Radius.circular(10),
+                                            bottomLeft: Radius.circular(10)))),
+                                backgroundColor: MaterialStateProperty.all(
+                                    isFavorite ? leisureColor : lightGray)),
+                            child: Text(AppLocalizations.of(context).yes,
+                                style: const TextStyle(
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.normal,
+                                  fontSize: 16,
+                                ))),
+                        const VerticalDivider(
+                            color: modalBackground, thickness: 10),
+                        ElevatedButton(
+                            onPressed: () {
+                              isFavorite = !isFavorite;
 
-                      setState(() {});
-                    },
-                    style: ButtonStyle(
-                        fixedSize: MaterialStateProperty.all(Size.copy(Size(
-                            (((MediaQuery.of(context).size.width * 0.9) - 10) /
-                                2),
-                            50))),
-                        shape: MaterialStateProperty.all(
-                            const RoundedRectangleBorder(
-                                borderRadius: BorderRadius.only(
-                                    topRight: Radius.circular(10),
-                                    bottomRight: Radius.circular(10)))),
-                        backgroundColor: MaterialStateProperty.all(
-                            !isFavorite ? leisureColor : lightGray)),
-                    child: Text(AppLocalizations.of(context).no,
-                        style: const TextStyle(
-                          color: Colors.white,
-                          fontWeight: FontWeight.normal,
-                          fontSize: 16,
-                        )))
-              ]))),
+                              setState(() {});
+                            },
+                            style: ButtonStyle(
+                                fixedSize: MaterialStateProperty.all(Size.copy(
+                                    Size(
+                                        (((MediaQuery.of(context).size.width *
+                                                    0.9) -
+                                                10) /
+                                            2),
+                                        50))),
+                                shape: MaterialStateProperty.all(
+                                    const RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.only(
+                                            topRight: Radius.circular(10),
+                                            bottomRight: Radius.circular(10)))),
+                                backgroundColor: MaterialStateProperty.all(
+                                    !isFavorite ? leisureColor : lightGray)),
+                            child: Text(AppLocalizations.of(context).no,
+                                style: const TextStyle(
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.normal,
+                                  fontSize: 16,
+                                )))
+                      ]))),
           const SizedBox(height: 50),
           Padding(
               padding: EdgeInsets.only(

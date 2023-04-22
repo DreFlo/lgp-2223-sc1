@@ -191,7 +191,8 @@ class _MediaPageButtonState extends State<MediaPageButton> {
                                                               value['overview'],
                                                           linkImage: value[
                                                               'still_path'],
-                                                          status: selectedStatus,
+                                                          status:
+                                                              selectedStatus,
                                                           favorite: false,
                                                           genres: 'genres',
                                                           release: DateTime
@@ -245,7 +246,9 @@ class _MediaPageButtonState extends State<MediaPageButton> {
           child: Text(AppLocalizations.of(context).add,
               style: Theme.of(context).textTheme.headlineSmall),
         );
-      } else if (status == Status.goingThrough || status == Status.planTo || status == Status.dropped) {
+      } else if (status == Status.goingThrough ||
+          status == Status.planTo ||
+          status == Status.dropped) {
         // If media is somehow in the catalog, then user should be able to see their notes and edit info.
         return Container(
           width: MediaQuery.of(context).size.width * 0.95,
@@ -473,7 +476,9 @@ class _MediaPageButtonState extends State<MediaPageButton> {
           child: Text(AppLocalizations.of(context).add,
               style: Theme.of(context).textTheme.headlineSmall),
         );
-      } else if (status == Status.goingThrough || status == Status.planTo || status == Status.dropped) {
+      } else if (status == Status.goingThrough ||
+          status == Status.planTo ||
+          status == Status.dropped) {
         // If media is somehow in the catalog, then user should be able to see their notes and edit info.
         return Container(
           width: MediaQuery.of(context).size.width * 0.95,
