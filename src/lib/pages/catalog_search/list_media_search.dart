@@ -12,11 +12,23 @@ import 'package:src/daos/media/media_dao.dart';
 import 'package:src/utils/leisure/media_page_helpers.dart';
 import 'package:src/widgets/leisure/media_page_button.dart';
 
+class MediaStatus {
+  final Status status;
+  final bool favorite;
+  final int id;
+
+  MediaStatus({
+    required this.status,
+    required this.favorite,
+    required this.id,
+  });
+}
+
 class ListMediaSearch extends StatelessWidget {
   final List media;
   final String title;
 
-  dynamic statusFavorite = {};
+  MediaStatus statusFavorite = MediaStatus(status: Status.nothing, favorite: false, id: 0);
   List<Season> seasons = [];
   List<MediaVideoEpisodeSuperEntity> episodesDB = [];
   List<NoteEpisodeNoteSuperEntity> episodeNotes = [];
@@ -109,9 +121,7 @@ class ListMediaSearch extends StatelessWidget {
         await serviceLocator<MediaDao>().countMediaByPhoto(photo);
 
     if (mediaExists == 0) {
-      statusFavorite['status'] = Status.nothing;
-      statusFavorite['favorite'] = false;
-      statusFavorite['id'] = 0;
+      statusFavorite = MediaStatus(status: Status.nothing, favorite: false, id: 0);
       return statusFavorite;
     }
 
@@ -127,22 +137,21 @@ class ListMediaSearch extends StatelessWidget {
       episodesDB = await loadEpisodes(seasons);
       episodeNotes = await loadEpisodeNotes(episodesDB);
     }
-    statusFavorite['status'] = media.status;
-    statusFavorite['favorite'] = media.favorite;
-    statusFavorite['id'] = media.id;
+
+    statusFavorite = MediaStatus(status: media.status, favorite: media.favorite, id: media.id ?? 0);
     return statusFavorite;
   }
 
   showMediaPageButton(dynamic item, context) {
     if (title == 'All Books') {
       return MediaPageButton(
-          item: item, type: 'Book', mediaId: statusFavorite['id']);
+          item: item, type: 'Book', mediaId: statusFavorite.id);
     } else if (title == 'All Movies') {
       return MediaPageButton(
-          item: item, type: 'Movie', mediaId: statusFavorite['id']);
+          item: item, type: 'Movie', mediaId: statusFavorite.id);
     } else {
       return MediaPageButton(
-          item: item, type: 'TV Show', mediaId: statusFavorite['id']);
+          item: item, type: 'TV Show', mediaId: statusFavorite.id);
     }
   }
 
@@ -177,8 +186,8 @@ class ListMediaSearch extends StatelessWidget {
                   cast: item.info.authors,
                   image: photo,
                   leisureTags: leisureTags,
-                  status: statusFavorite['status'],
-                  isFavorite: statusFavorite['favorite']);
+                  status: statusFavorite.status,
+                  isFavorite: statusFavorite.favorite);
             } else if (snapshot.hasError) {
               return Text('${snapshot.error}');
             }
@@ -212,8 +221,8 @@ class ListMediaSearch extends StatelessWidget {
               type: 'Movie',
               image: photo,
               cast: snapshot.data!['cast'],
-              status: statusFavorite['status'],
-              isFavorite: statusFavorite['favorite'],
+              status: statusFavorite.status,
+              isFavorite: statusFavorite.favorite,
               leisureTags: leisureTags,
               title: snapshot.data!['title'],
               synopsis: snapshot.data!['overview'],
@@ -253,8 +262,8 @@ class ListMediaSearch extends StatelessWidget {
               type: 'TV Show',
               image: photo,
               cast: snapshot.data!['cast'],
-              status: statusFavorite['status'],
-              isFavorite: statusFavorite['favorite'],
+              status: statusFavorite.status,
+              isFavorite: statusFavorite.favorite,
               leisureTags: leisureTags,
               title: snapshot.data!['name'],
               synopsis: snapshot.data!['overview'],
