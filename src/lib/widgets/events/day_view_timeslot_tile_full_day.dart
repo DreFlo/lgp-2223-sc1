@@ -30,7 +30,7 @@ class DayViewTimeslotTileFullDay extends StatelessWidget {
               overflow: TextOverflow.fade,
               textAlign: TextAlign.justify,
               style: TextStyle(
-                  color: (event!.color == studentColor
+                  color: (event.color == studentColor
                       ? Colors.black
                       : Colors.white),
                   fontSize: 16,

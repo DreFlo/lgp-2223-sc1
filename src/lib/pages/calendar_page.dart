@@ -34,11 +34,81 @@ class _CalendarPageState extends State<CalendarPage> {
     loadEventsDB();
   }
 
+  checkMediaEventMultipleDays() {
+    for (var i = 0; i < mediaEvents.length; i++) {
+      if (mediaEvents[i].startDateTime.day != mediaEvents[i].endDateTime.day) {
+        final TimeslotMediaTimeslotSuperEntity subEvent =
+            TimeslotMediaTimeslotSuperEntity(
+                title: mediaEvents[i].title,
+                description: mediaEvents[i].description,
+                startDateTime: mediaEvents[i].startDateTime,
+                endDateTime: DateTime(
+                    mediaEvents[i].startDateTime.year,
+                    mediaEvents[i].startDateTime.month,
+                    mediaEvents[i].startDateTime.day,
+                    23,
+                    59,
+                    59),
+                xpMultiplier: mediaEvents[i].xpMultiplier,
+                userId: mediaEvents[i].userId);
+        DateTime oldEndDateTime = mediaEvents[i].endDateTime;
+        mediaEvents.removeAt(i);
+        mediaEvents.insert(i, subEvent);
+        final TimeslotMediaTimeslotSuperEntity newEvent =
+            TimeslotMediaTimeslotSuperEntity(
+                title: mediaEvents[i].title,
+                description: mediaEvents[i].description,
+                startDateTime: DateTime(oldEndDateTime.year,
+                    oldEndDateTime.month, oldEndDateTime.day, 0, 0, 0),
+                endDateTime: oldEndDateTime,
+                xpMultiplier: mediaEvents[i].xpMultiplier,
+                userId: mediaEvents[i].userId);
+        mediaEvents.add(newEvent);
+      }
+    }
+  }
+
+  checkStudentEventMultipleDays() {
+    for (var i = 0; i < studentEvents.length; i++) {
+      if (studentEvents[i].startDateTime.day != studentEvents[i].endDateTime.day) {
+        final TimeslotStudentTimeslotSuperEntity subEvent =
+            TimeslotStudentTimeslotSuperEntity(
+                title: studentEvents[i].title,
+                description: studentEvents[i].description,
+                startDateTime: studentEvents[i].startDateTime,
+                endDateTime: DateTime(
+                    studentEvents[i].startDateTime.year,
+                    studentEvents[i].startDateTime.month,
+                    studentEvents[i].startDateTime.day,
+                    23,
+                    59,
+                    59),
+                xpMultiplier: studentEvents[i].xpMultiplier,
+                userId: studentEvents[i].userId);
+        DateTime oldEndDateTime = studentEvents[i].endDateTime;
+        studentEvents.removeAt(i);
+        studentEvents.insert(i, subEvent);
+        final TimeslotStudentTimeslotSuperEntity newEvent =
+            TimeslotStudentTimeslotSuperEntity(
+                title: studentEvents[i].title,
+                description: studentEvents[i].description,
+                startDateTime: DateTime(oldEndDateTime.year,
+                    oldEndDateTime.month, oldEndDateTime.day, 0, 0, 0),
+                endDateTime: oldEndDateTime,
+                xpMultiplier: studentEvents[i].xpMultiplier,
+                userId: studentEvents[i].userId);
+        studentEvents.add(newEvent);
+      }
+    }
+  }
+
   void loadEventsDB() async {
     mediaEvents = await serviceLocator<TimeslotMediaTimeslotSuperDao>()
         .findAllTimeslotMediaTimeslot();
     studentEvents = await serviceLocator<TimeslotStudentTimeslotSuperDao>()
         .findAllTimeslotStudentTimeslot();
+    checkMediaEventMultipleDays();
+    checkStudentEventMultipleDays();
     setState(() {
       mediaEvents = mediaEvents;
       studentEvents = studentEvents;
@@ -171,59 +241,55 @@ class _CalendarPageState extends State<CalendarPage> {
                   },
                   cellAspectRatio: 0.5,
                   onCellTap: (events, date) {
+                    //print(events);
                     Navigator.of(context).push(MaterialPageRoute(
-                        builder: (context) => Material(
-                              color: appBackground,
-                              child: Padding(
-                                padding:
-                                    const EdgeInsets.symmetric(vertical: 10),
-                                child: DayView(
-                                  initialDay: date,
-                                  showVerticalLine: true,
-                                  controller: eventController,
-                                  backgroundColor: lightGray,
-                                  dateStringBuilder: (date, {secondaryDate}) {
-                                    return DateFormat('EEEE, MMMM d yyyy')
-                                        .format(date)
-                                        .toString();
-                                  },
-                                  timeLineBuilder: (date) {
-                                    return Padding(
-                                        padding:
-                                            const EdgeInsets.only(left: 18),
-                                        child: Text(
-                                          DateFormat('h:mm a').format(date),
-                                          style: const TextStyle(
-                                              fontFamily: 'Poppins',
-                                              color: Colors.white,
-                                              fontSize: 12,
-                                              fontWeight: FontWeight.w600),
-                                        ));
-                                  },
-                                  verticalLineOffset: 10,
-                                  heightPerMinute: 1.5,
-                                  headerStyle: const HeaderStyle(
-                                    headerPadding:
-                                        EdgeInsets.symmetric(vertical: 10),
-                                    leftIcon: Icon(Icons.calendar_month,
-                                        color: Colors.white),
-                                    rightIconVisible: false,
-                                    decoration:
-                                        BoxDecoration(color: appBackground),
-                                    headerTextStyle: TextStyle(
-                                        fontFamily: 'Poppins',
-                                        color: Colors.white,
-                                        fontSize: 16,
-                                        fontWeight: FontWeight.w600),
-                                  ),
-                                  eventTileBuilder: (date, events, boundary,
-                                          startDuration, endDuration) =>
-                                      DayViewTimeslotTile(event: events.single),
-                                  fullDayEventBuilder: (events, date) =>
-                                       DayViewTimeslotTileFullDay(event: events.single)),
-                                ),
+                      builder: (context) => Material(
+                        color: appBackground,
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 10),
+                          child: DayView(
+                              initialDay: date,
+                              showVerticalLine: true,
+                              controller: eventController,
+                              backgroundColor: lightGray,
+                              dateStringBuilder: (date, {secondaryDate}) {
+                                return DateFormat('EEEE, MMMM d yyyy')
+                                    .format(date)
+                                    .toString();
+                              },
+                              timeLineBuilder: (date) {
+                                return Padding(
+                                    padding: const EdgeInsets.only(left: 18),
+                                    child: Text(
+                                      DateFormat('h:mm a').format(date),
+                                      style: const TextStyle(
+                                          fontFamily: 'Poppins',
+                                          color: Colors.white,
+                                          fontSize: 12,
+                                          fontWeight: FontWeight.w600),
+                                    ));
+                              },
+                              verticalLineOffset: 10,
+                              heightPerMinute: 1.5,
+                              headerStyle: const HeaderStyle(
+                                headerPadding:
+                                    EdgeInsets.symmetric(vertical: 10),
+                                leftIcon: Icon(Icons.calendar_month,
+                                    color: Colors.white),
+                                rightIconVisible: false,
+                                decoration: BoxDecoration(color: appBackground),
+                                headerTextStyle: TextStyle(
+                                    fontFamily: 'Poppins',
+                                    color: Colors.white,
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.w600),
                               ),
-                            ));
+                              eventTileBuilder: (date, events, boundary,
+                                      startDuration, endDuration) =>
+                                  DayViewTimeslotTile(event: events.single)),
+                        ),
+                      ),
+                    ));
                   },
                 ),
               ));
