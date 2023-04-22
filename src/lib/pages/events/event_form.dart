@@ -5,10 +5,15 @@ import 'dart:math' as Math;
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:intl/intl.dart';
+import 'package:src/daos/student/task_dao.dart';
+import 'package:src/models/student/task.dart';
 import 'package:src/pages/events/choose_activity_form.dart';
 import 'package:src/themes/colors.dart';
 import 'package:src/utils/enums.dart';
 import 'package:src/widgets/events/activity_bar.dart';
+import 'package:src/utils/service_locator.dart';
+import 'package:src/daos/media/media_dao.dart';
+import 'package:src/models/media/media.dart';
 
 import '../../utils/formatters.dart';
 
@@ -66,62 +71,76 @@ class _EventFormState extends State<EventForm> {
     });
   }
 
-  List<ChooseActivity> getMedia() {
-    //TODO(eventos): Get media from database and transform to ChooseActivity.
+  Future<List<ChooseActivity>> getMediaActivities() async {
+    // TODO(eventos): findUnfinishedMedia()??
 
-    List<ChooseActivity> media = [];
+    List<ChooseActivity> activities = [];
+    List<Media> media = await serviceLocator<MediaDao>().findAllMedia();
 
-    media.add(ChooseActivity(
-      id: 1,
-      title: "Media 1",
-      description: 'TV Show',
-      isSelected: false,
-    ));
+    for (Media m in media) {
+      activities.add(ChooseActivity(
+        id: m.id!,
+        title: m.name,
+        description: m.description,
+        isSelected: false,
+      ));
+    }
 
-    media.add(ChooseActivity(
-      id: 2,
-      title: "Media 2",
-      description: 'Movie',
-      isSelected: false,
-    ));
-
-    media.add(ChooseActivity(
-      id: 3,
-      title: "Media 3",
-      description: 'Book',
-      isSelected: false,
-    ));
-
-    return media;
+    return activities;
   }
 
-  List<ChooseActivity> getTasks() {
-    //TODO(eventos): Get tasks from database and transform to ChooseActivity.
+  Future<List<ChooseActivity>> getTasksActivities() async {
+    // TODO(eventos): findUnfinishedTasks()??
 
-    List<ChooseActivity> tasks = [];
+    List<ChooseActivity> activities = [];
+    List<Task> tasks = await serviceLocator<TaskDao>().findAllTasks();
 
-    tasks.add(ChooseActivity(
-      id: 1,
-      title: "Task 1",
-      description: formatDeadline(DateTime.now()),
-      isSelected: false,
-    ));
+    for (Task t in tasks) {
+      activities.add(ChooseActivity(
+        id: t.id!,
+        title: t.name,
+        description: formatDeadline(t.deadline),
+        isSelected: false,
+      ));
+    }
 
-    tasks.add(ChooseActivity(
-      id: 2,
-      title: "Task 2",
-      description: formatDeadline(DateTime.now()),
-      isSelected: false,
-    ));
+    return activities;
+  }
 
-    tasks.add(ChooseActivity(
-      id: 3,
-      title: "Task 3",
-      description: formatDeadline(DateTime.now()),
-      isSelected: false,
-    ));
+  FutureBuilder<List<ChooseActivity>> getMediaActivitiesForm(
+      context, scrollController) {
+    return FutureBuilder<List<ChooseActivity>>(
+      future: getMediaActivities(),
+      builder: (context, snapshot) {
+        if (snapshot.hasData) {
+          return ChooseActivityForm(
+              scrollController: scrollController,
+              title: AppLocalizations.of(context).choose_media,
+              activities: snapshot.data!,
+              addActivityCallback: addActivityCallback);
+        } else {
+          return const Center(child: CircularProgressIndicator());
+        }
+      },
+    );
+  }
 
-    return tasks;
+  FutureBuilder<List<ChooseActivity>> getTasksActivitiesForm(
+      context, scrollController) {
+    return FutureBuilder<List<ChooseActivity>>(
+      future: getTasksActivities(),
+      builder: (context, snapshot) {
+        if (snapshot.hasData) {
+          return ChooseActivityForm(
+              scrollController: scrollController,
+              title: AppLocalizations.of(context).choose_tasks,
+              activities: snapshot.data!,
+              addActivityCallback: addActivityCallback);
+        } else {
+          return const Center(child: CircularProgressIndicator());
+        }
+      },
+    );
   }
 
   List<Widget> getActivities() {
@@ -586,20 +605,10 @@ class _EventFormState extends State<EventForm> {
                               maxChildSize: 0.60,
                               builder: (context, scrollController) =>
                                   _moduleColor == studentColor
-                                      ? ChooseActivityForm(
-                                          scrollController: scrollController,
-                                          title: AppLocalizations.of(context)
-                                              .choose_tasks,
-                                          activities: getTasks(),
-                                          addActivityCallback:
-                                              addActivityCallback)
-                                      : ChooseActivityForm(
-                                          scrollController: scrollController,
-                                          title: AppLocalizations.of(context)
-                                              .choose_media,
-                                          activities: getMedia(),
-                                          addActivityCallback:
-                                              addActivityCallback))));
+                                      ? getTasksActivitiesForm(
+                                          context, scrollController)
+                                      : getMediaActivitiesForm(
+                                          context, scrollController))));
                 },
               ),
             ]),
@@ -608,7 +617,7 @@ class _EventFormState extends State<EventForm> {
             const SizedBox(height: 30),
             ElevatedButton(
                 onPressed: () {
-                  //TODO(eventos): Save event on db
+                  //TODO(eventos): Save event on db or edit event
                 },
                 style: ElevatedButton.styleFrom(
                   minimumSize:
