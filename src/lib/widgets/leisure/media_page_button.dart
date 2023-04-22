@@ -9,6 +9,8 @@ import 'package:src/env/env.dart';
 import 'package:src/models/media/media_series_super_entity.dart';
 import 'package:src/models/media/media_video_episode_super_entity.dart';
 import 'package:src/models/media/season.dart';
+import 'package:src/pages/leisure/finished_media_form.dart';
+import 'package:tmdb_api/tmdb_api.dart';
 import 'package:src/themes/colors.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:src/pages/leisure/add_to_catalog_form.dart';
@@ -16,12 +18,10 @@ import 'package:src/pages/leisure/mark_episodes_sheet.dart';
 import 'package:src/pages/leisure/episodes_notes_sheet.dart';
 import 'package:src/pages/leisure/book_notes_sheet.dart';
 import 'package:src/pages/leisure/add_book_note_form.dart';
-import 'package:src/pages/leisure/finished_media_form.dart';
 import 'package:src/utils/enums.dart';
 import 'package:src/daos/media/media_dao.dart';
 import 'package:src/utils/leisure/media_page_helpers.dart';
 import 'package:src/utils/service_locator.dart';
-import 'package:tmdb_api/tmdb_api.dart';
 
 class MediaPageButton extends StatefulWidget {
   final dynamic item;

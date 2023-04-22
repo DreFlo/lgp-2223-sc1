@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'search_media/books.dart';
-import 'search_media/movies.dart';
-import 'search_media/tv_shows.dart';
+import 'package:src/pages/catalog_search/leisure_module/search_media/books.dart';
+import 'package:src/pages/catalog_search/leisure_module/search_media/movies.dart';
+import 'package:src/pages/catalog_search/leisure_module/search_media/tv_shows.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'dart:async';
 

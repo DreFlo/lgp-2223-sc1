@@ -4,7 +4,7 @@ import 'package:src/themes/colors.dart';
 import 'package:src/utils/enums.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
-import 'leisure_tag.dart';
+import 'package:src/widgets/leisure/leisure_tag.dart';
 
 class ReviewNoteBar extends StatefulWidget {
   final Reaction reaction;

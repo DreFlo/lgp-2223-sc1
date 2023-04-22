@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:src/utils/service_locator.dart';
 
-import 'flavors.dart';
-import 'pages/navigation_page.dart';
+import 'package:src/flavors.dart';
+import 'package:src/pages/navigation_page.dart';
 
 const Map<int, Color> color = {
   50: Color.fromRGBO(108, 93, 211, .1),

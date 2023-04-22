@@ -28,7 +28,7 @@ linter:
   # producing the lint.
   rules:
     - avoid_dynamic_calls
-    - avoid_relative_lib_imports
+    - always_use_package_imports
 
 # Additional information about this file can be found at
 # https://dart.dev/guides/language/analysis-options

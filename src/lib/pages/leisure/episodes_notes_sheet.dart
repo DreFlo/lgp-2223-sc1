@@ -9,7 +9,7 @@ import 'package:src/models/media/season.dart';
 import 'package:src/models/media/media_video_episode_super_entity.dart';
 import 'package:src/utils/leisure/media_page_helpers.dart';
 
-import '../../widgets/leisure/episode_note_bar.dart';
+import 'package:src/widgets/leisure/episode_note_bar.dart';
 
 class EpisodesNotesSheet extends StatefulWidget {
   final int mediaId;

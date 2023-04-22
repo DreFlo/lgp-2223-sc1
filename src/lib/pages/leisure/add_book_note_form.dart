@@ -6,8 +6,8 @@ import 'package:src/models/notes/note_book_note_super_entity.dart';
 import 'package:src/themes/colors.dart';
 import 'package:src/utils/service_locator.dart';
 
-import '../../utils/enums.dart';
-import 'finished_media_form.dart';
+import 'package:src/utils/enums.dart';
+import 'package:src/pages/leisure/finished_media_form.dart';
 
 class AddBookNoteForm extends StatefulWidget {
   final MediaBookSuperEntity book;

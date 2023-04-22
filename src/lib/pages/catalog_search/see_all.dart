@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:src/pages/catalog_search/search_bar.dart';
-import 'list_media_catalog.dart';
+import 'package:src/pages/catalog_search/list_media_catalog.dart';
 import 'package:src/utils/service_locator.dart';
 import 'package:src/daos/media/media_video_movie_super_dao.dart';
 import 'package:src/daos/media/media_book_super_dao.dart';

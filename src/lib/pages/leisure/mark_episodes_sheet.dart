@@ -7,8 +7,8 @@ import 'package:src/models/media/media_video_episode_super_entity.dart';
 import 'package:src/models/media/season.dart';
 import 'package:src/utils/leisure/media_page_helpers.dart';
 import 'package:collection/collection.dart';
-import '../../utils/enums.dart';
-import 'finished_media_form.dart';
+import 'package:src/utils/enums.dart';
+import 'package:src/pages/leisure/finished_media_form.dart';
 
 class MarkEpisodesSheet extends StatefulWidget {
   final int mediaId;

@@ -4,8 +4,8 @@ import 'package:src/daos/media/media_video_episode_super_dao.dart';
 import 'package:src/themes/colors.dart';
 import 'package:src/utils/enums.dart';
 import 'package:src/utils/service_locator.dart';
-import '../../pages/leisure/add_episode_note_form.dart';
 import 'package:src/models/media/media_video_episode_super_entity.dart';
+import 'package:src/pages/leisure/add_episode_note_form.dart';
 
 class EpisodeBar extends StatefulWidget {
   final MediaVideoEpisodeSuperEntity episode;

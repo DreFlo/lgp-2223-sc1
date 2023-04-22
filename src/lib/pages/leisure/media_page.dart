@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:src/themes/colors.dart';
 import 'package:like_button/like_button.dart';
-import '../../widgets/leisure/leisure_tag.dart';
+import 'package:src/widgets/leisure/leisure_tag.dart';
 import 'package:src/utils/enums.dart';
 
 class MediaPage extends StatelessWidget {
