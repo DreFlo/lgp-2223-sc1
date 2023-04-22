@@ -11,42 +11,74 @@ class LoginPage extends StatelessWidget {
 
     return SizedBox(
         child: Padding(
-            padding: const EdgeInsets.only(top: 15),
+            padding: const EdgeInsets.only(left: 20, right: 20, top: 30),
             child:
                 Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-              Text("Login",
+              Text("Sign In",
                   style: Theme.of(context).textTheme.titleLarge,
                   textAlign: TextAlign.left),
+              Padding(
+                  padding: EdgeInsets.only(
+                      bottom: MediaQuery.of(context).size.height * 0.025)),
               Text(
-                  "No need to be shy... we don’t bite! \nUnless you into that.",
-                  style: Theme.of(context).textTheme.labelMedium,
+                  "No need to be shy... we don't bite! \nUnless you into that.",
+                  style: Theme.of(context).textTheme.bodySmall,
                   textAlign: TextAlign.left),
-              const TextField(
-                  decoration: InputDecoration(
-                border: UnderlineInputBorder(),
-                labelText: 'E-mail',
-              )),
-              const TextField(
+              Padding(
+                  padding: EdgeInsets.only(
+                      bottom: MediaQuery.of(context).size.height * 0.05)),
+              TextField(
+                style: Theme.of(context).textTheme.bodySmall,
+                decoration: const InputDecoration(
+                  border: UnderlineInputBorder(),
+                  labelText: 'E-MAIL',
+                  labelStyle: TextStyle(
+                      fontFamily: "Poppins",
+                      color: Color(0xFF5E6272),
+                      fontSize: 14,
+                      fontWeight: FontWeight.w600),
+                  contentPadding: EdgeInsets.only(bottom: 2.5),
+                ),
+              ),
+              Padding(
+                  padding: EdgeInsets.only(
+                      bottom: MediaQuery.of(context).size.height * 0.025)),
+              TextField(
+                  style: Theme.of(context).textTheme.bodySmall,
                   obscureText: true,
-                  decoration: InputDecoration(
+                  decoration: const InputDecoration(
                     border: UnderlineInputBorder(),
-                    labelText: 'Password',
+                    labelText: 'PASSWORD',
+                    labelStyle: TextStyle(
+                        fontFamily: "Poppins",
+                        color: Color(0xFF5E6272),
+                        fontSize: 14,
+                        fontWeight: FontWeight.w600),
+                    contentPadding: EdgeInsets.only(bottom: 2.5),
                   )),
-              ElevatedButton(
-                style: ButtonStyle(
-                    backgroundColor: MaterialStateProperty.all(primaryColor),
-                    shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                        const RoundedRectangleBorder(
-                            borderRadius: BorderRadius.only(
-                                topRight: Radius.circular(10),
-                                topLeft: Radius.circular(10),
-                                bottomRight: Radius.circular(10),
-                                bottomLeft: Radius.circular(10))))),
-                child: const Text('Sign In'),
-                onPressed: () {
-                  print("Pressed signin btn!");
-                },
-              )
+              Padding(
+                  padding: EdgeInsets.only(
+                      bottom: MediaQuery.of(context).size.height * 0.05)),
+              Row(mainAxisAlignment: MainAxisAlignment.end, children: [
+                ElevatedButton(
+                  onPressed: () {
+                    print("Pressed signin btn!");
+                    // setState(() {
+                    //   //TODO: Add effect of pressing the button
+                    // });
+                  },
+                  style: ElevatedButton.styleFrom(
+                    minimumSize:
+                        Size(MediaQuery.of(context).size.width * 0.35, 55),
+                    backgroundColor: primaryColor,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(25.0),
+                    ),
+                  ),
+                  child: Text("Sign In",
+                      style: Theme.of(context).textTheme.headlineSmall),
+                ),
+              ]),
             ])));
   }
 }
