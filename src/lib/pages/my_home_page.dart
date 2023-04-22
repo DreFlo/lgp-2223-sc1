@@ -15,10 +15,10 @@ class MyHomePage extends StatefulWidget {
   const MyHomePage({Key? key}) : super(key: key);
 
   @override
-  State<MyHomePage> createState() => MyHomePageState();
+  State<MyHomePage> createState() => _MyHomePageState();
 }
 
-class MyHomePageState extends State<MyHomePage> {
+class _MyHomePageState extends State<MyHomePage> {
   int _selectedIndex = 0;
   List<TimeslotMediaTimeslotSuperEntity> mediaEvents = [];
   bool loadedAllData = false;

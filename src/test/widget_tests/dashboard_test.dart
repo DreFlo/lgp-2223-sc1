@@ -3,7 +3,6 @@ import 'package:src/utils/service_locator.dart';
 import '../utils/service_locator_test_util.dart';
 import '../utils/locations_injector.dart';
 import 'package:mockito/mockito.dart';
-// Import the classes you need to mock and test.
 import 'package:src/pages/dashboard.dart';
 import 'package:src/models/student/task.dart';
 import 'package:src/daos/student/task_dao.dart';
@@ -63,19 +62,12 @@ void main() {
     when(mockMediaEventDao.findAllTimeslotMediaTimeslot())
         .thenAnswer((_) async => [mediaEvent]);
 
-    // Render the Dashboard widget using a MaterialApp and the mock implementation of the database.
     await tester.pumpWidget(const LocalizationsInjector(child: Dashboard()));
-    final dashboardState = tester.state<DashboardState>(find.byType(Dashboard));
 
     await tester.pump(const Duration(milliseconds: 100));
 
-    if (dashboardState.loadedWidgets) {
-      // Find the DashBoardGridView widget using a Finder object.
-
-      // Verify that the DashBoardGridView widget contains the expected data.
-      expect(find.text('My Task'), findsOneWidget);
-      expect(find.text('My Task Group'), findsOneWidget);
-      expect(find.text('My Media Event'), findsOneWidget);
-    }
+    expect(find.text('My Task'), findsOneWidget);
+    expect(find.text('My Task Group'), findsOneWidget);
+    expect(find.text('My Media Event'), findsOneWidget);
   });
 }

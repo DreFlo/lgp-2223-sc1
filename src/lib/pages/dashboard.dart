@@ -16,10 +16,10 @@ class Dashboard extends StatefulWidget {
   const Dashboard({Key? key}) : super(key: key);
 
   @override
-  State<Dashboard> createState() => DashboardState();
+  State<Dashboard> createState() => _DashboardState();
 }
 
-class DashboardState extends State<Dashboard> {
+class _DashboardState extends State<Dashboard> {
   int _selectedIndex = 0;
   bool _searching = false;
 
@@ -31,7 +31,6 @@ class DashboardState extends State<Dashboard> {
   List<TaskGroup> taskGroups = [];
   List<TimeslotMediaTimeslotSuperEntity> mediaEvents = [];
   bool loadedAllData = false;
-  bool loadedWidgets = false;
 
   late List searchResults = items;
 
@@ -115,14 +114,11 @@ class DashboardState extends State<Dashboard> {
       switch (_selectedIndex) {
         
         case 1:
-          loadedWidgets = true;
           return DashBoardGridView(
               tasks: taskResults, taskGroups: taskGroupResults);
         case 2:
-          loadedWidgets = true;
           return DashBoardGridView(mediaEvents: mediaResults);
         default:
-          loadedWidgets = true;
           return DashBoardGridView(
               tasks: taskResults,
               taskGroups: taskGroupResults,

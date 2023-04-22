@@ -71,8 +71,6 @@ void main() {
 
     // Build the widget.
     await tester.pumpWidget(const LocalizationsInjector(child: MyHomePage()));
-    //final homePageState =
-      //  tester.state<MyHomePageState>(find.byType(MyHomePage));
 
     // Wait for the data to be retrieved.
     await tester.pump(const Duration(milliseconds: 100));
