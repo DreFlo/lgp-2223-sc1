@@ -318,6 +318,9 @@ class _FinishedMediaFormState extends State<FinishedMediaForm> {
             )
           ]),
           const SizedBox(height: 7.5),
+          SingleChildScrollView(
+  scrollDirection: Axis.horizontal,
+  child: 
           SizedBox(
               height: 50,
               child:
@@ -371,7 +374,7 @@ class _FinishedMediaFormState extends State<FinishedMediaForm> {
                           fontWeight: FontWeight.normal,
                           fontSize: 16,
                         )))
-              ])),
+              ]))),
           const SizedBox(height: 50),
           Padding(
               padding: EdgeInsets.only(
