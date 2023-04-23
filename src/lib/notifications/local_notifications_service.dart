@@ -32,7 +32,10 @@ class LocalNotificationService {
             color: Colors.green,
             importance: Importance.max,
             playSound: false,
-            priority: Priority.max),
+            priority: Priority.max,
+            autoCancel: false,
+            ongoing: true),
+            //to make it persistent you need autoCancel: false and ongoing: true
       );
       await _notificationsPlugin.show(id, message, message, notificationDetails,
           payload: message);
