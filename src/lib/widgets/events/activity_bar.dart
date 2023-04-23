@@ -1,5 +1,3 @@
-// ignore_for_file: file_names
-
 import 'package:flutter/material.dart';
 import 'package:src/themes/colors.dart';
 
@@ -63,7 +61,7 @@ class _ActivityBarState extends State<ActivityBar> {
                     InkWell(
                       onTap: () {
                         setState(() {
-                          widget.removeActivityCallback();
+                          //widget.removeActivityCallback();
                         });
                       },
                       child: const Icon(Icons.clear,
