@@ -7,9 +7,8 @@ import 'package:src/pages/notes/add_task_note_form.dart';
 
 class NoteBar extends StatefulWidget {
   final Note note;
-  final Function onSelected, onUnselected, editNote;
+  final void Function(Note n) onSelected, onUnselected, editNote, deleteNote;
   final int? taskId;
-  final Function? deleteNote;
 
   const NoteBar(
       {Key? key,
@@ -17,8 +16,8 @@ class NoteBar extends StatefulWidget {
       required this.onSelected,
       required this.onUnselected,
       required this.editNote,
-      this.taskId,
-      this.deleteNote})
+      required this.deleteNote,
+      this.taskId})
       : super(key: key);
 
   @override
@@ -27,7 +26,7 @@ class NoteBar extends StatefulWidget {
 
 class _NoteBarState extends State<NoteBar> {
   late Note note;
-  late Function onSelected, onUnselected, editNote;
+  late void Function(Note n) onSelected, onUnselected, editNote, deleteNote;
   late int? taskId;
   bool selected = false;
 
@@ -37,6 +36,7 @@ class _NoteBarState extends State<NoteBar> {
     onUnselected = widget.onUnselected;
     onSelected = widget.onSelected;
     editNote = widget.editNote;
+    deleteNote = widget.deleteNote;
     taskId = widget.taskId;
     super.initState();
   }
@@ -98,8 +98,7 @@ class _NoteBarState extends State<NoteBar> {
                                         note: note,
                                         taskId: taskId,
                                         callback: editNote,
-                                        deleteNoteCallback:
-                                            widget.deleteNote)));
+                                        deleteNoteCallback: deleteNote)));
                           })
                     ]))
               ],

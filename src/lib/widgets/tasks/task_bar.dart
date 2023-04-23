@@ -10,20 +10,21 @@ class TaskBar extends StatefulWidget {
   final bool taskStatus;
 
   final Task task;
-  final Function onSelected, onUnselected, editTask, deleteTask, taskGroupDate;
+  final void Function(Task n) onSelected, onUnselected, editTask;
+  final void Function() deleteTask;
+
   final int? taskGroupId;
 
-  const TaskBar(
-      {Key? key,
-      required this.taskStatus,
-      required this.task,
-      required this.onSelected,
-      required this.onUnselected,
-      required this.editTask,
-      required this.deleteTask,
-      this.taskGroupId,
-      required this.taskGroupDate})
-      : super(key: key);
+  const TaskBar({
+    Key? key,
+    required this.taskStatus,
+    required this.task,
+    required this.onSelected,
+    required this.onUnselected,
+    required this.editTask,
+    required this.deleteTask,
+    this.taskGroupId,
+  }) : super(key: key);
 
   @override
   State<TaskBar> createState() => _TaskBarState();
@@ -33,7 +34,8 @@ class _TaskBarState extends State<TaskBar> {
   late bool taskStatus;
 
   late Task task;
-  late Function onSelected, onUnselected, editTask, deleteTask, taskGroupDate;
+  late void Function(Task n) onSelected, onUnselected, editTask;
+  late void Function() deleteTask;
   late int? taskGroupId;
   bool selected = false;
 
@@ -47,7 +49,6 @@ class _TaskBarState extends State<TaskBar> {
     editTask = widget.editTask;
     deleteTask = widget.deleteTask;
     taskGroupId = widget.taskGroupId;
-    taskGroupDate = widget.taskGroupDate;
 
     super.initState();
   }
@@ -74,7 +75,6 @@ class _TaskBarState extends State<TaskBar> {
                       builder: (context, scrollController) => TaskForm(
                             id: task.id,
                             taskGroupId: taskGroupId,
-                            taskGroupDate: taskGroupDate,
                             callback: editTask,
                             deleteCallback: deleteTask,
                             scrollController: scrollController,

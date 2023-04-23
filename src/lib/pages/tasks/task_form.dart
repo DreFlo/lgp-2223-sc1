@@ -28,7 +28,8 @@ import 'package:src/widgets/note_bar.dart';
 class TaskForm extends StatefulWidget {
   final int? id;
   final int? taskGroupId;
-  final Function? callback, deleteCallback, taskGroupDate;
+  final void Function(Task t)? callback;
+  final void Function()? deleteCallback;
   final Task? task;
   final ScrollController scrollController;
 
@@ -37,7 +38,6 @@ class TaskForm extends StatefulWidget {
       required this.scrollController,
       this.id,
       this.taskGroupId,
-      this.taskGroupDate,
       this.callback,
       this.deleteCallback,
       this.task})
@@ -196,7 +196,7 @@ class _TaskFormState extends State<TaskForm> {
     DateTime now = DateTime.now();
     now = DateFormatter.day(now);
     if (isChild()) {
-      if (date!.isAfter(widget.taskGroupDate!())) {
+      if (date!.isAfter(taskGroup!.deadline)) {
         errors['date'] =
             AppLocalizations.of(context).studentErrorTaskGroupAfterDate;
       }

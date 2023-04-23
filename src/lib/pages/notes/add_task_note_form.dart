@@ -8,7 +8,7 @@ import 'package:src/utils/service_locator.dart';
 
 class AddTaskNoteForm extends StatefulWidget {
   final int? taskId;
-  final Function? callback, deleteNoteCallback;
+  final void Function(Note n)? callback, deleteNoteCallback;
   final Note? note;
 
   const AddTaskNoteForm(
@@ -274,7 +274,7 @@ class _AddTaskNoteFormState extends State<AddTaskNoteForm> {
     }
 
     if (widget.deleteNoteCallback != null) {
-      widget.deleteNoteCallback!(widget.note);
+      widget.deleteNoteCallback!(widget.note!);
     }
   }
 

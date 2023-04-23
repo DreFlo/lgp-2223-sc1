@@ -824,9 +824,6 @@ class _ProjectFormState extends State<ProjectForm> {
                     maxChildSize: 0.60,
                     builder: (context, scrollController) => TaskForm(
                       taskGroupId: id,
-                      taskGroupDate: () {
-                        return date;
-                      },
                       callback: addTask,
                       scrollController: scrollController,
                     ),
@@ -858,9 +855,6 @@ class _ProjectFormState extends State<ProjectForm> {
           editTask: id == null ? editTempTask(tasks[i]) : editTask,
           deleteTask: deleteTask(tasks[i]),
           taskGroupId: id,
-          taskGroupDate: () {
-            return date!;
-          },
         ));
       }
     }
