@@ -32,62 +32,62 @@ class _CalendarPageState extends State<CalendarPage> {
   }
 
   checkMultipleDays(List events, String eventType) {
-  for (var i = 0; i < events.length; i++) {
-    if (events[i].startDateTime.day != events[i].endDateTime.day) {
-      final subEvent = eventType == 'media'
-          ? TimeslotMediaTimeslotSuperEntity(
-              title: events[i].title,
-              description: events[i].description,
-              startDateTime: events[i].startDateTime,
-              endDateTime: DateTime(
-                  events[i].startDateTime.year,
-                  events[i].startDateTime.month,
-                  events[i].startDateTime.day,
-                  23,
-                  59,
-                  59),
-              xpMultiplier: events[i].xpMultiplier,
-              userId: events[i].userId)
-          : TimeslotStudentTimeslotSuperEntity(
-              title: events[i].title,
-              description: events[i].description,
-              startDateTime: events[i].startDateTime,
-              endDateTime: DateTime(
-                  events[i].startDateTime.year,
-                  events[i].startDateTime.month,
-                  events[i].startDateTime.day,
-                  23,
-                  59,
-                  59),
-              xpMultiplier: events[i].xpMultiplier,
-              userId: events[i].userId);
+    for (var i = 0; i < events.length; i++) {
+      if (events[i].startDateTime.day != events[i].endDateTime.day) {
+        final subEvent = eventType == 'media'
+            ? TimeslotMediaTimeslotSuperEntity(
+                title: events[i].title,
+                description: events[i].description,
+                startDateTime: events[i].startDateTime,
+                endDateTime: DateTime(
+                    events[i].startDateTime.year,
+                    events[i].startDateTime.month,
+                    events[i].startDateTime.day,
+                    23,
+                    59,
+                    59),
+                xpMultiplier: events[i].xpMultiplier,
+                userId: events[i].userId)
+            : TimeslotStudentTimeslotSuperEntity(
+                title: events[i].title,
+                description: events[i].description,
+                startDateTime: events[i].startDateTime,
+                endDateTime: DateTime(
+                    events[i].startDateTime.year,
+                    events[i].startDateTime.month,
+                    events[i].startDateTime.day,
+                    23,
+                    59,
+                    59),
+                xpMultiplier: events[i].xpMultiplier,
+                userId: events[i].userId);
 
-      DateTime oldEndDateTime = events[i].endDateTime;
-      events.removeAt(i);
-      events.insert(i, subEvent);
+        DateTime oldEndDateTime = events[i].endDateTime;
+        events.removeAt(i);
+        events.insert(i, subEvent);
 
-      final newEvent = eventType == 'media'
-          ? TimeslotMediaTimeslotSuperEntity(
-              title: events[i].title,
-              description: events[i].description,
-              startDateTime: DateTime(
-                  oldEndDateTime.year, oldEndDateTime.month, oldEndDateTime.day, 0, 0, 0),
-              endDateTime: oldEndDateTime,
-              xpMultiplier: events[i].xpMultiplier,
-              userId: events[i].userId)
-          : TimeslotStudentTimeslotSuperEntity(
-              title: events[i].title,
-              description: events[i].description,
-              startDateTime: DateTime(
-                  oldEndDateTime.year, oldEndDateTime.month, oldEndDateTime.day, 0, 0, 0),
-              endDateTime: oldEndDateTime,
-              xpMultiplier: events[i].xpMultiplier,
-              userId: events[i].userId);
+        final newEvent = eventType == 'media'
+            ? TimeslotMediaTimeslotSuperEntity(
+                title: events[i].title,
+                description: events[i].description,
+                startDateTime: DateTime(oldEndDateTime.year,
+                    oldEndDateTime.month, oldEndDateTime.day, 0, 0, 0),
+                endDateTime: oldEndDateTime,
+                xpMultiplier: events[i].xpMultiplier,
+                userId: events[i].userId)
+            : TimeslotStudentTimeslotSuperEntity(
+                title: events[i].title,
+                description: events[i].description,
+                startDateTime: DateTime(oldEndDateTime.year,
+                    oldEndDateTime.month, oldEndDateTime.day, 0, 0, 0),
+                endDateTime: oldEndDateTime,
+                xpMultiplier: events[i].xpMultiplier,
+                userId: events[i].userId);
 
-      events.add(newEvent);
+        events.add(newEvent);
+      }
     }
   }
-}
 
   void loadEventsDB() async {
     mediaEvents = await serviceLocator<TimeslotMediaTimeslotSuperDao>()
