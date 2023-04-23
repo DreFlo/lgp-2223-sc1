@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:src/notifications/local_notifications_service.dart';
 import 'package:src/widgets/home/homepage_horizontal_scrollview.dart';
 import 'package:src/widgets/home/profile_pic.dart';
 import 'package:src/widgets/home/task_listview.dart';
@@ -81,6 +82,13 @@ class _MyHomePageState extends State<MyHomePage> {
       default:
         return items;
     }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    // Initialise  localnotification
+    LocalNotificationService.initialize();
   }
 
   @override
