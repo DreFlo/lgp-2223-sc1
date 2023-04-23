@@ -5,11 +5,13 @@ import 'package:flutter/material.dart';
 import 'package:src/daos/media/media_book_super_dao.dart';
 import 'package:src/daos/media/media_series_super_dao.dart';
 import 'package:src/daos/media/media_video_episode_super_dao.dart';
+import 'package:src/daos/media/media_video_movie_super_dao.dart';
 import 'package:src/daos/media/season_dao.dart';
 import 'package:src/env/env.dart';
 import 'package:src/models/media/media_book_super_entity.dart';
 import 'package:src/models/media/media_series_super_entity.dart';
 import 'package:src/models/media/media_video_episode_super_entity.dart';
+import 'package:src/models/media/media_video_movie_super_entity.dart';
 import 'package:src/models/media/season.dart';
 import 'package:src/pages/leisure/finished_media_form.dart';
 import 'package:tmdb_api/tmdb_api.dart';
@@ -455,21 +457,24 @@ class _MediaPageButtonState extends State<MediaPageButton> {
                                             description:
                                                 widget.item.info.description,
                                             linkImage: widget.item.info
-                                                .imageLinks['thumbnail'].toString(),
+                                                .imageLinks['thumbnail']
+                                                .toString(),
                                             status: selectedStatus,
                                             favorite: false,
-                                            genres: widget.item.info.categories.join(
-                                                ', '),
-                                            release: widget.item.info.publishedDate,
+                                            genres: widget.item.info.categories
+                                                .join(', '),
+                                            release:
+                                                widget.item.info.publishedDate,
                                             xp: 0,
-                                            participants:
-                                                widget.item.info.authors.join(
-                                                    ', '),
+                                            participants: widget
+                                                .item.info.authors
+                                                .join(', '),
                                             totalPages:
                                                 widget.item.info.pageCount,
                                           );
 
-                                          await serviceLocator<MediaBookSuperDao>()
+                                          await serviceLocator<
+                                                  MediaBookSuperDao>()
                                               .insertMediaBookSuperEntity(book);
 
                                           if (kDebugMode) {
@@ -696,8 +701,33 @@ class _MediaPageButtonState extends State<MediaPageButton> {
                                               .viewInsets
                                               .bottom),
                                       child: ElevatedButton(
-                                        onPressed: () {
-                                          //TODO: Save stuff + send to database.
+                                        onPressed: () async {
+                                          final details = await getDetails(
+                                              widget.item['id'], 'Movie');
+
+                                          MediaVideoMovieSuperEntity movie =
+                                              MediaVideoMovieSuperEntity(
+                                                  name: widget.item['title'],
+                                                  description:
+                                                      widget.item['overview'],
+                                                  linkImage: widget
+                                                      .item['poster_path'],
+                                                  status: selectedStatus,
+                                                  favorite: false,
+                                                  genres: 'genres',
+                                                  release: DateTime.parse(widget
+                                                      .item['release_date']),
+                                                  xp: 0,
+                                                  duration:
+                                                      details['runtime'] ?? 0,
+                                                  participants: makeCastList(
+                                                          await tmdb.v3.movies
+                                                              .getCredits(widget
+                                                                  .item['id']))
+                                                      .join(', '),
+                                                  tagline: details['tagline'],);
+
+                                            await serviceLocator<MediaVideoMovieSuperDao>().insertMediaVideoMovieSuperEntity(movie);
                                         },
                                         style: ElevatedButton.styleFrom(
                                           minimumSize: Size(
