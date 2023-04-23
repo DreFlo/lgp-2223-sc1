@@ -173,12 +173,17 @@ class _CalendarPageState extends State<CalendarPage> {
                   useAvailableVerticalSpace: true,
                   initialMonth: DateTime.now(),
                   controller: eventController,
-                  headerStyle: const HeaderStyle(
-                    headerPadding: EdgeInsets.symmetric(vertical: 10),
-                    leftIcon: Icon(Icons.calendar_month, color: Colors.white),
+                  headerStyle: HeaderStyle(
+                    headerPadding: const EdgeInsets.symmetric(vertical: 10),
+                    leftIcon: const Icon(Icons.calendar_month, color: Colors.white),
+                    rightIcon: InkWell(
+                      child: const Icon(Icons.view_week, color: Colors.white),
+                    onTap: () {
+                      Navigator.push(context, MaterialPageRoute(builder: (context) => const WeekView()));
+                    }),
                     rightIconVisible: false,
-                    decoration: BoxDecoration(color: appBackground),
-                    headerTextStyle: TextStyle(
+                    decoration: const BoxDecoration(color: appBackground),
+                    headerTextStyle: const TextStyle(
                         fontFamily: 'Poppins',
                         color: Colors.white,
                         fontSize: 16,
