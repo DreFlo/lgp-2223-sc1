@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:src/themes/colors.dart';
 
 class LocalNotificationService {
   // Instance of Flutternotification plugin
@@ -29,7 +30,11 @@ class LocalNotificationService {
         android: AndroidNotificationDetails(
             message ?? "Channel Id", message ?? "Main Channel",
             groupKey: "gfg",
-            color: Colors.green,
+            color: modalBackground,
+            ledColor: primaryColor,
+            ledOnMs: 1000,
+            ledOffMs: 500,
+            colorized: true,
             importance: Importance.max,
             playSound: false,
             priority: Priority.max,
