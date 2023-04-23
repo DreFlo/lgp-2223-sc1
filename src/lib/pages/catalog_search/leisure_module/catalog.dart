@@ -1,3 +1,5 @@
+// ignore_for_file: avoid_dynamic_calls
+
 import 'package:flutter/material.dart';
 import 'package:src/models/media/media_book_super_entity.dart';
 import 'package:src/models/media/media_series_super_entity.dart';

@@ -1,3 +1,5 @@
+// ignore_for_file: avoid_dynamic_calls
+
 import 'package:flutter/material.dart';
 import 'package:src/utils/leisure/media_page_helpers.dart';
 

@@ -1,3 +1,5 @@
+// ignore_for_file: avoid_dynamic_calls
+
 import 'package:src/daos/notes/book_note_dao.dart';
 import 'package:src/daos/notes/episode_note_dao.dart';
 import 'package:src/daos/notes/note_episode_note_super_dao.dart';

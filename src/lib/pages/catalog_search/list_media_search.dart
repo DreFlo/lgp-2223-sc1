@@ -1,3 +1,5 @@
+// ignore_for_file: avoid_dynamic_calls
+
 import 'package:flutter/material.dart';
 import 'package:src/pages/catalog_search/media.dart';
 import 'package:src/models/notes/note_book_note_super_entity.dart';

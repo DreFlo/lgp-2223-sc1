@@ -707,27 +707,31 @@ class _MediaPageButtonState extends State<MediaPageButton> {
 
                                           MediaVideoMovieSuperEntity movie =
                                               MediaVideoMovieSuperEntity(
-                                                  name: widget.item['title'],
-                                                  description:
-                                                      widget.item['overview'],
-                                                  linkImage: widget
-                                                      .item['poster_path'],
-                                                  status: selectedStatus,
-                                                  favorite: false,
-                                                  genres: 'genres',
-                                                  release: DateTime.parse(widget
-                                                      .item['release_date']),
-                                                  xp: 0,
-                                                  duration:
-                                                      details['runtime'] ?? 0,
-                                                  participants: makeCastList(
-                                                          await tmdb.v3.movies
-                                                              .getCredits(widget
-                                                                  .item['id']))
-                                                      .join(', '),
-                                                  tagline: details['tagline'],);
+                                            name: widget.item['title'],
+                                            description:
+                                                widget.item['overview'],
+                                            linkImage:
+                                                widget.item['poster_path'],
+                                            status: selectedStatus,
+                                            favorite: false,
+                                            genres: 'genres',
+                                            release: DateTime.parse(
+                                                widget.item['release_date']),
+                                            xp: 0,
+                                            duration: details['runtime'] ?? 0,
+                                            participants: makeCastList(
+                                                    await tmdb
+                                                        .v3.movies
+                                                        .getCredits(
+                                                            widget.item['id']))
+                                                .join(', '),
+                                            tagline: details['tagline'],
+                                          );
 
-                                            await serviceLocator<MediaVideoMovieSuperDao>().insertMediaVideoMovieSuperEntity(movie);
+                                          await serviceLocator<
+                                                  MediaVideoMovieSuperDao>()
+                                              .insertMediaVideoMovieSuperEntity(
+                                                  movie);
                                         },
                                         style: ElevatedButton.styleFrom(
                                           minimumSize: Size(
