@@ -68,6 +68,9 @@ class _DashboardCardState extends State<DashboardCard> {
           "${widget.mediaEvent!.startDateTime.day.toString()}/${widget.mediaEvent!.startDateTime.month.toString()}";
       String endDate =
           "${widget.mediaEvent!.endDateTime.day.toString()}/${widget.mediaEvent!.endDateTime.month.toString()}";
+      if(startDate == endDate){
+        return startDate;
+      }
       return "$startDate-$endDate";
     } else {
       return '';

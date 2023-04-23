@@ -103,7 +103,7 @@ class _DashboardState extends State<Dashboard> {
 
   showWidget() {
     if (loadedAllData) {
-      if (searchResults == null || searchResults.isEmpty) {
+      if (searchResults.isEmpty) {
         searchResults = items;
       }
       List<Task> taskResults = searchResults.whereType<Task>().toList();

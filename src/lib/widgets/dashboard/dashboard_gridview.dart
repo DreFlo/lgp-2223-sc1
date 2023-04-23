@@ -5,7 +5,6 @@ import 'package:src/models/student/task_group.dart';
 import 'package:src/models/timeslot/timeslot_media_timeslot_super_entity.dart';
 
 class DashBoardGridView extends StatefulWidget {
-  //final List<Project> items;
   final List<Task?>? tasks; //student
   final List<TaskGroup?>? taskGroups; //student
   final List<TimeslotMediaTimeslotSuperEntity?>? mediaEvents; //media
