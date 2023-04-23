@@ -88,6 +88,7 @@ class _AddTaskNoteFormState extends State<AddTaskNoteForm> {
                       Flexible(
                           flex: 10,
                           child: TextField(
+                              key: const Key('taskNoteTitle'),
                               controller: titleController,
                               style: const TextStyle(
                                   fontSize: 20,
@@ -145,6 +146,7 @@ class _AddTaskNoteFormState extends State<AddTaskNoteForm> {
                         width: MediaQuery.of(context).size.width * 0.90,
                         height: 200,
                         child: TextField(
+                            key: const Key('taskNoteContent'),
                             style: Theme.of(context).textTheme.bodySmall,
                             maxLines: 10,
                             controller: contentController,
@@ -279,6 +281,7 @@ class _AddTaskNoteFormState extends State<AddTaskNoteForm> {
       return Padding(
           padding: const EdgeInsets.only(left: 40, top: 30),
           child: ElevatedButton(
+              key: const Key('taskNoteSaveButton'),
               onPressed: () async {
                 await save(context);
               },

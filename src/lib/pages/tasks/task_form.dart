@@ -63,7 +63,7 @@ class _TaskFormState extends State<TaskForm> {
       name: "None",
       description: "",
       priority: Priority.high,
-      deadline: DateTime.now());
+      deadline: DateFormatter.day(DateTime.now()));
   Institution institutionNone =
       Institution(id: -1, name: 'None', type: InstitutionType.other, userId: 1);
   Subject subjectNone = Subject(
@@ -846,7 +846,7 @@ class _TaskFormState extends State<TaskForm> {
           return DropdownMenuItem<TaskGroup>(
               value: t,
               child: Text(t.name,
-                  key: ValueKey("taskGroup_${t.name}"),
+                  key: Key("taskTaskGroup_${t.name}"),
                   style: const TextStyle(
                       fontFamily: 'Poppins',
                       color: Color(0xFF71788D),
@@ -982,7 +982,7 @@ class _TaskFormState extends State<TaskForm> {
           return DropdownMenuItem<Institution>(
               value: i,
               child: Text(i.name,
-                  key: ValueKey("institution_${i.name}"),
+                  key: Key("taskInstitution_${i.name}"),
                   style: const TextStyle(
                       fontFamily: 'Poppins',
                       color: Color(0xFF71788D),
@@ -1110,7 +1110,7 @@ class _TaskFormState extends State<TaskForm> {
           return DropdownMenuItem<Subject>(
               value: s,
               child: Text(s.acronym,
-                  key: ValueKey("subject_${s.acronym}"),
+                  key: Key("taskSubject_${s.acronym}"),
                   style: const TextStyle(
                       fontFamily: 'Poppins',
                       color: Color(0xFF71788D),
@@ -1196,7 +1196,7 @@ class _TaskFormState extends State<TaskForm> {
   Widget getEndButtons(BuildContext context) {
     if (widget.id == null) {
       return ElevatedButton(
-          key: const Key('saveButton'),
+          key: const Key('taskSaveButton'),
           onPressed: () async {
             await save(context);
           },
@@ -1213,7 +1213,7 @@ class _TaskFormState extends State<TaskForm> {
       return Row(
         children: [
           ElevatedButton(
-              key: const Key('saveButton'),
+              key: const Key('taskSaveButton'),
               onPressed: () async {
                 await save(context);
               },
@@ -1228,7 +1228,7 @@ class _TaskFormState extends State<TaskForm> {
                   style: Theme.of(context).textTheme.headlineSmall)),
           const SizedBox(width: 20),
           ElevatedButton(
-              key: const Key('deleteButton'),
+              key: const Key('taskDeleteButton'),
               onPressed: () async {
                 await showDeleteConfirmation(context);
               },
@@ -1248,6 +1248,7 @@ class _TaskFormState extends State<TaskForm> {
 
   showDeleteConfirmation(BuildContext context) {
     Widget cancelButton = TextButton(
+      key: const Key('cancelConfirmationButton'),
       child: Text(AppLocalizations.of(context).cancel,
           style: const TextStyle(
               color: Colors.white, fontSize: 16, fontWeight: FontWeight.w600),
@@ -1258,6 +1259,7 @@ class _TaskFormState extends State<TaskForm> {
     );
 
     Widget deleteButton = TextButton(
+      key: const Key('deleteConfirmationButton'),
       child: Text(AppLocalizations.of(context).delete,
           style: const TextStyle(
               color: Colors.white, fontSize: 16, fontWeight: FontWeight.w600),

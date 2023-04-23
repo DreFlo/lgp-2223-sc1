@@ -305,6 +305,7 @@ class _ProjectFormState extends State<ProjectForm> {
       Flexible(
           flex: 10,
           child: TextField(
+              key: const Key('projectTitle'),
               controller: titleController,
               style: const TextStyle(
                   fontSize: 20,
@@ -463,6 +464,7 @@ class _ProjectFormState extends State<ProjectForm> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Container(
+                          key: const Key('priorityLow'),
                           padding: const EdgeInsets.symmetric(
                               horizontal: 15, vertical: 10),
                           decoration: BoxDecoration(
@@ -492,6 +494,7 @@ class _ProjectFormState extends State<ProjectForm> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Container(
+                          key: const Key('priorityMedium'),
                           padding: const EdgeInsets.symmetric(
                               horizontal: 15, vertical: 10),
                           color: (priority == Priority.medium
@@ -516,6 +519,7 @@ class _ProjectFormState extends State<ProjectForm> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Container(
+                          key: const Key('priorityHigh'),
                           decoration: BoxDecoration(
                             borderRadius: const BorderRadius.only(
                                 topRight: Radius.circular(10),
@@ -612,11 +616,13 @@ class _ProjectFormState extends State<ProjectForm> {
                         }
 
                         return DropdownButton<Institution>(
+                          key: const Key('projectInstitution'),
                           value: institution,
                           items: snapshot.data!.map((i) {
                             return DropdownMenuItem<Institution>(
                                 value: i,
                                 child: Text(i.name,
+                                    key: Key('projectInstitution_${i.name}'),
                                     style: const TextStyle(
                                         fontFamily: 'Poppins',
                                         color: Color(0xFF71788D),
@@ -709,11 +715,13 @@ class _ProjectFormState extends State<ProjectForm> {
                         }
 
                         return DropdownButton<Subject>(
+                          key: const Key('projectSubject'),
                           value: subject,
                           items: snapshot.data!.map((s) {
                             return DropdownMenuItem<Subject>(
                                 value: s,
                                 child: Text(s.acronym,
+                                    key: Key('projectSubject_${s.acronym}'),
                                     style: const TextStyle(
                                         fontFamily: 'Poppins',
                                         color: Color(0xFF71788D),
@@ -748,6 +756,7 @@ class _ProjectFormState extends State<ProjectForm> {
       Flexible(
           flex: 1,
           child: TextField(
+            key: const Key('projectDescription'),
             controller: TextEditingController(text: description),
             style: const TextStyle(
                 fontFamily: 'Poppins',
@@ -785,6 +794,7 @@ class _ProjectFormState extends State<ProjectForm> {
               fontWeight: FontWeight.w400),
           textAlign: TextAlign.center),
       IconButton(
+        key: const Key('addTaskButton'),
         padding: const EdgeInsets.all(0),
         icon: const Icon(Icons.add),
         color: const Color(0xFF71788D),
@@ -806,7 +816,7 @@ class _ProjectFormState extends State<ProjectForm> {
                     expand: false,
                     initialChildSize: 0.60,
                     minChildSize: 0.60,
-                    maxChildSize: 0.80,
+                    maxChildSize: 0.60,
                     builder: (context, scrollController) => TaskForm(
                       taskGroupId: id,
                       taskGroupDate: () {
@@ -817,7 +827,7 @@ class _ProjectFormState extends State<ProjectForm> {
                     ),
                   )));
         },
-      ),
+      )
     ]);
   }
 
@@ -856,7 +866,7 @@ class _ProjectFormState extends State<ProjectForm> {
   Widget getEndButtons(BuildContext context) {
     if (widget.id == null) {
       return ElevatedButton(
-          key: const Key('saveSubjectButton'),
+          key: const Key('projectSaveButton'),
           onPressed: () async {
             await save(context);
           },
@@ -873,6 +883,7 @@ class _ProjectFormState extends State<ProjectForm> {
       return Row(
         children: [
           ElevatedButton(
+              key: const Key('projectSaveButton'),
               onPressed: () async {
                 await save(context);
               },
@@ -887,6 +898,7 @@ class _ProjectFormState extends State<ProjectForm> {
                   style: Theme.of(context).textTheme.headlineSmall)),
           const SizedBox(width: 20),
           ElevatedButton(
+              key: const Key('projectDeleteButton'),
               onPressed: () async {
                 await showDeleteConfirmation(context);
               },
@@ -906,6 +918,7 @@ class _ProjectFormState extends State<ProjectForm> {
 
   showDeleteConfirmation(BuildContext context) {
     Widget cancelButton = TextButton(
+      key: const Key('cancelConfirmationButton'),
       child: Text(AppLocalizations.of(context).cancel,
           style: const TextStyle(
               color: Colors.white, fontSize: 16, fontWeight: FontWeight.w600),
@@ -916,6 +929,7 @@ class _ProjectFormState extends State<ProjectForm> {
     );
 
     Widget deleteButton = TextButton(
+      key: const Key('deleteConfirmationButton'),
       child: Text(AppLocalizations.of(context).delete,
           style: const TextStyle(
               color: Colors.white, fontSize: 16, fontWeight: FontWeight.w600),
