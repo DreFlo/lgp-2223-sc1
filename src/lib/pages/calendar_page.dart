@@ -31,82 +31,72 @@ class _CalendarPageState extends State<CalendarPage> {
     loadEventsDB();
   }
 
-  checkMediaEventMultipleDays() {
-    for (var i = 0; i < mediaEvents.length; i++) {
-      if (mediaEvents[i].startDateTime.day != mediaEvents[i].endDateTime.day) {
-        final TimeslotMediaTimeslotSuperEntity subEvent =
-            TimeslotMediaTimeslotSuperEntity(
-                title: mediaEvents[i].title,
-                description: mediaEvents[i].description,
-                startDateTime: mediaEvents[i].startDateTime,
-                endDateTime: DateTime(
-                    mediaEvents[i].startDateTime.year,
-                    mediaEvents[i].startDateTime.month,
-                    mediaEvents[i].startDateTime.day,
-                    23,
-                    59,
-                    59),
-                xpMultiplier: mediaEvents[i].xpMultiplier,
-                userId: mediaEvents[i].userId);
-        DateTime oldEndDateTime = mediaEvents[i].endDateTime;
-        mediaEvents.removeAt(i);
-        mediaEvents.insert(i, subEvent);
-        final TimeslotMediaTimeslotSuperEntity newEvent =
-            TimeslotMediaTimeslotSuperEntity(
-                title: mediaEvents[i].title,
-                description: mediaEvents[i].description,
-                startDateTime: DateTime(oldEndDateTime.year,
-                    oldEndDateTime.month, oldEndDateTime.day, 0, 0, 0),
-                endDateTime: oldEndDateTime,
-                xpMultiplier: mediaEvents[i].xpMultiplier,
-                userId: mediaEvents[i].userId);
-        mediaEvents.add(newEvent);
-      }
-    }
-  }
+  checkMultipleDays(List events, String eventType) {
+  for (var i = 0; i < events.length; i++) {
+    if (events[i].startDateTime.day != events[i].endDateTime.day) {
+      final subEvent = eventType == 'media'
+          ? TimeslotMediaTimeslotSuperEntity(
+              title: events[i].title,
+              description: events[i].description,
+              startDateTime: events[i].startDateTime,
+              endDateTime: DateTime(
+                  events[i].startDateTime.year,
+                  events[i].startDateTime.month,
+                  events[i].startDateTime.day,
+                  23,
+                  59,
+                  59),
+              xpMultiplier: events[i].xpMultiplier,
+              userId: events[i].userId)
+          : TimeslotStudentTimeslotSuperEntity(
+              title: events[i].title,
+              description: events[i].description,
+              startDateTime: events[i].startDateTime,
+              endDateTime: DateTime(
+                  events[i].startDateTime.year,
+                  events[i].startDateTime.month,
+                  events[i].startDateTime.day,
+                  23,
+                  59,
+                  59),
+              xpMultiplier: events[i].xpMultiplier,
+              userId: events[i].userId);
 
-  checkStudentEventMultipleDays() {
-    for (var i = 0; i < studentEvents.length; i++) {
-      if (studentEvents[i].startDateTime.day !=
-          studentEvents[i].endDateTime.day) {
-        final TimeslotStudentTimeslotSuperEntity subEvent =
-            TimeslotStudentTimeslotSuperEntity(
-                title: studentEvents[i].title,
-                description: studentEvents[i].description,
-                startDateTime: studentEvents[i].startDateTime,
-                endDateTime: DateTime(
-                    studentEvents[i].startDateTime.year,
-                    studentEvents[i].startDateTime.month,
-                    studentEvents[i].startDateTime.day,
-                    23,
-                    59,
-                    59),
-                xpMultiplier: studentEvents[i].xpMultiplier,
-                userId: studentEvents[i].userId);
-        DateTime oldEndDateTime = studentEvents[i].endDateTime;
-        studentEvents.removeAt(i);
-        studentEvents.insert(i, subEvent);
-        final TimeslotStudentTimeslotSuperEntity newEvent =
-            TimeslotStudentTimeslotSuperEntity(
-                title: studentEvents[i].title,
-                description: studentEvents[i].description,
-                startDateTime: DateTime(oldEndDateTime.year,
-                    oldEndDateTime.month, oldEndDateTime.day, 0, 0, 0),
-                endDateTime: oldEndDateTime,
-                xpMultiplier: studentEvents[i].xpMultiplier,
-                userId: studentEvents[i].userId);
-        studentEvents.add(newEvent);
-      }
+      DateTime oldEndDateTime = events[i].endDateTime;
+      events.removeAt(i);
+      events.insert(i, subEvent);
+
+      final newEvent = eventType == 'media'
+          ? TimeslotMediaTimeslotSuperEntity(
+              title: events[i].title,
+              description: events[i].description,
+              startDateTime: DateTime(
+                  oldEndDateTime.year, oldEndDateTime.month, oldEndDateTime.day, 0, 0, 0),
+              endDateTime: oldEndDateTime,
+              xpMultiplier: events[i].xpMultiplier,
+              userId: events[i].userId)
+          : TimeslotStudentTimeslotSuperEntity(
+              title: events[i].title,
+              description: events[i].description,
+              startDateTime: DateTime(
+                  oldEndDateTime.year, oldEndDateTime.month, oldEndDateTime.day, 0, 0, 0),
+              endDateTime: oldEndDateTime,
+              xpMultiplier: events[i].xpMultiplier,
+              userId: events[i].userId);
+
+      events.add(newEvent);
     }
   }
+}
 
   void loadEventsDB() async {
     mediaEvents = await serviceLocator<TimeslotMediaTimeslotSuperDao>()
         .findAllTimeslotMediaTimeslot();
     studentEvents = await serviceLocator<TimeslotStudentTimeslotSuperDao>()
         .findAllTimeslotStudentTimeslot();
-    checkMediaEventMultipleDays();
-    checkStudentEventMultipleDays();
+    checkMultipleDays(mediaEvents, 'media');
+    checkMultipleDays(studentEvents, 'student');
+
     setState(() {
       mediaEvents = mediaEvents;
       studentEvents = studentEvents;
@@ -124,7 +114,6 @@ class _CalendarPageState extends State<CalendarPage> {
       if (studentEvents.isNotEmpty) {
         combined.addAll(studentEvents);
       }
-
       return combined;
     }
     return [];
