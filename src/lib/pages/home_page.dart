@@ -1,4 +1,4 @@
-// ignore_for_file: prefer_const_constructors, sized_box_for_whitespace, file_names
+// ignore_for_file: prefer_const_constructors, sized_box_for_whitespace
 
 import 'package:books_finder/books_finder.dart';
 import 'package:flutter/material.dart';
@@ -13,16 +13,11 @@ import 'package:src/themes/colors.dart';
 import 'package:src/utils/enums.dart';
 import 'package:src/utils/service_locator.dart';
 import 'package:tmdb_api/tmdb_api.dart';
+import 'package:books_finder/books_finder.dart';
+import 'package:src/pages/catalog_search/leisure_module.dart';
 
-import 'catalog_search/leisure_module.dart';
-import 'leisure/add_book_note_form.dart';
-import 'leisure/add_to_catalog_form.dart';
-import 'leisure/book_notes_sheet.dart';
-import 'leisure/episodes_notes_sheet.dart';
-import 'leisure/mark_episodes_sheet.dart';
-import 'leisure/media_page.dart';
-import 'tasks/project_form.dart';
-import 'tasks/task_form.dart';
+import 'package:src/pages/tasks/project_form.dart';
+import 'package:src/pages/tasks/task_form.dart';
 
 class HomePage extends StatefulWidget {
   final String title;

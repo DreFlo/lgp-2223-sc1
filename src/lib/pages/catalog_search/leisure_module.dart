@@ -1,10 +1,10 @@
 // ignore_for_file: file_names
 
 import 'package:flutter/material.dart';
-import 'leisure_module/search.dart';
-import 'leisure_module/catalog.dart';
+import 'package:src/pages/catalog_search/leisure_module/search.dart';
+import 'package:src/pages/catalog_search/leisure_module/catalog.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'search_bar.dart';
+import 'package:src/pages/catalog_search/search_bar.dart';
 
 class LeisureModule extends StatefulWidget {
   final List trendingMovies;
