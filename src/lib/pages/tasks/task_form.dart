@@ -242,11 +242,15 @@ class _TaskFormState extends State<TaskForm> {
     }
     Task task;
     int? subjectId, taskGroupId;
-    if (subject != null) {
+    if (subject!.id != -1) {
       subjectId = subject!.id;
+    } else {
+      subjectId = null;
     }
     if (taskGroup!.id != -1) {
       taskGroupId = taskGroup!.id;
+    } else {
+      taskGroupId = null;
     }
 
     int? newId;

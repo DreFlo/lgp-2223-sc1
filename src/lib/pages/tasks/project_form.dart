@@ -77,7 +77,6 @@ class _ProjectFormState extends State<ProjectForm> {
               .findInstitutionById(subject!.institutionId!)
               .first as Institution;
         } else {
-          subject = subjectNone;
           institution = institutionNone;
         }
       } else {
@@ -143,6 +142,7 @@ class _ProjectFormState extends State<ProjectForm> {
       subjectId = subject!.id;
     }
 
+    int? newId;
     if (id == null) {
       taskGroup = TaskGroup(
         name: titleController.text,
@@ -151,7 +151,7 @@ class _ProjectFormState extends State<ProjectForm> {
         subjectId: subjectId,
         description: description!,
       );
-      id = await serviceLocator<TaskGroupDao>().insertTaskGroup(taskGroup);
+      newId = await serviceLocator<TaskGroupDao>().insertTaskGroup(taskGroup);
     } else {
       taskGroup = TaskGroup(
         id: id,
@@ -164,9 +164,29 @@ class _ProjectFormState extends State<ProjectForm> {
       await serviceLocator<TaskGroupDao>().updateTaskGroup(taskGroup);
     }
 
-    for (int i = 0; i < tasks.length; i++) {
-      if (toRemoveTasks.contains(tasks[i])) {
-        await serviceLocator<TaskDao>().deleteTask(tasks[i]);
+    if (id == null) {
+      for (int i = 0; i < tasks.length; i++) {
+        if (toRemoveTasks.contains(tasks[i])) {
+          await serviceLocator<TaskDao>().deleteTask(tasks[i]);
+        } else {
+          Task oldTask = tasks[i];
+          Task newTask = Task(
+              id: oldTask.id,
+              name: oldTask.name,
+              deadline: oldTask.deadline,
+              priority: oldTask.priority,
+              description: oldTask.description,
+              taskGroupId: newId,
+              subjectId: subjectId,
+              xp: oldTask.xp);
+          await serviceLocator<TaskDao>().updateTask(newTask);
+        }
+      }
+    } else {
+      for (int i = 0; i < tasks.length; i++) {
+        if (toRemoveTasks.contains(tasks[i])) {
+          await serviceLocator<TaskDao>().deleteTask(tasks[i]);
+        }
       }
     }
 
