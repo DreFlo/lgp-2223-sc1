@@ -25,27 +25,32 @@ class DayViewTimeslotTile extends StatelessWidget {
               color: event.color,
             ),
             child: Wrap(spacing: 5, runSpacing: 5, children: [
-              Text(event.title,
-                  maxLines: 2,
-                  overflow: TextOverflow.fade,
-                  textAlign: TextAlign.left,
-                  style: TextStyle(
-                      color: (event.color == studentColor
-                          ? Colors.black
-                          : Colors.white),
-                      fontSize: 16,
-                      fontWeight: FontWeight.w600)),
-              Text(
-                  "${DateFormat('hh:mm').format(event.startTime!)} - ${DateFormat('hh:mm').format(event.endTime!)}",
-                  maxLines: 1,
-                  overflow: TextOverflow.fade,
-                  textAlign: TextAlign.justify,
-                  style: TextStyle(
-                      color: (event.color == studentColor
-                          ? Colors.black
-                          : Colors.white),
-                      fontSize: 14,
-                      fontWeight: FontWeight.w400))
+              Row(children: [
+                Expanded(
+                    child: Text(event.title,
+                        maxLines: 2,
+                        overflow: TextOverflow.fade,
+                        textAlign: TextAlign.left,
+                        style: TextStyle(
+                            color: (event.color == studentColor
+                                ? Colors.black
+                                : Colors.white),
+                            fontSize: 16,
+                            fontWeight: FontWeight.w600)))
+              ]),
+              Row(children: [
+                Text(
+                    "${DateFormat('hh:mm').format(event.startTime!)} - ${DateFormat('hh:mm').format(event.endTime!)}",
+                    maxLines: 1,
+                    overflow: TextOverflow.fade,
+                    textAlign: TextAlign.justify,
+                    style: TextStyle(
+                        color: (event.color == studentColor
+                            ? Colors.black
+                            : Colors.white),
+                        fontSize: 14,
+                        fontWeight: FontWeight.w400))
+              ])
             ])));
   }
 }
