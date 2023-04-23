@@ -401,14 +401,12 @@ void main() {
 
     Finder saveButton =
         find.byKey(const Key('taskSaveButton'), skipOffstage: false);
+    await tap(widgetTester, saveButton);
 
-    // This thing is breaking the test and I have no idea why. should be equal to institution_form_test.dart but even then
-    // await tap(widgetTester, saveButton);
+    expect(find.byKey(const Key('taskTitle')), findsNothing);
+    expect(find.byKey(const Key('taskDescription')), findsNothing);
 
-    // expect(find.byKey(const Key('taskTitle')), findsNothing);
-    // expect(find.byKey(const Key('taskDescription')), findsNothing);
-
-    // expect(find.text(taskName), findsOneWidget);
-    // expect(find.byType(TaskBar), findsOneWidget);
+    expect(find.text(taskName), findsOneWidget);
+    expect(find.byType(TaskBar), findsOneWidget);
   });
 }

@@ -1,5 +1,3 @@
-// ignore_for_file: file_names
-
 import 'package:flutter/material.dart';
 import 'package:src/models/student/task.dart';
 import 'package:src/pages/tasks/task_form.dart';
@@ -64,7 +62,7 @@ class _TaskBarState extends State<TaskBar> {
               shape: const RoundedRectangleBorder(
                 borderRadius: BorderRadius.vertical(top: Radius.circular(30.0)),
               ),
-              builder: (context) => Padding(
+              builder: (context) => Container(
                   padding: EdgeInsets.only(
                       bottom: MediaQuery.of(context).viewInsets.bottom + 50),
                   child: DraggableScrollableSheet(
@@ -85,11 +83,10 @@ class _TaskBarState extends State<TaskBar> {
             decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(10),
                 color: selected ? grayButton : lightGray),
-            child: Expanded(
               child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Flexible(
+                    Expanded(
                         flex: 6,
                         child: Column(children: [
                           Row(children: [
@@ -112,7 +109,7 @@ class _TaskBarState extends State<TaskBar> {
                                     fontWeight: FontWeight.normal))
                           ])
                         ])),
-                    Flexible(
+                    Expanded(
                         flex: 2,
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.end,
@@ -162,6 +159,6 @@ class _TaskBarState extends State<TaskBar> {
                           ],
                         ))
                   ]),
-            )));
+            ));
   }
 }
