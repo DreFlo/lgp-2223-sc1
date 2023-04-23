@@ -401,12 +401,12 @@ void main() {
 
     Finder saveButton =
         find.byKey(const Key('taskSaveButton'), skipOffstage: false);
-    // await tap(widgetTester, saveButton);
+    await tap(widgetTester, saveButton);
 
-    // expect(find.byKey(const Key('taskTitle')), findsNothing);
-    // expect(find.byKey(const Key('taskDescription')), findsNothing);
+    expect(find.byKey(const Key('taskTitle')), findsNothing);
+    expect(find.byKey(const Key('taskDescription')), findsNothing);
 
-    // expect(find.text(taskName), findsOneWidget);
-    // expect(find.byType(TaskBar), findsOneWidget);
+    expect(find.text(taskName), findsOneWidget);
+    expect(find.byType(TaskBar), findsOneWidget);
   });
 }
