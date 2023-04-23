@@ -702,7 +702,7 @@ class _HomePageState extends State<HomePage> {
             ElevatedButton(
                 child: Text("notif"),
                 onPressed: () {
-                  LocalNotificationService.display('Hello!');
+                  LocalNotificationService.display('Go Study or else \u{1F52A}');
                 }),
             FutureBuilder(
                 key: ValueKey<Object>(redrawObject),

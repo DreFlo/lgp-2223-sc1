@@ -25,15 +25,15 @@ class LocalNotificationService {
   static Future<void> display(String message) async {
     // To display the notification in device
     try {
-      print(message);
       final id = DateTime.now().millisecondsSinceEpoch ~/ 1000;
 
-      NotificationDetails notificationDetails = NotificationDetails(
+      NotificationDetails notificationDetails = const NotificationDetails(
         android: AndroidNotificationDetails(
-            message ?? "Channel Id", message ?? "Main Channel",
+            "Channel Id", 
+            "Main Channel",
             groupKey: "gfg",
             category: AndroidNotificationCategory.service,
-            color: modalBackground,
+            color: primaryColor,
             ledColor: primaryColor,
             ledOnMs: 1000,
             ledOffMs: 500,
@@ -41,11 +41,10 @@ class LocalNotificationService {
             importance: Importance.max,
             playSound: false,
             priority: Priority.max,
-            styleInformation: const DefaultStyleInformation(true, true),
             //autoCancel: false,
-            fullScreenIntent: true,
-            ongoing: true),
-        //to make it persistent you need autoCancel: false and ongoing: true
+            //ongoing: true
+            ),
+            //to make it persistent you need autoCancel: false and ongoing: true
       );
       await _notificationsPlugin.show(id, message, message, notificationDetails,
           payload: message);
