@@ -13,7 +13,6 @@ import 'package:src/themes/colors.dart';
 import 'package:src/utils/enums.dart';
 import 'package:src/utils/service_locator.dart';
 import 'package:tmdb_api/tmdb_api.dart';
-import 'package:books_finder/books_finder.dart';
 import 'package:src/pages/catalog_search/leisure_module.dart';
 
 import 'package:src/pages/tasks/project_form.dart';
