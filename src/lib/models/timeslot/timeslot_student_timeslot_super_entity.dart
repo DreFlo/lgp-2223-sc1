@@ -9,7 +9,6 @@ class TimeslotStudentTimeslotSuperEntity {
   final DateTime endDateTime;
   final int xpMultiplier;
   final int userId;
-  final List<int> taskId;
 
   TimeslotStudentTimeslotSuperEntity({
     this.id,
@@ -19,7 +18,6 @@ class TimeslotStudentTimeslotSuperEntity {
     required this.endDateTime,
     required this.xpMultiplier,
     required this.userId,
-    required this.taskId,
   });
 
   TimeslotStudentTimeslotSuperEntity.fromTimeslotStudentTimeslotEntity(
@@ -30,8 +28,7 @@ class TimeslotStudentTimeslotSuperEntity {
         startDateTime = timeslot.startDateTime,
         endDateTime = timeslot.endDateTime,
         xpMultiplier = timeslot.xpMultiplier,
-        userId = timeslot.userId,
-        taskId = studentTimeslot.taskId;
+        userId = timeslot.userId;
 
   Timeslot toTimeslot() {
     return Timeslot(
@@ -48,7 +45,6 @@ class TimeslotStudentTimeslotSuperEntity {
   StudentTimeslot toStudentTimeslot() {
     return StudentTimeslot(
       id: id!,
-      taskId: taskId,
     );
   }
 
@@ -60,7 +56,6 @@ class TimeslotStudentTimeslotSuperEntity {
     DateTime? endDateTime,
     int? xpMultiplier,
     int? userId,
-    List<int>? taskId,
   }) {
     return TimeslotStudentTimeslotSuperEntity(
       id: id ?? this.id,
@@ -70,7 +65,6 @@ class TimeslotStudentTimeslotSuperEntity {
       endDateTime: endDateTime ?? this.endDateTime,
       xpMultiplier: xpMultiplier ?? this.xpMultiplier,
       userId: userId ?? this.userId,
-      taskId: taskId ?? this.taskId,
     );
   }
 }

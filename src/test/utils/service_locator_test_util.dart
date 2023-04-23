@@ -9,6 +9,8 @@ import 'package:src/daos/media/media_book_super_dao.dart';
 import 'package:src/daos/media/media_series_super_dao.dart';
 import 'package:src/daos/timeslot/timeslot_media_timeslot_super_dao.dart';
 import 'package:src/daos/timeslot/timeslot_student_timeslot_super_dao.dart';
+import 'package:src/daos/timeslot/media_media_timeslot_dao.dart';
+import 'package:src/daos/timeslot/task_student_timeslot_dao.dart';
 
 import 'package:src/daos/student/evaluation_dao.dart';
 import 'package:src/daos/student/institution_dao.dart';
@@ -78,6 +80,8 @@ import 'service_locator_test_util.mocks.dart';
   MockSpec<MediaSeriesSuperDao>(),
   MockSpec<TimeslotMediaTimeslotSuperDao>(),
   MockSpec<TimeslotStudentTimeslotSuperDao>(),
+  MockSpec<MediaMediaTimeslotDao>(),
+  MockSpec<TaskStudentTimeslotDao>()
 ])
 void setupMockServiceLocatorUnitTests() {
   serviceLocator
@@ -152,6 +156,12 @@ void setupMockServiceLocatorUnitTests() {
       () => MockUserBadgeDao(),
       dependsOn: [AppDatabase]);
   serviceLocator.registerSingletonWithDependencies<UserDao>(() => MockUserDao(),
+      dependsOn: [AppDatabase]);
+  serviceLocator.registerSingletonWithDependencies<MediaMediaTimeslotDao>(
+      () => MockMediaMediaTimeslotDao(),
+      dependsOn: [AppDatabase]);
+  serviceLocator.registerSingletonWithDependencies<TaskStudentTimeslotDao>(
+      () => MockTaskStudentTimeslotDao(),
       dependsOn: [AppDatabase]);
 
   // Super DAOs

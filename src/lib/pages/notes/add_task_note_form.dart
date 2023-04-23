@@ -1,5 +1,3 @@
-// ignore_for_file: file_names
-
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:src/daos/notes/note_task_note_super_dao.dart';
@@ -88,7 +86,7 @@ class _AddTaskNoteFormState extends State<AddTaskNoteForm> {
                       Flexible(
                           flex: 10,
                           child: TextField(
-                              key: const Key('taskNoteTitle'),
+                              key: const Key('titleNoteField'),
                               controller: titleController,
                               style: const TextStyle(
                                   fontSize: 20,
@@ -146,7 +144,7 @@ class _AddTaskNoteFormState extends State<AddTaskNoteForm> {
                         width: MediaQuery.of(context).size.width * 0.90,
                         height: 200,
                         child: TextField(
-                            key: const Key('taskNoteContent'),
+                            key: const Key('contentNoteField'),
                             style: Theme.of(context).textTheme.bodySmall,
                             maxLines: 10,
                             controller: contentController,
@@ -253,7 +251,9 @@ class _AddTaskNoteFormState extends State<AddTaskNoteForm> {
         }
       }
 
-      Navigator.pop(context);
+      if (context.mounted) {
+        Navigator.pop(context);
+      }
     }
   }
 
@@ -268,8 +268,10 @@ class _AddTaskNoteFormState extends State<AddTaskNoteForm> {
     await serviceLocator<NoteTaskNoteSuperDao>()
         .deleteNoteTaskNoteSuperEntity(noteTaskNoteSuperEntity);
 
-    Navigator.pop(context);
-    Navigator.pop(context);
+    if (context.mounted) {
+      Navigator.pop(context);
+      Navigator.pop(context);
+    }
 
     if (widget.deleteNoteCallback != null) {
       widget.deleteNoteCallback!(widget.note);
@@ -281,7 +283,7 @@ class _AddTaskNoteFormState extends State<AddTaskNoteForm> {
       return Padding(
           padding: const EdgeInsets.only(left: 40, top: 30),
           child: ElevatedButton(
-              key: const Key('taskNoteSaveButton'),
+              key: const Key('saveTaskNoteButton'),
               onPressed: () async {
                 await save(context);
               },
@@ -300,6 +302,7 @@ class _AddTaskNoteFormState extends State<AddTaskNoteForm> {
           child: Row(
             children: [
               ElevatedButton(
+                  key: const Key('saveTaskNoteButton'),
                   onPressed: () async {
                     await save(context);
                   },
@@ -315,6 +318,7 @@ class _AddTaskNoteFormState extends State<AddTaskNoteForm> {
                       style: Theme.of(context).textTheme.headlineSmall)),
               const SizedBox(width: 20),
               ElevatedButton(
+                  key: const Key('deleteTaskNoteButton'),
                   onPressed: () async {
                     await showDeleteConfirmation(context);
                   },
@@ -335,6 +339,7 @@ class _AddTaskNoteFormState extends State<AddTaskNoteForm> {
 
   showDeleteConfirmation(BuildContext context) {
     Widget cancelButton = TextButton(
+      key: const Key('cancelConfirmationButton'),
       child: Text(AppLocalizations.of(context).cancel,
           style: const TextStyle(
               color: Colors.white, fontSize: 16, fontWeight: FontWeight.w600),
@@ -345,6 +350,7 @@ class _AddTaskNoteFormState extends State<AddTaskNoteForm> {
     );
 
     Widget deleteButton = TextButton(
+      key: const Key('deleteConfirmationButton'),
       child: Text(AppLocalizations.of(context).delete,
           style: const TextStyle(
               color: Colors.white, fontSize: 16, fontWeight: FontWeight.w600),
@@ -355,11 +361,11 @@ class _AddTaskNoteFormState extends State<AddTaskNoteForm> {
     );
 
     AlertDialog alert = AlertDialog(
-      title: Text('Delete Note',
+      title: Text(AppLocalizations.of(context).delete_note,
           style: const TextStyle(
               color: Colors.white, fontSize: 20, fontWeight: FontWeight.w600),
           textAlign: TextAlign.center),
-      content: Text('Are you sure you want to delete this note?',
+      content: Text(AppLocalizations.of(context).delete_note_message,
           style: const TextStyle(
               color: Colors.white, fontSize: 14, fontWeight: FontWeight.w600),
           textAlign: TextAlign.center),

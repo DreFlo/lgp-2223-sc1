@@ -274,7 +274,7 @@ void main() {
     await tap(widgetTester, taskGroupButton);
     await widgetTester.pumpAndSettle();
 
-    final taskGroupNoneButton = find.byKey(const Key('taskGroup_None')).last;
+    final taskGroupNoneButton = find.byKey(const Key('taskTaskGroup_None')).last;
     await tap(widgetTester, taskGroupNoneButton);
     await widgetTester.pumpAndSettle();
 
@@ -433,26 +433,26 @@ void main() {
 
     await widgetTester.pumpAndSettle();
 
-    expect(find.byKey(const Key('taskNoteTitle')), findsNothing);
-    expect(find.byKey(const Key('taskNoteContent')), findsNothing);
+    expect(find.byKey(const Key('titleNoteField')), findsNothing);
+    expect(find.byKey(const Key('contentNoteField')), findsNothing);
 
     final addNoteButton = find.byKey(const Key('addNoteButton'));
     await tap(widgetTester, addNoteButton);
 
-    expect(find.byKey(const Key('taskNoteTitle')), findsOneWidget);
-    expect(find.byKey(const Key('taskNoteContent')), findsOneWidget);
+    expect(find.byKey(const Key('titleNoteField')), findsOneWidget);
+    expect(find.byKey(const Key('contentNoteField')), findsOneWidget);
 
     await widgetTester.enterText(
-        find.byKey(const Key('taskNoteTitle')), noteTitle);
+        find.byKey(const Key('titleNoteField')), noteTitle);
 
     await widgetTester.enterText(
-        find.byKey(const Key('taskNoteContent')), noteContent);
+        find.byKey(const Key('contentNoteField')), noteContent);
 
-    Finder saveButton = find.byKey(const Key('taskNoteSaveButton'));
+    Finder saveButton = find.byKey(const Key('saveTaskNoteButton'));
     await tap(widgetTester, saveButton);
 
-    expect(find.byKey(const Key('taskNoteTitle')), findsNothing);
-    expect(find.byKey(const Key('taskNoteContent')), findsNothing);
+    expect(find.byKey(const Key('titleNoteField')), findsNothing);
+    expect(find.byKey(const Key('contentNoteField')), findsNothing);
 
     expect(find.text(noteTitle), findsOneWidget);
     expect(find.byType(NoteBar), findsOneWidget);

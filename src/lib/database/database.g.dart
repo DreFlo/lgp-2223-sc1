@@ -111,6 +111,10 @@ class _$AppDatabase extends AppDatabase {
 
   UserDao? _userDaoInstance;
 
+  TaskStudentTimeslotDao? _taskStudentTimeslotDaoInstance;
+
+  MediaMediaTimeslotDao? _mediaMediaTimeslotDaoInstance;
+
   Future<sqflite.Database> open(
     String path,
     List<Migration> migrations, [
@@ -177,11 +181,15 @@ class _$AppDatabase extends AppDatabase {
         await database.execute(
             'CREATE TABLE IF NOT EXISTS `timeslot` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `title` TEXT NOT NULL, `description` TEXT NOT NULL, `start_datetime` INTEGER NOT NULL, `end_datetime` INTEGER NOT NULL, `xp_multiplier` INTEGER NOT NULL, `user_id` INTEGER NOT NULL, FOREIGN KEY (`user_id`) REFERENCES `user` (`id`) ON UPDATE RESTRICT ON DELETE CASCADE)');
         await database.execute(
-            'CREATE TABLE IF NOT EXISTS `media_timeslot` (`id` INTEGER NOT NULL, `media_id` TEXT NOT NULL, FOREIGN KEY (`id`) REFERENCES `timeslot` (`id`) ON UPDATE NO ACTION ON DELETE NO ACTION, PRIMARY KEY (`id`))');
+            'CREATE TABLE IF NOT EXISTS `media_timeslot` (`id` INTEGER NOT NULL, FOREIGN KEY (`id`) REFERENCES `timeslot` (`id`) ON UPDATE NO ACTION ON DELETE NO ACTION, PRIMARY KEY (`id`))');
         await database.execute(
-            'CREATE TABLE IF NOT EXISTS `student_timeslot` (`id` INTEGER NOT NULL, `task_id` TEXT NOT NULL, FOREIGN KEY (`id`) REFERENCES `timeslot` (`id`) ON UPDATE NO ACTION ON DELETE NO ACTION, PRIMARY KEY (`id`))');
+            'CREATE TABLE IF NOT EXISTS `student_timeslot` (`id` INTEGER NOT NULL, FOREIGN KEY (`id`) REFERENCES `timeslot` (`id`) ON UPDATE NO ACTION ON DELETE NO ACTION, PRIMARY KEY (`id`))');
         await database.execute(
             'CREATE TABLE IF NOT EXISTS `user_badge` (`user_id` INTEGER NOT NULL, `badge_id` INTEGER NOT NULL, FOREIGN KEY (`user_id`) REFERENCES `user` (`id`) ON UPDATE RESTRICT ON DELETE CASCADE, FOREIGN KEY (`badge_id`) REFERENCES `badge` (`id`) ON UPDATE RESTRICT ON DELETE CASCADE, PRIMARY KEY (`user_id`, `badge_id`))');
+        await database.execute(
+            'CREATE TABLE IF NOT EXISTS `media_media_timeslot` (`media_id` INTEGER NOT NULL, `media_timeslot_id` INTEGER NOT NULL, FOREIGN KEY (`media_id`) REFERENCES `media` (`id`) ON UPDATE NO ACTION ON DELETE NO ACTION, FOREIGN KEY (`media_timeslot_id`) REFERENCES `media_timeslot` (`id`) ON UPDATE NO ACTION ON DELETE NO ACTION, PRIMARY KEY (`media_id`, `media_timeslot_id`))');
+        await database.execute(
+            'CREATE TABLE IF NOT EXISTS `task_student_timeslot` (`task_id` INTEGER NOT NULL, `student_timeslot_id` INTEGER NOT NULL, FOREIGN KEY (`task_id`) REFERENCES `task` (`id`) ON UPDATE NO ACTION ON DELETE NO ACTION, FOREIGN KEY (`student_timeslot_id`) REFERENCES `student_timeslot` (`id`) ON UPDATE NO ACTION ON DELETE NO ACTION, PRIMARY KEY (`task_id`, `student_timeslot_id`))');
 
         await callback?.onCreate?.call(database, version);
       },
@@ -318,6 +326,18 @@ class _$AppDatabase extends AppDatabase {
   @override
   UserDao get userDao {
     return _userDaoInstance ??= _$UserDao(database, changeListener);
+  }
+
+  @override
+  TaskStudentTimeslotDao get taskStudentTimeslotDao {
+    return _taskStudentTimeslotDaoInstance ??=
+        _$TaskStudentTimeslotDao(database, changeListener);
+  }
+
+  @override
+  MediaMediaTimeslotDao get mediaMediaTimeslotDao {
+    return _mediaMediaTimeslotDaoInstance ??=
+        _$MediaMediaTimeslotDao(database, changeListener);
   }
 }
 
@@ -2585,28 +2605,19 @@ class _$MediaTimeslotDao extends MediaTimeslotDao {
         _mediaTimeslotInsertionAdapter = InsertionAdapter(
             database,
             'media_timeslot',
-            (MediaTimeslot item) => <String, Object?>{
-                  'id': item.id,
-                  'media_id': _listConverter.encode(item.mediaId)
-                },
+            (MediaTimeslot item) => <String, Object?>{'id': item.id},
             changeListener),
         _mediaTimeslotUpdateAdapter = UpdateAdapter(
             database,
             'media_timeslot',
             ['id'],
-            (MediaTimeslot item) => <String, Object?>{
-                  'id': item.id,
-                  'media_id': _listConverter.encode(item.mediaId)
-                },
+            (MediaTimeslot item) => <String, Object?>{'id': item.id},
             changeListener),
         _mediaTimeslotDeletionAdapter = DeletionAdapter(
             database,
             'media_timeslot',
             ['id'],
-            (MediaTimeslot item) => <String, Object?>{
-                  'id': item.id,
-                  'media_id': _listConverter.encode(item.mediaId)
-                },
+            (MediaTimeslot item) => <String, Object?>{'id': item.id},
             changeListener);
 
   final sqflite.DatabaseExecutor database;
@@ -2624,18 +2635,16 @@ class _$MediaTimeslotDao extends MediaTimeslotDao {
   @override
   Future<List<MediaTimeslot>> findAllMediaTimeslots() async {
     return _queryAdapter.queryList('SELECT * FROM media_timeslot',
-        mapper: (Map<String, Object?> row) => MediaTimeslot(
-            id: row['id'] as int,
-            mediaId: _listConverter.decode(row['media_id'] as String)));
+        mapper: (Map<String, Object?> row) =>
+            MediaTimeslot(id: row['id'] as int));
   }
 
   @override
   Stream<MediaTimeslot?> findMediaTimeslotById(int id) {
     return _queryAdapter.queryStream(
         'SELECT * FROM media_timeslot WHERE id = ?1',
-        mapper: (Map<String, Object?> row) => MediaTimeslot(
-            id: row['id'] as int,
-            mediaId: _listConverter.decode(row['media_id'] as String)),
+        mapper: (Map<String, Object?> row) =>
+            MediaTimeslot(id: row['id'] as int),
         arguments: [id],
         queryableName: 'media_timeslot',
         isView: false);
@@ -2679,28 +2688,19 @@ class _$StudentTimeslotDao extends StudentTimeslotDao {
         _studentTimeslotInsertionAdapter = InsertionAdapter(
             database,
             'student_timeslot',
-            (StudentTimeslot item) => <String, Object?>{
-                  'id': item.id,
-                  'task_id': _listConverter.encode(item.taskId)
-                },
+            (StudentTimeslot item) => <String, Object?>{'id': item.id},
             changeListener),
         _studentTimeslotUpdateAdapter = UpdateAdapter(
             database,
             'student_timeslot',
             ['id'],
-            (StudentTimeslot item) => <String, Object?>{
-                  'id': item.id,
-                  'task_id': _listConverter.encode(item.taskId)
-                },
+            (StudentTimeslot item) => <String, Object?>{'id': item.id},
             changeListener),
         _studentTimeslotDeletionAdapter = DeletionAdapter(
             database,
             'student_timeslot',
             ['id'],
-            (StudentTimeslot item) => <String, Object?>{
-                  'id': item.id,
-                  'task_id': _listConverter.encode(item.taskId)
-                },
+            (StudentTimeslot item) => <String, Object?>{'id': item.id},
             changeListener);
 
   final sqflite.DatabaseExecutor database;
@@ -2718,18 +2718,16 @@ class _$StudentTimeslotDao extends StudentTimeslotDao {
   @override
   Future<List<StudentTimeslot>> findAllStudentTimeslots() async {
     return _queryAdapter.queryList('SELECT * FROM student_timeslot',
-        mapper: (Map<String, Object?> row) => StudentTimeslot(
-            id: row['id'] as int,
-            taskId: _listConverter.decode(row['task_id'] as String)));
+        mapper: (Map<String, Object?> row) =>
+            StudentTimeslot(id: row['id'] as int));
   }
 
   @override
   Stream<StudentTimeslot?> findStudentTimeslotById(int id) {
     return _queryAdapter.queryStream(
         'SELECT * FROM student_timeslot WHERE id = ?1',
-        mapper: (Map<String, Object?> row) => StudentTimeslot(
-            id: row['id'] as int,
-            taskId: _listConverter.decode(row['task_id'] as String)),
+        mapper: (Map<String, Object?> row) =>
+            StudentTimeslot(id: row['id'] as int),
         arguments: [id],
         queryableName: 'student_timeslot',
         isView: false);
@@ -2865,6 +2863,232 @@ class _$UserDao extends UserDao {
   @override
   Future<void> deleteUser(User user) async {
     await _userDeletionAdapter.delete(user);
+  }
+}
+
+class _$TaskStudentTimeslotDao extends TaskStudentTimeslotDao {
+  _$TaskStudentTimeslotDao(
+    this.database,
+    this.changeListener,
+  )   : _queryAdapter = QueryAdapter(database),
+        _taskStudentTimeslotInsertionAdapter = InsertionAdapter(
+            database,
+            'task_student_timeslot',
+            (TaskStudentTimeslot item) => <String, Object?>{
+                  'task_id': item.taskId,
+                  'student_timeslot_id': item.studentTimeslotId
+                }),
+        _taskStudentTimeslotUpdateAdapter = UpdateAdapter(
+            database,
+            'task_student_timeslot',
+            ['task_id', 'student_timeslot_id'],
+            (TaskStudentTimeslot item) => <String, Object?>{
+                  'task_id': item.taskId,
+                  'student_timeslot_id': item.studentTimeslotId
+                }),
+        _taskStudentTimeslotDeletionAdapter = DeletionAdapter(
+            database,
+            'task_student_timeslot',
+            ['task_id', 'student_timeslot_id'],
+            (TaskStudentTimeslot item) => <String, Object?>{
+                  'task_id': item.taskId,
+                  'student_timeslot_id': item.studentTimeslotId
+                });
+
+  final sqflite.DatabaseExecutor database;
+
+  final StreamController<String> changeListener;
+
+  final QueryAdapter _queryAdapter;
+
+  final InsertionAdapter<TaskStudentTimeslot>
+      _taskStudentTimeslotInsertionAdapter;
+
+  final UpdateAdapter<TaskStudentTimeslot> _taskStudentTimeslotUpdateAdapter;
+
+  final DeletionAdapter<TaskStudentTimeslot>
+      _taskStudentTimeslotDeletionAdapter;
+
+  @override
+  Future<List<TaskStudentTimeslot>> findAllTaskStudentTimeslots() async {
+    return _queryAdapter.queryList('SELECT * FROM task_student_timeslot',
+        mapper: (Map<String, Object?> row) => TaskStudentTimeslot(
+            taskId: row['task_id'] as int,
+            studentTimeslotId: row['student_timeslot_id'] as int));
+  }
+
+  @override
+  Future<List<TaskStudentTimeslot>> findTaskStudentTimeslotByTaskId(
+      int id) async {
+    return _queryAdapter.queryList(
+        'SELECT * FROM task_student_timeslot WHERE task_id = ?1',
+        mapper: (Map<String, Object?> row) => TaskStudentTimeslot(
+            taskId: row['task_id'] as int,
+            studentTimeslotId: row['student_timeslot_id'] as int),
+        arguments: [id]);
+  }
+
+  @override
+  Future<List<TaskStudentTimeslot>> findTaskStudentTimeslotByStudentTimeslotId(
+      int id) async {
+    return _queryAdapter.queryList(
+        'SELECT * FROM task_student_timeslot WHERE student_timeslot_id = ?1',
+        mapper: (Map<String, Object?> row) => TaskStudentTimeslot(
+            taskId: row['task_id'] as int,
+            studentTimeslotId: row['student_timeslot_id'] as int),
+        arguments: [id]);
+  }
+
+  @override
+  Future<List<Task>> findTaskByStudentTimeslotId(int id) async {
+    return _queryAdapter.queryList(
+        'SELECT T.*            FROM task_student_timeslot TT JOIN task T ON TT.task_id = T.id            WHERE TT.student_timeslot_id = ?1',
+        mapper: (Map<String, Object?> row) => Task(id: row['id'] as int?, name: row['name'] as String, description: row['description'] as String, priority: Priority.values[row['priority'] as int], deadline: _dateTimeConverter.decode(row['deadline'] as int), taskGroupId: row['task_group_id'] as int?, subjectId: row['subject_id'] as int?, xp: row['xp'] as int),
+        arguments: [id]);
+  }
+
+  @override
+  Future<List<StudentTimeslot>> findStudentTimeslotByTaskId(int id) async {
+    return _queryAdapter.queryList(
+        'SELECT T.*            FROM task_student_timeslot TT JOIN student_timeslot T ON TT.student_timeslot_id = T.id            WHERE TT.task_id = ?1',
+        mapper: (Map<String, Object?> row) => StudentTimeslot(id: row['id'] as int),
+        arguments: [id]);
+  }
+
+  @override
+  Future<void> insertTaskStudentTimeslot(
+      TaskStudentTimeslot taskStudentTimeslot) async {
+    await _taskStudentTimeslotInsertionAdapter.insert(
+        taskStudentTimeslot, OnConflictStrategy.abort);
+  }
+
+  @override
+  Future<void> updateTaskStudentTimeslot(
+      TaskStudentTimeslot taskStudentTimeslot) async {
+    await _taskStudentTimeslotUpdateAdapter.update(
+        taskStudentTimeslot, OnConflictStrategy.abort);
+  }
+
+  @override
+  Future<void> deleteTaskStudentTimeslot(
+      TaskStudentTimeslot taskStudentTimeslot) async {
+    await _taskStudentTimeslotDeletionAdapter.delete(taskStudentTimeslot);
+  }
+}
+
+class _$MediaMediaTimeslotDao extends MediaMediaTimeslotDao {
+  _$MediaMediaTimeslotDao(
+    this.database,
+    this.changeListener,
+  )   : _queryAdapter = QueryAdapter(database),
+        _mediaMediaTimeslotInsertionAdapter = InsertionAdapter(
+            database,
+            'media_media_timeslot',
+            (MediaMediaTimeslot item) => <String, Object?>{
+                  'media_id': item.mediaId,
+                  'media_timeslot_id': item.mediaTimeslotId
+                }),
+        _mediaMediaTimeslotUpdateAdapter = UpdateAdapter(
+            database,
+            'media_media_timeslot',
+            ['media_id', 'media_timeslot_id'],
+            (MediaMediaTimeslot item) => <String, Object?>{
+                  'media_id': item.mediaId,
+                  'media_timeslot_id': item.mediaTimeslotId
+                }),
+        _mediaMediaTimeslotDeletionAdapter = DeletionAdapter(
+            database,
+            'media_media_timeslot',
+            ['media_id', 'media_timeslot_id'],
+            (MediaMediaTimeslot item) => <String, Object?>{
+                  'media_id': item.mediaId,
+                  'media_timeslot_id': item.mediaTimeslotId
+                });
+
+  final sqflite.DatabaseExecutor database;
+
+  final StreamController<String> changeListener;
+
+  final QueryAdapter _queryAdapter;
+
+  final InsertionAdapter<MediaMediaTimeslot>
+      _mediaMediaTimeslotInsertionAdapter;
+
+  final UpdateAdapter<MediaMediaTimeslot> _mediaMediaTimeslotUpdateAdapter;
+
+  final DeletionAdapter<MediaMediaTimeslot> _mediaMediaTimeslotDeletionAdapter;
+
+  @override
+  Future<List<MediaMediaTimeslot>> findAllMediaMediaTimeslots() async {
+    return _queryAdapter.queryList('SELECT * FROM media_media_timeslot',
+        mapper: (Map<String, Object?> row) => MediaMediaTimeslot(
+            mediaId: row['media_id'] as int,
+            mediaTimeslotId: row['media_timeslot_id'] as int));
+  }
+
+  @override
+  Future<List<MediaMediaTimeslot>> findMediaMediaTimeslotByMediaId(
+      int id) async {
+    return _queryAdapter.queryList(
+        'SELECT * FROM media_media_timeslot WHERE media_id = ?1',
+        mapper: (Map<String, Object?> row) => MediaMediaTimeslot(
+            mediaId: row['media_id'] as int,
+            mediaTimeslotId: row['media_timeslot_id'] as int),
+        arguments: [id]);
+  }
+
+  @override
+  Future<List<MediaMediaTimeslot>> findMediaMediaTimeslotByMediaTimeslotId(
+      int id) async {
+    return _queryAdapter.queryList(
+        'SELECT * FROM media_media_timeslot WHERE media_timeslot_id = ?1',
+        mapper: (Map<String, Object?> row) => MediaMediaTimeslot(
+            mediaId: row['media_id'] as int,
+            mediaTimeslotId: row['media_timeslot_id'] as int),
+        arguments: [id]);
+  }
+
+  @override
+  Future<List<Media>> findMediaByMediaTimeslotId(int id) async {
+    return _queryAdapter.queryList(
+        'SELECT M.*            FROM media_media_timeslot MT JOIN media M ON MT.media_id = M.id            WHERE MT.media_timeslot_id = ?1',
+        mapper: (Map<String, Object?> row) => Media(id: row['id'] as int?, name: row['name'] as String, description: row['description'] as String, linkImage: row['link_image'] as String, status: Status.values[row['status'] as int], favorite: (row['favorite'] as int) != 0, genres: row['genres'] as String, release: _dateTimeConverter.decode(row['release'] as int), xp: row['xp'] as int, participants: row['participants'] as String),
+        arguments: [id]);
+  }
+
+  @override
+  Future<List<MediaTimeslot>> findMediaTimeslotByMediaId(int id) async {
+    return _queryAdapter.queryList(
+        'SELECT T.*            FROM media_media_timeslot MT JOIN media_timeslot T ON MT.media_timeslot_id = T.id            WHERE MT.media_id = ?1',
+        mapper: (Map<String, Object?> row) => MediaTimeslot(id: row['id'] as int),
+        arguments: [id]);
+  }
+
+  @override
+  Future<void> insertMediaMediaTimeslot(
+      MediaMediaTimeslot mediaMediaTimeslot) async {
+    await _mediaMediaTimeslotInsertionAdapter.insert(
+        mediaMediaTimeslot, OnConflictStrategy.abort);
+  }
+
+  @override
+  Future<List<int>> insertMediaMediaTimeslots(
+      List<MediaMediaTimeslot> mediaMediaTimeslots) {
+    return _mediaMediaTimeslotInsertionAdapter.insertListAndReturnIds(
+        mediaMediaTimeslots, OnConflictStrategy.abort);
+  }
+
+  @override
+  Future<void> updateMediaMediaTimeslot(
+      MediaMediaTimeslot mediaMediaTimeslot) async {
+    await _mediaMediaTimeslotUpdateAdapter.update(
+        mediaMediaTimeslot, OnConflictStrategy.abort);
+  }
+
+  @override
+  Future<void> deleteMediaMediaTimeslot(
+      MediaMediaTimeslot mediaMediaTimeslot) async {
+    await _mediaMediaTimeslotDeletionAdapter.delete(mediaMediaTimeslot);
   }
 }
 

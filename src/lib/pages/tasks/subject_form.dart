@@ -422,7 +422,9 @@ class _SubjectFormState extends State<SubjectForm> {
         }
       }
 
-      Navigator.pop(context);
+      if (context.mounted) {
+        Navigator.pop(context);
+      }
     }
   }
 
@@ -504,8 +506,10 @@ class _SubjectFormState extends State<SubjectForm> {
 
         await serviceLocator<SubjectDao>().deleteSubject(subject!);
 
-        Navigator.pop(context);
-        Navigator.pop(context);
+        if (context.mounted) {
+          Navigator.pop(context);
+          Navigator.pop(context);
+        }
 
         if (widget.callback != null) {
           widget.callback!();

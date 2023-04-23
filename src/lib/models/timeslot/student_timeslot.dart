@@ -12,11 +12,7 @@ class StudentTimeslot {
   @PrimaryKey()
   final int id;
 
-  @ColumnInfo(name: 'task_id')
-  final List<int> taskId;
-
   StudentTimeslot({
     required this.id,
-    required this.taskId,
   });
 }

@@ -1,11 +1,7 @@
-// ignore_for_file: file_names, library_prefixes
-
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:src/daos/student/institution_dao.dart';
 import 'package:src/daos/student/subject_dao.dart';
-import 'package:src/daos/student/task_dao.dart';
-import 'package:src/daos/student/task_group_dao.dart';
 import 'package:src/models/student/subject.dart';
 import 'package:src/models/student/institution.dart';
 import 'package:src/pages/tasks/subject_form.dart';
@@ -13,9 +9,6 @@ import 'package:src/themes/colors.dart';
 import 'package:src/utils/enums.dart';
 import 'package:src/utils/service_locator.dart';
 import 'package:src/widgets/tasks/subject_bar.dart';
-
-import 'package:src/models/student/task.dart';
-import 'package:src/models/student/task_group.dart';
 
 class InstitutionForm extends StatefulWidget {
   final int? id;
@@ -408,7 +401,6 @@ class _InstitutionFormState extends State<InstitutionForm> {
 
     if (errors.isEmpty) {
       //TODO: Change to real user id
-      print('NEED TO CHANGE USER ID WHEN AUTH IS DONE');
       int id;
       if (widget.id == null) {
         id = await serviceLocator<InstitutionDao>()
@@ -429,7 +421,9 @@ class _InstitutionFormState extends State<InstitutionForm> {
         await serviceLocator<SubjectDao>().insertSubject(newSubject);
       }
 
-      Navigator.pop(context);
+      if (context.mounted) {
+        Navigator.pop(context);
+      }
     }
   }
 
@@ -557,8 +551,10 @@ class _InstitutionFormState extends State<InstitutionForm> {
 
         await serviceLocator<InstitutionDao>().deleteInstitution(institution!);
 
-        Navigator.pop(context);
-        Navigator.pop(context);
+        if (context.mounted) {
+          Navigator.pop(context);
+          Navigator.pop(context);
+        }
       },
     );
 
