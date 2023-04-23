@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:src/themes/colors.dart';
 import 'package:src/widgets/dashboard/dashboard_gridview.dart';
-import 'package:tmdb_api/tmdb_api.dart';
-import 'package:src/env/env.dart';
 import 'package:src/widgets/dashboard/dashboard_horizontal_scrollview.dart';
 import 'package:src/pages/catalog_search/leisure_module.dart';
 

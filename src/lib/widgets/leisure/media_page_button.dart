@@ -1,4 +1,4 @@
-// ignore_for_file: prefer_const_constructors, sized_box_for_whitespace, avoid_dynamic_calls
+// ignore_for_file: avoid_dynamic_calls
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -73,7 +73,7 @@ class _MediaPageButtonState extends State<MediaPageButton> {
 
     if (!isStatusLoaded) {
       // Show a loading indicator while the status is being loaded.
-      return CircularProgressIndicator();
+      return const CircularProgressIndicator();
     }
     if (widget.type == "TV Show") {
       if (status == Status.nothing) {
@@ -252,7 +252,7 @@ class _MediaPageButtonState extends State<MediaPageButton> {
           status == Status.planTo ||
           status == Status.dropped) {
         // If media is somehow in the catalog, then user should be able to see their notes and edit info.
-        return Container(
+        return SizedBox(
           width: MediaQuery.of(context).size.width * 0.95,
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -304,8 +304,8 @@ class _MediaPageButtonState extends State<MediaPageButton> {
                   showModalBottomSheet(
                       context: context,
                       isScrollControlled: true,
-                      backgroundColor: Color(0xFF22252D),
-                      shape: RoundedRectangleBorder(
+                      backgroundColor: const Color(0xFF22252D),
+                      shape: const RoundedRectangleBorder(
                         borderRadius:
                             BorderRadius.vertical(top: Radius.circular(30.0)),
                       ),
@@ -345,7 +345,7 @@ class _MediaPageButtonState extends State<MediaPageButton> {
           ),
         );
       } else if (status == Status.done) {
-        return Container(
+        return SizedBox(
           width: MediaQuery.of(context).size.width * 0.95,
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -355,8 +355,8 @@ class _MediaPageButtonState extends State<MediaPageButton> {
                   showModalBottomSheet(
                       context: context,
                       isScrollControlled: true,
-                      backgroundColor: Color(0xFF22252D),
-                      shape: RoundedRectangleBorder(
+                      backgroundColor: const Color(0xFF22252D),
+                      shape: const RoundedRectangleBorder(
                         borderRadius:
                             BorderRadius.vertical(top: Radius.circular(30.0)),
                       ),
@@ -404,8 +404,8 @@ class _MediaPageButtonState extends State<MediaPageButton> {
             showModalBottomSheet(
                 context: context,
                 isScrollControlled: true,
-                backgroundColor: Color(0xFF22252D),
-                shape: RoundedRectangleBorder(
+                backgroundColor: const Color(0xFF22252D),
+                shape: const RoundedRectangleBorder(
                   borderRadius:
                       BorderRadius.vertical(top: Radius.circular(30.0)),
                 ),
@@ -513,7 +513,7 @@ class _MediaPageButtonState extends State<MediaPageButton> {
           status == Status.planTo ||
           status == Status.dropped) {
         // If media is somehow in the catalog, then user should be able to see their notes and edit info.
-        return Container(
+        return SizedBox(
           width: MediaQuery.of(context).size.width * 0.95,
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -523,8 +523,8 @@ class _MediaPageButtonState extends State<MediaPageButton> {
                   showModalBottomSheet(
                       context: context,
                       isScrollControlled: true,
-                      backgroundColor: Color(0xFF22252D),
-                      shape: RoundedRectangleBorder(
+                      backgroundColor: const Color(0xFF22252D),
+                      shape: const RoundedRectangleBorder(
                         borderRadius:
                             BorderRadius.vertical(top: Radius.circular(30.0)),
                       ),
@@ -556,8 +556,8 @@ class _MediaPageButtonState extends State<MediaPageButton> {
                   showModalBottomSheet(
                       context: context,
                       isScrollControlled: true,
-                      backgroundColor: Color(0xFF22252D),
-                      shape: RoundedRectangleBorder(
+                      backgroundColor: const Color(0xFF22252D),
+                      shape: const RoundedRectangleBorder(
                         borderRadius:
                             BorderRadius.vertical(top: Radius.circular(30.0)),
                       ),
@@ -598,7 +598,7 @@ class _MediaPageButtonState extends State<MediaPageButton> {
         );
       } else if (status == Status.done) {
         // If media is somehow in the catalog, then user should be able to see their notes and edit info.
-        return Container(
+        return SizedBox(
           width: MediaQuery.of(context).size.width,
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -608,8 +608,8 @@ class _MediaPageButtonState extends State<MediaPageButton> {
                   showModalBottomSheet(
                       context: context,
                       isScrollControlled: true,
-                      backgroundColor: Color(0xFF22252D),
-                      shape: RoundedRectangleBorder(
+                      backgroundColor: const Color(0xFF22252D),
+                      shape: const RoundedRectangleBorder(
                         borderRadius:
                             BorderRadius.vertical(top: Radius.circular(30.0)),
                       ),
@@ -656,8 +656,8 @@ class _MediaPageButtonState extends State<MediaPageButton> {
             showModalBottomSheet(
                 context: context,
                 isScrollControlled: true,
-                backgroundColor: Color(0xFF22252D),
-                shape: RoundedRectangleBorder(
+                backgroundColor: const Color(0xFF22252D),
+                shape: const RoundedRectangleBorder(
                   borderRadius:
                       BorderRadius.vertical(top: Radius.circular(30.0)),
                 ),
@@ -731,7 +731,7 @@ class _MediaPageButtonState extends State<MediaPageButton> {
               style: Theme.of(context).textTheme.headlineSmall),
         );
       } else if (status == Status.planTo || status == Status.dropped) {
-        return Container(
+        return SizedBox(
             width: MediaQuery.of(context).size.width,
             child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -741,8 +741,8 @@ class _MediaPageButtonState extends State<MediaPageButton> {
                       showModalBottomSheet(
                           context: context,
                           isScrollControlled: true,
-                          backgroundColor: Color(0xFF22252D),
-                          shape: RoundedRectangleBorder(
+                          backgroundColor: const Color(0xFF22252D),
+                          shape: const RoundedRectangleBorder(
                             borderRadius: BorderRadius.vertical(
                                 top: Radius.circular(30.0)),
                           ),
@@ -791,7 +791,7 @@ class _MediaPageButtonState extends State<MediaPageButton> {
                   )
                 ]));
       } else if (status == Status.done) {
-        return Container(
+        return SizedBox(
           width: MediaQuery.of(context).size.width,
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -801,8 +801,8 @@ class _MediaPageButtonState extends State<MediaPageButton> {
                   showModalBottomSheet(
                       context: context,
                       isScrollControlled: true,
-                      backgroundColor: Color(0xFF22252D),
-                      shape: RoundedRectangleBorder(
+                      backgroundColor: const Color(0xFF22252D),
+                      shape: const RoundedRectangleBorder(
                         borderRadius:
                             BorderRadius.vertical(top: Radius.circular(30.0)),
                       ),
