@@ -235,6 +235,7 @@ class _CalendarPageState extends State<CalendarPage> {
                         child: Padding(
                           padding: const EdgeInsets.symmetric(vertical: 10),
                           child: DayView(
+                              heightPerMinute: 2.0,
                               initialDay: date,
                               showVerticalLine: true,
                               controller: eventController,
@@ -257,7 +258,6 @@ class _CalendarPageState extends State<CalendarPage> {
                                     ));
                               },
                               verticalLineOffset: 10,
-                              heightPerMinute: 1.5,
                               headerStyle: const HeaderStyle(
                                 headerPadding:
                                     EdgeInsets.symmetric(vertical: 10),
@@ -273,12 +273,12 @@ class _CalendarPageState extends State<CalendarPage> {
                               ),
                               eventTileBuilder: (date, events, boundary,
                                       startDuration, endDuration) =>
-                                      InkWell(
-                                        onTap: () {
-                                          //TODO: Open timeslot form.
-                                        },
-                                        child: 
-                                  DayViewTimeslotTile(event: events.single))),
+                                  InkWell(
+                                      onTap: () {
+                                        //TODO: Open timeslot form.
+                                      },
+                                      child: DayViewTimeslotTile(
+                                          event: events.single))),
                         ),
                       ),
                     ));
