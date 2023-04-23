@@ -1,10 +1,12 @@
+// ignore_for_file: file_names
+
 import 'package:emojis/emojis.dart';
 import 'package:flutter/material.dart';
 import 'package:src/themes/colors.dart';
 import 'package:src/utils/enums.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
-import 'package:src/widgets/leisure/leisure_tag.dart';
+import 'leisure_tag.dart';
 
 class ReviewNoteBar extends StatefulWidget {
   final Reaction reaction;
