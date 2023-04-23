@@ -6,7 +6,8 @@ import 'package:src/themes/colors.dart';
 class MonthViewTimeslotTile extends StatelessWidget {
   final CalendarEventData event;
 
-  const MonthViewTimeslotTile({Key? key, required this.event}) : super(key: key);
+  const MonthViewTimeslotTile({Key? key, required this.event})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {

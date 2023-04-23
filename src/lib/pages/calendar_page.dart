@@ -175,12 +175,16 @@ class _CalendarPageState extends State<CalendarPage> {
                   controller: eventController,
                   headerStyle: HeaderStyle(
                     headerPadding: const EdgeInsets.symmetric(vertical: 10),
-                    leftIcon: const Icon(Icons.calendar_month, color: Colors.white),
+                    leftIcon:
+                        const Icon(Icons.calendar_month, color: Colors.white),
                     rightIcon: InkWell(
-                      child: const Icon(Icons.view_week, color: Colors.white),
-                    onTap: () {
-                      Navigator.push(context, MaterialPageRoute(builder: (context) => const WeekView()));
-                    }),
+                        child: const Icon(Icons.view_week, color: Colors.white),
+                        onTap: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => const WeekView()));
+                        }),
                     rightIconVisible: false,
                     decoration: const BoxDecoration(color: appBackground),
                     headerTextStyle: const TextStyle(
