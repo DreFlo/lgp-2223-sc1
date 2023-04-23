@@ -43,6 +43,12 @@ class _ProjectFormState extends State<ProjectForm> {
 
   Institution institutionNone =
       Institution(id: -1, name: 'None', type: InstitutionType.other, userId: 1);
+  Subject subjectNone = Subject(
+    id: -1,
+    name: 'None',
+    acronym: 'None',
+    weightAverage: 1,
+  );
 
   List<Task> tasks = [];
   List<Task> toRemoveTasks = [];
@@ -71,11 +77,11 @@ class _ProjectFormState extends State<ProjectForm> {
               .findInstitutionById(subject!.institutionId!)
               .first as Institution;
         } else {
-          subject = null;
+          subject = subjectNone;
           institution = institutionNone;
         }
       } else {
-        subject = null;
+        subject = subjectNone;
         institution = institutionNone;
       }
 
@@ -89,7 +95,7 @@ class _ProjectFormState extends State<ProjectForm> {
       dueDate = DateFormatter.format(date!);
       priority = null;
       description = 'A description';
-      subject = null;
+      subject = subjectNone;
       institution = institutionNone;
     }
     init = true;
@@ -621,7 +627,7 @@ class _ProjectFormState extends State<ProjectForm> {
                           onChanged: (Institution? newInstitution) {
                             setState(() {
                               if (institution.id != newInstitution!.id) {
-                                subject = null;
+                                subject = subjectNone;
                               }
                               institution = newInstitution;
                             });
@@ -674,18 +680,32 @@ class _ProjectFormState extends State<ProjectForm> {
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
                 FutureBuilder(
-                    future: serviceLocator<SubjectDao>()
-                        .findSubjectByInstitutionId(institution.id!),
+                    future: institution.id == -1
+                        ? serviceLocator<SubjectDao>()
+                            .findSubjectByInstitutionIdNull()
+                        : serviceLocator<SubjectDao>()
+                            .findSubjectByInstitutionId(institution.id!),
                     builder: (BuildContext context,
                         AsyncSnapshot<List<Subject>> snapshot) {
                       if (snapshot.hasData) {
-                        if (subject != null) {
-                          for (final s in snapshot.data!) {
-                            if (s.id == subject!.id) {
-                              subject = s;
-                              break;
-                            }
+                        bool subjectFound = false;
+                        bool subjectNoneFound = false;
+
+                        for (final s in snapshot.data!) {
+                          if (s.id == subject!.id) {
+                            subject = s;
+                            subjectFound = true;
                           }
+                          if (s.id == subjectNone.id) {
+                            subjectNoneFound = true;
+                          }
+                        }
+
+                        if (!subjectFound) {
+                          subject = subjectNone;
+                        }
+                        if (!subjectNoneFound) {
+                          snapshot.data!.insert(0, subjectNone);
                         }
 
                         return DropdownButton<Subject>(
