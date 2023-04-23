@@ -273,7 +273,12 @@ class _CalendarPageState extends State<CalendarPage> {
                               ),
                               eventTileBuilder: (date, events, boundary,
                                       startDuration, endDuration) =>
-                                  DayViewTimeslotTile(event: events.single)),
+                                      InkWell(
+                                        onTap: () {
+                                          //TODO: Open timeslot form.
+                                        },
+                                        child: 
+                                  DayViewTimeslotTile(event: events.single))),
                         ),
                       ),
                     ));
