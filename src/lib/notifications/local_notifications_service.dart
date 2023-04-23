@@ -20,16 +20,19 @@ class LocalNotificationService {
       },
     );
   }
+  
 
   static Future<void> display(String message) async {
     // To display the notification in device
     try {
       print(message);
       final id = DateTime.now().millisecondsSinceEpoch ~/ 1000;
+
       NotificationDetails notificationDetails = NotificationDetails(
         android: AndroidNotificationDetails(
             message ?? "Channel Id", message ?? "Main Channel",
             groupKey: "gfg",
+            category: AndroidNotificationCategory.service,
             color: modalBackground,
             ledColor: primaryColor,
             ledOnMs: 1000,
@@ -38,9 +41,11 @@ class LocalNotificationService {
             importance: Importance.max,
             playSound: false,
             priority: Priority.max,
-            autoCancel: false,
+            styleInformation: const DefaultStyleInformation(true, true),
+            //autoCancel: false,
+            fullScreenIntent: true,
             ongoing: true),
-            //to make it persistent you need autoCancel: false and ongoing: true
+        //to make it persistent you need autoCancel: false and ongoing: true
       );
       await _notificationsPlugin.show(id, message, message, notificationDetails,
           payload: message);
@@ -50,18 +55,16 @@ class LocalNotificationService {
   }
 }
 
-
- 
 class DynamicDialog extends StatefulWidget {
   final String title;
   final String body;
 
   const DynamicDialog({super.key, required this.title, required this.body});
-  
+
   @override
   DynamicDialogState createState() => DynamicDialogState();
 }
- 
+
 class DynamicDialogState extends State<DynamicDialog> {
   @override
   Widget build(BuildContext context) {
