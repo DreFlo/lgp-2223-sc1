@@ -190,7 +190,7 @@ class _MediaPageButtonState extends State<MediaPageButton> {
                       ),
                       builder: (context) => DraggableScrollableSheet(
                           expand: false,
-                          initialChildSize: 0.6,
+                          initialChildSize: 0.5,
                           minChildSize: 0.35,
                           maxChildSize: 0.75,
                           builder: (context, scrollController) => Stack(
@@ -232,7 +232,7 @@ class _MediaPageButtonState extends State<MediaPageButton> {
                       ),
                       builder: (context) => DraggableScrollableSheet(
                           expand: false,
-                          initialChildSize: 0.6,
+                          initialChildSize: 0.5,
                           minChildSize: 0.35,
                           maxChildSize: 0.75,
                           builder: (context, scrollController) => Stack(
@@ -283,7 +283,7 @@ class _MediaPageButtonState extends State<MediaPageButton> {
                       ),
                       builder: (context) => DraggableScrollableSheet(
                           expand: false,
-                          initialChildSize: 0.6,
+                          initialChildSize: 0.5,
                           minChildSize: 0.35,
                           maxChildSize: 0.75,
                           builder: (context, scrollController) => Stack(
@@ -429,7 +429,7 @@ class _MediaPageButtonState extends State<MediaPageButton> {
                       ),
                       builder: (context) => DraggableScrollableSheet(
                           expand: false,
-                          initialChildSize: 0.6,
+                          initialChildSize: 0.35,
                           minChildSize: 0.35,
                           maxChildSize: 0.75,
                           builder: (context, scrollController) => Stack(
@@ -481,7 +481,7 @@ class _MediaPageButtonState extends State<MediaPageButton> {
                       ),
                       builder: (context) => DraggableScrollableSheet(
                           expand: false,
-                          initialChildSize: 0.6,
+                          initialChildSize: 0.35,
                           minChildSize: 0.35,
                           maxChildSize: 0.75,
                           builder: (context, scrollController) => Stack(
@@ -651,7 +651,7 @@ class _MediaPageButtonState extends State<MediaPageButton> {
                       ),
                       builder: (context) => DraggableScrollableSheet(
                           expand: false,
-                          initialChildSize: 0.6,
+                          initialChildSize: 0.35,
                           minChildSize: 0.35,
                           maxChildSize: 0.75,
                           builder: (context, scrollController) => Stack(
