@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
-import 'package:src/daos/notes/note_task_note_super_dao.dart';
 import 'package:src/daos/student/institution_dao.dart';
 import 'package:src/daos/student/subject_dao.dart';
 import 'package:src/daos/student/task_dao.dart';
 import 'package:src/daos/student/task_group_dao.dart';
-import 'package:src/models/notes/note.dart';
 import 'package:src/models/student/institution.dart';
 import 'package:src/models/student/subject.dart';
 import 'package:src/models/student/task.dart';
