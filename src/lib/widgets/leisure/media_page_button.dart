@@ -122,6 +122,7 @@ class _MediaPageButtonState extends State<MediaPageButton> {
                                             .toString()
                                             .split(" ")[0],
                                         item: widget.item,
+                                        type: widget.type,
                                         setMediaId: setMediaId,
                                         refreshStatus: () {
                                           refreshStatus();
@@ -130,7 +131,7 @@ class _MediaPageButtonState extends State<MediaPageButton> {
                                         onStatusChanged: (value) =>
                                             selectedStatus = value,
                                       ))),
-                              Positioned(
+                              /*Positioned(
                                   left: 16,
                                   right: 16,
                                   bottom: 16,
@@ -229,7 +230,6 @@ class _MediaPageButtonState extends State<MediaPageButton> {
                                             });
                                           }
 
-                                          // TODO: Maybe some frontend stuff here
 
                                           if (kDebugMode) {
                                             print("TV Show added to catalog");
@@ -253,7 +253,7 @@ class _MediaPageButtonState extends State<MediaPageButton> {
                                             style: Theme.of(context)
                                                 .textTheme
                                                 .headlineSmall),
-                                      )))
+                                      )))*/
                             ])));
           },
           style: ElevatedButton.styleFrom(
@@ -452,6 +452,7 @@ class _MediaPageButtonState extends State<MediaPageButton> {
                                             .toString()
                                             .split(" ")[0],
                                         item: widget.item,
+                                        type: widget.type,
                                         setMediaId: setMediaId,
                                         refreshStatus: () {
                                           refreshStatus();
@@ -713,6 +714,7 @@ class _MediaPageButtonState extends State<MediaPageButton> {
                                             .toString()
                                             .split(" ")[0],
                                         item: widget.item,
+                                        type: widget.type,
                                         setMediaId: setMediaId,
                                         refreshStatus: () {
                                           refreshStatus();
