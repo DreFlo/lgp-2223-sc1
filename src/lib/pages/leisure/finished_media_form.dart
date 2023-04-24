@@ -385,8 +385,7 @@ class _FinishedMediaFormState extends State<FinishedMediaForm> {
           const SizedBox(height: 50),
           Padding(
               padding: EdgeInsets.only(
-                  top:20,
-                  bottom: MediaQuery.of(context).viewInsets.bottom),
+                  top: 20, bottom: MediaQuery.of(context).viewInsets.bottom),
               child: ElevatedButton(
                 onPressed: () async {
                   String content = controller.text;

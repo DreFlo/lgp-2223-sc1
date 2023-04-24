@@ -302,92 +302,58 @@ class _AddToCatalogFormState extends State<AddToCatalogForm> {
             onPressed: () async {
               int mediaId = 0;
               if (widget.type == "TV Show") {
+                Map details = await getDetails(widget.item['id'], 'TV');
 
-                                          Map details = await getDetails(
-                                              widget.item['id'], 'TV');
+                MediaSeriesSuperEntity tvShow = MediaSeriesSuperEntity(
+                  name: widget.item['name'],
+                  description: widget.item['overview'],
+                  linkImage: widget.item['poster_path'],
+                  status: status,
+                  favorite: false,
+                  genres: 'genres',
+                  release: DateTime.parse(widget.item['first_air_date']),
+                  xp: 0,
+                  participants: makeCastList(
+                          await tmdb.v3.tv.getCredits(widget.item['id']))
+                      .join(', '),
+                  tagline: details['tagline'],
+                  numberEpisodes: details['number_of_episodes'],
+                  numberSeasons: details['number_of_seasons'],
+                );
 
+                int seriesId = await serviceLocator<MediaSeriesSuperDao>()
+                    .insertMediaSeriesSuperEntity(tvShow);
+                mediaId = seriesId;
 
+                Map<int, int> seasonIdMap = {};
+                for (int i = 1; i <= details['number_of_seasons']; i++) {
+                  seasonIdMap[i] = await serviceLocator<SeasonDao>()
+                      .insertSeason(Season(number: i, seriesId: seriesId));
+                }
 
-                                          MediaSeriesSuperEntity tvShow =
-                                              MediaSeriesSuperEntity(
-                                            name: widget.item['name'],
-                                            description:
-                                                widget.item['overview'],
-                                            linkImage:
-                                                widget.item['poster_path'],
-                                            status: status,
-                                            favorite: false,
-                                            genres: 'genres',
-                                            release: DateTime.parse(
-                                                widget.item['first_air_date']),
-                                            xp: 0,
-                                            participants: makeCastList(
-                                                    await tmdb.v3.tv.getCredits(
-                                                        widget.item['id']))
-                                                .join(', '),
-                                            tagline: details['tagline'],
-                                            numberEpisodes:
-                                                details['number_of_episodes'],
-                                            numberSeasons:
-                                                details['number_of_seasons'],
-                                          );
-
-                                          int seriesId = await serviceLocator<
-                                                  MediaSeriesSuperDao>()
-                                              .insertMediaSeriesSuperEntity(
-                                                  tvShow);
-                                          mediaId = seriesId;
-
-                                          Map<int, int> seasonIdMap = {};
-                                          for (int i = 1;
-                                              i <= details['number_of_seasons'];
-                                              i++) {
-                                            seasonIdMap[i] =
-                                                await serviceLocator<
-                                                        SeasonDao>()
-                                                    .insertSeason(Season(
-                                                        number: i,
-                                                        seriesId: seriesId));
-                                          }
-
-                                          for (int i = 1;
-                                              i <=
-                                                  details['number_of_episodes'];
-                                              i++) {
-                                            if (details['full_episodes'][i] ==
-                                                null) {
-                                              continue;
-                                            }
-                                            // TODO Add episodes to database with same status as the series, doesn't make the most sense
-                                            details['full_episodes'][i]!
-                                                .forEach((value) {
-                                              serviceLocator<MediaVideoEpisodeSuperDao>()
-                                                  .insertMediaVideoEpisodeSuperEntity(
-                                                      MediaVideoEpisodeSuperEntity(
-                                                          name: value['name'],
-                                                          description:
-                                                              value['overview'],
-                                                          linkImage: value[
-                                                              'still_path'],
-                                                          status:
-                                                              status,
-                                                          favorite: false,
-                                                          genres: 'genres',
-                                                          release: DateTime
-                                                              .parse(value[
-                                                                  'air_date']),
-                                                          xp: 0,
-                                                          participants: '',
-                                                          duration:
-                                                              value['runtime'],
-                                                          number: value[
-                                                              'episode_number'],
-                                                          seasonId:
-                                                              seasonIdMap[i]!));
-                                            });
-                                          }
-
-
+                for (int i = 1; i <= details['number_of_episodes']; i++) {
+                  if (details['full_episodes'][i] == null) {
+                    continue;
+                  }
+                  // TODO Add episodes to database with same status as the series, doesn't make the most sense
+                  details['full_episodes'][i]!.forEach((value) {
+                    serviceLocator<MediaVideoEpisodeSuperDao>()
+                        .insertMediaVideoEpisodeSuperEntity(
+                            MediaVideoEpisodeSuperEntity(
+                                name: value['name'],
+                                description: value['overview'],
+                                linkImage: value['still_path'],
+                                status: status,
+                                favorite: false,
+                                genres: 'genres',
+                                release: DateTime.parse(value['air_date']),
+                                xp: 0,
+                                participants: '',
+                                duration: value['runtime'],
+                                number: value['episode_number'],
+                                seasonId: seasonIdMap[i]!));
+                  });
+                }
               } else if (widget.type == "Movie") {
                 final details = await getDetails(widget.item['id'], 'Movie');
 
@@ -409,35 +375,25 @@ class _AddToCatalogFormState extends State<AddToCatalogForm> {
 
                 mediaId = await serviceLocator<MediaVideoMovieSuperDao>()
                     .insertMediaVideoMovieSuperEntity(movie);
-              } else if(widget.type == 'Book'){
-                                                          MediaBookSuperEntity book =
-                                              MediaBookSuperEntity(
-                                            name: widget.item.info.title,
-                                            description:
-                                                widget.item.info.description,
-                                            linkImage: widget.item.info
-                                                .imageLinks['thumbnail']
-                                                .toString(),
-                                            status: status,
-                                            favorite: false,
-                                            genres: widget.item.info.categories
-                                                .join(', '),
-                                            release:
-                                                widget.item.info.publishedDate,
-                                            xp: 0,
-                                            participants: widget
-                                                .item.info.authors
-                                                .join(', '),
-                                            totalPages:
-                                                widget.item.info.pageCount,
-                                          );
+              } else if (widget.type == 'Book') {
+                MediaBookSuperEntity book = MediaBookSuperEntity(
+                  name: widget.item.info.title,
+                  description: widget.item.info.description,
+                  linkImage:
+                      widget.item.info.imageLinks['thumbnail'].toString(),
+                  status: status,
+                  favorite: false,
+                  genres: widget.item.info.categories.join(', '),
+                  release: widget.item.info.publishedDate,
+                  xp: 0,
+                  participants: widget.item.info.authors.join(', '),
+                  totalPages: widget.item.info.pageCount,
+                );
 
-                                          mediaId = await serviceLocator<
-                                                  MediaBookSuperDao>()
-                                              .insertMediaBookSuperEntity(book);
-
+                mediaId = await serviceLocator<MediaBookSuperDao>()
+                    .insertMediaBookSuperEntity(book);
               }
-              
+
               widget.setMediaId(mediaId);
 
               if (widget.refreshStatus != null) {
