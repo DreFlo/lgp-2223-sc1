@@ -565,10 +565,26 @@ class _HomePageState extends State<HomePage> {
                               bottomLeft: Radius.circular(10))))),
               child: const Text('Pass Recovery Page'),
               onPressed: () {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => PasswordRecovPage()));
+                showModalBottomSheet(
+                    context: context,
+                    isScrollControlled: true,
+                    backgroundColor: Color(0xFF22252D),
+                    shape: const RoundedRectangleBorder(
+                      borderRadius:
+                          BorderRadius.vertical(top: Radius.circular(30.0)),
+                    ),
+                    builder: (context) => DraggableScrollableSheet(
+                        expand: false,
+                        initialChildSize: 0.85,
+                        minChildSize: 0.35,
+                        maxChildSize: 0.95,
+                        builder: (context, scrollController) => Stack(
+                                alignment: AlignmentDirectional.topCenter,
+                                children: [
+                                  SingleChildScrollView(
+                                      controller: scrollController,
+                                      child: PasswordRecovPage()),
+                                ])));
               },
             ),
             ElevatedButton(
