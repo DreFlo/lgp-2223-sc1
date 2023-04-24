@@ -1,18 +1,40 @@
+// ignore_for_file: avoid_dynamic_calls
+
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:src/themes/colors.dart';
 import 'package:src/utils/enums.dart';
+import 'package:src/models/media/media_book_super_entity.dart';
+import 'package:src/models/media/media_series_super_entity.dart';
+import 'package:src/models/media/media_video_episode_super_entity.dart';
+import 'package:src/models/media/media_video_movie_super_entity.dart';
+import 'package:src/models/media/season.dart';
+import 'package:src/daos/media/media_book_super_dao.dart';
+import 'package:src/daos/media/media_series_super_dao.dart';
+import 'package:src/daos/media/media_video_episode_super_dao.dart';
+import 'package:src/daos/media/media_video_movie_super_dao.dart';
+import 'package:src/daos/media/season_dao.dart';
+import 'package:src/utils/leisure/media_page_helpers.dart';
+import 'package:src/utils/service_locator.dart';
+import 'package:tmdb_api/tmdb_api.dart';
+import 'package:src/env/env.dart';
 
 class AddToCatalogForm extends StatefulWidget {
   final String startDate, endDate;
   final Status status;
+  final VoidCallback? refreshStatus;
+  //final VoidCallback? setMediaId;
   final ValueSetter<Status> onStatusChanged;
+  final dynamic item; //What we have from the api
 
   const AddToCatalogForm(
       {Key? key,
       required this.startDate,
       required this.endDate,
       required this.status,
+      required this.item,
+      //required this.setMediaId,
+      required this.refreshStatus,
       required this.onStatusChanged})
       : super(key: key);
 
@@ -35,6 +57,8 @@ class _AddToCatalogFormState extends State<AddToCatalogForm> {
 
   @override
   Widget build(BuildContext context) {
+    final tmdb = TMDB(ApiKeys(Env.tmdbApiKey, 'apiReadAccessTokenv4'));
+
     return Wrap(spacing: 10, children: [
       Row(mainAxisAlignment: MainAxisAlignment.center, children: [
         Padding(
@@ -263,7 +287,55 @@ class _AddToCatalogFormState extends State<AddToCatalogForm> {
                       ],
                     ))
               ]))),
-      const SizedBox(height: 50)
+      const SizedBox(height: 50),
+      //save button and actions -> will need to check what's the type of media
+      //need also to pass the item
+      /*Positioned(
+          left: 16,
+          right: 16,
+          bottom: 16,
+          child: Padding(
+              padding: EdgeInsets.only(
+                  bottom: MediaQuery.of(context).viewInsets.bottom),
+              child: ElevatedButton(
+                onPressed: () async {
+                  final details = await getDetails(widget.item['id'], 'Movie');
+
+                  MediaVideoMovieSuperEntity movie = MediaVideoMovieSuperEntity(
+                    name: widget.item['title'],
+                    description: widget.item['overview'],
+                    linkImage: widget.item['poster_path'],
+                    status: status,
+                    favorite: false,
+                    genres: 'genres',
+                    release: DateTime.parse(widget.item['release_date']),
+                    xp: 0,
+                    duration: details['runtime'] ?? 0,
+                    participants: makeCastList(
+                            await tmdb.v3.movies.getCredits(widget.item['id']))
+                        .join(', '),
+                    tagline: details['tagline'],
+                  );
+
+                  int mediaId = await serviceLocator<MediaVideoMovieSuperDao>()
+                      .insertMediaVideoMovieSuperEntity(movie);
+                      
+
+                  if (widget.refreshStatus != null) {
+                    widget.refreshStatus!();
+                  }
+                },
+                style: ElevatedButton.styleFrom(
+                  minimumSize:
+                      Size(MediaQuery.of(context).size.width * 0.95, 55),
+                  backgroundColor: leisureColor,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(25.0),
+                  ),
+                ),
+                child: Text(AppLocalizations.of(context).save,
+                    style: Theme.of(context).textTheme.headlineSmall),
+              )))*/
     ]);
   }
 }

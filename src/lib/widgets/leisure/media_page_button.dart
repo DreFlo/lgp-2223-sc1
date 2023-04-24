@@ -30,9 +30,9 @@ import 'package:src/utils/service_locator.dart';
 class MediaPageButton extends StatefulWidget {
   final dynamic item;
   final String type;
-  final int mediaId;
+  int mediaId;
 
-  const MediaPageButton({
+  MediaPageButton({
     Key? key,
     required this.item,
     required this.type,
@@ -59,6 +59,12 @@ class _MediaPageButtonState extends State<MediaPageButton> {
     setState(() {
       status = mediaStatus ?? Status.nothing;
       isStatusLoaded = true;
+    });
+  }
+
+  setMediaId(int mediaId) {
+    setState(() {
+      widget.mediaId = mediaId;
     });
   }
 
@@ -111,6 +117,11 @@ class _MediaPageButtonState extends State<MediaPageButton> {
                                             .toString()
                                             .split(" ")[0],
                                         endDate: 'Not Defined',
+                                        item: widget.item,
+                                        refreshStatus: () {
+                                          refreshStatus();
+                                          Navigator.pop(context);
+                                        },
                                         onStatusChanged: (value) =>
                                             selectedStatus = value,
                                       ))),
@@ -433,6 +444,11 @@ class _MediaPageButtonState extends State<MediaPageButton> {
                                             .toString()
                                             .split(" ")[0],
                                         endDate: 'Not Defined',
+                                        item: widget.item,
+                                        refreshStatus: () {
+                                          refreshStatus();
+                                          Navigator.pop(context);
+                                        },
                                         onStatusChanged: (value) =>
                                             selectedStatus = value,
                                       ))),
@@ -688,6 +704,11 @@ class _MediaPageButtonState extends State<MediaPageButton> {
                                             .toString()
                                             .split(" ")[0],
                                         endDate: 'Not Defined',
+                                        item: widget.item,
+                                        refreshStatus: () {
+                                          refreshStatus();
+                                          Navigator.pop(context);
+                                        },
                                         onStatusChanged: (value) =>
                                             selectedStatus = value,
                                       ))),
@@ -728,10 +749,16 @@ class _MediaPageButtonState extends State<MediaPageButton> {
                                             tagline: details['tagline'],
                                           );
 
-                                          await serviceLocator<
+                                          int newId = await serviceLocator<
                                                   MediaVideoMovieSuperDao>()
                                               .insertMediaVideoMovieSuperEntity(
                                                   movie);
+
+                                          setMediaId(newId);
+
+                                          refreshStatus();
+
+                                          Navigator.pop(context);
                                         },
                                         style: ElevatedButton.styleFrom(
                                           minimumSize: Size(
