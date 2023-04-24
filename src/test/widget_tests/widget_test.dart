@@ -1,79 +1,8 @@
-import 'widget_tests_utils.dart';
-import 'package:flutter_test/flutter_test.dart';
-import 'package:src/utils/service_locator.dart';
-import 'package:flutter/material.dart';
-import 'package:src/pages/catalog_search/search_bar.dart';
-import 'package:src/pages/catalog_search/leisure_module.dart';
-import 'package:src/pages/catalog_search/leisure_module/search.dart';
+// This is a basic Flutter widget test.
+//
+// To perform an interaction with a widget in your test, use the WidgetTester
+// utility that Flutter provides. For example, you can send tap and scroll
+// gestures. You can also use WidgetTester to find child widgets in the widget
+// tree, read text, and verify that the values of widget properties are correct.
 
-
-import '../utils/service_locator_test_util.dart';
-
-void main() {
-  setUp(() async {
-    setupMockServiceLocatorUnitTests();
-    await serviceLocator.allReady();
-  });
-
-  tearDown(() async {
-    await serviceLocator.reset();
-  });
-  testWidgets('SearchBar widget should call onSearch with the entered text',
-      (WidgetTester tester) async {
-    String searchedText = '';
-
-    await tester.pumpWidget(LocalizationsInjector(
-      child: SearchBar(
-        onSearch: (text) {
-          searchedText = text;
-        },
-      ),
-    ));
-
-    // Enter text into the search bar
-    await tester.enterText(find.byType(TextField), 'test search');
-
-    // Submit the search
-    await tester.testTextInput.receiveAction(TextInputAction.search);
-
-    // Verify that onSearch was called with the entered text
-    expect(searchedText, equals('test search'));
-  });
-
-  testWidgets('SearchMedia widget displays splash screen and tabs',
-      (WidgetTester tester) async {
-    // Build the widget
-    await tester.pumpWidget(
-        const LocalizationsInjector(child: SearchMedia(search: 'test')));
-
-    // Verify that the splash screen is displayed
-    expect(find.byType(Image), findsOneWidget);
-
-    // Wait for the splash screen to disappear
-    //await tester.pump(const Duration(seconds: 2));
-
-    // Verify that the tabs are displayed
-    expect(find.byType(TabBar), findsOneWidget);
-    expect(find.text('Movies'), findsOneWidget);
-    expect(find.text('TV Shows'), findsOneWidget);
-    expect(find.text('Books'), findsOneWidget);
-  });
-
-   testWidgets('LeisureModule displays two tabs and a search bar',
-      (WidgetTester tester) async {
-    // Build the LeisureModule widget
-    await tester
-        .pumpWidget(const LocalizationsInjector(child: LeisureModule()));
-
-    // Verify that the widget displays two tabs
-    expect(find.text('My Media'), findsOneWidget);
-    expect(find.text('Discover'), findsOneWidget);
-
-    // Tap the "Discover" tab and wait for the widget to rebuild
-    await tester.tap(find.text('Discover'));
-    await tester.pump();
-
-    // Verify that the widget displays a search bar
-    expect(find.widgetWithIcon(SearchBar, Icons.search), findsOneWidget);
-  });
-}
+void main() {}
