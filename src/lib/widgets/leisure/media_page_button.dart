@@ -65,45 +65,37 @@ class _MediaPageButtonState extends State<MediaPageButton> {
 
   Future showReviewForm() {
     return showModalBottomSheet(
-                          context: context,
-                          isScrollControlled: true,
-                          backgroundColor: const Color(0xFF22252D),
-                          shape: const RoundedRectangleBorder(
-                            borderRadius: BorderRadius.vertical(
-                                top: Radius.circular(30.0)),
-                          ),
-                          builder: (context) => DraggableScrollableSheet(
-                              expand: false,
-                              initialChildSize: 0.6,
-                              minChildSize: 0.35,
-                              maxChildSize: 0.75,
-                              builder: (context, scrollController) => Stack(
-                                      alignment:
-                                          AlignmentDirectional.bottomCenter,
-                                      children: [
-                                        Padding(
-                                            padding: EdgeInsets.only(
-                                                bottom: MediaQuery.of(context)
-                                                        .viewInsets
-                                                        .bottom +
-                                                    50),
-                                            child: SingleChildScrollView(
-                                                controller: scrollController,
-                                                child: FinishedMediaForm(
-                                                    rating: Reaction.neutral,
-                                                    startDate: DateTime.now()
-                                                        .toString()
-                                                        .split(" ")[0],
-                                                    endDate: DateTime.now()
-                                                        .toString()
-                                                        .split(" ")[0],
-                                                    isFavorite: false,
-                                                    mediaId: dbMediaId,
-                                                    refreshStatus: () {
-                                                      refreshStatus();
-                                                      Navigator.pop(context);
-                                                    })))
-                                      ])));
+        context: context,
+        isScrollControlled: true,
+        backgroundColor: const Color(0xFF22252D),
+        shape: const RoundedRectangleBorder(
+          borderRadius: BorderRadius.vertical(top: Radius.circular(30.0)),
+        ),
+        builder: (context) => DraggableScrollableSheet(
+            expand: false,
+            initialChildSize: 0.6,
+            minChildSize: 0.35,
+            maxChildSize: 0.75,
+            builder: (context, scrollController) =>
+                Stack(alignment: AlignmentDirectional.bottomCenter, children: [
+                  Padding(
+                      padding: EdgeInsets.only(
+                          bottom:
+                              MediaQuery.of(context).viewInsets.bottom + 50),
+                      child: SingleChildScrollView(
+                          controller: scrollController,
+                          child: FinishedMediaForm(
+                              rating: Reaction.neutral,
+                              startDate:
+                                  DateTime.now().toString().split(" ")[0],
+                              endDate: DateTime.now().toString().split(" ")[0],
+                              isFavorite: false,
+                              mediaId: dbMediaId,
+                              refreshStatus: () {
+                                refreshStatus();
+                                Navigator.pop(context);
+                              })))
+                ])));
   }
 
   @override
@@ -580,46 +572,7 @@ class _MediaPageButtonState extends State<MediaPageButton> {
                 children: [
                   ElevatedButton(
                     onPressed: () {
-                      showModalBottomSheet(
-                          context: context,
-                          isScrollControlled: true,
-                          backgroundColor: const Color(0xFF22252D),
-                          shape: const RoundedRectangleBorder(
-                            borderRadius: BorderRadius.vertical(
-                                top: Radius.circular(30.0)),
-                          ),
-                          builder: (context) => DraggableScrollableSheet(
-                              expand: false,
-                              initialChildSize: 0.6,
-                              minChildSize: 0.35,
-                              maxChildSize: 0.75,
-                              builder: (context, scrollController) => Stack(
-                                      alignment:
-                                          AlignmentDirectional.bottomCenter,
-                                      children: [
-                                        Padding(
-                                            padding: EdgeInsets.only(
-                                                bottom: MediaQuery.of(context)
-                                                        .viewInsets
-                                                        .bottom +
-                                                    50),
-                                            child: SingleChildScrollView(
-                                                controller: scrollController,
-                                                child: FinishedMediaForm(
-                                                    rating: Reaction.neutral,
-                                                    startDate: DateTime.now()
-                                                        .toString()
-                                                        .split(" ")[0],
-                                                    endDate: DateTime.now()
-                                                        .toString()
-                                                        .split(" ")[0],
-                                                    isFavorite: false,
-                                                    mediaId: dbMediaId,
-                                                    refreshStatus: () {
-                                                      refreshStatus();
-                                                      Navigator.pop(context);
-                                                    })))
-                                      ])));
+                      showReviewForm();
                     },
                     style: ElevatedButton.styleFrom(
                       minimumSize:

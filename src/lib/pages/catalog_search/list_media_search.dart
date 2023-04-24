@@ -40,11 +40,18 @@ class ListMediaSearch extends StatefulWidget {
 class ListMediaSearchState extends State<ListMediaSearch> {
   MediaStatus statusFavorite =
       MediaStatus(status: Status.nothing, favorite: false, id: 0);
+  bool _isFavorite = false;
   List<Season> seasons = [];
   List<MediaVideoEpisodeSuperEntity> episodesDB = [];
   List<NoteEpisodeNoteSuperEntity> episodeNotes = [];
   Review? review;
   List<NoteBookNoteSuperEntity> bookNotes = [];
+
+  void _toggleFavorite(bool value) {
+    setState(() {
+      _isFavorite = value;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -87,7 +94,7 @@ class ListMediaSearchState extends State<ListMediaSearch> {
                                     children: [
                                       SingleChildScrollView(
                                           controller: scrollController,
-                                          child: showMediaPageBasedOnType(
+                                          child: showMediaPageBasedOnType( //pass it
                                               filteredMedia[index])),
                                       Positioned(
                                           left: 16,
@@ -105,7 +112,14 @@ class ListMediaSearchState extends State<ListMediaSearch> {
                                                     context);
                                               })))
                                     ]
-                                    )));
+                                    ),
+                                    )).whenComplete(() {
+                                      if(_isFavorite != statusFavorite.favorite){
+                                         saveFavoriteStatus(_isFavorite, statusFavorite.id);
+                                      }
+               
+
+});
                   },
                   child: SizedBox(
                     width: 100.0 * fem,
@@ -199,7 +213,8 @@ class ListMediaSearchState extends State<ListMediaSearch> {
                   image: photo,
                   leisureTags: leisureTags,
                   status: statusFavorite.status,
-                  isFavorite: statusFavorite.favorite);
+                  isFavorite: statusFavorite.favorite,
+                  toggleFavorite: _toggleFavorite,);
             } else if (snapshot.hasError) {
               return Text('${snapshot.error}');
             }
@@ -239,6 +254,7 @@ class ListMediaSearchState extends State<ListMediaSearch> {
               title: snapshot.data!['title'],
               synopsis: snapshot.data!['overview'],
               length: [snapshot.data!['runtime']],
+              toggleFavorite: _toggleFavorite,
             );
           } else if (snapshot.hasError) {
             return Text('${snapshot.error}');
@@ -279,6 +295,7 @@ class ListMediaSearchState extends State<ListMediaSearch> {
               leisureTags: leisureTags,
               title: snapshot.data!['name'],
               synopsis: snapshot.data!['overview'],
+              toggleFavorite: _toggleFavorite,
               length: [
                 snapshot.data!['number_of_seasons'],
                 snapshot.data!['number_of_episodes'],

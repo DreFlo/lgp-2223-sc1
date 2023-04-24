@@ -5,7 +5,7 @@ import 'package:like_button/like_button.dart';
 import 'package:src/widgets/leisure/leisure_tag.dart';
 import 'package:src/utils/enums.dart';
 
-class MediaPage extends StatelessWidget {
+class MediaPage extends StatefulWidget {
   final String title, synopsis, type;
   final bool isFavorite;
   final Status status;
@@ -13,6 +13,7 @@ class MediaPage extends StatelessWidget {
   final List<int?> length;
   final String image;
   final List<String> leisureTags;
+  final Function(bool) toggleFavorite;
 
   const MediaPage(
       {Key? key,
@@ -24,43 +25,63 @@ class MediaPage extends StatelessWidget {
       required this.isFavorite,
       required this.image,
       required this.leisureTags,
+      required this.toggleFavorite,
       this.status = Status.nothing})
       : super(key: key);
 
+  @override
+  MediaPageState createState() => MediaPageState();
+}
+
+class MediaPageState extends State<MediaPage> {
+  bool _isFavorite = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _isFavorite = widget.isFavorite;
+  }
+
+  void _toggleFavorite() {
+    setState(() {
+      _isFavorite = !_isFavorite;
+    });
+  }
+
   String getLength(context) {
-    if (type == "TV Show") {
-      if (length[2] == null) {
-        if (length[0]! > 1) {
-          return length[0].toString() +
+    if (widget.type == "TV Show") {
+      if (widget.length[2] == null) {
+        if (widget.length[0]! > 1) {
+          return widget.length[0].toString() +
               AppLocalizations.of(context).seasons +
-              length[1].toString() +
+              widget.length[1].toString() +
               AppLocalizations.of(context).episodes_no_duration;
         } else {
-          return length[0].toString() +
+          return widget.length[0].toString() +
               AppLocalizations.of(context).season +
-              length[1].toString() +
+              widget.length[1].toString() +
               AppLocalizations.of(context).episodes_no_duration;
         }
       }
-      return length[0].toString() +
+      return widget.length[0].toString() +
           AppLocalizations.of(context).seasons +
-          length[1].toString() +
+          widget.length[1].toString() +
           AppLocalizations.of(context).episodes +
-          length[2].toString() +
+          widget.length[2].toString() +
           AppLocalizations.of(context).minutes_each;
-    } else if (type == "Book") {
-      return length[0].toString() + AppLocalizations.of(context).pages;
+    } else if (widget.type == "Book") {
+      return widget.length[0].toString() + AppLocalizations.of(context).pages;
     } else {
-      return length[0].toString() + AppLocalizations.of(context).minutes;
+      return widget.length[0].toString() + AppLocalizations.of(context).minutes;
     }
   }
 
   showSmallCastList(context) {
     List<dynamic> firstTen;
-    if (cast.length >= 10) {
-      firstTen = cast.sublist(0, 10);
-    } else if (cast.isNotEmpty) {
-      firstTen = cast;
+    if (widget.cast.length >= 10) {
+      firstTen = widget.cast.sublist(0, 10);
+    } else if (widget.cast.isNotEmpty) {
+      firstTen = widget.cast;
     } else {
       firstTen = [AppLocalizations.of(context).no_cast];
     }
@@ -77,12 +98,12 @@ class MediaPage extends StatelessWidget {
   showImage(String type) {
     if (type == 'Book') {
       return Image.network(
-        image,
+        widget.image,
         fit: BoxFit.fitWidth,
       );
     } else {
       return Image.network(
-        'https://image.tmdb.org/t/p/w500$image',
+        'https://image.tmdb.org/t/p/w500${widget.image}',
         fit: BoxFit.fitWidth,
       );
     }
@@ -90,7 +111,7 @@ class MediaPage extends StatelessWidget {
 
   double countWords() {
     double wordCount = 0;
-    for (String str in leisureTags) {
+    for (String str in widget.leisureTags) {
       List<String> wordsList = str.split(" ");
       for (String letter in wordsList) {
         wordCount += letter.length;
@@ -121,7 +142,7 @@ class MediaPage extends StatelessWidget {
                           color: const Color(0xFF414554),
                         ),
                         child: Text(
-                          type.toUpperCase(),
+                          widget.type.toUpperCase(),
                           style: Theme.of(context).textTheme.headlineMedium,
                           textAlign: TextAlign.center,
                         ),
@@ -144,7 +165,7 @@ class MediaPage extends StatelessWidget {
                             Rect.fromLTRB(0, 0, rect.width, rect.height));
                       },
                       blendMode: BlendMode.dstOut,
-                      child: showImage(type),
+                      child: showImage(widget.type),
                     ),
                   ),
                 ]),
@@ -155,7 +176,7 @@ class MediaPage extends StatelessWidget {
                     SizedBox(
                         width: MediaQuery.of(context).size.width * 0.85,
                         child: Text(
-                          title.toUpperCase(),
+                          widget.title.toUpperCase(),
                           softWrap: true,
                           textWidthBasis: TextWidthBasis.longestLine,
                           style: Theme.of(context).textTheme.titleLarge,
@@ -180,11 +201,13 @@ class MediaPage extends StatelessWidget {
                             dotPrimaryColor: leisureColor,
                             dotSecondaryColor: leisureColor,
                           ),
-                          isLiked: isFavorite,
+                          isLiked: _isFavorite,
                           onTap: (isLiked) {
                             return Future.delayed(
                                 const Duration(milliseconds: 1), () {
                               isLiked = !isLiked;
+                              //_toggleFavorite();
+                              widget.toggleFavorite(isLiked);
                               return isLiked;
                             });
                           },
@@ -206,8 +229,8 @@ class MediaPage extends StatelessWidget {
                     alignment: WrapAlignment.start,
                     runSpacing: 7.5,
                     children: [
-                      for (var i = 0; i < leisureTags.length; i++)
-                        LeisureTag(text: leisureTags[i])
+                      for (var i = 0; i < widget.leisureTags.length; i++)
+                        LeisureTag(text: widget.leisureTags[i])
                     ])),
           ])),
       const SizedBox(height: 15),
@@ -225,7 +248,7 @@ class MediaPage extends StatelessWidget {
           child: Padding(
               padding: const EdgeInsets.only(left: 18, right: 18),
               child: Text(
-                synopsis,
+                widget.synopsis,
                 softWrap: true,
                 textAlign: TextAlign.justify,
                 style: Theme.of(context).textTheme.bodySmall,

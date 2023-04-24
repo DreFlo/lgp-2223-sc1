@@ -17,12 +17,16 @@ import 'package:src/daos/notes/note_book_note_super_dao.dart';
 import 'package:src/daos/media/review_dao.dart';
 import 'package:src/models/media/media_video_episode_super_entity.dart';
 import 'package:src/daos/media/media_video_episode_super_dao.dart';
+import 'package:src/models/media/media.dart';
+import 'package:src/daos/media/media_dao.dart';
 import 'package:src/models/media/season.dart';
 import 'package:src/daos/media/season_dao.dart';
 import 'package:src/utils/service_locator.dart';
 import 'dart:math';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:tmdb_api/tmdb_api.dart';
+
+bool isFavorite = false;
 
 Future<int> loadDuration(int id) async {
   List<int> ids = await serviceLocator<EpisodeDao>().findEpisodeBySeasonId(id);
@@ -102,6 +106,25 @@ Future<List<NoteEpisodeNoteSuperEntity>> loadEpisodeNotes(
   return notes;
 }
 
+void saveFavoriteStatus(bool favorite, int id) async {
+  final mediaStream = serviceLocator<MediaDao>().findMediaById(id);
+  Media? firstNonNullMedia =
+      await mediaStream.firstWhere((media) => media != null);
+  Media media = firstNonNullMedia!;
+  Media newMedia = Media(
+      description: media.description,
+      id: media.id,
+      name: media.name,
+      linkImage: media.linkImage,
+      favorite: favorite,
+      status: media.status,
+      genres: media.genres,
+      release: media.release,
+      xp: media.xp,
+      participants: media.participants);
+  await serviceLocator<MediaDao>().updateMedia(newMedia);
+}
+
 showWidget(dynamic item, String title) {
   if (item.linkImage != null) {
     if (title == 'All Books') {
@@ -112,6 +135,10 @@ showWidget(dynamic item, String title) {
   }
 }
 
+void toggleFavorite(bool favorite) {
+  isFavorite = favorite;
+}
+
 showMediaPageBasedOnType(dynamic item, String title, int duration) {
   List<String> leisureTags = [];
 
@@ -120,6 +147,7 @@ showMediaPageBasedOnType(dynamic item, String title, int duration) {
 
   List<String> cast = [];
   cast.addAll(item.participants.split(', '));
+  isFavorite = item.favorite;
 
   if (title == 'All Books') {
     return MediaPage(
@@ -132,6 +160,7 @@ showMediaPageBasedOnType(dynamic item, String title, int duration) {
       status: item.status,
       isFavorite: item.favorite,
       leisureTags: leisureTags,
+      toggleFavorite: toggleFavorite,
     );
   } else if (title == 'All Movies') {
     leisureTags.add(item.tagline);
@@ -146,6 +175,7 @@ showMediaPageBasedOnType(dynamic item, String title, int duration) {
       status: item.status,
       isFavorite: item.favorite,
       leisureTags: leisureTags,
+      toggleFavorite: toggleFavorite,
     );
   } else if (title == 'All TV Shows') {
     leisureTags.add(item.tagline);
@@ -160,6 +190,7 @@ showMediaPageBasedOnType(dynamic item, String title, int duration) {
       status: item.status,
       isFavorite: item.favorite,
       leisureTags: leisureTags,
+      toggleFavorite: toggleFavorite,
     );
   }
 }
@@ -195,7 +226,14 @@ showMediaPageForTV(dynamic item, context) async {
                       type: 'TV Show',
                       mediaId: item.id,
                     ))
-              ])));
+              ])
+              )).whenComplete(() {
+                                      if(isFavorite != item.favorite){
+                                         saveFavoriteStatus(isFavorite, item.id);
+                                      }
+               
+
+});
 }
 
 showMediaPageForMovies(dynamic item, context) async {
@@ -223,7 +261,13 @@ showMediaPageForMovies(dynamic item, context) async {
                     bottom: 16,
                     child: MediaPageButton(
                         item: item, type: 'Movie', mediaId: item.id))
-              ])));
+              ]))).whenComplete(() {
+                                      if(isFavorite != item.favorite){
+                                         saveFavoriteStatus(isFavorite, item.id);
+                                      }
+               
+
+});
 }
 
 showMediaPageForBooks(dynamic item, context) async {
@@ -254,7 +298,13 @@ showMediaPageForBooks(dynamic item, context) async {
                       type: 'Book',
                       mediaId: item.id,
                     ))
-              ])));
+              ]))).whenComplete(() {
+                                      if(isFavorite != item.favorite){
+                                         saveFavoriteStatus(isFavorite, item.id);
+                                      }
+               
+
+});
 }
 
 List<String> makeCastList(Map cast) {
