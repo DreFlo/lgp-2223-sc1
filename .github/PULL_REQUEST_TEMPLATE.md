@@ -1,3 +1,7 @@
+[Mention what issues this PR closes]
+- Closes #[Issue number]
+- ...
+
 # What's New?
 
 - Itemized list of what this Pull Request adds to the project
@@ -21,3 +25,5 @@ Brief description of how you solved your issue
 # Did you create the appropriate Unit Tests?
 
 Yes/No
+
+## ADD SCREENCAP OF TESTS AND OTHER CHECKS PASSING
