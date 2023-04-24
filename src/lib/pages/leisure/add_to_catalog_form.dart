@@ -293,12 +293,9 @@ class _AddToCatalogFormState extends State<AddToCatalogForm> {
       const SizedBox(height: 50),
       //save button and actions -> will need to check what's the type of media
       //need also to pass the item
-      Positioned(
-          left: 16,
-          right: 16,
-          bottom: 16,
-          child: Padding(
+       Padding(
               padding: EdgeInsets.only(
+                  top: 20,
                   bottom: MediaQuery.of(context).viewInsets.bottom),
               child: ElevatedButton(
                 onPressed: () async {
@@ -340,7 +337,7 @@ class _AddToCatalogFormState extends State<AddToCatalogForm> {
                 ),
                 child: Text(AppLocalizations.of(context).save,
                     style: Theme.of(context).textTheme.headlineSmall),
-              )))
+              ))
     ]);
   }
 }
