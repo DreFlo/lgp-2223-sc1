@@ -329,8 +329,7 @@ class _FinishedMediaFormState extends State<FinishedMediaForm> {
                             onPressed: () {
                               isFavorite = true;
 
-                              setState(() {
-                              });
+                              setState(() {});
                             },
                             style: ButtonStyle(
                                 fixedSize: MaterialStateProperty.all(Size.copy(

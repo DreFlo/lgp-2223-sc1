@@ -40,9 +40,11 @@ class SearchResults extends StatelessWidget {
                         if (type == 'series') {
                           showMediaPageForTV(entry.value[index], context, null);
                         } else if (type == 'movies') {
-                          showMediaPageForMovies(entry.value[index], context, null);
+                          showMediaPageForMovies(
+                              entry.value[index], context, null);
                         } else if (type == 'books') {
-                          showMediaPageForBooks(entry.value[index], context, null);
+                          showMediaPageForBooks(
+                              entry.value[index], context, null);
                         }
                       },
                       child: SizedBox(

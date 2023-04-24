@@ -84,42 +84,39 @@ class ListMediaSearchState extends State<ListMediaSearch> {
                               BorderRadius.vertical(top: Radius.circular(30.0)),
                         ),
                         builder: (context) => DraggableScrollableSheet(
-                            expand: false,
-                            initialChildSize: 0.75,
-                            minChildSize: 0.35,
-                            maxChildSize: 0.9,
-                            builder: (context, scrollController) => Stack(
-                                    alignment:
-                                        AlignmentDirectional.bottomCenter,
-                                    children: [
-                                      SingleChildScrollView(
-                                          controller: scrollController,
-                                          child: showMediaPageBasedOnType( //pass it
-                                              filteredMedia[index])),
-                                      Positioned(
-                                          left: 16,
-                                          right: 16,
-                                          bottom: 16,
-                                          child: FutureBuilder<dynamic>(
-                                              future: getStatusFromDB(
-                                                  filteredMedia[index]),
-                                              builder: ((context, snapshot) {
-                                                if (!snapshot.hasData) {
-                                                  return Container();
-                                                }
-                                                return showMediaPageButton(
-                                                    filteredMedia[index],
-                                                    context);
-                                              })))
-                                    ]
-                                    ),
-                                    )).whenComplete(() {
-                                      if(_isFavorite != statusFavorite.favorite){
-                                         saveFavoriteStatus(_isFavorite, statusFavorite.id);
-                                      }
-               
-
-});
+                              expand: false,
+                              initialChildSize: 0.75,
+                              minChildSize: 0.35,
+                              maxChildSize: 0.9,
+                              builder: (context, scrollController) => Stack(
+                                  alignment: AlignmentDirectional.bottomCenter,
+                                  children: [
+                                    SingleChildScrollView(
+                                        controller: scrollController,
+                                        child:
+                                            showMediaPageBasedOnType(//pass it
+                                                filteredMedia[index])),
+                                    Positioned(
+                                        left: 16,
+                                        right: 16,
+                                        bottom: 16,
+                                        child: FutureBuilder<dynamic>(
+                                            future: getStatusFromDB(
+                                                filteredMedia[index]),
+                                            builder: ((context, snapshot) {
+                                              if (!snapshot.hasData) {
+                                                return Container();
+                                              }
+                                              return showMediaPageButton(
+                                                  filteredMedia[index],
+                                                  context);
+                                            })))
+                                  ]),
+                            )).whenComplete(() {
+                      if (_isFavorite != statusFavorite.favorite) {
+                        saveFavoriteStatus(_isFavorite, statusFavorite.id);
+                      }
+                    });
                   },
                   child: SizedBox(
                     width: 100.0 * fem,
@@ -205,16 +202,17 @@ class ListMediaSearchState extends State<ListMediaSearch> {
           builder: (context, snapshot) {
             if (snapshot.hasData) {
               return MediaPage(
-                  title: item.info.title,
-                  synopsis: item.info.description,
-                  type: 'Book',
-                  length: [item.info.pageCount],
-                  cast: item.info.authors,
-                  image: photo,
-                  leisureTags: leisureTags,
-                  status: statusFavorite.status,
-                  isFavorite: statusFavorite.favorite,
-                  toggleFavorite: _toggleFavorite,);
+                title: item.info.title,
+                synopsis: item.info.description,
+                type: 'Book',
+                length: [item.info.pageCount],
+                cast: item.info.authors,
+                image: photo,
+                leisureTags: leisureTags,
+                status: statusFavorite.status,
+                isFavorite: statusFavorite.favorite,
+                toggleFavorite: _toggleFavorite,
+              );
             } else if (snapshot.hasError) {
               return Text('${snapshot.error}');
             }

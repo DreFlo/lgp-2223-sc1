@@ -52,7 +52,7 @@ class CatalogState extends State<Catalog> {
     return result;
   }
 
-  void reload(){
+  void reload() {
     setState(() {});
   }
 
@@ -198,7 +198,8 @@ class CatalogState extends State<Catalog> {
                                       onTap: () {
                                         showMediaPageForMovies(
                                             (snapshot.data as List?)?[index],
-                                            context, reload);
+                                            context,
+                                            reload);
                                       },
                                       child: SizedBox(
                                         width: 140 * fem,
@@ -288,7 +289,8 @@ class CatalogState extends State<Catalog> {
                                       onTap: () {
                                         showMediaPageForTV(
                                             (snapshot.data as List?)?[index],
-                                            context, reload);
+                                            context,
+                                            reload);
                                       },
                                       child: SizedBox(
                                         width: 140 * fem,
@@ -378,7 +380,8 @@ class CatalogState extends State<Catalog> {
                                       onTap: () {
                                         showMediaPageForBooks(
                                             (snapshot.data as List?)?[index],
-                                            context, reload);
+                                            context,
+                                            reload);
                                       },
                                       child: SizedBox(
                                         width: 140 * fem,
