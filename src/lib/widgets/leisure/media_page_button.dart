@@ -63,9 +63,51 @@ class _MediaPageButtonState extends State<MediaPageButton> {
     setState(() {});
   }
 
+  Future showReviewForm() {
+    return showModalBottomSheet(
+                          context: context,
+                          isScrollControlled: true,
+                          backgroundColor: const Color(0xFF22252D),
+                          shape: const RoundedRectangleBorder(
+                            borderRadius: BorderRadius.vertical(
+                                top: Radius.circular(30.0)),
+                          ),
+                          builder: (context) => DraggableScrollableSheet(
+                              expand: false,
+                              initialChildSize: 0.6,
+                              minChildSize: 0.35,
+                              maxChildSize: 0.75,
+                              builder: (context, scrollController) => Stack(
+                                      alignment:
+                                          AlignmentDirectional.bottomCenter,
+                                      children: [
+                                        Padding(
+                                            padding: EdgeInsets.only(
+                                                bottom: MediaQuery.of(context)
+                                                        .viewInsets
+                                                        .bottom +
+                                                    50),
+                                            child: SingleChildScrollView(
+                                                controller: scrollController,
+                                                child: FinishedMediaForm(
+                                                    rating: Reaction.neutral,
+                                                    startDate: DateTime.now()
+                                                        .toString()
+                                                        .split(" ")[0],
+                                                    endDate: DateTime.now()
+                                                        .toString()
+                                                        .split(" ")[0],
+                                                    isFavorite: false,
+                                                    mediaId: dbMediaId,
+                                                    refreshStatus: () {
+                                                      refreshStatus();
+                                                      Navigator.pop(context);
+                                                    })))
+                                      ])));
+  }
+
   @override
   Widget build(BuildContext context) {
-
     if (!isStatusLoaded) {
       // Show a loading indicator while the status is being loaded.
       return const CircularProgressIndicator();
@@ -108,6 +150,7 @@ class _MediaPageButtonState extends State<MediaPageButton> {
                                             .split(" ")[0],
                                         item: widget.item,
                                         type: widget.type,
+                                        showReviewForm: showReviewForm,
                                         setMediaId: setMediaId,
                                         refreshStatus: () {
                                           refreshStatus();
@@ -314,6 +357,7 @@ class _MediaPageButtonState extends State<MediaPageButton> {
                                         item: widget.item,
                                         type: widget.type,
                                         setMediaId: setMediaId,
+                                        showReviewForm: showReviewForm,
                                         refreshStatus: () {
                                           refreshStatus();
                                           Navigator.pop(context);
@@ -510,6 +554,7 @@ class _MediaPageButtonState extends State<MediaPageButton> {
                                         item: widget.item,
                                         type: widget.type,
                                         setMediaId: setMediaId,
+                                        showReviewForm: showReviewForm,
                                         refreshStatus: () {
                                           refreshStatus();
                                           Navigator.pop(context);

@@ -24,6 +24,7 @@ class AddToCatalogForm extends StatefulWidget {
   final String type;
   final Status status;
   final VoidCallback? refreshStatus;
+  final Future Function() showReviewForm;
   final void Function(int) setMediaId;
   final dynamic item; //What we have from the api
 
@@ -35,6 +36,7 @@ class AddToCatalogForm extends StatefulWidget {
       required this.status,
       required this.item,
       required this.setMediaId,
+      required this.showReviewForm,
       required this.refreshStatus})
       : super(key: key);
 
@@ -392,6 +394,9 @@ class _AddToCatalogFormState extends State<AddToCatalogForm> {
 
               if (widget.refreshStatus != null) {
                 widget.refreshStatus!();
+              }
+              if (status == Status.done) {
+                widget.showReviewForm();
               }
             },
             style: ElevatedButton.styleFrom(
