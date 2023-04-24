@@ -84,9 +84,9 @@ class _MediaPageButtonState extends State<MediaPageButton> {
                 ),
                 builder: (context) => DraggableScrollableSheet(
                     expand: false,
-                    initialChildSize: 0.35,
+                    initialChildSize: 0.5,
                     minChildSize: 0.35,
-                    maxChildSize: 0.5,
+                    maxChildSize: 0.75,
                     builder: (context, scrollController) => Stack(
                             alignment: AlignmentDirectional.bottomCenter,
                             children: [
@@ -147,9 +147,9 @@ class _MediaPageButtonState extends State<MediaPageButton> {
                       ),
                       builder: (context) => DraggableScrollableSheet(
                           expand: false,
-                          initialChildSize: 0.35,
+                          initialChildSize: 0.6,
                           minChildSize: 0.35,
-                          maxChildSize: 0.5,
+                          maxChildSize: 0.75,
                           builder: (context, scrollController) => Stack(
                                   alignment: AlignmentDirectional.bottomCenter,
                                   children: [
@@ -189,9 +189,9 @@ class _MediaPageButtonState extends State<MediaPageButton> {
                       ),
                       builder: (context) => DraggableScrollableSheet(
                           expand: false,
-                          initialChildSize: 0.35,
+                          initialChildSize: 0.6,
                           minChildSize: 0.35,
-                          maxChildSize: 0.5,
+                          maxChildSize: 0.75,
                           builder: (context, scrollController) => Stack(
                                   alignment: AlignmentDirectional.bottomCenter,
                                   children: [
@@ -240,9 +240,9 @@ class _MediaPageButtonState extends State<MediaPageButton> {
                       ),
                       builder: (context) => DraggableScrollableSheet(
                           expand: false,
-                          initialChildSize: 0.35,
+                          initialChildSize: 0.6,
                           minChildSize: 0.35,
-                          maxChildSize: 0.5,
+                          maxChildSize: 0.75,
                           builder: (context, scrollController) => Stack(
                                   alignment: AlignmentDirectional.bottomCenter,
                                   children: [
@@ -289,9 +289,9 @@ class _MediaPageButtonState extends State<MediaPageButton> {
                 ),
                 builder: (context) => DraggableScrollableSheet(
                     expand: false,
-                    initialChildSize: 0.35,
+                    initialChildSize: 0.5,
                     minChildSize: 0.35,
-                    maxChildSize: 0.5,
+                    maxChildSize: 0.75,
                     builder: (context, scrollController) => Stack(
                             alignment: AlignmentDirectional.bottomCenter,
                             children: [
@@ -385,9 +385,9 @@ class _MediaPageButtonState extends State<MediaPageButton> {
                       ),
                       builder: (context) => DraggableScrollableSheet(
                           expand: false,
-                          initialChildSize: 0.35,
+                          initialChildSize: 0.6,
                           minChildSize: 0.35,
-                          maxChildSize: 0.5,
+                          maxChildSize: 0.75,
                           builder: (context, scrollController) => Stack(
                                   alignment: AlignmentDirectional.bottomCenter,
                                   children: [
@@ -437,9 +437,9 @@ class _MediaPageButtonState extends State<MediaPageButton> {
                       ),
                       builder: (context) => DraggableScrollableSheet(
                           expand: false,
-                          initialChildSize: 0.35,
+                          initialChildSize: 0.6,
                           minChildSize: 0.35,
-                          maxChildSize: 0.5,
+                          maxChildSize: 0.75,
                           builder: (context, scrollController) => Stack(
                                   alignment: AlignmentDirectional.bottomCenter,
                                   children: [
@@ -485,9 +485,9 @@ class _MediaPageButtonState extends State<MediaPageButton> {
                 ),
                 builder: (context) => DraggableScrollableSheet(
                     expand: false,
-                    initialChildSize: 0.35,
+                    initialChildSize: 0.55,
                     minChildSize: 0.35,
-                    maxChildSize: 0.5,
+                    maxChildSize: 0.75,
                     builder: (context, scrollController) => Stack(
                             alignment: AlignmentDirectional.bottomCenter,
                             children: [
@@ -545,6 +545,7 @@ class _MediaPageButtonState extends State<MediaPageButton> {
                           ),
                           builder: (context) => DraggableScrollableSheet(
                               expand: false,
+                              initialChildSize: 0.6,
                               minChildSize: 0.35,
                               maxChildSize: 0.75,
                               builder: (context, scrollController) => Stack(
@@ -605,9 +606,9 @@ class _MediaPageButtonState extends State<MediaPageButton> {
                       ),
                       builder: (context) => DraggableScrollableSheet(
                           expand: false,
-                          initialChildSize: 0.35,
+                          initialChildSize: 0.6,
                           minChildSize: 0.35,
-                          maxChildSize: 0.5,
+                          maxChildSize: 0.75,
                           builder: (context, scrollController) => Stack(
                                   alignment: AlignmentDirectional.bottomCenter,
                                   children: [

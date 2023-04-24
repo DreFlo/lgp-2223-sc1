@@ -122,8 +122,9 @@ class _AddBookNoteFormState extends State<AddBookNoteForm> {
                       ),
                       builder: (context) => DraggableScrollableSheet(
                           expand: false,
+                          initialChildSize: 0.6,
                           minChildSize: 0.35,
-                          maxChildSize: 0.75,
+                          maxChildSize: 0.9,
                           builder: (context, scrollController) => Stack(
                                   alignment: AlignmentDirectional.bottomCenter,
                                   children: [
