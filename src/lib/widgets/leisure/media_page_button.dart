@@ -30,9 +30,9 @@ import 'package:src/utils/service_locator.dart';
 class MediaPageButton extends StatefulWidget {
   final dynamic item;
   final String type;
-  int mediaId;
+  final int mediaId;
 
-  MediaPageButton({
+  const MediaPageButton({
     Key? key,
     required this.item,
     required this.type,
@@ -46,16 +46,18 @@ class MediaPageButton extends StatefulWidget {
 class _MediaPageButtonState extends State<MediaPageButton> {
   Status status = Status.nothing;
   bool isStatusLoaded = false;
+  int dbMediaId = 0;
 
   @override
   initState() {
+    setMediaId(widget.mediaId);
     super.initState();
     loadStatus();
   }
 
   Future<void> loadStatus() async {
     final mediaStatus =
-        await serviceLocator<MediaDao>().findMediaStatusById(widget.mediaId);
+        await serviceLocator<MediaDao>().findMediaStatusById(dbMediaId);
     setState(() {
       status = mediaStatus ?? Status.nothing;
       isStatusLoaded = true;
@@ -64,7 +66,7 @@ class _MediaPageButtonState extends State<MediaPageButton> {
 
   setMediaId(int mediaId) {
     setState(() {
-      widget.mediaId = mediaId;
+      dbMediaId = mediaId;
     });
   }
 
@@ -299,7 +301,7 @@ class _MediaPageButtonState extends State<MediaPageButton> {
                                         child: SingleChildScrollView(
                                             controller: scrollController,
                                             child: MarkEpisodesSheet(
-                                              mediaId: widget.mediaId,
+                                              mediaId: dbMediaId,
                                             ))),
                                   ])));
                 },
@@ -341,7 +343,7 @@ class _MediaPageButtonState extends State<MediaPageButton> {
                                         child: SingleChildScrollView(
                                             controller: scrollController,
                                             child: EpisodesNotesSheet(
-                                              mediaId: widget.mediaId,
+                                              mediaId: dbMediaId,
                                             )))
                                   ])));
                 },
@@ -392,7 +394,7 @@ class _MediaPageButtonState extends State<MediaPageButton> {
                                         child: SingleChildScrollView(
                                             controller: scrollController,
                                             child: EpisodesNotesSheet(
-                                              mediaId: widget.mediaId,
+                                              mediaId: dbMediaId,
                                             )))
                                   ])));
                 },
@@ -500,8 +502,6 @@ class _MediaPageButtonState extends State<MediaPageButton> {
                                           if (kDebugMode) {
                                             print('Book added to catalog');
                                           }
-
-                                          //TODO: Save stuff + send to database.
                                         },
                                         style: ElevatedButton.styleFrom(
                                           minimumSize: Size(
@@ -604,7 +604,7 @@ class _MediaPageButtonState extends State<MediaPageButton> {
                                             controller: scrollController,
                                             child: BookNotesSheet(
                                                 book: true,
-                                                mediaId: widget.mediaId)))
+                                                mediaId: dbMediaId)))
                                   ])));
                 },
                 style: ElevatedButton.styleFrom(
@@ -656,7 +656,7 @@ class _MediaPageButtonState extends State<MediaPageButton> {
                                             controller: scrollController,
                                             child: BookNotesSheet(
                                                 book: true,
-                                                mediaId: widget.mediaId)))
+                                                mediaId: dbMediaId)))
                                   ])));
                 },
                 style: ElevatedButton.styleFrom(
@@ -838,7 +838,7 @@ class _MediaPageButtonState extends State<MediaPageButton> {
                                                         .toString()
                                                         .split(" ")[0],
                                                     isFavorite: false,
-                                                    mediaId: widget.mediaId,
+                                                    mediaId: dbMediaId,
                                                     refreshStatus: () {
                                                       refreshStatus();
                                                       Navigator.pop(context);
@@ -891,7 +891,7 @@ class _MediaPageButtonState extends State<MediaPageButton> {
                                             controller: scrollController,
                                             child: BookNotesSheet(
                                                 book: false,
-                                                mediaId: widget.mediaId)))
+                                                mediaId: dbMediaId)))
                                   ])));
                 },
                 style: ElevatedButton.styleFrom(
