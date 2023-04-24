@@ -417,7 +417,6 @@ void main() {
   });
 
   testWidgets('Add new note from task test', (WidgetTester widgetTester) async {
-    var noteId = 1;
     var noteTitle = 'note_title';
     var noteContent = 'note_content';
 

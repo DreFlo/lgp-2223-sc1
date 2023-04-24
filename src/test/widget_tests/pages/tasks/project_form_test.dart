@@ -7,14 +7,12 @@ import 'package:src/daos/student/task_dao.dart';
 import 'package:src/daos/student/task_group_dao.dart';
 import 'package:src/models/student/institution.dart';
 import 'package:src/models/student/subject.dart';
-import 'package:src/models/student/task.dart';
 import 'package:src/models/student/task_group.dart';
 import 'package:src/pages/tasks/project_form.dart';
 import 'package:src/themes/colors.dart';
 import 'package:src/utils/date_formatter.dart';
 import 'package:src/utils/service_locator.dart';
 import 'package:src/utils/enums.dart';
-import 'package:src/widgets/note_bar.dart';
 import 'package:src/widgets/tasks/task_bar.dart';
 import '../../../utils/model_mocks_util.mocks.dart';
 import '../../../utils/service_locator_test_util.dart';
@@ -27,11 +25,9 @@ void main() {
   Priority taskGroupPriority = Priority.low;
   DateTime taskGroupDeadline =
       DateFormatter.day(DateTime.now()).add(const Duration(days: 2));
-  int taskId = 1;
-  String taskName = "task_name", taskDescription = "task_description";
-  Priority taskPriority = Priority.low;
-  DateTime taskDeadline = DateFormatter.day(DateTime.now());
-  int subjectId = 1, taskXp = 0;
+  String taskName = "task_name";
+  
+  int subjectId = 1;
   String subjectName = "subject_name", subjectAcronym = "subject_acronym";
   double weightAverage = 1.0;
   int institutionId = 1;
@@ -45,15 +41,6 @@ void main() {
       priority: taskGroupPriority,
       deadline: taskGroupDeadline,
       subjectId: subjectId);
-  Task task = Task(
-      id: taskId,
-      name: taskName,
-      description: taskDescription,
-      priority: taskPriority,
-      deadline: taskDeadline,
-      subjectId: subjectId,
-      taskGroupId: taskGroupId,
-      xp: taskXp);
   Subject subject = Subject(
       id: subjectId,
       name: subjectName,
@@ -66,12 +53,6 @@ void main() {
       type: institutionType,
       userId: userId);
 
-  TaskGroup taskGroupNone = TaskGroup(
-      id: -1,
-      name: "None",
-      description: "",
-      priority: Priority.high,
-      deadline: DateFormatter.day(DateTime.now()));
   Institution institutionNone =
       Institution(id: -1, name: 'None', type: InstitutionType.other, userId: 1);
   Subject subjectNone = Subject(
