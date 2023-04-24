@@ -25,7 +25,6 @@ class AddToCatalogForm extends StatefulWidget {
   final Status status;
   final VoidCallback? refreshStatus;
   final void Function(int) setMediaId;
-  final ValueSetter<Status> onStatusChanged;
   final dynamic item; //What we have from the api
 
   const AddToCatalogForm(
@@ -36,8 +35,7 @@ class AddToCatalogForm extends StatefulWidget {
       required this.status,
       required this.item,
       required this.setMediaId,
-      required this.refreshStatus,
-      required this.onStatusChanged})
+      required this.refreshStatus})
       : super(key: key);
 
   @override
@@ -115,7 +113,6 @@ class _AddToCatalogFormState extends State<AddToCatalogForm> {
                       setState(() {
                         status = Status.planTo;
                       });
-                      widget.onStatusChanged(status);
                     },
                   ),
                 ),
@@ -146,7 +143,6 @@ class _AddToCatalogFormState extends State<AddToCatalogForm> {
                     setState(() {
                       status = Status.goingThrough;
                     });
-                    widget.onStatusChanged(status);
                   },
                 )),
               ],
@@ -181,7 +177,6 @@ class _AddToCatalogFormState extends State<AddToCatalogForm> {
                     setState(() {
                       status = Status.done;
                     });
-                    widget.onStatusChanged(status);
                   },
                 )),
                 const SizedBox(width: 15),
@@ -210,7 +205,6 @@ class _AddToCatalogFormState extends State<AddToCatalogForm> {
                     setState(() {
                       status = Status.dropped;
                     });
-                    widget.onStatusChanged(status);
                   },
                 ))
               ],

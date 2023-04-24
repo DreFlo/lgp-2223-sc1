@@ -1,18 +1,6 @@
 // ignore_for_file: avoid_dynamic_calls
-
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:src/daos/media/media_book_super_dao.dart';
-import 'package:src/daos/media/media_series_super_dao.dart';
-import 'package:src/daos/media/media_video_episode_super_dao.dart';
-import 'package:src/daos/media/media_video_movie_super_dao.dart';
-import 'package:src/daos/media/season_dao.dart';
 import 'package:src/env/env.dart';
-import 'package:src/models/media/media_book_super_entity.dart';
-import 'package:src/models/media/media_series_super_entity.dart';
-import 'package:src/models/media/media_video_episode_super_entity.dart';
-import 'package:src/models/media/media_video_movie_super_entity.dart';
-import 'package:src/models/media/season.dart';
 import 'package:src/pages/leisure/finished_media_form.dart';
 import 'package:tmdb_api/tmdb_api.dart';
 import 'package:src/themes/colors.dart';
@@ -24,7 +12,6 @@ import 'package:src/pages/leisure/book_notes_sheet.dart';
 import 'package:src/pages/leisure/add_book_note_form.dart';
 import 'package:src/utils/enums.dart';
 import 'package:src/daos/media/media_dao.dart';
-import 'package:src/utils/leisure/media_page_helpers.dart';
 import 'package:src/utils/service_locator.dart';
 
 class MediaPageButton extends StatefulWidget {
@@ -78,8 +65,6 @@ class _MediaPageButtonState extends State<MediaPageButton> {
 
   @override
   Widget build(BuildContext context) {
-    final tmdb = TMDB(ApiKeys(Env.tmdbApiKey, 'apiReadAccessTokenv4'));
-    Status selectedStatus = status;
 
     if (!isStatusLoaded) {
       // Show a loading indicator while the status is being loaded.
@@ -128,8 +113,6 @@ class _MediaPageButtonState extends State<MediaPageButton> {
                                           refreshStatus();
                                           Navigator.pop(context);
                                         },
-                                        onStatusChanged: (value) =>
-                                            selectedStatus = value,
                                       ))),
                             ])));
           },
@@ -335,8 +318,6 @@ class _MediaPageButtonState extends State<MediaPageButton> {
                                           refreshStatus();
                                           Navigator.pop(context);
                                         },
-                                        onStatusChanged: (value) =>
-                                            selectedStatus = value,
                                       ))),
                             ])));
           },
@@ -533,8 +514,6 @@ class _MediaPageButtonState extends State<MediaPageButton> {
                                           refreshStatus();
                                           Navigator.pop(context);
                                         },
-                                        onStatusChanged: (value) =>
-                                            selectedStatus = value,
                                       ))),
                             ])));
           },
