@@ -132,14 +132,14 @@ class _CalendarPageState extends State<CalendarPage> {
 
   Future<void> addEventToCalendar() async {
     String title = '';
-    DateTime startTime = DateTime.now(), endTime=DateTime.now();
+    DateTime startTime = DateTime.now(), endTime = DateTime.now();
     if (loadedAllData) {
       for (var timeslot in items) {
-        if(timeslot is TimeslotMediaTimeslotSuperEntity) {
+        if (timeslot is TimeslotMediaTimeslotSuperEntity) {
           title = timeslot.title;
           startTime = timeslot.startDateTime;
           endTime = timeslot.endDateTime;
-        } else if(timeslot is TimeslotStudentTimeslotSuperEntity) {
+        } else if (timeslot is TimeslotStudentTimeslotSuperEntity) {
           title = timeslot.title;
           startTime = timeslot.startDateTime;
           endTime = timeslot.endDateTime;
