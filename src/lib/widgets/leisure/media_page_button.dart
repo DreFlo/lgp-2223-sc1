@@ -461,7 +461,7 @@ class _MediaPageButtonState extends State<MediaPageButton> {
                                         onStatusChanged: (value) =>
                                             selectedStatus = value,
                                       ))),
-                              Positioned(
+                              /*Positioned(
                                   left: 16,
                                   right: 16,
                                   bottom: 16,
@@ -524,7 +524,7 @@ class _MediaPageButtonState extends State<MediaPageButton> {
                                             style: Theme.of(context)
                                                 .textTheme
                                                 .headlineSmall),
-                                      )))
+                                      )))*/
                             ])));
           },
           style: ElevatedButton.styleFrom(

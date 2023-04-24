@@ -410,6 +410,31 @@ class _AddToCatalogFormState extends State<AddToCatalogForm> {
                 mediaId = await serviceLocator<MediaVideoMovieSuperDao>()
                     .insertMediaVideoMovieSuperEntity(movie);
               } else if(widget.type == 'Book'){
+                                                          MediaBookSuperEntity book =
+                                              MediaBookSuperEntity(
+                                            name: widget.item.info.title,
+                                            description:
+                                                widget.item.info.description,
+                                            linkImage: widget.item.info
+                                                .imageLinks['thumbnail']
+                                                .toString(),
+                                            status: status,
+                                            favorite: false,
+                                            genres: widget.item.info.categories
+                                                .join(', '),
+                                            release:
+                                                widget.item.info.publishedDate,
+                                            xp: 0,
+                                            participants: widget
+                                                .item.info.authors
+                                                .join(', '),
+                                            totalPages:
+                                                widget.item.info.pageCount,
+                                          );
+
+                                          mediaId = await serviceLocator<
+                                                  MediaBookSuperDao>()
+                                              .insertMediaBookSuperEntity(book);
 
               }
               
