@@ -79,86 +79,82 @@ class _TaskBarState extends State<TaskBar> {
                           ))));
         },
         child: Container(
-            padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 15),
-            decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(10),
-                color: selected ? grayButton : lightGray),
-              child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
+          padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 15),
+          decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(10),
+              color: selected ? grayButton : lightGray),
+          child:
+              Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+            Expanded(
+                flex: 6,
+                child: Column(children: [
+                  Row(children: [
                     Expanded(
-                        flex: 6,
-                        child: Column(children: [
-                          Row(children: [
-                            Expanded(
-                              child: Text(task.name,
-                                  overflow: TextOverflow.ellipsis,
-                                  style: TextStyle(
-                                      color: selected
-                                          ? Colors.black
-                                          : Colors.white,
-                                      fontSize: 20,
-                                      fontWeight: FontWeight.w600)),
-                            )
-                          ]),
-                          Row(children: [
-                            Text(DateFormatter.format(task.deadline),
-                                style: const TextStyle(
-                                    color: Color.fromARGB(255, 127, 127, 127),
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.normal))
-                          ])
-                        ])),
-                    Expanded(
-                        flex: 2,
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.end,
-                          children: [
-                            Row(
-                              children: [
-                                InkWell(
-                                    onTap: () {
-                                      setState(() {
-                                        taskStatus = !taskStatus;
-                                      });
-                                    },
-                                    child: Container(
-                                      padding: const EdgeInsets.all(5),
-                                      decoration: BoxDecoration(
-                                          shape: BoxShape.circle,
-                                          color: (taskStatus
-                                              ? Colors.green
-                                              : Colors.white)),
-                                      child: Icon(Icons.check_rounded,
-                                          color: (!taskStatus
-                                              ? Colors.green
-                                              : Colors.white)),
-                                    )),
-                                const SizedBox(width: 10),
-                                InkWell(
-                                    onTap: () {
-                                      if (selected) {
-                                        onUnselected(task);
-                                      } else {
-                                        onSelected(task);
-                                      }
-                                      setState(() {
-                                        selected = !selected;
-                                      });
-                                    },
-                                    child: Container(
-                                      padding: const EdgeInsets.all(5),
-                                      decoration: const BoxDecoration(
-                                          shape: BoxShape.circle,
-                                          color: primaryColor),
-                                      child: const Icon(Icons.delete,
-                                          color: Colors.white),
-                                    )),
-                              ],
-                            )
-                          ],
-                        ))
+                      child: Text(task.name,
+                          overflow: TextOverflow.ellipsis,
+                          style: TextStyle(
+                              color: selected ? Colors.black : Colors.white,
+                              fontSize: 20,
+                              fontWeight: FontWeight.w600)),
+                    )
                   ]),
-            ));
+                  Row(children: [
+                    Text(DateFormatter.format(task.deadline),
+                        style: const TextStyle(
+                            color: Color.fromARGB(255, 127, 127, 127),
+                            fontSize: 16,
+                            fontWeight: FontWeight.normal))
+                  ])
+                ])),
+            Expanded(
+                flex: 2,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  children: [
+                    Row(
+                      children: [
+                        InkWell(
+                            onTap: () {
+                              setState(() {
+                                taskStatus = !taskStatus;
+                              });
+                            },
+                            child: Container(
+                              padding: const EdgeInsets.all(5),
+                              decoration: BoxDecoration(
+                                  shape: BoxShape.circle,
+                                  color: (taskStatus
+                                      ? Colors.green
+                                      : Colors.white)),
+                              child: Icon(Icons.check_rounded,
+                                  color: (!taskStatus
+                                      ? Colors.green
+                                      : Colors.white)),
+                            )),
+                        const SizedBox(width: 10),
+                        InkWell(
+                            onTap: () {
+                              if (selected) {
+                                onUnselected(task);
+                              } else {
+                                onSelected(task);
+                              }
+                              setState(() {
+                                selected = !selected;
+                              });
+                            },
+                            child: Container(
+                              padding: const EdgeInsets.all(5),
+                              decoration: const BoxDecoration(
+                                  shape: BoxShape.circle, color: primaryColor),
+                              child:
+                                  const Icon(Icons.delete, color: Colors.white),
+                            )),
+                      ],
+                    )
+                  ],
+                ))
+          ]),
+        ));
   }
 }

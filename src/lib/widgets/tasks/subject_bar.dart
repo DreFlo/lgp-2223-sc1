@@ -22,8 +22,7 @@ class SubjectBar extends StatefulWidget {
       this.removeCallbackById,
       this.removeCallbackBySubject,
       this.updateCallbackBySubject,
-      this.updateCallback
-      })
+      this.updateCallback})
       : super(key: key);
 
   @override
@@ -101,7 +100,7 @@ class _SubjectBarState extends State<SubjectBar> {
                   splashRadius: 0.01,
                   icon: const Icon(Icons.close),
                   onPressed: () {
-                    if(widget.id != null){
+                    if (widget.id != null) {
                       widget.removeCallbackById!(widget.id!);
                     } else {
                       widget.removeCallbackBySubject!(widget.subject);
