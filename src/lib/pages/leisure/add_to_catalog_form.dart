@@ -23,7 +23,7 @@ class AddToCatalogForm extends StatefulWidget {
   final String startDate, endDate;
   final Status status;
   final VoidCallback? refreshStatus;
-  //final VoidCallback? setMediaId;
+  final void Function(int) setMediaId;
   final ValueSetter<Status> onStatusChanged;
   final dynamic item; //What we have from the api
 
@@ -33,7 +33,7 @@ class AddToCatalogForm extends StatefulWidget {
       required this.endDate,
       required this.status,
       required this.item,
-      //required this.setMediaId,
+      required this.setMediaId,
       required this.refreshStatus,
       required this.onStatusChanged})
       : super(key: key);
@@ -293,7 +293,7 @@ class _AddToCatalogFormState extends State<AddToCatalogForm> {
       const SizedBox(height: 50),
       //save button and actions -> will need to check what's the type of media
       //need also to pass the item
-      /*Positioned(
+      Positioned(
           left: 16,
           right: 16,
           bottom: 16,
@@ -322,6 +322,8 @@ class _AddToCatalogFormState extends State<AddToCatalogForm> {
 
                   int mediaId = await serviceLocator<MediaVideoMovieSuperDao>()
                       .insertMediaVideoMovieSuperEntity(movie);
+                  
+                  widget.setMediaId(mediaId);
                       
 
                   if (widget.refreshStatus != null) {
@@ -338,7 +340,7 @@ class _AddToCatalogFormState extends State<AddToCatalogForm> {
                 ),
                 child: Text(AppLocalizations.of(context).save,
                     style: Theme.of(context).textTheme.headlineSmall),
-              )))*/
+              )))
     ]);
   }
 }

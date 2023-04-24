@@ -64,7 +64,7 @@ class _MediaPageButtonState extends State<MediaPageButton> {
     });
   }
 
-  setMediaId(int mediaId) {
+  void setMediaId(int mediaId) {
     setState(() {
       dbMediaId = mediaId;
     });
@@ -122,6 +122,7 @@ class _MediaPageButtonState extends State<MediaPageButton> {
                                             .toString()
                                             .split(" ")[0],
                                         item: widget.item,
+                                        setMediaId: setMediaId,
                                         refreshStatus: () {
                                           refreshStatus();
                                           Navigator.pop(context);
@@ -451,6 +452,7 @@ class _MediaPageButtonState extends State<MediaPageButton> {
                                             .toString()
                                             .split(" ")[0],
                                         item: widget.item,
+                                        setMediaId: setMediaId,
                                         refreshStatus: () {
                                           refreshStatus();
                                           Navigator.pop(context);
@@ -711,6 +713,7 @@ class _MediaPageButtonState extends State<MediaPageButton> {
                                             .toString()
                                             .split(" ")[0],
                                         item: widget.item,
+                                        setMediaId: setMediaId,
                                         refreshStatus: () {
                                           refreshStatus();
                                           Navigator.pop(context);
@@ -718,7 +721,7 @@ class _MediaPageButtonState extends State<MediaPageButton> {
                                         onStatusChanged: (value) =>
                                             selectedStatus = value,
                                       ))),
-                              Positioned(
+                              /*Positioned(
                                   left: 16,
                                   right: 16,
                                   bottom: 16,
@@ -784,7 +787,7 @@ class _MediaPageButtonState extends State<MediaPageButton> {
                                             style: Theme.of(context)
                                                 .textTheme
                                                 .headlineSmall),
-                                      )))
+                                      )))*/
                             ])));
           },
           style: ElevatedButton.styleFrom(
