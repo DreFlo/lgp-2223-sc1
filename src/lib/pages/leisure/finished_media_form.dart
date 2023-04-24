@@ -327,9 +327,10 @@ class _FinishedMediaFormState extends State<FinishedMediaForm> {
                       children: [
                         ElevatedButton(
                             onPressed: () {
-                              isFavorite = !isFavorite;
+                              isFavorite = true;
 
-                              setState(() {});
+                              setState(() {
+                              });
                             },
                             style: ButtonStyle(
                                 fixedSize: MaterialStateProperty.all(Size.copy(
@@ -356,7 +357,7 @@ class _FinishedMediaFormState extends State<FinishedMediaForm> {
                             color: modalBackground, thickness: 10),
                         ElevatedButton(
                             onPressed: () {
-                              isFavorite = !isFavorite;
+                              isFavorite = false;
 
                               setState(() {});
                             },

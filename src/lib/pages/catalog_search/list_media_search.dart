@@ -104,7 +104,8 @@ class ListMediaSearchState extends State<ListMediaSearch> {
                                                     filteredMedia[index],
                                                     context);
                                               })))
-                                    ])));
+                                    ]
+                                    )));
                   },
                   child: SizedBox(
                     width: 100.0 * fem,
