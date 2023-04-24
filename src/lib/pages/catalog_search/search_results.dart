@@ -38,11 +38,11 @@ class SearchResults extends StatelessWidget {
                     child: GestureDetector(
                       onTap: () {
                         if (type == 'series') {
-                          showMediaPageForTV(entry.value[index], context);
+                          showMediaPageForTV(entry.value[index], context, null);
                         } else if (type == 'movies') {
-                          showMediaPageForMovies(entry.value[index], context);
+                          showMediaPageForMovies(entry.value[index], context, null);
                         } else if (type == 'books') {
-                          showMediaPageForBooks(entry.value[index], context);
+                          showMediaPageForBooks(entry.value[index], context, null);
                         }
                       },
                       child: SizedBox(

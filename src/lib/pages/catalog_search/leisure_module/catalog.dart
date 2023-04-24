@@ -52,6 +52,10 @@ class CatalogState extends State<Catalog> {
     return result;
   }
 
+  void reload(){
+    setState(() {});
+  }
+
   Future<List> loadMovies() async {
     return await loadmedia('movie');
   }
@@ -194,7 +198,7 @@ class CatalogState extends State<Catalog> {
                                       onTap: () {
                                         showMediaPageForMovies(
                                             (snapshot.data as List?)?[index],
-                                            context);
+                                            context, reload);
                                       },
                                       child: SizedBox(
                                         width: 140 * fem,
@@ -284,7 +288,7 @@ class CatalogState extends State<Catalog> {
                                       onTap: () {
                                         showMediaPageForTV(
                                             (snapshot.data as List?)?[index],
-                                            context);
+                                            context, reload);
                                       },
                                       child: SizedBox(
                                         width: 140 * fem,
@@ -374,7 +378,7 @@ class CatalogState extends State<Catalog> {
                                       onTap: () {
                                         showMediaPageForBooks(
                                             (snapshot.data as List?)?[index],
-                                            context);
+                                            context, reload);
                                       },
                                       child: SizedBox(
                                         width: 140 * fem,

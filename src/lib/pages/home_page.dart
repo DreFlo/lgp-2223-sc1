@@ -555,7 +555,7 @@ class _HomePageState extends State<HomePage> {
                                   children: [
                                     SingleChildScrollView(
                                         controller: scrollController,
-                                        child: MediaPage(
+                                       /* child: MediaPage(
                                             title: title,
                                             synopsis: synopsis,
                                             type: type,
@@ -564,7 +564,7 @@ class _HomePageState extends State<HomePage> {
                                             image: 'assets/images/poster.jpg',
                                             status: status,
                                             leisureTags: const [],
-                                            isFavorite: isFavorite)),
+                                            isFavorite: isFavorite)*/),
                                     Positioned(
                                         left: 16,
                                         right: 16,

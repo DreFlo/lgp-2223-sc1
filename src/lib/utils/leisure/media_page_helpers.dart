@@ -195,7 +195,7 @@ showMediaPageBasedOnType(dynamic item, String title, int duration) {
   }
 }
 
-showMediaPageForTV(dynamic item, context) async {
+showMediaPageForTV(dynamic item, context, reload) async {
   int maxDuration = await loadDuration(item.id);
   showModalBottomSheet(
       context: context,
@@ -226,17 +226,15 @@ showMediaPageForTV(dynamic item, context) async {
                       type: 'TV Show',
                       mediaId: item.id,
                     ))
-              ])
-              )).whenComplete(() {
-                                      if(isFavorite != item.favorite){
-                                         saveFavoriteStatus(isFavorite, item.id);
-                                      }
-               
-
-});
+              ]))).whenComplete(() {
+    if (isFavorite != item.favorite) {
+      saveFavoriteStatus(isFavorite, item.id);
+      reload();
+    }
+  });
 }
 
-showMediaPageForMovies(dynamic item, context) async {
+showMediaPageForMovies(dynamic item, context, reload) async {
   showModalBottomSheet(
       context: context,
       isScrollControlled: true,
@@ -262,15 +260,14 @@ showMediaPageForMovies(dynamic item, context) async {
                     child: MediaPageButton(
                         item: item, type: 'Movie', mediaId: item.id))
               ]))).whenComplete(() {
-                                      if(isFavorite != item.favorite){
-                                         saveFavoriteStatus(isFavorite, item.id);
-                                      }
-               
-
-});
+    if (isFavorite != item.favorite) {
+      saveFavoriteStatus(isFavorite, item.id);
+      reload();
+    }
+  });
 }
 
-showMediaPageForBooks(dynamic item, context) async {
+showMediaPageForBooks(dynamic item, context, reload) async {
   showModalBottomSheet(
       context: context,
       isScrollControlled: true,
@@ -299,12 +296,11 @@ showMediaPageForBooks(dynamic item, context) async {
                       mediaId: item.id,
                     ))
               ]))).whenComplete(() {
-                                      if(isFavorite != item.favorite){
-                                         saveFavoriteStatus(isFavorite, item.id);
-                                      }
-               
-
-});
+    if (isFavorite != item.favorite) {
+      saveFavoriteStatus(isFavorite, item.id);
+      reload();
+    }
+  });
 }
 
 List<String> makeCastList(Map cast) {
