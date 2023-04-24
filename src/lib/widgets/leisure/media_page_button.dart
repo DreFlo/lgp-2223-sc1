@@ -116,7 +116,9 @@ class _MediaPageButtonState extends State<MediaPageButton> {
                                         startDate: DateTime.now()
                                             .toString()
                                             .split(" ")[0],
-                                        endDate: 'Not Defined',
+                                        endDate: DateTime.now()
+                                            .toString()
+                                            .split(" ")[0],
                                         item: widget.item,
                                         refreshStatus: () {
                                           refreshStatus();
@@ -443,7 +445,9 @@ class _MediaPageButtonState extends State<MediaPageButton> {
                                         startDate: DateTime.now()
                                             .toString()
                                             .split(" ")[0],
-                                        endDate: 'Not Defined',
+                                        endDate: DateTime.now()
+                                            .toString()
+                                            .split(" ")[0],
                                         item: widget.item,
                                         refreshStatus: () {
                                           refreshStatus();
@@ -703,7 +707,9 @@ class _MediaPageButtonState extends State<MediaPageButton> {
                                         startDate: DateTime.now()
                                             .toString()
                                             .split(" ")[0],
-                                        endDate: 'Not Defined',
+                                        endDate: DateTime.now()
+                                            .toString()
+                                            .split(" ")[0],
                                         item: widget.item,
                                         refreshStatus: () {
                                           refreshStatus();
