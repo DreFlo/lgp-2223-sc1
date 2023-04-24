@@ -7,18 +7,23 @@ import 'package:src/models/student/subject.dart';
 
 class SubjectBar extends StatefulWidget {
   final int? id;
-  final Function? callback;
   final bool selectInstitution;
   final Subject subject;
-  final Function removeCallback;
+  final Function(int)? removeCallbackById;
+  final Function(Subject)? removeCallbackBySubject;
+  final Function(Subject)? updateCallbackBySubject;
+  final Function()? updateCallback;
 
   const SubjectBar(
       {Key? key,
       required this.subject,
       this.id,
-      this.callback,
       this.selectInstitution = true,
-      required this.removeCallback})
+      this.removeCallbackById,
+      this.removeCallbackBySubject,
+      this.updateCallbackBySubject,
+      this.updateCallback
+      })
       : super(key: key);
 
   @override
@@ -56,7 +61,8 @@ class _SubjectBarState extends State<SubjectBar> {
                       builder: (context, scrollController) => SubjectForm(
                         id: widget.id,
                         scrollController: scrollController,
-                        callback: widget.callback,
+                        callback: widget.updateCallback,
+                        callbackSubject: widget.updateCallbackBySubject,
                         selectInstitution: widget.selectInstitution,
                         subject: widget.id == null ? widget.subject : null,
                       ),
@@ -96,9 +102,9 @@ class _SubjectBarState extends State<SubjectBar> {
                   icon: const Icon(Icons.close),
                   onPressed: () {
                     if(widget.id != null){
-                      widget.removeCallback(widget.id);
+                      widget.removeCallbackById!(widget.id!);
                     } else {
-                      widget.removeCallback(widget.subject);
+                      widget.removeCallbackBySubject!(widget.subject);
                     }
                   })
             ]),

@@ -311,7 +311,7 @@ class _InstitutionFormState extends State<InstitutionForm> {
                                         builder: (context, scrollController) =>
                                             SubjectForm(
                                           scrollController: scrollController,
-                                          callback: addNoDbSubject,
+                                          callbackSubject: addNoDbSubject,
                                           selectInstitution: false,
                                         ),
                                       )));
@@ -344,9 +344,9 @@ class _InstitutionFormState extends State<InstitutionForm> {
             children: noDbSubjects
                 .map((e) => SubjectBar(
                       subject: e,
-                      callback: editNoDbSubject,
+                      updateCallbackBySubject: editNoDbSubject,
                       selectInstitution: false,
-                      removeCallback: removeNoDbSubject,
+                      removeCallbackBySubject: removeNoDbSubject,
                     ))
                 .toList());
       }
@@ -370,16 +370,16 @@ class _InstitutionFormState extends State<InstitutionForm> {
                     .map((e) => SubjectBar(
                         subject: e!,
                         id: e.id!,
-                        callback: onSubjectSave,
-                        removeCallback: removeSubject))
+                        updateCallback: onSubjectSave,
+                        removeCallbackById: removeSubject))
                     .toList();
 
                 subjects.addAll(noDbSubjects
                     .map((e) => SubjectBar(
                           subject: e,
-                          callback: editNoDbSubject,
+                          updateCallbackBySubject: editNoDbSubject,
                           selectInstitution: false,
-                          removeCallback: removeNoDbSubject,
+                          removeCallbackBySubject: removeNoDbSubject,
                         ))
                     .toList());
               }
