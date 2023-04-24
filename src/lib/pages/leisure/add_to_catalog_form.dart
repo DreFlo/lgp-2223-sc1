@@ -244,13 +244,16 @@ class _AddToCatalogFormState extends State<AddToCatalogForm> {
                         ),
                     initialEntryMode: DatePickerEntryMode.input,
                     context: context,
-                    firstDate: DateTime.parse(startDate),
-                    lastDate: DateTime.now());
+                    firstDate: DateTime(1),
+                    lastDate: DateTime(9999),
+                    );
 
-                startDate = newDateRange!.start.toString().split(" ")[0];
-                endDate = newDateRange.end.toString().split(" ")[0];
-
-                setState(() {});
+                if (newDateRange != null &&
+                    newDateRange.start.isBefore(newDateRange.end)) {
+                  startDate = newDateRange.start.toString().split(" ")[0];
+                  endDate = newDateRange.end.toString().split(" ")[0];
+                  setState(() {});
+                }
               },
               child:
                   Row(mainAxisAlignment: MainAxisAlignment.center, children: [
