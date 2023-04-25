@@ -1177,7 +1177,7 @@ class _TaskFormState extends State<TaskForm> {
   List<Widget> getNotes() {
     List<Widget> notesList = [];
 
-    if (notes == []) {
+    if (notes.isEmpty) {
       notesList.add(Row(mainAxisAlignment: MainAxisAlignment.center, children: [
         Text(AppLocalizations.of(context).no_notes,
             style: const TextStyle(
