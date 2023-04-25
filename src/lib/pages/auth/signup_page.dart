@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:src/models/media/media.dart';
-import 'package:src/pages/auth/login_page.dart';
 import 'package:src/themes/colors.dart';
 
 class SignUpPage extends StatefulWidget {
@@ -39,6 +37,9 @@ class _SignUpPageState extends State<SignUpPage>
   @override
   void dispose() {
     _animationController.dispose();
+    inputNameController.dispose();
+    inputEmailController.dispose();
+    inputPasswordController.dispose();
     super.dispose();
   }
 

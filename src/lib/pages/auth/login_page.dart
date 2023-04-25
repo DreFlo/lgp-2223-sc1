@@ -15,8 +15,11 @@ class _LoginPageState extends State<LoginPage> {
   TextEditingController firstController = TextEditingController();
   TextEditingController secondController = TextEditingController();
 
-  String email = '';
-  String password = '';
+  String _email = "";
+  String _password = "";
+
+  String _emailErrText = "";
+  String _passwordErrText = "";
 
   @override
   void dispose() {
@@ -49,15 +52,22 @@ class _LoginPageState extends State<LoginPage> {
               TextField(
                 controller: firstController,
                 style: Theme.of(context).textTheme.bodySmall,
-                decoration: const InputDecoration(
-                  border: UnderlineInputBorder(),
+                onChanged: (value) => {_emailErrText = ""},
+                decoration: InputDecoration(
+                  border: const UnderlineInputBorder(),
                   labelText: 'E-MAIL',
-                  labelStyle: TextStyle(
+                  labelStyle: const TextStyle(
                       fontFamily: "Poppins",
                       color: Color(0xFF5E6272),
                       fontSize: 14,
                       fontWeight: FontWeight.w600),
-                  contentPadding: EdgeInsets.only(bottom: 2.5),
+                  contentPadding: const EdgeInsets.only(bottom: 2.5),
+                  errorText: _emailErrText != "" ? _emailErrText : null,
+                  errorStyle: const TextStyle(
+                      fontFamily: "Poppins",
+                      color: leisureColor,
+                      fontSize: 14,
+                      fontWeight: FontWeight.w600),
                 ),
               ),
               Padding(
@@ -66,16 +76,23 @@ class _LoginPageState extends State<LoginPage> {
               TextField(
                   controller: secondController,
                   style: Theme.of(context).textTheme.bodySmall,
+                  onChanged: (value) => {_passwordErrText = ""},
                   obscureText: true,
-                  decoration: const InputDecoration(
-                    border: UnderlineInputBorder(),
+                  decoration: InputDecoration(
+                    border: const UnderlineInputBorder(),
                     labelText: 'PASSWORD',
-                    labelStyle: TextStyle(
+                    labelStyle: const TextStyle(
                         fontFamily: "Poppins",
                         color: Color(0xFF5E6272),
                         fontSize: 14,
                         fontWeight: FontWeight.w600),
-                    contentPadding: EdgeInsets.only(bottom: 2.5),
+                    contentPadding: const EdgeInsets.only(bottom: 2.5),
+                    errorText: _passwordErrText != "" ? _passwordErrText : null,
+                    errorStyle: const TextStyle(
+                          fontFamily: "Poppins",
+                          color: leisureColor,
+                          fontSize: 14,
+                          fontWeight: FontWeight.w600),
                   )),
               Padding(
                   padding: EdgeInsets.only(
@@ -124,22 +141,39 @@ class _LoginPageState extends State<LoginPage> {
                     ElevatedButton(
                       onPressed: () {
                         setState(() {
-                          email = firstController.text;
-                          password = secondController.text;
+                          String inputEmail = firstController.text;
+                          String inputPassword = secondController.text;
 
-                          showDialog(
-                            context: context,
-                            builder: (context) {
-                              return AlertDialog(
-                                  // Retrieve the text by using the
-                                  // TextEditingController.
-                                  content: Text(
-                                      "Email: $email \nPassword: $password",
-                                      style: Theme.of(context)
-                                          .textTheme
-                                          .labelMedium));
-                            },
-                          );
+                          RegExp emailRE = RegExp(
+                              r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+");
+
+                          if (!emailRE.hasMatch(inputEmail)) {
+                            _emailErrText = "Please insert a valid email!";
+                          } else {
+                            _email = inputEmail;
+                          }
+
+                          if (inputPassword.length < 8) {
+                            _passwordErrText = "Please insert a password with 8 or more digits!";
+                          } else {
+                            _password = inputPassword; 
+                          }
+
+                          if (_emailErrText == "" && _passwordErrText == "") {
+                            showDialog(
+                              context: context,
+                              builder: (context) {
+                                return AlertDialog(
+                                    // Retrieve the text by using the
+                                    // TextEditingController.
+                                    content: Text(
+                                        "Email: $_email \nPassword: $_password",
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .labelMedium));
+                              },
+                            );
+                          }
 
                           // TODO(auth): Add database connection here to check email and password
                         });

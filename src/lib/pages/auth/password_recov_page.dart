@@ -11,7 +11,8 @@ class PasswordRecovPage extends StatefulWidget {
 class _PasswordRecovPageState extends State<PasswordRecovPage> {
   TextEditingController inputController = TextEditingController();
 
-  String email = '';
+  String _email = "";
+  String _emailErrText = "";
 
   @override
   void dispose() {
@@ -43,15 +44,22 @@ class _PasswordRecovPageState extends State<PasswordRecovPage> {
           TextField(
             controller: inputController,
             style: Theme.of(context).textTheme.bodySmall,
-            decoration: const InputDecoration(
-              border: UnderlineInputBorder(),
+            onChanged: (value) => {_emailErrText = ""},
+            decoration: InputDecoration(
+              border: const UnderlineInputBorder(),
               labelText: 'YOUR E-MAIL',
-              labelStyle: TextStyle(
+              labelStyle: const TextStyle(
                   fontFamily: "Poppins",
                   color: Color(0xFF5E6272),
                   fontSize: 14,
                   fontWeight: FontWeight.w600),
-              contentPadding: EdgeInsets.only(bottom: 2.5),
+              contentPadding: const EdgeInsets.only(bottom: 2.5),
+              errorText: _emailErrText != "" ? _emailErrText : null,
+              errorStyle: const TextStyle(
+                  fontFamily: "Poppins",
+                  color: leisureColor,
+                  fontSize: 14,
+                  fontWeight: FontWeight.w600),
             ),
           ),
           Padding(
@@ -61,18 +69,30 @@ class _PasswordRecovPageState extends State<PasswordRecovPage> {
             ElevatedButton(
               onPressed: () {
                 setState(() {
-                  email = inputController.text;
+                  String inputEmail = inputController.text;
 
-                  showDialog(
-                    context: context,
-                    builder: (context) {
-                      return AlertDialog(
-                          // Retrieve the text by using the
-                          // TextEditingController.
-                          content: Text("Email: $email",
-                              style: Theme.of(context).textTheme.labelMedium));
-                    },
-                  );
+                  RegExp emailRE = RegExp(
+                      r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+");
+
+                  if (!emailRE.hasMatch(inputEmail)) {
+                    _emailErrText = "Please insert a valid email!";
+                  } else {
+                    _email = inputEmail;
+                  }
+
+                  if (_emailErrText == "") {
+                    showDialog(
+                      context: context,
+                      builder: (context) {
+                        return AlertDialog(
+                            // Retrieve the text by using the
+                            // TextEditingController.
+                            content: Text("Email: $_email",
+                                style:
+                                    Theme.of(context).textTheme.labelMedium));
+                      },
+                    );
+                  }
 
                   // TODO(auth): Add database connection here to check if email exists
                   // TODO(auth): Create request to send email (MVP?)
