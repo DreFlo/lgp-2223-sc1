@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:src/themes/colors.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
+import 'package:src/pages/auth/password_recov_page.dart';
+
 class LoginPage extends StatefulWidget {
   LoginPage({Key? key}) : super(key: key);
 
@@ -77,37 +79,80 @@ class _LoginPageState extends State<LoginPage> {
               Padding(
                   padding: EdgeInsets.only(
                       bottom: MediaQuery.of(context).size.height * 0.05)),
-              Row(mainAxisAlignment: MainAxisAlignment.end, children: [
-                ElevatedButton(
-                  onPressed: () {
-                    print("Pressed signin btn!");
-                    showDialog(
-                      context: context,
-                      builder: (context) {
-                        return AlertDialog(
-                            // Retrieve the text by using the
-                            // TextEditingController.
-                            content: Text(
-                                "Email: ${firstController.text} \nPassword: ${secondController.text}",
-                                style:
-                                    Theme.of(context).textTheme.labelMedium));
-                      },
-                    );
-                    // setState(() {
-                    //   //TODO: Add effect of pressing the button
-                    // });
-                  },
-                  style: ElevatedButton.styleFrom(
-                    minimumSize:
-                        Size(MediaQuery.of(context).size.width * 0.35, 55),
-                    backgroundColor: primaryColor,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(25.0),
+              Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+                Column(mainAxisAlignment: MainAxisAlignment.start, children: [
+                  ElevatedButton(
+                    onPressed: () {
+                      print("Pressed recovery page btn!");
+                      showModalBottomSheet(
+                          context: context,
+                          isScrollControlled: true,
+                          backgroundColor: Color(0xFF22252D),
+                          shape: const RoundedRectangleBorder(
+                            borderRadius: BorderRadius.vertical(
+                                top: Radius.circular(30.0)),
+                          ),
+                          builder: (context) => DraggableScrollableSheet(
+                              expand: false,
+                              initialChildSize: 0.85,
+                              minChildSize: 0.35,
+                              maxChildSize: 0.95,
+                              builder: (context, scrollController) => Stack(
+                                      alignment: AlignmentDirectional.topCenter,
+                                      children: [
+                                        SingleChildScrollView(
+                                            controller: scrollController,
+                                            child: PasswordRecovPage()),
+                                      ])));
+                    },
+                    style: ElevatedButton.styleFrom(
+                      minimumSize:
+                          Size(MediaQuery.of(context).size.width * 0.45, 55),
+                      backgroundColor: grayButton,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(25.0),
+                      ),
                     ),
+                    child: Text("Forgot password?",
+                        style: Theme.of(context).textTheme.headlineSmall),
                   ),
-                  child: Text("Sign In",
-                      style: Theme.of(context).textTheme.headlineSmall),
-                ),
+                ]),
+                Column(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    ElevatedButton(
+                      onPressed: () {
+                        print("Pressed signin btn!");
+                        showDialog(
+                          context: context,
+                          builder: (context) {
+                            return AlertDialog(
+                                // Retrieve the text by using the
+                                // TextEditingController.
+                                content: Text(
+                                    "Email: ${firstController.text} \nPassword: ${secondController.text}",
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .labelMedium));
+                          },
+                        );
+                        // setState(() {
+                        //   //TODO: Add effect of pressing the button
+                        // });
+                      },
+                      style: ElevatedButton.styleFrom(
+                        minimumSize:
+                            Size(MediaQuery.of(context).size.width * 0.35, 55),
+                        backgroundColor: primaryColor,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(25.0),
+                        ),
+                      ),
+                      child: Text("Sign In",
+                          style: Theme.of(context).textTheme.headlineSmall),
+                    ),
+                  ],
+                )
               ]),
             ])));
   }

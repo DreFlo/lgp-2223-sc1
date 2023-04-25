@@ -21,7 +21,6 @@ import 'package:tmdb_api/tmdb_api.dart';
 import 'package:books_finder/books_finder.dart';
 import 'catalog_search/leisure_module.dart';
 import 'package:src/pages/auth/landing_page.dart';
-import 'package:src/pages/auth/password_recov_page.dart';
 
 import 'tasks/project_form.dart';
 import 'tasks/task_form.dart';
@@ -551,40 +550,6 @@ class _HomePageState extends State<HomePage> {
               onPressed: () {
                 Navigator.push(context,
                     MaterialPageRoute(builder: (context) => LandingPage()));
-              },
-            ),
-            ElevatedButton(
-              style: ButtonStyle(
-                  backgroundColor: MaterialStateProperty.all(Color(0xFF6C5DD3)),
-                  shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                      const RoundedRectangleBorder(
-                          borderRadius: BorderRadius.only(
-                              topRight: Radius.circular(10),
-                              topLeft: Radius.circular(10),
-                              bottomRight: Radius.circular(10),
-                              bottomLeft: Radius.circular(10))))),
-              child: const Text('Pass Recovery Page'),
-              onPressed: () {
-                showModalBottomSheet(
-                    context: context,
-                    isScrollControlled: true,
-                    backgroundColor: Color(0xFF22252D),
-                    shape: const RoundedRectangleBorder(
-                      borderRadius:
-                          BorderRadius.vertical(top: Radius.circular(30.0)),
-                    ),
-                    builder: (context) => DraggableScrollableSheet(
-                        expand: false,
-                        initialChildSize: 0.85,
-                        minChildSize: 0.35,
-                        maxChildSize: 0.95,
-                        builder: (context, scrollController) => Stack(
-                                alignment: AlignmentDirectional.topCenter,
-                                children: [
-                                  SingleChildScrollView(
-                                      controller: scrollController,
-                                      child: PasswordRecovPage()),
-                                ])));
               },
             ),
             ElevatedButton(
