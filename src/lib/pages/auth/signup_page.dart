@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:src/models/media/media.dart';
 import 'package:src/pages/auth/login_page.dart';
 import 'package:src/themes/colors.dart';
 
@@ -11,13 +12,19 @@ class SignUpPage extends StatefulWidget {
 
 class _SignUpPageState extends State<SignUpPage>
     with SingleTickerProviderStateMixin {
-  TextEditingController inputController = TextEditingController();
+  TextEditingController inputNameController = TextEditingController();
+  TextEditingController inputEmailController = TextEditingController();
+  TextEditingController inputPasswordController = TextEditingController();
   late AnimationController _animationController;
 
   int _pageCount = 0;
   String _name = "";
   String _email = "";
   String _password = "";
+
+  String _nameErrText = "";
+  String _emailErrText = "";
+  String _passwordErrText = "";
 
   @override
   void initState() {
@@ -65,24 +72,25 @@ class _SignUpPageState extends State<SignUpPage>
                           bottom: MediaQuery.of(context).size.height * 0.05)),
                   TextField(
                     style: Theme.of(context).textTheme.bodySmall,
-                    controller: inputController,
-                    onEditingComplete: () {
-                      setState(() {
-                        //TODO: Change the time of save of input to when button is pressed
-                        //TODO: Do checks for valid input
-
-                        _name = inputController.text;
-                      });
+                    controller: inputNameController,
+                    onChanged: (value) => {
+                          _nameErrText = ""
                     },
-                    decoration: const InputDecoration(
-                      border: UnderlineInputBorder(),
+                    decoration: InputDecoration(
+                      border: const UnderlineInputBorder(),
                       labelText: 'YOUR NAME',
-                      labelStyle: TextStyle(
+                      labelStyle: const TextStyle(
                           fontFamily: "Poppins",
                           color: Color(0xFF5E6272),
                           fontSize: 14,
                           fontWeight: FontWeight.w600),
-                      contentPadding: EdgeInsets.only(bottom: 2.5),
+                      contentPadding: const EdgeInsets.only(bottom: 2.5),
+                      errorText: _nameErrText != "" ? _nameErrText : null,
+                      errorStyle: const TextStyle(
+                          fontFamily: "Poppins",
+                          color: leisureColor,
+                          fontSize: 14,
+                          fontWeight: FontWeight.w600),
                     ),
                   ),
                 ],
@@ -95,9 +103,16 @@ class _SignUpPageState extends State<SignUpPage>
                   ElevatedButton(
                     onPressed: () {
                       setState(() {
-                        inputController.text = "";
-                        _pageCount++;
-                        _animationController.forward(from: 0.0);
+                        String nameInput = inputNameController.text;
+                        
+                        if(nameInput == ""){
+                          _nameErrText = "Please insert a name!";
+                        } else {
+                          _name = nameInput;
+
+                          _pageCount++;
+                          _animationController.forward(from: 0.0);
+                        }
                       });
                     },
                     style: ElevatedButton.styleFrom(
@@ -146,23 +161,25 @@ class _SignUpPageState extends State<SignUpPage>
                           bottom: MediaQuery.of(context).size.height * 0.05)),
                   TextField(
                     style: Theme.of(context).textTheme.bodySmall,
-                    controller: inputController,
-                    onEditingComplete: () {
-                      setState(() {
-                        //TODO: Do checks for valid input
-
-                        _email = inputController.text;
-                      });
+                    controller: inputEmailController,
+                    onChanged:(value) => {
+                      _emailErrText = ""
                     },
-                    decoration: const InputDecoration(
-                      border: UnderlineInputBorder(),
+                    decoration: InputDecoration(
+                      border: const UnderlineInputBorder(),
                       labelText: 'YOUR E-MAIL',
-                      labelStyle: TextStyle(
+                      labelStyle: const TextStyle(
                           fontFamily: "Poppins",
                           color: Color(0xFF5E6272),
                           fontSize: 14,
                           fontWeight: FontWeight.w600),
-                      contentPadding: EdgeInsets.only(bottom: 2.5),
+                      contentPadding: const EdgeInsets.only(bottom: 2.5),
+                      errorText: _emailErrText != "" ? _emailErrText : null,
+                      errorStyle: const TextStyle(
+                          fontFamily: "Poppins",
+                          color: leisureColor,
+                          fontSize: 14,
+                          fontWeight: FontWeight.w600),
                     ),
                   ),
                 ],
@@ -172,12 +189,44 @@ class _SignUpPageState extends State<SignUpPage>
                           bottom: MediaQuery.of(context).size.height * 0.05)),
               Column(
                 children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+ElevatedButton(
+                    onPressed: () {
+                      setState(() {
+                        _email = inputEmailController.text;
+
+                        _pageCount--;
+                      });
+                    },
+                    style: ElevatedButton.styleFrom(
+                      minimumSize:
+                          Size(MediaQuery.of(context).size.width * 0.25, 55),
+                      backgroundColor: primaryColor,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(25.0),
+                      ),
+                    ),
+                    child: Text("Previous",
+                        style: Theme.of(context).textTheme.headlineSmall),
+                  ),
+                  Padding(padding: EdgeInsets.only(right: MediaQuery.of(context).size.width * 0.05)),
                   ElevatedButton(
                     onPressed: () {
                       setState(() {
-                        inputController.text = "";
-                        _pageCount++;
-                        _animationController.forward(from: 0.0);
+                        String inputEmail = inputEmailController.text;
+
+                        RegExp emailRE = RegExp(r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+");
+
+                        if(!emailRE.hasMatch(inputEmail)){
+                          _emailErrText = "Please insert a valid email!";
+                        } else {
+                          _email = inputEmail;
+
+                          _pageCount++;
+                          _animationController.forward(from: 0.0);
+                        }
                       });
                     },
                     style: ElevatedButton.styleFrom(
@@ -191,6 +240,7 @@ class _SignUpPageState extends State<SignUpPage>
                     child: Text("Next",
                         style: Theme.of(context).textTheme.headlineSmall),
                   ),
+                    ],),
                 ],
               ),
             ],
@@ -227,23 +277,25 @@ class _SignUpPageState extends State<SignUpPage>
                   TextField(
                     style: Theme.of(context).textTheme.bodySmall,
                     obscureText: true,
-                    controller: inputController,
-                    onEditingComplete: () {
-                      setState(() {
-                        //TODO: Do checks for valid input
-
-                        _password = inputController.text; //TODO: Encript the password
-                      });
+                    controller: inputPasswordController,
+                    onChanged: (value) => {
+                      _passwordErrText = ""
                     },
-                    decoration: const InputDecoration(
-                      border: UnderlineInputBorder(),
+                    decoration: InputDecoration(
+                      border: const UnderlineInputBorder(),
                       labelText: 'YOUR PASSWORD',
-                      labelStyle: TextStyle(
+                      labelStyle: const TextStyle(
                           fontFamily: "Poppins",
                           color: Color(0xFF5E6272),
                           fontSize: 14,
                           fontWeight: FontWeight.w600),
-                      contentPadding: EdgeInsets.only(bottom: 2.5),
+                      contentPadding: const EdgeInsets.only(bottom: 2.5),
+                      errorText: _passwordErrText != "" ? _passwordErrText : null,
+                      errorStyle: const TextStyle(
+                          fontFamily: "Poppins",
+                          color: leisureColor,
+                          fontSize: 14,
+                          fontWeight: FontWeight.w600),
                     ),
                   ),
                 ],
@@ -253,18 +305,50 @@ class _SignUpPageState extends State<SignUpPage>
                           bottom: MediaQuery.of(context).size.height * 0.05)),
               Column(
                 children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                    ElevatedButton(
+                    onPressed: () {
+                      setState(() {
+                        _password = inputPasswordController.text;
+
+                        _pageCount--;
+                      });
+                    },
+                    style: ElevatedButton.styleFrom(
+                      minimumSize:
+                          Size(MediaQuery.of(context).size.width * 0.25, 55),
+                      backgroundColor: primaryColor,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(25.0),
+                      ),
+                    ),
+                    child: Text("Previous",
+                        style: Theme.of(context).textTheme.headlineSmall),
+                  ),
+                  Padding(padding: EdgeInsets.only(right: MediaQuery.of(context).size.width * 0.05)),
                   ElevatedButton(
                     onPressed: () {
                       setState(() {
-                        inputController.text = "";
+                        String passwordInput = inputPasswordController.text;
 
-                        // TODO(auth): Save things in database
-                        print("Name: " + _name);
-                        print("Email: " + _email);
-                        print("Password: " + _password);
+                        if(passwordInput.length < 8){
+                          _passwordErrText = "Please insert a password with 8 or more digits!";
+                        } else {
+                          //TODO(auth): Encrypt password - before saving - i think there's a package for this
 
-                        //Pop the modal and send to Landing page
-                        Navigator.pop(context);
+                          _password = passwordInput; 
+
+                          // TODO(auth): Save things in database (_name, _email and _password)
+
+                          inputNameController.text = "";
+                          inputEmailController.text = "";
+                          inputPasswordController.text = "";
+
+                          //Pop the modal and send to Landing page
+                          Navigator.pop(context);
+                        }
                       });
                     },
                     style: ElevatedButton.styleFrom(
@@ -278,6 +362,7 @@ class _SignUpPageState extends State<SignUpPage>
                     child: Text("Next",
                         style: Theme.of(context).textTheme.headlineSmall),
                   ),
+                  ],),
                 ],
               ),
             ],
