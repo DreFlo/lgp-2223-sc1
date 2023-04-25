@@ -7,7 +7,6 @@ import 'package:src/animation_test/main.dart';
 import 'package:src/daos/user_dao.dart';
 import 'package:src/env/env.dart';
 import 'package:src/models/user.dart';
-import 'package:src/pages/events/event_form.dart';
 import 'package:src/pages/tasks/institution_form.dart';
 import 'package:src/pages/tasks/subject_form.dart';
 import 'package:src/themes/colors.dart';
@@ -16,6 +15,7 @@ import 'package:src/utils/service_locator.dart';
 import 'package:tmdb_api/tmdb_api.dart';
 
 import 'catalog_search/leisure_module.dart';
+import 'events/event_form.dart';
 import 'leisure/add_book_note_form.dart';
 import 'leisure/add_to_catalog_form.dart';
 import 'leisure/book_notes_sheet.dart';

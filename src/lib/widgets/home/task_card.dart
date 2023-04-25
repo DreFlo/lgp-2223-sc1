@@ -58,7 +58,7 @@ class _MyTaskCardState extends State<MyTaskCard> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   SizedBox(
-                    width: 200, // Set width of Text widget to 200
+                    width: MediaQuery.of(context).size.width * 0.5,
                     child: Text(widget.name,
                         overflow: TextOverflow.ellipsis,
                         style: Theme.of(context).textTheme.labelLarge),

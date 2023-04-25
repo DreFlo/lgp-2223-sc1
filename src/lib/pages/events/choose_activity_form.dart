@@ -1,33 +1,33 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:src/themes/colors.dart';
-import 'package:src/widgets/events/choose_activity_bar.dart';
+import 'package:src/pages/events/event_form.dart';
+import 'package:src/widgets/events/bars/choose_activity_bar.dart';
+import 'package:src/widgets/events/buttons/save_button.dart';
+import 'package:src/widgets/modal.dart';
 
-class ChooseActivity {
-  final int id;
-  final String title;
-  final String description;
+class ChooseActivity extends Activity {
   bool isSelected;
 
   ChooseActivity(
-      {required this.id,
-      required this.title,
-      required this.description,
+      {required super.id,
+      required super.title,
+      required super.description,
       required this.isSelected});
 }
 
 class ChooseActivityForm extends StatefulWidget {
   final String title;
-  final String noActivityText;
+  final String noActivitiesMsg;
+  final IconData icon;
   final List<ChooseActivity> activities;
   final ScrollController scrollController;
-  final Function(int, String, String) addActivityCallback;
+  final Function addActivityCallback;
 
   const ChooseActivityForm(
       {Key? key,
-      required this.scrollController,
       required this.title,
-      required this.noActivityText,
+      required this.noActivitiesMsg,
+      required this.icon,
+      required this.scrollController,
       required this.activities,
       required this.addActivityCallback})
       : super(key: key);
@@ -37,23 +37,19 @@ class ChooseActivityForm extends StatefulWidget {
 }
 
 class _ChooseActivityFormState extends State<ChooseActivityForm> {
-  TextEditingController controller = TextEditingController();
-
-  late List<ChooseActivity>? activities;
-
   List<Widget> getActivities() {
     List<Widget> activitiesList = [];
 
-    for (int i = 0; i < activities!.length; i++) {
-      ChooseActivity activity = activities![i];
+    for (int i = 0; i < widget.activities.length; i++) {
+      ChooseActivity activity = widget.activities[i];
       activitiesList.add(ChooseActivityBar(activity: activity));
-      if (i != activities!.length - 1) {
+      if (i != widget.activities.length - 1) {
         activitiesList.add(const SizedBox(height: 15));
       }
     }
 
-    if (activities == null || activities!.isEmpty) {
-      activitiesList.add(Text(widget.noActivityText,
+    if (widget.activities.isEmpty) {
+      activitiesList.add(Text(widget.noActivitiesMsg,
           style: const TextStyle(
               color: Colors.white,
               fontSize: 16,
@@ -63,80 +59,29 @@ class _ChooseActivityFormState extends State<ChooseActivityForm> {
     return activitiesList;
   }
 
-  @override
-  initState() {
-    activities = widget.activities;
-    activities ??= [];
-
-    super.initState();
+  onSaveCallback() {
+    for (ChooseActivity activity in widget.activities) {
+      if (activity.isSelected) {
+        widget.addActivityCallback(Activity(
+            id: activity.id,
+            title: activity.title,
+            description: activity.description));
+      }
+    }
+    Navigator.pop(context);
   }
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 24),
-        child: SingleChildScrollView(
-          controller: widget.scrollController,
-          child: Wrap(spacing: 10, children: [
-            Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-              Padding(
-                  padding: const EdgeInsets.only(top: 15, bottom: 15),
-                  child: Container(
-                    width: 115,
-                    height: 18,
-                    alignment: Alignment.center,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(10),
-                      color: grayBackground,
-                    ),
-                  ))
-            ]),
-            Row(children: [
-              Container(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-                  decoration: BoxDecoration(
-                      color: textField,
-                      shape: BoxShape.rectangle,
-                      borderRadius: BorderRadius.circular(10)),
-                  child: Wrap(children: [
-                    Row(children: [
-                      const Icon(Icons.live_tv_rounded,
-                          color: Colors.white, size: 20),
-                      const SizedBox(width: 10),
-                      Text(widget.title,
-                          style: const TextStyle(
-                              color: Colors.white,
-                              fontSize: 16,
-                              fontWeight: FontWeight.w600),
-                          textAlign: TextAlign.center),
-                    ])
-                  ]))
-            ]),
-            const SizedBox(height: 30),
-            ...getActivities(),
-            const SizedBox(height: 30),
-            ElevatedButton(
-                onPressed: () {
-                  for (ChooseActivity activity in activities!) {
-                    if (activity.isSelected) {
-                      widget.addActivityCallback(
-                          activity.id, activity.title, activity.description);
-                    }
-                  }
-                  Navigator.pop(context);
-                },
-                style: ElevatedButton.styleFrom(
-                  minimumSize:
-                      Size(MediaQuery.of(context).size.width * 0.95, 55),
-                  backgroundColor: primaryColor,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(25.0),
-                  ),
-                ),
-                child: Text(AppLocalizations.of(context).save,
-                    style: Theme.of(context).textTheme.headlineSmall))
-          ]),
-        ));
+    return Modal(
+        scrollController: widget.scrollController,
+        title: widget.title,
+        icon: widget.icon,
+        children: [
+          const SizedBox(height: 30),
+          ...getActivities(),
+          const SizedBox(height: 30),
+          SaveButton(onSaveCallback: onSaveCallback)
+        ]);
   }
 }
