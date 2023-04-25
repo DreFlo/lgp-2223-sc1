@@ -60,25 +60,25 @@ class LandingPage extends StatelessWidget {
             onPressed: () {
               print("Pressed Sign Up!");
               showModalBottomSheet(
-                      context: context,
-                      isScrollControlled: true,
-                      backgroundColor: Color(0xFF22252D),
-                      shape: RoundedRectangleBorder(
-                        borderRadius:
-                            BorderRadius.vertical(top: Radius.circular(30.0)),
-                      ),
-                      builder: (context) => DraggableScrollableSheet(
-                          expand: false,
-                          initialChildSize: 0.75,
-                          minChildSize: 0.35,
-                          maxChildSize: 0.95,
-                          builder: (context, scrollController) => Stack(
-                                  alignment: AlignmentDirectional.topCenter,
-                                  children: [
-                                    SingleChildScrollView(
-                                        controller: scrollController,
-                                        child: SignUpPage()),
-                                  ])));
+                  context: context,
+                  isScrollControlled: true,
+                  backgroundColor: Color(0xFF22252D),
+                  shape: RoundedRectangleBorder(
+                    borderRadius:
+                        BorderRadius.vertical(top: Radius.circular(30.0)),
+                  ),
+                  builder: (context) => DraggableScrollableSheet(
+                      expand: false,
+                      initialChildSize: 0.75,
+                      minChildSize: 0.35,
+                      maxChildSize: 0.95,
+                      builder: (context, scrollController) => Stack(
+                              alignment: AlignmentDirectional.topCenter,
+                              children: [
+                                SingleChildScrollView(
+                                    controller: scrollController,
+                                    child: SignUpPage()),
+                              ])));
             },
           ),
           ElevatedButton(
@@ -94,11 +94,27 @@ class LandingPage extends StatelessWidget {
                             bottomLeft: Radius.circular(10))))),
             child: const Text('Login'),
             onPressed: () {
+              showModalBottomSheet(
+                  context: context,
+                  isScrollControlled: true,
+                  backgroundColor: Color(0xFF22252D),
+                  shape: const RoundedRectangleBorder(
+                    borderRadius:
+                        BorderRadius.vertical(top: Radius.circular(30.0)),
+                  ),
+                  builder: (context) => DraggableScrollableSheet(
+                      expand: false,
+                      initialChildSize: 0.85,
+                      minChildSize: 0.35,
+                      maxChildSize: 0.95,
+                      builder: (context, scrollController) => Stack(
+                              alignment: AlignmentDirectional.topCenter,
+                              children: [
+                                SingleChildScrollView(
+                                    controller: scrollController,
+                                    child: LoginPage()),
+                              ])));
               print("Pressed LogIn!");
-              Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => LoginPage()));
             },
           ),
           Row(mainAxisAlignment: MainAxisAlignment.center, children: [

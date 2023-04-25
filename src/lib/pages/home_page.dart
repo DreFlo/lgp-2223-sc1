@@ -548,10 +548,8 @@ class _HomePageState extends State<HomePage> {
                               bottomLeft: Radius.circular(10))))),
               child: const Text('Auth Pages'),
               onPressed: () {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => LandingPage()));
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => LandingPage()));
               },
             ),
             ElevatedButton(
