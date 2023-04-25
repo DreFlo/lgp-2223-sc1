@@ -110,8 +110,9 @@ class _LoginPageState extends State<LoginPage> {
                           Size(MediaQuery.of(context).size.width * 0.45, 55),
                       backgroundColor: grayButton,
                       shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(25.0),
-                      ),
+                          borderRadius: BorderRadius.circular(25.0),
+                          side: const BorderSide(
+                              color: primaryColor, width: 2.0)),
                     ),
                     child: Text("Forgot password?",
                         style: Theme.of(context).textTheme.headlineSmall),
