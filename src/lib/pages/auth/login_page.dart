@@ -84,7 +84,6 @@ class _LoginPageState extends State<LoginPage> {
                 Column(mainAxisAlignment: MainAxisAlignment.start, children: [
                   ElevatedButton(
                     onPressed: () {
-                      print("Pressed recovery page btn!");
                       showModalBottomSheet(
                           context: context,
                           isScrollControlled: true,
@@ -124,29 +123,26 @@ class _LoginPageState extends State<LoginPage> {
                   children: [
                     ElevatedButton(
                       onPressed: () {
-                        print("Pressed signin btn!");
+                        setState(() {
+                          email = firstController.text;
+                          password = secondController.text;
 
-                        email = firstController.text;
-                        password = secondController.text;
+                          showDialog(
+                            context: context,
+                            builder: (context) {
+                              return AlertDialog(
+                                  // Retrieve the text by using the
+                                  // TextEditingController.
+                                  content: Text(
+                                      "Email: $email \nPassword: $password",
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .labelMedium));
+                            },
+                          );
 
-                        showDialog(
-                          context: context,
-                          builder: (context) {
-                            return AlertDialog(
-                                // Retrieve the text by using the
-                                // TextEditingController.
-                                content: Text(
-                                    "Email: $email \nPassword: $password",
-                                    style: Theme.of(context)
-                                        .textTheme
-                                        .labelMedium));
-                          },
-                        );
-                        // TODO(auth): Add database connection here to check email and password
-
-                        // setState(() {
-                        //  //TODO: Add effect of pressing the button
-                        // });
+                          // TODO(auth): Add database connection here to check email and password
+                        });
                       },
                       style: ElevatedButton.styleFrom(
                         minimumSize:

@@ -60,27 +60,23 @@ class _PasswordRecovPageState extends State<PasswordRecovPage> {
           Row(mainAxisAlignment: MainAxisAlignment.end, children: [
             ElevatedButton(
               onPressed: () {
-                print("Pressed recovery pass btn!");
+                setState(() {
+                  email = inputController.text;
 
-                email = inputController.text;
+                  showDialog(
+                    context: context,
+                    builder: (context) {
+                      return AlertDialog(
+                          // Retrieve the text by using the
+                          // TextEditingController.
+                          content: Text("Email: $email",
+                              style: Theme.of(context).textTheme.labelMedium));
+                    },
+                  );
 
-                showDialog(
-                  context: context,
-                  builder: (context) {
-                    return AlertDialog(
-                        // Retrieve the text by using the
-                        // TextEditingController.
-                        content: Text("Email: $email",
-                            style: Theme.of(context).textTheme.labelMedium));
-                  },
-                );
-
-                // TODO(auth): Add database connection here to check if email exists
-                // TODO(auth): Create request to send email (MVP?)
-
-                // setState(() {
-                //   //TODO: Add effect of pressing the button
-                // });
+                  // TODO(auth): Add database connection here to check if email exists
+                  // TODO(auth): Create request to send email (MVP?)
+                });
               },
               style: ElevatedButton.styleFrom(
                 minimumSize: Size(MediaQuery.of(context).size.width * 0.50, 55),
