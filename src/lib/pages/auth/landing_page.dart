@@ -4,6 +4,7 @@ import 'package:src/pages/auth/login_page.dart';
 import 'package:src/pages/auth/signup_page.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:src/themes/colors.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class LandingPage extends StatefulWidget {
   LandingPage({Key? key}) : super(key: key);
@@ -22,12 +23,12 @@ class _LandingPageState extends State<LandingPage> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          "Organize your life in a Wan of a Kind way.",
+          AppLocalizations.of(context).land_title_1,
           style: Theme.of(context).textTheme.titleMedium,
           textAlign: TextAlign.start,
         ),
         Text(
-          "This is a beautiful text that makes you like us even more...",
+          AppLocalizations.of(context).land_subtitle_1,
           style: Theme.of(context).textTheme.bodySmall,
           textAlign: TextAlign.start,
         ),
@@ -38,12 +39,12 @@ class _LandingPageState extends State<LandingPage> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          "Manage Everything in One Place.",
+          AppLocalizations.of(context).land_title_2,
           style: Theme.of(context).textTheme.titleMedium,
           textAlign: TextAlign.start,
         ),
         Text(
-          "From leisure to school, everything in just one app. Free Space...",
+          AppLocalizations.of(context).land_subtitle_2,
           style: Theme.of(context).textTheme.bodySmall,
           textAlign: TextAlign.start,
         ),
@@ -54,12 +55,12 @@ class _LandingPageState extends State<LandingPage> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          "Organize and Schedule all of you.",
+          AppLocalizations.of(context).land_title_3,
           style: Theme.of(context).textTheme.titleMedium,
           textAlign: TextAlign.start,
         ),
         Text(
-          "Reflect your organization and personality in our app...",
+          AppLocalizations.of(context).land_subtitle_3,
           style: Theme.of(context).textTheme.bodySmall,
           textAlign: TextAlign.start,
         ),
@@ -134,7 +135,7 @@ class _LandingPageState extends State<LandingPage> {
               ),
             ),
             child:
-                Text("Sign Up", style: Theme.of(context).textTheme.labelLarge),
+                Text(AppLocalizations.of(context).sign_up, style: Theme.of(context).textTheme.labelLarge),
             onPressed: () {
               showModalBottomSheet(
                   context: context,
@@ -167,7 +168,7 @@ class _LandingPageState extends State<LandingPage> {
                 borderRadius: BorderRadius.circular(25.0),
               ),
             ),
-            child: Text("Login", style: Theme.of(context).textTheme.labelLarge),
+            child: Text(AppLocalizations.of(context).login, style: Theme.of(context).textTheme.labelLarge),
             onPressed: () {
               showModalBottomSheet(
                   context: context,

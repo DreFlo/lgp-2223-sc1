@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:src/themes/colors.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class PasswordRecovPage extends StatefulWidget {
   PasswordRecovPage({Key? key}) : super(key: key);
@@ -29,13 +30,13 @@ class _PasswordRecovPageState extends State<PasswordRecovPage> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text("Sometimes... \nthings just happen!",
+          Text(AppLocalizations.of(context).password_recov_title,
               style: Theme.of(context).textTheme.titleLarge,
               textAlign: TextAlign.left),
           Padding(
               padding: EdgeInsets.only(
                   bottom: MediaQuery.of(context).size.height * 0.025)),
-          Text("Don't worry, let's get you back up and running.",
+          Text(AppLocalizations.of(context).password_recov_subtitle,
               style: Theme.of(context).textTheme.bodySmall,
               textAlign: TextAlign.left),
           Padding(
@@ -47,7 +48,7 @@ class _PasswordRecovPageState extends State<PasswordRecovPage> {
             onChanged: (value) => {_emailErrText = ""},
             decoration: InputDecoration(
               border: const UnderlineInputBorder(),
-              labelText: 'YOUR E-MAIL',
+              labelText: AppLocalizations.of(context).your_input + AppLocalizations.of(context).input_email,
               labelStyle: const TextStyle(
                   fontFamily: "Poppins",
                   color: Color(0xFF5E6272),
@@ -75,7 +76,7 @@ class _PasswordRecovPageState extends State<PasswordRecovPage> {
                       r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+");
 
                   if (!emailRE.hasMatch(inputEmail)) {
-                    _emailErrText = "Please insert a valid email!";
+                    _emailErrText = AppLocalizations.of(context).error_input_email;
                   } else {
                     _email = inputEmail;
                   }
@@ -105,7 +106,7 @@ class _PasswordRecovPageState extends State<PasswordRecovPage> {
                   borderRadius: BorderRadius.circular(25.0),
                 ),
               ),
-              child: Text("Send Recovery Link",
+              child: Text(AppLocalizations.of(context).password_recov_btn,
                   style: Theme.of(context).textTheme.headlineSmall),
             ),
           ]),

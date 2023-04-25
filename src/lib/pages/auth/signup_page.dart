@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:src/themes/colors.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class SignUpPage extends StatefulWidget {
   SignUpPage({Key? key}) : super(key: key);
@@ -59,12 +60,12 @@ class _SignUpPageState extends State<SignUpPage>
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    "Hello!",
+                    AppLocalizations.of(context).sign_up_title_p1,
                     style: Theme.of(context).textTheme.titleLarge,
                     textAlign: TextAlign.start,
                   ),
                   Text(
-                    "Let's start your journey",
+                    AppLocalizations.of(context).sign_up_subtitle_p1,
                     style: Theme.of(context).textTheme.bodySmall,
                     textAlign: TextAlign.start,
                   ),
@@ -79,7 +80,7 @@ class _SignUpPageState extends State<SignUpPage>
                     },
                     decoration: InputDecoration(
                       border: const UnderlineInputBorder(),
-                      labelText: 'YOUR NAME',
+                      labelText: AppLocalizations.of(context).sign_up_input_name,
                       labelStyle: const TextStyle(
                           fontFamily: "Poppins",
                           color: Color(0xFF5E6272),
@@ -107,7 +108,7 @@ class _SignUpPageState extends State<SignUpPage>
                         String nameInput = inputNameController.text;
                         
                         if(nameInput == ""){
-                          _nameErrText = "Please insert a name!";
+                          _nameErrText = AppLocalizations.of(context).error_input_name;
                         } else {
                           _name = nameInput;
 
@@ -124,7 +125,7 @@ class _SignUpPageState extends State<SignUpPage>
                         borderRadius: BorderRadius.circular(25.0),
                       ),
                     ),
-                    child: Text("Next",
+                    child: Text(AppLocalizations.of(context).next,
                         style: Theme.of(context).textTheme.headlineSmall),
                   ),
                 ],
@@ -148,12 +149,12 @@ class _SignUpPageState extends State<SignUpPage>
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    "Tell us your email",
+                    AppLocalizations.of(context).sign_up_title_p2,
                     style: Theme.of(context).textTheme.titleLarge,
                     textAlign: TextAlign.start,
                   ),
                   Text(
-                    "We promise not to send you annoying emails!",
+                    AppLocalizations.of(context).sign_up_subtitle_p2,
                     style: Theme.of(context).textTheme.bodySmall,
                     textAlign: TextAlign.start,
                   ),
@@ -168,7 +169,7 @@ class _SignUpPageState extends State<SignUpPage>
                     },
                     decoration: InputDecoration(
                       border: const UnderlineInputBorder(),
-                      labelText: 'YOUR E-MAIL',
+                      labelText: AppLocalizations.of(context).your_input + AppLocalizations.of(context).input_email,
                       labelStyle: const TextStyle(
                           fontFamily: "Poppins",
                           color: Color(0xFF5E6272),
@@ -193,25 +194,25 @@ class _SignUpPageState extends State<SignUpPage>
                   Row(
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
-ElevatedButton(
-                    onPressed: () {
-                      setState(() {
-                        _email = inputEmailController.text;
+                      ElevatedButton(
+                        onPressed: () {
+                          setState(() {
+                            _email = inputEmailController.text;
 
-                        _pageCount--;
-                      });
-                    },
-                    style: ElevatedButton.styleFrom(
-                      minimumSize:
-                          Size(MediaQuery.of(context).size.width * 0.25, 55),
-                      backgroundColor: primaryColor,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(25.0),
+                            _pageCount--;
+                          });
+                        },
+                        style: ElevatedButton.styleFrom(
+                          minimumSize:
+                              Size(MediaQuery.of(context).size.width * 0.25, 55),
+                          backgroundColor: primaryColor,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(25.0),
+                          ),
+                        ),
+                        child: Text(AppLocalizations.of(context).previous,
+                            style: Theme.of(context).textTheme.headlineSmall),
                       ),
-                    ),
-                    child: Text("Previous",
-                        style: Theme.of(context).textTheme.headlineSmall),
-                  ),
                   Padding(padding: EdgeInsets.only(right: MediaQuery.of(context).size.width * 0.05)),
                   ElevatedButton(
                     onPressed: () {
@@ -221,7 +222,7 @@ ElevatedButton(
                         RegExp emailRE = RegExp(r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+");
 
                         if(!emailRE.hasMatch(inputEmail)){
-                          _emailErrText = "Please insert a valid email!";
+                          _emailErrText = AppLocalizations.of(context).error_input_email;
                         } else {
                           _email = inputEmail;
 
@@ -238,7 +239,7 @@ ElevatedButton(
                         borderRadius: BorderRadius.circular(25.0),
                       ),
                     ),
-                    child: Text("Next",
+                    child: Text(AppLocalizations.of(context).next,
                         style: Theme.of(context).textTheme.headlineSmall),
                   ),
                     ],),
@@ -263,12 +264,12 @@ ElevatedButton(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    "Password",
+                    AppLocalizations.of(context).sign_up_title_p3,
                     style: Theme.of(context).textTheme.titleLarge,
                     textAlign: TextAlign.start,
                   ),
                   Text(
-                    "And no... 'password123' is not a good one.",
+                    AppLocalizations.of(context).sign_up_subtitle_p3,
                     style: Theme.of(context).textTheme.bodySmall,
                     textAlign: TextAlign.start,
                   ),
@@ -284,7 +285,7 @@ ElevatedButton(
                     },
                     decoration: InputDecoration(
                       border: const UnderlineInputBorder(),
-                      labelText: 'YOUR PASSWORD',
+                      labelText: AppLocalizations.of(context).sign_up_input_password,
                       labelStyle: const TextStyle(
                           fontFamily: "Poppins",
                           color: Color(0xFF5E6272),
@@ -325,7 +326,7 @@ ElevatedButton(
                         borderRadius: BorderRadius.circular(25.0),
                       ),
                     ),
-                    child: Text("Previous",
+                    child: Text(AppLocalizations.of(context).previous,
                         style: Theme.of(context).textTheme.headlineSmall),
                   ),
                   Padding(padding: EdgeInsets.only(right: MediaQuery.of(context).size.width * 0.05)),
@@ -335,7 +336,7 @@ ElevatedButton(
                         String passwordInput = inputPasswordController.text;
 
                         if(passwordInput.length < 8){
-                          _passwordErrText = "Please insert a password with 8 or more digits!";
+                          _passwordErrText = AppLocalizations.of(context).error_input_password;
                         } else {
                           //TODO(auth): Encrypt password - before saving - i think there's a package for this
 
@@ -360,7 +361,7 @@ ElevatedButton(
                         borderRadius: BorderRadius.circular(25.0),
                       ),
                     ),
-                    child: Text("Next",
+                    child: Text(AppLocalizations.of(context).next,
                         style: Theme.of(context).textTheme.headlineSmall),
                   ),
                   ],),

@@ -36,14 +36,14 @@ class _LoginPageState extends State<LoginPage> {
             padding: const EdgeInsets.only(left: 20, right: 20, top: 30),
             child:
                 Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-              Text("Sign In",
+              Text(AppLocalizations.of(context).login_title,
                   style: Theme.of(context).textTheme.titleLarge,
                   textAlign: TextAlign.left),
               Padding(
                   padding: EdgeInsets.only(
                       bottom: MediaQuery.of(context).size.height * 0.025)),
               Text(
-                  "No need to be shy... we don't bite! \nUnless you into that.",
+                  AppLocalizations.of(context).login_subtitle,
                   style: Theme.of(context).textTheme.bodySmall,
                   textAlign: TextAlign.left),
               Padding(
@@ -131,7 +131,7 @@ class _LoginPageState extends State<LoginPage> {
                           side: const BorderSide(
                               color: primaryColor, width: 2.0)),
                     ),
-                    child: Text("Forgot password?",
+                    child: Text(AppLocalizations.of(context).login_forgot_pass_btn,
                         style: Theme.of(context).textTheme.headlineSmall),
                   ),
                 ]),
@@ -148,13 +148,13 @@ class _LoginPageState extends State<LoginPage> {
                               r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+");
 
                           if (!emailRE.hasMatch(inputEmail)) {
-                            _emailErrText = "Please insert a valid email!";
+                            _emailErrText = AppLocalizations.of(context).error_input_email;
                           } else {
                             _email = inputEmail;
                           }
 
                           if (inputPassword.length < 8) {
-                            _passwordErrText = "Please insert a password with 8 or more digits!";
+                            _passwordErrText = AppLocalizations.of(context).error_input_password;
                           } else {
                             _password = inputPassword; 
                           }
@@ -186,7 +186,7 @@ class _LoginPageState extends State<LoginPage> {
                           borderRadius: BorderRadius.circular(25.0),
                         ),
                       ),
-                      child: Text("Sign In",
+                      child: Text(AppLocalizations.of(context).login_submit_btn,
                           style: Theme.of(context).textTheme.headlineSmall),
                     ),
                   ],
