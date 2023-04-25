@@ -38,21 +38,19 @@ class DayViewTimeslotTile extends StatelessWidget {
                             fontSize: 16,
                             fontWeight: FontWeight.w600)))
               ]),
-              Row(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Expanded(child: 
-                Text(
-                    "${DateFormat('hh:mm').format(event.startTime!)} - ${DateFormat('hh:mm').format(event.endTime!)}",
-                    maxLines: 1,
-                    overflow: TextOverflow.fade,
-                    textAlign: TextAlign.justify,
-                    style: TextStyle(
-                        color: (event.color == studentColor
-                            ? Colors.black
-                            : Colors.white),
-                        fontSize: 14,
-                        fontWeight: FontWeight.w400)))
+              Row(crossAxisAlignment: CrossAxisAlignment.center, children: [
+                Expanded(
+                    child: Text(
+                        "${DateFormat('hh:mm').format(event.startTime!)} - ${DateFormat('hh:mm').format(event.endTime!)}",
+                        maxLines: 1,
+                        overflow: TextOverflow.fade,
+                        textAlign: TextAlign.justify,
+                        style: TextStyle(
+                            color: (event.color == studentColor
+                                ? Colors.black
+                                : Colors.white),
+                            fontSize: 14,
+                            fontWeight: FontWeight.w400)))
               ])
             ])));
   }
