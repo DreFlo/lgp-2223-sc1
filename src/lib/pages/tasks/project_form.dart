@@ -856,7 +856,7 @@ class _ProjectFormState extends State<ProjectForm> {
   List<Widget> getTasks() {
     List<Widget> taskList = [];
 
-    if (tasks == []) {
+    if (tasks.isEmpty) {
       taskList.add(Row(mainAxisAlignment: MainAxisAlignment.center, children: [
         Text(AppLocalizations.of(context).no_tasks,
             style: const TextStyle(
