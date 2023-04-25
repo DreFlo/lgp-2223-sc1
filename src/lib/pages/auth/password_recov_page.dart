@@ -1,8 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:src/themes/colors.dart';
 
-class PasswordRecovPage extends StatelessWidget {
+class PasswordRecovPage extends StatefulWidget {
   PasswordRecovPage({Key? key}) : super(key: key);
+
+  @override
+  State<PasswordRecovPage> createState() => _PasswordRecovPageState();
+}
+
+class _PasswordRecovPageState extends State<PasswordRecovPage> {
+  TextEditingController inputController = TextEditingController();
+
+  @override
+  void dispose() {
+    // Clean up the controller
+    inputController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -26,6 +40,7 @@ class PasswordRecovPage extends StatelessWidget {
               padding: EdgeInsets.only(
                   bottom: MediaQuery.of(context).size.height * 0.05)),
           TextField(
+            controller: inputController,
             style: Theme.of(context).textTheme.bodySmall,
             decoration: const InputDecoration(
               border: UnderlineInputBorder(),
@@ -44,17 +59,14 @@ class PasswordRecovPage extends StatelessWidget {
           Row(mainAxisAlignment: MainAxisAlignment.end, children: [
             ElevatedButton(
               onPressed: () {
-                print("Pressed signin btn!");
+                print("Pressed recovery pass btn!");
                 showDialog(
                   context: context,
                   builder: (context) {
                     return AlertDialog(
                         // Retrieve the text by using the
                         // TextEditingController.
-                        // content: Text(
-                        //     "Email: ${firstController.text} \nPassword: ${secondController.text}",
-                        //     style: Theme.of(context).textTheme.labelMedium)
-                        content: Text('hello world!',
+                        content: Text("Email: ${inputController.text}",
                             style: Theme.of(context).textTheme.labelMedium));
                   },
                 );
