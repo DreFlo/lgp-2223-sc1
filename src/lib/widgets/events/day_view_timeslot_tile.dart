@@ -38,7 +38,10 @@ class DayViewTimeslotTile extends StatelessWidget {
                             fontSize: 16,
                             fontWeight: FontWeight.w600)))
               ]),
-              Row(children: [
+              Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Expanded(child: 
                 Text(
                     "${DateFormat('hh:mm').format(event.startTime!)} - ${DateFormat('hh:mm').format(event.endTime!)}",
                     maxLines: 1,
@@ -49,7 +52,7 @@ class DayViewTimeslotTile extends StatelessWidget {
                             ? Colors.black
                             : Colors.white),
                         fontSize: 14,
-                        fontWeight: FontWeight.w400))
+                        fontWeight: FontWeight.w400)))
               ])
             ])));
   }
