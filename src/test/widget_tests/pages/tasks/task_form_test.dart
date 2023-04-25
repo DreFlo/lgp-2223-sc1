@@ -274,7 +274,8 @@ void main() {
     await tap(widgetTester, taskGroupButton);
     await widgetTester.pumpAndSettle();
 
-    final taskGroupNoneButton = find.byKey(const Key('taskTaskGroup_None')).last;
+    final taskGroupNoneButton =
+        find.byKey(const Key('taskTaskGroup_None')).last;
     await tap(widgetTester, taskGroupNoneButton);
     await widgetTester.pumpAndSettle();
 

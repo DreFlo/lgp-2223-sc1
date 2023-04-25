@@ -1,5 +1,3 @@
-// ignore_for_file: file_names, library_prefixes
-
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:src/daos/student/institution_dao.dart';
@@ -14,7 +12,8 @@ import 'package:flutter/services.dart';
 class SubjectForm extends StatefulWidget {
   final ScrollController scrollController;
   final int? id;
-  final Function? callback;
+  final Function()? callback;
+  final Function(Subject)? callbackSubject;
   final bool selectInstitution;
   final Subject? subject;
 
@@ -23,6 +22,7 @@ class SubjectForm extends StatefulWidget {
       required this.scrollController,
       this.id,
       this.callback,
+      this.callbackSubject,
       this.selectInstitution = true,
       this.subject})
       : super(key: key);
@@ -401,7 +401,7 @@ class _SubjectFormState extends State<SubjectForm> {
           widget.callback!();
         }
       } else {
-        if (widget.callback == null) {
+        if (widget.callbackSubject == null) {
           subject = Subject(
               name: name,
               acronym: acronym,
@@ -418,7 +418,7 @@ class _SubjectFormState extends State<SubjectForm> {
             institutionId: institutionId != -1 ? institutionId : null,
           );
 
-          widget.callback!(subject);
+          widget.callbackSubject!(subject);
         }
       }
 

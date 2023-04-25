@@ -26,7 +26,7 @@ void main() {
   DateTime taskGroupDeadline =
       DateFormatter.day(DateTime.now()).add(const Duration(days: 2));
   String taskName = "task_name";
-  
+
   int subjectId = 1;
   String subjectName = "subject_name", subjectAcronym = "subject_acronym";
   double weightAverage = 1.0;
