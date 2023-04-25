@@ -11,6 +11,8 @@ class PasswordRecovPage extends StatefulWidget {
 class _PasswordRecovPageState extends State<PasswordRecovPage> {
   TextEditingController inputController = TextEditingController();
 
+  String email = '';
+
   @override
   void dispose() {
     // Clean up the controller
@@ -59,13 +61,16 @@ class _PasswordRecovPageState extends State<PasswordRecovPage> {
             ElevatedButton(
               onPressed: () {
                 print("Pressed recovery pass btn!");
+
+                email = inputController.text;
+
                 showDialog(
                   context: context,
                   builder: (context) {
                     return AlertDialog(
                         // Retrieve the text by using the
                         // TextEditingController.
-                        content: Text("Email: ${inputController.text}",
+                        content: Text("Email: $email",
                             style: Theme.of(context).textTheme.labelMedium));
                   },
                 );

@@ -15,6 +15,9 @@ class _LoginPageState extends State<LoginPage> {
   TextEditingController firstController = TextEditingController();
   TextEditingController secondController = TextEditingController();
 
+  String email = '';
+  String password = '';
+
   @override
   void dispose() {
     // Clean up the controllers
@@ -122,6 +125,10 @@ class _LoginPageState extends State<LoginPage> {
                     ElevatedButton(
                       onPressed: () {
                         print("Pressed signin btn!");
+
+                        email = firstController.text;
+                        password = secondController.text;
+
                         showDialog(
                           context: context,
                           builder: (context) {
@@ -129,7 +136,7 @@ class _LoginPageState extends State<LoginPage> {
                                 // Retrieve the text by using the
                                 // TextEditingController.
                                 content: Text(
-                                    "Email: ${firstController.text} \nPassword: ${secondController.text}",
+                                    "Email: $email \nPassword: $password",
                                     style: Theme.of(context)
                                         .textTheme
                                         .labelMedium));
