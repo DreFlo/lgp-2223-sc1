@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:src/pages/auth/login_page.dart';
 import 'package:src/pages/auth/signup_page.dart';
 import 'package:src/themes/colors.dart';
@@ -10,19 +11,17 @@ class LandingPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    //TODO: Implement landing page
-
     return Center(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
         children: <Widget>[
-          Padding( padding: EdgeInsets.only(bottom: MediaQuery.of(context).size.height * 0.25)),
-          Text(
-            "Wokka Icon!",
-            style: Theme.of(context).textTheme.titleLarge,
-            textAlign: TextAlign.center,
+          Padding( padding: EdgeInsets.only(bottom: MediaQuery.of(context).size.height * 0.15)),
+          SizedBox(
+            width: MediaQuery.of(context).size.width * 0.35,
+            height: MediaQuery.of(context).size.height * 0.35,
+            child: SvgPicture.asset('assets/icons/wokka_mascot.svg'),
           ),
-          //TODO: Finish the horizontal list view to be closer to mockup and to have dot indicators
+          //TODO: Change this to Stateful Widget and add dots
           SizedBox(
             height: 100,
             child: ListView(
@@ -46,7 +45,7 @@ class LandingPage extends StatelessWidget {
               ],
             ),
           ),
-          Padding( padding: EdgeInsets.only(bottom: MediaQuery.of(context).size.height * 0.2)),
+          Padding( padding: EdgeInsets.only(bottom: MediaQuery.of(context).size.height * 0.05)),
           ElevatedButton(
             style: ElevatedButton.styleFrom(
                       minimumSize:
@@ -59,7 +58,6 @@ class LandingPage extends StatelessWidget {
             child: Text("Sign Up",
                         style: Theme.of(context).textTheme.labelLarge),
             onPressed: () {
-              print("Pressed Sign Up!");
               showModalBottomSheet(
                       context: context,
                       isScrollControlled: true,
