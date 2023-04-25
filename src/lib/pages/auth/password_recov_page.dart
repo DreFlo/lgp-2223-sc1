@@ -48,13 +48,14 @@ class PasswordRecovPage extends StatelessWidget {
                 showDialog(
                   context: context,
                   builder: (context) {
-                    return const AlertDialog(
+                    return AlertDialog(
                         // Retrieve the text by using the
                         // TextEditingController.
                         // content: Text(
                         //     "Email: ${firstController.text} \nPassword: ${secondController.text}",
                         //     style: Theme.of(context).textTheme.labelMedium)
-                        content: Text('hello world!'));
+                        content: Text('hello world!',
+                            style: Theme.of(context).textTheme.labelMedium));
                   },
                 );
                 // setState(() {
