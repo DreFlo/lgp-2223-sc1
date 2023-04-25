@@ -723,9 +723,6 @@ class _HomePageState extends State<HomePage> {
                                 builder: (context, scrollController) =>
                                     EventForm(
                                       title: "Create Event",
-                                      description: "nothing",
-                                      startTime: "05/04/2023 2:15PM",
-                                      endTime: "05/04/2023 3:15PM",
                                       scrollController: scrollController,
                                     )),
                           ));

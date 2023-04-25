@@ -1,19 +1,16 @@
-// ignore_for_file: file_names, library_prefixes
-
-import 'dart:math' as Math;
+import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:intl/intl.dart';
 import 'package:src/pages/events/choose_activity_form.dart';
 import 'package:src/themes/colors.dart';
 import 'package:src/utils/enums.dart';
+import 'package:src/utils/formatters.dart';
 import 'package:src/widgets/events/activity_bar.dart';
 
-import '../../utils/formatters.dart';
-
 class Activity {
-  final int id; // TODO(eventos): I put this here because I think it is useful for the backend, but idk, feel free to change
+  final int
+  id; // TODO(eventos): I put this here because I think it is useful for the backend, but idk, feel free to change
   final String title;
   final String description;
 
@@ -21,18 +18,20 @@ class Activity {
 }
 
 class EventForm extends StatefulWidget {
-  final String? title, startTime, endTime, description;
+  final int? id;
+  final String? title, description;
+  final DateTime? startDate, endDate;
   final ScrollController scrollController;
   final List<Activity>? activities;
 
-  const EventForm(
-      {Key? key,
-      required this.scrollController,
-      this.title,
-      this.startTime,
-      this.endTime,
-      this.description,
-      this.activities})
+  const EventForm({Key? key,
+    required this.scrollController,
+    this.title,
+    this.startDate,
+    this.endDate,
+    this.description,
+    this.activities,
+    this.id})
       : super(key: key);
 
   @override
@@ -40,18 +39,40 @@ class EventForm extends StatefulWidget {
 }
 
 class _EventFormState extends State<EventForm> {
-  TextEditingController controller = TextEditingController();
+  TextEditingController titleController = TextEditingController();
+  TextEditingController descriptionController = TextEditingController();
 
   final GlobalKey buttonKey = GlobalKey();
   Color _moduleColor = studentColor;
 
-  late String? title, startTime, endTime, description;
+  late String? title, description;
   late Priority? priority;
   late List<Activity> activities;
-  DateTime? startDate;
-  TimeOfDay? startTimeOfDay;
-  DateTime? endDate;
-  TimeOfDay? endTimeOfDay;
+  DateTime? startDate, endDate;
+  DateTime defaultStartDate = DateTime.now();
+  DateTime defaultEndDate = DateTime.now().add(const Duration(hours: 1));
+
+  Map<String, String> errors = {};
+
+  validate() {
+    errors = {};
+    if (titleController.text == "") {
+      errors['title'] = AppLocalizations
+          .of(context)
+          .event_title_error;
+    }
+    if (startDate!.isAfter(endDate!)) {
+      errors['date'] = AppLocalizations
+          .of(context)
+          .event_date_error;
+    }
+    if (activities.isEmpty) {
+      errors['activities'] =
+          AppLocalizations
+              .of(context)
+              .event_activities_error;
+    }
+  }
 
   void addActivityCallback(int id, String title, String description) {
     setState(() {
@@ -63,6 +84,11 @@ class _EventFormState extends State<EventForm> {
     setState(() {
       activities.removeAt(index);
     });
+  }
+
+  String setDefaultDate() {
+    endDate = DateTime.now().add(const Duration(hours: 1));
+    return formatEventTime(endDate!);
   }
 
   List<ChooseActivity> getMedia() {
@@ -138,14 +164,26 @@ class _EventFormState extends State<EventForm> {
     }
 
     if (activities.isEmpty) {
-      activitiesList.add(Text(AppLocalizations.of(context).no_activities,
+      activitiesList.add(Text(AppLocalizations
+          .of(context)
+          .no_activities,
           style: const TextStyle(
               color: Colors.white,
               fontSize: 16,
               fontWeight: FontWeight.normal)));
-    }
+      if (errors.containsKey('activities')) {
+        activitiesList.add(Padding(
+            padding: const EdgeInsets.only(top: 5.0, left: 10.0),
+            child: Text(errors['activities']!,
+                style: const TextStyle(
+                    color: Colors.red,
+                    fontSize: 12,
+                    fontWeight: FontWeight.w400))));
+  }
+  }
 
-    return activitiesList;
+    return
+    activitiesList;
   }
 
   List<PopupMenuItem> getModuleColorsMenuItems() {
@@ -154,15 +192,25 @@ class _EventFormState extends State<EventForm> {
     modulesMenuItems.add(PopupMenuItem(
         value: studentColor,
         child: Text(
-          AppLocalizations.of(context).student,
-          style: Theme.of(context).textTheme.bodyMedium,
+          AppLocalizations
+              .of(context)
+              .student,
+          style: Theme
+              .of(context)
+              .textTheme
+              .bodyMedium,
         )));
 
     modulesMenuItems.add(PopupMenuItem(
       value: leisureColor,
       child: Text(
-        AppLocalizations.of(context).leisure,
-        style: Theme.of(context).textTheme.bodyMedium,
+        AppLocalizations
+            .of(context)
+            .leisure,
+        style: Theme
+            .of(context)
+            .textTheme
+            .bodyMedium,
       ),
     ));
 
@@ -172,12 +220,12 @@ class _EventFormState extends State<EventForm> {
   @override
   initState() {
     title = widget.title;
-    startTime = widget.startTime;
-    endTime = widget.endTime;
+    startDate = widget.startDate;
+    endDate = widget.endDate;
     description = widget.description;
     activities = widget.activities ?? [];
 
-    controller.text = title!;
+    titleController.text = title!;
 
     super.initState();
   }
@@ -205,7 +253,7 @@ class _EventFormState extends State<EventForm> {
             Row(children: [
               Container(
                   padding:
-                      const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                  const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
                   decoration: BoxDecoration(
                       color: const Color(0xFF17181C),
                       shape: BoxShape.rectangle,
@@ -214,7 +262,9 @@ class _EventFormState extends State<EventForm> {
                     Row(children: [
                       const Icon(Icons.event, color: Colors.white, size: 20),
                       const SizedBox(width: 10),
-                      Text(AppLocalizations.of(context).event,
+                      Text(AppLocalizations
+                          .of(context)
+                          .event,
                           style: const TextStyle(
                               color: Colors.white,
                               fontSize: 16,
@@ -231,25 +281,26 @@ class _EventFormState extends State<EventForm> {
                   child: AspectRatio(
                       aspectRatio: 1,
                       child: Transform.rotate(
-                          angle: -Math.pi / 4,
+                          angle: -math.pi / 4,
                           child: ElevatedButton(
                             key: buttonKey,
                             style: ButtonStyle(
                               shadowColor:
-                                  MaterialStateProperty.all(Colors.transparent),
+                              MaterialStateProperty.all(Colors.transparent),
                               elevation: MaterialStateProperty.all(0),
                               alignment: const Alignment(0, 0),
                               backgroundColor:
-                                  MaterialStateProperty.all(_moduleColor),
+                              MaterialStateProperty.all(_moduleColor),
                             ),
                             onPressed: () {
                               final RenderBox button = buttonKey.currentContext!
                                   .findRenderObject() as RenderBox;
-                              final RenderBox overlay = Overlay.of(context)
+                              final RenderBox overlay = Overlay
+                                  .of(context)
                                   .context
                                   .findRenderObject() as RenderBox;
                               final RelativeRect position =
-                                  RelativeRect.fromRect(
+                              RelativeRect.fromRect(
                                 Rect.fromPoints(
                                   button.localToGlobal(Offset.zero,
                                       ancestor: overlay),
@@ -280,26 +331,43 @@ class _EventFormState extends State<EventForm> {
               const SizedBox(width: 15),
               Flexible(
                   flex: 10,
-                  child: TextField(
-                      controller: controller,
-                      style: const TextStyle(
-                          fontSize: 20,
-                          color: Colors.white,
-                          fontWeight: FontWeight.w400),
-                      maxLines: 1,
-                      decoration: InputDecoration(
-                        contentPadding: const EdgeInsets.symmetric(
-                            horizontal: 10, vertical: 5),
-                        border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(10)),
-                        disabledBorder: const OutlineInputBorder(
-                            borderSide: BorderSide(color: Color(0xFF414554))),
-                        hintText: AppLocalizations.of(context).title,
-                        hintStyle: const TextStyle(
-                            fontSize: 20,
-                            color: Color(0xFF71788D),
-                            fontWeight: FontWeight.w400),
-                      ))),
+                  child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        TextField(
+                            controller: titleController,
+                            style: const TextStyle(
+                                fontSize: 20,
+                                color: Colors.white,
+                                fontWeight: FontWeight.w400),
+                            maxLines: 1,
+                            decoration: InputDecoration(
+                              contentPadding: const EdgeInsets.symmetric(
+                                  horizontal: 10, vertical: 5),
+                              border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(10)),
+                              disabledBorder: const OutlineInputBorder(
+                                  borderSide:
+                                  BorderSide(color: Color(0xFF414554))),
+                              hintText: AppLocalizations
+                                  .of(context)
+                                  .title,
+                              hintStyle: const TextStyle(
+                                  fontSize: 20,
+                                  color: Color(0xFF71788D),
+                                  fontWeight: FontWeight.w400),
+                            )),
+                        errors.containsKey('title')
+                            ? Padding(
+                            padding:
+                            const EdgeInsets.only(top: 5.0, left: 5.0),
+                            child: Text(errors['title']!,
+                                style: const TextStyle(
+                                    color: Colors.red,
+                                    fontSize: 12,
+                                    fontWeight: FontWeight.w400)))
+                            : const SizedBox(height: 0),
+                      ])),
               const SizedBox(width: 5),
               Flexible(
                   flex: 1,
@@ -308,49 +376,39 @@ class _EventFormState extends State<EventForm> {
                       splashRadius: 0.01,
                       icon: const Icon(Icons.close),
                       onPressed: () {
-                        controller.clear();
+                        titleController.clear();
                       }))
             ]),
             const SizedBox(height: 30),
             InkWell(
                 onTap: () async {
                   final DateTime? pickedDate = await showDatePicker(
-                      context: context,
-                      initialDate: DateTime.now(),
-                      firstDate: DateTime.now(),
-                      lastDate: endDate != null ? endDate! : DateTime(2100));
+                    context: context,
+                    initialDate: DateTime.now(),
+                    firstDate: DateTime.now(),
+                    lastDate: endDate != null ? endDate! : DateTime(2100),
+                  );
 
                   if (pickedDate != null) {
-                    final TimeOfDay? pickedTime = await showTimePicker(
-                      context: context,
-                      initialTime: TimeOfDay.now(),
-                    );
+                    Future.delayed(Duration.zero, () async {
+                      final TimeOfDay? pickedTime = await showTimePicker(
+                        context: context,
+                        initialTime: TimeOfDay.now(),
+                      );
 
-                    if (pickedTime != null) {
-                      setState(() {
-                        String? day = pickedDate.day.toString().padLeft(2, '0'),
-                            month = pickedDate.month.toString().padLeft(2, '0'),
-                            year = pickedDate.year.toString(),
-                            minute =
-                                pickedTime.minute.toString().padLeft(2, '0');
+                      if (pickedTime != null) {
+                        setState(() {
+                          final dateTime = DateTime(
+                              pickedDate.year,
+                              pickedDate.month,
+                              pickedDate.day,
+                              pickedTime.hour,
+                              pickedTime.minute);
 
-                        // Convert start and end times to DateTime objects
-                        final dateTime = DateTime(
-                            pickedDate.year,
-                            pickedDate.month,
-                            pickedDate.day,
-                            pickedTime.hour,
-                            pickedTime.minute);
-
-                        // Format hours with AM/PM
-                        final hour = DateFormat('h').format(dateTime);
-                        final amPm = DateFormat('a').format(dateTime);
-
-                        startDate = pickedDate;
-                        startTimeOfDay = pickedTime;
-                        startTime = "$day/$month/$year $hour:$minute$amPm";
-                      });
-                    }
+                          startDate = dateTime;
+                        });
+                      }
+                    });
                   }
                 },
                 child: Row(
@@ -379,7 +437,9 @@ class _EventFormState extends State<EventForm> {
                               mainAxisAlignment: MainAxisAlignment.start,
                               children: [
                                 Row(children: [
-                                  Text(AppLocalizations.of(context).start,
+                                  Text(AppLocalizations
+                                      .of(context)
+                                      .start,
                                       style: const TextStyle(
                                           fontFamily: 'Poppins',
                                           color: Color(0xFF71788D),
@@ -395,15 +455,31 @@ class _EventFormState extends State<EventForm> {
                                       highlightColor: lightGray,
                                       child: Column(
                                         mainAxisAlignment:
-                                            MainAxisAlignment.center,
+                                        MainAxisAlignment.center,
+                                        crossAxisAlignment:
+                                        CrossAxisAlignment.start,
                                         children: [
-                                          Text(startTime!,
+                                          Text(
+                                              formatEventTime(startDate ??
+                                                  defaultStartDate),
                                               textAlign: TextAlign.center,
                                               style: const TextStyle(
                                                   fontFamily: 'Poppins',
                                                   fontSize: 20,
                                                   fontWeight:
-                                                      FontWeight.normal))
+                                                  FontWeight.normal)),
+                                          errors.containsKey('date')
+                                              ? Padding(
+                                              padding:
+                                              const EdgeInsets.only(
+                                                  top: 5.0),
+                                              child: Text(errors['date']!,
+                                                  style: const TextStyle(
+                                                      color: Colors.red,
+                                                      fontSize: 12,
+                                                      fontWeight:
+                                                      FontWeight.w400)))
+                                              : const SizedBox(height: 0),
                                         ],
                                       ),
                                     )
@@ -417,44 +493,35 @@ class _EventFormState extends State<EventForm> {
                   final DateTime? pickedDate = await showDatePicker(
                       context: context,
                       initialDate:
-                          startDate != null ? startDate! : DateTime.now(),
+                      startDate != null ? startDate! : DateTime.now(),
                       firstDate:
-                          startDate != null ? startDate! : DateTime.now(),
+                      startDate != null ? startDate! : DateTime.now(),
                       lastDate: DateTime(2100));
 
                   if (pickedDate != null) {
-                    final TimeOfDay? pickedTime = await showTimePicker(
-                      context: context,
-                      initialTime: startDate != null && pickedDate == startDate
-                          ? TimeOfDay(
-                              hour: startTimeOfDay?.hour ?? 0,
-                              minute: startTimeOfDay?.minute ?? 0)
-                          : TimeOfDay(hour: 0, minute: 0),
-                    );
-                    if (pickedTime != null) {
-                      setState(() {
-                        String? day = pickedDate.day.toString().padLeft(2, '0'),
-                            month = pickedDate.month.toString().padLeft(2, '0'),
-                            year = pickedDate.year.toString(),
-                            minute =
-                                pickedTime.minute.toString().padLeft(2, '0');
+                    Future.delayed(Duration.zero, () async {
+                      final TimeOfDay? pickedTime = await showTimePicker(
+                        context: context,
+                        initialTime:
+                        startDate != null && pickedDate == startDate
+                            ? TimeOfDay(
+                            hour: startDate?.hour ?? 0,
+                            minute: startDate?.minute ?? 0)
+                            : const TimeOfDay(hour: 0, minute: 0),
+                      );
+                      if (pickedTime != null) {
+                        setState(() {
+                          final dateTime = DateTime(
+                              pickedDate.year,
+                              pickedDate.month,
+                              pickedDate.day,
+                              pickedTime.hour,
+                              pickedTime.minute);
 
-                        // Convert start and end times to DateTime objects
-                        final dateTime = DateTime(
-                            pickedDate.year,
-                            pickedDate.month,
-                            pickedDate.day,
-                            pickedTime.hour,
-                            pickedTime.minute);
-
-                        // Format hours with AM/PM
-                        final hour = DateFormat('h').format(dateTime);
-                        final amPm = DateFormat('a').format(dateTime);
-
-                        endDate = pickedDate;
-                        endTime = "$day/$month/$year $hour:$minute$amPm";
-                      });
-                    }
+                          endDate = dateTime;
+                        });
+                      }
+                    });
                   }
                 },
                 child: Row(
@@ -483,7 +550,9 @@ class _EventFormState extends State<EventForm> {
                               mainAxisAlignment: MainAxisAlignment.start,
                               children: [
                                 Row(children: [
-                                  Text(AppLocalizations.of(context).end,
+                                  Text(AppLocalizations
+                                      .of(context)
+                                      .end,
                                       style: const TextStyle(
                                           fontFamily: 'Poppins',
                                           color: Color(0xFF71788D),
@@ -499,15 +568,31 @@ class _EventFormState extends State<EventForm> {
                                       highlightColor: lightGray,
                                       child: Column(
                                         mainAxisAlignment:
-                                            MainAxisAlignment.center,
+                                        MainAxisAlignment.center,
+                                        crossAxisAlignment:
+                                        CrossAxisAlignment.start,
                                         children: [
-                                          Text(endTime!,
+                                          Text(
+                                              formatEventTime(
+                                                  endDate ?? defaultEndDate),
                                               textAlign: TextAlign.center,
                                               style: const TextStyle(
                                                   fontFamily: 'Poppins',
                                                   fontSize: 20,
                                                   fontWeight:
-                                                      FontWeight.normal))
+                                                  FontWeight.normal)),
+                                          errors.containsKey('date')
+                                              ? Padding(
+                                              padding:
+                                              const EdgeInsets.only(
+                                                  top: 5.0),
+                                              child: Text(errors['date']!,
+                                                  style: const TextStyle(
+                                                      color: Colors.red,
+                                                      fontSize: 12,
+                                                      fontWeight:
+                                                      FontWeight.w400)))
+                                              : const SizedBox(height: 0),
                                         ],
                                       ),
                                     )
@@ -517,7 +602,9 @@ class _EventFormState extends State<EventForm> {
                     ])),
             const SizedBox(height: 30),
             Row(children: [
-              Text(AppLocalizations.of(context).description,
+              Text(AppLocalizations
+                  .of(context)
+                  .description,
                   style: const TextStyle(
                       fontFamily: 'Poppins',
                       color: Color(0xFF71788D),
@@ -530,7 +617,7 @@ class _EventFormState extends State<EventForm> {
               Flexible(
                   flex: 1,
                   child: TextField(
-                    controller: TextEditingController(text: description),
+                    controller: descriptionController,
                     style: const TextStyle(
                         fontFamily: 'Poppins',
                         fontSize: 14,
@@ -551,7 +638,9 @@ class _EventFormState extends State<EventForm> {
             ]),
             const SizedBox(height: 30),
             Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-              Text(AppLocalizations.of(context).activities,
+              Text(AppLocalizations
+                  .of(context)
+                  .activities,
                   style: const TextStyle(
                       fontFamily: 'Poppins',
                       color: Color(0xFF71788D),
@@ -572,29 +661,39 @@ class _EventFormState extends State<EventForm> {
                       backgroundColor: const Color(0xFF22252D),
                       shape: const RoundedRectangleBorder(
                         borderRadius:
-                            BorderRadius.vertical(top: Radius.circular(30.0)),
+                        BorderRadius.vertical(top: Radius.circular(30.0)),
                       ),
-                      builder: (context) => Padding(
-                          padding: EdgeInsets.only(
-                              bottom: MediaQuery.of(context).viewInsets.bottom +
-                                  50),
-                          child: DraggableScrollableSheet(
-                              expand: false,
-                              initialChildSize: 0.60,
-                              minChildSize: 0.60,
-                              maxChildSize: 0.60,
-                              builder: (context, scrollController) =>
+                      builder: (context) =>
+                          Padding(
+                              padding: EdgeInsets.only(
+                                  bottom: MediaQuery
+                                      .of(context)
+                                      .viewInsets
+                                      .bottom +
+                                      50),
+                              child: DraggableScrollableSheet(
+                                  expand: false,
+                                  initialChildSize: 0.60,
+                                  minChildSize: 0.60,
+                                  maxChildSize: 0.60,
+                                  builder: (context, scrollController) =>
                                   _moduleColor == studentColor
                                       ? ChooseActivityForm(
-                                          scrollController: scrollController,
-                                          activities: getTasks(),
-                                          addActivityCallback:
-                                              addActivityCallback)
+                                      title: AppLocalizations
+                                          .of(context)
+                                          .choose_tasks,
+                                      scrollController: scrollController,
+                                      activities: getTasks(),
+                                      addActivityCallback:
+                                      addActivityCallback)
                                       : ChooseActivityForm(
-                                          scrollController: scrollController,
-                                          activities: getMedia(),
-                                          addActivityCallback:
-                                              addActivityCallback))));
+                                      title: AppLocalizations
+                                          .of(context)
+                                          .choose_media,
+                                      scrollController: scrollController,
+                                      activities: getMedia(),
+                                      addActivityCallback:
+                                      addActivityCallback))));
                 },
               ),
             ]),
@@ -603,18 +702,41 @@ class _EventFormState extends State<EventForm> {
             const SizedBox(height: 30),
             ElevatedButton(
                 onPressed: () {
+                  startDate = startDate ?? defaultStartDate;
+                  endDate = endDate ?? defaultEndDate;
+
+                  // TODO: botão de delete se não mandar id, unico parametro é id
+                  // future builder
+                  // subclasses the media form e task form com future builder para ir buscar
+                  validate();
+                  if (errors.isNotEmpty) {
+                    widget.scrollController.animateTo(0,
+                        duration: const Duration(milliseconds: 500),
+                        curve: Curves.ease);
+                    setState(() {});
+                    return;
+                  }
+
                   //TODO(eventos): Save event on db
                 },
                 style: ElevatedButton.styleFrom(
                   minimumSize:
-                      Size(MediaQuery.of(context).size.width * 0.95, 55),
+                  Size(MediaQuery
+                      .of(context)
+                      .size
+                      .width * 0.95, 55),
                   backgroundColor: primaryColor,
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(25.0),
                   ),
                 ),
-                child: Text(AppLocalizations.of(context).save,
-                    style: Theme.of(context).textTheme.headlineSmall))
+                child: Text(AppLocalizations
+                    .of(context)
+                    .save,
+                    style: Theme
+                        .of(context)
+                        .textTheme
+                        .headlineSmall))
           ]),
         ));
   }

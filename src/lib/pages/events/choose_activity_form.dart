@@ -1,10 +1,7 @@
-// ignore_for_file: file_names, library_prefixes
-
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:src/themes/colors.dart';
-
-import '../../widgets/events/choose_activity_bar.dart';
+import 'package:src/widgets/events/choose_activity_bar.dart';
 
 class ChooseActivity {
   final int id;
@@ -14,21 +11,23 @@ class ChooseActivity {
 
   ChooseActivity(
       {required this.id, // TODO(eventos): I put this here because I think it is useful for the backend, but idk, feel free to change
-        required this.title,
-        required this.description,
-        required this.isSelected});
+      required this.title,
+      required this.description,
+      required this.isSelected});
 }
 
 class ChooseActivityForm extends StatefulWidget {
+  final String title;
   final List<ChooseActivity> activities;
   final ScrollController scrollController;
   final Function(int, String, String) addActivityCallback;
 
   const ChooseActivityForm(
       {Key? key,
-        required this.scrollController,
-        required this.activities,
-        required this.addActivityCallback})
+      required this.title,
+      required this.scrollController,
+      required this.activities,
+      required this.addActivityCallback})
       : super(key: key);
 
   @override
@@ -86,16 +85,16 @@ class _ChooseActivityFormState extends State<ChooseActivityForm> {
                     alignment: Alignment.center,
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(10),
-                      color: const Color(0xFF414554),
+                      color: grayBackground,
                     ),
                   ))
             ]),
             Row(children: [
               Container(
                   padding:
-                  const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                      const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
                   decoration: BoxDecoration(
-                      color: const Color(0xFF17181C),
+                      color: textField,
                       shape: BoxShape.rectangle,
                       borderRadius: BorderRadius.circular(10)),
                   child: Wrap(children: [
@@ -103,7 +102,7 @@ class _ChooseActivityFormState extends State<ChooseActivityForm> {
                       const Icon(Icons.live_tv_rounded,
                           color: Colors.white, size: 20),
                       const SizedBox(width: 10),
-                      Text(AppLocalizations.of(context).choose_media,
+                      Text(widget.title,
                           style: const TextStyle(
                               color: Colors.white,
                               fontSize: 16,
@@ -127,7 +126,7 @@ class _ChooseActivityFormState extends State<ChooseActivityForm> {
                 },
                 style: ElevatedButton.styleFrom(
                   minimumSize:
-                  Size(MediaQuery.of(context).size.width * 0.95, 55),
+                      Size(MediaQuery.of(context).size.width * 0.95, 55),
                   backgroundColor: primaryColor,
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(25.0),

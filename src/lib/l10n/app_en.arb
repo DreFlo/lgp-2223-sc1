@@ -91,5 +91,8 @@
   "activities": "Activities",
   "choose_tasks": "Choose tasks",
   "choose_media": "Choose media",
-  "no_media": "You have no media... yet!"
+  "no_media": "You have no media... yet!",
+  "event_date_error": "The start date must be before the end date.",
+  "event_title_error": "The event title cannot be empty.",
+  "event_activities_error": "The event must have at least one activity."
 }

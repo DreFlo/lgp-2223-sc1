@@ -16,3 +16,19 @@ String formatDeadline(DateTime deadline) {
       .replaceAll('AM', 'am')
       .replaceAll('PM', 'pm');
 }
+
+String formatEventTime(DateTime eventTime) {
+  String? day = eventTime.day.toString().padLeft(2, '0'),
+      month = eventTime.month.toString().padLeft(2, '0'),
+      year = eventTime.year.toString(),
+      minute = eventTime.minute.toString().padLeft(2, '0');
+
+  // Convert start and end times to DateTime objects
+  final dateTime = DateTime(eventTime.year, eventTime.month, eventTime.day,
+      eventTime.hour, eventTime.minute);
+
+  final hour = DateFormat('h').format(dateTime);
+  final amPm = DateFormat('a').format(dateTime);
+
+  return "$day/$month/$year $hour:$minute$amPm";
+}
