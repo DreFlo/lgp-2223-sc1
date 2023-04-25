@@ -82,5 +82,14 @@
   "review": "Review",
   "your_review": "Your Review",
   "dashboard": "Dashboard",
-  "hello": "Hello"
+  "hello": "Hello",
+  "event": "Event",
+  "time_period": "Time Period",
+  "start": "Start Time",
+  "end": "End Time",
+  "no_activities": "You have no activities... yet!",
+  "activities": "Activities",
+  "choose_tasks": "Choose tasks",
+  "choose_media": "Choose media",
+  "no_media": "You have no media... yet!"
 }
