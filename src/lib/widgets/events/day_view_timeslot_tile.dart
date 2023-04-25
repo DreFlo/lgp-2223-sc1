@@ -10,12 +10,6 @@ class DayViewTimeslotTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // This method is rerun every time setState is called, for instance as done
-    // by the _incrementCounter method above.
-    //
-    // The Flutter framework has been optimized to make rerunning build methods
-    // fast, so that you can just rebuild anything that needs updating rather
-    // than having to individually change instances of widgets.
     return Padding(
         padding: const EdgeInsets.only(left: 1, right: 5),
         child: Container(
@@ -38,21 +32,19 @@ class DayViewTimeslotTile extends StatelessWidget {
                             fontSize: 16,
                             fontWeight: FontWeight.w600)))
               ]),
-              Row(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Expanded(child: 
-                Text(
-                    "${DateFormat('hh:mm').format(event.startTime!)} - ${DateFormat('hh:mm').format(event.endTime!)}",
-                    maxLines: 1,
-                    overflow: TextOverflow.fade,
-                    textAlign: TextAlign.justify,
-                    style: TextStyle(
-                        color: (event.color == studentColor
-                            ? Colors.black
-                            : Colors.white),
-                        fontSize: 14,
-                        fontWeight: FontWeight.w400)))
+              Row(crossAxisAlignment: CrossAxisAlignment.center, children: [
+                Expanded(
+                    child: Text(
+                        "${DateFormat('hh:mm').format(event.startTime!)} - ${DateFormat('hh:mm').format(event.endTime!)}",
+                        maxLines: 1,
+                        overflow: TextOverflow.fade,
+                        textAlign: TextAlign.justify,
+                        style: TextStyle(
+                            color: (event.color == studentColor
+                                ? Colors.black
+                                : Colors.white),
+                            fontSize: 14,
+                            fontWeight: FontWeight.w400)))
               ])
             ])));
   }

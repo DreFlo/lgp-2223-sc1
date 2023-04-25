@@ -21,6 +21,7 @@ class CalendarPage extends StatefulWidget {
 
 class _CalendarPageState extends State<CalendarPage> {
   EventController<Object> eventController = EventController<Object>();
+
   List<TimeslotMediaTimeslotSuperEntity> mediaEvents = [];
   bool loadedAllData = false;
   List<TimeslotStudentTimeslotSuperEntity> studentEvents = [];
