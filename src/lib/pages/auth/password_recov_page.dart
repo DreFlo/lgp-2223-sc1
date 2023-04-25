@@ -20,7 +20,6 @@ class _PasswordRecovPageState extends State<PasswordRecovPage> {
 
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
     return SizedBox(
         child: Padding(
       padding: const EdgeInsets.only(left: 20, right: 20, top: 30),
@@ -70,6 +69,10 @@ class _PasswordRecovPageState extends State<PasswordRecovPage> {
                             style: Theme.of(context).textTheme.labelMedium));
                   },
                 );
+
+                // TODO(auth): Add database connection here to check if email exists
+                // TODO(auth): Create request to send email (MVP?)
+
                 // setState(() {
                 //   //TODO: Add effect of pressing the button
                 // });

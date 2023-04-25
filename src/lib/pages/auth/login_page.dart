@@ -25,8 +25,6 @@ class _LoginPageState extends State<LoginPage> {
 
   @override
   Widget build(BuildContext context) {
-    //TODO: Implement Login page
-
     return SizedBox(
         child: Padding(
             padding: const EdgeInsets.only(left: 20, right: 20, top: 30),
@@ -137,8 +135,10 @@ class _LoginPageState extends State<LoginPage> {
                                         .labelMedium));
                           },
                         );
+                        // TODO(auth): Add database connection here to check email and password
+
                         // setState(() {
-                        //   //TODO: Add effect of pressing the button
+                        //  //TODO: Add effect of pressing the button
                         // });
                       },
                       style: ElevatedButton.styleFrom(
