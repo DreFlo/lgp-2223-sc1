@@ -10,7 +10,7 @@ class ChooseActivity {
   bool isSelected;
 
   ChooseActivity(
-      {required this.id, // TODO(eventos): I put this here because I think it is useful for the backend, but idk, feel free to change
+      {required this.id,
       required this.title,
       required this.description,
       required this.isSelected});
@@ -18,14 +18,16 @@ class ChooseActivity {
 
 class ChooseActivityForm extends StatefulWidget {
   final String title;
+  final String noActivityText;
   final List<ChooseActivity> activities;
   final ScrollController scrollController;
   final Function(int, String, String) addActivityCallback;
 
   const ChooseActivityForm(
       {Key? key,
-      required this.title,
       required this.scrollController,
+      required this.title,
+      required this.noActivityText,
       required this.activities,
       required this.addActivityCallback})
       : super(key: key);
@@ -51,7 +53,7 @@ class _ChooseActivityFormState extends State<ChooseActivityForm> {
     }
 
     if (activities == null || activities!.isEmpty) {
-      activitiesList.add(Text(AppLocalizations.of(context).no_media,
+      activitiesList.add(Text(widget.noActivityText,
           style: const TextStyle(
               color: Colors.white,
               fontSize: 16,

@@ -19,6 +19,10 @@ abstract class TaskStudentTimeslotDao {
   Future<void> insertTaskStudentTimeslot(
       TaskStudentTimeslot taskStudentTimeslot);
 
+  @insert
+  Future<void> insertTaskStudentTimeslots(
+      List<TaskStudentTimeslot> taskStudentTimeslots);
+
   @update
   Future<void> updateTaskStudentTimeslot(
       TaskStudentTimeslot taskStudentTimeslot);

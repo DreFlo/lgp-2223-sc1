@@ -722,7 +722,6 @@ class _HomePageState extends State<HomePage> {
                                 maxChildSize: 0.75,
                                 builder: (context, scrollController) =>
                                     EventForm(
-                                      title: "Create Event",
                                       scrollController: scrollController,
                                     )),
                           ));
