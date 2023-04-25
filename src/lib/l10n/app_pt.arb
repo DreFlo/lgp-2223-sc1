@@ -76,6 +76,7 @@
   "due_date": "Data de Entrega",
   "project": "Projeto",
   "institution": "Instituição",
+  "no_subjects": "Ainda não tens disciplinas...",
   "subject": "Disciplina",
   "description": "Descrição",
   "no_notes": "Ainda não tens notas...",

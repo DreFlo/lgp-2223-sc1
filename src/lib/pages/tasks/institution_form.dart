@@ -333,7 +333,7 @@ class _InstitutionFormState extends State<InstitutionForm> {
   Widget displaySubjects() {
     if (widget.id == null) {
       if (noDbSubjects.isEmpty) {
-        return Text(AppLocalizations.of(context).no_tasks,
+        return Text(AppLocalizations.of(context).no_subjects,
             style: const TextStyle(
                 color: Colors.white,
                 fontSize: 16,
@@ -360,7 +360,7 @@ class _InstitutionFormState extends State<InstitutionForm> {
               List<Widget> subjects = [];
 
               if (snapshot.data!.isEmpty && noDbSubjects.isEmpty) {
-                subjects.add(Text(AppLocalizations.of(context).no_tasks,
+                subjects.add(Text(AppLocalizations.of(context).no_subjects,
                     style: const TextStyle(
                         color: Colors.white,
                         fontSize: 16,

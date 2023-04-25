@@ -56,6 +56,7 @@
   "due_date": "Due Date",
   "project": "Project",
   "institution": "Institution",
+  "no_subjects": "You have no subjects... yet!",
   "subject": "Subject",
   "description": "Description",
   "no_notes": "You have no notes... yet!",

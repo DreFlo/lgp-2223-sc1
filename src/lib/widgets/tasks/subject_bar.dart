@@ -72,29 +72,30 @@ class _SubjectBarState extends State<SubjectBar> {
             width: MediaQuery.of(context).size.width * 0.9,
             decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(10), color: lightGray),
-            child: Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-              Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-                Row(mainAxisAlignment: MainAxisAlignment.start, children: [
-                  Text(widget.subject.acronym,
-                      style: const TextStyle(
-                          color: Colors.white,
-                          fontSize: 16,
-                          fontWeight: FontWeight.w600))
-                ])
-              ]),
-              const SizedBox(width: 10),
-              Flexible(
-                  flex: 1,
-                  child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.end,
-                      children: [
-                        Text(widget.subject.name,
-                            style: const TextStyle(
-                                overflow: TextOverflow.ellipsis,
-                                color: Colors.white,
-                                fontSize: 15,
-                                fontWeight: FontWeight.normal))
-                      ])),
+            child: Row(mainAxisAlignment: MainAxisAlignment.start, children: [
+              Expanded(
+                child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            Text(widget.subject.acronym,
+                                style: const TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.w600)),
+                            const SizedBox(width: 10),
+                            Expanded(
+                                child: Text(widget.subject.name,
+                                    style: const TextStyle(
+                                        overflow: TextOverflow.ellipsis,
+                                        color: Colors.white,
+                                        fontSize: 15,
+                                        fontWeight: FontWeight.normal)))
+                          ])
+                    ]),
+              ),
               IconButton(
                   color: Colors.white,
                   splashRadius: 0.01,
