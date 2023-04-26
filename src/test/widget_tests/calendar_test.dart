@@ -29,6 +29,7 @@ void main() {
         endDateTime: DateTime.now(),
         xpMultiplier: 1,
         id: 1,
+        finished: false,
         userId: 1);
     final studentEvent = TimeslotStudentTimeslotSuperEntity(
         title: 'My Student Event',
@@ -36,6 +37,7 @@ void main() {
         startDateTime: DateTime.now(),
         endDateTime: DateTime.now(),
         xpMultiplier: 1,
+        finished: false,
         id: 2,
         userId: 1);
 

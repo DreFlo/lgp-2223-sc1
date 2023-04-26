@@ -46,6 +46,7 @@ void main() {
       deadline: taskDeadline,
       subjectId: subjectId,
       taskGroupId: taskGroupId,
+      finished: false,
       xp: taskXp);
   Subject subject = Subject(
       id: subjectId,

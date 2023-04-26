@@ -50,6 +50,7 @@ class _CalendarPageState extends State<CalendarPage> {
                     59,
                     59),
                 xpMultiplier: mediaEvents[i].xpMultiplier,
+                finished: mediaEvents[i].finished,
                 userId: mediaEvents[i].userId);
         DateTime oldEndDateTime = mediaEvents[i].endDateTime;
         mediaEvents.removeAt(i);
@@ -62,6 +63,7 @@ class _CalendarPageState extends State<CalendarPage> {
                     oldEndDateTime.month, oldEndDateTime.day, 0, 0, 0),
                 endDateTime: oldEndDateTime,
                 xpMultiplier: mediaEvents[i].xpMultiplier,
+                finished: mediaEvents[i].finished,
                 userId: mediaEvents[i].userId);
         mediaEvents.add(newEvent);
       }
@@ -85,6 +87,7 @@ class _CalendarPageState extends State<CalendarPage> {
                     59,
                     59),
                 xpMultiplier: studentEvents[i].xpMultiplier,
+                finished: studentEvents[i].finished,
                 userId: studentEvents[i].userId);
         DateTime oldEndDateTime = studentEvents[i].endDateTime;
         studentEvents.removeAt(i);
@@ -96,6 +99,7 @@ class _CalendarPageState extends State<CalendarPage> {
                 startDateTime: DateTime(oldEndDateTime.year,
                     oldEndDateTime.month, oldEndDateTime.day, 0, 0, 0),
                 endDateTime: oldEndDateTime,
+                finished: studentEvents[i].finished,
                 xpMultiplier: studentEvents[i].xpMultiplier,
                 userId: studentEvents[i].userId);
         studentEvents.add(newEvent);

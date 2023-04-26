@@ -12,6 +12,7 @@ final mockStudentTimeslots = [
           .add(const Duration(days: 1))
           .add(const Duration(hours: 7)),
       xpMultiplier: 2,
+      finished: false,
       userId: 1),
   TimeslotStudentTimeslotSuperEntity(
       id: 3,
@@ -24,6 +25,7 @@ final mockStudentTimeslots = [
           .add(const Duration(days: 1))
           .add(const Duration(hours: 7)),
       xpMultiplier: 2,
+      finished: false,
       userId: 1),
   TimeslotStudentTimeslotSuperEntity(
       id: 4,

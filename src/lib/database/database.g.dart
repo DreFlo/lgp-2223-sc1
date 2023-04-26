@@ -141,7 +141,7 @@ class _$AppDatabase extends AppDatabase {
         await database.execute(
             'CREATE TABLE IF NOT EXISTS `subject` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `name` TEXT NOT NULL, `acronym` TEXT NOT NULL, `weight_average` REAL NOT NULL, `institution_id` INTEGER, FOREIGN KEY (`institution_id`) REFERENCES `institution` (`id`) ON UPDATE RESTRICT ON DELETE CASCADE)');
         await database.execute(
-            'CREATE TABLE IF NOT EXISTS `task_group` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `name` TEXT NOT NULL, `description` TEXT NOT NULL, `priority` INTEGER NOT NULL, `deadline` INTEGER NOT NULL)');
+            'CREATE TABLE IF NOT EXISTS `task_group` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `name` TEXT NOT NULL, `description` TEXT NOT NULL, `priority` INTEGER NOT NULL, `deadline` INTEGER NOT NULL, `subject_id` INTEGER, FOREIGN KEY (`subject_id`) REFERENCES `subject` (`id`) ON UPDATE RESTRICT ON DELETE CASCADE)');
         await database.execute(
             'CREATE TABLE IF NOT EXISTS `task` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `name` TEXT NOT NULL, `description` TEXT NOT NULL, `priority` INTEGER NOT NULL, `deadline` INTEGER NOT NULL, `xp` INTEGER NOT NULL, `task_group_id` INTEGER, `subject_id` INTEGER, `finished` INTEGER NOT NULL, FOREIGN KEY (`task_group_id`) REFERENCES `task_group` (`id`) ON UPDATE NO ACTION ON DELETE NO ACTION, FOREIGN KEY (`subject_id`) REFERENCES `subject` (`id`) ON UPDATE RESTRICT ON DELETE CASCADE)');
         await database.execute(
@@ -165,13 +165,13 @@ class _$AppDatabase extends AppDatabase {
         await database.execute(
             'CREATE TABLE IF NOT EXISTS `note` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `title` TEXT NOT NULL, `content` TEXT NOT NULL, `date` INTEGER NOT NULL)');
         await database.execute(
-            'CREATE TABLE IF NOT EXISTS `subject_note` (`id` INTEGER NOT NULL, `subject_id` INTEGER NOT NULL, FOREIGN KEY (`subject_id`) REFERENCES `subject` (`id`) ON UPDATE NO ACTION ON DELETE NO ACTION, FOREIGN KEY (`id`) REFERENCES `note` (`id`) ON UPDATE NO ACTION ON DELETE NO ACTION, PRIMARY KEY (`id`))');
+            'CREATE TABLE IF NOT EXISTS `subject_note` (`id` INTEGER NOT NULL, `subject_id` INTEGER NOT NULL, FOREIGN KEY (`subject_id`) REFERENCES `subject` (`id`) ON UPDATE RESTRICT ON DELETE CASCADE, FOREIGN KEY (`id`) REFERENCES `note` (`id`) ON UPDATE RESTRICT ON DELETE CASCADE, PRIMARY KEY (`id`))');
         await database.execute(
-            'CREATE TABLE IF NOT EXISTS `task_note` (`id` INTEGER NOT NULL, `task_id` INTEGER NOT NULL, FOREIGN KEY (`task_id`) REFERENCES `task` (`id`) ON UPDATE NO ACTION ON DELETE NO ACTION, FOREIGN KEY (`id`) REFERENCES `note` (`id`) ON UPDATE NO ACTION ON DELETE NO ACTION, PRIMARY KEY (`id`))');
+            'CREATE TABLE IF NOT EXISTS `task_note` (`id` INTEGER NOT NULL, `task_id` INTEGER NOT NULL, FOREIGN KEY (`task_id`) REFERENCES `task` (`id`) ON UPDATE RESTRICT ON DELETE CASCADE, FOREIGN KEY (`id`) REFERENCES `note` (`id`) ON UPDATE RESTRICT ON DELETE CASCADE, PRIMARY KEY (`id`))');
         await database.execute(
-            'CREATE TABLE IF NOT EXISTS `episode_note` (`id` INTEGER NOT NULL, `episode_id` INTEGER NOT NULL, FOREIGN KEY (`episode_id`) REFERENCES `episode` (`id`) ON UPDATE NO ACTION ON DELETE NO ACTION, FOREIGN KEY (`id`) REFERENCES `note` (`id`) ON UPDATE NO ACTION ON DELETE NO ACTION, PRIMARY KEY (`id`))');
+            'CREATE TABLE IF NOT EXISTS `episode_note` (`id` INTEGER NOT NULL, `episode_id` INTEGER NOT NULL, FOREIGN KEY (`episode_id`) REFERENCES `episode` (`id`) ON UPDATE RESTRICT ON DELETE CASCADE, FOREIGN KEY (`id`) REFERENCES `note` (`id`) ON UPDATE RESTRICT ON DELETE CASCADE, PRIMARY KEY (`id`))');
         await database.execute(
-            'CREATE TABLE IF NOT EXISTS `book_note` (`id` INTEGER NOT NULL, `start_page` INTEGER NOT NULL, `end_page` INTEGER NOT NULL, `book_id` INTEGER NOT NULL, FOREIGN KEY (`book_id`) REFERENCES `book` (`id`) ON UPDATE NO ACTION ON DELETE NO ACTION, FOREIGN KEY (`id`) REFERENCES `note` (`id`) ON UPDATE NO ACTION ON DELETE NO ACTION, PRIMARY KEY (`id`))');
+            'CREATE TABLE IF NOT EXISTS `book_note` (`id` INTEGER NOT NULL, `start_page` INTEGER NOT NULL, `end_page` INTEGER NOT NULL, `book_id` INTEGER NOT NULL, FOREIGN KEY (`book_id`) REFERENCES `book` (`id`) ON UPDATE RESTRICT ON DELETE CASCADE, FOREIGN KEY (`id`) REFERENCES `note` (`id`) ON UPDATE RESTRICT ON DELETE CASCADE, PRIMARY KEY (`id`))');
         await database.execute(
             'CREATE TABLE IF NOT EXISTS `user` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `user_name` TEXT NOT NULL, `password` TEXT NOT NULL, `xp` INTEGER NOT NULL, `level` INTEGER NOT NULL, `image_path` TEXT NOT NULL)');
         await database.execute(
@@ -528,8 +528,8 @@ class _$SubjectDao extends SubjectDao {
   }
 
   @override
-  Stream<Subject?> findSubjectByInstitutionId(int id) {
-    return _queryAdapter.queryStream(
+  Future<List<Subject>> findSubjectByInstitutionId(int id) async {
+    return _queryAdapter.queryList(
         'SELECT * FROM subject WHERE institution_id = ?1',
         mapper: (Map<String, Object?> row) => Subject(
             id: row['id'] as int?,
@@ -537,9 +537,19 @@ class _$SubjectDao extends SubjectDao {
             acronym: row['acronym'] as String,
             weightAverage: row['weight_average'] as double,
             institutionId: row['institution_id'] as int?),
-        arguments: [id],
-        queryableName: 'subject',
-        isView: false);
+        arguments: [id]);
+  }
+
+  @override
+  Future<List<Subject>> findSubjectByInstitutionIdNull() async {
+    return _queryAdapter.queryList(
+        'SELECT * FROM subject WHERE institution_id IS NULL',
+        mapper: (Map<String, Object?> row) => Subject(
+            id: row['id'] as int?,
+            name: row['name'] as String,
+            acronym: row['acronym'] as String,
+            weightAverage: row['weight_average'] as double,
+            institutionId: row['institution_id'] as int?));
   }
 
   @override
@@ -583,7 +593,8 @@ class _$TaskGroupDao extends TaskGroupDao {
                   'name': item.name,
                   'description': item.description,
                   'priority': item.priority.index,
-                  'deadline': _dateTimeConverter.encode(item.deadline)
+                  'deadline': _dateTimeConverter.encode(item.deadline),
+                  'subject_id': item.subjectId
                 },
             changeListener),
         _taskGroupUpdateAdapter = UpdateAdapter(
@@ -595,7 +606,8 @@ class _$TaskGroupDao extends TaskGroupDao {
                   'name': item.name,
                   'description': item.description,
                   'priority': item.priority.index,
-                  'deadline': _dateTimeConverter.encode(item.deadline)
+                  'deadline': _dateTimeConverter.encode(item.deadline),
+                  'subject_id': item.subjectId
                 },
             changeListener),
         _taskGroupDeletionAdapter = DeletionAdapter(
@@ -607,7 +619,8 @@ class _$TaskGroupDao extends TaskGroupDao {
                   'name': item.name,
                   'description': item.description,
                   'priority': item.priority.index,
-                  'deadline': _dateTimeConverter.encode(item.deadline)
+                  'deadline': _dateTimeConverter.encode(item.deadline),
+                  'subject_id': item.subjectId
                 },
             changeListener);
 
@@ -631,7 +644,8 @@ class _$TaskGroupDao extends TaskGroupDao {
             name: row['name'] as String,
             description: row['description'] as String,
             priority: Priority.values[row['priority'] as int],
-            deadline: _dateTimeConverter.decode(row['deadline'] as int)));
+            deadline: _dateTimeConverter.decode(row['deadline'] as int),
+            subjectId: row['subject_id'] as int?));
   }
 
   @override
@@ -642,7 +656,8 @@ class _$TaskGroupDao extends TaskGroupDao {
             name: row['name'] as String,
             description: row['description'] as String,
             priority: Priority.values[row['priority'] as int],
-            deadline: _dateTimeConverter.decode(row['deadline'] as int)),
+            deadline: _dateTimeConverter.decode(row['deadline'] as int),
+            subjectId: row['subject_id'] as int?),
         arguments: [id],
         queryableName: 'task_group',
         isView: false);
@@ -789,6 +804,23 @@ class _$TaskDao extends TaskDao {
             subjectId: row['subject_id'] as int?,
             xp: row['xp'] as int,
             finished: (row['finished'] as int) != 0));
+  }
+
+  @override
+  Future<List<Task>> findTasksByTaskGroupId(int taskGroupId) async {
+    return _queryAdapter.queryList(
+        'SELECT * FROM task WHERE task_group_id = ?1',
+        mapper: (Map<String, Object?> row) => Task(
+            id: row['id'] as int?,
+            name: row['name'] as String,
+            description: row['description'] as String,
+            priority: Priority.values[row['priority'] as int],
+            deadline: _dateTimeConverter.decode(row['deadline'] as int),
+            taskGroupId: row['task_group_id'] as int?,
+            subjectId: row['subject_id'] as int?,
+            xp: row['xp'] as int,
+            finished: (row['finished'] as int) != 0),
+        arguments: [taskGroupId]);
   }
 
   @override
@@ -1943,6 +1975,14 @@ class _$TaskNoteDao extends TaskNoteDao {
         arguments: [id],
         queryableName: 'task_note',
         isView: false);
+  }
+
+  @override
+  Future<List<TaskNote>> findTaskNotesByTaskId(int taskId) async {
+    return _queryAdapter.queryList('SELECT * FROM task_note WHERE task_id = ?1',
+        mapper: (Map<String, Object?> row) =>
+            TaskNote(id: row['id'] as int, taskId: row['task_id'] as int),
+        arguments: [taskId]);
   }
 
   @override
