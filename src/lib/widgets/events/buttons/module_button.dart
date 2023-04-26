@@ -9,13 +9,16 @@ class ModuleButton extends StatefulWidget {
   final Color moduleColor;
   final Function setModuleColor;
   final Function clearActivities;
+  final bool disabled;
 
-  const ModuleButton({Key? key,
-    required this.buttonKey,
-    required this.moduleColor,
-    required this.setModuleColor,
-    required this.clearActivities
-  }) : super(key: key);
+  const ModuleButton(
+      {Key? key,
+      required this.buttonKey,
+      required this.moduleColor,
+      required this.setModuleColor,
+      required this.clearActivities,
+      this.disabled = false})
+      : super(key: key);
 
   @override
   State<ModuleButton> createState() => _ModuleButtonState();
@@ -62,9 +65,12 @@ class _ModuleButtonState extends State<ModuleButton> {
                     shadowColor: MaterialStateProperty.all(Colors.transparent),
                     elevation: MaterialStateProperty.all(0),
                     alignment: const Alignment(0, 0),
-                    backgroundColor: MaterialStateProperty.all(widget.moduleColor),
+                    backgroundColor:
+                        MaterialStateProperty.all(widget.moduleColor),
                   ),
                   onPressed: () {
+                    if (widget.disabled) return;
+
                     final RenderBox button = widget.buttonKey.currentContext!
                         .findRenderObject() as RenderBox;
                     final RenderBox overlay = Overlay.of(context)
@@ -94,7 +100,8 @@ class _ModuleButtonState extends State<ModuleButton> {
                         });
                       }
                     });
-                  }, child: null,
+                  },
+                  child: null,
                 ))));
   }
 }

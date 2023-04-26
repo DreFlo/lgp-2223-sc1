@@ -208,7 +208,7 @@ class _EventFormState extends State<EventForm> {
           .deleteMediaMediaTimeslotByMediaTimeslotId(id);
     }
 
-    // print(id); // TODO(events): delete after testing
+    print(id); // TODO(events): delete after testing
 
     List<MediaMediaTimeslot> mediaMediaTimeslots = activities
         .map((activity) =>
@@ -248,7 +248,7 @@ class _EventFormState extends State<EventForm> {
           .deleteTaskStudentTimeslotByStudentTimeslotId(id);
     }
 
-    // print(id); // TODO(events): delete after testing
+    print(id); // TODO(events): delete after testing
 
     List<TaskStudentTimeslot> taskStudentTimeslots = activities
         .map((activity) =>
@@ -277,10 +277,12 @@ class _EventFormState extends State<EventForm> {
                   Row(crossAxisAlignment: CrossAxisAlignment.center, children: [
                     const SizedBox(width: 7.5),
                     ModuleButton(
-                        buttonKey: buttonKey,
-                        moduleColor: _moduleColor,
-                        setModuleColor: setModuleColor,
-                        clearActivities: clearActivities),
+                      buttonKey: buttonKey,
+                      moduleColor: _moduleColor,
+                      setModuleColor: setModuleColor,
+                      clearActivities: clearActivities,
+                      disabled: widget.id != null,
+                    ),
                     const SizedBox(width: 15),
                     EditTitle(titleController: titleController, errors: errors)
                   ]),
@@ -298,7 +300,7 @@ class _EventFormState extends State<EventForm> {
                       errors: errors),
                   const SizedBox(height: 30),
                   EditDescription(descriptionController: descriptionController),
-                  const SizedBox(height: 30),
+                  const SizedBox(height: 10),
                   _moduleColor == studentColor
                       ? TasksList(
                           activities: activities,
