@@ -9,6 +9,9 @@ abstract class TaskDao {
   @Query('SELECT * FROM task WHERE id = :id')
   Stream<Task?> findTaskById(int id);
 
+  @Query('SELECT * FROM task WHERE task_group_id = :taskGroupId')
+  Future<List<Task>> findTasksByTaskGroupId(int taskGroupId);
+
   @insert
   Future<int> insertTask(Task task);
 

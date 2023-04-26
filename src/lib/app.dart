@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:src/themes/colors.dart';
 import 'package:src/utils/service_locator.dart';
 
-import 'flavors.dart';
-import 'pages/navigation_page.dart';
+import 'package:src/flavors.dart';
+import 'package:src/pages/navigation_page.dart';
 
 const Map<int, Color> color = {
   50: Color.fromRGBO(108, 93, 211, .1),
@@ -34,7 +35,7 @@ class App extends StatelessWidget {
             theme: ThemeData(
                 fontFamily: 'Poppins',
                 primarySwatch: const MaterialColor(0xFF6C5DD3, color),
-                scaffoldBackgroundColor: const Color(0xFF181A20),
+                scaffoldBackgroundColor: appBackground,
                 textTheme: const TextTheme(
                   labelSmall: TextStyle(
                       color: Color(0xFF71788D),

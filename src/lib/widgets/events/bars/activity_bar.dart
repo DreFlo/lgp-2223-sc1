@@ -65,7 +65,7 @@ class _ActivityBarState extends State<ActivityBar> {
                     InkWell(
                       onTap: () {
                         setState(() {
-                          widget.removeActivityCallback();
+                          //widget.removeActivityCallback();
                         });
                       },
                       child: const Icon(Icons.clear,

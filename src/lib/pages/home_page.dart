@@ -1,4 +1,4 @@
-// ignore_for_file: prefer_const_constructors, sized_box_for_whitespace, file_names
+// ignore_for_file: prefer_const_constructors, sized_box_for_whitespace
 
 import 'package:books_finder/books_finder.dart';
 import 'package:flutter/material.dart';
@@ -7,23 +7,16 @@ import 'package:src/animation_test/main.dart';
 import 'package:src/daos/user_dao.dart';
 import 'package:src/env/env.dart';
 import 'package:src/models/user.dart';
+import 'package:src/pages/catalog_search/leisure_module.dart';
 import 'package:src/pages/tasks/institution_form.dart';
 import 'package:src/pages/tasks/subject_form.dart';
-import 'package:src/themes/colors.dart';
 import 'package:src/utils/enums.dart';
 import 'package:src/utils/service_locator.dart';
 import 'package:tmdb_api/tmdb_api.dart';
 
-import 'catalog_search/leisure_module.dart';
-import 'events/event_form.dart';
-import 'leisure/add_book_note_form.dart';
-import 'leisure/add_to_catalog_form.dart';
-import 'leisure/book_notes_sheet.dart';
-import 'leisure/episodes_notes_sheet.dart';
-import 'leisure/mark_episodes_sheet.dart';
-import 'leisure/media_page.dart';
-import 'tasks/project_form.dart';
-import 'tasks/task_form.dart';
+import 'package:src/pages/events/event_form.dart';
+import 'package:src/pages/tasks/project_form.dart';
+import 'package:src/pages/tasks/task_form.dart';
 
 class HomePage extends StatefulWidget {
   final String title;
@@ -105,344 +98,6 @@ class _HomePageState extends State<HomePage> {
       trendingtvshows = tvresult['results'];
       books = books;
     });
-  }
-
-  Widget mediaPageButton() {
-    if (type == "TV Show") {
-      if (status == Status.nothing) {
-        // If the media is not in the catalog, show a button to add it.
-        return ElevatedButton(
-          onPressed: () {
-            showModalBottomSheet(
-                context: context,
-                isScrollControlled: true,
-                backgroundColor: Color(0xFF22252D),
-                shape: RoundedRectangleBorder(
-                  borderRadius:
-                      BorderRadius.vertical(top: Radius.circular(30.0)),
-                ),
-                builder: (context) => DraggableScrollableSheet(
-                    expand: false,
-                    initialChildSize: 0.35,
-                    minChildSize: 0.35,
-                    maxChildSize: 0.5,
-                    builder: (context, scrollController) => Stack(
-                            alignment: AlignmentDirectional.bottomCenter,
-                            children: [
-                              Padding(
-                                  padding: EdgeInsets.only(
-                                      bottom: MediaQuery.of(context)
-                                              .viewInsets
-                                              .bottom +
-                                          50),
-                                  child: SingleChildScrollView(
-                                      controller: scrollController,
-                                      child: AddToCatalogForm(
-                                          status: Status.nothing,
-                                          startDate: DateTime.now()
-                                              .toString()
-                                              .split(" ")[0],
-                                          endDate: 'Not Defined'))),
-                              Positioned(
-                                  left: 16,
-                                  right: 16,
-                                  bottom: 16,
-                                  child: Padding(
-                                      padding: EdgeInsets.only(
-                                          bottom: MediaQuery.of(context)
-                                              .viewInsets
-                                              .bottom),
-                                      child: ElevatedButton(
-                                        onPressed: () {
-                                          //TODO: Save stuff + send to database.
-                                        },
-                                        style: ElevatedButton.styleFrom(
-                                          minimumSize: Size(
-                                              MediaQuery.of(context)
-                                                      .size
-                                                      .width *
-                                                  0.95,
-                                              55),
-                                          backgroundColor: leisureColor,
-                                          shape: RoundedRectangleBorder(
-                                            borderRadius:
-                                                BorderRadius.circular(25.0),
-                                          ),
-                                        ),
-                                        child: Text(
-                                            AppLocalizations.of(context).save,
-                                            style: Theme.of(context)
-                                                .textTheme
-                                                .headlineSmall),
-                                      )))
-                            ])));
-          },
-          style: ElevatedButton.styleFrom(
-            minimumSize: Size(MediaQuery.of(context).size.width * 0.95, 55),
-            backgroundColor: leisureColor,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(25.0),
-            ),
-          ),
-          child: Text(AppLocalizations.of(context).add,
-              style: Theme.of(context).textTheme.headlineSmall),
-        );
-      } else {
-        // If media is somehow in the catalog, then user should be able to see their notes and edit info.
-        return Container(
-          width: MediaQuery.of(context).size.width * 0.95,
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              ElevatedButton(
-                onPressed: () {
-                  showModalBottomSheet(
-                      context: context,
-                      isScrollControlled: true,
-                      backgroundColor: Color(0xFF22252D),
-                      shape: RoundedRectangleBorder(
-                        borderRadius:
-                            BorderRadius.vertical(top: Radius.circular(30.0)),
-                      ),
-                      builder: (context) => DraggableScrollableSheet(
-                          expand: false,
-                          initialChildSize: 0.35,
-                          minChildSize: 0.35,
-                          maxChildSize: 0.5,
-                          builder: (context, scrollController) => Stack(
-                                  alignment: AlignmentDirectional.bottomCenter,
-                                  children: [
-                                    Padding(
-                                        padding: EdgeInsets.only(
-                                            bottom: MediaQuery.of(context)
-                                                    .viewInsets
-                                                    .bottom +
-                                                50),
-                                        child: SingleChildScrollView(
-                                            controller: scrollController,
-                                            child: MarkEpisodesSheet(
-                                                episodes: episodes))),
-                                  ])));
-                },
-                style: ElevatedButton.styleFrom(
-                  minimumSize:
-                      Size(MediaQuery.of(context).size.width * 0.45, 55),
-                  backgroundColor: leisureColor,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(25.0),
-                  ),
-                ),
-                child: Text(AppLocalizations.of(context).progress,
-                    style: Theme.of(context).textTheme.headlineSmall),
-              ),
-              ElevatedButton(
-                onPressed: () {
-                  showModalBottomSheet(
-                      context: context,
-                      isScrollControlled: true,
-                      backgroundColor: Color(0xFF22252D),
-                      shape: RoundedRectangleBorder(
-                        borderRadius:
-                            BorderRadius.vertical(top: Radius.circular(30.0)),
-                      ),
-                      builder: (context) => DraggableScrollableSheet(
-                          expand: false,
-                          initialChildSize: 0.35,
-                          minChildSize: 0.35,
-                          maxChildSize: 0.5,
-                          builder: (context, scrollController) => Stack(
-                                  alignment: AlignmentDirectional.bottomCenter,
-                                  children: [
-                                    Padding(
-                                        padding: EdgeInsets.only(
-                                            bottom: MediaQuery.of(context)
-                                                    .viewInsets
-                                                    .bottom +
-                                                50),
-                                        child: SingleChildScrollView(
-                                            controller: scrollController,
-                                            child: EpisodesNotesSheet(
-                                                notes: notes,
-                                                episodes: episodes)))
-                                  ])));
-                },
-                style: ElevatedButton.styleFrom(
-                  minimumSize:
-                      Size(MediaQuery.of(context).size.width * 0.45, 55),
-                  backgroundColor: leisureColor,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(25.0),
-                  ),
-                ),
-                child: Text(AppLocalizations.of(context).notes,
-                    style: Theme.of(context).textTheme.headlineSmall),
-              )
-            ],
-          ),
-        );
-      }
-    } else if (type == "Book") {
-      if (status == Status.nothing) {
-        // If the media is not in the catalog, show a button to add it.
-        return ElevatedButton(
-          onPressed: () {
-            showModalBottomSheet(
-                context: context,
-                isScrollControlled: true,
-                backgroundColor: Color(0xFF22252D),
-                shape: RoundedRectangleBorder(
-                  borderRadius:
-                      BorderRadius.vertical(top: Radius.circular(30.0)),
-                ),
-                builder: (context) => DraggableScrollableSheet(
-                    expand: false,
-                    initialChildSize: 0.35,
-                    minChildSize: 0.35,
-                    maxChildSize: 0.5,
-                    builder: (context, scrollController) => Stack(
-                            alignment: AlignmentDirectional.bottomCenter,
-                            children: [
-                              Padding(
-                                  padding: EdgeInsets.only(
-                                      bottom: MediaQuery.of(context)
-                                              .viewInsets
-                                              .bottom +
-                                          50),
-                                  child: SingleChildScrollView(
-                                      controller: scrollController,
-                                      child: AddToCatalogForm(
-                                          status: Status.nothing,
-                                          startDate: DateTime.now()
-                                              .toString()
-                                              .split(" ")[0],
-                                          endDate: 'Not Defined'))),
-                              Positioned(
-                                  left: 16,
-                                  right: 16,
-                                  bottom: 16,
-                                  child: Padding(
-                                      padding: EdgeInsets.only(
-                                          bottom: MediaQuery.of(context)
-                                              .viewInsets
-                                              .bottom),
-                                      child: ElevatedButton(
-                                        onPressed: () {
-                                          //TODO: Save stuff + send to database.
-                                        },
-                                        style: ElevatedButton.styleFrom(
-                                          minimumSize: Size(
-                                              MediaQuery.of(context)
-                                                      .size
-                                                      .width *
-                                                  0.95,
-                                              55),
-                                          backgroundColor: leisureColor,
-                                          shape: RoundedRectangleBorder(
-                                            borderRadius:
-                                                BorderRadius.circular(25.0),
-                                          ),
-                                        ),
-                                        child: Text(
-                                            AppLocalizations.of(context).save,
-                                            style: Theme.of(context)
-                                                .textTheme
-                                                .headlineSmall),
-                                      )))
-                            ])));
-          },
-          style: ElevatedButton.styleFrom(
-            minimumSize: Size(MediaQuery.of(context).size.width * 0.95, 55),
-            backgroundColor: leisureColor,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(25.0),
-            ),
-          ),
-          child: Text(AppLocalizations.of(context).add,
-              style: Theme.of(context).textTheme.headlineSmall),
-        );
-      } else {
-        // If media is somehow in the catalog, then user should be able to see their notes and edit info.
-        return Container(
-          width: MediaQuery.of(context).size.width * 0.95,
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              ElevatedButton(
-                onPressed: () {
-                  showModalBottomSheet(
-                      context: context,
-                      isScrollControlled: true,
-                      backgroundColor: Color(0xFF22252D),
-                      shape: RoundedRectangleBorder(
-                        borderRadius:
-                            BorderRadius.vertical(top: Radius.circular(30.0)),
-                      ),
-                      builder: (context) => Padding(
-                          padding: EdgeInsets.only(
-                              bottom: MediaQuery.of(context).viewInsets.bottom),
-                          child: Stack(children: const [
-                            AddBookNoteForm(),
-                          ])));
-                },
-                style: ElevatedButton.styleFrom(
-                  minimumSize:
-                      Size(MediaQuery.of(context).size.width * 0.45, 55),
-                  backgroundColor: leisureColor,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(25.0),
-                  ),
-                ),
-                child: Text(AppLocalizations.of(context).progress,
-                    style: Theme.of(context).textTheme.headlineSmall),
-              ),
-              ElevatedButton(
-                onPressed: () {
-                  showModalBottomSheet(
-                      context: context,
-                      isScrollControlled: true,
-                      backgroundColor: Color(0xFF22252D),
-                      shape: RoundedRectangleBorder(
-                        borderRadius:
-                            BorderRadius.vertical(top: Radius.circular(30.0)),
-                      ),
-                      builder: (context) => DraggableScrollableSheet(
-                          expand: false,
-                          initialChildSize: 0.35,
-                          minChildSize: 0.35,
-                          maxChildSize: 0.5,
-                          builder: (context, scrollController) => Stack(
-                                  alignment: AlignmentDirectional.bottomCenter,
-                                  children: [
-                                    Padding(
-                                        padding: EdgeInsets.only(
-                                            bottom: MediaQuery.of(context)
-                                                    .viewInsets
-                                                    .bottom +
-                                                50),
-                                        child: SingleChildScrollView(
-                                            controller: scrollController,
-                                            child: BookNotesSheet(
-                                                notes: bookNotes)))
-                                  ])));
-                },
-                style: ElevatedButton.styleFrom(
-                  minimumSize:
-                      Size(MediaQuery.of(context).size.width * 0.45, 55),
-                  backgroundColor: leisureColor,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(25.0),
-                  ),
-                ),
-                child: Text(AppLocalizations.of(context).notes,
-                    style: Theme.of(context).textTheme.headlineSmall),
-              )
-            ],
-          ),
-        );
-      }
-    }
-
-    return Container();
   }
 
   @override
@@ -537,44 +192,6 @@ class _HomePageState extends State<HomePage> {
               },
             ),
             ElevatedButton(
-                child: Text("Media Page"),
-                onPressed: () {
-                  showModalBottomSheet(
-                      context: context,
-                      isScrollControlled: true,
-                      backgroundColor: Color(0xFF22252D),
-                      shape: RoundedRectangleBorder(
-                        borderRadius:
-                            BorderRadius.vertical(top: Radius.circular(30.0)),
-                      ),
-                      builder: (context) => DraggableScrollableSheet(
-                          expand: false,
-                          minChildSize: 0.35,
-                          maxChildSize: 0.75,
-                          builder: (context, scrollController) => Stack(
-                                  alignment: AlignmentDirectional.bottomCenter,
-                                  children: [
-                                    SingleChildScrollView(
-                                        controller: scrollController,
-                                        child: MediaPage(
-                                            title: title,
-                                            synopsis: synopsis,
-                                            type: type,
-                                            length: length,
-                                            cast: cast,
-                                            image: 'assets/images/poster.jpg',
-                                            notes: notes,
-                                            status: status,
-                                            leisureTags: const [],
-                                            isFavorite: isFavorite)),
-                                    Positioned(
-                                        left: 16,
-                                        right: 16,
-                                        bottom: 16,
-                                        child: mediaPageButton())
-                                  ])));
-                }),
-            ElevatedButton(
                 child: Text("Task Form"),
                 onPressed: () {
                   showModalBottomSheet(
@@ -597,15 +214,8 @@ class _HomePageState extends State<HomePage> {
                                 maxChildSize: 0.60,
                                 builder: (context, scrollController) =>
                                     TaskForm(
-                                        scrollController: scrollController,
-                                        title: "Create Task",
-                                        project: "No",
-                                        dueDate: "05/04/2023",
-                                        priority: Priority.high,
-                                        notes: const ["nothing"],
-                                        institution: "FEUP",
-                                        subject: "LPOO",
-                                        description: "nothing")),
+                                      scrollController: scrollController,
+                                    )),
                           ));
                 }),
             ElevatedButton(
@@ -620,25 +230,18 @@ class _HomePageState extends State<HomePage> {
                             BorderRadius.vertical(top: Radius.circular(30.0)),
                       ),
                       builder: (context) => Padding(
-                            padding: EdgeInsets.only(
-                                bottom:
-                                    MediaQuery.of(context).viewInsets.bottom +
-                                        50),
-                            child: DraggableScrollableSheet(
-                                expand: false,
-                                initialChildSize: 0.75,
-                                minChildSize: 0.75,
-                                maxChildSize: 0.75,
-                                builder: (context, scrollController) =>
-                                    ProjectForm(
-                                        scrollController: scrollController,
-                                        title: "Create Project",
-                                        dueDate: "05/04/2023",
-                                        institution: "FEUP",
-                                        subject: "LPOO",
-                                        tasks: const ["", "", ""],
-                                        description: "nothing")),
-                          ));
+                          padding: EdgeInsets.only(
+                              bottom: MediaQuery.of(context).viewInsets.bottom +
+                                  50),
+                          child: DraggableScrollableSheet(
+                              expand: false,
+                              initialChildSize: 0.75,
+                              minChildSize: 0.75,
+                              maxChildSize: 0.75,
+                              builder: (context, scrollController) =>
+                                  ProjectForm(
+                                    scrollController: scrollController,
+                                  ))));
                 }),
             ElevatedButton(
                 child: Text("Subject Form"),
@@ -661,8 +264,6 @@ class _HomePageState extends State<HomePage> {
                             minChildSize: 0.5,
                             maxChildSize: 0.5,
                             builder: (context, scrollController) => SubjectForm(
-                              name: "Hello",
-                              acronym: "HI",
                               scrollController: scrollController,
                             ),
                           )));
@@ -689,12 +290,6 @@ class _HomePageState extends State<HomePage> {
                             maxChildSize: 0.5,
                             builder: (context, scrollController) =>
                                 InstitutionForm(
-                              name: "Hello",
-                              type: InstitutionType.education,
-                              subjects: const {
-                                "LPOO":
-                                    "Laboratório de Programação Orientada a Objetos"
-                              },
                               scrollController: scrollController,
                             ),
                           )));

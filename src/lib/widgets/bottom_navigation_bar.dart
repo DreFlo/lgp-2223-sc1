@@ -54,7 +54,7 @@ class _MyBottomNavigationBarState extends State<MyBottomNavigationBar> {
             topRight: Radius.circular(20),
           ),
           boxShadow: [
-            BoxShadow(color: bottomNavbar),
+            BoxShadow(color: bottomNavbar, spreadRadius: 5, blurRadius: 10),
           ]),
       child: ClipRRect(
           borderRadius: const BorderRadius.only(

@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 import 'package:src/themes/colors.dart';
 
-import '../../utils/formatters.dart';
+import 'package:src/utils/formatters.dart';
 
 class MyTaskCard extends StatefulWidget {
   final String name;

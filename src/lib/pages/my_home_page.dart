@@ -4,9 +4,9 @@ import 'package:src/widgets/home/profile_pic.dart';
 import 'package:src/widgets/home/task_listview.dart';
 import 'package:src/widgets/home/welcome_message.dart';
 
-import '../models/student/task.dart';
-import '../utils/enums.dart';
-import '../widgets/home/badge_placeholder.dart';
+import 'package:src/models/student/task.dart';
+import 'package:src/utils/enums.dart';
+import 'package:src/widgets/home/badge_placeholder.dart';
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({Key? key}) : super(key: key);
