@@ -9,7 +9,6 @@ import 'package:src/models/notes/note_task_note_super_entity.dart';
 import 'package:src/models/timeslot/timeslot_media_timeslot_super_entity.dart';
 import 'package:src/models/timeslot/timeslot_student_timeslot_super_entity.dart';
 
-
 @GenerateNiceMocks([
   MockSpec<Institution>(),
   MockSpec<Subject>(),
