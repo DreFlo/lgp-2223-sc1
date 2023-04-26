@@ -9,11 +9,15 @@ import 'package:src/models/student/task.dart';
       childColumns: ['task_id'],
       parentColumns: ['id'],
       entity: Task,
+      onDelete: ForeignKeyAction.cascade,
+      onUpdate: ForeignKeyAction.restrict,
     ),
     ForeignKey(
       childColumns: ['id'],
       parentColumns: ['id'],
       entity: Note,
+      onDelete: ForeignKeyAction.cascade,
+      onUpdate: ForeignKeyAction.restrict,
     ),
   ],
 )

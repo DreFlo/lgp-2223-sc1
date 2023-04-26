@@ -10,7 +10,10 @@ abstract class SubjectDao {
   Stream<Subject?> findSubjectById(int id);
 
   @Query('SELECT * FROM subject WHERE institution_id = :id')
-  Stream<Subject?> findSubjectByInstitutionId(int id);
+  Future<List<Subject>> findSubjectByInstitutionId(int id);
+
+  @Query('SELECT * FROM subject WHERE institution_id IS NULL')
+  Future<List<Subject>> findSubjectByInstitutionIdNull();
 
   @insert
   Future<int> insertSubject(Subject subject);
