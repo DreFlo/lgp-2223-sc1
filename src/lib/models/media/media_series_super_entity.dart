@@ -101,4 +101,19 @@ class MediaSeriesSuperEntity {
       numberSeasons: numberSeasons ?? this.numberSeasons,
     );
   }
+
+  MediaSeriesSuperEntity.fromJson(Map<String, dynamic> json)
+      : id = json['id'],
+        name = json['name'],
+        description = json['description'],
+        linkImage = json['linkImage'],
+        status = json['status'],
+        favorite = json['favorite'],
+        genres = json['genres'],
+        release = json['release'],
+        xp = json['xp'],
+        participants = json['participants'],
+        tagline = json['tagline'],
+        numberEpisodes = json['numberEpisodes'],
+        numberSeasons = json['numberSeasons'];
 }

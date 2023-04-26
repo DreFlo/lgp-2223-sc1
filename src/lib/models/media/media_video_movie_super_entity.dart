@@ -105,4 +105,18 @@ class MediaVideoMovieSuperEntity {
       tagline: tagline ?? this.tagline,
     );
   }
+
+  MediaVideoMovieSuperEntity.fromJson(Map<String, dynamic> json)
+      : id = json['id'],
+        name = json['name'],
+        description = json['description'],
+        linkImage = json['linkImage'],
+        status = Status.values[json['status']],
+        favorite = json['favorite'],
+        genres = json['genres'],
+        release = DateTime.parse(json['release']),
+        xp = json['xp'],
+        duration = json['duration'],
+        participants = json['participants'],
+        tagline = json['tagline'];
 }
