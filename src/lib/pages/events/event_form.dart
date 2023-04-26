@@ -15,6 +15,7 @@ import 'package:src/models/timeslot/timeslot_student_timeslot_super_entity.dart'
 import 'package:src/themes/colors.dart';
 import 'package:src/utils/service_locator.dart';
 import 'package:src/utils/validators.dart';
+import 'package:src/utils/formatters.dart';
 import 'package:src/widgets/events/buttons/delete_button.dart';
 import 'package:src/widgets/events/edit_texts/edit_description.dart';
 import 'package:src/widgets/events/edit_texts/edit_title.dart';
@@ -148,20 +149,26 @@ class _EventFormState extends State<EventForm> {
     List<Media> media = await serviceLocator<MediaMediaTimeslotDao>()
         .findMediaByMediaTimeslotId(widget.id!);
 
-    activities = media
-        .map((e) =>
-            Activity(id: e.id!, title: e.name, description: e.description))
-        .toList();
+    setState(() {
+      activities = media
+          .map((e) =>
+              Activity(id: e.id!, title: e.name, description: e.description))
+          .toList();
+    });
   }
 
   void initStudentEventActivities() async {
     List<Task> tasks = await serviceLocator<TaskStudentTimeslotDao>()
         .findTaskByStudentTimeslotId(widget.id!);
 
-    activities = tasks
-        .map((e) =>
-            Activity(id: e.id!, title: e.name, description: e.description))
-        .toList();
+    setState(() {
+      activities = tasks
+          .map((e) => Activity(
+              id: e.id!,
+              title: e.name,
+              description: formatDeadline(e.deadline)))
+          .toList();
+    });
   }
 
   void onSaveCallback() {
