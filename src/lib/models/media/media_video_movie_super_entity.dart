@@ -3,49 +3,52 @@ import 'package:src/models/media/movie.dart';
 import 'package:src/models/media/video.dart';
 import 'package:src/utils/enums.dart';
 
-class MediaVideoMovieSuperEntity {
-  final int? id;
-  final String name;
-  final String description;
-  final String linkImage;
-  final Status status;
-  final bool favorite;
-  final String genres;
-  final String participants;
-  final DateTime release;
-  final int xp;
+class MediaVideoMovieSuperEntity extends Media {
   final int duration;
   final String tagline;
 
   MediaVideoMovieSuperEntity({
-    this.id,
-    required this.name,
-    required this.description,
-    required this.linkImage,
-    required this.status,
-    required this.favorite,
-    required this.genres,
-    required this.release,
-    required this.xp,
+    int? id,
+    required String name,
+    required String description,
+    required String linkImage,
+    required Status status,
+    required bool favorite,
+    required String genres,
+    required DateTime release,
+    required int xp,
     required this.duration,
-    required this.participants,
+    required String participants,
     required this.tagline,
-  });
+  }) : super(
+          id: id,
+          name: name,
+          description: description,
+          linkImage: linkImage,
+          status: status,
+          favorite: favorite,
+          genres: genres,
+          release: release,
+          xp: xp,
+          participants: participants,
+        );
 
   MediaVideoMovieSuperEntity.fromMediaAndVideoAndMovie(
       Media media, Video video, Movie movie)
-      : id = media.id,
-        name = media.name,
-        description = media.description,
-        linkImage = media.linkImage,
-        status = media.status,
-        favorite = media.favorite,
-        genres = media.genres,
-        release = media.release,
-        xp = media.xp,
-        participants = media.participants,
-        duration = video.duration,
-        tagline = movie.tagline;
+      : duration = video.duration,
+        tagline = movie.tagline,
+        super(
+          id: media.id,
+          name: media.name,
+          description: media.description,
+          linkImage: media.linkImage,
+          status: media.status,
+          favorite: media.favorite,
+          genres: media.genres,
+          release: media.release,
+          xp: media.xp,
+          participants: media.participants,
+        );
 
   Media toMedia() {
     return Media(
@@ -107,16 +110,18 @@ class MediaVideoMovieSuperEntity {
   }
 
   MediaVideoMovieSuperEntity.fromJson(Map<String, dynamic> json)
-      : id = json['id'],
-        name = json['name'],
-        description = json['description'],
-        linkImage = json['linkImage'],
-        status = Status.values[json['status']],
-        favorite = json['favorite'],
-        genres = json['genres'],
-        release = DateTime.parse(json['release']),
-        xp = json['xp'],
-        duration = json['duration'],
-        participants = json['participants'],
-        tagline = json['tagline'];
+      : duration = json['duration'],
+        tagline = json['tagline'],
+        super(
+          id: json['id'],
+          name: json['name'],
+          description: json['description'],
+          linkImage: json['linkImage'],
+          status: Status.values[json['status']],
+          favorite: json['favorite'],
+          genres: json['genres'],
+          release: DateTime.parse(json['release']),
+          xp: json['xp'],
+          participants: json['participants'],
+        );
 }
