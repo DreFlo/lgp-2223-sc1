@@ -171,6 +171,32 @@ class _EventFormState extends State<EventForm> {
     });
   }
 
+  TimeslotMediaTimeslotSuperEntity getMediaTimeslot() {
+    // TODO(eventos): correct xp formula and get user logged id
+    return TimeslotMediaTimeslotSuperEntity(
+      id: widget.id,
+      title: titleController.text,
+      description: descriptionController.text,
+      startDateTime: startDate ?? defaultStartDate,
+      endDateTime: endDate ?? defaultEndDate,
+      xpMultiplier: 2,
+      userId: 1,
+    );
+  }
+
+  TimeslotStudentTimeslotSuperEntity getStudentTimeslot() {
+    // TODO(eventos): correct xp formula and get user logged id
+    return TimeslotStudentTimeslotSuperEntity(
+      id: widget.id,
+      title: titleController.text,
+      description: descriptionController.text,
+      startDateTime: startDate ?? defaultStartDate,
+      endDateTime: endDate ?? defaultEndDate,
+      xpMultiplier: 2,
+      userId: 1,
+    );
+  }
+
   void onSaveCallback() {
     startDate ??= defaultStartDate;
     endDate ??= defaultEndDate;
@@ -189,18 +215,7 @@ class _EventFormState extends State<EventForm> {
   }
 
   void saveMediaEvent() async {
-    // TODO(eventos): correct xp formula and get user logged id
-
-    TimeslotMediaTimeslotSuperEntity mediaTimeslot =
-        TimeslotMediaTimeslotSuperEntity(
-      id: widget.id,
-      title: titleController.text,
-      description: descriptionController.text,
-      startDateTime: startDate ?? defaultStartDate,
-      endDateTime: endDate ?? defaultEndDate,
-      xpMultiplier: 2,
-      userId: 1,
-    );
+    TimeslotMediaTimeslotSuperEntity mediaTimeslot = getMediaTimeslot();
 
     int id;
     if (widget.id == null) {
@@ -229,18 +244,7 @@ class _EventFormState extends State<EventForm> {
   }
 
   void saveStudentEvent() async {
-    // TODO(eventos): correct xp formula and get user logged id
-
-    TimeslotStudentTimeslotSuperEntity studentTimeslot =
-        TimeslotStudentTimeslotSuperEntity(
-      id: widget.id,
-      title: titleController.text,
-      description: descriptionController.text,
-      startDateTime: startDate ?? defaultStartDate,
-      endDateTime: endDate ?? defaultEndDate,
-      xpMultiplier: 2,
-      userId: 1,
-    );
+    TimeslotStudentTimeslotSuperEntity studentTimeslot = getStudentTimeslot();
 
     int id;
     if (widget.id == null) {
@@ -266,6 +270,31 @@ class _EventFormState extends State<EventForm> {
       await serviceLocator<TaskStudentTimeslotDao>()
           .insertTaskStudentTimeslots(taskStudentTimeslots);
     }
+  }
+
+  void onDeleteCallback() async {
+    if (widget.id != null) {
+      _moduleColor == studentColor ? deleteStudentEvent() : deleteMediaEvent();
+      Navigator.pop(context);
+    }
+  }
+
+  void deleteMediaEvent() async {
+    await serviceLocator<MediaMediaTimeslotDao>()
+        .deleteMediaMediaTimeslotByMediaTimeslotId(widget.id!);
+
+    TimeslotMediaTimeslotSuperEntity mediaTimeslot = getMediaTimeslot();
+    await serviceLocator<TimeslotMediaTimeslotSuperDao>()
+        .deleteTimeslotMediaTimeslotSuperEntity(mediaTimeslot);
+  }
+
+  void deleteStudentEvent() async {
+    await serviceLocator<TaskStudentTimeslotDao>()
+        .deleteTaskStudentTimeslotByStudentTimeslotId(widget.id!);
+
+    TimeslotStudentTimeslotSuperEntity studentTimeslot = getStudentTimeslot();
+    await serviceLocator<TimeslotStudentTimeslotSuperDao>()
+        .deleteTimeslotStudentTimeslotSuperEntity(studentTimeslot);
   }
 
   @override
