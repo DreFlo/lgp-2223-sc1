@@ -31,6 +31,10 @@ abstract class TaskStudentTimeslotDao {
   Future<void> deleteTaskStudentTimeslot(
       TaskStudentTimeslot taskStudentTimeslot);
 
+  @Query('''DELETE FROM task_student_timeslot 
+          WHERE student_timeslot_id = :id''')
+  Future<void> deleteTaskStudentTimeslotByStudentTimeslotId(int id);
+
   @Query('''SELECT T.* 
           FROM task_student_timeslot TT JOIN task T ON TT.task_id = T.id 
           WHERE TT.student_timeslot_id = :id''')

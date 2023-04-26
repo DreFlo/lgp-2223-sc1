@@ -28,6 +28,10 @@ abstract class MediaMediaTimeslotDao {
   @delete
   Future<void> deleteMediaMediaTimeslot(MediaMediaTimeslot mediaMediaTimeslot);
 
+  @Query('''DELETE FROM media_media_timeslot 
+          WHERE media_timeslot_id = :id''')
+  Future<void> deleteMediaMediaTimeslotByMediaTimeslotId(int id);
+
   @Query('''SELECT M.* 
           FROM media_media_timeslot MT JOIN media M ON MT.media_id = M.id 
           WHERE MT.media_timeslot_id = :id''')

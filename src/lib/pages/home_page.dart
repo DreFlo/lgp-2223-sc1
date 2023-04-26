@@ -723,6 +723,9 @@ class _HomePageState extends State<HomePage> {
                                 builder: (context, scrollController) =>
                                     EventForm(
                                       scrollController: scrollController,
+                                      // id: 2,
+                                      // type: "student",
+                                      // OR (1, leisure)
                                     )),
                           ));
                 }),

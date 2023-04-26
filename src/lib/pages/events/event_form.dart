@@ -2,10 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:src/daos/timeslot/media_media_timeslot_dao.dart';
 import 'package:src/daos/timeslot/task_student_timeslot_dao.dart';
+import 'package:src/daos/timeslot/timeslot_dao.dart';
 import 'package:src/daos/timeslot/timeslot_media_timeslot_super_dao.dart';
 import 'package:src/daos/timeslot/timeslot_student_timeslot_super_dao.dart';
+import 'package:src/models/media/media.dart';
+import 'package:src/models/student/task.dart';
 import 'package:src/models/timeslot/media_media_timeslot.dart';
 import 'package:src/models/timeslot/task_student_timeslot.dart';
+import 'package:src/models/timeslot/timeslot.dart';
 import 'package:src/models/timeslot/timeslot_media_timeslot_super_entity.dart';
 import 'package:src/models/timeslot/timeslot_student_timeslot_super_entity.dart';
 import 'package:src/themes/colors.dart';
@@ -33,8 +37,11 @@ class Activity {
 class EventForm extends StatefulWidget {
   final int? id;
   final ScrollController scrollController;
+  // TODO(events): change for an event type enum
+  final String? type;
 
-  const EventForm({Key? key, required this.scrollController, this.id})
+  const EventForm(
+      {Key? key, required this.scrollController, this.id, this.type})
       : super(key: key);
 
   @override
@@ -44,6 +51,7 @@ class EventForm extends StatefulWidget {
 class _EventFormState extends State<EventForm> {
   final GlobalKey buttonKey = GlobalKey();
 
+  bool initialized = false;
   Map<String, String> errors = {};
   Color _moduleColor = studentColor;
 
@@ -61,10 +69,6 @@ class _EventFormState extends State<EventForm> {
 
   @override
   initState() {
-    if (widget.id != null) {
-      // TODO(eventos): get event info from database
-    }
-
     super.initState();
   }
 
@@ -104,6 +108,62 @@ class _EventFormState extends State<EventForm> {
     });
   }
 
+  Future<int> onInitEvent() async {
+    if (initialized) {
+      return 0;
+    }
+
+    if (widget.id != null) {
+      Timeslot? timeslot = await serviceLocator<TimeslotDao>()
+          .findTimeslotById(widget.id!)
+          .first;
+
+      title = timeslot!.title;
+      description = timeslot.description;
+      startDate = timeslot.startDateTime;
+      endDate = timeslot.endDateTime;
+
+      if (widget.type == null || widget.type == "student") {
+        _moduleColor = studentColor;
+        initStudentEventActivities();
+      } else if (widget.type == "leisure") {
+        _moduleColor = leisureColor;
+        initMediaEventActivities();
+      }
+    } else {
+      title = '';
+      description = '';
+      startDate = null;
+      endDate = null;
+      activities = [];
+    }
+
+    titleController.text = title;
+    descriptionController.text = description;
+    initialized = true;
+    return 1;
+  }
+
+  void initMediaEventActivities() async {
+    List<Media> media = await serviceLocator<MediaMediaTimeslotDao>()
+        .findMediaByMediaTimeslotId(widget.id!);
+
+    activities = media
+        .map((e) =>
+            Activity(id: e.id!, title: e.name, description: e.description))
+        .toList();
+  }
+
+  void initStudentEventActivities() async {
+    List<Task> tasks = await serviceLocator<TaskStudentTimeslotDao>()
+        .findTaskByStudentTimeslotId(widget.id!);
+
+    activities = tasks
+        .map((e) =>
+            Activity(id: e.id!, title: e.name, description: e.description))
+        .toList();
+  }
+
   void onSaveCallback() {
     startDate ??= defaultStartDate;
     endDate ??= defaultEndDate;
@@ -126,6 +186,7 @@ class _EventFormState extends State<EventForm> {
 
     TimeslotMediaTimeslotSuperEntity mediaTimeslot =
         TimeslotMediaTimeslotSuperEntity(
+      id: widget.id,
       title: titleController.text,
       description: descriptionController.text,
       startDateTime: startDate ?? defaultStartDate,
@@ -134,16 +195,30 @@ class _EventFormState extends State<EventForm> {
       userId: 1,
     );
 
-    int id = await serviceLocator<TimeslotMediaTimeslotSuperDao>()
-        .insertTimeslotMediaTimeslotSuperEntity(mediaTimeslot);
+    int id;
+    if (widget.id == null) {
+      id = await serviceLocator<TimeslotMediaTimeslotSuperDao>()
+          .insertTimeslotMediaTimeslotSuperEntity(mediaTimeslot);
+    } else {
+      id = widget.id!;
+      await serviceLocator<TimeslotMediaTimeslotSuperDao>()
+          .updateTimeslotMediaTimeslotSuperEntity(mediaTimeslot);
+
+      await serviceLocator<MediaMediaTimeslotDao>()
+          .deleteMediaMediaTimeslotByMediaTimeslotId(id);
+    }
+
+    // print(id); // TODO(events): delete after testing
 
     List<MediaMediaTimeslot> mediaMediaTimeslots = activities
         .map((activity) =>
             MediaMediaTimeslot(mediaId: activity.id, mediaTimeslotId: id))
         .toList();
 
-    await serviceLocator<MediaMediaTimeslotDao>()
-        .insertMediaMediaTimeslots(mediaMediaTimeslots);
+    if (mediaMediaTimeslots.isNotEmpty) {
+      await serviceLocator<MediaMediaTimeslotDao>()
+          .insertMediaMediaTimeslots(mediaMediaTimeslots);
+    }
   }
 
   void saveStudentEvent() async {
@@ -151,6 +226,7 @@ class _EventFormState extends State<EventForm> {
 
     TimeslotStudentTimeslotSuperEntity studentTimeslot =
         TimeslotStudentTimeslotSuperEntity(
+      id: widget.id,
       title: titleController.text,
       description: descriptionController.text,
       startDateTime: startDate ?? defaultStartDate,
@@ -159,75 +235,98 @@ class _EventFormState extends State<EventForm> {
       userId: 1,
     );
 
-    int id = await serviceLocator<TimeslotStudentTimeslotSuperDao>()
-        .insertTimeslotStudentTimeslotSuperEntity(studentTimeslot);
+    int id;
+    if (widget.id == null) {
+      id = await serviceLocator<TimeslotStudentTimeslotSuperDao>()
+          .insertTimeslotStudentTimeslotSuperEntity(studentTimeslot);
+    } else {
+      id = widget.id!;
+      await serviceLocator<TimeslotStudentTimeslotSuperDao>()
+          .updateTimeslotStudentTimeslotSuperEntity(studentTimeslot);
+
+      await serviceLocator<TaskStudentTimeslotDao>()
+          .deleteTaskStudentTimeslotByStudentTimeslotId(id);
+    }
+
+    // print(id); // TODO(events): delete after testing
 
     List<TaskStudentTimeslot> taskStudentTimeslots = activities
         .map((activity) =>
             TaskStudentTimeslot(taskId: activity.id, studentTimeslotId: id))
         .toList();
 
-    await serviceLocator<TaskStudentTimeslotDao>()
-        .insertTaskStudentTimeslots(taskStudentTimeslots);
+    if (taskStudentTimeslots.isNotEmpty) {
+      await serviceLocator<TaskStudentTimeslotDao>()
+          .insertTaskStudentTimeslots(taskStudentTimeslots);
+    }
   }
 
   @override
   Widget build(BuildContext context) {
-    return Modal(
-        title: widget.id == null
-            ? AppLocalizations.of(context).new_event
-            : AppLocalizations.of(context).edit_event,
-        icon: Icons.event,
-        scrollController: widget.scrollController,
-        children: [
-          Row(crossAxisAlignment: CrossAxisAlignment.center, children: [
-            const SizedBox(width: 7.5),
-            ModuleButton(
-                buttonKey: buttonKey,
-                moduleColor: _moduleColor,
-                setModuleColor: setModuleColor,
-                clearActivities: clearActivities),
-            const SizedBox(width: 15),
-            EditTitle(titleController: titleController, errors: errors)
-          ]),
-          const SizedBox(height: 30),
-          StartDatePicker(
-              startDate: startDate ?? defaultStartDate,
-              endDate: endDate ?? defaultEndDate,
-              setStartDate: setStartDate,
-              errors: errors),
-          const SizedBox(height: 10),
-          EndDatePicker(
-              endDate: endDate ?? defaultEndDate,
-              startDate: startDate ?? defaultStartDate,
-              setEndDate: setEndDate,
-              errors: errors),
-          const SizedBox(height: 30),
-          EditDescription(descriptionController: descriptionController),
-          const SizedBox(height: 30),
-          _moduleColor == studentColor
-              ? TasksList(
-                  activities: activities,
-                  addActivity: addActivity,
-                  removeActivity: removeActivity,
-                  errors: errors)
-              : MediaList(
-                  activities: activities,
-                  addActivity: addActivity,
-                  removeActivity: removeActivity,
-                  errors: errors),
-          const SizedBox(height: 30),
-          Flex(
-            direction: Axis.horizontal,
-            children: [
-              Flexible(
-                  flex: 1, child: SaveButton(onSaveCallback: onSaveCallback)),
-              if (widget.id != null) ...[
-                const SizedBox(width: 20),
-                const Flexible(flex: 1, child: DeleteButton())
-              ]
-            ],
-          )
-        ]);
+    return FutureBuilder(
+        future: onInitEvent(),
+        builder: (BuildContext context, AsyncSnapshot<int> snapshot) {
+          if (snapshot.hasData) {
+            return Modal(
+                title: widget.id == null
+                    ? AppLocalizations.of(context).new_event
+                    : AppLocalizations.of(context).edit_event,
+                icon: Icons.event,
+                scrollController: widget.scrollController,
+                children: [
+                  Row(crossAxisAlignment: CrossAxisAlignment.center, children: [
+                    const SizedBox(width: 7.5),
+                    ModuleButton(
+                        buttonKey: buttonKey,
+                        moduleColor: _moduleColor,
+                        setModuleColor: setModuleColor,
+                        clearActivities: clearActivities),
+                    const SizedBox(width: 15),
+                    EditTitle(titleController: titleController, errors: errors)
+                  ]),
+                  const SizedBox(height: 30),
+                  StartDatePicker(
+                      startDate: startDate ?? defaultStartDate,
+                      endDate: endDate ?? defaultEndDate,
+                      setStartDate: setStartDate,
+                      errors: errors),
+                  const SizedBox(height: 10),
+                  EndDatePicker(
+                      endDate: endDate ?? defaultEndDate,
+                      startDate: startDate ?? defaultStartDate,
+                      setEndDate: setEndDate,
+                      errors: errors),
+                  const SizedBox(height: 30),
+                  EditDescription(descriptionController: descriptionController),
+                  const SizedBox(height: 30),
+                  _moduleColor == studentColor
+                      ? TasksList(
+                          activities: activities,
+                          addActivity: addActivity,
+                          removeActivity: removeActivity,
+                          errors: errors)
+                      : MediaList(
+                          activities: activities,
+                          addActivity: addActivity,
+                          removeActivity: removeActivity,
+                          errors: errors),
+                  const SizedBox(height: 30),
+                  Flex(
+                    direction: Axis.horizontal,
+                    children: [
+                      Flexible(
+                          flex: 1,
+                          child: SaveButton(onSaveCallback: onSaveCallback)),
+                      if (widget.id != null) ...[
+                        const SizedBox(width: 20),
+                        const Flexible(flex: 1, child: DeleteButton())
+                      ]
+                    ],
+                  )
+                ]);
+          } else {
+            return const Center(child: CircularProgressIndicator());
+          }
+        });
   }
 }

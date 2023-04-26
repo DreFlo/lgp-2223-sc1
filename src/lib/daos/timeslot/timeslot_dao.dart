@@ -7,7 +7,7 @@ abstract class TimeslotDao {
   Future<List<Timeslot>> findAllTimeslots();
 
   @Query('SELECT * FROM timeslot WHERE id = :id')
-  Future<Timeslot?> findTimeslotById(int id);
+  Stream<Timeslot?> findTimeslotById(int id);
 
   @insert
   Future<int> insertTimeslot(Timeslot timeslot);
