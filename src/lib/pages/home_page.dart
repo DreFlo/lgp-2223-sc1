@@ -12,8 +12,6 @@ import 'package:src/pages/tasks/subject_form.dart';
 import 'package:src/utils/enums.dart';
 import 'package:src/utils/service_locator.dart';
 import 'package:tmdb_api/tmdb_api.dart';
-import 'package:books_finder/books_finder.dart';
-import 'catalog_search/leisure_module.dart';
 import 'package:src/pages/auth/landing_page.dart';
 import 'package:src/pages/catalog_search/leisure_module.dart';
 

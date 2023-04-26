@@ -3,7 +3,7 @@ import 'package:src/themes/colors.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class PasswordRecovPage extends StatefulWidget {
-  PasswordRecovPage({Key? key}) : super(key: key);
+  const PasswordRecovPage({Key? key}) : super(key: key);
 
   @override
   State<PasswordRecovPage> createState() => _PasswordRecovPageState();

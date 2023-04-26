@@ -5,7 +5,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:src/pages/auth/password_recov_page.dart';
 
 class LoginPage extends StatefulWidget {
-  LoginPage({Key? key}) : super(key: key);
+  const LoginPage({Key? key}) : super(key: key);
 
   @override
   State<LoginPage> createState() => _LoginPageState();
@@ -104,7 +104,7 @@ class _LoginPageState extends State<LoginPage> {
                       showModalBottomSheet(
                           context: context,
                           isScrollControlled: true,
-                          backgroundColor: Color(0xFF22252D),
+                          backgroundColor: const Color(0xFF22252D),
                           shape: const RoundedRectangleBorder(
                             borderRadius: BorderRadius.vertical(
                                 top: Radius.circular(30.0)),
@@ -119,7 +119,7 @@ class _LoginPageState extends State<LoginPage> {
                                       children: [
                                         SingleChildScrollView(
                                             controller: scrollController,
-                                            child: PasswordRecovPage()),
+                                            child: const PasswordRecovPage()),
                                       ])));
                     },
                     style: ElevatedButton.styleFrom(

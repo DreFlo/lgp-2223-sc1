@@ -7,7 +7,7 @@ import 'package:src/themes/colors.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class LandingPage extends StatefulWidget {
-  LandingPage({Key? key}) : super(key: key);
+  const LandingPage({Key? key}) : super(key: key);
 
   @override
   State<LandingPage> createState() => _LandingPageState();
@@ -155,7 +155,7 @@ class _LandingPageState extends State<LandingPage> {
                               children: [
                                 SingleChildScrollView(
                                     controller: scrollController,
-                                    child: SignUpPage()),
+                                    child: const SignUpPage()),
                               ])));
             },
           ),
@@ -188,7 +188,7 @@ class _LandingPageState extends State<LandingPage> {
                               children: [
                                 SingleChildScrollView(
                                     controller: scrollController,
-                                    child: LoginPage()),
+                                    child: const LoginPage()),
                               ])));
             },
           ),
@@ -208,7 +208,7 @@ class _LandingPageState extends State<LandingPage> {
                   child: SvgPicture.asset('assets/images/google_logo.svg'),
           ),
               onPressed: () {
-                print("Pressed Google Button!");
+                //print("Pressed Google Button!");
 
                 //TODO: Connection with google (MVP?)
               },
@@ -225,7 +225,7 @@ class _LandingPageState extends State<LandingPage> {
               child: const Icon(Icons.facebook,
                   size: 40.0, color: Color(0xFF246BFD)),
               onPressed: () {
-                print("Pressed FacebookButton!");
+                //("Pressed FacebookButton!");
 
                 //TODO: Connection with Facebook (MVP?)
               },
