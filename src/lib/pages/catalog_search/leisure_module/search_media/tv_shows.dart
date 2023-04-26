@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:tmdb_api/tmdb_api.dart';
-import 'package:src/pages/catalog_search/list_media_search.dart';
+import 'package:src/pages/catalog_search/list_media_search/list_media_search.dart';
 import 'package:src/env/env.dart';
 
 class TVShows extends StatelessWidget {

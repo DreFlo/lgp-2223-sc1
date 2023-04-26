@@ -7,7 +7,7 @@ import 'package:src/models/media/media_video_movie_super_entity.dart';
 import 'package:src/pages/catalog_search/search_results.dart';
 import 'package:src/pages/catalog_search/see_all.dart';
 import 'package:src/themes/colors.dart';
-import 'package:src/pages/catalog_search/media.dart';
+import 'package:src/widgets/leisure/media_image_widgets/media_image.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:src/utils/service_locator.dart';
 import 'package:src/daos/media/media_video_movie_super_dao.dart';

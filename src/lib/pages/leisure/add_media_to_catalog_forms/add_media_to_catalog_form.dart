@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:src/models/media/media.dart';
 import 'package:src/themes/colors.dart';
 import 'package:src/utils/enums.dart';
 import 'package:src/models/media/media_book_super_entity.dart';
@@ -19,18 +20,16 @@ import 'package:src/utils/service_locator.dart';
 import 'package:tmdb_api/tmdb_api.dart';
 import 'package:src/env/env.dart';
 
-class AddToCatalogForm extends StatefulWidget {
+abstract class AddMediaToCatalogForm<T extends Media> extends StatefulWidget {
   final String startDate, endDate;
-  final String type;
   final Status status;
   final VoidCallback? refreshStatus;
   final Future Function() showReviewForm;
   final void Function(int) setMediaId;
-  final dynamic item; //What we have from the api
+  final T item; //What we have from the api
 
-  const AddToCatalogForm(
+  const AddMediaToCatalogForm(
       {Key? key,
-      required this.type,
       required this.startDate,
       required this.endDate,
       required this.status,
@@ -41,10 +40,11 @@ class AddToCatalogForm extends StatefulWidget {
       : super(key: key);
 
   @override
-  State<AddToCatalogForm> createState() => _AddToCatalogFormState();
+  State<AddMediaToCatalogForm> createState();
 }
 
-class _AddToCatalogFormState extends State<AddToCatalogForm> {
+abstract class AddMediaToCatalogFormState<T extends Media>
+    extends State<AddMediaToCatalogForm<T>> {
   late String startDate, endDate;
   late Status status;
 
@@ -298,79 +298,7 @@ class _AddToCatalogFormState extends State<AddToCatalogForm> {
             onPressed: () async {
               int mediaId = 0;
               if (widget.type == "TV Show") {
-                Map details = await getDetails(widget.item['id'], 'TV');
-
-                MediaSeriesSuperEntity tvShow = MediaSeriesSuperEntity(
-                  name: widget.item['name'],
-                  description: widget.item['overview'],
-                  linkImage: widget.item['poster_path'],
-                  status: status,
-                  favorite: false,
-                  genres: 'genres',
-                  release: DateTime.parse(widget.item['first_air_date']),
-                  xp: 0,
-                  participants: makeCastList(
-                          await tmdb.v3.tv.getCredits(widget.item['id']))
-                      .join(', '),
-                  tagline: details['tagline'],
-                  numberEpisodes: details['number_of_episodes'],
-                  numberSeasons: details['number_of_seasons'],
-                );
-
-                int seriesId = await serviceLocator<MediaSeriesSuperDao>()
-                    .insertMediaSeriesSuperEntity(tvShow);
-                mediaId = seriesId;
-
-                Map<int, int> seasonIdMap = {};
-                for (int i = 1; i <= details['number_of_seasons']; i++) {
-                  seasonIdMap[i] = await serviceLocator<SeasonDao>()
-                      .insertSeason(Season(number: i, seriesId: seriesId));
-                }
-
-                for (int i = 1; i <= details['number_of_episodes']; i++) {
-                  if (details['full_episodes'][i] == null) {
-                    continue;
-                  }
-                  // TODO Add episodes to database with same status as the series, doesn't make the most sense
-                  details['full_episodes'][i]!.forEach((value) {
-                    serviceLocator<MediaVideoEpisodeSuperDao>()
-                        .insertMediaVideoEpisodeSuperEntity(
-                            MediaVideoEpisodeSuperEntity(
-                                name: value['name'],
-                                description: value['overview'],
-                                linkImage: value['still_path'],
-                                status: status,
-                                favorite: false,
-                                genres: 'genres',
-                                release: DateTime.parse(value['air_date']),
-                                xp: 0,
-                                participants: '',
-                                duration: value['runtime'],
-                                number: value['episode_number'],
-                                seasonId: seasonIdMap[i]!));
-                  });
-                }
               } else if (widget.type == "Movie") {
-                final details = await getDetails(widget.item['id'], 'Movie');
-
-                MediaVideoMovieSuperEntity movie = MediaVideoMovieSuperEntity(
-                  name: widget.item['title'],
-                  description: widget.item['overview'],
-                  linkImage: widget.item['poster_path'],
-                  status: status,
-                  favorite: false,
-                  genres: 'genres',
-                  release: DateTime.parse(widget.item['release_date']),
-                  xp: 0,
-                  duration: details['runtime'] ?? 0,
-                  participants: makeCastList(
-                          await tmdb.v3.movies.getCredits(widget.item['id']))
-                      .join(', '),
-                  tagline: details['tagline'],
-                );
-
-                mediaId = await serviceLocator<MediaVideoMovieSuperDao>()
-                    .insertMediaVideoMovieSuperEntity(movie);
               } else if (widget.type == 'Book') {
                 MediaBookSuperEntity book = MediaBookSuperEntity(
                   name: widget.item.info.title,
@@ -411,4 +339,6 @@ class _AddToCatalogFormState extends State<AddToCatalogForm> {
           ))
     ]);
   }
+
+  Future<int> storeMediaInDatabase();
 }

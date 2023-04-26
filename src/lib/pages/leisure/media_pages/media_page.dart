@@ -1,87 +1,34 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:src/models/media/media.dart';
 import 'package:src/themes/colors.dart';
 import 'package:like_button/like_button.dart';
 import 'package:src/widgets/leisure/leisure_tag.dart';
-import 'package:src/utils/enums.dart';
 
-class MediaPage extends StatefulWidget {
-  final String title, synopsis, type;
-  final bool isFavorite;
-  final Status status;
-  final List<dynamic> cast;
-  final List<int?> length;
-  final String image;
-  final List<String> leisureTags;
+abstract class MediaPage<T extends Media> extends StatefulWidget {
+  final T item;
   final Function(bool) toggleFavorite;
 
-  const MediaPage(
-      {Key? key,
-      required this.title,
-      required this.synopsis,
-      required this.type,
-      required this.cast, //for books, it's the author
-      required this.length,
-      required this.isFavorite,
-      required this.image,
-      required this.leisureTags,
-      required this.toggleFavorite,
-      this.status = Status.nothing})
+  const MediaPage({Key? key, required this.item, required this.toggleFavorite})
       : super(key: key);
 
   @override
-  MediaPageState createState() => MediaPageState();
+  MediaPageState<T> createState();
 }
 
-class MediaPageState extends State<MediaPage> {
-  bool _isFavorite = false;
+abstract class MediaPageState<T extends Media> extends State<MediaPage<T>> {
+  bool isFavorite = false;
+  List<String> leisureTags = [];
 
-  @override
-  void initState() {
-    super.initState();
-    _isFavorite = widget.isFavorite;
-  }
-
-  void _toggleFavorite() {
-    setState(() {
-      _isFavorite = !_isFavorite;
-    });
-  }
-
-  String getLength(context) {
-    if (widget.type == "TV Show") {
-      if (widget.length[2] == null) {
-        if (widget.length[0]! > 1) {
-          return widget.length[0].toString() +
-              AppLocalizations.of(context).seasons +
-              widget.length[1].toString() +
-              AppLocalizations.of(context).episodes_no_duration;
-        } else {
-          return widget.length[0].toString() +
-              AppLocalizations.of(context).season +
-              widget.length[1].toString() +
-              AppLocalizations.of(context).episodes_no_duration;
-        }
-      }
-      return widget.length[0].toString() +
-          AppLocalizations.of(context).seasons +
-          widget.length[1].toString() +
-          AppLocalizations.of(context).episodes +
-          widget.length[2].toString() +
-          AppLocalizations.of(context).minutes_each;
-    } else if (widget.type == "Book") {
-      return widget.length[0].toString() + AppLocalizations.of(context).pages;
-    } else {
-      return widget.length[0].toString() + AppLocalizations.of(context).minutes;
-    }
-  }
+  String getLength(context);
 
   showSmallCastList(context) {
-    List<dynamic> firstTen;
-    if (widget.cast.length >= 10) {
-      firstTen = widget.cast.sublist(0, 10);
-    } else if (widget.cast.isNotEmpty) {
-      firstTen = widget.cast;
+    List<String> firstTen;
+    List<String> widgetCast = widget.item.participants.split(', ');
+    if (widgetCast.length >= 10) {
+      firstTen = widgetCast.sublist(0, 10);
+    } else if (widgetCast.isNotEmpty) {
+      firstTen = widgetCast;
     } else {
       firstTen = [AppLocalizations.of(context).no_cast];
     }
@@ -95,19 +42,7 @@ class MediaPageState extends State<MediaPage> {
     ]);
   }
 
-  showImage(String type) {
-    if (type == 'Book') {
-      return Image.network(
-        widget.image,
-        fit: BoxFit.fitWidth,
-      );
-    } else {
-      return Image.network(
-        'https://image.tmdb.org/t/p/w500${widget.image}',
-        fit: BoxFit.fitWidth,
-      );
-    }
-  }
+  Image showImage();
 
   double countWords() {
     double wordCount = 0;
@@ -119,6 +54,8 @@ class MediaPageState extends State<MediaPage> {
     }
     return wordCount;
   }
+
+  String getType();
 
   @override
   Widget build(BuildContext context) {
@@ -142,7 +79,7 @@ class MediaPageState extends State<MediaPage> {
                           color: const Color(0xFF414554),
                         ),
                         child: Text(
-                          widget.type.toUpperCase(),
+                          getType(),
                           style: Theme.of(context).textTheme.headlineMedium,
                           textAlign: TextAlign.center,
                         ),
@@ -165,7 +102,7 @@ class MediaPageState extends State<MediaPage> {
                             Rect.fromLTRB(0, 0, rect.width, rect.height));
                       },
                       blendMode: BlendMode.dstOut,
-                      child: showImage(widget.type),
+                      child: showImage(),
                     ),
                   ),
                 ]),
@@ -176,7 +113,7 @@ class MediaPageState extends State<MediaPage> {
                     SizedBox(
                         width: MediaQuery.of(context).size.width * 0.85,
                         child: Text(
-                          widget.title.toUpperCase(),
+                          widget.item.name.toUpperCase(),
                           softWrap: true,
                           textWidthBasis: TextWidthBasis.longestLine,
                           style: Theme.of(context).textTheme.titleLarge,
@@ -201,7 +138,7 @@ class MediaPageState extends State<MediaPage> {
                             dotPrimaryColor: leisureColor,
                             dotSecondaryColor: leisureColor,
                           ),
-                          isLiked: _isFavorite,
+                          isLiked: isFavorite,
                           onTap: (isLiked) {
                             return Future.delayed(
                                 const Duration(milliseconds: 1), () {
@@ -248,7 +185,7 @@ class MediaPageState extends State<MediaPage> {
           child: Padding(
               padding: const EdgeInsets.only(left: 18, right: 18),
               child: Text(
-                widget.synopsis,
+                widget.item.description,
                 softWrap: true,
                 textAlign: TextAlign.justify,
                 style: Theme.of(context).textTheme.bodySmall,
