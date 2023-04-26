@@ -24,7 +24,8 @@ class TimeslotStudentTimeslotSuperDao {
 
       for (var studentTimeslot in studentTimeslots) {
         final timeslot = await serviceLocator<TimeslotDao>()
-            .findTimeslotById(studentTimeslot.id);
+            .findTimeslotById(studentTimeslot.id)
+            .first;
 
         if (timeslot != null) {
           final timeslotStudentTimeslotSuperEntity =

@@ -18,16 +18,17 @@ class TasksList extends ActivitiesList {
 
   @override
   Future<List<ChooseActivity>> getActivities() async {
-    // TODO(eventos): findUnfinishedTasks()??
+    // TODO(events): and filter only the tasks from the user logged in
     List<ChooseActivity> tasksActivities = [];
-    List<Task> tasks = await serviceLocator<TaskDao>().findAllTasks();
+    List<Task> tasks = await serviceLocator<TaskDao>()
+        .findTasksActivities(DateTime.now().millisecondsSinceEpoch);
 
     for (Task t in tasks) {
       if (activities.every((element) => element.id != t.id)) {
         tasksActivities.add(ChooseActivity(
           id: t.id!,
           title: t.name,
-          description: formatDeadline(t.deadline),
+          description: '(${formatDeadline(t.deadline)}) ${t.description}',
           isSelected: false,
         ));
       }

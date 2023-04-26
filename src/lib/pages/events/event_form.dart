@@ -166,7 +166,7 @@ class _EventFormState extends State<EventForm> {
           .map((e) => Activity(
               id: e.id!,
               title: e.name,
-              description: formatDeadline(e.deadline)))
+              description: '(${formatDeadline(e.deadline)}) ${e.description}'))
           .toList();
     });
   }
@@ -230,8 +230,6 @@ class _EventFormState extends State<EventForm> {
           .deleteMediaMediaTimeslotByMediaTimeslotId(id);
     }
 
-    print(id); // TODO(events): delete after testing
-
     List<MediaMediaTimeslot> mediaMediaTimeslots = activities
         .map((activity) =>
             MediaMediaTimeslot(mediaId: activity.id, mediaTimeslotId: id))
@@ -258,8 +256,6 @@ class _EventFormState extends State<EventForm> {
       await serviceLocator<TaskStudentTimeslotDao>()
           .deleteTaskStudentTimeslotByStudentTimeslotId(id);
     }
-
-    print(id); // TODO(events): delete after testing
 
     List<TaskStudentTimeslot> taskStudentTimeslots = activities
         .map((activity) =>

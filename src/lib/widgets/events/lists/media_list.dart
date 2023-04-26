@@ -17,9 +17,9 @@ class MediaList extends ActivitiesList {
 
   @override
   Future<List<ChooseActivity>> getActivities() async {
-    // TODO(eventos): findUnfinishedMedia()??
+    // TODO(events): and filter only the medias from the user logged in
     List<ChooseActivity> mediaActivities = [];
-    List<Media> media = await serviceLocator<MediaDao>().findAllMedia();
+    List<Media> media = await serviceLocator<MediaDao>().findMediaActivities();
 
     for (Media m in media) {
       if (activities.every((element) => element.id != m.id)) {

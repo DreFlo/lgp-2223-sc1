@@ -24,7 +24,8 @@ class TimeslotMediaTimeslotSuperDao {
 
       for (var mediaTimeslot in mediaTimeslots) {
         final timeslot = await serviceLocator<TimeslotDao>()
-            .findTimeslotById(mediaTimeslot.id);
+            .findTimeslotById(mediaTimeslot.id)
+            .first;
 
         if (timeslot != null) {
           final timeslotMediaTimeslotSuperEntity =

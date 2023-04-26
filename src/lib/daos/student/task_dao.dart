@@ -26,4 +26,8 @@ abstract class TaskDao {
 
   @delete
   Future<void> deleteTask(Task task);
+
+  @Query('''SELECT * FROM task 
+            WHERE deadline >= :date''')
+  Future<List<Task>> findTasksActivities(int date);
 }

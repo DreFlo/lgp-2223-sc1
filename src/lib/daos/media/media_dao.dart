@@ -23,4 +23,8 @@ abstract class MediaDao {
 
   @delete
   Future<void> deleteMedia(Media media);
+
+  @Query('''SELECT * FROM media 
+            WHERE status <> 3 AND status <> 4''')
+  Future<List<Media>> findMediaActivities();
 }
