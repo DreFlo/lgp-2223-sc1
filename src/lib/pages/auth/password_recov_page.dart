@@ -48,7 +48,8 @@ class _PasswordRecovPageState extends State<PasswordRecovPage> {
             onChanged: (value) => {_emailErrText = ""},
             decoration: InputDecoration(
               border: const UnderlineInputBorder(),
-              labelText: AppLocalizations.of(context).your_input + AppLocalizations.of(context).input_email,
+              labelText: AppLocalizations.of(context).your_input +
+                  AppLocalizations.of(context).input_email,
               labelStyle: const TextStyle(
                   fontFamily: "Poppins",
                   color: Color(0xFF5E6272),
@@ -76,7 +77,8 @@ class _PasswordRecovPageState extends State<PasswordRecovPage> {
                       r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+");
 
                   if (!emailRE.hasMatch(inputEmail)) {
-                    _emailErrText = AppLocalizations.of(context).error_input_email;
+                    _emailErrText =
+                        AppLocalizations.of(context).error_input_email;
                   } else {
                     _email = inputEmail;
                   }

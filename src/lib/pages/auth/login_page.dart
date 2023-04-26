@@ -42,8 +42,7 @@ class _LoginPageState extends State<LoginPage> {
               Padding(
                   padding: EdgeInsets.only(
                       bottom: MediaQuery.of(context).size.height * 0.025)),
-              Text(
-                  AppLocalizations.of(context).login_subtitle,
+              Text(AppLocalizations.of(context).login_subtitle,
                   style: Theme.of(context).textTheme.bodySmall,
                   textAlign: TextAlign.left),
               Padding(
@@ -89,10 +88,10 @@ class _LoginPageState extends State<LoginPage> {
                     contentPadding: const EdgeInsets.only(bottom: 2.5),
                     errorText: _passwordErrText != "" ? _passwordErrText : null,
                     errorStyle: const TextStyle(
-                          fontFamily: "Poppins",
-                          color: leisureColor,
-                          fontSize: 14,
-                          fontWeight: FontWeight.w600),
+                        fontFamily: "Poppins",
+                        color: leisureColor,
+                        fontSize: 14,
+                        fontWeight: FontWeight.w600),
                   )),
               Padding(
                   padding: EdgeInsets.only(
@@ -131,7 +130,8 @@ class _LoginPageState extends State<LoginPage> {
                           side: const BorderSide(
                               color: primaryColor, width: 2.0)),
                     ),
-                    child: Text(AppLocalizations.of(context).login_forgot_pass_btn,
+                    child: Text(
+                        AppLocalizations.of(context).login_forgot_pass_btn,
                         style: Theme.of(context).textTheme.headlineSmall),
                   ),
                 ]),
@@ -148,15 +148,17 @@ class _LoginPageState extends State<LoginPage> {
                               r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+");
 
                           if (!emailRE.hasMatch(inputEmail)) {
-                            _emailErrText = AppLocalizations.of(context).error_input_email;
+                            _emailErrText =
+                                AppLocalizations.of(context).error_input_email;
                           } else {
                             _email = inputEmail;
                           }
 
                           if (inputPassword.length < 8) {
-                            _passwordErrText = AppLocalizations.of(context).error_input_password;
+                            _passwordErrText = AppLocalizations.of(context)
+                                .error_input_password;
                           } else {
-                            _password = inputPassword; 
+                            _password = inputPassword;
                           }
 
                           if (_emailErrText == "" && _passwordErrText == "") {

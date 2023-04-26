@@ -134,8 +134,8 @@ class _LandingPageState extends State<LandingPage> {
                 borderRadius: BorderRadius.circular(25.0),
               ),
             ),
-            child:
-                Text(AppLocalizations.of(context).sign_up, style: Theme.of(context).textTheme.labelLarge),
+            child: Text(AppLocalizations.of(context).sign_up,
+                style: Theme.of(context).textTheme.labelLarge),
             onPressed: () {
               showModalBottomSheet(
                   context: context,
@@ -168,7 +168,8 @@ class _LandingPageState extends State<LandingPage> {
                 borderRadius: BorderRadius.circular(25.0),
               ),
             ),
-            child: Text(AppLocalizations.of(context).login, style: Theme.of(context).textTheme.labelLarge),
+            child: Text(AppLocalizations.of(context).login,
+                style: Theme.of(context).textTheme.labelLarge),
             onPressed: () {
               showModalBottomSheet(
                   context: context,
@@ -203,10 +204,10 @@ class _LandingPageState extends State<LandingPage> {
                 ),
               ),
               child: SizedBox(
-                  width: 35.0,
-                  height: 35.0,
-                  child: SvgPicture.asset('assets/images/google_logo.svg'),
-          ),
+                width: 35.0,
+                height: 35.0,
+                child: SvgPicture.asset('assets/images/google_logo.svg'),
+              ),
               onPressed: () {
                 //print("Pressed Google Button!");
 

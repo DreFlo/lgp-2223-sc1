@@ -76,12 +76,11 @@ class _SignUpPageState extends State<SignUpPage>
                   TextField(
                     style: Theme.of(context).textTheme.bodySmall,
                     controller: inputNameController,
-                    onChanged: (value) => {
-                          _nameErrText = ""
-                    },
+                    onChanged: (value) => {_nameErrText = ""},
                     decoration: InputDecoration(
                       border: const UnderlineInputBorder(),
-                      labelText: AppLocalizations.of(context).sign_up_input_name,
+                      labelText:
+                          AppLocalizations.of(context).sign_up_input_name,
                       labelStyle: const TextStyle(
                           fontFamily: "Poppins",
                           color: Color(0xFF5E6272),
@@ -99,17 +98,18 @@ class _SignUpPageState extends State<SignUpPage>
                 ],
               ),
               Padding(
-                      padding: EdgeInsets.only(
-                          bottom: MediaQuery.of(context).size.height * 0.05)),
+                  padding: EdgeInsets.only(
+                      bottom: MediaQuery.of(context).size.height * 0.05)),
               Column(
                 children: [
                   ElevatedButton(
                     onPressed: () {
                       setState(() {
                         String nameInput = inputNameController.text;
-                        
-                        if(nameInput == ""){
-                          _nameErrText = AppLocalizations.of(context).error_input_name;
+
+                        if (nameInput == "") {
+                          _nameErrText =
+                              AppLocalizations.of(context).error_input_name;
                         } else {
                           _name = nameInput;
 
@@ -165,12 +165,11 @@ class _SignUpPageState extends State<SignUpPage>
                   TextField(
                     style: Theme.of(context).textTheme.bodySmall,
                     controller: inputEmailController,
-                    onChanged:(value) => {
-                      _emailErrText = ""
-                    },
+                    onChanged: (value) => {_emailErrText = ""},
                     decoration: InputDecoration(
                       border: const UnderlineInputBorder(),
-                      labelText: AppLocalizations.of(context).your_input + AppLocalizations.of(context).input_email,
+                      labelText: AppLocalizations.of(context).your_input +
+                          AppLocalizations.of(context).input_email,
                       labelStyle: const TextStyle(
                           fontFamily: "Poppins",
                           color: Color(0xFF5E6272),
@@ -188,8 +187,8 @@ class _SignUpPageState extends State<SignUpPage>
                 ],
               ),
               Padding(
-                      padding: EdgeInsets.only(
-                          bottom: MediaQuery.of(context).size.height * 0.05)),
+                  padding: EdgeInsets.only(
+                      bottom: MediaQuery.of(context).size.height * 0.05)),
               Column(
                 children: [
                   Row(
@@ -204,8 +203,8 @@ class _SignUpPageState extends State<SignUpPage>
                           });
                         },
                         style: ElevatedButton.styleFrom(
-                          minimumSize:
-                              Size(MediaQuery.of(context).size.width * 0.25, 55),
+                          minimumSize: Size(
+                              MediaQuery.of(context).size.width * 0.25, 55),
                           backgroundColor: primaryColor,
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(25.0),
@@ -214,36 +213,41 @@ class _SignUpPageState extends State<SignUpPage>
                         child: Text(AppLocalizations.of(context).previous,
                             style: Theme.of(context).textTheme.headlineSmall),
                       ),
-                  Padding(padding: EdgeInsets.only(right: MediaQuery.of(context).size.width * 0.05)),
-                  ElevatedButton(
-                    onPressed: () {
-                      setState(() {
-                        String inputEmail = inputEmailController.text;
+                      Padding(
+                          padding: EdgeInsets.only(
+                              right: MediaQuery.of(context).size.width * 0.05)),
+                      ElevatedButton(
+                        onPressed: () {
+                          setState(() {
+                            String inputEmail = inputEmailController.text;
 
-                        RegExp emailRE = RegExp(r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+");
+                            RegExp emailRE = RegExp(
+                                r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+");
 
-                        if(!emailRE.hasMatch(inputEmail)){
-                          _emailErrText = AppLocalizations.of(context).error_input_email;
-                        } else {
-                          _email = inputEmail;
+                            if (!emailRE.hasMatch(inputEmail)) {
+                              _emailErrText = AppLocalizations.of(context)
+                                  .error_input_email;
+                            } else {
+                              _email = inputEmail;
 
-                          _pageCount++;
-                          _animationController.forward(from: 0.0);
-                        }
-                      });
-                    },
-                    style: ElevatedButton.styleFrom(
-                      minimumSize:
-                          Size(MediaQuery.of(context).size.width * 0.25, 55),
-                      backgroundColor: primaryColor,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(25.0),
+                              _pageCount++;
+                              _animationController.forward(from: 0.0);
+                            }
+                          });
+                        },
+                        style: ElevatedButton.styleFrom(
+                          minimumSize: Size(
+                              MediaQuery.of(context).size.width * 0.25, 55),
+                          backgroundColor: primaryColor,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(25.0),
+                          ),
+                        ),
+                        child: Text(AppLocalizations.of(context).next,
+                            style: Theme.of(context).textTheme.headlineSmall),
                       ),
-                    ),
-                    child: Text(AppLocalizations.of(context).next,
-                        style: Theme.of(context).textTheme.headlineSmall),
+                    ],
                   ),
-                    ],),
                 ],
               ),
             ],
@@ -281,19 +285,19 @@ class _SignUpPageState extends State<SignUpPage>
                     style: Theme.of(context).textTheme.bodySmall,
                     obscureText: true,
                     controller: inputPasswordController,
-                    onChanged: (value) => {
-                      _passwordErrText = ""
-                    },
+                    onChanged: (value) => {_passwordErrText = ""},
                     decoration: InputDecoration(
                       border: const UnderlineInputBorder(),
-                      labelText: AppLocalizations.of(context).sign_up_input_password,
+                      labelText:
+                          AppLocalizations.of(context).sign_up_input_password,
                       labelStyle: const TextStyle(
                           fontFamily: "Poppins",
                           color: Color(0xFF5E6272),
                           fontSize: 14,
                           fontWeight: FontWeight.w600),
                       contentPadding: const EdgeInsets.only(bottom: 2.5),
-                      errorText: _passwordErrText != "" ? _passwordErrText : null,
+                      errorText:
+                          _passwordErrText != "" ? _passwordErrText : null,
                       errorStyle: const TextStyle(
                           fontFamily: "Poppins",
                           color: leisureColor,
@@ -304,68 +308,72 @@ class _SignUpPageState extends State<SignUpPage>
                 ],
               ),
               Padding(
-                      padding: EdgeInsets.only(
-                          bottom: MediaQuery.of(context).size.height * 0.05)),
+                  padding: EdgeInsets.only(
+                      bottom: MediaQuery.of(context).size.height * 0.05)),
               Column(
                 children: [
                   Row(
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
-                    ElevatedButton(
-                    onPressed: () {
-                      setState(() {
-                        _password = inputPasswordController.text;
+                      ElevatedButton(
+                        onPressed: () {
+                          setState(() {
+                            _password = inputPasswordController.text;
 
-                        _pageCount--;
-                      });
-                    },
-                    style: ElevatedButton.styleFrom(
-                      minimumSize:
-                          Size(MediaQuery.of(context).size.width * 0.25, 55),
-                      backgroundColor: primaryColor,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(25.0),
+                            _pageCount--;
+                          });
+                        },
+                        style: ElevatedButton.styleFrom(
+                          minimumSize: Size(
+                              MediaQuery.of(context).size.width * 0.25, 55),
+                          backgroundColor: primaryColor,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(25.0),
+                          ),
+                        ),
+                        child: Text(AppLocalizations.of(context).previous,
+                            style: Theme.of(context).textTheme.headlineSmall),
                       ),
-                    ),
-                    child: Text(AppLocalizations.of(context).previous,
-                        style: Theme.of(context).textTheme.headlineSmall),
-                  ),
-                  Padding(padding: EdgeInsets.only(right: MediaQuery.of(context).size.width * 0.05)),
-                  ElevatedButton(
-                    onPressed: () {
-                      setState(() {
-                        String passwordInput = inputPasswordController.text;
+                      Padding(
+                          padding: EdgeInsets.only(
+                              right: MediaQuery.of(context).size.width * 0.05)),
+                      ElevatedButton(
+                        onPressed: () {
+                          setState(() {
+                            String passwordInput = inputPasswordController.text;
 
-                        if(passwordInput.length < 8){
-                          _passwordErrText = AppLocalizations.of(context).error_input_password;
-                        } else {
-                          //TODO(auth): Encrypt password - before saving - i think there's a package for this
+                            if (passwordInput.length < 8) {
+                              _passwordErrText = AppLocalizations.of(context)
+                                  .error_input_password;
+                            } else {
+                              //TODO(auth): Encrypt password - before saving - i think there's a package for this
 
-                          _password = passwordInput; 
+                              _password = passwordInput;
 
-                          // TODO(auth): Save things in database (_name, _email and _password)
+                              // TODO(auth): Save things in database (_name, _email and _password)
 
-                          inputNameController.text = "";
-                          inputEmailController.text = "";
-                          inputPasswordController.text = "";
+                              inputNameController.text = "";
+                              inputEmailController.text = "";
+                              inputPasswordController.text = "";
 
-                          //Pop the modal and send to Landing page
-                          Navigator.pop(context);
-                        }
-                      });
-                    },
-                    style: ElevatedButton.styleFrom(
-                      minimumSize:
-                          Size(MediaQuery.of(context).size.width * 0.25, 55),
-                      backgroundColor: primaryColor,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(25.0),
+                              //Pop the modal and send to Landing page
+                              Navigator.pop(context);
+                            }
+                          });
+                        },
+                        style: ElevatedButton.styleFrom(
+                          minimumSize: Size(
+                              MediaQuery.of(context).size.width * 0.25, 55),
+                          backgroundColor: primaryColor,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(25.0),
+                          ),
+                        ),
+                        child: Text(AppLocalizations.of(context).next,
+                            style: Theme.of(context).textTheme.headlineSmall),
                       ),
-                    ),
-                    child: Text(AppLocalizations.of(context).next,
-                        style: Theme.of(context).textTheme.headlineSmall),
+                    ],
                   ),
-                  ],),
                 ],
               ),
             ],
@@ -404,8 +412,8 @@ class _SignUpPageState extends State<SignUpPage>
             ),
           ),
           Padding(
-                      padding: EdgeInsets.only(
-                          bottom: MediaQuery.of(context).size.height * 0.07)),
+              padding: EdgeInsets.only(
+                  bottom: MediaQuery.of(context).size.height * 0.07)),
           SizedBox(
             height: MediaQuery.of(context).size.height * 0.5,
             child: SlideTransition(
