@@ -3,7 +3,6 @@
 import 'package:src/env/env.dart';
 import 'package:src/models/media/media_series_super_entity.dart';
 import 'package:src/models/media/media_video_episode_super_entity.dart';
-import 'package:src/models/media/season.dart';
 import 'package:src/utils/enums.dart';
 import 'package:tmdb_api/tmdb_api.dart';
 
@@ -62,7 +61,7 @@ class TMDBTVSeriesAPIWrapper {
             .map((genre) => genre['name'])
             .toList()
             .join(', '),
-        'release': tv['first_air_date'],
+        'release': DateTime.parse(tv['first_air_date']),
         'xp': 0,
         'tagline': tv['details']['tagline'],
         'duration': tv['details']['episode_run_time'],
@@ -98,5 +97,39 @@ class TMDBTVSeriesAPIWrapper {
         await _getMediaSeriesSuperEntitiesFromMapList(tvResults);
 
     return tvSeries;
+  }
+
+  Future<List<MediaVideoEpisodeSuperEntity>> getSeasonEpisodes(
+      int id, int season) async {
+    Map seasonDetails = await _getTVSeasonDetails(id, season);
+
+    List<MediaVideoEpisodeSuperEntity> episodes =
+        List.generate(seasonDetails['episodes'].length, (index) {
+      Map episode = seasonDetails['episodes'][index];
+
+      Map<String, dynamic> episodeJson = {
+        'id': null,
+        'name': episode['name'],
+        'description': episode['overview'],
+        'linkImage': episode['still_path'],
+        'status': Status.nothing,
+        'favorite': false,
+        'genres': seasonDetails['genres']
+            .map((genre) => genre['name'])
+            .toList()
+            .join(', '),
+        'release': DateTime.parse(episode['air_date']),
+        'xp': 0,
+        'tagline': seasonDetails['tagline'],
+        'duration': seasonDetails['runtime'],
+        'participants': seasonDetails['participants'],
+        'seasonId': season,
+        'number': episode['episode_number'],
+      };
+
+      return MediaVideoEpisodeSuperEntity.fromJson(episodeJson);
+    });
+
+    return episodes;
   }
 }

@@ -47,7 +47,7 @@ class TMDBMovieAPIWrapper {
             .map((genre) => genre['name'])
             .toList()
             .join(', '),
-        'release': movie['release_date'],
+        'release': DateTime.parse(movie['release_date']),
         'xp': 0,
         'tagline': movie['details']['tagline'],
         'duration': movie['details']['runtime'],
