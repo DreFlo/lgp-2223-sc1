@@ -68,13 +68,11 @@ class TimeslotMediaTimeslotSuperDao {
           "Id can't be null for delete for TimeslotMediaTimeslotSuperEntity");
     }
 
-    final timeslot = timeslotMediaTimeslotSuperEntity.toTimeslot();
-
-    await serviceLocator<TimeslotDao>().deleteTimeslot(timeslot);
-
     final mediaTimeslot = timeslotMediaTimeslotSuperEntity.toMediaTimeslot();
-
     await serviceLocator<MediaTimeslotDao>().deleteMediaTimeslot(mediaTimeslot);
+
+    final timeslot = timeslotMediaTimeslotSuperEntity.toTimeslot();
+    await serviceLocator<TimeslotDao>().deleteTimeslot(timeslot);
   }
 }
 
