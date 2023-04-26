@@ -16,6 +16,7 @@ import 'package:src/themes/colors.dart';
 import 'package:src/utils/service_locator.dart';
 import 'package:src/utils/validators.dart';
 import 'package:src/utils/formatters.dart';
+import 'package:src/utils/enums.dart';
 import 'package:src/widgets/events/buttons/delete_button.dart';
 import 'package:src/widgets/events/edit_texts/edit_description.dart';
 import 'package:src/widgets/events/edit_texts/edit_title.dart';
@@ -38,8 +39,7 @@ class Activity {
 class EventForm extends StatefulWidget {
   final int? id;
   final ScrollController scrollController;
-  // TODO(events): change for an event type enum
-  final String? type;
+  final EventType? type;
 
   const EventForm(
       {Key? key, required this.scrollController, this.id, this.type})
@@ -124,10 +124,10 @@ class _EventFormState extends State<EventForm> {
       startDate = timeslot.startDateTime;
       endDate = timeslot.endDateTime;
 
-      if (widget.type == null || widget.type == "student") {
+      if (widget.type == null || widget.type == EventType.student) {
         _moduleColor = studentColor;
         initStudentEventActivities();
-      } else if (widget.type == "leisure") {
+      } else if (widget.type == EventType.leisure) {
         _moduleColor = leisureColor;
         initMediaEventActivities();
       }
