@@ -114,4 +114,21 @@ class MediaVideoEpisodeSuperEntity extends Media {
       seasonId: seasonId ?? this.seasonId,
     );
   }
+
+  MediaVideoEpisodeSuperEntity.fromJson(Map<String, dynamic> json)
+      : duration = json['duration'],
+        number = json['number'],
+        seasonId = json['seasonId'],
+        super(
+          id: json['id'],
+          name: json['name'],
+          description: json['description'],
+          linkImage: json['linkImage'],
+          status: Status.values[json['status']],
+          favorite: json['favorite'],
+          genres: json['genres'],
+          release: DateTime.parse(json['release']),
+          xp: json['xp'],
+          participants: json['participants'],
+        );
 }
