@@ -1,8 +1,6 @@
-// ignore_for_file: file_names
-
 import 'package:flutter/material.dart';
 import 'package:src/themes/colors.dart';
-import '../../pages/leisure/add_episode_note_form.dart';
+import 'package:src/pages/leisure/add_episode_note_form.dart';
 
 class EpisodeBar extends StatefulWidget {
   final String code, title;

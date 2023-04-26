@@ -1,8 +1,8 @@
-// ignore_for_file: file_names, sized_box_for_whitespace
+// ignore_for_file: sized_box_for_whitespace, avoid_dynamic_calls
 import 'package:flutter/material.dart';
 import 'package:src/pages/catalog_search/see_all.dart';
 import 'package:src/themes/colors.dart';
-import '../media.dart';
+import 'package:src/pages/catalog_search/media.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class Catalog extends StatelessWidget {
