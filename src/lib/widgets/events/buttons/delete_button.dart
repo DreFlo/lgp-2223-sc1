@@ -2,9 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:src/widgets/events/dialogs/delete_confirmation_dialog.dart';
 
-class DeleteButton extends StatelessWidget {
-  const DeleteButton({Key? key}) : super(key: key);
+class DeleteButton extends StatefulWidget {
+  final Function onDeleteCallback;
 
+  const DeleteButton({Key? key, required this.onDeleteCallback})
+      : super(key: key);
+
+  @override
+  State<DeleteButton> createState() => _DeleteButtonState();
+}
+
+class _DeleteButtonState extends State<DeleteButton> {
   @override
   Widget build(BuildContext context) {
     return ElevatedButton(
@@ -12,7 +20,9 @@ class DeleteButton extends StatelessWidget {
           await showDialog(
             context: context,
             builder: (BuildContext context) {
-              return const DeleteConfirmationDialog();
+              return DeleteConfirmationDialog(
+                onDeleteCallback: widget.onDeleteCallback,
+              );
             },
           );
         },

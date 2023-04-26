@@ -3,7 +3,10 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:src/themes/colors.dart';
 
 class DeleteConfirmationDialog extends StatefulWidget {
-  const DeleteConfirmationDialog({Key? key}) : super(key: key);
+  final Function onDeleteCallback;
+
+  const DeleteConfirmationDialog({Key? key, required this.onDeleteCallback})
+      : super(key: key);
 
   @override
   State<DeleteConfirmationDialog> createState() =>
@@ -39,8 +42,9 @@ class _DeleteConfirmationDialogState extends State<DeleteConfirmationDialog> {
               style: const TextStyle(
                   color: Colors.red, fontSize: 16, fontWeight: FontWeight.w600),
               textAlign: TextAlign.center),
-          onPressed: () {
-            // TODO(eventos): delete event from database
+          onPressed: () async {
+            widget.onDeleteCallback();
+            Navigator.pop(context);
           },
         )
       ],

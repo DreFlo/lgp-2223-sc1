@@ -357,7 +357,10 @@ class _EventFormState extends State<EventForm> {
                           child: SaveButton(onSaveCallback: onSaveCallback)),
                       if (widget.id != null) ...[
                         const SizedBox(width: 20),
-                        const Flexible(flex: 1, child: DeleteButton())
+                        Flexible(
+                            flex: 1,
+                            child: DeleteButton(
+                                onDeleteCallback: onDeleteCallback))
                       ]
                     ],
                   )
