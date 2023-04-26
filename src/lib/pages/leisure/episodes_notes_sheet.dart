@@ -1,5 +1,3 @@
-// ignore_for_file: file_names
-
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:src/themes/colors.dart';
@@ -7,7 +5,7 @@ import 'package:src/utils/enums.dart';
 import 'package:src/widgets/leisure/review_note_bar.dart';
 import 'package:src/widgets/leisure/season_tag.dart';
 
-import '../../../widgets/leisure/episode_note_bar.dart';
+import 'package:src/widgets/leisure/episode_note_bar.dart';
 
 class EpisodesNotesSheet extends StatefulWidget {
   final Map<String, String> notes;

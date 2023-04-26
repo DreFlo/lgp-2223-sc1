@@ -130,7 +130,9 @@ class _DashboardState extends State<Dashboard> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Column(
+        body: Container(
+      padding: const EdgeInsets.symmetric(vertical: 15),
+      child: Column(
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -223,6 +225,6 @@ class _DashboardState extends State<Dashboard> {
           loadedAllData ? Expanded(child: showWidget()) : Container(),
         ],
       ),
-    );
+    ));
   }
 }

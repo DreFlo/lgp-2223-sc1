@@ -9,5 +9,14 @@ final mockMediaTimeslots = [
       endDateTime: DateTime(2023, 4, 26, 16, 0),
       xpMultiplier: 2,
       finished: false,
+      userId: 1),
+  TimeslotMediaTimeslotSuperEntity(
+      id: 5,
+      title: 'Star Wars marathon',
+      description: 'word words words words words',
+      startDateTime: DateTime(2023, 4, 27, 0, 0, 0),
+      endDateTime: DateTime(2023, 4, 27, 23, 59, 59),
+      xpMultiplier: 0,
+      finished: false,
       userId: 1)
 ];

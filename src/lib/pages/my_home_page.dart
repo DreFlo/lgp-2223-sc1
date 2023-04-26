@@ -9,7 +9,9 @@ import 'package:src/utils/service_locator.dart';
 import 'package:src/models/timeslot/timeslot_student_timeslot_super_entity.dart';
 import 'package:src/daos/timeslot/timeslot_student_timeslot_super_dao.dart';
 
-import '../widgets/home/badge_placeholder.dart';
+import 'package:src/models/student/task.dart';
+import 'package:src/utils/enums.dart';
+import 'package:src/widgets/home/badge_placeholder.dart';
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({Key? key}) : super(key: key);

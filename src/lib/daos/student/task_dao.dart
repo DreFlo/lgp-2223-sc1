@@ -11,6 +11,9 @@ abstract class TaskDao {
 
   @Query('SELECT * FROM task WHERE task_group_id IS NULL')
   Future<List<Task>> findTasksWithoutTaskGroup();
+  
+  @Query('SELECT * FROM task WHERE task_group_id = :taskGroupId')
+  Future<List<Task>> findTasksByTaskGroupId(int taskGroupId);
 
   @insert
   Future<int> insertTask(Task task);
