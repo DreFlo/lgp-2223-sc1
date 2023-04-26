@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:src/models/timeslot/timeslot_media_timeslot_super_entity.dart';
 import 'package:src/models/timeslot/timeslot_student_timeslot_super_entity.dart';
 
-import 'event_card.dart';
+import 'package:src/widgets/home/event_card.dart';
 
 class MyEventListView extends StatefulWidget {
   final List<TimeslotMediaTimeslotSuperEntity?>? mediaEvents;
