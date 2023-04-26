@@ -5,9 +5,9 @@ import 'package:src/themes/colors.dart';
 import 'package:src/widgets/dashboard/dashboard_gridview.dart';
 import 'package:tmdb_api/tmdb_api.dart';
 
-import '../env/env.dart';
-import '../widgets/dashboard/dashboard_horizontal_scrollview.dart';
-import 'catalog_search/leisure_module.dart';
+import 'package:src/env/env.dart';
+import 'package:src/widgets/dashboard/dashboard_horizontal_scrollview.dart';
+import 'package:src/pages/catalog_search/leisure_module.dart';
 
 class Dashboard extends StatefulWidget {
   const Dashboard({Key? key}) : super(key: key);
@@ -101,7 +101,9 @@ class _DashboardState extends State<Dashboard> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Column(
+        body: Container(
+      padding: const EdgeInsets.symmetric(vertical: 15),
+      child: Column(
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -194,6 +196,6 @@ class _DashboardState extends State<Dashboard> {
           Expanded(child: DashBoardGridView(items: filterItems()))
         ],
       ),
-    );
+    ));
   }
 }

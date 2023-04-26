@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:src/pages/calendar_page.dart';
 import 'package:src/pages/home_page.dart';
 import 'package:src/pages/dashboard.dart';
 import 'package:src/pages/my_home_page.dart';
@@ -40,9 +41,7 @@ class _NavigationPageState extends State<NavigationPage> {
 
   List<Widget> pages = const [
     MyHomePage(),
-    Center(
-      child: Text("Calendar"), //TODO
-    ),
+    CalendarPage(),
     Center(),
     Dashboard(),
     HomePage(

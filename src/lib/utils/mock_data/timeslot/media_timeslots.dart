@@ -8,6 +8,13 @@ final mockMediaTimeslots = [
       startDateTime: DateTime.now().add(const Duration(hours: 4)),
       endDateTime: DateTime.now().add(const Duration(hours: 6)),
       xpMultiplier: 2,
-      userId: 1,
-      mediaId: List.of([2, 3]))
+      userId: 1),
+  TimeslotMediaTimeslotSuperEntity(
+      id: 5,
+      title: 'Star Wars marathon',
+      description: 'word words words words words',
+      startDateTime: DateTime(2023, 4, 27, 0, 0, 0),
+      endDateTime: DateTime(2023, 4, 27, 23, 59, 59),
+      xpMultiplier: 2,
+      userId: 1)
 ];

@@ -113,5 +113,14 @@
   "login_submit_btn": "Sign In",
   "password_recov_title": "Sometimes... \nthings just happen!",
   "password_recov_subtitle": "Don't worry, let's get you back up and running.",
-  "password_recov_btn": "Send Recovery Link"
+  "password_recov_btn": "Send Recovery Link",
+  "event": "Event",
+  "time_period": "Time Period",
+  "start": "Start Time",
+  "end": "End Time",
+  "no_activities": "You have no activities... yet!",
+  "activities": "Activities",
+  "choose_tasks": "Choose tasks",
+  "choose_media": "Choose media",
+  "no_media": "You have no media... yet!"
 }
