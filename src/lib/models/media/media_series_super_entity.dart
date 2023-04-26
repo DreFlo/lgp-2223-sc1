@@ -6,6 +6,7 @@ class MediaSeriesSuperEntity extends Media {
   final String tagline;
   final int numberEpisodes;
   final int numberSeasons;
+  final int tmdbId;
 
   MediaSeriesSuperEntity(
       {int? id,
@@ -20,7 +21,8 @@ class MediaSeriesSuperEntity extends Media {
       required String participants,
       required this.tagline,
       required this.numberEpisodes,
-      required this.numberSeasons})
+      required this.numberSeasons,
+      required this.tmdbId})
       : super(
           id: id,
           name: name,
@@ -38,6 +40,7 @@ class MediaSeriesSuperEntity extends Media {
       : tagline = series.tagline,
         numberEpisodes = series.numberEpisodes,
         numberSeasons = series.numberSeasons,
+        tmdbId = series.tmdbId,
         super(
           id: media.id,
           name: media.name,
@@ -71,7 +74,8 @@ class MediaSeriesSuperEntity extends Media {
         id: id!,
         tagline: tagline,
         numberEpisodes: numberEpisodes,
-        numberSeasons: numberSeasons);
+        numberSeasons: numberSeasons,
+        tmdbId: tmdbId);
   }
 
   MediaSeriesSuperEntity copyWith({
@@ -88,6 +92,7 @@ class MediaSeriesSuperEntity extends Media {
     String? tagline,
     int? numberEpisodes,
     int? numberSeasons,
+    int? tmdbId,
   }) {
     return MediaSeriesSuperEntity(
       id: id ?? this.id,
@@ -103,6 +108,7 @@ class MediaSeriesSuperEntity extends Media {
       tagline: tagline ?? this.tagline,
       numberEpisodes: numberEpisodes ?? this.numberEpisodes,
       numberSeasons: numberSeasons ?? this.numberSeasons,
+      tmdbId: tmdbId ?? this.tmdbId,
     );
   }
 
@@ -110,6 +116,7 @@ class MediaSeriesSuperEntity extends Media {
       : tagline = json['tagline'],
         numberEpisodes = json['numberEpisodes'],
         numberSeasons = json['numberSeasons'],
+        tmdbId = json['tmdbId'],
         super(
           id: json['id'],
           name: json['name'],

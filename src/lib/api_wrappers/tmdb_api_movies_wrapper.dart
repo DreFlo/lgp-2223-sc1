@@ -52,6 +52,7 @@ class TMDBMovieAPIWrapper {
         'tagline': movie['details']['tagline'],
         'duration': movie['details']['runtime'],
         'participants': movie['details']['participants'],
+        'tmdbId': movie['id'],
       };
 
       return MediaVideoMovieSuperEntity.fromJson(movieJson);

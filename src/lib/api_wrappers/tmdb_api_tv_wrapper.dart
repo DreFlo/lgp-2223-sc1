@@ -68,6 +68,7 @@ class TMDBTVSeriesAPIWrapper {
         'participants': tv['details']['participants'],
         'numberEpisodes': tv['number_of_episodes'],
         'numberSeasons': tv['number_of_seasons'],
+        'tmdbId': tv['id'],
       };
 
       return MediaSeriesSuperEntity.fromJson(tvJson);
@@ -125,6 +126,7 @@ class TMDBTVSeriesAPIWrapper {
         'participants': seasonDetails['participants'],
         'seasonId': season,
         'number': episode['episode_number'],
+        'tmdbId': episode['id'],
       };
 
       return MediaVideoEpisodeSuperEntity.fromJson(episodeJson);

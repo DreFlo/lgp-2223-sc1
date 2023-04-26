@@ -20,8 +20,12 @@ class Video {
 
   final int duration;
 
+  @ColumnInfo(name: 'tmdb_id')
+  final int tmdbId;
+
   Video({
     required this.id,
     required this.duration,
+    required this.tmdbId,
   });
 }

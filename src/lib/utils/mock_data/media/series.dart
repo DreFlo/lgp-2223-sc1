@@ -17,5 +17,6 @@ final mockSeries = [
           'Dominic West, Lance Reddick, Sonja Sohn, Wendell Pierce, Idris Elba',
       tagline: 'The streets are watching',
       numberEpisodes: 60,
-      numberSeasons: 5),
+      numberSeasons: 5,
+      tmdbId: 1438),
 ];

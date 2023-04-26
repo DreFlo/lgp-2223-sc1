@@ -135,6 +135,7 @@ void main() {
         number: 1,
         seasonId: seasonId,
         participants: "Me",
+        tmdbId: 1,
       );
 
       int id = await serviceLocator<MediaVideoEpisodeSuperDao>()
@@ -163,7 +164,8 @@ void main() {
               xp: 23,
               duration: 23,
               participants: "Me",
-              tagline: "Super Cool Test");
+              tagline: "Super Cool Test",
+              tmdbId: 1);
 
       int id = await serviceLocator<MediaVideoMovieSuperDao>()
           .insertMediaVideoMovieSuperEntity(mediaVideoMovieSuperEntity);
@@ -371,6 +373,7 @@ void main() {
         number: 1,
         seasonId: seasonId,
         participants: "Me",
+        tmdbId: 1,
       );
 
       int id = await serviceLocator<MediaVideoEpisodeSuperDao>()
@@ -426,7 +429,8 @@ void main() {
               duration: 23,
               number: 1,
               seasonId: seasonId,
-              participants: 'Me');
+              participants: 'Me',
+              tmdbId: 1);
 
       int id = await serviceLocator<MediaVideoEpisodeSuperDao>()
           .insertMediaVideoEpisodeSuperEntity(mediaVideoEpisodeSuperEntity);
@@ -870,7 +874,8 @@ void main() {
               duration: 1,
               number: -1,
               seasonId: seasonId,
-              participants: 'Me');
+              participants: 'Me',
+              tmdbId: 1);
 
       expect(
           () => serviceLocator<MediaVideoEpisodeSuperDao>()

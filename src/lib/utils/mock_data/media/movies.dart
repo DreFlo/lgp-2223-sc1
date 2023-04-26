@@ -16,7 +16,8 @@ final mockMovies = [
       duration: 106,
       participants:
           'Paul Walker, Vin Diesel, Michelle Rodriguez, Toyota Supra, Honda Civic',
-      tagline: 'Vroom vroom'),
+      tagline: 'Vroom vroom',
+      tmdbId: 9799),
   MediaVideoMovieSuperEntity(
     id: 6,
     name: 'Arrival',
@@ -30,5 +31,6 @@ final mockMovies = [
     duration: 106,
     participants: 'Amy Adams, Jeremy Renner, Forest Whitaker',
     tagline: 'Words. Phrases. Time.',
+    tmdbId: 329865,
   )
 ];

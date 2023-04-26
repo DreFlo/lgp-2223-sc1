@@ -7,6 +7,7 @@ class MediaVideoEpisodeSuperEntity extends Media {
   final int duration;
   final int number;
   final int seasonId;
+  final int tmdbId;
 
   MediaVideoEpisodeSuperEntity(
       {int? id,
@@ -21,7 +22,8 @@ class MediaVideoEpisodeSuperEntity extends Media {
       required String participants,
       required this.duration,
       required this.number,
-      required this.seasonId})
+      required this.seasonId,
+      required this.tmdbId})
       : super(
           id: id,
           name: name,
@@ -40,6 +42,7 @@ class MediaVideoEpisodeSuperEntity extends Media {
       : duration = video.duration,
         number = episode.number,
         seasonId = episode.seasonId,
+        tmdbId = video.tmdbId,
         super(
           id: media.id,
           name: media.name,
@@ -72,6 +75,7 @@ class MediaVideoEpisodeSuperEntity extends Media {
     return Video(
       id: id!,
       duration: duration,
+      tmdbId: tmdbId
     );
   }
 
@@ -97,6 +101,7 @@ class MediaVideoEpisodeSuperEntity extends Media {
     int? number,
     int? seasonId,
     String? participants,
+    int? tmdbId,
   }) {
     return MediaVideoEpisodeSuperEntity(
       id: id ?? this.id,
@@ -112,6 +117,7 @@ class MediaVideoEpisodeSuperEntity extends Media {
       duration: duration ?? this.duration,
       number: number ?? this.number,
       seasonId: seasonId ?? this.seasonId,
+      tmdbId: tmdbId ?? this.tmdbId,
     );
   }
 
@@ -119,6 +125,7 @@ class MediaVideoEpisodeSuperEntity extends Media {
       : duration = json['duration'],
         number = json['number'],
         seasonId = json['seasonId'],
+        tmdbId = json['tmdbId'],
         super(
           id: json['id'],
           name: json['name'],

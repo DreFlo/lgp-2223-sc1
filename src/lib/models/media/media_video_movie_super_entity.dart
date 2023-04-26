@@ -6,6 +6,7 @@ import 'package:src/utils/enums.dart';
 class MediaVideoMovieSuperEntity extends Media {
   final int duration;
   final String tagline;
+  final int tmdbId;
 
   MediaVideoMovieSuperEntity({
     int? id,
@@ -20,6 +21,7 @@ class MediaVideoMovieSuperEntity extends Media {
     required this.duration,
     required String participants,
     required this.tagline,
+    required this.tmdbId,
   }) : super(
           id: id,
           name: name,
@@ -37,6 +39,7 @@ class MediaVideoMovieSuperEntity extends Media {
       Media media, Video video, Movie movie)
       : duration = video.duration,
         tagline = movie.tagline,
+        tmdbId = video.tmdbId,
         super(
           id: media.id,
           name: media.name,
@@ -69,6 +72,7 @@ class MediaVideoMovieSuperEntity extends Media {
     return Video(
       id: id!,
       duration: duration,
+      tmdbId: tmdbId
     );
   }
 
@@ -92,6 +96,7 @@ class MediaVideoMovieSuperEntity extends Media {
     int? duration,
     String? participants,
     String? tagline,
+    int? tmdbId,
   }) {
     return MediaVideoMovieSuperEntity(
       id: id ?? this.id,
@@ -106,12 +111,14 @@ class MediaVideoMovieSuperEntity extends Media {
       duration: duration ?? this.duration,
       participants: participants ?? this.participants,
       tagline: tagline ?? this.tagline,
+      tmdbId: tmdbId ?? this.tmdbId,
     );
   }
 
   MediaVideoMovieSuperEntity.fromJson(Map<String, dynamic> json)
       : duration = json['duration'],
         tagline = json['tagline'],
+        tmdbId = json['tmdbId'],
         super(
           id: json['id'],
           name: json['name'],

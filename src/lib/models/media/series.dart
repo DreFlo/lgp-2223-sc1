@@ -25,9 +25,13 @@ class Series {
   @ColumnInfo(name: 'number_seasons')
   final int numberSeasons;
 
+  @ColumnInfo(name: 'tmdb_id')
+  final int tmdbId;
+
   Series(
       {required this.id,
       required this.tagline,
       required this.numberEpisodes,
-      required this.numberSeasons});
+      required this.numberSeasons,
+      required this.tmdbId});
 }
