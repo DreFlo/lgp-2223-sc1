@@ -15,7 +15,10 @@ class MediaTimeslot {
   @PrimaryKey()
   final int id;
 
+  final String type;
+
   MediaTimeslot({
     required this.id,
+    required this.type
   });
 }

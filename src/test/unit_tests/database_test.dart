@@ -538,6 +538,7 @@ void main() {
               endDateTime: DateTime.now().add(const Duration(days: 1)),
               xpMultiplier: 2,
               finished: false,
+              type: 'Movie',
               userId: 1);
 
       int id = await serviceLocator<TimeslotMediaTimeslotSuperDao>()
@@ -638,6 +639,7 @@ void main() {
               endDateTime: DateTime.now().add(const Duration(days: 1)),
               xpMultiplier: 2,
               finished: false,
+              type: 'Movie',
               userId: 1);
 
       int id = await serviceLocator<TimeslotMediaTimeslotSuperDao>()

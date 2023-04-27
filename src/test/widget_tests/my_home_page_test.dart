@@ -49,6 +49,7 @@ void main() {
         endDateTime: DateTime.now(),
         xpMultiplier: 1,
         finished: false,
+        type: 'TV Show',
         id: 1,
         userId: 1);
 
