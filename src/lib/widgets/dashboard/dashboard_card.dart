@@ -47,10 +47,11 @@ class _DashboardCardState extends State<DashboardCard> {
     super.initState();
     getSubjectOrDate().then((value) => setState(() {
           subjectOrDate = value;
-        }));
-    getInstitutionOrMediaType().then((value) => setState(() {
+          getInstitutionOrMediaType().then((value) => setState(() {
           institutionOrMediaType = value;
         }));
+        }));
+    
   }
 
   String getTitle() {
@@ -165,7 +166,7 @@ class _DashboardCardState extends State<DashboardCard> {
                           Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              /*widget.institution != ''
+                              institutionOrMediaType != ''
                                   ? Container(
                                       margin: const EdgeInsets.only(bottom: 5),
                                       padding: const EdgeInsets.symmetric(
@@ -175,7 +176,7 @@ class _DashboardCardState extends State<DashboardCard> {
                                         color: grayBackground,
                                       ),
                                       child: Text(
-                                        widget.institution,
+                                        institutionOrMediaType,
                                         style: Theme.of(context)
                                             .textTheme
                                             .headlineLarge
@@ -186,7 +187,7 @@ class _DashboardCardState extends State<DashboardCard> {
                                       ),
                                     )
                                   :
-                              Container(),*/
+                              Container(),
                               subjectOrDate != '' ?
                               Container(
                                 margin: const EdgeInsets.only(bottom: 5),
