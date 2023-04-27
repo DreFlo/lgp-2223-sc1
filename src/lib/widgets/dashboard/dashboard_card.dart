@@ -24,10 +24,6 @@ class DashboardCard extends StatefulWidget {
       this.mediaEvent})
       : super(key: key);
 
-//nTasks and institution can be added I guess? Only for student
-//Possible to check what's the type of media for media events?
-//Show deadline for tasks and task groups?
-
   @override
   State<DashboardCard> createState() => _DashboardCardState();
 }
@@ -40,6 +36,7 @@ class _DashboardCardState extends State<DashboardCard> {
     'Fitness': fitnessColor,
   };
   String subjectOrDate = '';
+  String dateTasks = '';
   String institutionOrMediaType = '';
   int institutionId = 0;
   int nTasks = 0;
@@ -56,6 +53,7 @@ class _DashboardCardState extends State<DashboardCard> {
     getNTasks().then((value) => setState(() {
           nTasks = value;
         }));
+    dateTasks = getTaskDate();
   }
 
   String getTitle() {
@@ -73,7 +71,8 @@ class _DashboardCardState extends State<DashboardCard> {
   Future<int> getNTasks() async {
     if (widget.taskGroup != null) {
       return await serviceLocator<TaskDao>()
-          .countTasksByTaskGroupId(widget.taskGroup?.id ?? 0) ?? 0;
+              .countTasksByTaskGroupId(widget.taskGroup?.id ?? 0) ??
+          0;
     } else {
       return 0;
     }
@@ -87,15 +86,25 @@ class _DashboardCardState extends State<DashboardCard> {
     } else if (widget.mediaEvent != null) {
       String startDate =
           "${widget.mediaEvent!.startDateTime.day.toString()}/${widget.mediaEvent!.startDateTime.month.toString()}";
-      String endDate =
-          "${widget.mediaEvent!.endDateTime.day.toString()}/${widget.mediaEvent!.endDateTime.month.toString()}";
-      if (startDate == endDate) {
-        return startDate;
-      }
-      return "$startDate-$endDate";
+
+      return startDate;
     } else {
       return '';
     }
+  }
+
+  String getTaskDate() {
+    String date = '';
+    if (widget.task != null) {
+      date =
+          "${widget.task!.deadline.day.toString()}/${widget.task!.deadline.month.toString()}";
+      return date;
+    } else if (widget.taskGroup != null) {
+      date =
+          "${widget.taskGroup!.deadline.day.toString()}/${widget.taskGroup!.deadline.month.toString()}";
+      return date;
+    }
+    return date;
   }
 
   Future<String> getInstitutionOrMediaType() async {
@@ -220,6 +229,27 @@ class _DashboardCardState extends State<DashboardCard> {
                                       ),
                                     )
                                   : Container(),
+                              dateTasks != ''
+                                  ? Container(
+                                      margin: const EdgeInsets.only(bottom: 5),
+                                      padding: const EdgeInsets.symmetric(
+                                          horizontal: 5),
+                                      decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(5),
+                                        color: grayBackground,
+                                      ),
+                                      child: Text(
+                                        dateTasks,
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .headlineLarge
+                                            ?.copyWith(
+                                              color:
+                                                  moduleColors[widget.module],
+                                            ),
+                                      ),
+                                    )
+                                  : Container(),
                             ],
                           ),
                           nTasks != 0
@@ -236,8 +266,7 @@ class _DashboardCardState extends State<DashboardCard> {
                                               .textTheme
                                               .headlineLarge)),
                                 )
-                              :
-                          Container(),
+                              : Container(),
                         ],
                       )
                     ]))));
