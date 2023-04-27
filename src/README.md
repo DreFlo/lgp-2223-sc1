@@ -171,11 +171,26 @@ setupMockServiceLocatorUnitTests();
 await serviceLocator.allReady();
 ```
 
+And in the tearDown() function:
+
+```dart
+await serviceLocator.reset();
+```
+
 To mock a DAO you may then do something like this in the test:
 
 ```dart
 final mockPersonDao = serviceLocator.get<PersonDao>();
 when(mockPersonDao.findAllPersons()).thenAnswer((_) async => []);
+```
+
+In order to use mocks for the models, you need to add to the GenerateNiceMocks in the model_mock_utils.dart file, like this:
+```dart
+MockSpec<Model>()
+```
+And you will be able to use it as:
+```dart
+MockModel()
 ```
 
 If you actually want to test database functionality (do not do this in widget tests) you can place the following code in your setUp() function:

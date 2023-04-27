@@ -9,11 +9,15 @@ import 'package:src/models/media/episode.dart';
       childColumns: ['episode_id'],
       parentColumns: ['id'],
       entity: Episode,
+      onDelete: ForeignKeyAction.cascade,
+      onUpdate: ForeignKeyAction.restrict,
     ),
     ForeignKey(
       childColumns: ['id'],
       parentColumns: ['id'],
       entity: Note,
+      onDelete: ForeignKeyAction.cascade,
+      onUpdate: ForeignKeyAction.restrict,
     ),
   ],
 )
