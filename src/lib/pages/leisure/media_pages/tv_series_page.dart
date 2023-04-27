@@ -8,8 +8,7 @@ class TVSeriesPage extends MediaPage<MediaSeriesSuperEntity> {
       {Key? key,
       required MediaSeriesSuperEntity media,
       required Function(bool) toggleFavorite,
-      required List<String> leisureTags
-      })
+      required List<String> leisureTags})
       : super(
             key: key,
             item: media,
@@ -40,11 +39,20 @@ class TVSeriesPageState extends MediaPageState<MediaSeriesSuperEntity> {
 
   @override
   String getLength(context) {
-    return widget.item.numberSeasons.toString() +
-        AppLocalizations.of(context).seasons +
-        widget.item.numberEpisodes.toString() +
-        AppLocalizations.of(context).episodes +
-        widget.item.duration.toString() +
-        AppLocalizations.of(context).minutes_each;
+    String duration = widget.item.duration.toString();
+    String seasons = widget.item.numberSeasons.toString();
+    if (seasons == '1') {
+      seasons = seasons + AppLocalizations.of(context).season;
+    } else {
+      seasons = seasons + AppLocalizations.of(context).seasons;
+    }
+    String seasonsEpisodes = seasons + widget.item.numberEpisodes.toString();
+    if (duration == '0') {
+      return seasonsEpisodes + AppLocalizations.of(context).episodes_no_duration; 
+    } else {
+      return seasonsEpisodes + AppLocalizations.of(context).episodes +
+          duration +
+          AppLocalizations.of(context).minutes_each;
+    }
   }
 }

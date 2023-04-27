@@ -7,7 +7,7 @@
   "synopsis": "Synopsis",
   "cast": "Cast",
   "length": "Length",
-  "season": "season,",
+  "season": " season,",
   "no_cast": "Cast information was not available.",
   "seasons": " seasons, ",
   "episodes": " episodes, ",
