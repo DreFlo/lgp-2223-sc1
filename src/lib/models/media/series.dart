@@ -17,6 +17,8 @@ class Series {
   @PrimaryKey()
   final int id;
 
+  final int duration;
+
   final String tagline;
 
   @ColumnInfo(name: 'number_episodes')
@@ -30,6 +32,7 @@ class Series {
 
   Series(
       {required this.id,
+      required this.duration,
       required this.tagline,
       required this.numberEpisodes,
       required this.numberSeasons,

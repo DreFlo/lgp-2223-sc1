@@ -129,7 +129,6 @@ class MoviePageButtonState
                                               50),
                                       child: SingleChildScrollView(
                                           controller: scrollController,
-                                          // TODO: Why BookNotesSheet?
                                           child: BookNotesSheet(
                                               book: false, mediaId: dbMediaId)))
                                 ])));

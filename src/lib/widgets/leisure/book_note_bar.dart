@@ -41,7 +41,6 @@ class _BookNoteBarState extends State<BookNoteBar> {
             //         onPressed: () {
             //           setState(() {});
 
-            //           //TODO: Add functionality for editing note.
             //         },
             //         style: ButtonStyle(
             //           minimumSize:

@@ -108,6 +108,7 @@ void main() {
           tagline: "Super Cool Test",
           numberEpisodes: 23,
           numberSeasons: 2,
+          duration: 30,
           tmdbId: 1);
 
       int seriesId = await serviceLocator<MediaSeriesSuperDao>()
@@ -347,6 +348,7 @@ void main() {
           tagline: "Super Cool Test",
           numberEpisodes: 23,
           numberSeasons: 2,
+          duration: 30,
           tmdbId: 1);
 
       int seriesId = await serviceLocator<MediaSeriesSuperDao>()
@@ -405,6 +407,7 @@ void main() {
           tagline: "Super Cool Test",
           numberEpisodes: 23,
           numberSeasons: 2,
+          duration: 30,
           tmdbId: 1);
 
       int seriesId = await serviceLocator<MediaSeriesSuperDao>()
@@ -487,6 +490,7 @@ void main() {
           tagline: 'Super Cool Test',
           numberEpisodes: 23,
           numberSeasons: 2,
+          duration: 30,
           tmdbId: 1));
 
       TimeslotMediaTimeslotSuperEntity timeslotMediaTimeslotSuperEntity =
@@ -580,6 +584,7 @@ void main() {
           tagline: 'Super Cool Test',
           numberEpisodes: 23,
           numberSeasons: 2,
+          duration: 30,
           tmdbId: 1));
 
       TimeslotMediaTimeslotSuperEntity timeslotMediaTimeslotSuperEntity =
@@ -838,6 +843,7 @@ void main() {
               tagline: "Super Cool Test",
               numberEpisodes: 23,
               numberSeasons: 2,
+              duration: 30,
               tmdbId: 1));
 
       Season season = Season(id: 1, number: -1, seriesId: id);
@@ -863,6 +869,7 @@ void main() {
               tagline: "Super Cool Test",
               numberEpisodes: 23,
               numberSeasons: 2,
+              duration: 30,
               tmdbId: 1));
 
       int seasonId = await serviceLocator<SeasonDao>()

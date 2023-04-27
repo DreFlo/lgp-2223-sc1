@@ -18,5 +18,6 @@ final mockSeries = [
       tagline: 'The streets are watching',
       numberEpisodes: 60,
       numberSeasons: 5,
+      duration: 60,
       tmdbId: 1438),
 ];

@@ -37,7 +37,6 @@ class _EpisodeNoteBarState extends State<EpisodeNoteBar> {
             //         onPressed: () {
             //           setState(() {});
 
-            //           //TODO: Add functionality for editing note.
             //         },
             //         style: ButtonStyle(
             //           minimumSize:

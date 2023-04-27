@@ -206,7 +206,6 @@ class _AddBookNoteFormState extends State<AddBookNoteForm> {
                     widget.refreshStatus!();
                   }
 
-                //TODO: Whatever frontend stuff you want to do here
               },
               style: ElevatedButton.styleFrom(
                 minimumSize: Size(MediaQuery.of(context).size.width * 0.90, 55),
