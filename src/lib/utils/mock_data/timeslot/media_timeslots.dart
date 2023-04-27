@@ -1,4 +1,5 @@
 import 'package:src/models/timeslot/timeslot_media_timeslot_super_entity.dart';
+import 'package:src/utils/enums.dart';
 
 final mockMediaTimeslots = [
   TimeslotMediaTimeslotSuperEntity(
@@ -9,7 +10,7 @@ final mockMediaTimeslots = [
       endDateTime: DateTime(2023, 4, 26, 16, 0),
       xpMultiplier: 2,
       finished: false,
-      type: 'TV Show',
+      type: MediaTypes.movie,
       userId: 1),
   TimeslotMediaTimeslotSuperEntity(
       id: 5,
@@ -18,7 +19,7 @@ final mockMediaTimeslots = [
       startDateTime: DateTime(2023, 4, 27, 0, 0, 0),
       endDateTime: DateTime(2023, 4, 27, 23, 59, 59),
       xpMultiplier: 0,
-      type: 'Movie',
+      type: MediaTypes.movie,
       finished: false,
       userId: 1)
 ];

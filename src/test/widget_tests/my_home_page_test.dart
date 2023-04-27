@@ -1,4 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
+import 'package:src/utils/enums.dart';
 import 'package:src/utils/service_locator.dart';
 import '../utils/service_locator_test_util.dart';
 import '../utils/locations_injector.dart';
@@ -49,7 +50,7 @@ void main() {
         endDateTime: DateTime.now(),
         xpMultiplier: 1,
         finished: false,
-        type: 'TV Show',
+        type: MediaTypes.movie,
         id: 1,
         userId: 1);
 

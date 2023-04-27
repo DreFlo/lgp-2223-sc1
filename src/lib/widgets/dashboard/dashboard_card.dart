@@ -9,6 +9,7 @@ import 'package:src/models/timeslot/timeslot_media_timeslot_super_entity.dart';
 import 'package:src/utils/service_locator.dart';
 import 'package:src/models/student/subject.dart';
 import 'package:src/daos/student/subject_dao.dart';
+import 'package:src/utils/enums.dart';
 
 class DashboardCard extends StatefulWidget {
   final Task? task; //student
@@ -113,7 +114,13 @@ class _DashboardCardState extends State<DashboardCard> {
     } else if (widget.taskGroup != null) {
       return await loadInstitution();
     } else if (widget.mediaEvent != null) {
-      return widget.mediaEvent!.type;
+      if (widget.mediaEvent!.type == MediaTypes.movie) {
+        return 'Movie';
+      } else if (widget.mediaEvent!.type == MediaTypes.series) {
+        return 'TV Show';
+      } else {
+        return 'Book';
+      }
     } else {
       return '';
     }

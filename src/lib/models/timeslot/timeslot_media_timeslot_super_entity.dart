@@ -1,5 +1,6 @@
 import 'package:src/models/timeslot/timeslot.dart';
 import 'package:src/models/timeslot/media_timeslot.dart';
+import 'package:src/utils/enums.dart';
 
 class TimeslotMediaTimeslotSuperEntity {
   final int? id;
@@ -10,7 +11,7 @@ class TimeslotMediaTimeslotSuperEntity {
   final int xpMultiplier;
   final bool finished;
   final int userId;
-  final String type;
+  final MediaTypes type;
 
   TimeslotMediaTimeslotSuperEntity(
       {this.id,
@@ -61,7 +62,7 @@ class TimeslotMediaTimeslotSuperEntity {
       int? xpMultiplier,
       bool? finished,
       int? userId,
-      String? type}) {
+      MediaTypes? type}) {
     return TimeslotMediaTimeslotSuperEntity(
         id: id ?? this.id,
         title: title ?? this.title,
