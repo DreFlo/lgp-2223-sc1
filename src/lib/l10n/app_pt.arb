@@ -112,5 +112,15 @@
   "evaluations": "Avaliações",
   "add_evaluation": "Adicionar Avaliação",
   "grade": "Nota",
-  "grade_error": "Nota é obrigatória"
+  "grade_error": "Nota é obrigatória",
+  "event": "Evento",
+  "time_period": "Período de Tempo",
+  "start": "Início de Tempo",
+  "end": "Fim de Tempo",
+  "no_activities": "Ainda não tens atividades...",
+  "activities": "Atividades",
+  "no_media": "Ainda não tens média...",
+  "eval_name": "Nome da Avaliação",
+  "choose_tasks": "Escolhe tarefas",
+  "choose_media": "Escolhe média"
 }
