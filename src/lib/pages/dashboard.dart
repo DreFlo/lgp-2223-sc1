@@ -8,9 +8,14 @@ import 'package:src/utils/service_locator.dart';
 import 'package:src/daos/student/task_dao.dart';
 import 'package:src/daos/student/task_group_dao.dart';
 import 'package:src/models/student/task.dart';
+import 'package:src/models/student/subject.dart';
+import 'package:src/models/student/institution.dart';
+import 'package:src/daos/student/subject_dao.dart';
+import 'package:src/daos/student/institution_dao.dart';
 import 'package:src/models/student/task_group.dart';
 import 'package:src/models/timeslot/timeslot_media_timeslot_super_entity.dart';
 import 'package:src/daos/timeslot/timeslot_media_timeslot_super_dao.dart';
+import 'package:src/utils/dashboard_project.dart';
 
 class Dashboard extends StatefulWidget {
   const Dashboard({Key? key}) : super(key: key);
@@ -31,6 +36,8 @@ class _DashboardState extends State<Dashboard> {
   List<TaskGroup> taskGroups = [];
   List<TimeslotMediaTimeslotSuperEntity> mediaEvents = [];
   bool loadedAllData = false;
+
+  List<DashboardTask> dashboardTasks = [];
 
   late List searchResults = items;
 
@@ -61,21 +68,36 @@ class _DashboardState extends State<Dashboard> {
 
   Future<List<TimeslotMediaTimeslotSuperEntity>> loadEventsDB(DateTime start) async {
     //only for Media
-
+    //need to find out the type of media + date
+    //date easy -- type of media too many queries
     mediaEvents = await serviceLocator<TimeslotMediaTimeslotSuperDao>()
         .findAllTimeslotMediaTimeslot(start);
+    
     return mediaEvents;
   }
 
   Future<List<TaskGroup>> loadTaskGroupsDB() async {
     //lil cards student
+    //need to find out subject + date + institution + number of tasks
     taskGroups = await serviceLocator<TaskGroupDao>().findAllTaskGroups();
     return taskGroups;
   }
 
   Future<List<Task>> loadTasksDB() async {
     //lil cards student (tasks that don't have a taskgroup)
+    //need to find out subject + date + institution
     tasks = await serviceLocator<TaskDao>().findTasksWithoutTaskGroup();
+    /*for(Task task in tasks){
+      if(task.subjectId == null){ //if task doesn't have a subject they don't have an institution either - only connection is through subject
+        dashboardTasks.add(DashboardTask(task));
+      }
+      else { 
+        //get subject info to get its name and institution id
+        //Subject subject = await serviceLocator<SubjectDao>().findSubjectById(task.subjectId!);
+
+
+      }
+    }*/
     return tasks;
   }
 
@@ -83,9 +105,9 @@ class _DashboardState extends State<Dashboard> {
     DateTime now = DateTime.now();
     DateTime start = DateTime(now.year, now.month, now.day, 0, 0, 0);
 
+    mediaEvents = await loadEventsDB(start);
     taskGroups = await loadTaskGroupsDB();
     tasks = await loadTasksDB();
-    mediaEvents = await loadEventsDB(start);
     setState(() {
       loadedAllData = true;
     });

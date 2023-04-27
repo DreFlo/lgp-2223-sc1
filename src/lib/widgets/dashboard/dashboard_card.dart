@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:src/daos/student/institution_dao.dart';
+import 'package:src/models/student/institution.dart';
 import 'package:src/themes/colors.dart';
 import 'package:src/models/student/task.dart';
 import 'package:src/models/student/task_group.dart';
@@ -37,12 +39,17 @@ class _DashboardCardState extends State<DashboardCard> {
     'Fitness': fitnessColor,
   };
   String subjectOrDate = '';
+  String institutionOrMediaType = '';
+  int institutionId = 0;
 
   @override
   void initState() {
     super.initState();
     getSubjectOrDate().then((value) => setState(() {
           subjectOrDate = value;
+        }));
+    getInstitutionOrMediaType().then((value) => setState(() {
+          institutionOrMediaType = value;
         }));
   }
 
@@ -68,10 +75,22 @@ class _DashboardCardState extends State<DashboardCard> {
           "${widget.mediaEvent!.startDateTime.day.toString()}/${widget.mediaEvent!.startDateTime.month.toString()}";
       String endDate =
           "${widget.mediaEvent!.endDateTime.day.toString()}/${widget.mediaEvent!.endDateTime.month.toString()}";
-      if(startDate == endDate){
+      if (startDate == endDate) {
         return startDate;
       }
       return "$startDate-$endDate";
+    } else {
+      return '';
+    }
+  }
+
+  Future<String> getInstitutionOrMediaType() async {
+    if (widget.task != null) {
+      return await loadInstitution();
+    } else if (widget.taskGroup != null) {
+      return await loadInstitution();
+    } else if (widget.mediaEvent != null) {
+      return "Media";
     } else {
       return '';
     }
@@ -81,14 +100,27 @@ class _DashboardCardState extends State<DashboardCard> {
     int? id;
     if (widget.task != null) {
       id = widget.task?.subjectId;
-    } //else if (widget.taskGroup != null) {
-    //id = widget.taskGroup?.subjectId; //when student-backend is merged with this branch
-    //}
+    } else if (widget.taskGroup != null) {
+      id = widget.taskGroup?.subjectId;
+    }
     if (id != null) {
       final subjectStream = serviceLocator<SubjectDao>().findSubjectById(id);
       Subject? firstNonNullSubject = await subjectStream
           .firstWhere((subject) => subject != null, orElse: () => null);
-      return firstNonNullSubject?.name ?? '';
+      institutionId = firstNonNullSubject?.institutionId ?? 0;
+      return firstNonNullSubject?.acronym ?? '';
+    }
+    return '';
+  }
+
+  Future<String> loadInstitution() async {
+    if (institutionId != 0) {
+      final institutionStream =
+          serviceLocator<InstitutionDao>().findInstitutionById(institutionId);
+      Institution? firstNonNullInstitution = await institutionStream
+          .firstWhere((institution) => institution != null,
+              orElse: () => null);
+      return firstNonNullInstitution?.name ?? '';
     }
     return '';
   }
@@ -153,8 +185,9 @@ class _DashboardCardState extends State<DashboardCard> {
                                             ),
                                       ),
                                     )
-                                  :*/
-                              Container(),
+                                  :
+                              Container(),*/
+                              subjectOrDate != '' ?
                               Container(
                                 margin: const EdgeInsets.only(bottom: 5),
                                 padding:
@@ -172,7 +205,9 @@ class _DashboardCardState extends State<DashboardCard> {
                                         color: moduleColors[widget.module],
                                       ),
                                 ),
-                              ),
+                              )
+                              :
+                              Container(),
                             ],
                           ),
                           /*widget.nTasks != 0
