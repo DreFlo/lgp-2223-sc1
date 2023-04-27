@@ -12,7 +12,7 @@ import 'package:src/daos/media/book_dao.dart';
 import 'package:src/models/media/media.dart';
 
 class SeeAll extends StatefulWidget {
-  final List media;
+  final List<Media> media;
   final String title;
   final VoidCallback? refreshMediaList;
 
@@ -45,9 +45,9 @@ class SeeAllState extends State<SeeAll> {
     });
   }
 
-  Future<List> searchMediaBasedOnType() async {
+  Future<List<Media>> searchMediaBasedOnType() async {
     String query = '%$searchText%';
-    final resultsToReturn = [];
+    final resultsToReturn = <Media>[];
     final results = await serviceLocator<MediaDao>().getMatchingMedia(query);
 
     for (Media media in results) {
@@ -89,9 +89,9 @@ class SeeAllState extends State<SeeAll> {
       return [
         SearchBar(onSearch: onSearch),
         Expanded(
-          child: FutureBuilder(
+          child: FutureBuilder<List<Media>>(
             future: searchMediaBasedOnType(),
-            builder: (context, AsyncSnapshot<List> snapshot) {
+            builder: (context, AsyncSnapshot<List<Media>> snapshot) {
               if (snapshot.hasData) {
                 return ListMediaCatalog(
                     title: widget.title,

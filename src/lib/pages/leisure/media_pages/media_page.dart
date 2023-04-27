@@ -8,8 +8,12 @@ import 'package:src/widgets/leisure/leisure_tag.dart';
 abstract class MediaPage<T extends Media> extends StatefulWidget {
   final T item;
   final Function(bool) toggleFavorite;
+  final List<String> leisureTags;
+  // Max duration only for TV Series
+  // Not good but I'm sick of this project
+  final int maxDuration;
 
-  const MediaPage({Key? key, required this.item, required this.toggleFavorite})
+  const MediaPage({Key? key, required this.item, required this.toggleFavorite, required this.leisureTags, required this.maxDuration})
       : super(key: key);
 
   @override
@@ -19,6 +23,13 @@ abstract class MediaPage<T extends Media> extends StatefulWidget {
 abstract class MediaPageState<T extends Media> extends State<MediaPage<T>> {
   bool isFavorite = false;
   List<String> leisureTags = [];
+
+  @override
+  void initState() {
+    super.initState();
+    isFavorite = widget.item.favorite;
+    leisureTags = widget.leisureTags;
+  }
 
   String getLength(context);
 
@@ -46,7 +57,7 @@ abstract class MediaPageState<T extends Media> extends State<MediaPage<T>> {
 
   double countWords() {
     double wordCount = 0;
-    for (String str in widget.leisureTags) {
+    for (String str in leisureTags) {
       List<String> wordsList = str.split(" ");
       for (String letter in wordsList) {
         wordCount += letter.length;
@@ -166,8 +177,8 @@ abstract class MediaPageState<T extends Media> extends State<MediaPage<T>> {
                     alignment: WrapAlignment.start,
                     runSpacing: 7.5,
                     children: [
-                      for (var i = 0; i < widget.leisureTags.length; i++)
-                        LeisureTag(text: widget.leisureTags[i])
+                      for (var i = 0; i < leisureTags.length; i++)
+                        LeisureTag(text: leisureTags[i])
                     ])),
           ])),
       const SizedBox(height: 15),

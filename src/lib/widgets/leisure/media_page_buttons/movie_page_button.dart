@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:src/models/media/media_video_movie_super_entity.dart';
-import 'package:src/pages/leisure/add_media_to_catalog_forms/add_media_to_catalog_form.dart';
+import 'package:src/pages/leisure/add_media_to_catalog_forms/add_movie_to_catalog_form.dart';
 import 'package:src/pages/leisure/book_notes_sheet.dart';
 import 'package:src/themes/colors.dart';
 import 'package:src/utils/enums.dart';
@@ -49,7 +49,7 @@ class MoviePageButtonState
                                         50),
                                 child: SingleChildScrollView(
                                     controller: scrollController,
-                                    child: AddToCatalogForm(
+                                    child: AddMovieToCatalogForm(
                                       status: Status.nothing,
                                       startDate: DateTime.now()
                                           .toString()
@@ -58,7 +58,6 @@ class MoviePageButtonState
                                           .toString()
                                           .split(" ")[0],
                                       item: widget.item,
-                                      type: 'Movie',
                                       setMediaId: setMediaId,
                                       showReviewForm: showReviewForm,
                                       refreshStatus: () {

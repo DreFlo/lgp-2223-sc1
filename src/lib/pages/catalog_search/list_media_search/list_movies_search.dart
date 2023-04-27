@@ -8,6 +8,7 @@ import 'package:src/utils/leisure/media_page_helpers.dart';
 import 'package:src/utils/service_locator.dart';
 import 'package:src/widgets/leisure/media_image_widgets/media_image.dart';
 import 'package:src/widgets/leisure/media_image_widgets/movie_image.dart';
+import 'package:src/widgets/leisure/media_page_buttons/movie_page_button.dart';
 
 class ListMoviesSearch extends ListMediaSearch<MediaVideoMovieSuperEntity> {
   const ListMoviesSearch(
@@ -21,8 +22,12 @@ class ListMoviesSearch extends ListMediaSearch<MediaVideoMovieSuperEntity> {
 class ListMoviesSearchState
     extends ListMediaSearchState<MediaVideoMovieSuperEntity> {
   @override
-  MoviePage showMediaPageBasedOnType(MediaVideoMovieSuperEntity item) {
-    return MoviePage(media: item, toggleFavorite: super.toggleFavorite);
+  MoviePage showMediaPageBasedOnType(
+      MediaVideoMovieSuperEntity item, List<String> leisureTags) {
+    return MoviePage(
+        media: item,
+        toggleFavorite: super.toggleFavorite,
+        leisureTags: leisureTags);
   }
 
   @override
@@ -51,5 +56,10 @@ class ListMoviesSearchState
     statusFavorite = MediaStatus(
         status: media.status, favorite: media.favorite, id: media.id ?? 0);
     return statusFavorite;
+  }
+
+  @override
+  MoviePageButton showMediaPageButton(MediaVideoMovieSuperEntity item) {
+    return MoviePageButton(item: item, mediaId: statusFavorite.id);
   }
 }

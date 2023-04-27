@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:src/api_wrappers/tmdb_api_movies_wrapper.dart';
 import 'package:src/models/media/media_video_movie_super_entity.dart';
-import 'package:src/pages/catalog_search/list_media_search/list_media_search.dart';
 import 'package:src/pages/catalog_search/list_media_search/list_movies_search.dart';
 
 class Movies extends StatelessWidget {
@@ -16,11 +15,11 @@ class Movies extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder<List>(
+    return FutureBuilder<List<MediaVideoMovieSuperEntity>>(
       future: loadMedia(),
       builder: (context, snapshot) {
         if (snapshot.hasData) {
-          return ListMoviesSearch(title: title, media: media);
+          return ListMoviesSearch(media: snapshot.data!);
         } else if (snapshot.hasError) {
           return Text('Error: ${snapshot.error}');
         } else {

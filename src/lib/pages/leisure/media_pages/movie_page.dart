@@ -4,8 +4,17 @@ import 'package:src/pages/leisure/media_pages/media_page.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class MoviePage extends MediaPage<MediaVideoMovieSuperEntity> {
-  const MoviePage({Key? key, required MediaVideoMovieSuperEntity media, required Function(bool) toggleFavorite})
-      : super(key: key, item: media, toggleFavorite: toggleFavorite);
+  const MoviePage(
+      {Key? key,
+      required MediaVideoMovieSuperEntity media,
+      required Function(bool) toggleFavorite,
+      required List<String> leisureTags})
+      : super(
+            key: key,
+            item: media,
+            toggleFavorite: toggleFavorite,
+            leisureTags: leisureTags,
+            maxDuration: 0);
 
   @override
   MoviePageState createState() => MoviePageState();
@@ -13,14 +22,15 @@ class MoviePage extends MediaPage<MediaVideoMovieSuperEntity> {
 
 class MoviePageState extends MediaPageState<MediaVideoMovieSuperEntity> {
   @override
-  void initState() {    
+  void initState() {
     super.initState();
     super.isFavorite = widget.item.favorite;
   }
 
   @override
   String getLength(context) {
-    return widget.item.duration.toString() + AppLocalizations.of(context).minutes;
+    return widget.item.duration.toString() +
+        AppLocalizations.of(context).minutes;
   }
 
   @override
@@ -31,12 +41,13 @@ class MoviePageState extends MediaPageState<MediaVideoMovieSuperEntity> {
 
   @override
   Image showImage() {
-    if (widget.item.linkImage == '') {
+    if (widget.item.linkImage != '') {
       return Image.network(
         'https://image.tmdb.org/t/p/w500${widget.item.linkImage}',
-        fit: BoxFit.fitWidth,);
+        fit: BoxFit.fitWidth,
+      );
     } else {
-      return Image.asset("assets/images/no_image.png");
+      return Image.asset("assets/images/no_image.jpg");
     }
   }
 }

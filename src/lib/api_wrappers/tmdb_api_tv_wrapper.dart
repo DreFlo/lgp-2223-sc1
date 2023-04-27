@@ -15,7 +15,7 @@ class TMDBTVSeriesAPIWrapper {
   Future<Map<dynamic, dynamic>> _getTVSeriesDetails(int id) async {
     Map details = await tmdb.v3.tv.getDetails(id);
 
-    List<String> castNames = (await tmdb.v3.tv.getCredits(id))['cast']
+    List castNames = (await tmdb.v3.tv.getCredits(id))['cast']
         .map((cast) => cast['name'])
         .toList();
 
@@ -27,7 +27,7 @@ class TMDBTVSeriesAPIWrapper {
   Future<Map<dynamic, dynamic>> _getTVSeasonDetails(int id, int season) async {
     Map details = await tmdb.v3.tvSeasons.getDetails(id, season);
 
-    List<String> castNames =
+    List castNames =
         (await tmdb.v3.tvSeasons.getCredits(id, season))['cast']
             .map((cast) => cast['name'])
             .toList();
@@ -38,7 +38,7 @@ class TMDBTVSeriesAPIWrapper {
   }
 
   Future<List<MediaSeriesSuperEntity>> _getMediaSeriesSuperEntitiesFromMapList(
-      List<Map> tmdbResults) async {
+      List tmdbResults) async {
     // Get details for each series
     for (int i = 0; i < tmdbResults.length; i++) {
       Map tv = tmdbResults[i];
@@ -66,8 +66,8 @@ class TMDBTVSeriesAPIWrapper {
         'tagline': tv['details']['tagline'],
         'duration': tv['details']['episode_run_time'],
         'participants': tv['details']['participants'],
-        'numberEpisodes': tv['number_of_episodes'],
-        'numberSeasons': tv['number_of_seasons'],
+        'numberEpisodes': tv['details']['number_of_episodes'],
+        'numberSeasons': tv['details']['number_of_seasons'],
         'tmdbId': tv['id'],
       };
 
@@ -78,7 +78,7 @@ class TMDBTVSeriesAPIWrapper {
   }
 
   Future<List<MediaSeriesSuperEntity>> getTrendingTVSeries() async {
-    List<Map> tvResults =
+    List tvResults =
         (await tmdb.v3.trending.getTrending(mediaType: MediaType.tv))['results']
             .where((tv) => tv['poster_path'] != null)
             .toList();
@@ -90,7 +90,7 @@ class TMDBTVSeriesAPIWrapper {
   }
 
   Future<List<MediaSeriesSuperEntity>> getTVSeriesBySearch(String query) async {
-    List<Map> tvResults = (await tmdb.v3.search.queryTvShows(query))['results']
+    List tvResults = (await tmdb.v3.search.queryTvShows(query))['results']
         .where((tv) => tv['poster_path'] != null)
         .toList();
 
@@ -115,15 +115,14 @@ class TMDBTVSeriesAPIWrapper {
         'linkImage': episode['still_path'],
         'status': Status.nothing,
         'favorite': false,
-        'genres': seasonDetails['genres']
-            .map((genre) => genre['name'])
-            .toList()
-            .join(', '),
+        // TODO: Add genres, maybe same as series?
+        'genres': 'genres',
         'release': DateTime.parse(episode['air_date']),
         'xp': 0,
-        'tagline': seasonDetails['tagline'],
-        'duration': seasonDetails['runtime'],
-        'participants': seasonDetails['participants'],
+        'tagline': episode['tagline'],
+        'duration': episode['runtime'],
+        // TODO: Add participants
+        'participants': 'participants',
         'seasonId': season,
         'number': episode['episode_number'],
         'tmdbId': episode['id'],

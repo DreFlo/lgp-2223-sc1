@@ -4,10 +4,18 @@ import 'package:src/daos/notes/book_note_dao.dart';
 import 'package:src/daos/notes/episode_note_dao.dart';
 import 'package:src/daos/notes/note_episode_note_super_dao.dart';
 import 'package:src/env/env.dart';
+import 'package:src/models/media/media_book_super_entity.dart';
+import 'package:src/models/media/media_series_super_entity.dart';
+import 'package:src/models/media/media_video_movie_super_entity.dart';
 import 'package:src/models/notes/note_episode_note_super_entity.dart';
+import 'package:src/pages/leisure/media_pages/book_page.dart';
+import 'package:src/pages/leisure/media_pages/movie_page.dart';
+import 'package:src/pages/leisure/media_pages/tv_series_page.dart';
+import 'package:src/widgets/leisure/media_image_widgets/book_image.dart';
 import 'package:src/widgets/leisure/media_image_widgets/media_image.dart';
-import 'package:src/pages/leisure/media_pages/media_page.dart';
-import 'package:src/widgets/leisure/media_page_buttons/media_page_button.dart';
+import 'package:src/widgets/leisure/media_image_widgets/movie_image.dart';
+import 'package:src/widgets/leisure/media_image_widgets/tv_series_image.dart';
+import 'package:src/widgets/leisure/media_page_buttons/book_page_button.dart';
 import 'package:src/models/media/review.dart';
 import 'package:src/daos/media/episode_dao.dart';
 import 'package:src/daos/media/video_dao.dart';
@@ -23,7 +31,8 @@ import 'package:src/models/media/season.dart';
 import 'package:src/daos/media/season_dao.dart';
 import 'package:src/utils/service_locator.dart';
 import 'dart:math';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:src/widgets/leisure/media_page_buttons/movie_page_button.dart';
+import 'package:src/widgets/leisure/media_page_buttons/tv_series_page_button.dart';
 import 'package:tmdb_api/tmdb_api.dart';
 
 bool isFavorite = false;
@@ -125,182 +134,18 @@ void saveFavoriteStatus(bool favorite, int id) async {
   await serviceLocator<MediaDao>().updateMedia(newMedia);
 }
 
-showWidget(dynamic item, String title) {
-  if (item.linkImage != null) {
-    if (title == 'All Books') {
-      return MediaWidget(image: item.linkImage, type: 'book');
-    } else {
-      return MediaWidget(image: item.linkImage, type: 'video');
-    }
+MediaImageWidget showWidget(Media item) {
+  if (item is MediaBookSuperEntity) {
+    return BookImageWidget(image: item.linkImage);
+  } else if (item is MediaVideoMovieSuperEntity) {
+    return MovieImageWidget(image: item.linkImage);
+  } else {
+    return TVSeriesImageWidget(image: item.linkImage);
   }
 }
 
 void toggleFavorite(bool favorite) {
   isFavorite = favorite;
-}
-
-showMediaPageBasedOnType(dynamic item, String title, int duration) {
-  List<String> leisureTags = [];
-
-  leisureTags.add(item.release.year.toString());
-  leisureTags.addAll(item.genres.split(','));
-
-  List<String> cast = [];
-  cast.addAll(item.participants.split(', '));
-  isFavorite = item.favorite;
-
-  if (title == 'All Books') {
-    return MediaPage(
-      title: item.name,
-      synopsis: item.description,
-      type: 'Book',
-      length: [item.totalPages],
-      cast: cast,
-      image: item.linkImage,
-      status: item.status,
-      isFavorite: item.favorite,
-      leisureTags: leisureTags,
-      toggleFavorite: toggleFavorite,
-    );
-  } else if (title == 'All Movies') {
-    leisureTags.add(item.tagline);
-
-    return MediaPage(
-      title: item.name,
-      synopsis: item.description,
-      type: 'Movie',
-      length: [item.duration],
-      cast: cast,
-      image: item.linkImage,
-      status: item.status,
-      isFavorite: item.favorite,
-      leisureTags: leisureTags,
-      toggleFavorite: toggleFavorite,
-    );
-  } else if (title == 'All TV Shows') {
-    leisureTags.add(item.tagline);
-
-    return MediaPage(
-      title: item.name,
-      synopsis: item.description,
-      type: 'TV Show',
-      length: [item.numberSeasons, item.numberEpisodes, duration], //get from DB
-      cast: cast,
-      image: item.linkImage,
-      status: item.status,
-      isFavorite: item.favorite,
-      leisureTags: leisureTags,
-      toggleFavorite: toggleFavorite,
-    );
-  }
-}
-
-showMediaPageForTV(dynamic item, context, reload) async {
-  int maxDuration = await loadDuration(item.id);
-  showModalBottomSheet(
-      context: context,
-      isScrollControlled: true,
-      backgroundColor: const Color(0xFF22252D),
-      shape: const RoundedRectangleBorder(
-        borderRadius: BorderRadius.vertical(top: Radius.circular(30.0)),
-      ),
-      builder: (context) => DraggableScrollableSheet(
-          expand: false,
-          initialChildSize: 0.75,
-          minChildSize: 0.35,
-          maxChildSize: 0.9,
-          builder: (context, scrollController) =>
-              Stack(alignment: AlignmentDirectional.bottomCenter, children: [
-                SingleChildScrollView(
-                    controller: scrollController,
-                    child: showMediaPageBasedOnType(
-                        item,
-                        AppLocalizations.of(context).all_tv_shows,
-                        maxDuration)),
-                Positioned(
-                    left: 16,
-                    right: 16,
-                    bottom: 16,
-                    child: MediaPageButton(
-                      item: item,
-                      type: 'TV Show',
-                      mediaId: item.id,
-                    ))
-              ]))).whenComplete(() {
-    if (isFavorite != item.favorite) {
-      saveFavoriteStatus(isFavorite, item.id);
-      reload();
-    }
-  });
-}
-
-showMediaPageForMovies(dynamic item, context, reload) async {
-  showModalBottomSheet(
-      context: context,
-      isScrollControlled: true,
-      backgroundColor: const Color(0xFF22252D),
-      shape: const RoundedRectangleBorder(
-        borderRadius: BorderRadius.vertical(top: Radius.circular(30.0)),
-      ),
-      builder: (context) => DraggableScrollableSheet(
-          expand: false,
-          initialChildSize: 0.75,
-          minChildSize: 0.35,
-          maxChildSize: 0.9,
-          builder: (context, scrollController) =>
-              Stack(alignment: AlignmentDirectional.bottomCenter, children: [
-                SingleChildScrollView(
-                    controller: scrollController,
-                    child: showMediaPageBasedOnType(
-                        item, AppLocalizations.of(context).all_movies, 0)),
-                Positioned(
-                    left: 16,
-                    right: 16,
-                    bottom: 16,
-                    child: MediaPageButton(
-                        item: item, type: 'Movie', mediaId: item.id))
-              ]))).whenComplete(() {
-    if (isFavorite != item.favorite) {
-      saveFavoriteStatus(isFavorite, item.id);
-      reload();
-    }
-  });
-}
-
-showMediaPageForBooks(dynamic item, context, reload) async {
-  showModalBottomSheet(
-      context: context,
-      isScrollControlled: true,
-      backgroundColor: const Color(0xFF22252D),
-      shape: const RoundedRectangleBorder(
-        borderRadius: BorderRadius.vertical(top: Radius.circular(30.0)),
-      ),
-      builder: (context) => DraggableScrollableSheet(
-          expand: false,
-          initialChildSize: 0.75,
-          minChildSize: 0.35,
-          maxChildSize: 0.9,
-          builder: (context, scrollController) =>
-              Stack(alignment: AlignmentDirectional.bottomCenter, children: [
-                SingleChildScrollView(
-                    controller: scrollController,
-                    child: showMediaPageBasedOnType(
-                        item, AppLocalizations.of(context).all_books, 0)),
-                Positioned(
-                    left: 16,
-                    right: 16,
-                    bottom: 16,
-                    child: MediaPageButton(
-                      item: item,
-                      type: 'Book',
-                      mediaId: item.id,
-                    ))
-              ]))).whenComplete(() {
-    if (isFavorite != item.favorite) {
-      saveFavoriteStatus(isFavorite, item.id);
-      reload();
-    }
-  });
 }
 
 List<String> makeCastList(Map cast) {
@@ -356,4 +201,142 @@ Map<int, String> makeEpisodeNameMap(Map episodes) {
     episodeNameMap[episodeNumber] = name;
   });
   return episodeNameMap;
+}
+
+void showMediaPageForTV(MediaSeriesSuperEntity item, BuildContext context,
+    void Function()? reload) async {
+  int maxDuration = await loadDuration(item.id ?? 0);
+  List<String> leisureTags = [];
+  leisureTags.add(item.release.year.toString());
+  leisureTags.addAll(item.genres.split(','));
+  leisureTags.add(item.tagline);
+  isFavorite = item.favorite;
+  if (context.mounted) {
+    showModalBottomSheet(
+        context: context,
+        isScrollControlled: true,
+        backgroundColor: const Color(0xFF22252D),
+        shape: const RoundedRectangleBorder(
+          borderRadius: BorderRadius.vertical(top: Radius.circular(30.0)),
+        ),
+        builder: (context) => DraggableScrollableSheet(
+            expand: false,
+            initialChildSize: 0.75,
+            minChildSize: 0.35,
+            maxChildSize: 0.9,
+            builder: (context, scrollController) =>
+                Stack(alignment: AlignmentDirectional.bottomCenter, children: [
+                  SingleChildScrollView(
+                      controller: scrollController,
+                      child: TVSeriesPage(
+                        media: item,
+                        leisureTags: leisureTags,
+                        toggleFavorite: toggleFavorite,
+                        maxDuration: maxDuration,
+                      )),
+                  Positioned(
+                      left: 16,
+                      right: 16,
+                      bottom: 16,
+                      child: TVSeriesPageButton(
+                        item: item,
+                        mediaId: item.id ?? 0,
+                      ))
+                ]))).whenComplete(() {
+      if (isFavorite != item.favorite) {
+        saveFavoriteStatus(isFavorite, item.id ?? 0);
+        if (reload != null) {
+          reload();
+        }
+      }
+    });
+  }
+}
+
+void showMediaPageForMovies(MediaVideoMovieSuperEntity item,
+    BuildContext context, void Function()? reload) async {
+  List<String> leisureTags = [];
+  leisureTags.add(item.release.year.toString());
+  leisureTags.addAll(item.genres.split(','));
+  leisureTags.add(item.tagline);
+  isFavorite = item.favorite;
+  showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      backgroundColor: const Color(0xFF22252D),
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(30.0)),
+      ),
+      builder: (context) => DraggableScrollableSheet(
+          expand: false,
+          initialChildSize: 0.75,
+          minChildSize: 0.35,
+          maxChildSize: 0.9,
+          builder: (context, scrollController) =>
+              Stack(alignment: AlignmentDirectional.bottomCenter, children: [
+                SingleChildScrollView(
+                    controller: scrollController,
+                    child: MoviePage(
+                      media: item,
+                      leisureTags: leisureTags,
+                      toggleFavorite: toggleFavorite,
+                    )),
+                Positioned(
+                    left: 16,
+                    right: 16,
+                    bottom: 16,
+                    child: MoviePageButton(item: item, mediaId: item.id ?? 0))
+              ]))).whenComplete(() {
+    if (isFavorite != item.favorite) {
+      saveFavoriteStatus(isFavorite, item.id ?? 0);
+      if (reload != null) {
+        reload();
+      }
+    }
+  });
+}
+
+void showMediaPageForBooks(MediaBookSuperEntity item, BuildContext context,
+    void Function()? reload) async {
+  List<String> leisureTags = [];
+  leisureTags.add(item.release.year.toString());
+  leisureTags.addAll(item.genres.split(','));
+  isFavorite = item.favorite;
+  showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      backgroundColor: const Color(0xFF22252D),
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(30.0)),
+      ),
+      builder: (context) => DraggableScrollableSheet(
+          expand: false,
+          initialChildSize: 0.75,
+          minChildSize: 0.35,
+          maxChildSize: 0.9,
+          builder: (context, scrollController) =>
+              Stack(alignment: AlignmentDirectional.bottomCenter, children: [
+                SingleChildScrollView(
+                    controller: scrollController,
+                    child: BookPage(
+                      media: item,
+                      leisureTags: leisureTags,
+                      toggleFavorite: toggleFavorite,
+                    )),
+                Positioned(
+                    left: 16,
+                    right: 16,
+                    bottom: 16,
+                    child: BookPageButton(
+                      item: item,
+                      mediaId: item.id ?? 0,
+                    ))
+              ]))).whenComplete(() {
+    if (isFavorite != item.favorite) {
+      saveFavoriteStatus(isFavorite, item.id ?? 0);
+      if (reload != null) {
+        reload();
+      }
+    }
+  });
 }

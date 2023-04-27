@@ -1,10 +1,12 @@
-// ignore_for_file: avoid_dynamic_calls
-
 import 'package:flutter/material.dart';
+import 'package:src/models/media/media.dart';
+import 'package:src/models/media/media_book_super_entity.dart';
+import 'package:src/models/media/media_series_super_entity.dart';
+import 'package:src/models/media/media_video_movie_super_entity.dart';
 import 'package:src/utils/leisure/media_page_helpers.dart';
 
 class SearchResults extends StatelessWidget {
-  final Map media;
+  final Map<String, List<Media>> media;
 
   const SearchResults({Key? key, required this.media}) : super(key: key);
 
@@ -25,12 +27,6 @@ class SearchResults extends StatelessWidget {
                 entry.value.length,
                 (index) {
                   String type = entry.key;
-                  String title = type == 'movies'
-                      ? 'All Movies'
-                      : type == 'series'
-                          ? 'All TV Shows'
-                          : 'All Books';
-
                   return SizedBox(
                     // Wrap GestureDetector widget with SizedBox
                     width: 100.0 * fem,
@@ -38,19 +34,19 @@ class SearchResults extends StatelessWidget {
                     child: GestureDetector(
                       onTap: () {
                         if (type == 'series') {
-                          showMediaPageForTV(entry.value[index], context, null);
+                          showMediaPageForTV(entry.value[index] as MediaSeriesSuperEntity, context, null);
                         } else if (type == 'movies') {
                           showMediaPageForMovies(
-                              entry.value[index], context, null);
+                              entry.value[index] as MediaVideoMovieSuperEntity, context, null);
                         } else if (type == 'books') {
                           showMediaPageForBooks(
-                              entry.value[index], context, null);
+                              entry.value[index] as MediaBookSuperEntity, context, null);
                         }
                       },
                       child: SizedBox(
                         width: 100.0 * fem,
                         height: 150.0 * fem,
-                        child: showWidget(entry.value[index], title),
+                        child: showWidget(entry.value[index]),
                       ),
                     ),
                   );

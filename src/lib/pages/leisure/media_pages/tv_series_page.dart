@@ -7,8 +7,15 @@ class TVSeriesPage extends MediaPage<MediaSeriesSuperEntity> {
   const TVSeriesPage(
       {Key? key,
       required MediaSeriesSuperEntity media,
-      required Function(bool) toggleFavorite})
-      : super(key: key, item: media, toggleFavorite: toggleFavorite);
+      required Function(bool) toggleFavorite,
+      required List<String> leisureTags,
+      required int maxDuration})
+      : super(
+            key: key,
+            item: media,
+            toggleFavorite: toggleFavorite,
+            leisureTags: leisureTags,
+            maxDuration: maxDuration);
 
   @override
   TVSeriesPageState createState() => TVSeriesPageState();
@@ -23,13 +30,13 @@ class TVSeriesPageState extends MediaPageState<MediaSeriesSuperEntity> {
 
   @override
   Image showImage() {
-    if (widget.item.linkImage == '') {
+    if (widget.item.linkImage != '') {
       return Image.network(
         'https://image.tmdb.org/t/p/w500${widget.item.linkImage}',
         fit: BoxFit.fitWidth,
       );
     } else {
-      return Image.asset("assets/images/no_image.png");
+      return Image.asset("assets/images/no_image.jpg");
     }
   }
 
@@ -38,8 +45,10 @@ class TVSeriesPageState extends MediaPageState<MediaSeriesSuperEntity> {
     // TODO: Get episode length
     // AppLocalizations.of(context).minutes_each
     return widget.item.numberSeasons.toString() +
-          AppLocalizations.of(context).seasons +
-          widget.item.numberEpisodes.toString() +
-          AppLocalizations.of(context).episodes;
+        AppLocalizations.of(context).seasons +
+        widget.item.numberEpisodes.toString() +
+        AppLocalizations.of(context).episodes +
+        widget.maxDuration.toString() +
+        AppLocalizations.of(context).minutes_each;
   }
 }

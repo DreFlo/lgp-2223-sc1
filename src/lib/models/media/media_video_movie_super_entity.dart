@@ -124,10 +124,10 @@ class MediaVideoMovieSuperEntity extends Media {
           name: json['name'],
           description: json['description'],
           linkImage: json['linkImage'],
-          status: Status.values[json['status']],
+          status: json['status'],
           favorite: json['favorite'],
           genres: json['genres'],
-          release: DateTime.parse(json['release']),
+          release: json['release'],
           xp: json['xp'],
           participants: json['participants'],
         );

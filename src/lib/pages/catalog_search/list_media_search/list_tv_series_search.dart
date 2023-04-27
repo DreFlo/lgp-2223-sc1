@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:src/daos/media/media_dao.dart';
 import 'package:src/models/media/media_series_super_entity.dart';
@@ -10,6 +12,7 @@ import 'package:src/utils/enums.dart';
 import 'package:src/utils/leisure/media_page_helpers.dart';
 import 'package:src/utils/service_locator.dart';
 import 'package:src/widgets/leisure/media_image_widgets/tv_series_image.dart';
+import 'package:src/widgets/leisure/media_page_buttons/tv_series_page_button.dart';
 
 // List<String> leisureTags = [];
 //             if (snapshot.data!['tagline'] != null &&
@@ -29,8 +32,7 @@ import 'package:src/widgets/leisure/media_image_widgets/tv_series_image.dart';
 
 class ListTVSeriesSearch extends ListMediaSearch<MediaSeriesSuperEntity> {
   const ListTVSeriesSearch(
-      {Key? key,
-      required List<MediaSeriesSuperEntity> media})
+      {Key? key, required List<MediaSeriesSuperEntity> media})
       : super(key: key, media: media);
 
   @override
@@ -42,10 +44,18 @@ class ListTVSeriesSearchState
   List<Season> seasons = [];
   List<MediaVideoEpisodeSuperEntity> episodesDB = [];
   List<NoteEpisodeNoteSuperEntity> episodeNotes = [];
-  
+
   @override
-  TVSeriesPage showMediaPageBasedOnType(MediaSeriesSuperEntity item) {
-    return TVSeriesPage(media: item, toggleFavorite: toggleFavorite);
+  TVSeriesPage showMediaPageBasedOnType(
+      MediaSeriesSuperEntity item, List<String> leisureTags) {
+    List<int> episodeDurations =
+        List.generate(episodesDB.length, (index) => episodesDB[index].duration);
+    return TVSeriesPage(
+        media: item,
+        toggleFavorite: toggleFavorite,
+        leisureTags: leisureTags,
+        maxDuration:
+            episodeDurations.isNotEmpty ? episodeDurations.reduce(max) : 0);
   }
 
   @override
@@ -57,7 +67,8 @@ class ListTVSeriesSearchState
   Future<MediaStatus> getStatusFromDB(MediaSeriesSuperEntity item) async {
     String photo = item.linkImage;
 
-    final mediaExists = await serviceLocator<MediaDao>().countMediaByPhoto(photo);
+    final mediaExists =
+        await serviceLocator<MediaDao>().countMediaByPhoto(photo);
 
     if (mediaExists == 0) {
       statusFavorite =
@@ -74,5 +85,13 @@ class ListTVSeriesSearchState
     statusFavorite = MediaStatus(
         status: media.status, favorite: media.favorite, id: media.id ?? 0);
     return statusFavorite;
+  }
+
+  @override
+  TVSeriesPageButton showMediaPageButton(MediaSeriesSuperEntity item) {
+    return TVSeriesPageButton(
+      item: item,
+      mediaId: statusFavorite.id,
+    );
   }
 }

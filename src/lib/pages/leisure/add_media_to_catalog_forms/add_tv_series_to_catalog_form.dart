@@ -38,9 +38,9 @@ class AddTVSeriesToCatalogForm
 class AddMovieToCatalogFormState
     extends AddMediaToCatalogFormState<MediaSeriesSuperEntity> {
   @override
-  Future<int> storeMediaInDatabase() async {
+  Future<int> storeMediaInDatabase(Status status) async {
     int seriesId = await serviceLocator<MediaSeriesSuperDao>()
-        .insertMediaSeriesSuperEntity(widget.item);
+        .insertMediaSeriesSuperEntity(widget.item.copyWith(status: status));
 
     Map<int, int> seasonIdMap = {};
 
@@ -62,8 +62,9 @@ class AddMovieToCatalogFormState
 
       for (MediaVideoEpisodeSuperEntity episode in episodes) {
         MediaVideoEpisodeSuperEntity insertedEpisode = episode.copyWith(seasonId: seasonIdMap[seasonNumber]);
+        // TODO: Adding with same status as series. Review this.
         await serviceLocator<MediaVideoEpisodeSuperDao>()
-            .insertMediaVideoEpisodeSuperEntity(insertedEpisode);
+            .insertMediaVideoEpisodeSuperEntity(insertedEpisode.copyWith(status: status));
       }
     }
 

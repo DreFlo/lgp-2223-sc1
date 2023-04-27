@@ -1,5 +1,3 @@
-// ignore_for_file: avoid_dynamic_calls
-
 import 'package:flutter/material.dart';
 import 'package:src/models/media/media_book_super_entity.dart';
 import 'package:src/models/media/media_series_super_entity.dart';
@@ -7,7 +5,7 @@ import 'package:src/models/media/media_video_movie_super_entity.dart';
 import 'package:src/pages/catalog_search/search_results.dart';
 import 'package:src/pages/catalog_search/see_all.dart';
 import 'package:src/themes/colors.dart';
-import 'package:src/widgets/leisure/media_image_widgets/media_image.dart';
+import 'package:src/widgets/leisure/media_image_widgets/book_image.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:src/utils/service_locator.dart';
 import 'package:src/daos/media/media_video_movie_super_dao.dart';
@@ -19,6 +17,8 @@ import 'package:src/daos/media/series_dao.dart';
 import 'package:src/daos/media/book_dao.dart';
 import 'package:src/models/media/media.dart';
 import 'package:src/utils/leisure/media_page_helpers.dart';
+import 'package:src/widgets/leisure/media_image_widgets/movie_image.dart';
+import 'package:src/widgets/leisure/media_image_widgets/tv_series_image.dart';
 
 class Catalog extends StatefulWidget {
   final String search;
@@ -30,42 +30,33 @@ class Catalog extends StatefulWidget {
 }
 
 class CatalogState extends State<Catalog> {
-  List movies = [];
-  List series = [];
-  List books = [];
-
-  Future<List> loadmedia(String type) async {
-    List result = [];
-
-    if (type == 'movie') {
-      result = await serviceLocator<MediaVideoMovieSuperDao>()
-          .findAllMediaVideoMovie();
-      movies = result;
-    } else if (type == 'tv') {
-      result = await serviceLocator<MediaSeriesSuperDao>().findAllMediaSeries();
-      series = result;
-    } else if (type == 'book') {
-      result = await serviceLocator<MediaBookSuperDao>().findAllMediaBooks();
-      books = result;
-    }
-
-    return result;
-  }
+  List<Media> movies = [];
+  List<Media> series = [];
+  List<Media> books = [];
 
   void reload() {
     setState(() {});
   }
 
-  Future<List> loadMovies() async {
-    return await loadmedia('movie');
+  Future<List<MediaVideoMovieSuperEntity>> loadMovies() async {
+    final result = await serviceLocator<MediaVideoMovieSuperDao>()
+        .findAllMediaVideoMovie();
+    movies = result;
+    return result;
   }
 
-  Future<List> loadTv() async {
-    return await loadmedia('tv');
+  Future<List<MediaSeriesSuperEntity>> loadTVSeries() async {
+    final result =
+        await serviceLocator<MediaSeriesSuperDao>().findAllMediaSeries();
+    series = result;
+    return result;
   }
 
-  Future<List> loadBooks() async {
-    return await loadmedia('book');
+  Future<List<MediaBookSuperEntity>> loadBooks() async {
+    final result =
+        await serviceLocator<MediaBookSuperDao>().findAllMediaBooks();
+    books = result;
+    return result;
   }
 
   Future<void> refreshMovies() async {
@@ -74,7 +65,7 @@ class CatalogState extends State<Catalog> {
   }
 
   Future<void> refreshSeries() async {
-    await loadTv();
+    await loadTVSeries();
     setState(() {});
   }
 
@@ -83,7 +74,7 @@ class CatalogState extends State<Catalog> {
     setState(() {});
   }
 
-  Future<Map> searchMedia() async {
+  Future<Map<String, List<Media>>> searchMedia() async {
     List<MediaVideoMovieSuperEntity> movieResults = [];
     List<MediaBookSuperEntity> bookResults = [];
     List<MediaSeriesSuperEntity> seriesResults = [];
@@ -125,7 +116,7 @@ class CatalogState extends State<Catalog> {
     setState(() {});
   }
 
-  showSearchResultOrCatalog(context, double fem) {
+  Widget showSearchResultOrCatalog(context, double fem) {
     if (widget.search == '') {
       return ListView(shrinkWrap: true, children: [
         Container(
@@ -207,11 +198,10 @@ class CatalogState extends State<Catalog> {
                                           mainAxisAlignment:
                                               MainAxisAlignment.center,
                                           children: [
-                                            MediaWidget(
+                                            MovieImageWidget(
                                                 image: (snapshot.data
                                                         as List?)?[index]
-                                                    ?.linkImage,
-                                                type: 'video'),
+                                                    ?.linkImage),
                                           ],
                                         ),
                                       ),
@@ -277,7 +267,7 @@ class CatalogState extends State<Catalog> {
                         axisDirection: AxisDirection.down,
                         color: leisureColor,
                         child: FutureBuilder(
-                            future: loadTv(),
+                            future: loadTVSeries(),
                             builder: (context, snapshot) {
                               if (snapshot.hasData) {
                                 return ListView.builder(
@@ -298,11 +288,10 @@ class CatalogState extends State<Catalog> {
                                           mainAxisAlignment:
                                               MainAxisAlignment.center,
                                           children: [
-                                            MediaWidget(
+                                            TVSeriesImageWidget(
                                                 image: (snapshot.data
                                                         as List?)?[index]
-                                                    ?.linkImage,
-                                                type: 'video'),
+                                                    ?.linkImage),
                                           ],
                                         ),
                                       ),
@@ -389,11 +378,10 @@ class CatalogState extends State<Catalog> {
                                           mainAxisAlignment:
                                               MainAxisAlignment.center,
                                           children: [
-                                            MediaWidget(
+                                            BookImageWidget(
                                                 image: (snapshot.data
                                                         as List?)?[index]
-                                                    ?.linkImage,
-                                                type: 'book'),
+                                                    ?.linkImage),
                                           ],
                                         ),
                                       ),
@@ -412,7 +400,7 @@ class CatalogState extends State<Catalog> {
         )
       ]);
     } else {
-      return FutureBuilder<Map>(
+      return FutureBuilder<Map<String, List<Media>>>(
         future: searchMedia(),
         builder: (context, snapshot) {
           if (snapshot.hasData) {

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:src/models/media/media_book_super_entity.dart';
 import 'package:src/pages/leisure/add_book_note_form.dart';
-import 'package:src/pages/leisure/add_media_to_catalog_forms/add_media_to_catalog_form.dart';
+import 'package:src/pages/leisure/add_media_to_catalog_forms/add_book_to_catalog_form.dart';
 import 'package:src/pages/leisure/book_notes_sheet.dart';
 import 'package:src/themes/colors.dart';
 import 'package:src/utils/enums.dart';
@@ -48,7 +48,7 @@ class BookPageButtonState extends MediaPageButtonState<MediaBookSuperEntity> {
                                         50),
                                 child: SingleChildScrollView(
                                     controller: scrollController,
-                                    child: AddToCatalogForm(
+                                    child: AddBookToCatalogForm(
                                       status: Status.nothing,
                                       startDate: DateTime.now()
                                           .toString()
@@ -57,7 +57,6 @@ class BookPageButtonState extends MediaPageButtonState<MediaBookSuperEntity> {
                                           .toString()
                                           .split(" ")[0],
                                       item: widget.item,
-                                      type: "Book",
                                       setMediaId: setMediaId,
                                       showReviewForm: showReviewForm,
                                       refreshStatus: () {

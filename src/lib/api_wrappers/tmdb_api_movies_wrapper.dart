@@ -14,7 +14,7 @@ class TMDBMovieAPIWrapper {
   Future<Map<dynamic, dynamic>> _getMovieDetails(int id) async {
     Map details = await tmdb.v3.movies.getDetails(id);
 
-    List<String> castNames = (await tmdb.v3.movies.getCredits(id))['cast']
+    List castNames = (await tmdb.v3.movies.getCredits(id))['cast']
         .map((cast) => cast['name'])
         .toList();
 
@@ -24,7 +24,7 @@ class TMDBMovieAPIWrapper {
   }
 
   Future<List<MediaVideoMovieSuperEntity>> _getMediaVideoSuperEntitiesFromMapList(
-      List<Map> tmdbResults) async {
+      List tmdbResults) async {
     // Get details for each movie
     for (int i = 0; i < tmdbResults.length; i++) {
       Map movie = tmdbResults[i];
@@ -62,7 +62,7 @@ class TMDBMovieAPIWrapper {
   }
 
   Future<List<MediaVideoMovieSuperEntity>> getTrendingMovies() async {
-    List<Map> movieResults = (await tmdb.v3.trending
+    List movieResults = (await tmdb.v3.trending
             .getTrending(mediaType: MediaType.movie))['results']
         .where((element) => element['poster_path'] != null)
         .toList();
@@ -76,7 +76,7 @@ class TMDBMovieAPIWrapper {
 
   Future<List<MediaVideoMovieSuperEntity>> getMoviesBySearch(
       String search) async {
-    List<Map> movieResults = (await tmdb.v3.search.queryMovies(search))['results']
+    List movieResults = (await tmdb.v3.search.queryMovies(search))['results']
         .where((element) => element['poster_path'] != null)
         .toList();
 

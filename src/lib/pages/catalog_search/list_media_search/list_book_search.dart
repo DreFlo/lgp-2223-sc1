@@ -9,6 +9,7 @@ import 'package:src/utils/leisure/media_page_helpers.dart';
 import 'package:src/utils/service_locator.dart';
 import 'package:src/widgets/leisure/media_image_widgets/book_image.dart';
 import 'package:src/widgets/leisure/media_image_widgets/media_image.dart';
+import 'package:src/widgets/leisure/media_page_buttons/book_page_button.dart';
 
 // List<String> leisureTags = [];
 //       if (item.info.maturityRating != null && item.info.maturityRating != '') {
@@ -41,8 +42,8 @@ class ListBookSearchState extends ListMediaSearchState<MediaBookSuperEntity> {
   List<NoteBookNoteSuperEntity> bookNotes = [];
   
   @override
-  BookPage showMediaPageBasedOnType(MediaBookSuperEntity item) {
-    return BookPage(media: item, toggleFavorite: toggleFavorite);
+  BookPage showMediaPageBasedOnType(MediaBookSuperEntity item, List<String> leisureTags) {
+    return BookPage(media: item, toggleFavorite: toggleFavorite, leisureTags: leisureTags);
   }
 
   @override
@@ -68,5 +69,10 @@ class ListBookSearchState extends ListMediaSearchState<MediaBookSuperEntity> {
 
     statusFavorite = MediaStatus(status: media.status, favorite: media.favorite, id: media.id ?? 0);
     return statusFavorite;
+  }
+
+  @override
+  BookPageButton showMediaPageButton(MediaBookSuperEntity item) {
+    return BookPageButton(item: item, mediaId: statusFavorite.id);
   }
 }

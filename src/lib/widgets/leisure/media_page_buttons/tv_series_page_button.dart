@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:src/models/media/media_series_super_entity.dart';
-import 'package:src/models/media/media_video_movie_super_entity.dart';
-import 'package:src/pages/leisure/add_media_to_catalog_forms/add_media_to_catalog_form.dart';
+import 'package:src/pages/leisure/add_media_to_catalog_forms/add_tv_series_to_catalog_form.dart';
 import 'package:src/pages/leisure/episodes_notes_sheet.dart';
 import 'package:src/pages/leisure/mark_episodes_sheet.dart';
 import 'package:src/themes/colors.dart';
@@ -9,8 +8,8 @@ import 'package:src/utils/enums.dart';
 import 'package:src/widgets/leisure/media_page_buttons/media_page_button.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
-class TVSeriesButton extends MediaPageButton<MediaSeriesSuperEntity> {
-  const TVSeriesButton(
+class TVSeriesPageButton extends MediaPageButton<MediaSeriesSuperEntity> {
+  const TVSeriesPageButton(
       {Key? key,
       required MediaSeriesSuperEntity item,
       required int mediaId})
@@ -50,7 +49,7 @@ class TVSeriesButtonState extends MediaPageButtonState<MediaSeriesSuperEntity> {
                                         50),
                                 child: SingleChildScrollView(
                                     controller: scrollController,
-                                    child: AddToCatalogForm(
+                                    child: AddTVSeriesToCatalogForm(
                                       status: Status.nothing,
                                       startDate: DateTime.now()
                                           .toString()
@@ -59,7 +58,6 @@ class TVSeriesButtonState extends MediaPageButtonState<MediaSeriesSuperEntity> {
                                           .toString()
                                           .split(" ")[0],
                                       item: widget.item,
-                                      type: "TV Show",
                                       showReviewForm: showReviewForm,
                                       setMediaId: setMediaId,
                                       refreshStatus: () {

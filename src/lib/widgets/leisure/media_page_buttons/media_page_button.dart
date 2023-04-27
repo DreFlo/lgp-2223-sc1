@@ -1,16 +1,6 @@
-// ignore_for_file: avoid_dynamic_calls
 import 'package:flutter/material.dart';
-import 'package:src/env/env.dart';
 import 'package:src/models/media/media.dart';
 import 'package:src/pages/leisure/finished_media_form.dart';
-import 'package:tmdb_api/tmdb_api.dart';
-import 'package:src/themes/colors.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:src/pages/leisure/add_media_to_catalog_forms/add_media_to_catalog_form.dart';
-import 'package:src/pages/leisure/mark_episodes_sheet.dart';
-import 'package:src/pages/leisure/episodes_notes_sheet.dart';
-import 'package:src/pages/leisure/book_notes_sheet.dart';
-import 'package:src/pages/leisure/add_book_note_form.dart';
 import 'package:src/utils/enums.dart';
 import 'package:src/daos/media/media_dao.dart';
 import 'package:src/utils/service_locator.dart';

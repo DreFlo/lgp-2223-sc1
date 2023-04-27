@@ -1,24 +1,8 @@
-// ignore_for_file: avoid_dynamic_calls
-
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:src/models/media/media.dart';
 import 'package:src/themes/colors.dart';
 import 'package:src/utils/enums.dart';
-import 'package:src/models/media/media_book_super_entity.dart';
-import 'package:src/models/media/media_series_super_entity.dart';
-import 'package:src/models/media/media_video_episode_super_entity.dart';
-import 'package:src/models/media/media_video_movie_super_entity.dart';
-import 'package:src/models/media/season.dart';
-import 'package:src/daos/media/media_book_super_dao.dart';
-import 'package:src/daos/media/media_series_super_dao.dart';
-import 'package:src/daos/media/media_video_episode_super_dao.dart';
-import 'package:src/daos/media/media_video_movie_super_dao.dart';
-import 'package:src/daos/media/season_dao.dart';
-import 'package:src/utils/leisure/media_page_helpers.dart';
-import 'package:src/utils/service_locator.dart';
-import 'package:tmdb_api/tmdb_api.dart';
-import 'package:src/env/env.dart';
 
 abstract class AddMediaToCatalogForm<T extends Media> extends StatefulWidget {
   final String startDate, endDate;
@@ -59,8 +43,6 @@ abstract class AddMediaToCatalogFormState<T extends Media>
 
   @override
   Widget build(BuildContext context) {
-    final tmdb = TMDB(ApiKeys(Env.tmdbApiKey, 'apiReadAccessTokenv4'));
-
     return Wrap(spacing: 10, children: [
       Row(mainAxisAlignment: MainAxisAlignment.center, children: [
         Padding(
@@ -296,27 +278,7 @@ abstract class AddMediaToCatalogFormState<T extends Media>
               top: 20, bottom: MediaQuery.of(context).viewInsets.bottom),
           child: ElevatedButton(
             onPressed: () async {
-              int mediaId = 0;
-              if (widget.type == "TV Show") {
-              } else if (widget.type == "Movie") {
-              } else if (widget.type == 'Book') {
-                MediaBookSuperEntity book = MediaBookSuperEntity(
-                  name: widget.item.info.title,
-                  description: widget.item.info.description,
-                  linkImage:
-                      widget.item.info.imageLinks['thumbnail'].toString(),
-                  status: status,
-                  favorite: false,
-                  genres: widget.item.info.categories.join(', '),
-                  release: widget.item.info.publishedDate,
-                  xp: 0,
-                  participants: widget.item.info.authors.join(', '),
-                  totalPages: widget.item.info.pageCount,
-                );
-
-                mediaId = await serviceLocator<MediaBookSuperDao>()
-                    .insertMediaBookSuperEntity(book);
-              }
+              int mediaId = await storeMediaInDatabase(status);
 
               widget.setMediaId(mediaId);
 
@@ -340,5 +302,5 @@ abstract class AddMediaToCatalogFormState<T extends Media>
     ]);
   }
 
-  Future<int> storeMediaInDatabase();
+  Future<int> storeMediaInDatabase(Status status);
 }

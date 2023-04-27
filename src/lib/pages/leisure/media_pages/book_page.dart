@@ -7,8 +7,14 @@ class BookPage extends MediaPage<MediaBookSuperEntity> {
   const BookPage(
       {Key? key,
       required MediaBookSuperEntity media,
-      required Function(bool) toggleFavorite})
-      : super(key: key, item: media, toggleFavorite: toggleFavorite);
+      required Function(bool) toggleFavorite,
+      required List<String> leisureTags})
+      : super(
+            key: key,
+            item: media,
+            toggleFavorite: toggleFavorite,
+            leisureTags: leisureTags,
+            maxDuration: 0);
 
   @override
   BookPageState createState() => BookPageState();
@@ -29,16 +35,16 @@ class BookPageState extends MediaPageState<MediaBookSuperEntity> {
 
   @override
   Image showImage() {
-    if (widget.item.linkImage == '') {
+    if (widget.item.linkImage != '') {
       return Image.network(
         widget.item.linkImage,
         fit: BoxFit.fitWidth,
       );
     } else {
-      return Image.asset("assets/images/no_image.png");
+      return Image.asset("assets/images/no_image.jpg");
     }
   }
-  
+
   @override
   String getType() {
     // TODO: l10n

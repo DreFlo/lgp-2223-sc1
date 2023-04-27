@@ -9,8 +9,6 @@ import 'package:src/pages/tasks/institution_form.dart';
 import 'package:src/pages/tasks/subject_form.dart';
 import 'package:src/themes/colors.dart';
 import 'package:src/utils/service_locator.dart';
-import 'package:src/pages/leisure/add_media_to_catalog_forms/add_media_to_catalog_form.dart';
-import 'package:src/pages/leisure/media_pages/media_page.dart';
 import 'package:src/utils/enums.dart';
 import 'package:src/env/env.dart';
 import 'package:tmdb_api/tmdb_api.dart';
