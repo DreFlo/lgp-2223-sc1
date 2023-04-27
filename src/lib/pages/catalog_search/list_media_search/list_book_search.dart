@@ -51,9 +51,8 @@ class ListBookSearchState extends ListMediaSearchState<MediaBookSuperEntity> {
     return BookImageWidget(image: item.linkImage);
   }
 
-  // TODO: This functions does more than get status from db, needs review
   @override
-  Future<MediaStatus> getStatusFromDB(MediaBookSuperEntity item) async {
+  Future<MediaStatus> getMediaInfoFromDB(MediaBookSuperEntity item) async {
     String photo = item.linkImage;
 
     final mediaExists =

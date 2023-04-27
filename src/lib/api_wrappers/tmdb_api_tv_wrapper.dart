@@ -114,13 +114,11 @@ class TMDBTVSeriesAPIWrapper {
         'linkImage': episode['still_path'],
         'status': Status.nothing,
         'favorite': false,
-        // TODO: Add genres, maybe same as series?
         'genres': 'genres',
         'release': DateTime.parse(episode['air_date']),
         'xp': 0,
         'tagline': episode['tagline'],
         'duration': episode['runtime'],
-        // TODO: Add participants
         'participants': 'participants',
         'seasonId': season,
         'number': episode['episode_number'],

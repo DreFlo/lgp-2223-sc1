@@ -45,7 +45,6 @@ abstract class ListMediaSearchState<T extends Media>
   Widget build(BuildContext context) {
     double baseWidth = 390;
     double fem = MediaQuery.of(context).size.width / baseWidth;
-    // TODO: leisure tags
     List<String> leisureTags = [];
 
     return Padding(
@@ -88,7 +87,7 @@ abstract class ListMediaSearchState<T extends Media>
                                         right: 16,
                                         bottom: 16,
                                         child: FutureBuilder<dynamic>(
-                                            future: getStatusFromDB(
+                                            future: getMediaInfoFromDB(
                                                 widget.media[index]),
                                             builder: ((context, snapshot) {
                                               if (!snapshot.hasData) {
@@ -116,7 +115,7 @@ abstract class ListMediaSearchState<T extends Media>
     );
   }
 
-  Future<MediaStatus> getStatusFromDB(T item);
+  Future<MediaStatus> getMediaInfoFromDB(T item);
 
   MediaPageButton<T> showMediaPageButton(T item);
 

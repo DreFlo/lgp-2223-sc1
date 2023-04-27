@@ -24,7 +24,6 @@ class TVSeriesPage extends MediaPage<MediaSeriesSuperEntity> {
 class TVSeriesPageState extends MediaPageState<MediaSeriesSuperEntity> {
   @override
   String getType() {
-    // TODO: l10n
     return 'TV Series';
   }
 

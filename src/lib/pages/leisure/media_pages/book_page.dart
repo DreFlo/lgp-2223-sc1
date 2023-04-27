@@ -47,7 +47,6 @@ class BookPageState extends MediaPageState<MediaBookSuperEntity> {
 
   @override
   String getType() {
-    // TODO: l10n
     return 'Book';
   }
 }

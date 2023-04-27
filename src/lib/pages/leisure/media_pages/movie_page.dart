@@ -35,7 +35,6 @@ class MoviePageState extends MediaPageState<MediaVideoMovieSuperEntity> {
 
   @override
   String getType() {
-    // TODO: l10n
     return 'Movie';
   }
 

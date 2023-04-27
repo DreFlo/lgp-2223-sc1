@@ -36,9 +36,8 @@ class ListMoviesSearchState
     return MovieImageWidget(image: item.linkImage);
   }
 
-  // TODO: This functions does more than get status from db, needs review
   @override
-  Future<MediaStatus> getStatusFromDB(MediaVideoMovieSuperEntity item) async {
+  Future<MediaStatus> getMediaInfoFromDB(MediaVideoMovieSuperEntity item) async {
     String photo = item.linkImage;
 
     final mediaExists =

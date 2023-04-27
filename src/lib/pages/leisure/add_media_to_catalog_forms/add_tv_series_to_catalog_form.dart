@@ -63,7 +63,6 @@ class AddMovieToCatalogFormState
       for (MediaVideoEpisodeSuperEntity episode in episodes) {
         MediaVideoEpisodeSuperEntity insertedEpisode =
             episode.copyWith(seasonId: seasonIdMap[seasonNumber]);
-        // TODO: Adding with same status as series. Review this.
         await serviceLocator<MediaVideoEpisodeSuperDao>()
             .insertMediaVideoEpisodeSuperEntity(
                 insertedEpisode.copyWith(status: status));

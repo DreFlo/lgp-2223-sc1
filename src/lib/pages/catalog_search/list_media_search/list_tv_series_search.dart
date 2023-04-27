@@ -64,7 +64,7 @@ class ListTVSeriesSearchState
   }
 
   @override
-  Future<MediaStatus> getStatusFromDB(MediaSeriesSuperEntity item) async {
+  Future<MediaStatus> getMediaInfoFromDB(MediaSeriesSuperEntity item) async {
     String photo = item.linkImage;
 
     final mediaExists =
