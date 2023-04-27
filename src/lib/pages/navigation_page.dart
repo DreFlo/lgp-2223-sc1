@@ -44,9 +44,7 @@ class _NavigationPageState extends State<NavigationPage> {
     CalendarPage(),
     Center(),
     Dashboard(),
-    HomePage(
-        title:
-            "TODO"), 
+    HomePage(title: "TODO"),
   ];
 
   @override
