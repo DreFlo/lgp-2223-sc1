@@ -824,6 +824,14 @@ class _$TaskDao extends TaskDao {
   }
 
   @override
+  Future<int?> countTasksByTaskGroupId(int taskGroupId) async {
+    return _queryAdapter.query(
+        'SELECT COUNT(*) FROM task WHERE task_group_id = ?1',
+        mapper: (Map<String, Object?> row) => row.values.first as int,
+        arguments: [taskGroupId]);
+  }
+
+  @override
   Future<int> insertTask(Task task) {
     return _taskInsertionAdapter.insertAndReturnId(
         task, OnConflictStrategy.abort);

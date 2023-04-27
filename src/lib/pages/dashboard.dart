@@ -87,17 +87,6 @@ class _DashboardState extends State<Dashboard> {
     //lil cards student (tasks that don't have a taskgroup)
     //need to find out subject + date + institution
     tasks = await serviceLocator<TaskDao>().findTasksWithoutTaskGroup();
-    /*for(Task task in tasks){
-      if(task.subjectId == null){ //if task doesn't have a subject they don't have an institution either - only connection is through subject
-        dashboardTasks.add(DashboardTask(task));
-      }
-      else { 
-        //get subject info to get its name and institution id
-        //Subject subject = await serviceLocator<SubjectDao>().findSubjectById(task.subjectId!);
-
-
-      }
-    }*/
     return tasks;
   }
 

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:src/daos/student/institution_dao.dart';
 import 'package:src/models/student/institution.dart';
+import 'package:src/daos/student/task_dao.dart';
 import 'package:src/themes/colors.dart';
 import 'package:src/models/student/task.dart';
 import 'package:src/models/student/task_group.dart';
@@ -41,6 +42,7 @@ class _DashboardCardState extends State<DashboardCard> {
   String subjectOrDate = '';
   String institutionOrMediaType = '';
   int institutionId = 0;
+  int nTasks = 0;
 
   @override
   void initState() {
@@ -48,10 +50,12 @@ class _DashboardCardState extends State<DashboardCard> {
     getSubjectOrDate().then((value) => setState(() {
           subjectOrDate = value;
           getInstitutionOrMediaType().then((value) => setState(() {
-          institutionOrMediaType = value;
+                institutionOrMediaType = value;
+              }));
         }));
+    getNTasks().then((value) => setState(() {
+          nTasks = value;
         }));
-    
   }
 
   String getTitle() {
@@ -63,6 +67,15 @@ class _DashboardCardState extends State<DashboardCard> {
       return widget.mediaEvent!.title;
     } else {
       return '';
+    }
+  }
+
+  Future<int> getNTasks() async {
+    if (widget.taskGroup != null) {
+      return await serviceLocator<TaskDao>()
+          .countTasksByTaskGroupId(widget.taskGroup?.id ?? 0) ?? 0;
+    } else {
+      return 0;
     }
   }
 
@@ -119,8 +132,7 @@ class _DashboardCardState extends State<DashboardCard> {
       final institutionStream =
           serviceLocator<InstitutionDao>().findInstitutionById(institutionId);
       Institution? firstNonNullInstitution = await institutionStream
-          .firstWhere((institution) => institution != null,
-              orElse: () => null);
+          .firstWhere((institution) => institution != null, orElse: () => null);
       return firstNonNullInstitution?.name ?? '';
     }
     return '';
@@ -186,32 +198,31 @@ class _DashboardCardState extends State<DashboardCard> {
                                             ),
                                       ),
                                     )
-                                  :
-                              Container(),
-                              subjectOrDate != '' ?
-                              Container(
-                                margin: const EdgeInsets.only(bottom: 5),
-                                padding:
-                                    const EdgeInsets.symmetric(horizontal: 5),
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(5),
-                                  color: grayBackground,
-                                ),
-                                child: Text(
-                                  subjectOrDate,
-                                  style: Theme.of(context)
-                                      .textTheme
-                                      .headlineLarge
-                                      ?.copyWith(
-                                        color: moduleColors[widget.module],
+                                  : Container(),
+                              subjectOrDate != ''
+                                  ? Container(
+                                      margin: const EdgeInsets.only(bottom: 5),
+                                      padding: const EdgeInsets.symmetric(
+                                          horizontal: 5),
+                                      decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(5),
+                                        color: grayBackground,
                                       ),
-                                ),
-                              )
-                              :
-                              Container(),
+                                      child: Text(
+                                        subjectOrDate,
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .headlineLarge
+                                            ?.copyWith(
+                                              color:
+                                                  moduleColors[widget.module],
+                                            ),
+                                      ),
+                                    )
+                                  : Container(),
                             ],
                           ),
-                          /*widget.nTasks != 0
+                          nTasks != 0
                               ? Container(
                                   width: 25,
                                   height: 25,
@@ -220,12 +231,12 @@ class _DashboardCardState extends State<DashboardCard> {
                                     color: primaryColor,
                                   ),
                                   child: Center(
-                                      child: Text(widget.nTasks.toString(),
+                                      child: Text(nTasks.toString(),
                                           style: Theme.of(context)
                                               .textTheme
                                               .headlineLarge)),
                                 )
-                              :*/
+                              :
                           Container(),
                         ],
                       )
