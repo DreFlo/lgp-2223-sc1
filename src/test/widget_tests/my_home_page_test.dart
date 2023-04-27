@@ -39,6 +39,9 @@ void main() {
       (WidgetTester tester) async {
     // Mock the data you expect to receive from the database.
     disableOverflowErrors();
+    DateTime now = DateTime.now();
+    DateTime start = DateTime(now.year, now.month, now.day, 0, 0, 0);
+
     final mediaEvent = TimeslotMediaTimeslotSuperEntity(
         title: 'My Media Event',
         description: 'Watch something',
@@ -61,20 +64,19 @@ void main() {
 
     final mockMediaEventDao =
         serviceLocator.get<TimeslotMediaTimeslotSuperDao>();
-    when(mockMediaEventDao.findAllTimeslotMediaTimeslot(null))
+    when(mockMediaEventDao.findAllTimeslotMediaTimeslot(start))
         .thenAnswer((_) async => [mediaEvent]);
 
     final mockStudentEventDao =
         serviceLocator.get<TimeslotStudentTimeslotSuperDao>();
-    when(mockStudentEventDao.findAllTimeslotStudentTimeslot(null))
+    when(mockStudentEventDao.findAllTimeslotStudentTimeslot(start))
         .thenAnswer((_) async => [studentEvent]);
 
     // Build the widget.
     await tester.pumpWidget(const LocalizationsInjector(child: MyHomePage()));
 
     // Wait for the data to be retrieved.
-    await tester.pump(const Duration(milliseconds: 100));
-
+    await tester.pumpAndSettle();
     // Verify that the data is displayed.
     expect(find.text('My Media Event'), findsOneWidget);
     expect(find.text('My Student Event'), findsOneWidget);
