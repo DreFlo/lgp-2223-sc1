@@ -81,6 +81,7 @@
   "description": "Descrição",
   "no_notes": "Ainda não tens notas...",
   "no_tasks": "Ainda não tens tarefas...",
+  "no_evaluations": "Ainda não tens avaliações...",
   "tasks": "Tarefas",
   "input": "Entrada",
   "type": "Tipo",
@@ -105,5 +106,11 @@
   "delete_subject": "Eliminar Disciplina",
   "delete_subject_message":"Tens a certeza que queres eliminar esta disciplina?\n\nIsto irá eliminar todos os projetos e tarefas associadas a esta disciplina.",
   "delete_note": "Eliminar Nota",
-  "delete_note_message": "Tens a certeza que queres eliminar esta nota?"
+  "delete_note_message": "Tens a certeza que queres eliminar esta nota?",
+  "evaluations": "Avaliações",
+  "add_evaluation": "Adicionar Avaliação",
+  "grade": "Nota",
+  "grade_error": "Nota é obrigatória",
+  "delete_evaluation": "Eliminar Avaliação",
+  "delete_evaluation_message": "Tens a certeza que queres eliminar esta avaliação?"
 }

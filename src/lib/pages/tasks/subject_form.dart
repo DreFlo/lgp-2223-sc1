@@ -1,12 +1,17 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:src/daos/student/institution_dao.dart';
 import 'package:src/daos/student/subject_dao.dart';
+import 'package:src/daos/student/evaluation_dao.dart';
 import 'package:src/models/student/institution.dart';
 import 'package:src/models/student/subject.dart';
+import 'package:src/models/student/evaluation.dart';
 import 'package:src/themes/colors.dart';
 import 'package:src/utils/enums.dart';
 import 'package:src/utils/service_locator.dart';
+import 'package:src/widgets/tasks/evaluation_bar.dart';
 
 class SubjectForm extends StatefulWidget {
   final ScrollController scrollController;
@@ -38,6 +43,9 @@ class _SubjectFormState extends State<SubjectForm> {
   Map<String, String> errors = {};
   bool init = false;
 
+  List<StudentEvaluation> evaluations = [];
+  List<StudentEvaluation> toRemoveEvaluations = [];
+
   @override
   initState() {
     super.initState();
@@ -64,6 +72,9 @@ class _SubjectFormState extends State<SubjectForm> {
       } else {
         institutionId = -1;
       }
+
+      evaluations = await serviceLocator<StudentEvaluationDao>().findStudentEvaluationsBySubjectId(widget.id!);
+      
     } else if (widget.subject != null) {
       nameController.text = widget.subject!.name;
       acronymController.text = widget.subject!.acronym;
@@ -234,6 +245,35 @@ class _SubjectFormState extends State<SubjectForm> {
                     ]),
                     const SizedBox(height: 30),
                     ...institutionSelection(),
+                    const SizedBox(height:30),
+                    widget.id == null && widget.callbackSubject != null ? const SizedBox() :
+                    Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            AppLocalizations.of(context).evaluations,
+                            style: const TextStyle(
+                                fontFamily: 'Poppins',
+                                color: Color(0xFF71788D),
+                                fontSize: 16,
+                                fontWeight: FontWeight.w400),
+                          ),
+                          IconButton(
+                            padding: const EdgeInsets.all(0),
+                            icon: const Icon(Icons.add),
+                            color: const Color(0xFF71788D),
+                            iconSize: 20,
+                            splashRadius: 0.1,
+                            constraints: const BoxConstraints(
+                                maxWidth: 20, maxHeight: 20),
+                            onPressed: () {
+                              //SHOW POP-UP
+                            },
+                          ),
+                        ]),
+                    const SizedBox(height: 30),
+                    ...getEvaluations(),
+                    const SizedBox(height:30),
                     displayEndButtons(context),
                   ]),
                 ));
@@ -375,6 +415,31 @@ class _SubjectFormState extends State<SubjectForm> {
     }
   }
 
+List<Widget> getEvaluations() {
+    List<Widget> evaluationsList = [];
+
+    if (evaluations.isEmpty) {
+      evaluationsList.add(Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+        Text(AppLocalizations.of(context).no_evaluations,
+            style: const TextStyle(
+                color: Colors.white,
+                fontSize: 16,
+                fontWeight: FontWeight.normal))
+      ]));
+    } else {
+      for (int i = 0; i < evaluations.length; i++) {
+        evaluationsList.add(EvaluationBar(
+          key: ValueKey(evaluations[i]),
+          subjectId: widget.id,
+          evaluation: evaluations[i],
+          removeCallback: removeEvaluation,
+          updateCallback: widget.id == null ? editEvaluationTempFactory(evaluations[i]) : editEvaluation,
+        ));
+      }
+    }
+    return evaluationsList;
+  }
+
   Widget displayEndButtons(BuildContext context) {
     if (widget.id == null) {
       return ElevatedButton(
@@ -487,4 +552,47 @@ class _SubjectFormState extends State<SubjectForm> {
       },
     );
   }
+
+  removeEvaluation(StudentEvaluation evaluation) async{
+    if(evaluation.id != null){
+      await serviceLocator<StudentEvaluationDao>().deleteStudentEvaluation(evaluation);
+    }
+
+    evaluations.remove(evaluation);
+  }
+
+
+  editEvaluation(StudentEvaluation evaluation) {
+    setState(() {
+      if (id != null) {
+        // Our evaluations have an id and were updated in the evaluationForm
+        for (int i = 0; i < evaluations.length; i++) {
+          if (evaluations[i].id == evaluation.id) {
+            evaluations[i] = evaluation;
+            break;
+          }
+        }
+      } else {
+        throw Exception("Subject id is null for edit evaluation callback");
+      }
+    });
+  }
+  editTempEvaluationFactory(StudentEvaluation oldEvaluation) {
+    return (StudentEvaluation evaluation) {
+      setState(() {
+        if (id == null) {
+          for (int i = 0; i < evaluations.length; i++) {
+            if (evaluations[i] == oldEvaluation) {
+              evaluations[i] = evaluation;
+              break;
+            }
+          }
+        } else {
+          throw Exception("Task id is not null for edit temp evaluation callback");
+        }
+      });
+    };
+  }
+
+
 }

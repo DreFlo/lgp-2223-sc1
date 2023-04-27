@@ -1,33 +1,27 @@
 import 'package:flutter/material.dart';
-import 'package:src/pages/tasks/subject_form.dart';
 import 'package:src/themes/colors.dart';
-import 'package:src/models/student/subject.dart';
+import 'package:src/models/student/evaluation.dart';
+import 'package:src/widgets/tasks/evaluation_form.dart';
 
-class SubjectBar extends StatefulWidget {
-  final int? id;
-  final bool selectInstitution;
-  final Subject subject;
-  final Function(int)? removeCallbackById;
-  final Function(Subject)? removeCallbackBySubject;
-  final Function(Subject)? updateCallbackBySubject;
-  final Function()? updateCallback;
+class EvaluationBar extends StatefulWidget {
+  final StudentEvaluation evaluation;
+  final int? subjectId;
+  final Function(StudentEvaluation) removeCallback;
+  final Function(StudentEvaluation)? updateCallback;
 
-  const SubjectBar(
+  const EvaluationBar(
       {Key? key,
-      required this.subject,
-      this.id,
-      this.selectInstitution = true,
-      this.removeCallbackById,
-      this.removeCallbackBySubject,
-      this.updateCallbackBySubject,
+      required this.evaluation,
+      this.subjectId,
+      required this.removeCallback,
       this.updateCallback})
       : super(key: key);
 
   @override
-  State<SubjectBar> createState() => _SubjectBarState();
+  State<EvaluationBar> createState() => _EvaluationBarState();
 }
 
-class _SubjectBarState extends State<SubjectBar> {
+class _EvaluationBarState extends State<EvaluationBar> {
   @override
   initState() {
     super.initState();
@@ -55,13 +49,11 @@ class _SubjectBarState extends State<SubjectBar> {
                       initialChildSize: 0.5,
                       minChildSize: 0.5,
                       maxChildSize: 0.5,
-                      builder: (context, scrollController) => SubjectForm(
-                        id: widget.id,
-                        scrollController: scrollController,
+                      builder: (context, scrollController) => EvaluationForm(
+                        subjectId: widget.subjectId,
+                        evaluation: widget.evaluation,
                         callback: widget.updateCallback,
-                        callbackSubject: widget.updateCallbackBySubject,
-                        selectInstitution: widget.selectInstitution,
-                        subject: widget.id == null ? widget.subject : null,
+                        deleteEvaluationCallback: widget.removeCallback,
                       ),
                     )));
           },
@@ -78,14 +70,14 @@ class _SubjectBarState extends State<SubjectBar> {
                       Row(
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: [
-                            Text(widget.subject.acronym,
+                            Text(widget.evaluation.name,
                                 style: const TextStyle(
                                     color: Colors.white,
                                     fontSize: 16,
                                     fontWeight: FontWeight.w600)),
                             const SizedBox(width: 10),
                             Expanded(
-                                child: Text(widget.subject.name,
+                                child: Text(widget.evaluation.grade.toString(),
                                     style: const TextStyle(
                                         overflow: TextOverflow.ellipsis,
                                         color: Colors.white,
@@ -99,11 +91,7 @@ class _SubjectBarState extends State<SubjectBar> {
                   splashRadius: 0.01,
                   icon: const Icon(Icons.close),
                   onPressed: () {
-                    if (widget.id != null) {
-                      widget.removeCallbackById!(widget.id!);
-                    } else {
-                      widget.removeCallbackBySubject!(widget.subject);
-                    }
+                    widget.removeCallback(widget.evaluation);
                   })
             ]),
           ),
