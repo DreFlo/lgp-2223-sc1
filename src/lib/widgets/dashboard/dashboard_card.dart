@@ -182,12 +182,14 @@ class _DashboardCardState extends State<DashboardCard> {
                           )),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        crossAxisAlignment: CrossAxisAlignment.end,
+                        crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              institutionOrMediaType != ''
+                              Flexible(
+                                flex: 2,
+                                child: Wrap(
+                                  spacing: 10,
+                                  // runSpacing: 5,
+                                  children: [institutionOrMediaType != ''
                                   ? Container(
                                       margin: const EdgeInsets.only(bottom: 5),
                                       padding: const EdgeInsets.symmetric(
@@ -249,9 +251,8 @@ class _DashboardCardState extends State<DashboardCard> {
                                             ),
                                       ),
                                     )
-                                  : Container(),
-                            ],
-                          ),
+                                  : Container(),],)),
+                          Flexible(flex: 1, child: 
                           nTasks != 0
                               ? Container(
                                   width: 25,
@@ -267,8 +268,8 @@ class _DashboardCardState extends State<DashboardCard> {
                                               .headlineLarge)),
                                 )
                               : Container(),
-                        ],
-                      )
+                          ),
+                    ])
                     ]))));
   }
 }
