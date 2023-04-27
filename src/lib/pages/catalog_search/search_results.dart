@@ -34,13 +34,20 @@ class SearchResults extends StatelessWidget {
                     child: GestureDetector(
                       onTap: () {
                         if (type == 'series') {
-                          showMediaPageForTV(entry.value[index] as MediaSeriesSuperEntity, context, null);
+                          showMediaPageForTV(
+                              entry.value[index] as MediaSeriesSuperEntity,
+                              context,
+                              null);
                         } else if (type == 'movies') {
                           showMediaPageForMovies(
-                              entry.value[index] as MediaVideoMovieSuperEntity, context, null);
+                              entry.value[index] as MediaVideoMovieSuperEntity,
+                              context,
+                              null);
                         } else if (type == 'books') {
                           showMediaPageForBooks(
-                              entry.value[index] as MediaBookSuperEntity, context, null);
+                              entry.value[index] as MediaBookSuperEntity,
+                              context,
+                              null);
                         }
                       },
                       child: SizedBox(

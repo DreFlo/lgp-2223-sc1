@@ -29,21 +29,21 @@ import 'package:src/widgets/leisure/media_page_buttons/book_page_button.dart';
 //       getStatusFromDB(item);
 
 class ListBookSearch extends ListMediaSearch<MediaBookSuperEntity> {
-  const ListBookSearch(
-      {Key? key,
-      required List<MediaBookSuperEntity> media})
+  const ListBookSearch({Key? key, required List<MediaBookSuperEntity> media})
       : super(key: key, media: media);
 
   @override
   ListBookSearchState createState() => ListBookSearchState();
 }
 
-class ListBookSearchState extends ListMediaSearchState<MediaBookSuperEntity> {  
+class ListBookSearchState extends ListMediaSearchState<MediaBookSuperEntity> {
   List<NoteBookNoteSuperEntity> bookNotes = [];
-  
+
   @override
-  BookPage showMediaPageBasedOnType(MediaBookSuperEntity item, List<String> leisureTags) {
-    return BookPage(media: item, toggleFavorite: toggleFavorite, leisureTags: leisureTags);
+  BookPage showMediaPageBasedOnType(
+      MediaBookSuperEntity item, List<String> leisureTags) {
+    return BookPage(
+        media: item, toggleFavorite: toggleFavorite, leisureTags: leisureTags);
   }
 
   @override
@@ -56,10 +56,12 @@ class ListBookSearchState extends ListMediaSearchState<MediaBookSuperEntity> {
   Future<MediaStatus> getStatusFromDB(MediaBookSuperEntity item) async {
     String photo = item.linkImage;
 
-    final mediaExists = await serviceLocator<MediaDao>().countMediaByPhoto(photo);
+    final mediaExists =
+        await serviceLocator<MediaDao>().countMediaByPhoto(photo);
 
     if (mediaExists == 0) {
-      statusFavorite = MediaStatus(status: Status.nothing, favorite: false, id: 0);
+      statusFavorite =
+          MediaStatus(status: Status.nothing, favorite: false, id: 0);
       return statusFavorite;
     }
 
@@ -67,7 +69,8 @@ class ListBookSearchState extends ListMediaSearchState<MediaBookSuperEntity> {
     review = await loadReviews(media!.id ?? 0);
     bookNotes = await loadBookNotes(media.id ?? 0);
 
-    statusFavorite = MediaStatus(status: media.status, favorite: media.favorite, id: media.id ?? 0);
+    statusFavorite = MediaStatus(
+        status: media.status, favorite: media.favorite, id: media.id ?? 0);
     return statusFavorite;
   }
 

@@ -10,9 +10,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class TVSeriesPageButton extends MediaPageButton<MediaSeriesSuperEntity> {
   const TVSeriesPageButton(
-      {Key? key,
-      required MediaSeriesSuperEntity item,
-      required int mediaId})
+      {Key? key, required MediaSeriesSuperEntity item, required int mediaId})
       : super(key: key, item: item, mediaId: mediaId);
 
   @override

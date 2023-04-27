@@ -27,10 +27,9 @@ class TMDBTVSeriesAPIWrapper {
   Future<Map<dynamic, dynamic>> _getTVSeasonDetails(int id, int season) async {
     Map details = await tmdb.v3.tvSeasons.getDetails(id, season);
 
-    List castNames =
-        (await tmdb.v3.tvSeasons.getCredits(id, season))['cast']
-            .map((cast) => cast['name'])
-            .toList();
+    List castNames = (await tmdb.v3.tvSeasons.getCredits(id, season))['cast']
+        .map((cast) => cast['name'])
+        .toList();
 
     details['participants'] = castNames.join(', ');
 

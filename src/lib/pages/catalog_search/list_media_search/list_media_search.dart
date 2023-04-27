@@ -79,9 +79,10 @@ abstract class ListMediaSearchState<T extends Media>
                                   children: [
                                     SingleChildScrollView(
                                         controller: scrollController,
-                                        child:
-                                            showMediaPageBasedOnType(//pass it
-                                                widget.media[index], leisureTags)),
+                                        child: showMediaPageBasedOnType(
+                                            //pass it
+                                            widget.media[index],
+                                            leisureTags)),
                                     Positioned(
                                         left: 16,
                                         right: 16,

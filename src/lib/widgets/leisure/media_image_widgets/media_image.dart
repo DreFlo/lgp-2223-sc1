@@ -4,8 +4,7 @@ import 'package:src/models/media/media.dart';
 abstract class MediaImageWidget<T extends Media> extends StatelessWidget {
   final String image;
 
-  const MediaImageWidget({Key? key, required this.image})
-      : super(key: key);
+  const MediaImageWidget({Key? key, required this.image}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

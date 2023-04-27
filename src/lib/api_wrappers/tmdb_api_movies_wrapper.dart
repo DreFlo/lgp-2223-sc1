@@ -23,8 +23,8 @@ class TMDBMovieAPIWrapper {
     return details;
   }
 
-  Future<List<MediaVideoMovieSuperEntity>> _getMediaVideoSuperEntitiesFromMapList(
-      List tmdbResults) async {
+  Future<List<MediaVideoMovieSuperEntity>>
+      _getMediaVideoSuperEntitiesFromMapList(List tmdbResults) async {
     // Get details for each movie
     for (int i = 0; i < tmdbResults.length; i++) {
       Map movie = tmdbResults[i];

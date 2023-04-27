@@ -176,19 +176,19 @@ class CatalogState extends State<Catalog> {
                     child: GlowingOverscrollIndicator(
                         axisDirection: AxisDirection.down,
                         color: leisureColor,
-                        child: FutureBuilder(
+                        child: FutureBuilder<List<MediaVideoMovieSuperEntity>>(
                             future: loadMovies(),
                             builder: (context, snapshot) {
                               if (snapshot.hasData) {
                                 return ListView.builder(
                                   scrollDirection: Axis.horizontal,
-                                  itemCount: (snapshot.data as List?)?.length ??
+                                  itemCount: (snapshot.data)?.length ??
                                       0, //will be dependent on database size
                                   itemBuilder: (context, index) {
                                     return InkWell(
                                       onTap: () {
                                         showMediaPageForMovies(
-                                            (snapshot.data as List?)?[index],
+                                            (snapshot.data)![index],
                                             context,
                                             reload);
                                       },
@@ -199,9 +199,8 @@ class CatalogState extends State<Catalog> {
                                               MainAxisAlignment.center,
                                           children: [
                                             MovieImageWidget(
-                                                image: (snapshot.data
-                                                        as List?)?[index]
-                                                    ?.linkImage),
+                                                image: (snapshot.data)![index]
+                                                    .linkImage),
                                           ],
                                         ),
                                       ),
@@ -266,19 +265,19 @@ class CatalogState extends State<Catalog> {
                     child: GlowingOverscrollIndicator(
                         axisDirection: AxisDirection.down,
                         color: leisureColor,
-                        child: FutureBuilder(
+                        child: FutureBuilder<List<MediaSeriesSuperEntity>>(
                             future: loadTVSeries(),
                             builder: (context, snapshot) {
                               if (snapshot.hasData) {
                                 return ListView.builder(
                                   scrollDirection: Axis.horizontal,
-                                  itemCount: (snapshot.data as List?)?.length ??
+                                  itemCount: (snapshot.data)?.length ??
                                       0, //will be dependent on database size
                                   itemBuilder: (context, index) {
                                     return InkWell(
                                       onTap: () {
                                         showMediaPageForTV(
-                                            (snapshot.data as List?)?[index],
+                                            (snapshot.data)![index],
                                             context,
                                             reload);
                                       },
@@ -289,9 +288,8 @@ class CatalogState extends State<Catalog> {
                                               MainAxisAlignment.center,
                                           children: [
                                             TVSeriesImageWidget(
-                                                image: (snapshot.data
-                                                        as List?)?[index]
-                                                    ?.linkImage),
+                                                image: (snapshot.data)![index]
+                                                    .linkImage),
                                           ],
                                         ),
                                       ),
@@ -356,19 +354,19 @@ class CatalogState extends State<Catalog> {
                     child: GlowingOverscrollIndicator(
                         axisDirection: AxisDirection.down,
                         color: leisureColor,
-                        child: FutureBuilder(
+                        child: FutureBuilder<List<MediaBookSuperEntity>>(
                             future: loadBooks(),
                             builder: (context, snapshot) {
                               if (snapshot.hasData) {
                                 return ListView.builder(
                                   scrollDirection: Axis.horizontal,
-                                  itemCount: (snapshot.data as List?)?.length ??
+                                  itemCount: (snapshot.data)?.length ??
                                       0, //will be dependent on database size
                                   itemBuilder: (context, index) {
                                     return InkWell(
                                       onTap: () {
                                         showMediaPageForBooks(
-                                            (snapshot.data as List?)?[index],
+                                            (snapshot.data)![index],
                                             context,
                                             reload);
                                       },
@@ -379,9 +377,8 @@ class CatalogState extends State<Catalog> {
                                               MainAxisAlignment.center,
                                           children: [
                                             BookImageWidget(
-                                                image: (snapshot.data
-                                                        as List?)?[index]
-                                                    ?.linkImage),
+                                                image: (snapshot.data)![index]
+                                                    .linkImage),
                                           ],
                                         ),
                                       ),

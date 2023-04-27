@@ -21,8 +21,7 @@ class Books extends StatelessWidget {
       future: loadMedia(),
       builder: (context, snapshot) {
         if (snapshot.hasData) {
-          return ListBookSearch(
-              media: snapshot.data!);
+          return ListBookSearch(media: snapshot.data!);
         } else if (snapshot.hasError) {
           return Text('Error: ${snapshot.error}');
         } else {

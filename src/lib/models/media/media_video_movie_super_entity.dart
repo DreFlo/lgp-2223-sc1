@@ -69,11 +69,7 @@ class MediaVideoMovieSuperEntity extends Media {
   }
 
   Video toVideo() {
-    return Video(
-      id: id!,
-      duration: duration,
-      tmdbId: tmdbId
-    );
+    return Video(id: id!, duration: duration, tmdbId: tmdbId);
   }
 
   Movie toMovie() {

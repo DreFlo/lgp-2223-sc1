@@ -10,7 +10,9 @@ class Movies extends StatelessWidget {
 
   Future<List<MediaVideoMovieSuperEntity>> loadMedia() async {
     final TMDBMovieAPIWrapper tmdb = TMDBMovieAPIWrapper();
-    return search == '' ? tmdb.getTrendingMovies() : tmdb.getMoviesBySearch(search);
+    return search == ''
+        ? tmdb.getTrendingMovies()
+        : tmdb.getMoviesBySearch(search);
   }
 
   @override

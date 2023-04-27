@@ -61,10 +61,12 @@ class AddMovieToCatalogFormState
           .getSeasonEpisodes(widget.item.tmdbId, seasonNumber);
 
       for (MediaVideoEpisodeSuperEntity episode in episodes) {
-        MediaVideoEpisodeSuperEntity insertedEpisode = episode.copyWith(seasonId: seasonIdMap[seasonNumber]);
+        MediaVideoEpisodeSuperEntity insertedEpisode =
+            episode.copyWith(seasonId: seasonIdMap[seasonNumber]);
         // TODO: Adding with same status as series. Review this.
         await serviceLocator<MediaVideoEpisodeSuperDao>()
-            .insertMediaVideoEpisodeSuperEntity(insertedEpisode.copyWith(status: status));
+            .insertMediaVideoEpisodeSuperEntity(
+                insertedEpisode.copyWith(status: status));
       }
     }
 
