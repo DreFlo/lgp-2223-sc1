@@ -35,29 +35,6 @@ class _EvaluationBarState extends State<EvaluationBar> {
         child: InkWell(
           onTap: () {
             showEvaluationForm(context);
-            return;
-            // showModalBottomSheet(
-            //     context: context,
-            //     isScrollControlled: true,
-            //     backgroundColor: const Color(0xFF22252D),
-            //     shape: const RoundedRectangleBorder(
-            //       borderRadius:
-            //           BorderRadius.vertical(top: Radius.circular(30.0)),
-            //     ),
-            //     builder: (context) => Padding(
-            //         padding: EdgeInsets.only(
-            //             bottom: MediaQuery.of(context).viewInsets.bottom + 50),
-            //         child: DraggableScrollableSheet(
-            //           expand: false,
-            //           initialChildSize: 0.5,
-            //           minChildSize: 0.5,
-            //           maxChildSize: 0.5,
-            //           builder: (context, scrollController) => EvaluationForm(
-            //             subjectId: widget.subjectId,
-            //             evaluation: widget.evaluation,
-            //             callback: widget.updateCallback,
-            //           ),
-            //         )));
           },
           child: Container(
             padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 15),
@@ -155,7 +132,10 @@ class _EvaluationBarState extends State<EvaluationBar> {
               color: Colors.white, fontSize: 20, fontWeight: FontWeight.w600),
           textAlign: TextAlign.center),
       backgroundColor: modalBackground,
-      content: EvaluationForm(subjectId: widget.subjectId, evaluation: widget.evaluation, callback: widget.updateCallback),
+      content: EvaluationForm(
+          subjectId: widget.subjectId,
+          evaluation: widget.evaluation,
+          callback: widget.updateCallback),
     );
 
     showDialog(

@@ -248,6 +248,7 @@ class _SubjectFormState extends State<SubjectForm> {
                                       fontWeight: FontWeight.w400),
                                 ),
                                 IconButton(
+                                  key: const Key('addEvaluationButton'),
                                   padding: const EdgeInsets.all(0),
                                   icon: const Icon(Icons.add),
                                   color: const Color(0xFF71788D),
