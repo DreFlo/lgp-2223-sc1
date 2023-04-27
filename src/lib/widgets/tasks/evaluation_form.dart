@@ -73,7 +73,7 @@ class _EvaluationFormState extends State<EvaluationForm> {
                         borderRadius: BorderRadius.circular(10)),
                     disabledBorder: const OutlineInputBorder(
                         borderSide: BorderSide(color: Color(0xFF414554))),
-                    hintText: AppLocalizations.of(context).name,
+                    hintText: AppLocalizations.of(context).eval_name,
                     hintStyle: const TextStyle(
                         fontSize: 20,
                         color: Color(0xFF71788D),
@@ -95,8 +95,8 @@ class _EvaluationFormState extends State<EvaluationForm> {
           ? Padding(
               padding: const EdgeInsets.only(left: 18, top: 5),
               child: Text(errors['name']!,
-                  style: const TextStyle(
-                      color: Colors.red,
+                  style: TextStyle(
+                      color: Colors.red[600],
                       fontSize: 12,
                       fontWeight: FontWeight.w400)))
           : const SizedBox(height: 0),
@@ -134,8 +134,8 @@ class _EvaluationFormState extends State<EvaluationForm> {
           ? Padding(
               padding: const EdgeInsets.only(left: 18, top: 5.0),
               child: Text(errors['grade']!,
-                  style: const TextStyle(
-                      color: Colors.red,
+                  style: TextStyle(
+                      color: Colors.red[600],
                       fontSize: 12,
                       fontWeight: FontWeight.w400)))
           : const SizedBox(height: 0),

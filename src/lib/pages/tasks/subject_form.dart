@@ -19,6 +19,7 @@ class SubjectForm extends StatefulWidget {
   final Function(Subject)? callbackSubject;
   final bool selectInstitution;
   final Subject? subject;
+  final bool create;
 
   const SubjectForm(
       {Key? key,
@@ -27,7 +28,8 @@ class SubjectForm extends StatefulWidget {
       this.callback,
       this.callbackSubject,
       this.selectInstitution = true,
-      this.subject})
+      this.subject,
+      this.create = false})
       : super(key: key);
 
   @override
@@ -420,7 +422,7 @@ class _SubjectFormState extends State<SubjectForm> {
   List<Widget> getEvaluations() {
     List<Widget> evaluationsList = [];
 
-    if (evaluations.isEmpty) {
+    if (evaluations.isEmpty && !widget.create) {
       evaluationsList
           .add(Row(mainAxisAlignment: MainAxisAlignment.center, children: [
         Text(AppLocalizations.of(context).no_evaluations,

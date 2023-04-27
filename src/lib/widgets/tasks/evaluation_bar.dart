@@ -78,8 +78,12 @@ class _EvaluationBarState extends State<EvaluationBar> {
   }
 
   showDeleteConfirmation(BuildContext context) {
-    Widget cancelButton = TextButton(
+    Widget cancelButton = ElevatedButton(
       key: const Key('cancelConfirmationButton'),
+      style: ButtonStyle(
+          backgroundColor: MaterialStateProperty.all(primaryColor),
+          padding: MaterialStateProperty.all(
+              const EdgeInsets.symmetric(horizontal: 10, vertical: 5))),
       child: Text(AppLocalizations.of(context).cancel,
           style: const TextStyle(
               color: Colors.white, fontSize: 16, fontWeight: FontWeight.w600),
@@ -89,8 +93,12 @@ class _EvaluationBarState extends State<EvaluationBar> {
       },
     );
 
-    Widget deleteButton = TextButton(
+    Widget deleteButton = ElevatedButton(
       key: const Key('deleteConfirmationButton'),
+      style: ButtonStyle(
+          backgroundColor: MaterialStateProperty.all(Colors.red[600]),
+          padding: MaterialStateProperty.all(
+              const EdgeInsets.symmetric(horizontal: 10, vertical: 5))),
       child: Text(AppLocalizations.of(context).delete,
           style: const TextStyle(
               color: Colors.white, fontSize: 16, fontWeight: FontWeight.w600),
@@ -108,13 +116,17 @@ class _EvaluationBarState extends State<EvaluationBar> {
           textAlign: TextAlign.center),
       content: Text(AppLocalizations.of(context).delete_evaluation_message,
           style: const TextStyle(
-              color: Colors.white, fontSize: 14, fontWeight: FontWeight.w600),
+              color: Colors.white, fontSize: 16, fontWeight: FontWeight.normal),
           textAlign: TextAlign.center),
+      actionsPadding: const EdgeInsets.symmetric(horizontal: 15, vertical: 5),
+      shadowColor: Colors.transparent,
+      shape: const RoundedRectangleBorder(
+          borderRadius: BorderRadius.all(Radius.circular(20.0))),
       actions: [
         cancelButton,
         deleteButton,
       ],
-      backgroundColor: primaryColor,
+      backgroundColor: modalBackground,
     );
 
     showDialog(
