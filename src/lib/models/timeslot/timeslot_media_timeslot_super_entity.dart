@@ -12,17 +12,16 @@ class TimeslotMediaTimeslotSuperEntity {
   final int userId;
   final String type;
 
-  TimeslotMediaTimeslotSuperEntity({
-    this.id,
-    required this.title,
-    required this.description,
-    required this.startDateTime,
-    required this.endDateTime,
-    required this.xpMultiplier,
-    required this.finished,
-    required this.userId,
-    required this.type
-  });
+  TimeslotMediaTimeslotSuperEntity(
+      {this.id,
+      required this.title,
+      required this.description,
+      required this.startDateTime,
+      required this.endDateTime,
+      required this.xpMultiplier,
+      required this.finished,
+      required this.userId,
+      required this.type});
 
   TimeslotMediaTimeslotSuperEntity.fromTimeslotMediaTimeslotEntity(
       MediaTimeslot mediaTimeslot, Timeslot timeslot)
@@ -50,33 +49,28 @@ class TimeslotMediaTimeslotSuperEntity {
   }
 
   MediaTimeslot toMediaTimeslot() {
-    return MediaTimeslot(
-      id: id!,
-      type: type
-    );
+    return MediaTimeslot(id: id!, type: type);
   }
 
-  TimeslotMediaTimeslotSuperEntity copyWith({
-    int? id,
-    String? title,
-    String? description,
-    DateTime? startDateTime,
-    DateTime? endDateTime,
-    int? xpMultiplier,
-    bool? finished,
-    int? userId,
-    String? type
-  }) {
+  TimeslotMediaTimeslotSuperEntity copyWith(
+      {int? id,
+      String? title,
+      String? description,
+      DateTime? startDateTime,
+      DateTime? endDateTime,
+      int? xpMultiplier,
+      bool? finished,
+      int? userId,
+      String? type}) {
     return TimeslotMediaTimeslotSuperEntity(
-      id: id ?? this.id,
-      title: title ?? this.title,
-      description: description ?? this.description,
-      startDateTime: startDateTime ?? this.startDateTime,
-      endDateTime: endDateTime ?? this.endDateTime,
-      xpMultiplier: xpMultiplier ?? this.xpMultiplier,
-      finished: finished ?? this.finished,
-      userId: userId ?? this.userId,
-      type: type ?? this.type
-    );
+        id: id ?? this.id,
+        title: title ?? this.title,
+        description: description ?? this.description,
+        startDateTime: startDateTime ?? this.startDateTime,
+        endDateTime: endDateTime ?? this.endDateTime,
+        xpMultiplier: xpMultiplier ?? this.xpMultiplier,
+        finished: finished ?? this.finished,
+        userId: userId ?? this.userId,
+        type: type ?? this.type);
   }
 }

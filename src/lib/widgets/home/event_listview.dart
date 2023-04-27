@@ -16,8 +16,9 @@ class MyEventListView extends StatefulWidget {
 }
 
 class _MyEventListViewState extends State<MyEventListView> {
-
-  int startDateTimeComparator(TimeslotStudentTimeslotSuperEntity a, TimeslotMediaTimeslotSuperEntity b) => a.startDateTime.compareTo(b.startDateTime);
+  int startDateTimeComparator(TimeslotStudentTimeslotSuperEntity a,
+          TimeslotMediaTimeslotSuperEntity b) =>
+      a.startDateTime.compareTo(b.startDateTime);
 
   List get items {
     final List combined = [];
@@ -28,26 +29,26 @@ class _MyEventListViewState extends State<MyEventListView> {
       combined.addAll(widget.studentEvents!);
     }
 
-     // Sort events by startDateTime
-  combined.sort((a, b) {
-    if (a is TimeslotStudentTimeslotSuperEntity &&
-        b is TimeslotStudentTimeslotSuperEntity) {
-      return a.startDateTime.compareTo(b.startDateTime);
-    } else if (a is TimeslotMediaTimeslotSuperEntity &&
-        b is TimeslotMediaTimeslotSuperEntity) {
-      return a.startDateTime.compareTo(b.startDateTime);
-    } else if (a is TimeslotMediaTimeslotSuperEntity && b is TimeslotStudentTimeslotSuperEntity) {
-      return a.startDateTime.compareTo(b.startDateTime);
-    }
-    else if (a is TimeslotStudentTimeslotSuperEntity && b is TimeslotMediaTimeslotSuperEntity) {
-      return a.startDateTime.compareTo(b.startDateTime);
+    // Sort events by startDateTime
+    combined.sort((a, b) {
+      if (a is TimeslotStudentTimeslotSuperEntity &&
+          b is TimeslotStudentTimeslotSuperEntity) {
+        return a.startDateTime.compareTo(b.startDateTime);
+      } else if (a is TimeslotMediaTimeslotSuperEntity &&
+          b is TimeslotMediaTimeslotSuperEntity) {
+        return a.startDateTime.compareTo(b.startDateTime);
+      } else if (a is TimeslotMediaTimeslotSuperEntity &&
+          b is TimeslotStudentTimeslotSuperEntity) {
+        return a.startDateTime.compareTo(b.startDateTime);
+      } else if (a is TimeslotStudentTimeslotSuperEntity &&
+          b is TimeslotMediaTimeslotSuperEntity) {
+        return a.startDateTime.compareTo(b.startDateTime);
+      }
+      return 0;
+    });
+
+    return combined;
   }
-    return 0;
-  });
-
-  return combined;
-}
-
 
   showCard(Object? item) {
     if (widget.studentEvents != null &&

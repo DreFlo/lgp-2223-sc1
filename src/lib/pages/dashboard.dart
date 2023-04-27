@@ -66,13 +66,14 @@ class _DashboardState extends State<Dashboard> {
     return [];
   }
 
-  Future<List<TimeslotMediaTimeslotSuperEntity>> loadEventsDB(DateTime start) async {
+  Future<List<TimeslotMediaTimeslotSuperEntity>> loadEventsDB(
+      DateTime start) async {
     //only for Media
     //need to find out the type of media + date
     //date easy -- type of media too many queries
     mediaEvents = await serviceLocator<TimeslotMediaTimeslotSuperDao>()
         .findAllTimeslotMediaTimeslot(start);
-    
+
     return mediaEvents;
   }
 
@@ -127,7 +128,6 @@ class _DashboardState extends State<Dashboard> {
       List<TimeslotMediaTimeslotSuperEntity> mediaResults =
           searchResults.whereType<TimeslotMediaTimeslotSuperEntity>().toList();
       switch (_selectedIndex) {
-        
         case 1:
           return DashBoardGridView(
               tasks: taskResults, taskGroups: taskGroupResults);

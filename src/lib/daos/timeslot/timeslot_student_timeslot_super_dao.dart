@@ -26,12 +26,11 @@ class TimeslotStudentTimeslotSuperDao {
         final timeslot = await serviceLocator<TimeslotDao>()
             .findTimeslotById(studentTimeslot.id);
 
-        if(startDatetime != null && timeslot != null) {
-          if(timeslot.startDateTime.isBefore(startDatetime)) {
+        if (startDatetime != null && timeslot != null) {
+          if (timeslot.startDateTime.isBefore(startDatetime)) {
             continue;
           }
         }
-
 
         if (timeslot != null) {
           final timeslotStudentTimeslotSuperEntity =

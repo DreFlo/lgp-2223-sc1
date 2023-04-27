@@ -10,7 +10,6 @@ import 'package:src/models/timeslot/timeslot_student_timeslot_super_entity.dart'
 import 'package:src/daos/timeslot/timeslot_student_timeslot_super_dao.dart';
 import 'package:flutter/material.dart';
 
-
 void disableOverflowErrors() {
   FlutterError.onError = (FlutterErrorDetails details) {
     final exception = details.exception;
@@ -25,6 +24,7 @@ void disableOverflowErrors() {
     }
   };
 }
+
 void main() {
   setUp(() async {
     setupMockServiceLocatorUnitTests();

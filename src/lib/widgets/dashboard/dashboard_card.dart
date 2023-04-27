@@ -181,95 +181,105 @@ class _DashboardCardState extends State<DashboardCard> {
                             style: Theme.of(context).textTheme.labelLarge,
                           )),
                       Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                              Flexible(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Flexible(
                                 flex: 2,
                                 child: Wrap(
                                   spacing: 10,
                                   // runSpacing: 5,
-                                  children: [institutionOrMediaType != ''
-                                  ? Container(
-                                      margin: const EdgeInsets.only(bottom: 5),
-                                      padding: const EdgeInsets.symmetric(
-                                          horizontal: 5),
-                                      decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(5),
-                                        color: grayBackground,
-                                      ),
-                                      child: Text(
-                                        institutionOrMediaType,
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .headlineLarge
-                                            ?.copyWith(
-                                              color:
-                                                  moduleColors[widget.module],
+                                  children: [
+                                    institutionOrMediaType != ''
+                                        ? Container(
+                                            margin: const EdgeInsets.only(
+                                                bottom: 5),
+                                            padding: const EdgeInsets.symmetric(
+                                                horizontal: 5),
+                                            decoration: BoxDecoration(
+                                              borderRadius:
+                                                  BorderRadius.circular(5),
+                                              color: grayBackground,
                                             ),
+                                            child: Text(
+                                              institutionOrMediaType,
+                                              style: Theme.of(context)
+                                                  .textTheme
+                                                  .headlineLarge
+                                                  ?.copyWith(
+                                                    color: moduleColors[
+                                                        widget.module],
+                                                  ),
+                                            ),
+                                          )
+                                        : Container(),
+                                    subjectOrDate != ''
+                                        ? Container(
+                                            margin: const EdgeInsets.only(
+                                                bottom: 5),
+                                            padding: const EdgeInsets.symmetric(
+                                                horizontal: 5),
+                                            decoration: BoxDecoration(
+                                              borderRadius:
+                                                  BorderRadius.circular(5),
+                                              color: grayBackground,
+                                            ),
+                                            child: Text(
+                                              subjectOrDate,
+                                              style: Theme.of(context)
+                                                  .textTheme
+                                                  .headlineLarge
+                                                  ?.copyWith(
+                                                    color: moduleColors[
+                                                        widget.module],
+                                                  ),
+                                            ),
+                                          )
+                                        : Container(),
+                                    dateTasks != ''
+                                        ? Container(
+                                            margin: const EdgeInsets.only(
+                                                bottom: 5),
+                                            padding: const EdgeInsets.symmetric(
+                                                horizontal: 5),
+                                            decoration: BoxDecoration(
+                                              borderRadius:
+                                                  BorderRadius.circular(5),
+                                              color: grayBackground,
+                                            ),
+                                            child: Text(
+                                              dateTasks,
+                                              style: Theme.of(context)
+                                                  .textTheme
+                                                  .headlineLarge
+                                                  ?.copyWith(
+                                                    color: moduleColors[
+                                                        widget.module],
+                                                  ),
+                                            ),
+                                          )
+                                        : Container(),
+                                  ],
+                                )),
+                            Flexible(
+                              flex: 1,
+                              child: nTasks != 0
+                                  ? Container(
+                                      width: 25,
+                                      height: 25,
+                                      decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(30),
+                                        color: primaryColor,
                                       ),
+                                      child: Center(
+                                          child: Text(nTasks.toString(),
+                                              style: Theme.of(context)
+                                                  .textTheme
+                                                  .headlineLarge)),
                                     )
                                   : Container(),
-                              subjectOrDate != ''
-                                  ? Container(
-                                      margin: const EdgeInsets.only(bottom: 5),
-                                      padding: const EdgeInsets.symmetric(
-                                          horizontal: 5),
-                                      decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(5),
-                                        color: grayBackground,
-                                      ),
-                                      child: Text(
-                                        subjectOrDate,
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .headlineLarge
-                                            ?.copyWith(
-                                              color:
-                                                  moduleColors[widget.module],
-                                            ),
-                                      ),
-                                    )
-                                  : Container(),
-                              dateTasks != ''
-                                  ? Container(
-                                      margin: const EdgeInsets.only(bottom: 5),
-                                      padding: const EdgeInsets.symmetric(
-                                          horizontal: 5),
-                                      decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(5),
-                                        color: grayBackground,
-                                      ),
-                                      child: Text(
-                                        dateTasks,
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .headlineLarge
-                                            ?.copyWith(
-                                              color:
-                                                  moduleColors[widget.module],
-                                            ),
-                                      ),
-                                    )
-                                  : Container(),],)),
-                          Flexible(flex: 1, child: 
-                          nTasks != 0
-                              ? Container(
-                                  width: 25,
-                                  height: 25,
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(30),
-                                    color: primaryColor,
-                                  ),
-                                  child: Center(
-                                      child: Text(nTasks.toString(),
-                                          style: Theme.of(context)
-                                              .textTheme
-                                              .headlineLarge)),
-                                )
-                              : Container(),
-                          ),
-                    ])
+                            ),
+                          ])
                     ]))));
   }
 }

@@ -17,8 +17,5 @@ class MediaTimeslot {
 
   final String type;
 
-  MediaTimeslot({
-    required this.id,
-    required this.type
-  });
+  MediaTimeslot({required this.id, required this.type});
 }
