@@ -8,11 +8,11 @@ import 'package:src/utils/service_locator.dart';
 
 class EvaluationForm extends StatefulWidget {
   final int? subjectId;
-  final void Function(StudentEvaluation evaluation)? callback;
+  final void Function(StudentEvaluation evaluation) callback;
   final StudentEvaluation? evaluation;
 
   const EvaluationForm(
-      {Key? key, this.subjectId, this.callback, this.evaluation})
+      {Key? key, this.subjectId, required this.callback, this.evaluation})
       : super(key: key);
 
   @override
@@ -26,6 +26,11 @@ class _EvaluationFormState extends State<EvaluationForm> {
   Map<String, String> errors = {};
   bool init = false;
 
+  @override
+  void initState() {
+    super.initState();
+    fillTaskFields();
+  }
   Future<int> fillTaskFields() async {
     if (init) {
       return 0;
@@ -46,107 +51,95 @@ class _EvaluationFormState extends State<EvaluationForm> {
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder(
-        future: fillTaskFields(),
-        builder: (BuildContext context, AsyncSnapshot<int> snapshot) {
-          if (snapshot.hasData) {
-            return Wrap(spacing: 10, children: [
-              Padding(
-                padding: const EdgeInsets.only(left: 18, right: 18),
-                child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Flexible(
-                          flex: 10,
-                          child: TextField(
-                              key: const Key('nameEvaluationField'),
-                              controller: nameController,
-                              style: const TextStyle(
-                                  fontSize: 20,
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.w400),
-                              maxLines: 1,
-                              decoration: InputDecoration(
-                                contentPadding: const EdgeInsets.symmetric(
-                                    horizontal: 10, vertical: 5),
-                                border: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(10)),
-                                disabledBorder: const OutlineInputBorder(
-                                    borderSide:
-                                        BorderSide(color: Color(0xFF414554))),
-                                hintText: AppLocalizations.of(context).name,
-                                hintStyle: const TextStyle(
-                                    fontSize: 20,
-                                    color: Color(0xFF71788D),
-                                    fontWeight: FontWeight.w400),
-                              ))),
-                      const SizedBox(width: 5),
-                      Flexible(
-                          flex: 1,
-                          child: IconButton(
-                              color: Colors.white,
-                              splashRadius: 0.01,
-                              icon: const Icon(Icons.close),
-                              onPressed: () {
-                                nameController.clear();
-                              }))
-                    ]),
-              ),
-              errors.containsKey('name')
-                  ? Padding(
-                      padding: const EdgeInsets.only(left: 18, top: 5),
-                      child: Text(errors['name']!,
-                          style: const TextStyle(
-                              color: Colors.red,
-                              fontSize: 12,
-                              fontWeight: FontWeight.w400)))
-                  : const SizedBox(height: 0),
-              const SizedBox(height: 7.5),
-              Row(children: [
-                Padding(
-                    padding: const EdgeInsets.only(left: 18),
-                    child: SizedBox(
-                        width: MediaQuery.of(context).size.width * 0.6,
-                        height: 60,
-                        child: TextField(
-                            key: const Key('gradeEvaluationField'),
-                            controller: gradeController,
-                            keyboardType: TextInputType.number,
-                            inputFormatters: [
-                              FilteringTextInputFormatter.allow(
-                                  RegExp(r'[0-9]+([.][0-9]*)?|[.][0-9]+'))
-                            ],
-                            style: const TextStyle(
-                                fontSize: 20,
-                                color: Colors.white,
-                                fontWeight: FontWeight.w400),
-                            maxLines: 1,
-                            decoration: InputDecoration(
-                              contentPadding: const EdgeInsets.symmetric(
-                                  horizontal: 0, vertical: 5),
-                              hintText: AppLocalizations.of(context).grade,
-                              hintStyle: const TextStyle(
-                                  fontSize: 20,
-                                  color: Color(0xFF71788D),
-                                  fontWeight: FontWeight.w400),
-                            ))))
-              ]),
-              errors.containsKey('grade')
-                  ? Padding(
-                      padding: const EdgeInsets.only(left: 18, top: 5.0),
-                      child: Text(errors['grade']!,
-                          style: const TextStyle(
-                              color: Colors.red,
-                              fontSize: 12,
-                              fontWeight: FontWeight.w400)))
-                  : const SizedBox(height: 0),
-              displayEndButtons(),
-              // const SizedBox(height: 150)
-            ]);
-          } else {
-            return const Center(child: CircularProgressIndicator());
-          }
-        });
+    return Wrap(spacing: 10, children: [
+      Padding(
+        padding: const EdgeInsets.only(left: 18, right: 18),
+        child: Row(crossAxisAlignment: CrossAxisAlignment.center, children: [
+          Flexible(
+              flex: 10,
+              child: TextField(
+                  key: const Key('nameEvaluationField'),
+                  controller: nameController,
+                  style: const TextStyle(
+                      fontSize: 20,
+                      color: Colors.white,
+                      fontWeight: FontWeight.w400),
+                  maxLines: 1,
+                  decoration: InputDecoration(
+                    contentPadding:
+                        const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                    border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10)),
+                    disabledBorder: const OutlineInputBorder(
+                        borderSide: BorderSide(color: Color(0xFF414554))),
+                    hintText: AppLocalizations.of(context).name,
+                    hintStyle: const TextStyle(
+                        fontSize: 20,
+                        color: Color(0xFF71788D),
+                        fontWeight: FontWeight.w400),
+                  ))),
+          const SizedBox(width: 5),
+          Flexible(
+              flex: 1,
+              child: IconButton(
+                  color: Colors.white,
+                  splashRadius: 0.01,
+                  icon: const Icon(Icons.close),
+                  onPressed: () {
+                    nameController.clear();
+                  }))
+        ]),
+      ),
+      errors.containsKey('name')
+          ? Padding(
+              padding: const EdgeInsets.only(left: 18, top: 5),
+              child: Text(errors['name']!,
+                  style: const TextStyle(
+                      color: Colors.red,
+                      fontSize: 12,
+                      fontWeight: FontWeight.w400)))
+          : const SizedBox(height: 0),
+      const SizedBox(height: 7.5),
+      Row(children: [
+        Padding(
+            padding: const EdgeInsets.only(left: 18),
+            child: SizedBox(
+                width: MediaQuery.of(context).size.width * 0.6,
+                height: 60,
+                child: TextField(
+                    key: const Key('gradeEvaluationField'),
+                    controller: gradeController,
+                    keyboardType: TextInputType.number,
+                    inputFormatters: [
+                      FilteringTextInputFormatter.allow(
+                          RegExp(r'[0-9]+([.][0-9]*)?|[.][0-9]+'))
+                    ],
+                    style: const TextStyle(
+                        fontSize: 20,
+                        color: Colors.white,
+                        fontWeight: FontWeight.w400),
+                    maxLines: 1,
+                    decoration: InputDecoration(
+                      contentPadding: const EdgeInsets.symmetric(
+                          horizontal: 0, vertical: 5),
+                      hintText: AppLocalizations.of(context).grade,
+                      hintStyle: const TextStyle(
+                          fontSize: 20,
+                          color: Color(0xFF71788D),
+                          fontWeight: FontWeight.w400),
+                    ))))
+      ]),
+      errors.containsKey('grade')
+          ? Padding(
+              padding: const EdgeInsets.only(left: 18, top: 5.0),
+              child: Text(errors['grade']!,
+                  style: const TextStyle(
+                      color: Colors.red,
+                      fontSize: 12,
+                      fontWeight: FontWeight.w400)))
+          : const SizedBox(height: 0),
+      displayEndButtons()
+    ]);
   }
 
   validate() {
@@ -196,23 +189,15 @@ class _EvaluationFormState extends State<EvaluationForm> {
               grade: double.parse(gradeController.text),
               subjectId: widget.subjectId!);
         }
-        if (widget.callback != null) {
-          widget.callback!(evaluation);
-        } else {
-          throw Exception(
-              'Subject evaluation creator without evaluation should have a callback');
-        }
+
+        widget.callback(evaluation);
       } else {
         StudentEvaluation evaluation = StudentEvaluation(
             name: nameController.text,
             grade: double.parse(gradeController.text),
             subjectId: -1);
-        if (widget.callback != null) {
-          widget.callback!(evaluation);
-        } else {
-          throw Exception(
-              'Subject evaluation creator without subject should have a callback');
-        }
+
+        widget.callback(evaluation);
       }
 
       if (context.mounted) {
