@@ -10,13 +10,12 @@ abstract class MediaPage<T extends Media> extends StatefulWidget {
   final Function(bool) toggleFavorite;
   final List<String> leisureTags;
 
-  const MediaPage(
-      {Key? key,
-      required this.item,
-      required this.toggleFavorite,
-      required this.leisureTags,
-      })
-      : super(key: key);
+  const MediaPage({
+    Key? key,
+    required this.item,
+    required this.toggleFavorite,
+    required this.leisureTags,
+  }) : super(key: key);
 
   @override
   MediaPageState<T> createState();

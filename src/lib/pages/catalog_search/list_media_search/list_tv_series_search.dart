@@ -47,10 +47,7 @@ class ListTVSeriesSearchState
   TVSeriesPage showMediaPageBasedOnType(
       MediaSeriesSuperEntity item, List<String> leisureTags) {
     return TVSeriesPage(
-        media: item,
-        toggleFavorite: toggleFavorite,
-        leisureTags: leisureTags
-        );
+        media: item, toggleFavorite: toggleFavorite, leisureTags: leisureTags);
   }
 
   @override

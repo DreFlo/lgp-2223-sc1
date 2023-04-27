@@ -82,23 +82,22 @@ class MediaSeriesSuperEntity extends Media {
         tmdbId: tmdbId);
   }
 
-  MediaSeriesSuperEntity copyWith({
-    int? id,
-    String? name,
-    String? description,
-    String? linkImage,
-    Status? status,
-    bool? favorite,
-    String? genres,
-    DateTime? release,
-    int? xp,
-    String? participants,
-    String? tagline,
-    int? numberEpisodes,
-    int? numberSeasons,
-    int? tmdbId,
-    int? duration
-  }) {
+  MediaSeriesSuperEntity copyWith(
+      {int? id,
+      String? name,
+      String? description,
+      String? linkImage,
+      Status? status,
+      bool? favorite,
+      String? genres,
+      DateTime? release,
+      int? xp,
+      String? participants,
+      String? tagline,
+      int? numberEpisodes,
+      int? numberSeasons,
+      int? tmdbId,
+      int? duration}) {
     return MediaSeriesSuperEntity(
       id: id ?? this.id,
       name: name ?? this.name,

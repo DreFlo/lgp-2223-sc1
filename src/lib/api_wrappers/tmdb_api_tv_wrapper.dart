@@ -43,15 +43,14 @@ class TMDBTVSeriesAPIWrapper {
       Map tv = tmdbResults[i];
       tmdbResults[i]['details'] = await _getTVSeriesDetails(tv['id']);
       Map details = await tmdb.v3.tvSeasons.getDetails(tv['id'], 1);
-      tmdbResults[i]['details']['episode_run_time'] = details['episodes'][0]['runtime'];
+      tmdbResults[i]['details']['episode_run_time'] =
+          details['episodes'][0]['runtime'];
     }
 
     // Create a list of MediaSeriesSuperEntities
     List<MediaSeriesSuperEntity> tvSeries =
         List.generate(tmdbResults.length, (index) {
       Map tv = tmdbResults[index];
-
-      
 
       Map<String, dynamic> tvJson = {
         'id': null,
@@ -67,7 +66,9 @@ class TMDBTVSeriesAPIWrapper {
         'release': DateTime.parse(tv['first_air_date']),
         'xp': 0,
         'tagline': tv['details']['tagline'],
-        'duration': tv['details']['episode_run_time'] ?? tv['details']['episode_run_time'] ?? 0,
+        'duration': tv['details']['episode_run_time'] ??
+            tv['details']['episode_run_time'] ??
+            0,
         'participants': tv['details']['participants'],
         'numberEpisodes': tv['details']['number_of_episodes'],
         'numberSeasons': tv['details']['number_of_seasons'],

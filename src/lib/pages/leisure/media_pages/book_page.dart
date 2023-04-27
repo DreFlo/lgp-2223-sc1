@@ -10,11 +10,11 @@ class BookPage extends MediaPage<MediaBookSuperEntity> {
       required Function(bool) toggleFavorite,
       required List<String> leisureTags})
       : super(
-            key: key,
-            item: media,
-            toggleFavorite: toggleFavorite,
-            leisureTags: leisureTags,
-            );
+          key: key,
+          item: media,
+          toggleFavorite: toggleFavorite,
+          leisureTags: leisureTags,
+        );
 
   @override
   BookPageState createState() => BookPageState();

@@ -201,11 +201,10 @@ class _AddBookNoteFormState extends State<AddBookNoteForm> {
 
                 await serviceLocator<NoteBookNoteSuperDao>()
                     .insertNoteBookNoteSuperEntity(note);
-                
-                 if (widget.refreshStatus != null) {
-                    widget.refreshStatus!();
-                  }
 
+                if (widget.refreshStatus != null) {
+                  widget.refreshStatus!();
+                }
               },
               style: ElevatedButton.styleFrom(
                 minimumSize: Size(MediaQuery.of(context).size.width * 0.90, 55),

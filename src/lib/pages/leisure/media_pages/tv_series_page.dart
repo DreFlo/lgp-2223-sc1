@@ -48,9 +48,11 @@ class TVSeriesPageState extends MediaPageState<MediaSeriesSuperEntity> {
     }
     String seasonsEpisodes = seasons + widget.item.numberEpisodes.toString();
     if (duration == '0') {
-      return seasonsEpisodes + AppLocalizations.of(context).episodes_no_duration; 
+      return seasonsEpisodes +
+          AppLocalizations.of(context).episodes_no_duration;
     } else {
-      return seasonsEpisodes + AppLocalizations.of(context).episodes +
+      return seasonsEpisodes +
+          AppLocalizations.of(context).episodes +
           duration +
           AppLocalizations.of(context).minutes_each;
     }
