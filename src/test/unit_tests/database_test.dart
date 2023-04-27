@@ -260,7 +260,6 @@ void main() {
 
       await serviceLocator<SubjectDao>().insertSubject(Subject(
         name: 'name',
-        weightAverage: 1.0,
         institutionId: 1,
         acronym: 'acronym',
       ));
@@ -323,7 +322,6 @@ void main() {
 
       await serviceLocator<SubjectDao>().insertSubject(Subject(
         name: 'name',
-        weightAverage: 1.0,
         institutionId: 1,
         acronym: 'acronym',
       ));
@@ -544,7 +542,6 @@ void main() {
 
       await serviceLocator<SubjectDao>().insertSubject(Subject(
         name: 'name',
-        weightAverage: 1.0,
         institutionId: 1,
         acronym: 'acronym',
       ));
@@ -644,7 +641,6 @@ void main() {
 
       await serviceLocator<SubjectDao>().insertSubject(Subject(
         name: 'name',
-        weightAverage: 1.0,
         institutionId: 1,
         acronym: 'acronym',
       ));
@@ -904,40 +900,8 @@ void main() {
     });
   });
 
-  testWidgets('Test Trigger subject_weight_average',
-      (WidgetTester tester) async {
-    await tester.runAsync(() async {
-      List<User> users = await serviceLocator<UserDao>().findAllUsers();
 
-      expect(users.length, 0);
-
-      await serviceLocator<UserDao>().insertUser(
-          User(userName: 'Emil', password: '1234', xp: 23, imagePath: 'test'));
-
-      users = await serviceLocator<UserDao>().findAllUsers();
-
-      expect(users.length, 1);
-
-      await serviceLocator<InstitutionDao>().insertInstitution(Institution(
-          id: 1,
-          name: 'Institution 1',
-          picture: 'Institution 1',
-          type: InstitutionType.education,
-          userId: 1));
-
-      Subject subject = Subject(
-          id: 1,
-          name: 'Subject 1',
-          weightAverage: -8,
-          institutionId: 1,
-          acronym: 'S1');
-
-      expect(() => serviceLocator<SubjectDao>().insertSubject(subject),
-          throwsA(isA<DatabaseException>()));
-    });
-  });
-
-  testWidgets('Test Triggers evaluation_grade_and_weight',
+  testWidgets('Test Triggers evaluation_grade',
       (WidgetTester tester) async {
     await tester.runAsync(() async {
       List<User> users = await serviceLocator<UserDao>().findAllUsers();
@@ -961,107 +925,13 @@ void main() {
       await serviceLocator<SubjectDao>().insertSubject(Subject(
           id: 1,
           name: 'Subject 1',
-          weightAverage: 8,
           institutionId: 1,
           acronym: 'S'));
 
       StudentEvaluation studentEvaluation = StudentEvaluation(
           id: 1,
           name: 'Evaluation 1',
-          weight: 0.5,
-          minimum: 8,
           grade: -8,
-          subjectId: 1);
-
-      expect(
-          () => serviceLocator<StudentEvaluationDao>()
-              .insertStudentEvaluation(studentEvaluation),
-          throwsA(isA<DatabaseException>()));
-
-      studentEvaluation = StudentEvaluation(
-          id: 1,
-          name: 'Evaluation 1',
-          weight: 4,
-          minimum: 8,
-          grade: 8,
-          subjectId: 1);
-
-      expect(
-          () => serviceLocator<StudentEvaluationDao>()
-              .insertStudentEvaluation(studentEvaluation),
-          throwsA(isA<DatabaseException>()));
-    });
-  });
-
-  testWidgets('Test Triggers evaluation_sum_weight',
-      (WidgetTester tester) async {
-    await tester.runAsync(() async {
-      List<User> users = await serviceLocator<UserDao>().findAllUsers();
-
-      expect(users.length, 0);
-
-      await serviceLocator<UserDao>().insertUser(
-          User(userName: 'Emil', password: '1234', xp: 23, imagePath: 'test'));
-
-      users = await serviceLocator<UserDao>().findAllUsers();
-
-      expect(users.length, 1);
-
-      await serviceLocator<InstitutionDao>().insertInstitution(Institution(
-          id: 1,
-          name: 'Institution 1',
-          picture: 'Institution 1',
-          type: InstitutionType.education,
-          userId: 1));
-
-      await serviceLocator<SubjectDao>().insertSubject(Subject(
-          id: 1,
-          name: 'Subject 1',
-          weightAverage: 8,
-          institutionId: 1,
-          acronym: 'S'));
-
-      StudentEvaluation studentEvaluation = StudentEvaluation(
-          id: 1,
-          name: 'Evaluation 1',
-          weight: -1,
-          minimum: 8,
-          grade: 8,
-          subjectId: 1);
-
-      expect(
-          () => serviceLocator<StudentEvaluationDao>()
-              .insertStudentEvaluation(studentEvaluation),
-          throwsA(isA<DatabaseException>()));
-
-      studentEvaluation = StudentEvaluation(
-          id: 1,
-          name: 'Evaluation 1',
-          weight: 0.5,
-          minimum: -8,
-          grade: 8,
-          subjectId: 1);
-
-      expect(
-          () => serviceLocator<StudentEvaluationDao>()
-              .insertStudentEvaluation(studentEvaluation),
-          throwsA(isA<DatabaseException>()));
-
-      await serviceLocator<StudentEvaluationDao>().insertStudentEvaluation(
-          StudentEvaluation(
-              id: 1,
-              name: 'Evaluation 1',
-              weight: 0.4,
-              minimum: 8,
-              grade: 8,
-              subjectId: 1));
-
-      studentEvaluation = StudentEvaluation(
-          id: 2,
-          name: 'Evaluation 2',
-          weight: 0.7,
-          minimum: 8,
-          grade: 8,
           subjectId: 1);
 
       expect(
@@ -1101,7 +971,6 @@ void main() {
       await serviceLocator<SubjectDao>().insertSubject(Subject(
           id: 1,
           name: 'Subject 1',
-          weightAverage: 8,
           institutionId: 1,
           acronym: 'S'));
 

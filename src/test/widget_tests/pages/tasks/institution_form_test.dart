@@ -87,7 +87,7 @@ void main() {
     final mockSubjectDao = serviceLocator.get<SubjectDao>();
     when(mockSubjectDao.findSubjectByInstitutionId(1)).thenAnswer((_) async => [
           Subject(
-              id: 1, name: 'sub_name', acronym: 'sub_acronym', weightAverage: 3)
+              id: 1, name: 'sub_name', acronym: 'sub_acronym')
         ]);
 
     await widgetTester.pumpWidget(LocalizationsInjector(
@@ -222,8 +222,6 @@ void main() {
     await widgetTester.enterText(
         find.byKey(const Key('acronymField')), 'sub_acronym');
 
-    await widgetTester.enterText(
-        find.byKey(const Key('weightAverageField')), '3');
 
     Finder saveButton = find.byKey(const Key('saveSubjectButton'));
 
@@ -273,8 +271,6 @@ void main() {
     await widgetTester.enterText(
         find.byKey(const Key('acronymField')), 'sub_acronym');
 
-    await widgetTester.enterText(
-        find.byKey(const Key('weightAverageField')), '3');
 
     Finder saveButton = find.byKey(const Key('saveSubjectButton'));
 

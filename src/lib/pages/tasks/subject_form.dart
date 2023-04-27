@@ -7,7 +7,6 @@ import 'package:src/models/student/subject.dart';
 import 'package:src/themes/colors.dart';
 import 'package:src/utils/enums.dart';
 import 'package:src/utils/service_locator.dart';
-import 'package:flutter/services.dart';
 
 class SubjectForm extends StatefulWidget {
   final ScrollController scrollController;
@@ -34,7 +33,6 @@ class SubjectForm extends StatefulWidget {
 class _SubjectFormState extends State<SubjectForm> {
   TextEditingController nameController = TextEditingController();
   TextEditingController acronymController = TextEditingController();
-  TextEditingController weightAverageController = TextEditingController();
 
   late int institutionId;
   Map<String, String> errors = {};
@@ -56,7 +54,6 @@ class _SubjectFormState extends State<SubjectForm> {
 
       nameController.text = subject!.name;
       acronymController.text = subject.acronym;
-      weightAverageController.text = subject.weightAverage.toString();
 
       if (subject.institutionId != null) {
         Institution? institution = await serviceLocator<InstitutionDao>()
@@ -70,13 +67,11 @@ class _SubjectFormState extends State<SubjectForm> {
     } else if (widget.subject != null) {
       nameController.text = widget.subject!.name;
       acronymController.text = widget.subject!.acronym;
-      weightAverageController.text = widget.subject!.weightAverage.toString();
 
       institutionId = -1;
     } else {
       nameController.clear();
       acronymController.clear();
-      weightAverageController.clear();
 
       institutionId = -1;
     }
@@ -237,45 +232,6 @@ class _SubjectFormState extends State<SubjectForm> {
                             fontWeight: FontWeight.w400),
                       )
                     ]),
-                    const SizedBox(height: 7.5),
-                    Row(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          Flexible(
-                              flex: 10,
-                              child: TextField(
-                                  key: const Key('weightAverageField'),
-                                  controller: weightAverageController,
-                                  keyboardType: TextInputType.number,
-                                  inputFormatters: [
-                                    FilteringTextInputFormatter.allow(
-                                        RegExp(r'[0-9]+([.][0-9]*)?|[.][0-9]+'))
-                                  ],
-                                  style: const TextStyle(
-                                      fontSize: 20,
-                                      color: Colors.white,
-                                      fontWeight: FontWeight.w400),
-                                  maxLines: 1,
-                                  decoration: InputDecoration(
-                                    contentPadding: const EdgeInsets.symmetric(
-                                        horizontal: 0, vertical: 5),
-                                    hintText: AppLocalizations.of(context)
-                                        .weight_average,
-                                    hintStyle: const TextStyle(
-                                        fontSize: 20,
-                                        color: Color(0xFF71788D),
-                                        fontWeight: FontWeight.w400),
-                                  )))
-                        ]),
-                    errors.containsKey('weightAverage')
-                        ? Padding(
-                            padding: const EdgeInsets.only(top: 5.0),
-                            child: Text(errors['weightAverage']!,
-                                style: const TextStyle(
-                                    color: Colors.red,
-                                    fontSize: 12,
-                                    fontWeight: FontWeight.w400)))
-                        : const SizedBox(height: 0),
                     const SizedBox(height: 30),
                     ...institutionSelection(),
                     displayEndButtons(context),
@@ -362,17 +318,12 @@ class _SubjectFormState extends State<SubjectForm> {
 
     String name = nameController.text;
     String acronym = acronymController.text;
-    String weightAverage = weightAverageController.text;
 
     if (name.isEmpty) {
       errors['name'] = AppLocalizations.of(context).name_error;
     }
     if (acronym.isEmpty) {
       errors['acronym'] = AppLocalizations.of(context).acronym_error;
-    }
-    if (weightAverage.isEmpty) {
-      errors['weightAverage'] =
-          AppLocalizations.of(context).weight_average_error;
     }
 
     setState(() {});
@@ -381,7 +332,6 @@ class _SubjectFormState extends State<SubjectForm> {
   save(BuildContext context) async {
     String name = nameController.text;
     String acronym = acronymController.text;
-    String weightAverage = weightAverageController.text;
 
     validate();
 
@@ -392,7 +342,6 @@ class _SubjectFormState extends State<SubjectForm> {
             id: widget.id,
             name: name,
             acronym: acronym,
-            weightAverage: double.parse(weightAverage),
             institutionId: institutionId != -1 ? institutionId : null);
 
         await serviceLocator<SubjectDao>().updateSubject(subject);
@@ -405,7 +354,6 @@ class _SubjectFormState extends State<SubjectForm> {
           subject = Subject(
               name: name,
               acronym: acronym,
-              weightAverage: double.parse(weightAverage),
               institutionId: institutionId != -1 ? institutionId : null);
 
           await serviceLocator<SubjectDao>().insertSubject(subject);
@@ -414,7 +362,6 @@ class _SubjectFormState extends State<SubjectForm> {
             id: widget.subject == null ? null : widget.subject!.id,
             name: name,
             acronym: acronym,
-            weightAverage: double.parse(weightAverage),
             institutionId: institutionId != -1 ? institutionId : null,
           );
 

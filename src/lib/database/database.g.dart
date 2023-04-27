@@ -139,13 +139,13 @@ class _$AppDatabase extends AppDatabase {
         await database.execute(
             'CREATE TABLE IF NOT EXISTS `institution` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `name` TEXT NOT NULL, `picture` TEXT, `type` INTEGER NOT NULL, `user_id` INTEGER NOT NULL, FOREIGN KEY (`user_id`) REFERENCES `user` (`id`) ON UPDATE RESTRICT ON DELETE CASCADE)');
         await database.execute(
-            'CREATE TABLE IF NOT EXISTS `subject` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `name` TEXT NOT NULL, `acronym` TEXT NOT NULL, `weight_average` REAL NOT NULL, `institution_id` INTEGER, FOREIGN KEY (`institution_id`) REFERENCES `institution` (`id`) ON UPDATE RESTRICT ON DELETE CASCADE)');
+            'CREATE TABLE IF NOT EXISTS `subject` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `name` TEXT NOT NULL, `acronym` TEXT NOT NULL, `institution_id` INTEGER, FOREIGN KEY (`institution_id`) REFERENCES `institution` (`id`) ON UPDATE RESTRICT ON DELETE CASCADE)');
         await database.execute(
             'CREATE TABLE IF NOT EXISTS `task_group` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `name` TEXT NOT NULL, `description` TEXT NOT NULL, `priority` INTEGER NOT NULL, `deadline` INTEGER NOT NULL, `subject_id` INTEGER, FOREIGN KEY (`subject_id`) REFERENCES `subject` (`id`) ON UPDATE RESTRICT ON DELETE CASCADE)');
         await database.execute(
             'CREATE TABLE IF NOT EXISTS `task` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `name` TEXT NOT NULL, `description` TEXT NOT NULL, `priority` INTEGER NOT NULL, `deadline` INTEGER NOT NULL, `xp` INTEGER NOT NULL, `task_group_id` INTEGER, `subject_id` INTEGER, FOREIGN KEY (`task_group_id`) REFERENCES `task_group` (`id`) ON UPDATE NO ACTION ON DELETE NO ACTION, FOREIGN KEY (`subject_id`) REFERENCES `subject` (`id`) ON UPDATE RESTRICT ON DELETE CASCADE)');
         await database.execute(
-            'CREATE TABLE IF NOT EXISTS `evaluation` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `name` TEXT NOT NULL, `weight` REAL NOT NULL, `minimum` REAL NOT NULL, `grade` REAL NOT NULL, `subject_id` INTEGER NOT NULL, FOREIGN KEY (`subject_id`) REFERENCES `subject` (`id`) ON UPDATE RESTRICT ON DELETE CASCADE)');
+            'CREATE TABLE IF NOT EXISTS `evaluation` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `name` TEXT NOT NULL, `grade` REAL NOT NULL, `subject_id` INTEGER NOT NULL, FOREIGN KEY (`subject_id`) REFERENCES `subject` (`id`) ON UPDATE RESTRICT ON DELETE CASCADE)');
         await database.execute(
             'CREATE TABLE IF NOT EXISTS `media` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `name` TEXT NOT NULL, `description` TEXT NOT NULL, `link_image` TEXT NOT NULL, `status` INTEGER NOT NULL, `favorite` INTEGER NOT NULL, `genres` TEXT NOT NULL, `release` INTEGER NOT NULL, `xp` INTEGER NOT NULL, `participants` TEXT NOT NULL)');
         await database.execute(
@@ -461,7 +461,6 @@ class _$SubjectDao extends SubjectDao {
                   'id': item.id,
                   'name': item.name,
                   'acronym': item.acronym,
-                  'weight_average': item.weightAverage,
                   'institution_id': item.institutionId
                 },
             changeListener),
@@ -473,7 +472,6 @@ class _$SubjectDao extends SubjectDao {
                   'id': item.id,
                   'name': item.name,
                   'acronym': item.acronym,
-                  'weight_average': item.weightAverage,
                   'institution_id': item.institutionId
                 },
             changeListener),
@@ -485,7 +483,6 @@ class _$SubjectDao extends SubjectDao {
                   'id': item.id,
                   'name': item.name,
                   'acronym': item.acronym,
-                  'weight_average': item.weightAverage,
                   'institution_id': item.institutionId
                 },
             changeListener);
@@ -509,7 +506,6 @@ class _$SubjectDao extends SubjectDao {
             id: row['id'] as int?,
             name: row['name'] as String,
             acronym: row['acronym'] as String,
-            weightAverage: row['weight_average'] as double,
             institutionId: row['institution_id'] as int?));
   }
 
@@ -520,7 +516,6 @@ class _$SubjectDao extends SubjectDao {
             id: row['id'] as int?,
             name: row['name'] as String,
             acronym: row['acronym'] as String,
-            weightAverage: row['weight_average'] as double,
             institutionId: row['institution_id'] as int?),
         arguments: [id],
         queryableName: 'subject',
@@ -535,7 +530,6 @@ class _$SubjectDao extends SubjectDao {
             id: row['id'] as int?,
             name: row['name'] as String,
             acronym: row['acronym'] as String,
-            weightAverage: row['weight_average'] as double,
             institutionId: row['institution_id'] as int?),
         arguments: [id]);
   }
@@ -548,7 +542,6 @@ class _$SubjectDao extends SubjectDao {
             id: row['id'] as int?,
             name: row['name'] as String,
             acronym: row['acronym'] as String,
-            weightAverage: row['weight_average'] as double,
             institutionId: row['institution_id'] as int?));
   }
 
@@ -839,8 +832,6 @@ class _$StudentEvaluationDao extends StudentEvaluationDao {
             (StudentEvaluation item) => <String, Object?>{
                   'id': item.id,
                   'name': item.name,
-                  'weight': item.weight,
-                  'minimum': item.minimum,
                   'grade': item.grade,
                   'subject_id': item.subjectId
                 },
@@ -852,8 +843,6 @@ class _$StudentEvaluationDao extends StudentEvaluationDao {
             (StudentEvaluation item) => <String, Object?>{
                   'id': item.id,
                   'name': item.name,
-                  'weight': item.weight,
-                  'minimum': item.minimum,
                   'grade': item.grade,
                   'subject_id': item.subjectId
                 },
@@ -865,8 +854,6 @@ class _$StudentEvaluationDao extends StudentEvaluationDao {
             (StudentEvaluation item) => <String, Object?>{
                   'id': item.id,
                   'name': item.name,
-                  'weight': item.weight,
-                  'minimum': item.minimum,
                   'grade': item.grade,
                   'subject_id': item.subjectId
                 },
@@ -891,8 +878,6 @@ class _$StudentEvaluationDao extends StudentEvaluationDao {
             id: row['id'] as int?,
             name: row['name'] as String,
             grade: row['grade'] as double,
-            weight: row['weight'] as double,
-            minimum: row['minimum'] as double,
             subjectId: row['subject_id'] as int));
   }
 
@@ -903,8 +888,6 @@ class _$StudentEvaluationDao extends StudentEvaluationDao {
             id: row['id'] as int?,
             name: row['name'] as String,
             grade: row['grade'] as double,
-            weight: row['weight'] as double,
-            minimum: row['minimum'] as double,
             subjectId: row['subject_id'] as int),
         arguments: [id],
         queryableName: 'evaluation',

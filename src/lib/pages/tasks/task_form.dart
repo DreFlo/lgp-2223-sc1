@@ -70,7 +70,6 @@ class _TaskFormState extends State<TaskForm> {
     id: -1,
     name: 'None',
     acronym: 'None',
-    weightAverage: 1,
   );
 
   List<Note> notes = [];

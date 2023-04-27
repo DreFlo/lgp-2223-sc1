@@ -47,7 +47,6 @@ void main() {
 
     expect(find.text('Name is required'), findsOneWidget);
     expect(find.text('Acronym is required'), findsOneWidget);
-    expect(find.text('Weight for Average is required'), findsOneWidget);
   });
 
   testWidgets('Create subject test', (WidgetTester widgetTester) async {
@@ -68,14 +67,10 @@ void main() {
     await widgetTester.enterText(
         find.byKey(const Key('acronymField')), 'acronym');
 
-    await widgetTester.enterText(
-        find.byKey(const Key('weightAverageField')), '1');
-
     await widgetTester.pumpAndSettle();
 
     expect(find.text('name'), findsOneWidget);
     expect(find.text('acronym'), findsOneWidget);
-    expect(find.textContaining('1'), findsOneWidget);
 
     Finder saveButton = find.byKey(const Key('saveSubjectButton'));
 
@@ -89,7 +84,6 @@ void main() {
 
     expect(find.text('Name is required'), findsNothing);
     expect(find.text('Acronym is required'), findsNothing);
-    expect(find.text('Weight for Average is required'), findsNothing);
   });
 
   testWidgets('Load correct subject information test',
@@ -109,14 +103,12 @@ void main() {
             subject: Subject(
                 name: 'sub_name',
                 acronym: 'sub_acronym',
-                weightAverage: 3,
                 institutionId: 1))));
 
     await widgetTester.pump(const Duration(seconds: 10));
 
     expect(find.text('sub_name'), findsOneWidget);
     expect(find.text('sub_acronym'), findsOneWidget);
-    expect(find.textContaining('3'), findsOneWidget);
 
     final dropdown = find.byKey(const Key('institutionField'));
     Finder scroll = find.byType(Scrollable).last;
@@ -135,10 +127,10 @@ void main() {
 
     final mockSubjectDao = serviceLocator.get<SubjectDao>();
     when(mockSubjectDao.findSubjectById(1)).thenAnswer((_) => Stream.value(
-        Subject(id: 1, name: 'name', acronym: 'acronym', weightAverage: 1)));
+        Subject(id: 1, name: 'name', acronym: 'acronym',)));
 
     when(mockSubjectDao.updateSubject(Subject(
-            id: 1, name: 'sub_name', acronym: 'sub_acronym', weightAverage: 3)))
+            id: 1, name: 'sub_name', acronym: 'sub_acronym')))
         .thenAnswer((_) async => 1);
 
     await widgetTester.pumpWidget(LocalizationsInjector(
@@ -148,7 +140,6 @@ void main() {
 
     expect(find.text('sub_name'), findsNothing);
     expect(find.text('sub_acronym'), findsNothing);
-    expect(find.textContaining('3'), findsNothing);
 
     await widgetTester.enterText(
         find.byKey(const Key('nameField')), 'sub_name');
@@ -156,12 +147,8 @@ void main() {
     await widgetTester.enterText(
         find.byKey(const Key('acronymField')), 'sub_acronym');
 
-    await widgetTester.enterText(
-        find.byKey(const Key('weightAverageField')), '3');
-
     expect(find.text('sub_name'), findsOneWidget);
     expect(find.text('sub_acronym'), findsOneWidget);
-    expect(find.textContaining('3'), findsOneWidget);
 
     Finder saveButton = find.byKey(const Key('saveSubjectButton'));
 
@@ -175,7 +162,6 @@ void main() {
 
     expect(find.text('sub_name'), findsNothing);
     expect(find.text('sub_acronym'), findsNothing);
-    expect(find.textContaining('3'), findsNothing);
   });
 
   testWidgets('Delete subject test', (WidgetTester widgetTester) async {
@@ -187,8 +173,7 @@ void main() {
         Subject(
             id: 1,
             name: 'sub_name',
-            acronym: 'sub_acronym',
-            weightAverage: 3)));
+            acronym: 'sub_acronym')));
 
     when(mockSubjectDao.deleteSubject(MockSubject()))
         .thenAnswer((_) async => 1);
@@ -200,7 +185,6 @@ void main() {
 
     expect(find.text('sub_name'), findsOneWidget);
     expect(find.text('sub_acronym'), findsOneWidget);
-    expect(find.textContaining('3'), findsOneWidget);
 
     final deleteButton = find.byKey(const Key('deleteSubjectButton'));
     Finder scroll = find.byType(Scrollable).last;
@@ -222,6 +206,5 @@ void main() {
 
     expect(find.text('sub_name'), findsNothing);
     expect(find.text('sub_acronym'), findsNothing);
-    expect(find.textContaining('3'), findsNothing);
   });
 }

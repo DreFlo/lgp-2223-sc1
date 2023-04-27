@@ -18,10 +18,6 @@ class StudentEvaluation {
 
   final String name;
 
-  final double weight;
-
-  final double minimum;
-
   final double grade;
 
   @ColumnInfo(name: 'subject_id')
@@ -31,8 +27,6 @@ class StudentEvaluation {
     this.id,
     required this.name,
     required this.grade,
-    required this.weight,
-    required this.minimum,
     required this.subjectId,
   });
 }

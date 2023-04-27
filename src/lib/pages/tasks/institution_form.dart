@@ -415,7 +415,6 @@ class _InstitutionFormState extends State<InstitutionForm> {
         Subject newSubject = Subject(
           name: subject.name,
           acronym: subject.acronym,
-          weightAverage: subject.weightAverage,
           institutionId: id,
         );
         await serviceLocator<SubjectDao>().insertSubject(newSubject);
@@ -504,7 +503,6 @@ class _InstitutionFormState extends State<InstitutionForm> {
         id: subject!.id,
         name: subject.name,
         acronym: subject.acronym,
-        weightAverage: subject.weightAverage,
         institutionId: null);
 
     await serviceLocator<SubjectDao>().updateSubject(newSubject);
