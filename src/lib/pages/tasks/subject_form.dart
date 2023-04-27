@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:src/daos/student/institution_dao.dart';
@@ -12,6 +10,7 @@ import 'package:src/themes/colors.dart';
 import 'package:src/utils/enums.dart';
 import 'package:src/utils/service_locator.dart';
 import 'package:src/widgets/tasks/evaluation_bar.dart';
+import 'package:src/widgets/tasks/evaluation_form.dart';
 
 class SubjectForm extends StatefulWidget {
   final ScrollController scrollController;
@@ -73,8 +72,8 @@ class _SubjectFormState extends State<SubjectForm> {
         institutionId = -1;
       }
 
-      evaluations = await serviceLocator<StudentEvaluationDao>().findStudentEvaluationsBySubjectId(widget.id!);
-      
+      evaluations = await serviceLocator<StudentEvaluationDao>()
+          .findStudentEvaluationsBySubjectId(widget.id!);
     } else if (widget.subject != null) {
       nameController.text = widget.subject!.name;
       acronymController.text = widget.subject!.acronym;
@@ -233,47 +232,38 @@ class _SubjectFormState extends State<SubjectForm> {
                                     fontWeight: FontWeight.w400)))
                         : const SizedBox(height: 0),
                     const SizedBox(height: 30),
-                    Row(children: [
-                      Text(
-                        AppLocalizations.of(context).weight_average,
-                        style: const TextStyle(
-                            fontFamily: 'Poppins',
-                            color: Color(0xFF71788D),
-                            fontSize: 16,
-                            fontWeight: FontWeight.w400),
-                      )
-                    ]),
-                    const SizedBox(height: 30),
                     ...institutionSelection(),
-                    const SizedBox(height:30),
-                    widget.id == null && widget.callbackSubject != null ? const SizedBox() :
-                    Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(
-                            AppLocalizations.of(context).evaluations,
-                            style: const TextStyle(
-                                fontFamily: 'Poppins',
-                                color: Color(0xFF71788D),
-                                fontSize: 16,
-                                fontWeight: FontWeight.w400),
-                          ),
-                          IconButton(
-                            padding: const EdgeInsets.all(0),
-                            icon: const Icon(Icons.add),
-                            color: const Color(0xFF71788D),
-                            iconSize: 20,
-                            splashRadius: 0.1,
-                            constraints: const BoxConstraints(
-                                maxWidth: 20, maxHeight: 20),
-                            onPressed: () {
-                              //SHOW POP-UP
-                            },
-                          ),
-                        ]),
+                    const SizedBox(height: 30),
+                    widget.id == null && widget.callbackSubject != null
+                        ? const SizedBox()
+                        : Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                                Text(
+                                  AppLocalizations.of(context).evaluations,
+                                  style: const TextStyle(
+                                      fontFamily: 'Poppins',
+                                      color: Color(0xFF71788D),
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.w400),
+                                ),
+                                IconButton(
+                                  padding: const EdgeInsets.all(0),
+                                  icon: const Icon(Icons.add),
+                                  color: const Color(0xFF71788D),
+                                  iconSize: 20,
+                                  splashRadius: 0.1,
+                                  constraints: const BoxConstraints(
+                                      maxWidth: 20, maxHeight: 20),
+                                  onPressed: () {
+                                    //SHOW POP-UP
+                                    showEvaluationForm();
+                                  },
+                                ),
+                              ]),
                     const SizedBox(height: 30),
                     ...getEvaluations(),
-                    const SizedBox(height:30),
+                    const SizedBox(height: 30),
                     displayEndButtons(context),
                   ]),
                 ));
@@ -396,7 +386,18 @@ class _SubjectFormState extends State<SubjectForm> {
               acronym: acronym,
               institutionId: institutionId != -1 ? institutionId : null);
 
-          await serviceLocator<SubjectDao>().insertSubject(subject);
+          int newId = await serviceLocator<SubjectDao>().insertSubject(subject);
+
+          for (int i = 0; i < evaluations.length; i++) {
+            StudentEvaluation evaluation = evaluations[i];
+            //new evaluation
+            StudentEvaluation evaluationWithSubjectId = StudentEvaluation(
+                name: evaluation.name,
+                grade: evaluation.grade,
+                subjectId: newId);
+            await serviceLocator<StudentEvaluationDao>()
+                .insertStudentEvaluation(evaluationWithSubjectId);
+          }
         } else {
           subject = Subject(
             id: widget.subject == null ? null : widget.subject!.id,
@@ -415,11 +416,12 @@ class _SubjectFormState extends State<SubjectForm> {
     }
   }
 
-List<Widget> getEvaluations() {
+  List<Widget> getEvaluations() {
     List<Widget> evaluationsList = [];
 
     if (evaluations.isEmpty) {
-      evaluationsList.add(Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+      evaluationsList
+          .add(Row(mainAxisAlignment: MainAxisAlignment.center, children: [
         Text(AppLocalizations.of(context).no_evaluations,
             style: const TextStyle(
                 color: Colors.white,
@@ -433,7 +435,9 @@ List<Widget> getEvaluations() {
           subjectId: widget.id,
           evaluation: evaluations[i],
           removeCallback: removeEvaluation,
-          updateCallback: widget.id == null ? editEvaluationTempFactory(evaluations[i]) : editEvaluation,
+          updateCallback: widget.id == null
+              ? editTempEvaluationFactory(evaluations[i])
+              : editEvaluation,
         ));
       }
     }
@@ -553,18 +557,15 @@ List<Widget> getEvaluations() {
     );
   }
 
-  removeEvaluation(StudentEvaluation evaluation) async{
-    if(evaluation.id != null){
-      await serviceLocator<StudentEvaluationDao>().deleteStudentEvaluation(evaluation);
-    }
-
-    evaluations.remove(evaluation);
+  addEvaluation(StudentEvaluation evaluation) {
+    setState(() {
+      evaluations.add(evaluation);
+    });
   }
-
 
   editEvaluation(StudentEvaluation evaluation) {
     setState(() {
-      if (id != null) {
+      if (widget.id != null) {
         // Our evaluations have an id and were updated in the evaluationForm
         for (int i = 0; i < evaluations.length; i++) {
           if (evaluations[i].id == evaluation.id) {
@@ -577,10 +578,11 @@ List<Widget> getEvaluations() {
       }
     });
   }
+
   editTempEvaluationFactory(StudentEvaluation oldEvaluation) {
     return (StudentEvaluation evaluation) {
       setState(() {
-        if (id == null) {
+        if (widget.id == null) {
           for (int i = 0; i < evaluations.length; i++) {
             if (evaluations[i] == oldEvaluation) {
               evaluations[i] = evaluation;
@@ -588,11 +590,39 @@ List<Widget> getEvaluations() {
             }
           }
         } else {
-          throw Exception("Task id is not null for edit temp evaluation callback");
+          throw Exception(
+              "Task id is not null for edit temp evaluation callback");
         }
       });
     };
   }
 
+  removeEvaluation(StudentEvaluation evaluation) async {
+    if (evaluation.id != null) {
+      await serviceLocator<StudentEvaluationDao>()
+          .deleteStudentEvaluation(evaluation);
+    }
 
+    setState(() {
+      evaluations.remove(evaluation);
+    });
+  }
+
+  showEvaluationForm() {
+    AlertDialog alert = AlertDialog(
+      title: Text(AppLocalizations.of(context).add_evaluation,
+          style: const TextStyle(
+              color: Colors.white, fontSize: 20, fontWeight: FontWeight.w600),
+          textAlign: TextAlign.center),
+      backgroundColor: modalBackground,
+      content: EvaluationForm(subjectId: widget.id, callback: addEvaluation),
+    );
+
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return alert;
+      },
+    );
+  }
 }

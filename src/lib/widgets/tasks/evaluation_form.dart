@@ -8,16 +8,11 @@ import 'package:src/utils/service_locator.dart';
 
 class EvaluationForm extends StatefulWidget {
   final int? subjectId;
-  final void Function(StudentEvaluation evaluation)? callback,
-      deleteEvaluationCallback;
+  final void Function(StudentEvaluation evaluation)? callback;
   final StudentEvaluation? evaluation;
 
   const EvaluationForm(
-      {Key? key,
-      this.subjectId,
-      this.callback,
-      this.evaluation,
-      this.deleteEvaluationCallback})
+      {Key? key, this.subjectId, this.callback, this.evaluation})
       : super(key: key);
 
   @override
@@ -56,31 +51,6 @@ class _EvaluationFormState extends State<EvaluationForm> {
         builder: (BuildContext context, AsyncSnapshot<int> snapshot) {
           if (snapshot.hasData) {
             return Wrap(spacing: 10, children: [
-              Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-                Padding(
-                    padding: const EdgeInsets.only(top: 15, bottom: 15),
-                    child: Container(
-                      width: 115,
-                      height: 18,
-                      alignment: Alignment.center,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(10),
-                        color: const Color(0xFF414554),
-                      ),
-                    ))
-              ]),
-              Container(
-                  width: MediaQuery.of(context).size.width * 0.90,
-                  padding: const EdgeInsets.only(left: 18),
-                  child: Column(children: [
-                    Text(
-                        AppLocalizations.of(context)
-                            .add_general_note_callout,
-                        softWrap: true,
-                        style: Theme.of(context).textTheme.titleLarge,
-                        textAlign: TextAlign.left),
-                    const SizedBox(height: 10),
-                  ])),
               Padding(
                 padding: const EdgeInsets.only(left: 18, right: 18),
                 child: Row(
@@ -131,21 +101,13 @@ class _EvaluationFormState extends State<EvaluationForm> {
                               fontSize: 12,
                               fontWeight: FontWeight.w400)))
                   : const SizedBox(height: 0),
-              Row(children: [
-                Padding(
-                    padding: const EdgeInsets.only(left: 18, top: 10),
-                    child: Text(
-                      AppLocalizations.of(context).add_evaluation,
-                      style: Theme.of(context).textTheme.displayMedium,
-                    ))
-              ]),
               const SizedBox(height: 7.5),
               Row(children: [
                 Padding(
                     padding: const EdgeInsets.only(left: 18),
                     child: SizedBox(
-                        width: MediaQuery.of(context).size.width * 0.90,
-                        height: 200,
+                        width: MediaQuery.of(context).size.width * 0.6,
+                        height: 60,
                         child: TextField(
                             key: const Key('gradeEvaluationField'),
                             controller: gradeController,
@@ -179,7 +141,7 @@ class _EvaluationFormState extends State<EvaluationForm> {
                               fontWeight: FontWeight.w400)))
                   : const SizedBox(height: 0),
               displayEndButtons(),
-              const SizedBox(height: 150)
+              // const SizedBox(height: 150)
             ]);
           } else {
             return const Center(child: CircularProgressIndicator());
@@ -208,8 +170,6 @@ class _EvaluationFormState extends State<EvaluationForm> {
       if (widget.subjectId != null) {
         // evaluation for an existing subject
         StudentEvaluation evaluation;
-        StudentEvaluation simpleEvaluation;
-        DateTime now = DateTime.now();
         if (widget.evaluation != null) {
           // Edit an already existing evaluation
 
@@ -220,8 +180,6 @@ class _EvaluationFormState extends State<EvaluationForm> {
               subjectId: widget.subjectId!);
           await serviceLocator<StudentEvaluationDao>()
               .updateStudentEvaluation(evaluation);
-
-          simpleEvaluation = evaluation;
         } else {
           // Add a new evaluation to an existing subject
           evaluation = StudentEvaluation(
@@ -231,6 +189,12 @@ class _EvaluationFormState extends State<EvaluationForm> {
 
           int id = await serviceLocator<StudentEvaluationDao>()
               .insertStudentEvaluation(evaluation);
+
+          evaluation = StudentEvaluation(
+              id: id,
+              name: nameController.text,
+              grade: double.parse(gradeController.text),
+              subjectId: widget.subjectId!);
         }
         if (widget.callback != null) {
           widget.callback!(evaluation);
@@ -242,7 +206,7 @@ class _EvaluationFormState extends State<EvaluationForm> {
         StudentEvaluation evaluation = StudentEvaluation(
             name: nameController.text,
             grade: double.parse(gradeController.text),
-            subjectId: widget.subjectId!);
+            subjectId: -1);
         if (widget.callback != null) {
           widget.callback!(evaluation);
         } else {
@@ -257,129 +221,20 @@ class _EvaluationFormState extends State<EvaluationForm> {
     }
   }
 
-  delete(BuildContext context) async {
-    StudentEvaluation evaluation = StudentEvaluation(
-      id: widget.evaluation!.id,
-      name: widget.evaluation!.name,
-      grade: widget.evaluation!.grade,
-      subjectId: widget.evaluation!.subjectId
-    );
-
-    await serviceLocator<StudentEvaluationDao>().deleteStudentEvaluation(evaluation);
-
-    if (context.mounted) {
-      Navigator.pop(context);
-      Navigator.pop(context);
-    }
-
-    if (widget.deleteEvaluationCallback != null) {
-      widget.deleteEvaluationCallback!(widget.evaluation!);
-    }
-  }
-
   Widget displayEndButtons() {
-    if (widget.evaluation == null || widget.subjectId == null) {
-      return Padding(
-          padding: const EdgeInsets.only(left: 40, top: 30),
-          child: ElevatedButton(
-              key: const Key('saveEvaluationButton'),
-              onPressed: () async {
-                await save(context);
-              },
-              style: ElevatedButton.styleFrom(
-                minimumSize: Size(MediaQuery.of(context).size.width * 0.80, 55),
-                backgroundColor: primaryColor,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(25.0),
-                ),
-              ),
-              child: Text(AppLocalizations.of(context).save,
-                  style: Theme.of(context).textTheme.headlineSmall)));
-    } else {
-      return Padding(
-          padding: const EdgeInsets.only(left: 25, top: 30),
-          child: Row(
-            children: [
-              ElevatedButton(
-                  key: const Key('saveEvaluationButton'),
-                  onPressed: () async {
-                    await save(context);
-                  },
-                  style: ElevatedButton.styleFrom(
-                    minimumSize:
-                        Size(MediaQuery.of(context).size.width * 0.4, 55),
-                    backgroundColor: primaryColor,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(25.0),
-                    ),
-                  ),
-                  child: Text(AppLocalizations.of(context).save,
-                      style: Theme.of(context).textTheme.headlineSmall)),
-              const SizedBox(width: 20),
-              ElevatedButton(
-                  key: const Key('deleteEvaluationButton'),
-                  onPressed: () async {
-                    await showDeleteConfirmation(context);
-                  },
-                  style: ElevatedButton.styleFrom(
-                    minimumSize:
-                        Size(MediaQuery.of(context).size.width * 0.4, 55),
-                    backgroundColor: Colors.red,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(25.0),
-                    ),
-                  ),
-                  child: Text(AppLocalizations.of(context).delete,
-                      style: Theme.of(context).textTheme.headlineSmall))
-            ],
-          ));
-    }
-  }
-
-  showDeleteConfirmation(BuildContext context) {
-    Widget cancelButton = TextButton(
-      key: const Key('cancelConfirmationButton'),
-      child: Text(AppLocalizations.of(context).cancel,
-          style: const TextStyle(
-              color: Colors.white, fontSize: 16, fontWeight: FontWeight.w600),
-          textAlign: TextAlign.left),
-      onPressed: () {
-        Navigator.pop(context);
-      },
-    );
-
-    Widget deleteButton = TextButton(
-      key: const Key('deleteConfirmationButton'),
-      child: Text(AppLocalizations.of(context).delete,
-          style: const TextStyle(
-              color: Colors.white, fontSize: 16, fontWeight: FontWeight.w600),
-          textAlign: TextAlign.center),
-      onPressed: () async {
-        delete(context);
-      },
-    );
-
-    AlertDialog alert = AlertDialog(
-      title: Text(AppLocalizations.of(context).delete_evaluation,
-          style: const TextStyle(
-              color: Colors.white, fontSize: 20, fontWeight: FontWeight.w600),
-          textAlign: TextAlign.center),
-      content: Text(AppLocalizations.of(context).delete_evaluation_message,
-          style: const TextStyle(
-              color: Colors.white, fontSize: 14, fontWeight: FontWeight.w600),
-          textAlign: TextAlign.center),
-      actions: [
-        cancelButton,
-        deleteButton,
-      ],
-      backgroundColor: primaryColor,
-    );
-
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return alert;
-      },
-    );
+    return ElevatedButton(
+        key: const Key('saveEvaluationButton'),
+        onPressed: () async {
+          await save(context);
+        },
+        style: ElevatedButton.styleFrom(
+          minimumSize: Size(MediaQuery.of(context).size.width * 0.80, 55),
+          backgroundColor: primaryColor,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(25.0),
+          ),
+        ),
+        child: Text(AppLocalizations.of(context).save,
+            style: Theme.of(context).textTheme.headlineSmall));
   }
 }

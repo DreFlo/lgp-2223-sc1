@@ -895,6 +895,19 @@ class _$StudentEvaluationDao extends StudentEvaluationDao {
   }
 
   @override
+  Future<List<StudentEvaluation>> findStudentEvaluationsBySubjectId(
+      int subjectId) async {
+    return _queryAdapter.queryList(
+        'SELECT * FROM evaluation where subject_id = ?1',
+        mapper: (Map<String, Object?> row) => StudentEvaluation(
+            id: row['id'] as int?,
+            name: row['name'] as String,
+            grade: row['grade'] as double,
+            subjectId: row['subject_id'] as int),
+        arguments: [subjectId]);
+  }
+
+  @override
   Future<int> insertStudentEvaluation(StudentEvaluation evaluation) {
     return _studentEvaluationInsertionAdapter.insertAndReturnId(
         evaluation, OnConflictStrategy.abort);
