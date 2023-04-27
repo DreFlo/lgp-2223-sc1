@@ -8,14 +8,13 @@ class TVSeriesPage extends MediaPage<MediaSeriesSuperEntity> {
       {Key? key,
       required MediaSeriesSuperEntity media,
       required Function(bool) toggleFavorite,
-      required List<String> leisureTags,
-      required int maxDuration})
+      required List<String> leisureTags
+      })
       : super(
             key: key,
             item: media,
             toggleFavorite: toggleFavorite,
-            leisureTags: leisureTags,
-            maxDuration: maxDuration);
+            leisureTags: leisureTags);
 
   @override
   TVSeriesPageState createState() => TVSeriesPageState();
@@ -41,13 +40,11 @@ class TVSeriesPageState extends MediaPageState<MediaSeriesSuperEntity> {
 
   @override
   String getLength(context) {
-    // TODO: Get episode length
-    // AppLocalizations.of(context).minutes_each
     return widget.item.numberSeasons.toString() +
         AppLocalizations.of(context).seasons +
         widget.item.numberEpisodes.toString() +
         AppLocalizations.of(context).episodes +
-        widget.maxDuration.toString() +
+        widget.item.duration.toString() +
         AppLocalizations.of(context).minutes_each;
   }
 }

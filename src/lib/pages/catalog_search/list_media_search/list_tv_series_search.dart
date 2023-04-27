@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:src/daos/media/media_dao.dart';
 import 'package:src/models/media/media_series_super_entity.dart';
@@ -48,14 +46,11 @@ class ListTVSeriesSearchState
   @override
   TVSeriesPage showMediaPageBasedOnType(
       MediaSeriesSuperEntity item, List<String> leisureTags) {
-    List<int> episodeDurations =
-        List.generate(episodesDB.length, (index) => episodesDB[index].duration);
     return TVSeriesPage(
         media: item,
         toggleFavorite: toggleFavorite,
-        leisureTags: leisureTags,
-        maxDuration:
-            episodeDurations.isNotEmpty ? episodeDurations.reduce(max) : 0);
+        leisureTags: leisureTags
+        );
   }
 
   @override

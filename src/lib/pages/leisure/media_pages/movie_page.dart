@@ -14,7 +14,7 @@ class MoviePage extends MediaPage<MediaVideoMovieSuperEntity> {
             item: media,
             toggleFavorite: toggleFavorite,
             leisureTags: leisureTags,
-            maxDuration: 0);
+            );
 
   @override
   MoviePageState createState() => MoviePageState();

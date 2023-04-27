@@ -9,14 +9,13 @@ abstract class MediaPage<T extends Media> extends StatefulWidget {
   final T item;
   final Function(bool) toggleFavorite;
   final List<String> leisureTags;
-  final int maxDuration;
 
   const MediaPage(
       {Key? key,
       required this.item,
       required this.toggleFavorite,
       required this.leisureTags,
-      required this.maxDuration})
+      })
       : super(key: key);
 
   @override

@@ -14,7 +14,7 @@ class BookPage extends MediaPage<MediaBookSuperEntity> {
             item: media,
             toggleFavorite: toggleFavorite,
             leisureTags: leisureTags,
-            maxDuration: 0);
+            );
 
   @override
   BookPageState createState() => BookPageState();

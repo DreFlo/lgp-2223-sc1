@@ -17,8 +17,6 @@ import 'package:src/widgets/leisure/media_image_widgets/movie_image.dart';
 import 'package:src/widgets/leisure/media_image_widgets/tv_series_image.dart';
 import 'package:src/widgets/leisure/media_page_buttons/book_page_button.dart';
 import 'package:src/models/media/review.dart';
-import 'package:src/daos/media/episode_dao.dart';
-import 'package:src/daos/media/video_dao.dart';
 import 'package:flutter/material.dart';
 import 'package:src/models/notes/note_book_note_super_entity.dart';
 import 'package:src/daos/notes/note_book_note_super_dao.dart';
@@ -30,24 +28,11 @@ import 'package:src/daos/media/media_dao.dart';
 import 'package:src/models/media/season.dart';
 import 'package:src/daos/media/season_dao.dart';
 import 'package:src/utils/service_locator.dart';
-import 'dart:math';
 import 'package:src/widgets/leisure/media_page_buttons/movie_page_button.dart';
 import 'package:src/widgets/leisure/media_page_buttons/tv_series_page_button.dart';
 import 'package:tmdb_api/tmdb_api.dart';
 
 bool isFavorite = false;
-
-Future<int> loadDuration(int id) async {
-  List<int> ids = await serviceLocator<EpisodeDao>().findEpisodeBySeasonId(id);
-  List<int> duration = [];
-  for (int i = 0; i < ids.length; i++) {
-    duration = await serviceLocator<VideoDao>().findVideoDurationById(ids[i]);
-  }
-
-  int maxDuration = duration.isNotEmpty ? duration.reduce(max) : 0;
-
-  return maxDuration;
-}
 
 Future<Review?> loadReviews(int id) async {
   final reviewExists =
@@ -205,7 +190,6 @@ Map<int, String> makeEpisodeNameMap(Map episodes) {
 
 void showMediaPageForTV(MediaSeriesSuperEntity item, BuildContext context,
     void Function()? reload) async {
-  int maxDuration = await loadDuration(item.id ?? 0);
   List<String> leisureTags = [];
   leisureTags.add(item.release.year.toString());
   leisureTags.addAll(item.genres.split(','));
@@ -232,7 +216,6 @@ void showMediaPageForTV(MediaSeriesSuperEntity item, BuildContext context,
                         media: item,
                         leisureTags: leisureTags,
                         toggleFavorite: toggleFavorite,
-                        maxDuration: maxDuration,
                       )),
                   Positioned(
                       left: 16,
