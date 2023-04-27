@@ -46,7 +46,7 @@ class _NavigationPageState extends State<NavigationPage> {
     Dashboard(),
     HomePage(
         title:
-            "TODO"), // TODO - this is here for now just to have access to leisure screens
+            "TODO"), 
   ];
 
   @override

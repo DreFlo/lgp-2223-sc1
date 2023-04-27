@@ -8,8 +8,6 @@ import 'package:src/models/student/task.dart';
 import 'package:src/daos/student/task_dao.dart';
 import 'package:src/models/student/task_group.dart';
 import 'package:src/daos/student/task_group_dao.dart';
-import 'package:src/models/timeslot/timeslot_media_timeslot_super_entity.dart';
-import 'package:src/daos/timeslot/timeslot_media_timeslot_super_dao.dart';
 import 'package:src/utils/enums.dart';
 
 void main() {
