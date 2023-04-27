@@ -43,12 +43,12 @@ void main() {
 
     final mockMediaEventDao =
         serviceLocator.get<TimeslotMediaTimeslotSuperDao>();
-    when(mockMediaEventDao.findAllTimeslotMediaTimeslot())
+    when(mockMediaEventDao.findAllTimeslotMediaTimeslot(null))
         .thenAnswer((_) async => [mediaEvent]);
 
     final mockStudentEventDao =
         serviceLocator.get<TimeslotStudentTimeslotSuperDao>();
-    when(mockStudentEventDao.findAllTimeslotStudentTimeslot())
+    when(mockStudentEventDao.findAllTimeslotStudentTimeslot(null))
         .thenAnswer((_) async => [studentEvent]);
 
     await tester.pumpWidget(const LocalizationsInjector(child: CalendarPage()));

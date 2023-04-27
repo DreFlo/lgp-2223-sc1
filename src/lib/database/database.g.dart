@@ -2596,6 +2596,23 @@ class _$TimeslotDao extends TimeslotDao {
   }
 
   @override
+  Future<List<Timeslot>> findAllTimeslotsAfterStart(DateTime start) async {
+    return _queryAdapter.queryList(
+        'SELECT * FROM timeslot WHERE start_datetime >= ?1',
+        mapper: (Map<String, Object?> row) => Timeslot(
+            id: row['id'] as int?,
+            title: row['title'] as String,
+            description: row['description'] as String,
+            startDateTime:
+                _dateTimeConverter.decode(row['start_datetime'] as int),
+            endDateTime: _dateTimeConverter.decode(row['end_datetime'] as int),
+            xpMultiplier: row['xp_multiplier'] as int,
+            finished: (row['finished'] as int) != 0,
+            userId: row['user_id'] as int),
+        arguments: [_dateTimeConverter.encode(start)]);
+  }
+
+  @override
   Future<int> insertTimeslot(Timeslot timeslot) {
     return _timeslotInsertionAdapter.insertAndReturnId(
         timeslot, OnConflictStrategy.abort);

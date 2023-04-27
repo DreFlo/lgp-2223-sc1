@@ -109,9 +109,9 @@ class _CalendarPageState extends State<CalendarPage> {
 
   void loadEventsDB() async {
     mediaEvents = await serviceLocator<TimeslotMediaTimeslotSuperDao>()
-        .findAllTimeslotMediaTimeslot();
+        .findAllTimeslotMediaTimeslot(null);
     studentEvents = await serviceLocator<TimeslotStudentTimeslotSuperDao>()
-        .findAllTimeslotStudentTimeslot();
+        .findAllTimeslotStudentTimeslot(null);
     checkMediaEventMultipleDays();
     checkStudentEventMultipleDays();
     setState(() {

@@ -59,10 +59,11 @@ class _DashboardState extends State<Dashboard> {
     return [];
   }
 
-  Future<List<TimeslotMediaTimeslotSuperEntity>> loadEventsDB() async {
+  Future<List<TimeslotMediaTimeslotSuperEntity>> loadEventsDB(DateTime start) async {
     //only for Media
+
     mediaEvents = await serviceLocator<TimeslotMediaTimeslotSuperDao>()
-        .findAllTimeslotMediaTimeslot();
+        .findAllTimeslotMediaTimeslot(start);
     return mediaEvents;
   }
 
@@ -79,9 +80,12 @@ class _DashboardState extends State<Dashboard> {
   }
 
   void loadDataDB() async {
+    DateTime now = DateTime.now();
+    DateTime start = DateTime(now.year, now.month, now.day, 0, 0, 0);
+
     taskGroups = await loadTaskGroupsDB();
     tasks = await loadTasksDB();
-    mediaEvents = await loadEventsDB();
+    mediaEvents = await loadEventsDB(start);
     setState(() {
       loadedAllData = true;
     });

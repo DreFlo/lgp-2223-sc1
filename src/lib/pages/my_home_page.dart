@@ -32,10 +32,12 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   void loadEventsDB() async {
+    DateTime now = DateTime.now();
+    DateTime start = DateTime(now.year, now.month, now.day, 0, 0, 0);
     mediaEvents = await serviceLocator<TimeslotMediaTimeslotSuperDao>()
-        .findAllTimeslotMediaTimeslot();
+        .findAllTimeslotMediaTimeslot(start);
     studentEvents = await serviceLocator<TimeslotStudentTimeslotSuperDao>()
-        .findAllTimeslotStudentTimeslot();
+        .findAllTimeslotStudentTimeslot(start);
     setState(() {
       mediaEvents = mediaEvents;
       studentEvents = studentEvents;

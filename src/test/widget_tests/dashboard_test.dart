@@ -59,7 +59,7 @@ void main() {
 
     final mockMediaEventDao =
         serviceLocator.get<TimeslotMediaTimeslotSuperDao>();
-    when(mockMediaEventDao.findAllTimeslotMediaTimeslot())
+    when(mockMediaEventDao.findAllTimeslotMediaTimeslot(null))
         .thenAnswer((_) async => [mediaEvent]);
 
     await tester.pumpWidget(const LocalizationsInjector(child: Dashboard()));
