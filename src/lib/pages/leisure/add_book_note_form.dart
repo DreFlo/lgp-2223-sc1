@@ -201,6 +201,10 @@ class _AddBookNoteFormState extends State<AddBookNoteForm> {
 
                 await serviceLocator<NoteBookNoteSuperDao>()
                     .insertNoteBookNoteSuperEntity(note);
+                
+                 if (widget.refreshStatus != null) {
+                    widget.refreshStatus!();
+                  }
 
                 //TODO: Whatever frontend stuff you want to do here
               },

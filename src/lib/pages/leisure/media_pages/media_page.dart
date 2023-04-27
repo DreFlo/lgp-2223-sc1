@@ -9,8 +9,6 @@ abstract class MediaPage<T extends Media> extends StatefulWidget {
   final T item;
   final Function(bool) toggleFavorite;
   final List<String> leisureTags;
-  // Max duration only for TV Series
-  // Not good but I'm sick of this project
   final int maxDuration;
 
   const MediaPage(

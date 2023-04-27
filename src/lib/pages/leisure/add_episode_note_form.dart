@@ -9,9 +9,11 @@ import 'package:src/utils/service_locator.dart';
 class AddEpisodeNoteForm extends StatefulWidget {
   final String code;
   final MediaVideoEpisodeSuperEntity episode;
+  final VoidCallback? refreshStatus;
+
 
   const AddEpisodeNoteForm(
-      {Key? key, required this.code, required this.episode})
+      {Key? key, required this.code, required this.episode, required this.refreshStatus})
       : super(key: key);
 
   @override
@@ -78,6 +80,10 @@ class _AddEpisodeNoteFormState extends State<AddEpisodeNoteForm> {
 
                 await serviceLocator<NoteEpisodeNoteSuperDao>()
                     .insertNoteEpisodeNoteSuperEntity(note);
+
+                 if (widget.refreshStatus != null) {
+                    widget.refreshStatus!();
+                  }
               },
               style: ElevatedButton.styleFrom(
                 minimumSize: Size(MediaQuery.of(context).size.width * 0.90, 55),

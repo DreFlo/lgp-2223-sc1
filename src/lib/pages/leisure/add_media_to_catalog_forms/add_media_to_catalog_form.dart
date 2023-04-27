@@ -271,8 +271,6 @@ abstract class AddMediaToCatalogFormState<T extends Media>
                     ))
               ]))),
       const SizedBox(height: 50),
-      //save button and actions -> will need to check what's the type of media
-      //need also to pass the item
       Padding(
           padding: EdgeInsets.only(
               top: 20, bottom: MediaQuery.of(context).viewInsets.bottom),

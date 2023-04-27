@@ -130,9 +130,11 @@ class _EpisodeBarState extends State<EpisodeBar> {
                                       MediaQuery.of(context).viewInsets.bottom),
                               child: Stack(children: [
                                 AddEpisodeNoteForm(
-                                  code: widget.code,
-                                  episode: episode,
-                                ),
+                                    code: widget.code,
+                                    episode: episode,
+                                    refreshStatus: () {
+                                      Navigator.pop(context);
+                                    }),
                               ])));
                     }
                   },
