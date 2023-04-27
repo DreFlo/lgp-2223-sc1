@@ -113,7 +113,7 @@ class _DashboardCardState extends State<DashboardCard> {
     } else if (widget.taskGroup != null) {
       return await loadInstitution();
     } else if (widget.mediaEvent != null) {
-      return "Media";
+      return widget.mediaEvent!.type;
     } else {
       return '';
     }
