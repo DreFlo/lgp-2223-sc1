@@ -6,8 +6,6 @@ import '../../../utils/service_locator_test_util.dart';
 import 'package:flutter/material.dart';
 import '../../widget_tests_utils.dart';
 
-
-
 void mockCallback(StudentEvaluation evaluation) {}
 
 void main() {

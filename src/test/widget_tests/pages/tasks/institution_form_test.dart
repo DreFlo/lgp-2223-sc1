@@ -85,10 +85,8 @@ void main() {
             id: 1, name: 'inst_name', type: InstitutionType.other, userId: 1)));
 
     final mockSubjectDao = serviceLocator.get<SubjectDao>();
-    when(mockSubjectDao.findSubjectByInstitutionId(1)).thenAnswer((_) async => [
-          Subject(
-              id: 1, name: 'sub_name', acronym: 'sub_acronym')
-        ]);
+    when(mockSubjectDao.findSubjectByInstitutionId(1)).thenAnswer((_) async =>
+        [Subject(id: 1, name: 'sub_name', acronym: 'sub_acronym')]);
 
     await widgetTester.pumpWidget(LocalizationsInjector(
         child: InstitutionForm(scrollController: ScrollController(), id: 1)));
@@ -222,7 +220,6 @@ void main() {
     await widgetTester.enterText(
         find.byKey(const Key('acronymField')), 'sub_acronym');
 
-
     Finder saveButton = find.byKey(const Key('saveSubjectButton'));
 
     scroll = find.byType(Scrollable).last;
@@ -270,7 +267,6 @@ void main() {
 
     await widgetTester.enterText(
         find.byKey(const Key('acronymField')), 'sub_acronym');
-
 
     Finder saveButton = find.byKey(const Key('saveSubjectButton'));
 

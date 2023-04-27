@@ -10,7 +10,8 @@ abstract class StudentEvaluationDao {
   Stream<StudentEvaluation?> findStudentEvaluationById(int id);
 
   @Query('SELECT * FROM evaluation where subject_id = :subjectId')
-  Future<List<StudentEvaluation>> findStudentEvaluationsBySubjectId(int subjectId);
+  Future<List<StudentEvaluation>> findStudentEvaluationsBySubjectId(
+      int subjectId);
 
   @insert
   Future<int> insertStudentEvaluation(StudentEvaluation evaluation);

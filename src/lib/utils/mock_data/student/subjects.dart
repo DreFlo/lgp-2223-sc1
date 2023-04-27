@@ -7,8 +7,5 @@ final mockSubjects = [
       acronym: 'LGP',
       institutionId: 1),
   Subject(
-      id: 2,
-      name: 'Engenharia de Requisitos',
-      acronym: 'ER',
-      institutionId: 1),
+      id: 2, name: 'Engenharia de Requisitos', acronym: 'ER', institutionId: 1),
 ];

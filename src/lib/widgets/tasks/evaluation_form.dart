@@ -31,6 +31,7 @@ class _EvaluationFormState extends State<EvaluationForm> {
     super.initState();
     fillTaskFields();
   }
+
   Future<int> fillTaskFields() async {
     if (init) {
       return 0;

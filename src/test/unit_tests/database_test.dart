@@ -900,9 +900,7 @@ void main() {
     });
   });
 
-
-  testWidgets('Test Triggers evaluation_grade',
-      (WidgetTester tester) async {
+  testWidgets('Test Triggers evaluation_grade', (WidgetTester tester) async {
     await tester.runAsync(() async {
       List<User> users = await serviceLocator<UserDao>().findAllUsers();
 
@@ -922,17 +920,11 @@ void main() {
           type: InstitutionType.education,
           userId: 1));
 
-      await serviceLocator<SubjectDao>().insertSubject(Subject(
-          id: 1,
-          name: 'Subject 1',
-          institutionId: 1,
-          acronym: 'S'));
+      await serviceLocator<SubjectDao>().insertSubject(
+          Subject(id: 1, name: 'Subject 1', institutionId: 1, acronym: 'S'));
 
       StudentEvaluation studentEvaluation = StudentEvaluation(
-          id: 1,
-          name: 'Evaluation 1',
-          grade: -8,
-          subjectId: 1);
+          id: 1, name: 'Evaluation 1', grade: -8, subjectId: 1);
 
       expect(
           () => serviceLocator<StudentEvaluationDao>()
@@ -968,11 +960,8 @@ void main() {
           type: InstitutionType.education,
           userId: 1));
 
-      await serviceLocator<SubjectDao>().insertSubject(Subject(
-          id: 1,
-          name: 'Subject 1',
-          institutionId: 1,
-          acronym: 'S'));
+      await serviceLocator<SubjectDao>().insertSubject(
+          Subject(id: 1, name: 'Subject 1', institutionId: 1, acronym: 'S'));
 
       Task task = Task(
           id: 1,
