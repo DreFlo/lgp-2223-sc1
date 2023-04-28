@@ -50,9 +50,13 @@ abstract class ListMediaSearchState<T extends Media>
     leisureTags.add(item.release.year.toString());
     leisureTags.addAll(item.genres.split(','));
 
-    //if (T is MediaVideoMovieSuperEntity || T is MediaSeriesSuperEntity) {
-    //leisureTags.add(item.tagline);
-    //}
+    if(item is MediaVideoMovieSuperEntity) {
+      leisureTags.add(item.tagline);
+    }
+    else if(item is MediaSeriesSuperEntity) {
+      leisureTags.add(item.tagline);
+    }
+    
     return leisureTags;
   }
 
