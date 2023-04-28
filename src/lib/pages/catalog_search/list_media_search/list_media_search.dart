@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:src/daos/media/media_video_movie_super_dao.dart';
 import 'package:src/models/media/media.dart';
+import 'package:src/models/media/media_book_super_entity.dart';
+import 'package:src/models/media/media_series_super_entity.dart';
+import 'package:src/models/media/media_video_movie_super_entity.dart';
 import 'package:src/widgets/leisure/media_image_widgets/media_image.dart';
 import 'package:src/models/media/review.dart';
 import 'package:src/pages/leisure/media_pages/media_page.dart';
@@ -41,11 +45,21 @@ abstract class ListMediaSearchState<T extends Media>
     });
   }
 
+  List<String> getLeisureTags(T item) {
+    List<String> leisureTags = [];
+    leisureTags.add(item.release.year.toString());
+    leisureTags.addAll(item.genres.split(','));
+
+    //if (T is MediaVideoMovieSuperEntity || T is MediaSeriesSuperEntity) {
+    //leisureTags.add(item.tagline);
+    //}
+    return leisureTags;
+  }
+
   @override
   Widget build(BuildContext context) {
     double baseWidth = 390;
     double fem = MediaQuery.of(context).size.width / baseWidth;
-    List<String> leisureTags = [];
 
     return Padding(
       padding: EdgeInsets.fromLTRB(40 * fem, 22 * fem, 0, 0),
@@ -81,7 +95,8 @@ abstract class ListMediaSearchState<T extends Media>
                                         child: showMediaPageBasedOnType(
                                             //pass it
                                             widget.media[index],
-                                            leisureTags)),
+                                            getLeisureTags(
+                                                widget.media[index]))),
                                     Positioned(
                                         left: 16,
                                         right: 16,
