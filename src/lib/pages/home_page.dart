@@ -1,18 +1,18 @@
 // ignore_for_file: prefer_const_constructors, sized_box_for_whitespace
 
+import 'package:books_finder/books_finder.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:src/animation_test/main.dart';
 import 'package:src/daos/user_dao.dart';
+import 'package:src/env/env.dart';
 import 'package:src/models/user.dart';
 import 'package:src/pages/tasks/institution_form.dart';
 import 'package:src/pages/tasks/subject_form.dart';
 import 'package:src/themes/colors.dart';
 import 'package:src/utils/service_locator.dart';
 import 'package:src/utils/enums.dart';
-import 'package:src/env/env.dart';
 import 'package:tmdb_api/tmdb_api.dart';
-import 'package:books_finder/books_finder.dart';
 import 'package:src/pages/catalog_search/leisure_module.dart';
 
 import 'package:src/pages/tasks/project_form.dart';
@@ -454,7 +454,7 @@ class _HomePageState extends State<HomePage> {
       appBar: AppBar(
         title: Text(widget.title),
       ),
-      body: Wrap(spacing: 10, children: [
+      body: ListView(children: [
         const SizedBox(height: 30),
         Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -534,44 +534,6 @@ class _HomePageState extends State<HomePage> {
               },
             ),
             ElevatedButton(
-                child: Text("Media Page"),
-                onPressed: () {
-                  showModalBottomSheet(
-                      context: context,
-                      isScrollControlled: true,
-                      backgroundColor: Color(0xFF22252D),
-                      shape: RoundedRectangleBorder(
-                        borderRadius:
-                            BorderRadius.vertical(top: Radius.circular(30.0)),
-                      ),
-                      builder: (context) => DraggableScrollableSheet(
-                          expand: false,
-                          minChildSize: 0.35,
-                          maxChildSize: 0.75,
-                          builder: (context, scrollController) => Stack(
-                                  alignment: AlignmentDirectional.bottomCenter,
-                                  children: [
-                                    SingleChildScrollView(
-                                      controller: scrollController,
-                                      /* child: MediaPage(
-                                            title: title,
-                                            synopsis: synopsis,
-                                            type: type,
-                                            length: length,
-                                            cast: cast,
-                                            image: 'assets/images/poster.jpg',
-                                            status: status,
-                                            leisureTags: const [],
-                                            isFavorite: isFavorite)*/
-                                    ),
-                                    Positioned(
-                                        left: 16,
-                                        right: 16,
-                                        bottom: 16,
-                                        child: mediaPageButton())
-                                  ])));
-                }),
-            ElevatedButton(
                 child: Text("Task Form"),
                 onPressed: () {
                   showModalBottomSheet(
@@ -594,15 +556,8 @@ class _HomePageState extends State<HomePage> {
                                 maxChildSize: 0.60,
                                 builder: (context, scrollController) =>
                                     TaskForm(
-                                        scrollController: scrollController,
-                                        title: "Create Task",
-                                        project: "No",
-                                        dueDate: "05/04/2023",
-                                        priority: Priority.high,
-                                        notes: const ["nothing"],
-                                        institution: "FEUP",
-                                        subject: "LPOO",
-                                        description: "nothing")),
+                                      scrollController: scrollController,
+                                    )),
                           ));
                 }),
             ElevatedButton(
@@ -617,25 +572,18 @@ class _HomePageState extends State<HomePage> {
                             BorderRadius.vertical(top: Radius.circular(30.0)),
                       ),
                       builder: (context) => Padding(
-                            padding: EdgeInsets.only(
-                                bottom:
-                                    MediaQuery.of(context).viewInsets.bottom +
-                                        50),
-                            child: DraggableScrollableSheet(
-                                expand: false,
-                                initialChildSize: 0.75,
-                                minChildSize: 0.75,
-                                maxChildSize: 0.75,
-                                builder: (context, scrollController) =>
-                                    ProjectForm(
-                                        scrollController: scrollController,
-                                        title: "Create Project",
-                                        dueDate: "05/04/2023",
-                                        institution: "FEUP",
-                                        subject: "LPOO",
-                                        tasks: const ["", "", ""],
-                                        description: "nothing")),
-                          ));
+                          padding: EdgeInsets.only(
+                              bottom: MediaQuery.of(context).viewInsets.bottom +
+                                  50),
+                          child: DraggableScrollableSheet(
+                              expand: false,
+                              initialChildSize: 0.75,
+                              minChildSize: 0.75,
+                              maxChildSize: 0.75,
+                              builder: (context, scrollController) =>
+                                  ProjectForm(
+                                    scrollController: scrollController,
+                                  ))));
                 }),
             ElevatedButton(
                 child: Text("Subject Form"),
@@ -658,8 +606,6 @@ class _HomePageState extends State<HomePage> {
                             minChildSize: 0.5,
                             maxChildSize: 0.5,
                             builder: (context, scrollController) => SubjectForm(
-                              name: "Hello",
-                              acronym: "HI",
                               scrollController: scrollController,
                             ),
                           )));
@@ -686,12 +632,6 @@ class _HomePageState extends State<HomePage> {
                             maxChildSize: 0.5,
                             builder: (context, scrollController) =>
                                 InstitutionForm(
-                              name: "Hello",
-                              type: InstitutionType.education,
-                              subjects: const {
-                                "LPOO":
-                                    "Laboratório de Programação Orientada a Objetos"
-                              },
                               scrollController: scrollController,
                             ),
                           )));
