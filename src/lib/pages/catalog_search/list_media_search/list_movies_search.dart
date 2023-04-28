@@ -9,6 +9,7 @@ import 'package:src/utils/service_locator.dart';
 import 'package:src/widgets/leisure/media_image_widgets/media_image.dart';
 import 'package:src/widgets/leisure/media_image_widgets/movie_image.dart';
 import 'package:src/widgets/leisure/media_page_buttons/movie_page_button.dart';
+import 'package:src/api_wrappers/tmdb_api_movies_wrapper.dart';
 
 class ListMoviesSearch extends ListMediaSearch<MediaVideoMovieSuperEntity> {
   const ListMoviesSearch(
@@ -21,13 +22,29 @@ class ListMoviesSearch extends ListMediaSearch<MediaVideoMovieSuperEntity> {
 
 class ListMoviesSearchState
     extends ListMediaSearchState<MediaVideoMovieSuperEntity> {
+  Future<MediaVideoMovieSuperEntity> loadMovieDetails(
+      MediaVideoMovieSuperEntity movie) async {
+    final TMDBMovieAPIWrapper tmdb = TMDBMovieAPIWrapper();
+    return tmdb.getMovieMediaPageInfo(movie);
+  }
+
   @override
-  MoviePage showMediaPageBasedOnType(
-      MediaVideoMovieSuperEntity item, List<String> leisureTags) {
-    return MoviePage(
-        media: item,
-        toggleFavorite: super.toggleFavorite,
-        leisureTags: leisureTags);
+  Widget showMediaPageBasedOnType(MediaVideoMovieSuperEntity item, List<String> leisureTags) {
+    return FutureBuilder<MediaVideoMovieSuperEntity>(
+      future: loadMovieDetails(item),
+      builder: (context, snapshot) {
+        if (snapshot.hasData) {
+          return MoviePage(
+              media: snapshot.data!,
+              toggleFavorite: super.toggleFavorite,
+              leisureTags: leisureTags);
+        } else if (snapshot.hasError) {
+          return Text('Error: ${snapshot.error}');
+        } else {
+          return const Center(child: CircularProgressIndicator());
+        }
+      },
+    );
   }
 
   @override

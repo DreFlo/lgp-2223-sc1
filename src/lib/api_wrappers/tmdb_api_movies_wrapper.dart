@@ -23,13 +23,38 @@ class TMDBMovieAPIWrapper {
     return details;
   }
 
+  Future<MediaVideoMovieSuperEntity> getMovieMediaPageInfo(MediaVideoMovieSuperEntity movie) async {
+    Map details = await _getMovieDetails(movie.tmdbId);
+
+    Map<String, dynamic> movieJson = {
+        'id': null,
+        'name': movie.name,
+        'description': movie.description,
+        'linkImage': movie.linkImage,
+        'status': movie.status,
+        'favorite': movie.favorite,
+        'genres': details['genres']
+            .map((genre) => genre['name'])
+            .toList()
+            .join(', '),
+        'release': DateTime.parse(movie.release.toString()),
+        'xp': 0,
+        'tagline': details['tagline'],
+        'duration': details['runtime'],
+        'participants': details['participants'],
+        'tmdbId': movie.tmdbId,
+      };
+
+      return MediaVideoMovieSuperEntity.fromJson(movieJson);
+  }
+
   Future<List<MediaVideoMovieSuperEntity>>
       _getMediaVideoSuperEntitiesFromMapList(List tmdbResults) async {
     // Get details for each movie
-    for (int i = 0; i < tmdbResults.length; i++) {
-      Map movie = tmdbResults[i];
-      tmdbResults[i]['details'] = await _getMovieDetails(movie['id']);
-    }
+    //for (int i = 0; i < tmdbResults.length; i++) {
+    //  Map movie = tmdbResults[i];
+    //  tmdbResults[i]['details'] = await _getMovieDetails(movie['id']);
+    //}
 
     // Create a list of MediaVideoMovieSuperEntities
     List<MediaVideoMovieSuperEntity> movies =
@@ -43,15 +68,12 @@ class TMDBMovieAPIWrapper {
         'linkImage': movie['poster_path'],
         'status': Status.nothing,
         'favorite': false,
-        'genres': movie['details']['genres']
-            .map((genre) => genre['name'])
-            .toList()
-            .join(', '),
+        'genres':'',
         'release': DateTime.parse(movie['release_date']),
         'xp': 0,
-        'tagline': movie['details']['tagline'],
-        'duration': movie['details']['runtime'],
-        'participants': movie['details']['participants'],
+        'tagline':'',
+        'duration': 0,
+        'participants': '',
         'tmdbId': movie['id'],
       };
 

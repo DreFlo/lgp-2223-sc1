@@ -137,7 +137,7 @@ abstract class ListMediaSearchState<T extends Media>
 
   MediaPageButton<T> showMediaPageButton(T item);
 
-  MediaPage<T> showMediaPageBasedOnType(T item, List<String> leisureTags);
+  Widget showMediaPageBasedOnType(T item, List<String> leisureTags);
 
   MediaImageWidget<T> showWidget(T item);
 }
