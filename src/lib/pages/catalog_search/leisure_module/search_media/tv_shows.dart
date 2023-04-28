@@ -25,7 +25,7 @@ class TVShows extends StatelessWidget {
         } else if (snapshot.hasError) {
           return Text('Error: ${snapshot.error}');
         } else {
-           return const Center(child: CircularProgressIndicator());
+          return const Center(child: CircularProgressIndicator());
         }
       },
     );
