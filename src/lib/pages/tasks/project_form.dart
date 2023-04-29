@@ -47,7 +47,6 @@ class _ProjectFormState extends State<ProjectForm> {
     id: -1,
     name: 'None',
     acronym: 'None',
-    weightAverage: 1,
   );
 
   List<Task> tasks = [];
