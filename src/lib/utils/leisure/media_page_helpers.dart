@@ -1,9 +1,6 @@
-// ignore_for_file: avoid_dynamic_calls
-
 import 'package:src/daos/notes/book_note_dao.dart';
 import 'package:src/daos/notes/episode_note_dao.dart';
 import 'package:src/daos/notes/note_episode_note_super_dao.dart';
-import 'package:src/env/env.dart';
 import 'package:src/models/media/media_book_super_entity.dart';
 import 'package:src/models/media/media_series_super_entity.dart';
 import 'package:src/models/media/media_video_movie_super_entity.dart';
@@ -30,7 +27,6 @@ import 'package:src/daos/media/season_dao.dart';
 import 'package:src/utils/service_locator.dart';
 import 'package:src/widgets/leisure/media_page_buttons/movie_page_button.dart';
 import 'package:src/widgets/leisure/media_page_buttons/tv_series_page_button.dart';
-import 'package:tmdb_api/tmdb_api.dart';
 
 bool isFavorite = false;
 
@@ -131,61 +127,6 @@ MediaImageWidget showWidget(Media item) {
 
 void toggleFavorite(bool favorite) {
   isFavorite = favorite;
-}
-
-List<String> makeCastList(Map cast) {
-  List<String> castList = [];
-  cast['cast'].forEach((item) {
-    String name = item['name'] ?? '';
-    castList.add(name);
-  });
-  return castList;
-}
-
-Future<Map> getDetails(int id, String type) async {
-  final tmdb = TMDB(ApiKeys(Env.tmdbApiKey, 'apiReadAccessTokenv4'));
-  final Map<int, Map<dynamic, dynamic>> episodes = {};
-  final Map<int, List<dynamic>> fullEpisodes = {};
-
-  if (type == 'Movie') {
-    Map result = await tmdb.v3.movies.getDetails(id);
-    Map cast = await tmdb.v3.movies.getCredits(id);
-    List<String> castNames = makeCastList(cast);
-    result['cast'] = castNames;
-    return result;
-  } else if (type == 'TV') {
-    Map result = await tmdb.v3.tv.getDetails(id);
-    Map cast = await tmdb.v3.tv.getCredits(id);
-    List<String> castNames = makeCastList(cast);
-    result['cast'] = castNames;
-
-    // Get all episodes
-    for (int season = 1; season <= result['number_of_seasons']; season++) {
-      Map episodeSeason = await tmdb.v3.tvSeasons.getDetails(id, season);
-      if (episodeSeason['episodes'][0]['runtime'] != null) {
-        result['runtime'] = episodeSeason['episodes'][0]['runtime'];
-      }
-      Map episodeNumbersNames = makeEpisodeNameMap(episodeSeason);
-      episodes[season] = episodeNumbersNames;
-      fullEpisodes[season] = episodeSeason['episodes'];
-    }
-    result['episodes'] = episodes;
-    result['full_episodes'] = fullEpisodes;
-    return result;
-  } else {
-    return {};
-  }
-}
-
-Map<int, String> makeEpisodeNameMap(Map episodes) {
-  Map<int, String> episodeNameMap = {};
-  episodes['episodes'].forEach((item) {
-    String name = item['name'] ?? '';
-    int episodeNumber = item['episode_number'] ?? 0;
-    //to get all guest stars do makeCastList(item['guest_stars])
-    episodeNameMap[episodeNumber] = name;
-  });
-  return episodeNameMap;
 }
 
 void showMediaPageForTV(MediaSeriesSuperEntity item, BuildContext context,
