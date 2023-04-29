@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:src/api_wrappers/tmdb_api_tv_wrapper.dart';
 import 'package:src/daos/media/media_dao.dart';
 import 'package:src/models/media/media_series_super_entity.dart';
 import 'package:src/models/media/media_video_episode_super_entity.dart';
@@ -11,6 +12,7 @@ import 'package:src/utils/leisure/media_page_helpers.dart';
 import 'package:src/utils/service_locator.dart';
 import 'package:src/widgets/leisure/media_image_widgets/tv_series_image.dart';
 import 'package:src/widgets/leisure/media_page_buttons/tv_series_page_button.dart';
+import 'package:src/api_wrappers/tmdb_api_movies_wrapper.dart';
 
 // List<String> leisureTags = [];
 //             if (snapshot.data!['tagline'] != null &&
@@ -43,11 +45,30 @@ class ListTVSeriesSearchState
   List<MediaVideoEpisodeSuperEntity> episodesDB = [];
   List<NoteEpisodeNoteSuperEntity> episodeNotes = [];
 
+  Future<MediaSeriesSuperEntity> loadSeriesDetails(
+      MediaSeriesSuperEntity series) async {
+    final TMDBTVSeriesAPIWrapper tmdb = TMDBTVSeriesAPIWrapper();
+    return tmdb.getSeriesMediaPageInfo(series);
+  }
+
   @override
-  TVSeriesPage showMediaPageBasedOnType(
+  Widget showMediaPageBasedOnType(
       MediaSeriesSuperEntity item, List<String> leisureTags) {
-    return TVSeriesPage(
-        media: item, toggleFavorite: toggleFavorite, leisureTags: leisureTags);
+     return FutureBuilder<MediaSeriesSuperEntity>(
+      future: loadSeriesDetails(item),
+      builder: (context, snapshot) {
+        if (snapshot.hasData) {
+          return TVSeriesPage(
+              media: snapshot.data!,
+              toggleFavorite: super.toggleFavorite,
+              leisureTags: leisureTags);
+        } else if (snapshot.hasError) {
+          return Text('Error: ${snapshot.error}');
+        } else {
+          return const Center(child: CircularProgressIndicator());
+        }
+      },
+    );
   }
 
   @override
