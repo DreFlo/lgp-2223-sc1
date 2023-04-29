@@ -9,8 +9,6 @@ import 'package:src/utils/service_locator.dart';
 import 'package:src/models/timeslot/timeslot_student_timeslot_super_entity.dart';
 import 'package:src/daos/timeslot/timeslot_student_timeslot_super_dao.dart';
 
-import 'package:src/models/student/task.dart';
-import 'package:src/utils/enums.dart';
 import 'package:src/widgets/home/badge_placeholder.dart';
 
 class MyHomePage extends StatefulWidget {
@@ -34,10 +32,12 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   void loadEventsDB() async {
+    DateTime now = DateTime.now();
+    DateTime start = DateTime(now.year, now.month, now.day, 0, 0, 0);
     mediaEvents = await serviceLocator<TimeslotMediaTimeslotSuperDao>()
-        .findAllTimeslotMediaTimeslot();
+        .findAllTimeslotMediaTimeslot(start);
     studentEvents = await serviceLocator<TimeslotStudentTimeslotSuperDao>()
-        .findAllTimeslotStudentTimeslot();
+        .findAllTimeslotStudentTimeslot(start);
     setState(() {
       mediaEvents = mediaEvents;
       studentEvents = studentEvents;
@@ -47,13 +47,15 @@ class _MyHomePageState extends State<MyHomePage> {
 
   showWidget() {
     switch (_selectedIndex) {
+      case 0:
+        return MyEventListView(
+            studentEvents: studentEvents, mediaEvents: mediaEvents);
       case 1:
         return MyEventListView(studentEvents: studentEvents);
       case 2:
         return MyEventListView(mediaEvents: mediaEvents);
       default:
-        return MyEventListView(
-            studentEvents: studentEvents, mediaEvents: mediaEvents);
+        return const MyEventListView(studentEvents: [], mediaEvents: []);
     }
   }
 

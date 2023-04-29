@@ -2,12 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:src/daos/student/institution_dao.dart';
 import 'package:src/daos/student/subject_dao.dart';
+import 'package:src/daos/student/evaluation_dao.dart';
 import 'package:src/models/student/institution.dart';
 import 'package:src/models/student/subject.dart';
+import 'package:src/models/student/evaluation.dart';
 import 'package:src/themes/colors.dart';
 import 'package:src/utils/enums.dart';
 import 'package:src/utils/service_locator.dart';
-import 'package:flutter/services.dart';
+import 'package:src/widgets/tasks/evaluation_bar.dart';
+import 'package:src/widgets/tasks/evaluation_form.dart';
 
 class SubjectForm extends StatefulWidget {
   final ScrollController scrollController;
@@ -16,6 +19,7 @@ class SubjectForm extends StatefulWidget {
   final Function(Subject)? callbackSubject;
   final bool selectInstitution;
   final Subject? subject;
+  final bool create;
 
   const SubjectForm(
       {Key? key,
@@ -24,7 +28,8 @@ class SubjectForm extends StatefulWidget {
       this.callback,
       this.callbackSubject,
       this.selectInstitution = true,
-      this.subject})
+      this.subject,
+      this.create = false})
       : super(key: key);
 
   @override
@@ -34,11 +39,13 @@ class SubjectForm extends StatefulWidget {
 class _SubjectFormState extends State<SubjectForm> {
   TextEditingController nameController = TextEditingController();
   TextEditingController acronymController = TextEditingController();
-  TextEditingController weightAverageController = TextEditingController();
 
   late int institutionId;
   Map<String, String> errors = {};
   bool init = false;
+
+  List<StudentEvaluation> evaluations = [];
+  List<StudentEvaluation> toRemoveEvaluations = [];
 
   @override
   initState() {
@@ -56,7 +63,6 @@ class _SubjectFormState extends State<SubjectForm> {
 
       nameController.text = subject!.name;
       acronymController.text = subject.acronym;
-      weightAverageController.text = subject.weightAverage.toString();
 
       if (subject.institutionId != null) {
         Institution? institution = await serviceLocator<InstitutionDao>()
@@ -67,16 +73,17 @@ class _SubjectFormState extends State<SubjectForm> {
       } else {
         institutionId = -1;
       }
+
+      evaluations = await serviceLocator<StudentEvaluationDao>()
+          .findStudentEvaluationsBySubjectId(widget.id!);
     } else if (widget.subject != null) {
       nameController.text = widget.subject!.name;
       acronymController.text = widget.subject!.acronym;
-      weightAverageController.text = widget.subject!.weightAverage.toString();
 
       institutionId = -1;
     } else {
       nameController.clear();
       acronymController.clear();
-      weightAverageController.clear();
 
       institutionId = -1;
     }
@@ -227,57 +234,39 @@ class _SubjectFormState extends State<SubjectForm> {
                                     fontWeight: FontWeight.w400)))
                         : const SizedBox(height: 0),
                     const SizedBox(height: 30),
-                    Row(children: [
-                      Text(
-                        AppLocalizations.of(context).weight_average,
-                        style: const TextStyle(
-                            fontFamily: 'Poppins',
-                            color: Color(0xFF71788D),
-                            fontSize: 16,
-                            fontWeight: FontWeight.w400),
-                      )
-                    ]),
-                    const SizedBox(height: 7.5),
-                    Row(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          Flexible(
-                              flex: 10,
-                              child: TextField(
-                                  key: const Key('weightAverageField'),
-                                  controller: weightAverageController,
-                                  keyboardType: TextInputType.number,
-                                  inputFormatters: [
-                                    FilteringTextInputFormatter.allow(
-                                        RegExp(r'[0-9]+([.][0-9]*)?|[.][0-9]+'))
-                                  ],
-                                  style: const TextStyle(
-                                      fontSize: 20,
-                                      color: Colors.white,
-                                      fontWeight: FontWeight.w400),
-                                  maxLines: 1,
-                                  decoration: InputDecoration(
-                                    contentPadding: const EdgeInsets.symmetric(
-                                        horizontal: 0, vertical: 5),
-                                    hintText: AppLocalizations.of(context)
-                                        .weight_average,
-                                    hintStyle: const TextStyle(
-                                        fontSize: 20,
-                                        color: Color(0xFF71788D),
-                                        fontWeight: FontWeight.w400),
-                                  )))
-                        ]),
-                    errors.containsKey('weightAverage')
-                        ? Padding(
-                            padding: const EdgeInsets.only(top: 5.0),
-                            child: Text(errors['weightAverage']!,
-                                style: const TextStyle(
-                                    color: Colors.red,
-                                    fontSize: 12,
-                                    fontWeight: FontWeight.w400)))
-                        : const SizedBox(height: 0),
-                    const SizedBox(height: 30),
                     ...institutionSelection(),
+                    const SizedBox(height: 30),
+                    widget.id == null && widget.callbackSubject != null
+                        ? const SizedBox()
+                        : Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                                Text(
+                                  AppLocalizations.of(context).evaluations,
+                                  style: const TextStyle(
+                                      fontFamily: 'Poppins',
+                                      color: Color(0xFF71788D),
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.w400),
+                                ),
+                                IconButton(
+                                  key: const Key('addEvaluationButton'),
+                                  padding: const EdgeInsets.all(0),
+                                  icon: const Icon(Icons.add),
+                                  color: const Color(0xFF71788D),
+                                  iconSize: 20,
+                                  splashRadius: 0.1,
+                                  constraints: const BoxConstraints(
+                                      maxWidth: 20, maxHeight: 20),
+                                  onPressed: () {
+                                    //SHOW POP-UP
+                                    showEvaluationForm();
+                                  },
+                                ),
+                              ]),
+                    const SizedBox(height: 30),
+                    ...getEvaluations(),
+                    const SizedBox(height: 30),
                     displayEndButtons(context),
                   ]),
                 ));
@@ -362,17 +351,12 @@ class _SubjectFormState extends State<SubjectForm> {
 
     String name = nameController.text;
     String acronym = acronymController.text;
-    String weightAverage = weightAverageController.text;
 
     if (name.isEmpty) {
       errors['name'] = AppLocalizations.of(context).name_error;
     }
     if (acronym.isEmpty) {
       errors['acronym'] = AppLocalizations.of(context).acronym_error;
-    }
-    if (weightAverage.isEmpty) {
-      errors['weightAverage'] =
-          AppLocalizations.of(context).weight_average_error;
     }
 
     setState(() {});
@@ -381,7 +365,6 @@ class _SubjectFormState extends State<SubjectForm> {
   save(BuildContext context) async {
     String name = nameController.text;
     String acronym = acronymController.text;
-    String weightAverage = weightAverageController.text;
 
     validate();
 
@@ -392,7 +375,6 @@ class _SubjectFormState extends State<SubjectForm> {
             id: widget.id,
             name: name,
             acronym: acronym,
-            weightAverage: double.parse(weightAverage),
             institutionId: institutionId != -1 ? institutionId : null);
 
         await serviceLocator<SubjectDao>().updateSubject(subject);
@@ -405,16 +387,25 @@ class _SubjectFormState extends State<SubjectForm> {
           subject = Subject(
               name: name,
               acronym: acronym,
-              weightAverage: double.parse(weightAverage),
               institutionId: institutionId != -1 ? institutionId : null);
 
-          await serviceLocator<SubjectDao>().insertSubject(subject);
+          int newId = await serviceLocator<SubjectDao>().insertSubject(subject);
+
+          for (int i = 0; i < evaluations.length; i++) {
+            StudentEvaluation evaluation = evaluations[i];
+            //new evaluation
+            StudentEvaluation evaluationWithSubjectId = StudentEvaluation(
+                name: evaluation.name,
+                grade: evaluation.grade,
+                subjectId: newId);
+            await serviceLocator<StudentEvaluationDao>()
+                .insertStudentEvaluation(evaluationWithSubjectId);
+          }
         } else {
           subject = Subject(
             id: widget.subject == null ? null : widget.subject!.id,
             name: name,
             acronym: acronym,
-            weightAverage: double.parse(weightAverage),
             institutionId: institutionId != -1 ? institutionId : null,
           );
 
@@ -426,6 +417,34 @@ class _SubjectFormState extends State<SubjectForm> {
         Navigator.pop(context);
       }
     }
+  }
+
+  List<Widget> getEvaluations() {
+    List<Widget> evaluationsList = [];
+
+    if (evaluations.isEmpty && !widget.create) {
+      evaluationsList
+          .add(Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+        Text(AppLocalizations.of(context).no_evaluations,
+            style: const TextStyle(
+                color: Colors.white,
+                fontSize: 16,
+                fontWeight: FontWeight.normal))
+      ]));
+    } else {
+      for (int i = 0; i < evaluations.length; i++) {
+        evaluationsList.add(EvaluationBar(
+          key: ValueKey(evaluations[i]),
+          subjectId: widget.id,
+          evaluation: evaluations[i],
+          removeCallback: removeEvaluation,
+          updateCallback: widget.id == null
+              ? editTempEvaluationFactory(evaluations[i])
+              : editEvaluation,
+        ));
+      }
+    }
+    return evaluationsList;
   }
 
   Widget displayEndButtons(BuildContext context) {
@@ -531,6 +550,75 @@ class _SubjectFormState extends State<SubjectForm> {
         deleteButton,
       ],
       backgroundColor: primaryColor,
+    );
+
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return alert;
+      },
+    );
+  }
+
+  addEvaluation(StudentEvaluation evaluation) {
+    setState(() {
+      evaluations.add(evaluation);
+    });
+  }
+
+  editEvaluation(StudentEvaluation evaluation) {
+    setState(() {
+      if (widget.id != null) {
+        // Our evaluations have an id and were updated in the evaluationForm
+        for (int i = 0; i < evaluations.length; i++) {
+          if (evaluations[i].id == evaluation.id) {
+            evaluations[i] = evaluation;
+            break;
+          }
+        }
+      } else {
+        throw Exception("Subject id is null for edit evaluation callback");
+      }
+    });
+  }
+
+  editTempEvaluationFactory(StudentEvaluation oldEvaluation) {
+    return (StudentEvaluation evaluation) {
+      setState(() {
+        if (widget.id == null) {
+          for (int i = 0; i < evaluations.length; i++) {
+            if (evaluations[i] == oldEvaluation) {
+              evaluations[i] = evaluation;
+              break;
+            }
+          }
+        } else {
+          throw Exception(
+              "Task id is not null for edit temp evaluation callback");
+        }
+      });
+    };
+  }
+
+  removeEvaluation(StudentEvaluation evaluation) async {
+    if (evaluation.id != null) {
+      await serviceLocator<StudentEvaluationDao>()
+          .deleteStudentEvaluation(evaluation);
+    }
+
+    setState(() {
+      evaluations.remove(evaluation);
+    });
+  }
+
+  showEvaluationForm() {
+    AlertDialog alert = AlertDialog(
+      title: Text(AppLocalizations.of(context).add_evaluation,
+          style: const TextStyle(
+              color: Colors.white, fontSize: 20, fontWeight: FontWeight.w600),
+          textAlign: TextAlign.center),
+      backgroundColor: modalBackground,
+      content: EvaluationForm(subjectId: widget.id, callback: addEvaluation),
     );
 
     showDialog(

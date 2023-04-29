@@ -7,31 +7,14 @@ import 'package:src/animation_test/main.dart';
 import 'package:src/daos/user_dao.dart';
 import 'package:src/env/env.dart';
 import 'package:src/models/user.dart';
-import 'package:src/pages/gamification/no_progress_in_timeslot_modal.dart';
-import 'package:src/pages/gamification/timeslot_finished_modal.dart';
-import 'package:src/pages/leisure/add_book_note_form.dart';
-import 'package:src/pages/leisure/book_notes_sheet.dart';
-import 'package:src/pages/leisure/episodes_notes_sheet.dart';
-import 'package:src/pages/leisure/mark_episodes_sheet.dart';
-import 'package:src/pages/leisure/media_page.dart';
 import 'package:src/pages/tasks/institution_form.dart';
 import 'package:src/pages/tasks/subject_form.dart';
-import 'package:src/themes/colors.dart';
 import 'package:src/utils/service_locator.dart';
-import '../models/student/task.dart';
-import '../models/timeslot/timeslot.dart';
-import 'gamification/gained_xp_toast.dart';
-import 'gamification/level_up_toast.dart';
-import 'gamification/progress_bar_sheet.dart';
 import 'package:src/utils/enums.dart';
-import 'package:src/utils/service_locator.dart';
 import 'package:tmdb_api/tmdb_api.dart';
+import 'package:src/pages/auth/landing_page.dart';
 import 'package:src/pages/catalog_search/leisure_module.dart';
 
-import 'gamification/progress_in_timeslot_modal.dart';
-import 'leisure/add_to_catalog_form.dart';
-import 'tasks/project_form.dart';
-import 'tasks/task_form.dart';
 import 'package:src/pages/tasks/project_form.dart';
 import 'package:src/pages/tasks/task_form.dart';
 
@@ -212,6 +195,60 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
               },
             ),
             ElevatedButton(
+              style: ButtonStyle(
+                  backgroundColor: MaterialStateProperty.all(Color(0xFF6C5DD3)),
+                  shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                      const RoundedRectangleBorder(
+                          borderRadius: BorderRadius.only(
+                              topRight: Radius.circular(10),
+                              topLeft: Radius.circular(10),
+                              bottomRight: Radius.circular(10),
+                              bottomLeft: Radius.circular(10))))),
+              child: const Text('Auth Pages'),
+              onPressed: () {
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => LandingPage()));
+              },
+            ),
+            ElevatedButton(
+                child: Text("Media Page"),
+                onPressed: () {
+                  showModalBottomSheet(
+                      context: context,
+                      isScrollControlled: true,
+                      backgroundColor: Color(0xFF22252D),
+                      shape: RoundedRectangleBorder(
+                        borderRadius:
+                            BorderRadius.vertical(top: Radius.circular(30.0)),
+                      ),
+                      builder: (context) => DraggableScrollableSheet(
+                          expand: false,
+                          minChildSize: 0.35,
+                          maxChildSize: 0.75,
+                          builder: (context, scrollController) => Stack(
+                                  alignment: AlignmentDirectional.bottomCenter,
+                                  children: const [
+                                    /*SingleChildScrollView(
+                                        controller: scrollController,
+                                        child: MediaPage(
+                                            title: title,
+                                            synopsis: synopsis,
+                                            type: type,
+                                            length: length,
+                                            cast: cast,
+                                            image: 'assets/images/poster.jpg',
+                                            notes: notes,
+                                            status: status,
+                                            leisureTags: const [],
+                                            isFavorite: isFavorite)),
+                                    Positioned(
+                                        left: 16,
+                                        right: 16,
+                                        bottom: 16,
+                                        child: mediaPageButton())*/
+                                  ])));
+                }),
+            ElevatedButton(
                 child: Text("Task Form"),
                 onPressed: () {
                   showModalBottomSheet(
@@ -313,165 +350,6 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                               scrollController: scrollController,
                             ),
                           )));
-                }),
-            ElevatedButton(
-                child: Text("Progress Bar"),
-                onPressed: () {
-                  showModalBottomSheet(
-                      context: context,
-                      isScrollControlled: true,
-                      backgroundColor: Color(0xFF22252D),
-                      shape: RoundedRectangleBorder(
-                        borderRadius:
-                            BorderRadius.vertical(top: Radius.circular(30.0)),
-                      ),
-                      builder: (context) => Padding(
-                            padding: EdgeInsets.only(
-                                bottom:
-                                    MediaQuery.of(context).viewInsets.bottom +
-                                        50),
-                            child: ProgressBarSheet(
-                                level: 2,
-                                user: user,
-                                image: 'assets/images/poster.jpg'),
-                          ));
-                }),
-            ElevatedButton(
-                child: Text("Gaining progress toast"),
-                onPressed: () {
-                  var snackBar = SnackBar(
-                    duration: const Duration(seconds: 15),
-                    content: GainedXPToast(value: 40, level: 2, points: 10),
-                    backgroundColor: Colors.transparent,
-                    elevation: 0,
-                  );
-                  // Step 3
-                  ScaffoldMessenger.of(context).showSnackBar(snackBar);
-                }),
-            ElevatedButton(
-                child: Text("Level up toast"),
-                onPressed: () {
-                  var snackBar = SnackBar(
-                    content: LevelUpToast(level: 2, points: 20),
-                    backgroundColor: Colors.transparent,
-                    elevation: 0,
-                  );
-                  // Step 3
-                  ScaffoldMessenger.of(context).showSnackBar(snackBar);
-                }),
-            ElevatedButton(
-                child: Text("Finished timeslot <3"),
-                onPressed: () {
-                  showDialog(
-                      barrierDismissible: false,
-                      context: context,
-                      builder: (context) => Dialog(
-                          backgroundColor: modalBackground,
-                          insetPadding: EdgeInsets.symmetric(horizontal: 20),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(30),
-                          ),
-                          child: TimeslotFinishedModal(
-                              timeslot: Timeslot(
-                                  title: "Finish LGP project!",
-                                  description: "Finish LGP project!",
-                                  xpMultiplier: 2,
-                                  finished: true,
-                                  userId: 1,
-                                  endDateTime: DateTime.now(),
-                                  startDateTime: DateTime.now()
-                                      .subtract(Duration(hours: 20))),
-                              tasks: [
-                                Task(
-                                    id: 0,
-                                    name: "Math assignment for Algebra",
-                                    description:
-                                        "Do 3 problems from page 12 before Thursday",
-                                    deadline: DateTime.now(),
-                                    priority: Priority.medium,
-                                    taskGroupId: 0,
-                                    subjectId: 0,
-                                    xp: 10,
-                                    finished: false),
-                                Task(
-                                    id: 1,
-                                    name: "Math assignment for Algebra",
-                                    description:
-                                        "Do 3 problems from page 12 before Thursday",
-                                    deadline: DateTime.now(),
-                                    priority: Priority.medium,
-                                    taskGroupId: 0,
-                                    subjectId: 0,
-                                    xp: 10,
-                                    finished: false),
-                                Task(
-                                    id: 2,
-                                    name: "Math assignment for Algebra",
-                                    description:
-                                        "Do 3 problems from page 12 before Thursday",
-                                    deadline: DateTime.now(),
-                                    priority: Priority.medium,
-                                    taskGroupId: 0,
-                                    subjectId: 0,
-                                    xp: 10,
-                                    finished: false),
-                                Task(
-                                    id: 3,
-                                    name: "Math assignment for Algebra",
-                                    description:
-                                        "Do 3 problems from page 12 before Thursday",
-                                    deadline: DateTime.now(),
-                                    priority: Priority.medium,
-                                    taskGroupId: 0,
-                                    subjectId: 0,
-                                    xp: 10,
-                                    finished: false),
-                                Task(
-                                    id: 4,
-                                    name: "Math assignment for Algebra",
-                                    description:
-                                        "Do 3 problems from page 12 before Thursday",
-                                    deadline: DateTime.now(),
-                                    priority: Priority.medium,
-                                    taskGroupId: 0,
-                                    subjectId: 0,
-                                    xp: 10,
-                                    finished: false),
-                              ])));
-                }),
-            ElevatedButton(
-                child: Text("progress in timeslot"),
-                onPressed: () {
-                  showDialog(
-                      context: context,
-                      builder: (context) => Dialog(
-                          backgroundColor: modalBackground,
-                          insetPadding: EdgeInsets.symmetric(horizontal: 20),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(30),
-                          ),
-                          child: ProgressInTimeslotModal(
-                            modules: const [
-                              Module.student,
-                              Module.fitness,
-                              Module.personal
-                            ],
-                            taskCount: 5,
-                            finishedTaskCount: 3,
-                          )));
-                }),
-            ElevatedButton(
-                child: Text("no progress in timeslot"),
-                onPressed: () {
-                  showDialog(
-                      context: context,
-                      builder: (context) => Dialog(
-                          backgroundColor: modalBackground,
-                          insetPadding: EdgeInsets.symmetric(horizontal: 20),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(30),
-                          ),
-                          child: NoProgressInTimeslotModal()));
                 }),
             FutureBuilder(
                 key: ValueKey<Object>(redrawObject),

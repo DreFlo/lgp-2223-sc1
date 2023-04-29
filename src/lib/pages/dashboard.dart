@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:src/themes/colors.dart';
 import 'package:src/widgets/dashboard/dashboard_gridview.dart';
-import '../widgets/dashboard/dashboard_horizontal_scrollview.dart';
-import 'catalog_search/leisure_module.dart';
+import 'package:src/widgets/dashboard/dashboard_horizontal_scrollview.dart';
+import 'package:src/pages/catalog_search/leisure_module.dart';
 import 'package:src/utils/service_locator.dart';
 import 'package:src/daos/student/task_dao.dart';
 import 'package:src/daos/student/task_group_dao.dart';
@@ -11,6 +11,7 @@ import 'package:src/models/student/task.dart';
 import 'package:src/models/student/task_group.dart';
 import 'package:src/models/timeslot/timeslot_media_timeslot_super_entity.dart';
 import 'package:src/daos/timeslot/timeslot_media_timeslot_super_dao.dart';
+import 'package:src/utils/dashboard_project.dart';
 
 class Dashboard extends StatefulWidget {
   const Dashboard({Key? key}) : super(key: key);
@@ -31,6 +32,8 @@ class _DashboardState extends State<Dashboard> {
   List<TaskGroup> taskGroups = [];
   List<TimeslotMediaTimeslotSuperEntity> mediaEvents = [];
   bool loadedAllData = false;
+
+  List<DashboardTask> dashboardTasks = [];
 
   late List searchResults = items;
 
@@ -59,29 +62,38 @@ class _DashboardState extends State<Dashboard> {
     return [];
   }
 
-  Future<List<TimeslotMediaTimeslotSuperEntity>> loadEventsDB() async {
+  Future<List<TimeslotMediaTimeslotSuperEntity>> loadEventsDB(
+      DateTime start) async {
     //only for Media
+    //need to find out the type of media + date
+    //date easy -- type of media too many queries
     mediaEvents = await serviceLocator<TimeslotMediaTimeslotSuperDao>()
-        .findAllTimeslotMediaTimeslot();
+        .findAllTimeslotMediaTimeslot(start);
+
     return mediaEvents;
   }
 
   Future<List<TaskGroup>> loadTaskGroupsDB() async {
     //lil cards student
+    //need to find out subject + date + institution + number of tasks
     taskGroups = await serviceLocator<TaskGroupDao>().findAllTaskGroups();
     return taskGroups;
   }
 
   Future<List<Task>> loadTasksDB() async {
     //lil cards student (tasks that don't have a taskgroup)
+    //need to find out subject + date + institution
     tasks = await serviceLocator<TaskDao>().findTasksWithoutTaskGroup();
     return tasks;
   }
 
   void loadDataDB() async {
+    DateTime now = DateTime.now();
+    DateTime start = DateTime(now.year, now.month, now.day, 0, 0, 0);
+
+    mediaEvents = await loadEventsDB(start);
     taskGroups = await loadTaskGroupsDB();
     tasks = await loadTasksDB();
-    mediaEvents = await loadEventsDB();
     setState(() {
       loadedAllData = true;
     });
@@ -112,17 +124,19 @@ class _DashboardState extends State<Dashboard> {
       List<TimeslotMediaTimeslotSuperEntity> mediaResults =
           searchResults.whereType<TimeslotMediaTimeslotSuperEntity>().toList();
       switch (_selectedIndex) {
-        
+        case 0:
+          return DashBoardGridView(
+              tasks: taskResults,
+              taskGroups: taskGroupResults,
+              mediaEvents: mediaResults);
         case 1:
           return DashBoardGridView(
               tasks: taskResults, taskGroups: taskGroupResults);
         case 2:
           return DashBoardGridView(mediaEvents: mediaResults);
         default:
-          return DashBoardGridView(
-              tasks: taskResults,
-              taskGroups: taskGroupResults,
-              mediaEvents: mediaResults);
+          return const DashBoardGridView(
+              tasks: [], taskGroups: [], mediaEvents: []);
       }
     }
   }

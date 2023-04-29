@@ -27,7 +27,6 @@ void main() {
   DateTime taskDeadline = DateFormatter.day(DateTime.now());
   int subjectId = 1, taskXp = 0;
   String subjectName = "subject_name", subjectAcronym = "subject_acronym";
-  double weightAverage = 1.0;
   int institutionId = 1;
   String institutionName = "institution_name";
   InstitutionType institutionType = InstitutionType.other;
@@ -52,8 +51,7 @@ void main() {
       id: subjectId,
       name: subjectName,
       acronym: subjectAcronym,
-      institutionId: institutionId,
-      weightAverage: weightAverage);
+      institutionId: institutionId);
   Institution institution = Institution(
       id: institutionId,
       name: institutionName,
@@ -79,7 +77,6 @@ void main() {
     id: -1,
     name: 'None',
     acronym: 'None',
-    weightAverage: 1,
   );
 
   setUp(() async {

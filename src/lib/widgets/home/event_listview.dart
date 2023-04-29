@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:src/models/timeslot/timeslot_media_timeslot_super_entity.dart';
 import 'package:src/models/timeslot/timeslot_student_timeslot_super_entity.dart';
 
-import 'event_card.dart';
+import 'package:src/widgets/home/event_card.dart';
 
 class MyEventListView extends StatefulWidget {
   final List<TimeslotMediaTimeslotSuperEntity?>? mediaEvents;
@@ -16,6 +16,10 @@ class MyEventListView extends StatefulWidget {
 }
 
 class _MyEventListViewState extends State<MyEventListView> {
+  int startDateTimeComparator(TimeslotStudentTimeslotSuperEntity a,
+          TimeslotMediaTimeslotSuperEntity b) =>
+      a.startDateTime.compareTo(b.startDateTime);
+
   List get items {
     final List combined = [];
     if (widget.mediaEvents != null) {
@@ -26,7 +30,23 @@ class _MyEventListViewState extends State<MyEventListView> {
     }
 
     // Sort events by startDateTime
-    combined.sort((a, b) => a.startDateTime.compareTo(b.startDateTime));
+    combined.sort((a, b) {
+      if (a is TimeslotStudentTimeslotSuperEntity &&
+          b is TimeslotStudentTimeslotSuperEntity) {
+        return a.startDateTime.compareTo(b.startDateTime);
+      } else if (a is TimeslotMediaTimeslotSuperEntity &&
+          b is TimeslotMediaTimeslotSuperEntity) {
+        return a.startDateTime.compareTo(b.startDateTime);
+      } else if (a is TimeslotMediaTimeslotSuperEntity &&
+          b is TimeslotStudentTimeslotSuperEntity) {
+        return a.startDateTime.compareTo(b.startDateTime);
+      } else if (a is TimeslotStudentTimeslotSuperEntity &&
+          b is TimeslotMediaTimeslotSuperEntity) {
+        return a.startDateTime.compareTo(b.startDateTime);
+      }
+      return 0;
+    });
+
     return combined;
   }
 

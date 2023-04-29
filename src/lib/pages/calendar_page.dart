@@ -51,6 +51,7 @@ class _CalendarPageState extends State<CalendarPage> {
                     59),
                 xpMultiplier: mediaEvents[i].xpMultiplier,
                 finished: mediaEvents[i].finished,
+                type: mediaEvents[i].type,
                 userId: mediaEvents[i].userId);
         DateTime oldEndDateTime = mediaEvents[i].endDateTime;
         mediaEvents.removeAt(i);
@@ -64,6 +65,7 @@ class _CalendarPageState extends State<CalendarPage> {
                 endDateTime: oldEndDateTime,
                 xpMultiplier: mediaEvents[i].xpMultiplier,
                 finished: mediaEvents[i].finished,
+                type: mediaEvents[i].type,
                 userId: mediaEvents[i].userId);
         mediaEvents.add(newEvent);
       }
@@ -109,9 +111,9 @@ class _CalendarPageState extends State<CalendarPage> {
 
   void loadEventsDB() async {
     mediaEvents = await serviceLocator<TimeslotMediaTimeslotSuperDao>()
-        .findAllTimeslotMediaTimeslot();
+        .findAllTimeslotMediaTimeslot(null);
     studentEvents = await serviceLocator<TimeslotStudentTimeslotSuperDao>()
-        .findAllTimeslotStudentTimeslot();
+        .findAllTimeslotStudentTimeslot(null);
     checkMediaEventMultipleDays();
     checkStudentEventMultipleDays();
     setState(() {
@@ -210,6 +212,7 @@ class _CalendarPageState extends State<CalendarPage> {
                             builder: (context) => const WeekView()));
                   }),
               decoration: const BoxDecoration(color: appBackground),
+              rightIconVisible: false,
               headerTextStyle: const TextStyle(
                   fontFamily: 'Poppins',
                   color: Colors.white,

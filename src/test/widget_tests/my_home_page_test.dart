@@ -1,4 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
+import 'package:src/utils/enums.dart';
 import 'package:src/utils/service_locator.dart';
 import '../utils/service_locator_test_util.dart';
 import '../utils/locations_injector.dart';
@@ -9,7 +10,6 @@ import 'package:src/daos/timeslot/timeslot_media_timeslot_super_dao.dart';
 import 'package:src/models/timeslot/timeslot_student_timeslot_super_entity.dart';
 import 'package:src/daos/timeslot/timeslot_student_timeslot_super_dao.dart';
 import 'package:flutter/material.dart';
-
 
 void disableOverflowErrors() {
   FlutterError.onError = (FlutterErrorDetails details) {
@@ -25,6 +25,7 @@ void disableOverflowErrors() {
     }
   };
 }
+
 void main() {
   setUp(() async {
     setupMockServiceLocatorUnitTests();
@@ -39,6 +40,9 @@ void main() {
       (WidgetTester tester) async {
     // Mock the data you expect to receive from the database.
     disableOverflowErrors();
+    DateTime now = DateTime.now();
+    DateTime start = DateTime(now.year, now.month, now.day, 0, 0, 0);
+
     final mediaEvent = TimeslotMediaTimeslotSuperEntity(
         title: 'My Media Event',
         description: 'Watch something',
@@ -46,6 +50,7 @@ void main() {
         endDateTime: DateTime.now(),
         xpMultiplier: 1,
         finished: false,
+        type: MediaTypes.movie,
         id: 1,
         userId: 1);
 
@@ -61,20 +66,19 @@ void main() {
 
     final mockMediaEventDao =
         serviceLocator.get<TimeslotMediaTimeslotSuperDao>();
-    when(mockMediaEventDao.findAllTimeslotMediaTimeslot())
+    when(mockMediaEventDao.findAllTimeslotMediaTimeslot(start))
         .thenAnswer((_) async => [mediaEvent]);
 
     final mockStudentEventDao =
         serviceLocator.get<TimeslotStudentTimeslotSuperDao>();
-    when(mockStudentEventDao.findAllTimeslotStudentTimeslot())
+    when(mockStudentEventDao.findAllTimeslotStudentTimeslot(start))
         .thenAnswer((_) async => [studentEvent]);
 
     // Build the widget.
     await tester.pumpWidget(const LocalizationsInjector(child: MyHomePage()));
 
     // Wait for the data to be retrieved.
-    await tester.pump(const Duration(milliseconds: 100));
-
+    await tester.pumpAndSettle();
     // Verify that the data is displayed.
     expect(find.text('My Media Event'), findsOneWidget);
     expect(find.text('My Student Event'), findsOneWidget);
