@@ -3,7 +3,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:src/widgets/events/dialogs/delete_confirmation_dialog.dart';
 
 class DeleteButton extends StatefulWidget {
-  final Function onDeleteCallback;
+  final void Function() onDeleteCallback;
 
   const DeleteButton({Key? key, required this.onDeleteCallback})
       : super(key: key);

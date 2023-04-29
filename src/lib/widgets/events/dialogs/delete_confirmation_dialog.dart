@@ -3,7 +3,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:src/themes/colors.dart';
 
 class DeleteConfirmationDialog extends StatefulWidget {
-  final Function onDeleteCallback;
+  final void Function() onDeleteCallback;
 
   const DeleteConfirmationDialog({Key? key, required this.onDeleteCallback})
       : super(key: key);

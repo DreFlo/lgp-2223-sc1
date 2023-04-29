@@ -7,7 +7,7 @@ class StartDatePicker extends StatefulWidget {
   final DateTime startDate;
   final DateTime endDate;
   final Map<String, String> errors;
-  final Function setStartDate;
+  final void Function(DateTime) setStartDate;
 
   const StartDatePicker(
       {Key? key,

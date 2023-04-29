@@ -3,7 +3,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:src/themes/colors.dart';
 
 class SaveButton extends StatefulWidget {
-  final Function onSaveCallback;
+  final void Function() onSaveCallback;
 
   const SaveButton({
     Key? key,

@@ -7,8 +7,8 @@ import 'package:src/themes/colors.dart';
 class ModuleButton extends StatefulWidget {
   final GlobalKey buttonKey;
   final Color moduleColor;
-  final Function setModuleColor;
-  final Function clearActivities;
+  final void Function(Color) setModuleColor;
+  final void Function() clearActivities;
   final bool disabled;
 
   const ModuleButton(

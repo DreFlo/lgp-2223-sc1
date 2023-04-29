@@ -7,7 +7,7 @@ class EndDatePicker extends StatefulWidget {
   final DateTime endDate;
   final DateTime startDate;
   final Map<String, String> errors;
-  final Function setEndDate;
+  final void Function(DateTime) setEndDate;
 
   const EndDatePicker({
     Key? key,
