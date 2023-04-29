@@ -1,5 +1,3 @@
-// ignore_for_file: file_names
-
 import 'package:flutter/material.dart';
 import 'package:src/pages/tasks/subject_form.dart';
 import 'package:src/themes/colors.dart';
@@ -58,13 +56,13 @@ class _SubjectBarState extends State<SubjectBar> {
                       minChildSize: 0.5,
                       maxChildSize: 0.5,
                       builder: (context, scrollController) => SubjectForm(
-                        id: widget.id,
-                        scrollController: scrollController,
-                        callback: widget.updateCallback,
-                        callbackSubject: widget.updateCallbackBySubject,
-                        selectInstitution: widget.selectInstitution,
-                        subject: widget.id == null ? widget.subject : null,
-                      ),
+                          id: widget.id,
+                          scrollController: scrollController,
+                          callback: widget.updateCallback,
+                          callbackSubject: widget.updateCallbackBySubject,
+                          selectInstitution: widget.selectInstitution,
+                          subject: widget.id == null ? widget.subject : null,
+                          create: false),
                     )));
           },
           child: Container(
