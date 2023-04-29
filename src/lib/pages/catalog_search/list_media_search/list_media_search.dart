@@ -1,12 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:src/daos/media/media_video_movie_super_dao.dart';
 import 'package:src/models/media/media.dart';
-import 'package:src/models/media/media_book_super_entity.dart';
-import 'package:src/models/media/media_series_super_entity.dart';
-import 'package:src/models/media/media_video_movie_super_entity.dart';
 import 'package:src/widgets/leisure/media_image_widgets/media_image.dart';
 import 'package:src/models/media/review.dart';
-import 'package:src/pages/leisure/media_pages/media_page.dart';
 import 'package:src/utils/enums.dart';
 import 'package:src/utils/leisure/media_page_helpers.dart';
 import 'package:src/widgets/leisure/media_page_buttons/media_page_button.dart';

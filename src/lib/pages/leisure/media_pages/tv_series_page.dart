@@ -9,10 +9,10 @@ class TVSeriesPage extends MediaPage<MediaSeriesSuperEntity> {
       required MediaSeriesSuperEntity media,
       required Function(bool) toggleFavorite})
       : super(
-            key: key,
-            item: media,
-            toggleFavorite: toggleFavorite,
-            );
+          key: key,
+          item: media,
+          toggleFavorite: toggleFavorite,
+        );
 
   @override
   TVSeriesPageState createState() => TVSeriesPageState();
@@ -60,7 +60,7 @@ class TVSeriesPageState extends MediaPageState<MediaSeriesSuperEntity> {
   @override
   List<String> getLeisureTags() {
     List<String> leisureTags = [];
-    if(widget.item.tagline != ''){
+    if (widget.item.tagline != '') {
       leisureTags.add(widget.item.tagline);
     }
     leisureTags.addAll(widget.item.genres.split(','));

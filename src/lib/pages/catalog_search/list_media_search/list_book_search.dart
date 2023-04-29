@@ -11,23 +11,6 @@ import 'package:src/widgets/leisure/media_image_widgets/book_image.dart';
 import 'package:src/widgets/leisure/media_image_widgets/media_image.dart';
 import 'package:src/widgets/leisure/media_page_buttons/book_page_button.dart';
 
-// List<String> leisureTags = [];
-//       if (item.info.maturityRating != null && item.info.maturityRating != '') {
-//         leisureTags.add(item.info.maturityRating);
-//       }
-//       if (item.info.categories != null && item.info.categories.length != 0) {
-//         leisureTags.addAll(item.info.categories);
-//       }
-//       if (item.info.publisher != null && item.info.publisher != '') {
-//         leisureTags.add(item.info.publisher);
-//       }
-//       if (item.info.publishedDate != null) {
-//         leisureTags.add(item.info.publishedDate.year.toString());
-//       }
-
-//       String photo = item.info.imageLinks['thumbnail'].toString();
-//       getStatusFromDB(item);
-
 class ListBookSearch extends ListMediaSearch<MediaBookSuperEntity> {
   const ListBookSearch({Key? key, required List<MediaBookSuperEntity> media})
       : super(key: key, media: media);
@@ -40,10 +23,8 @@ class ListBookSearchState extends ListMediaSearchState<MediaBookSuperEntity> {
   List<NoteBookNoteSuperEntity> bookNotes = [];
 
   @override
-  BookPage showMediaPageBasedOnType(
-      MediaBookSuperEntity item) {
-    return BookPage(
-        media: item, toggleFavorite: toggleFavorite);
+  BookPage showMediaPageBasedOnType(MediaBookSuperEntity item) {
+    return BookPage(media: item, toggleFavorite: toggleFavorite);
   }
 
   @override

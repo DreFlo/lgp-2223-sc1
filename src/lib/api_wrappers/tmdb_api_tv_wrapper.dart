@@ -36,46 +36,36 @@ class TMDBTVSeriesAPIWrapper {
     return details;
   }
 
-  Future<MediaSeriesSuperEntity> getSeriesMediaPageInfo(MediaSeriesSuperEntity series) async {
+  Future<MediaSeriesSuperEntity> getSeriesMediaPageInfo(
+      MediaSeriesSuperEntity series) async {
     Map details = await _getTVSeriesDetails(series.tmdbId);
     Map episodeDetails = await tmdb.v3.tvSeasons.getDetails(series.tmdbId, 1);
     details['episode_run_time'] = episodeDetails['episodes'][0]['runtime'];
 
     Map<String, dynamic> seriesJson = {
-        'id': null,
-        'name': series.name,
-        'description': series.description,
-        'linkImage': series.linkImage,
-        'status': series.status,
-        'favorite': series.favorite,
-        'genres': details['genres']
-            .map((genre) => genre['name'])
-            .toList()
-            .join(', '),
-        'release': DateTime.parse(series.release.toString()),
-        'xp': 0,
-        'tagline': details['tagline'],
-        'duration': details['episode_run_time'] ??0,
-        'participants': details['participants'],
-        'numberEpisodes': details['number_of_episodes'],
-        'numberSeasons': details['number_of_seasons'],
-        'tmdbId': series.tmdbId,
-      };
+      'id': null,
+      'name': series.name,
+      'description': series.description,
+      'linkImage': series.linkImage,
+      'status': series.status,
+      'favorite': series.favorite,
+      'genres':
+          details['genres'].map((genre) => genre['name']).toList().join(', '),
+      'release': DateTime.parse(series.release.toString()),
+      'xp': 0,
+      'tagline': details['tagline'],
+      'duration': details['episode_run_time'] ?? 0,
+      'participants': details['participants'],
+      'numberEpisodes': details['number_of_episodes'],
+      'numberSeasons': details['number_of_seasons'],
+      'tmdbId': series.tmdbId,
+    };
 
-      return MediaSeriesSuperEntity.fromJson(seriesJson);
+    return MediaSeriesSuperEntity.fromJson(seriesJson);
   }
 
   Future<List<MediaSeriesSuperEntity>> _getMediaSeriesSuperEntitiesFromMapList(
       List tmdbResults) async {
-    // Get details for each series
-    //for (int i = 0; i < tmdbResults.length; i++) {
-    //  Map tv = tmdbResults[i];
-    //  tmdbResults[i]['details'] = await _getTVSeriesDetails(tv['id']);
-    //  Map details = await tmdb.v3.tvSeasons.getDetails(tv['id'], 1);
-    //  tmdbResults[i]['details']['episode_run_time'] =
-    //      details['episodes'][0]['runtime'];
-    //}
-
     // Create a list of MediaSeriesSuperEntities
     List<MediaSeriesSuperEntity> tvSeries =
         List.generate(tmdbResults.length, (index) {
@@ -88,22 +78,11 @@ class TMDBTVSeriesAPIWrapper {
         'linkImage': tv['poster_path'],
         'status': Status.nothing,
         'favorite': false,
-        /*'genres': tv['details']['genres']
-            .map((genre) => genre['name'])
-            .toList()
-            .join(', '),*/
         'genres': '',
         'release': DateTime.parse(tv['first_air_date']),
         'xp': 0,
         'duration': 0,
-        /*'tagline': tv['details']['tagline'],
-        'duration': tv['details']['episode_run_time'] ??
-            tv['details']['episode_run_time'] ??
-            0,*/
         'tagline': '',
-        /*'participants': tv['details']['participants'],
-        'numberEpisodes': tv['details']['number_of_episodes'],
-        'numberSeasons': tv['details']['number_of_seasons'],*/
         'participants': '',
         'numberEpisodes': 0,
         'numberSeasons': 0,

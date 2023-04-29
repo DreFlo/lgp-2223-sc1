@@ -12,23 +12,6 @@ import 'package:src/utils/leisure/media_page_helpers.dart';
 import 'package:src/utils/service_locator.dart';
 import 'package:src/widgets/leisure/media_image_widgets/tv_series_image.dart';
 import 'package:src/widgets/leisure/media_page_buttons/tv_series_page_button.dart';
-import 'package:src/api_wrappers/tmdb_api_movies_wrapper.dart';
-
-// List<String> leisureTags = [];
-//             if (snapshot.data!['tagline'] != null &&
-//                 snapshot.data!['tagline'] != '') {
-//               leisureTags.add(snapshot.data!['tagline']);
-//             }
-//             if (snapshot.data!['genres'] != null &&
-//                 snapshot.data!['genres'].length != 0) {
-//               snapshot.data!['genres'].forEach((item) {
-//                 leisureTags.add(item['name']);
-//               });
-//             }
-//             if (snapshot.data!['first_air_date'] != null &&
-//                 snapshot.data!['first_air_date'] != '') {
-//               leisureTags.add(snapshot.data!['first_air_date'].substring(0, 4));
-//             }
 
 class ListTVSeriesSearch extends ListMediaSearch<MediaSeriesSuperEntity> {
   const ListTVSeriesSearch(
@@ -52,16 +35,13 @@ class ListTVSeriesSearchState
   }
 
   @override
-  Widget showMediaPageBasedOnType(
-      MediaSeriesSuperEntity item) {
+  Widget showMediaPageBasedOnType(MediaSeriesSuperEntity item) {
     return FutureBuilder<MediaSeriesSuperEntity>(
       future: loadSeriesDetails(item),
       builder: (context, snapshot) {
         if (snapshot.hasData) {
           return TVSeriesPage(
-              media: snapshot.data!,
-              toggleFavorite: super.toggleFavorite
-              );
+              media: snapshot.data!, toggleFavorite: super.toggleFavorite);
         } else if (snapshot.hasError) {
           return Text('Error: ${snapshot.error}');
         } else {

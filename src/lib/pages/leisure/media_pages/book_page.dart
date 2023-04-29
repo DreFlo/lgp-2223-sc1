@@ -8,11 +8,7 @@ class BookPage extends MediaPage<MediaBookSuperEntity> {
       {Key? key,
       required MediaBookSuperEntity media,
       required Function(bool) toggleFavorite})
-      : super(
-          key: key,
-          item: media,
-          toggleFavorite: toggleFavorite
-        );
+      : super(key: key, item: media, toggleFavorite: toggleFavorite);
 
   @override
   BookPageState createState() => BookPageState();

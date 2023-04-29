@@ -35,9 +35,7 @@ class ListMoviesSearchState
       builder: (context, snapshot) {
         if (snapshot.hasData) {
           return MoviePage(
-              media: snapshot.data!,
-              toggleFavorite: super.toggleFavorite
-             );
+              media: snapshot.data!, toggleFavorite: super.toggleFavorite);
         } else if (snapshot.hasError) {
           return Text('Error: ${snapshot.error}');
         } else {

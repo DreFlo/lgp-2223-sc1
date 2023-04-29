@@ -34,7 +34,7 @@ class MoviePageState extends MediaPageState<MediaVideoMovieSuperEntity> {
   @override
   List<String> getLeisureTags() {
     List<String> leisureTags = [];
-    if(widget.item.tagline != ''){
+    if (widget.item.tagline != '') {
       leisureTags.add(widget.item.tagline);
     }
     leisureTags.addAll(widget.item.genres.split(','));
