@@ -19,7 +19,6 @@ class TasksList extends ActivitiesList {
   @override
   Future<List<ChooseActivity>> getActivities() async {
     // TODO(events): and filter only the tasks from the user logged in
-    print("NOT MOCKING...");
     List<ChooseActivity> tasksActivities = [];
     List<Task> tasks = await serviceLocator<TaskDao>()
         .findTasksActivities(DateTime.now().millisecondsSinceEpoch);
