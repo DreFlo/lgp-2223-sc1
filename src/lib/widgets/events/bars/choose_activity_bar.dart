@@ -45,6 +45,7 @@ class _ChooseActivityBarState extends State<ChooseActivityBar> {
             Row(
               children: [
                 InkWell(
+                    key: const Key('activityCheckbox'),
                     onTap: () {
                       setState(() {
                         widget.activity.isSelected =

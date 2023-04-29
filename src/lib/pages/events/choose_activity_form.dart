@@ -20,7 +20,7 @@ class ChooseActivityForm extends StatefulWidget {
   final IconData icon;
   final List<ChooseActivity> activities;
   final ScrollController scrollController;
-  final Function addActivityCallback;
+  final void Function(Activity) addActivityCallback;
 
   const ChooseActivityForm(
       {Key? key,
@@ -81,7 +81,9 @@ class _ChooseActivityFormState extends State<ChooseActivityForm> {
           const SizedBox(height: 30),
           ...getActivities(),
           const SizedBox(height: 30),
-          SaveButton(onSaveCallback: onSaveCallback)
+          SaveButton(
+              key: const Key('saveActivitiesButton'),
+              onSaveCallback: onSaveCallback)
         ]);
   }
 }

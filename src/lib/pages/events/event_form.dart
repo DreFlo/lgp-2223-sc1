@@ -13,17 +13,17 @@ import 'package:src/models/timeslot/timeslot.dart';
 import 'package:src/models/timeslot/timeslot_media_timeslot_super_entity.dart';
 import 'package:src/models/timeslot/timeslot_student_timeslot_super_entity.dart';
 import 'package:src/themes/colors.dart';
+import 'package:src/utils/enums.dart';
+import 'package:src/utils/formatters.dart';
 import 'package:src/utils/service_locator.dart';
 import 'package:src/utils/validators.dart';
-import 'package:src/utils/formatters.dart';
-import 'package:src/utils/enums.dart';
 import 'package:src/widgets/events/buttons/delete_button.dart';
-import 'package:src/widgets/events/edit_texts/edit_description.dart';
-import 'package:src/widgets/events/edit_texts/edit_title.dart';
-import 'package:src/widgets/events/dates/end_date_picker.dart';
 import 'package:src/widgets/events/buttons/module_button.dart';
 import 'package:src/widgets/events/buttons/save_button.dart';
+import 'package:src/widgets/events/dates/end_date_picker.dart';
 import 'package:src/widgets/events/dates/start_date_picker.dart';
+import 'package:src/widgets/events/edit_texts/edit_description.dart';
+import 'package:src/widgets/events/edit_texts/edit_title.dart';
 import 'package:src/widgets/events/lists/media_list.dart';
 import 'package:src/widgets/events/lists/tasks_list.dart';
 import 'package:src/widgets/modal.dart';
@@ -73,37 +73,37 @@ class _EventFormState extends State<EventForm> {
     super.initState();
   }
 
-  addActivity(Activity activity) {
+  void addActivity(Activity activity) {
     setState(() {
       activities.add(activity);
     });
   }
 
-  removeActivity(int index) {
+  void removeActivity(int index) {
     setState(() {
       activities.removeAt(index);
     });
   }
 
-  clearActivities() {
+  void clearActivities() {
     setState(() {
       activities = [];
     });
   }
 
-  setModuleColor(Color color) {
+  void setModuleColor(Color color) {
     setState(() {
       _moduleColor = color;
     });
   }
 
-  setStartDate(DateTime date) {
+  void setStartDate(DateTime date) {
     setState(() {
       startDate = date;
     });
   }
 
-  setEndDate(DateTime date) {
+  void setEndDate(DateTime date) {
     setState(() {
       endDate = date;
     });
@@ -316,7 +316,10 @@ class _EventFormState extends State<EventForm> {
                       disabled: widget.id != null,
                     ),
                     const SizedBox(width: 15),
-                    EditTitle(titleController: titleController, errors: errors)
+                    EditTitle(
+                        key: const Key('titleField'),
+                        titleController: titleController,
+                        errors: errors)
                   ]),
                   const SizedBox(height: 30),
                   StartDatePicker(
@@ -331,7 +334,9 @@ class _EventFormState extends State<EventForm> {
                       setEndDate: setEndDate,
                       errors: errors),
                   const SizedBox(height: 30),
-                  EditDescription(descriptionController: descriptionController),
+                  EditDescription(
+                      key: const Key('descriptionField'),
+                      descriptionController: descriptionController),
                   const SizedBox(height: 10),
                   _moduleColor == studentColor
                       ? TasksList(
@@ -350,12 +355,15 @@ class _EventFormState extends State<EventForm> {
                     children: [
                       Flexible(
                           flex: 1,
-                          child: SaveButton(onSaveCallback: onSaveCallback)),
+                          child: SaveButton(
+                              key: const Key('saveEventButton'),
+                              onSaveCallback: onSaveCallback)),
                       if (widget.id != null) ...[
                         const SizedBox(width: 20),
                         Flexible(
                             flex: 1,
                             child: DeleteButton(
+                                key: const Key('deleteEventButton'),
                                 onDeleteCallback: onDeleteCallback))
                       ]
                     ],

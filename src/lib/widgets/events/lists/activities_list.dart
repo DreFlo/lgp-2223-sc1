@@ -6,8 +6,8 @@ import 'package:src/widgets/events/bars/activity_bar.dart';
 
 abstract class ActivitiesList extends StatefulWidget {
   final List<Activity> activities;
-  final Function removeActivity;
-  final Function addActivity;
+  final void Function(int) removeActivity;
+  final void Function(Activity) addActivity;
   final Map<String, String> errors;
 
   const ActivitiesList(
@@ -102,6 +102,7 @@ class _ActivitiesListState extends State<ActivitiesList> {
                 fontWeight: FontWeight.w400),
             textAlign: TextAlign.center),
         IconButton(
+          key: const Key('addActivitiesButton'),
           padding: const EdgeInsets.all(0),
           icon: const Icon(Icons.playlist_add_rounded),
           color: const Color(0xFF71788D),

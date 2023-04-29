@@ -27,6 +27,7 @@ class _DeleteConfirmationDialogState extends State<DeleteConfirmationDialog> {
           textAlign: TextAlign.start),
       actions: [
         TextButton(
+          key: const Key('cancelDeleteButton'),
           child: Text(AppLocalizations.of(context).cancel,
               style: const TextStyle(
                   color: Colors.white,
@@ -38,6 +39,7 @@ class _DeleteConfirmationDialogState extends State<DeleteConfirmationDialog> {
           },
         ),
         TextButton(
+          key: const Key('deleteButton'),
           child: Text(AppLocalizations.of(context).delete,
               style: const TextStyle(
                   color: Colors.red, fontSize: 16, fontWeight: FontWeight.w600),

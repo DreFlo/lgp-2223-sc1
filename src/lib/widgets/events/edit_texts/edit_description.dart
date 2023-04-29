@@ -4,8 +4,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 class EditDescription extends StatefulWidget {
   final TextEditingController descriptionController;
 
-  const EditDescription(
-      {Key? key, required this.descriptionController})
+  const EditDescription({Key? key, required this.descriptionController})
       : super(key: key);
 
   @override
