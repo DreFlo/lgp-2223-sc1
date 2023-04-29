@@ -50,7 +50,10 @@ dependencies:
   sqflite: ^2.0.0+4
   like_button: ^2.0.5
   emojis: ^0.9.9
+  image_picker: ^0.8.7+1
+  motion_toast: ^2.6.6
   sqflite_common: ^2.0.1
+  awesome_dialog: ^3.0.2
   calendar_view: ^1.0.3
   date_util: ^0.1.4
 
