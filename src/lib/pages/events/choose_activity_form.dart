@@ -73,17 +73,34 @@ class _ChooseActivityFormState extends State<ChooseActivityForm> {
 
   @override
   Widget build(BuildContext context) {
-    return Modal(
-        scrollController: widget.scrollController,
-        title: widget.title,
-        icon: widget.icon,
-        children: [
-          const SizedBox(height: 30),
-          ...getActivities(),
-          const SizedBox(height: 30),
-          SaveButton(
+    return Stack(
+      children: [
+        Padding(
+          padding: const EdgeInsets.only(bottom: 70.0), // Add bottom padding
+          child: Modal(
+            scrollController: widget.scrollController,
+            title: widget.title,
+            icon: widget.icon,
+            children: [
+              const SizedBox(height: 30),
+              ...getActivities(),
+              const SizedBox(height: 30),
+            ],
+          ),
+        ),
+        Positioned(
+          left: 0,
+          right: 0,
+          bottom: 0,
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 24),
+            child: SaveButton(
               key: const Key('saveActivitiesButton'),
-              onSaveCallback: onSaveCallback)
-        ]);
+              onSaveCallback: onSaveCallback,
+            ),
+          ),
+        ),
+      ],
+    );
   }
 }

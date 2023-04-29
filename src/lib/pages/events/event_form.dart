@@ -59,11 +59,8 @@ class _EventFormState extends State<EventForm> {
   String title = '';
   String description = '';
   List<Activity> activities = [];
-  DateTime defaultStartDate = DateTime.now();
-  DateTime defaultEndDate = DateTime.now().add(const Duration(hours: 1));
-
-  DateTime? startDate;
-  DateTime? endDate;
+  DateTime startDate = DateTime.now();
+  DateTime endDate = DateTime.now().add(const Duration(hours: 1));
 
   TextEditingController titleController = TextEditingController();
   TextEditingController descriptionController = TextEditingController();
@@ -131,12 +128,6 @@ class _EventFormState extends State<EventForm> {
         _moduleColor = leisureColor;
         initMediaEventActivities();
       }
-    } else {
-      title = '';
-      description = '';
-      startDate = null;
-      endDate = null;
-      activities = [];
     }
 
     titleController.text = title;
@@ -177,8 +168,8 @@ class _EventFormState extends State<EventForm> {
       id: widget.id,
       title: titleController.text,
       description: descriptionController.text,
-      startDateTime: startDate ?? defaultStartDate,
-      endDateTime: endDate ?? defaultEndDate,
+      startDateTime: startDate,
+      endDateTime: endDate,
       xpMultiplier: 2,
       userId: 1,
     );
@@ -190,17 +181,14 @@ class _EventFormState extends State<EventForm> {
       id: widget.id,
       title: titleController.text,
       description: descriptionController.text,
-      startDateTime: startDate ?? defaultStartDate,
-      endDateTime: endDate ?? defaultEndDate,
+      startDateTime: startDate,
+      endDateTime: endDate,
       xpMultiplier: 2,
       userId: 1,
     );
   }
 
   void onSaveCallback() {
-    startDate ??= defaultStartDate;
-    endDate ??= defaultEndDate;
-
     errors = validateEventForm(
         context, titleController.text, startDate, endDate, activities);
     if (errors.isNotEmpty) {
@@ -323,14 +311,14 @@ class _EventFormState extends State<EventForm> {
                   ]),
                   const SizedBox(height: 30),
                   StartDatePicker(
-                      startDate: startDate ?? defaultStartDate,
-                      endDate: endDate ?? defaultEndDate,
+                      startDate: startDate,
+                      endDate: endDate,
                       setStartDate: setStartDate,
                       errors: errors),
                   const SizedBox(height: 10),
                   EndDatePicker(
-                      endDate: endDate ?? defaultEndDate,
-                      startDate: startDate ?? defaultStartDate,
+                      endDate: endDate,
+                      startDate: startDate,
                       setEndDate: setEndDate,
                       errors: errors),
                   const SizedBox(height: 30),
