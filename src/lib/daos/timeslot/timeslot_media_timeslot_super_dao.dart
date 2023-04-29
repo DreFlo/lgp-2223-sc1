@@ -14,8 +14,8 @@ class TimeslotMediaTimeslotSuperDao {
 
   TimeslotMediaTimeslotSuperDao._internal();
 
-  Future<List<TimeslotMediaTimeslotSuperEntity>>
-      findAllTimeslotMediaTimeslot() {
+  Future<List<TimeslotMediaTimeslotSuperEntity>> findAllTimeslotMediaTimeslot(
+      DateTime? startDatetime) {
     return serviceLocator<MediaTimeslotDao>()
         .findAllMediaTimeslots()
         .then((mediaTimeslots) async {
@@ -25,6 +25,12 @@ class TimeslotMediaTimeslotSuperDao {
       for (var mediaTimeslot in mediaTimeslots) {
         final timeslot = await serviceLocator<TimeslotDao>()
             .findTimeslotById(mediaTimeslot.id);
+
+        if (startDatetime != null && timeslot != null) {
+          if (timeslot.startDateTime.isBefore(startDatetime)) {
+            continue;
+          }
+        }
 
         if (timeslot != null) {
           final timeslotMediaTimeslotSuperEntity =

@@ -46,7 +46,6 @@ import 'package:src/daos/mood_dao.dart';
 import 'package:src/daos/user_dao.dart';
 
 import 'package:src/database/callbacks.dart';
-import 'package:src/database/migrations.dart';
 import 'package:src/utils/database_seeder.dart';
 
 final GetIt serviceLocator = GetIt.instance;
@@ -68,10 +67,10 @@ Future<void> setup(
       deleteDatabase('wokka_database.db');
     }
 
-    serviceLocator.registerSingletonAsync<AppDatabase>(() async =>
-        await $FloorAppDatabase
+    serviceLocator
+        .registerSingletonAsync<AppDatabase>(() async => await $FloorAppDatabase
             .databaseBuilder('wokka_database.db')
-            .addMigrations(allMigrations)
+            //.addMigrations(allMigrations)
             .addCallback(addConstraintsCallback)
             .build());
   }
