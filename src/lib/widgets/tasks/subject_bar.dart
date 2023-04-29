@@ -56,13 +56,13 @@ class _SubjectBarState extends State<SubjectBar> {
                       minChildSize: 0.5,
                       maxChildSize: 0.5,
                       builder: (context, scrollController) => SubjectForm(
-                        id: widget.id,
-                        scrollController: scrollController,
-                        callback: widget.updateCallback,
-                        callbackSubject: widget.updateCallbackBySubject,
-                        selectInstitution: widget.selectInstitution,
-                        subject: widget.id == null ? widget.subject : null,
-                      ),
+                          id: widget.id,
+                          scrollController: scrollController,
+                          callback: widget.updateCallback,
+                          callbackSubject: widget.updateCallbackBySubject,
+                          selectInstitution: widget.selectInstitution,
+                          subject: widget.id == null ? widget.subject : null,
+                          create: false),
                     )));
           },
           child: Container(
