@@ -48,7 +48,8 @@ class _MyHomePageState extends State<MyHomePage> {
   showWidget() {
     switch (_selectedIndex) {
       case 0:
-        return MyEventListView(studentEvents: studentEvents, mediaEvents: mediaEvents);
+        return MyEventListView(
+            studentEvents: studentEvents, mediaEvents: mediaEvents);
       case 1:
         return MyEventListView(studentEvents: studentEvents);
       case 2:
