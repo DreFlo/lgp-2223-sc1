@@ -7,13 +7,12 @@ class TVSeriesPage extends MediaPage<MediaSeriesSuperEntity> {
   const TVSeriesPage(
       {Key? key,
       required MediaSeriesSuperEntity media,
-      required Function(bool) toggleFavorite,
-      required List<String> leisureTags})
+      required Function(bool) toggleFavorite})
       : super(
             key: key,
             item: media,
             toggleFavorite: toggleFavorite,
-            leisureTags: leisureTags);
+            );
 
   @override
   TVSeriesPageState createState() => TVSeriesPageState();
@@ -56,5 +55,16 @@ class TVSeriesPageState extends MediaPageState<MediaSeriesSuperEntity> {
           duration +
           AppLocalizations.of(context).minutes_each;
     }
+  }
+
+  @override
+  List<String> getLeisureTags() {
+    List<String> leisureTags = [];
+    if(widget.item.tagline != ''){
+      leisureTags.add(widget.item.tagline);
+    }
+    leisureTags.addAll(widget.item.genres.split(','));
+    leisureTags.add(widget.item.release.year.toString());
+    return leisureTags;
   }
 }

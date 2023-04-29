@@ -7,13 +7,11 @@ class BookPage extends MediaPage<MediaBookSuperEntity> {
   const BookPage(
       {Key? key,
       required MediaBookSuperEntity media,
-      required Function(bool) toggleFavorite,
-      required List<String> leisureTags})
+      required Function(bool) toggleFavorite})
       : super(
           key: key,
           item: media,
-          toggleFavorite: toggleFavorite,
-          leisureTags: leisureTags,
+          toggleFavorite: toggleFavorite
         );
 
   @override
@@ -31,6 +29,14 @@ class BookPageState extends MediaPageState<MediaBookSuperEntity> {
   String getLength(context) {
     return widget.item.totalPages.toString() +
         AppLocalizations.of(context).pages;
+  }
+
+  @override
+  List<String> getLeisureTags() {
+    List<String> leisureTags = [];
+    leisureTags.addAll(widget.item.genres.split(','));
+    leisureTags.add(widget.item.release.year.toString());
+    return leisureTags;
   }
 
   @override

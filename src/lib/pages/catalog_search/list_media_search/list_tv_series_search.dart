@@ -53,15 +53,15 @@ class ListTVSeriesSearchState
 
   @override
   Widget showMediaPageBasedOnType(
-      MediaSeriesSuperEntity item, List<String> leisureTags) {
-     return FutureBuilder<MediaSeriesSuperEntity>(
+      MediaSeriesSuperEntity item) {
+    return FutureBuilder<MediaSeriesSuperEntity>(
       future: loadSeriesDetails(item),
       builder: (context, snapshot) {
         if (snapshot.hasData) {
           return TVSeriesPage(
               media: snapshot.data!,
-              toggleFavorite: super.toggleFavorite,
-              leisureTags: leisureTags);
+              toggleFavorite: super.toggleFavorite
+              );
         } else if (snapshot.hasError) {
           return Text('Error: ${snapshot.error}');
         } else {

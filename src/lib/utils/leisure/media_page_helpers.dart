@@ -190,10 +190,6 @@ Map<int, String> makeEpisodeNameMap(Map episodes) {
 
 void showMediaPageForTV(MediaSeriesSuperEntity item, BuildContext context,
     void Function()? reload) async {
-  List<String> leisureTags = [];
-  leisureTags.add(item.release.year.toString());
-  leisureTags.addAll(item.genres.split(','));
-  leisureTags.add(item.tagline);
   isFavorite = item.favorite;
   if (context.mounted) {
     showModalBottomSheet(
@@ -214,7 +210,6 @@ void showMediaPageForTV(MediaSeriesSuperEntity item, BuildContext context,
                       controller: scrollController,
                       child: TVSeriesPage(
                         media: item,
-                        leisureTags: leisureTags,
                         toggleFavorite: toggleFavorite,
                       )),
                   Positioned(
@@ -238,10 +233,6 @@ void showMediaPageForTV(MediaSeriesSuperEntity item, BuildContext context,
 
 void showMediaPageForMovies(MediaVideoMovieSuperEntity item,
     BuildContext context, void Function()? reload) async {
-  List<String> leisureTags = [];
-  leisureTags.add(item.release.year.toString());
-  leisureTags.addAll(item.genres.split(','));
-  leisureTags.add(item.tagline);
   isFavorite = item.favorite;
   showModalBottomSheet(
       context: context,
@@ -261,7 +252,6 @@ void showMediaPageForMovies(MediaVideoMovieSuperEntity item,
                     controller: scrollController,
                     child: MoviePage(
                       media: item,
-                      leisureTags: leisureTags,
                       toggleFavorite: toggleFavorite,
                     )),
                 Positioned(
@@ -281,9 +271,6 @@ void showMediaPageForMovies(MediaVideoMovieSuperEntity item,
 
 void showMediaPageForBooks(MediaBookSuperEntity item, BuildContext context,
     void Function()? reload) async {
-  List<String> leisureTags = [];
-  leisureTags.add(item.release.year.toString());
-  leisureTags.addAll(item.genres.split(','));
   isFavorite = item.favorite;
   showModalBottomSheet(
       context: context,
@@ -303,7 +290,6 @@ void showMediaPageForBooks(MediaBookSuperEntity item, BuildContext context,
                     controller: scrollController,
                     child: BookPage(
                       media: item,
-                      leisureTags: leisureTags,
                       toggleFavorite: toggleFavorite,
                     )),
                 Positioned(

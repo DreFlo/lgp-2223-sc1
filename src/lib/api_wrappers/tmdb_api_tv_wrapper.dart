@@ -55,10 +55,10 @@ class TMDBTVSeriesAPIWrapper {
         'release': DateTime.parse(series.release.toString()),
         'xp': 0,
         'tagline': details['tagline'],
-        'duration': details['episode_run_time'] ??
-            details['episode_run_time'] ??
-            0,
+        'duration': details['episode_run_time'] ??0,
         'participants': details['participants'],
+        'numberEpisodes': details['number_of_episodes'],
+        'numberSeasons': details['number_of_seasons'],
         'tmdbId': series.tmdbId,
       };
 
@@ -95,6 +95,7 @@ class TMDBTVSeriesAPIWrapper {
         'genres': '',
         'release': DateTime.parse(tv['first_air_date']),
         'xp': 0,
+        'duration': 0,
         /*'tagline': tv['details']['tagline'],
         'duration': tv['details']['episode_run_time'] ??
             tv['details']['episode_run_time'] ??

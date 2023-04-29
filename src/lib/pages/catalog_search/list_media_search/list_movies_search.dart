@@ -29,15 +29,15 @@ class ListMoviesSearchState
   }
 
   @override
-  Widget showMediaPageBasedOnType(MediaVideoMovieSuperEntity item, List<String> leisureTags) {
+  Widget showMediaPageBasedOnType(MediaVideoMovieSuperEntity item) {
     return FutureBuilder<MediaVideoMovieSuperEntity>(
       future: loadMovieDetails(item),
       builder: (context, snapshot) {
         if (snapshot.hasData) {
           return MoviePage(
               media: snapshot.data!,
-              toggleFavorite: super.toggleFavorite,
-              leisureTags: leisureTags);
+              toggleFavorite: super.toggleFavorite
+             );
         } else if (snapshot.hasError) {
           return Text('Error: ${snapshot.error}');
         } else {

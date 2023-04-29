@@ -8,13 +8,11 @@ import 'package:src/widgets/leisure/leisure_tag.dart';
 abstract class MediaPage<T extends Media> extends StatefulWidget {
   final T item;
   final Function(bool) toggleFavorite;
-  final List<String> leisureTags;
 
   const MediaPage({
     Key? key,
     required this.item,
     required this.toggleFavorite,
-    required this.leisureTags,
   }) : super(key: key);
 
   @override
@@ -29,10 +27,12 @@ abstract class MediaPageState<T extends Media> extends State<MediaPage<T>> {
   void initState() {
     super.initState();
     isFavorite = widget.item.favorite;
-    leisureTags = widget.leisureTags;
+    leisureTags = getLeisureTags();
   }
 
   String getLength(context);
+
+  List<String> getLeisureTags();
 
   showSmallCastList(context) {
     List<String> firstTen;
@@ -172,7 +172,7 @@ abstract class MediaPageState<T extends Media> extends State<MediaPage<T>> {
           child: Row(mainAxisAlignment: MainAxisAlignment.start, children: [
             SizedBox(
                 width: MediaQuery.of(context).size.width * 0.85,
-                height: 1.75 * countWords(),
+                height: 1.5 * countWords(),
                 child: Wrap(
                     spacing: 7.6,
                     alignment: WrapAlignment.start,

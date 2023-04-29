@@ -45,20 +45,6 @@ abstract class ListMediaSearchState<T extends Media>
     });
   }
 
-  List<String> getLeisureTags(T item) {
-    List<String> leisureTags = [];
-    leisureTags.add(item.release.year.toString());
-    leisureTags.addAll(item.genres.split(','));
-
-    if (item is MediaVideoMovieSuperEntity) {
-      leisureTags.add(item.tagline);
-    } else if (item is MediaSeriesSuperEntity) {
-      leisureTags.add(item.tagline);
-    }
-
-    return leisureTags;
-  }
-
   @override
   Widget build(BuildContext context) {
     double baseWidth = 390;
@@ -97,9 +83,7 @@ abstract class ListMediaSearchState<T extends Media>
                                         controller: scrollController,
                                         child: showMediaPageBasedOnType(
                                             //pass it
-                                            widget.media[index],
-                                            getLeisureTags(
-                                                widget.media[index]))),
+                                            widget.media[index])),
                                     Positioned(
                                         left: 16,
                                         right: 16,
@@ -137,7 +121,7 @@ abstract class ListMediaSearchState<T extends Media>
 
   MediaPageButton<T> showMediaPageButton(T item);
 
-  Widget showMediaPageBasedOnType(T item, List<String> leisureTags);
+  Widget showMediaPageBasedOnType(T item);
 
   MediaImageWidget<T> showWidget(T item);
 }

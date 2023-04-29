@@ -7,13 +7,11 @@ class MoviePage extends MediaPage<MediaVideoMovieSuperEntity> {
   const MoviePage(
       {Key? key,
       required MediaVideoMovieSuperEntity media,
-      required Function(bool) toggleFavorite,
-      required List<String> leisureTags})
+      required Function(bool) toggleFavorite})
       : super(
           key: key,
           item: media,
           toggleFavorite: toggleFavorite,
-          leisureTags: leisureTags,
         );
 
   @override
@@ -31,6 +29,17 @@ class MoviePageState extends MediaPageState<MediaVideoMovieSuperEntity> {
   String getLength(context) {
     return widget.item.duration.toString() +
         AppLocalizations.of(context).minutes;
+  }
+
+  @override
+  List<String> getLeisureTags() {
+    List<String> leisureTags = [];
+    if(widget.item.tagline != ''){
+      leisureTags.add(widget.item.tagline);
+    }
+    leisureTags.addAll(widget.item.genres.split(','));
+    leisureTags.add(widget.item.release.year.toString());
+    return leisureTags;
   }
 
   @override

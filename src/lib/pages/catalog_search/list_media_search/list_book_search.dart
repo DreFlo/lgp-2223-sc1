@@ -41,9 +41,9 @@ class ListBookSearchState extends ListMediaSearchState<MediaBookSuperEntity> {
 
   @override
   BookPage showMediaPageBasedOnType(
-      MediaBookSuperEntity item, List<String> leisureTags) {
+      MediaBookSuperEntity item) {
     return BookPage(
-        media: item, toggleFavorite: toggleFavorite, leisureTags: leisureTags);
+        media: item, toggleFavorite: toggleFavorite);
   }
 
   @override
