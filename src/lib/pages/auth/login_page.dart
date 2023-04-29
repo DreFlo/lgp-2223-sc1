@@ -54,7 +54,7 @@ class _LoginPageState extends State<LoginPage> {
                 onChanged: (value) => {_emailErrText = ""},
                 decoration: InputDecoration(
                   border: const UnderlineInputBorder(),
-                  labelText: 'E-MAIL',
+                  labelText: AppLocalizations.of(context).input_email,
                   labelStyle: const TextStyle(
                       fontFamily: "Poppins",
                       color: Color(0xFF5E6272),
@@ -79,7 +79,7 @@ class _LoginPageState extends State<LoginPage> {
                   obscureText: true,
                   decoration: InputDecoration(
                     border: const UnderlineInputBorder(),
-                    labelText: 'PASSWORD',
+                    labelText: AppLocalizations.of(context).input_password,
                     labelStyle: const TextStyle(
                         fontFamily: "Poppins",
                         color: Color(0xFF5E6272),
