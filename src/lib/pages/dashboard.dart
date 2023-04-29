@@ -126,7 +126,9 @@ class _DashboardState extends State<Dashboard> {
       switch (_selectedIndex) {
         case 0:
           return DashBoardGridView(
-              tasks: taskResults, taskGroups: taskGroupResults, mediaEvents: mediaResults);
+              tasks: taskResults,
+              taskGroups: taskGroupResults,
+              mediaEvents: mediaResults);
         case 1:
           return DashBoardGridView(
               tasks: taskResults, taskGroups: taskGroupResults);
@@ -134,9 +136,7 @@ class _DashboardState extends State<Dashboard> {
           return DashBoardGridView(mediaEvents: mediaResults);
         default:
           return const DashBoardGridView(
-              tasks: [],
-              taskGroups: [],
-              mediaEvents: []);
+              tasks: [], taskGroups: [], mediaEvents: []);
       }
     }
   }
