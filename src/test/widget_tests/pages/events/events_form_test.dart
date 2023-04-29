@@ -6,12 +6,10 @@ import 'package:src/daos/timeslot/task_student_timeslot_dao.dart';
 import 'package:src/daos/timeslot/timeslot_dao.dart';
 import 'package:src/models/student/task.dart';
 import 'package:src/models/timeslot/timeslot.dart';
-import 'package:src/pages/events/choose_activity_form.dart';
 import 'package:src/pages/events/event_form.dart';
 import 'package:src/utils/enums.dart';
 import 'package:src/utils/formatters.dart';
 import 'package:src/utils/service_locator.dart';
-import 'package:src/widgets/events/lists/tasks_list.dart';
 
 import '../../../utils/model_mocks_util.mocks.dart';
 import '../../../utils/service_locator_test_util.dart';
