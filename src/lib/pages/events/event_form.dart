@@ -172,6 +172,8 @@ class _EventFormState extends State<EventForm> {
       endDateTime: endDate,
       xpMultiplier: 2,
       userId: 1,
+      finished: false,
+      type: MediaTypes.movie, //TODO
     );
   }
 
@@ -185,6 +187,7 @@ class _EventFormState extends State<EventForm> {
       endDateTime: endDate,
       xpMultiplier: 2,
       userId: 1,
+      finished: false,
     );
   }
 

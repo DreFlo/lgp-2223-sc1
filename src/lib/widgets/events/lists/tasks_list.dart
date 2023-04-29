@@ -6,7 +6,7 @@ import 'package:src/pages/events/choose_activity_form.dart';
 import 'package:src/utils/formatters.dart';
 import 'package:src/utils/service_locator.dart';
 
-import 'activities_list.dart';
+import 'package:src/widgets/events/lists/activities_list.dart';
 
 class TasksList extends ActivitiesList {
   const TasksList(
@@ -19,6 +19,7 @@ class TasksList extends ActivitiesList {
   @override
   Future<List<ChooseActivity>> getActivities() async {
     // TODO(events): and filter only the tasks from the user logged in
+    print("NOT MOCKING...");
     List<ChooseActivity> tasksActivities = [];
     List<Task> tasks = await serviceLocator<TaskDao>()
         .findTasksActivities(DateTime.now().millisecondsSinceEpoch);

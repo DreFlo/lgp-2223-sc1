@@ -7,3 +7,7 @@ enum Status { nothing, planTo, goingThrough, done, dropped }
 enum Reaction { love, like, neutral, dislike, hate }
 
 enum EventType { student, leisure }
+
+enum Module { leisure, student, personal, fitness }
+
+enum MediaTypes { movie, series, book }

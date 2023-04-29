@@ -310,10 +310,11 @@ class _InstitutionFormState extends State<InstitutionForm> {
                                         maxChildSize: 0.60,
                                         builder: (context, scrollController) =>
                                             SubjectForm(
-                                          scrollController: scrollController,
-                                          callbackSubject: addNoDbSubject,
-                                          selectInstitution: false,
-                                        ),
+                                                scrollController:
+                                                    scrollController,
+                                                callbackSubject: addNoDbSubject,
+                                                selectInstitution: false,
+                                                create: true),
                                       )));
                             },
                           ),
@@ -333,11 +334,14 @@ class _InstitutionFormState extends State<InstitutionForm> {
   Widget displaySubjects() {
     if (widget.id == null) {
       if (noDbSubjects.isEmpty) {
-        return Text(AppLocalizations.of(context).no_subjects,
-            style: const TextStyle(
-                color: Colors.white,
-                fontSize: 16,
-                fontWeight: FontWeight.normal));
+        return Padding(
+            padding: const EdgeInsets.symmetric(vertical: 15),
+            child: Text(AppLocalizations.of(context).no_subjects,
+                textAlign: TextAlign.center,
+                style: const TextStyle(
+                    color: Colors.white,
+                    fontSize: 16,
+                    fontWeight: FontWeight.normal)));
       } else {
         return Column(
             mainAxisAlignment: MainAxisAlignment.start,
@@ -415,7 +419,6 @@ class _InstitutionFormState extends State<InstitutionForm> {
         Subject newSubject = Subject(
           name: subject.name,
           acronym: subject.acronym,
-          weightAverage: subject.weightAverage,
           institutionId: id,
         );
         await serviceLocator<SubjectDao>().insertSubject(newSubject);
@@ -468,7 +471,7 @@ class _InstitutionFormState extends State<InstitutionForm> {
               },
               style: ElevatedButton.styleFrom(
                 minimumSize: Size(MediaQuery.of(context).size.width * 0.4, 55),
-                backgroundColor: Colors.red,
+                backgroundColor: Colors.red[600],
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(25.0),
                 ),
@@ -504,7 +507,6 @@ class _InstitutionFormState extends State<InstitutionForm> {
         id: subject!.id,
         name: subject.name,
         acronym: subject.acronym,
-        weightAverage: subject.weightAverage,
         institutionId: null);
 
     await serviceLocator<SubjectDao>().updateSubject(newSubject);
@@ -527,7 +529,11 @@ class _InstitutionFormState extends State<InstitutionForm> {
   }
 
   showDeleteConfirmation(BuildContext context) {
-    Widget cancelButton = TextButton(
+    Widget cancelButton = ElevatedButton(
+      style: ButtonStyle(
+          backgroundColor: MaterialStateProperty.all(primaryColor),
+          padding: MaterialStateProperty.all(
+              const EdgeInsets.symmetric(horizontal: 10, vertical: 5))),
       key: const Key('cancelConfirmationButton'),
       child: Text(AppLocalizations.of(context).cancel,
           style: const TextStyle(
@@ -538,8 +544,12 @@ class _InstitutionFormState extends State<InstitutionForm> {
       },
     );
 
-    Widget deleteButton = TextButton(
+    Widget deleteButton = ElevatedButton(
       key: const Key('deleteConfirmationButton'),
+      style: ButtonStyle(
+          backgroundColor: MaterialStateProperty.all(Colors.red[600]),
+          padding: MaterialStateProperty.all(
+              const EdgeInsets.symmetric(horizontal: 10, vertical: 5))),
       child: Text(AppLocalizations.of(context).delete,
           style: const TextStyle(
               color: Colors.white, fontSize: 16, fontWeight: FontWeight.w600),
@@ -571,7 +581,7 @@ class _InstitutionFormState extends State<InstitutionForm> {
         cancelButton,
         deleteButton,
       ],
-      backgroundColor: primaryColor,
+      backgroundColor: modalBackground,
     );
 
     showDialog(

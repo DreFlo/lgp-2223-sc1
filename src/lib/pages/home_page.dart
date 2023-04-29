@@ -10,10 +10,10 @@ import 'package:src/models/user.dart';
 import 'package:src/pages/catalog_search/leisure_module.dart';
 import 'package:src/pages/tasks/institution_form.dart';
 import 'package:src/pages/tasks/subject_form.dart';
-import 'package:src/utils/enums.dart';
 import 'package:src/utils/service_locator.dart';
+import 'package:src/utils/enums.dart';
 import 'package:tmdb_api/tmdb_api.dart';
-
+import 'package:src/pages/auth/landing_page.dart';
 import 'package:src/pages/events/event_form.dart';
 import 'package:src/pages/tasks/project_form.dart';
 import 'package:src/pages/tasks/task_form.dart';
@@ -27,10 +27,11 @@ class HomePage extends StatefulWidget {
   State<HomePage> createState() => _HomePageState();
 }
 
-class _HomePageState extends State<HomePage> {
+class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
   int _counter = 0;
   Object redrawObject = Object();
   bool isFavorite = false;
+  List<String> user = ['John Smith', '11', '400'];
   Status status = Status.goingThrough;
   String title = "She-ra and the Princesses of Power",
       synopsis =
@@ -107,7 +108,8 @@ class _HomePageState extends State<HomePage> {
       appBar: AppBar(
         title: Text(widget.title),
       ),
-      body: ListView(children: [
+      body: SingleChildScrollView(
+          child: Wrap(spacing: 10, children: [
         const SizedBox(height: 30),
         Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -185,12 +187,67 @@ class _HomePageState extends State<HomePage> {
                     id: 0,
                     password: 'secure',
                     xp: 0,
+                    level: 1,
                     imagePath: ''));
                 setState(() {
                   redrawObject = Object();
                 });
               },
             ),
+            ElevatedButton(
+              style: ButtonStyle(
+                  backgroundColor: MaterialStateProperty.all(Color(0xFF6C5DD3)),
+                  shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                      const RoundedRectangleBorder(
+                          borderRadius: BorderRadius.only(
+                              topRight: Radius.circular(10),
+                              topLeft: Radius.circular(10),
+                              bottomRight: Radius.circular(10),
+                              bottomLeft: Radius.circular(10))))),
+              child: const Text('Auth Pages'),
+              onPressed: () {
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => LandingPage()));
+              },
+            ),
+            ElevatedButton(
+                child: Text("Media Page"),
+                onPressed: () {
+                  showModalBottomSheet(
+                      context: context,
+                      isScrollControlled: true,
+                      backgroundColor: Color(0xFF22252D),
+                      shape: RoundedRectangleBorder(
+                        borderRadius:
+                            BorderRadius.vertical(top: Radius.circular(30.0)),
+                      ),
+                      builder: (context) => DraggableScrollableSheet(
+                          expand: false,
+                          minChildSize: 0.35,
+                          maxChildSize: 0.75,
+                          builder: (context, scrollController) => Stack(
+                                  alignment: AlignmentDirectional.bottomCenter,
+                                  children: const [
+                                    /*SingleChildScrollView(
+                                        controller: scrollController,
+                                        child: MediaPage(
+                                            title: title,
+                                            synopsis: synopsis,
+                                            type: type,
+                                            length: length,
+                                            cast: cast,
+                                            image: 'assets/images/poster.jpg',
+                                            notes: notes,
+                                            status: status,
+                                            leisureTags: const [],
+                                            isFavorite: isFavorite)),
+                                    Positioned(
+                                        left: 16,
+                                        right: 16,
+                                        bottom: 16,
+                                        child: mediaPageButton())*/
+                                  ])));
+                }),
             ElevatedButton(
                 child: Text("Task Form"),
                 onPressed: () {
@@ -374,7 +431,7 @@ class _HomePageState extends State<HomePage> {
                 }),
           ],
         ),
-      ]),
+      ])),
       floatingActionButton: FloatingActionButton(
         onPressed: _incrementCounter,
         tooltip: 'Increment',

@@ -15,7 +15,7 @@ class TimeslotStudentTimeslotSuperDao {
   TimeslotStudentTimeslotSuperDao._internal();
 
   Future<List<TimeslotStudentTimeslotSuperEntity>>
-      findAllTimeslotStudentTimeslot() {
+      findAllTimeslotStudentTimeslot(DateTime? startDatetime) {
     return serviceLocator<StudentTimeslotDao>()
         .findAllStudentTimeslots()
         .then((studentTimeslots) async {
@@ -26,6 +26,12 @@ class TimeslotStudentTimeslotSuperDao {
         final timeslot = await serviceLocator<TimeslotDao>()
             .findTimeslotById(studentTimeslot.id)
             .first;
+
+        if (startDatetime != null && timeslot != null) {
+          if (timeslot.startDateTime.isBefore(startDatetime)) {
+            continue;
+          }
+        }
 
         if (timeslot != null) {
           final timeslotStudentTimeslotSuperEntity =

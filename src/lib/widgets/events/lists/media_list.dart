@@ -5,7 +5,7 @@ import 'package:src/models/media/media.dart';
 import 'package:src/pages/events/choose_activity_form.dart';
 import 'package:src/utils/service_locator.dart';
 
-import 'activities_list.dart';
+import 'package:src/widgets/events/lists/activities_list.dart';
 
 class MediaList extends ActivitiesList {
   const MediaList(

@@ -37,82 +37,24 @@ final addConstraintsCallback = Callback(
   ''');
 
     await database.execute('''
-    CREATE TRIGGER evaluation_grade_and_weight
+    CREATE TRIGGER evaluation_grade
     BEFORE INSERT ON evaluation
     FOR EACH ROW
     BEGIN
       SELECT CASE
         WHEN NEW.grade < 0 THEN
           RAISE(ABORT, 'grade must be higher or equal to 0')
-        WHEN NEW.weight > 1 OR NEW.weight < 0 THEN
-          RAISE(ABORT, 'weight must be between 0 and 1')
       END;
     END;
   ''');
     await database.execute('''
-    CREATE TRIGGER evaluation_grade_and_weight_update
+    CREATE TRIGGER evaluation_grade_update
     BEFORE UPDATE ON evaluation
     FOR EACH ROW
     BEGIN
       SELECT CASE
         WHEN NEW.grade < 0 THEN
           RAISE(ABORT, 'grade must be higher or equal to 0')
-        WHEN NEW.weight > 1 OR NEW.weight < 0 THEN
-          RAISE(ABORT, 'weight must be between 0 and 1')
-      END;
-    END;
-  ''');
-
-    await database.execute('''
-    CREATE TRIGGER evaluation_sum_weight
-    BEFORE INSERT ON evaluation
-    FOR EACH ROW
-    BEGIN
-      SELECT CASE
-        WHEN NEW.weight < 0 THEN
-          RAISE(ABORT, 'weight must be higher or equal to 0')
-        WHEN (SELECT SUM(weight) FROM evaluation WHERE subject_id = NEW.subject_id) + NEW.weight > 1 THEN
-          RAISE(ABORT, 'total weight must be between 0 and 1')
-        WHEN NEW.minimum < 0 THEN
-          RAISE(ABORT, 'minimum must be higher or equal to 0')
-      END;
-    END;
-  ''');
-    await database.execute('''
-    CREATE TRIGGER evaluation_sum_weight_update
-    BEFORE UPDATE ON evaluation
-    FOR EACH ROW
-    BEGIN
-      SELECT CASE
-        WHEN NEW.weight < 0 THEN
-          RAISE(ABORT, 'weight must be higher or equal to 0')
-        WHEN (SELECT SUM(weight) FROM evaluation WHERE subject_id = NEW.subject_id) + NEW.weight > 1 THEN
-          RAISE(ABORT, 'total weight must be between 0 and 1')
-        WHEN NEW.minimum < 0 THEN
-          RAISE(ABORT, 'minimum must be higher or equal to 0')
-      END;
-    END;
-  ''');
-
-    await database.execute('''
-    CREATE TRIGGER subject_weight_average
-    BEFORE INSERT ON subject
-    FOR EACH ROW
-    BEGIN
-      SELECT CASE
-        WHEN NEW.weight_average < 0 THEN
-          RAISE(ABORT, 'weight_average must be higher or equal to 0')
-      END;
-    END;
-  ''');
-    await database.execute('''
-    CREATE TRIGGER subject_weight_average_update
-    BEFORE UPDATE ON subject
-    FOR EACH ROW
-    BEGIN
-      SELECT CASE
-        WHEN NEW.weight_average < 0 THEN
-          RAISE(ABORT, 'weight_average must be higher or equal to 0')
       END;
     END;
   ''');

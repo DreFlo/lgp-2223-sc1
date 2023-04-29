@@ -1,6 +1,7 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:src/utils/service_locator.dart';
 import '../utils/service_locator_test_util.dart';
+import 'package:src/utils/enums.dart';
 import '../utils/locations_injector.dart';
 import 'package:mockito/mockito.dart';
 import 'package:src/pages/calendar_page.dart';
@@ -29,6 +30,8 @@ void main() {
         endDateTime: DateTime.now(),
         xpMultiplier: 1,
         id: 1,
+        finished: false,
+        type: MediaTypes.movie,
         userId: 1);
     final studentEvent = TimeslotStudentTimeslotSuperEntity(
         title: 'My Student Event',
@@ -36,17 +39,18 @@ void main() {
         startDateTime: DateTime.now(),
         endDateTime: DateTime.now(),
         xpMultiplier: 1,
+        finished: false,
         id: 2,
         userId: 1);
 
     final mockMediaEventDao =
         serviceLocator.get<TimeslotMediaTimeslotSuperDao>();
-    when(mockMediaEventDao.findAllTimeslotMediaTimeslot())
+    when(mockMediaEventDao.findAllTimeslotMediaTimeslot(null))
         .thenAnswer((_) async => [mediaEvent]);
 
     final mockStudentEventDao =
         serviceLocator.get<TimeslotStudentTimeslotSuperDao>();
-    when(mockStudentEventDao.findAllTimeslotStudentTimeslot())
+    when(mockStudentEventDao.findAllTimeslotStudentTimeslot(null))
         .thenAnswer((_) async => [studentEvent]);
 
     await tester.pumpWidget(const LocalizationsInjector(child: CalendarPage()));

@@ -40,6 +40,7 @@ import 'package:src/daos/user_dao.dart';
 
 import 'package:src/database/database.dart';
 import 'package:src/utils/service_locator.dart';
+import 'package:src/widgets/events/lists/tasks_list.dart';
 
 import 'service_locator_test_util.mocks.dart';
 
@@ -81,7 +82,7 @@ import 'service_locator_test_util.mocks.dart';
   MockSpec<TimeslotMediaTimeslotSuperDao>(),
   MockSpec<TimeslotStudentTimeslotSuperDao>(),
   MockSpec<MediaMediaTimeslotDao>(),
-  MockSpec<TaskStudentTimeslotDao>()
+  MockSpec<TaskStudentTimeslotDao>(),
 ])
 void setupMockServiceLocatorUnitTests() {
   serviceLocator

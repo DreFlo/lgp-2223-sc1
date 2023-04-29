@@ -70,7 +70,6 @@ class _TaskFormState extends State<TaskForm> {
     id: -1,
     name: 'None',
     acronym: 'None',
-    weightAverage: 1,
   );
 
   List<Note> notes = [];
@@ -262,6 +261,7 @@ class _TaskFormState extends State<TaskForm> {
           subjectId: subjectId,
           description: description!,
           taskGroupId: taskGroupId,
+          finished: false,
           xp: 0);
       newId = await serviceLocator<TaskDao>().insertTask(task);
 
@@ -273,6 +273,7 @@ class _TaskFormState extends State<TaskForm> {
           subjectId: subjectId,
           description: description!,
           taskGroupId: taskGroupId,
+          finished: false,
           xp: 0);
     } else {
       task = Task(
@@ -283,6 +284,7 @@ class _TaskFormState extends State<TaskForm> {
           subjectId: subjectId,
           description: description!,
           taskGroupId: taskGroupId,
+          finished: false,
           xp: 0);
       await serviceLocator<TaskDao>().updateTask(task);
     }

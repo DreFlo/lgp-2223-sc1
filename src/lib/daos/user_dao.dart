@@ -7,7 +7,7 @@ abstract class UserDao {
   Future<List<User>> findAllUsers();
 
   @Query('SELECT * FROM user WHERE id = :id')
-  Future<User?> findUserById(int id);
+  Stream<User?> findUserById(int id);
 
   @insert
   Future<int> insertUser(User user);
