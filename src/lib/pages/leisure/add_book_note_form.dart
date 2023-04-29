@@ -3,11 +3,11 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:src/daos/notes/note_book_note_super_dao.dart';
 import 'package:src/models/media/media_book_super_entity.dart';
 import 'package:src/models/notes/note_book_note_super_entity.dart';
+import 'package:src/pages/leisure/finished_media_form.dart';
 import 'package:src/themes/colors.dart';
 import 'package:src/utils/service_locator.dart';
 
 import 'package:src/utils/enums.dart';
-import 'package:src/pages/leisure/finished_media_form.dart';
 
 class AddBookNoteForm extends StatefulWidget {
   final MediaBookSuperEntity book;

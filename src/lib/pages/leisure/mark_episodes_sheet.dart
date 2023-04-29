@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:src/pages/leisure/finished_media_form.dart';
 import 'package:src/themes/colors.dart';
 import 'package:src/widgets/leisure/season_tag.dart';
 import 'package:src/widgets/leisure/episode_bar.dart';
@@ -8,7 +9,6 @@ import 'package:src/models/media/season.dart';
 import 'package:src/utils/leisure/media_page_helpers.dart';
 import 'package:collection/collection.dart';
 import 'package:src/utils/enums.dart';
-import 'package:src/pages/leisure/finished_media_form.dart';
 
 class MarkEpisodesSheet extends StatefulWidget {
   final int mediaId;
