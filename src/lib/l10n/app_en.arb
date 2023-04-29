@@ -118,8 +118,8 @@
   "event_activities_error": "The event must have at least one activity.",
   "new_event": "New Event",
   "edit_event": "Edit Event",
-  "delete": "Delete",
-  "cancel": "Cancel",
   "delete_event": "Delete Event",
-  "delete_event_message":"Are you sure you want to delete this event?"
+  "delete_event_message":"Are you sure you want to delete this event?",
+  "season": "season,",
+  "no_cast": "Cast information is not available."
 }
