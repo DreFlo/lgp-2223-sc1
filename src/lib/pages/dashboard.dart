@@ -124,16 +124,19 @@ class _DashboardState extends State<Dashboard> {
       List<TimeslotMediaTimeslotSuperEntity> mediaResults =
           searchResults.whereType<TimeslotMediaTimeslotSuperEntity>().toList();
       switch (_selectedIndex) {
+        case 0:
+          return DashBoardGridView(
+              tasks: taskResults, taskGroups: taskGroupResults, mediaEvents: mediaResults);
         case 1:
           return DashBoardGridView(
               tasks: taskResults, taskGroups: taskGroupResults);
         case 2:
           return DashBoardGridView(mediaEvents: mediaResults);
         default:
-          return DashBoardGridView(
-              tasks: taskResults,
-              taskGroups: taskGroupResults,
-              mediaEvents: mediaResults);
+          return const DashBoardGridView(
+              tasks: [],
+              taskGroups: [],
+              mediaEvents: []);
       }
     }
   }

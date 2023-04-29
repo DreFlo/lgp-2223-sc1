@@ -52,8 +52,8 @@ class _MyHomePageState extends State<MyHomePage> {
       case 2:
         return MyEventListView(mediaEvents: mediaEvents);
       default:
-        return MyEventListView(
-            studentEvents: studentEvents, mediaEvents: mediaEvents);
+        return const MyEventListView(
+            studentEvents: [], mediaEvents:  []);
     }
   }
 

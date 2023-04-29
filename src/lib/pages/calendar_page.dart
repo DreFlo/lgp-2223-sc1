@@ -212,6 +212,7 @@ class _CalendarPageState extends State<CalendarPage> {
                             builder: (context) => const WeekView()));
                   }),
               decoration: const BoxDecoration(color: appBackground),
+              rightIconVisible: false,
               headerTextStyle: const TextStyle(
                   fontFamily: 'Poppins',
                   color: Colors.white,
