@@ -50,6 +50,8 @@ class _CalendarPageState extends State<CalendarPage> {
                     59,
                     59),
                 xpMultiplier: mediaEvents[i].xpMultiplier,
+                finished: mediaEvents[i].finished,
+                type: mediaEvents[i].type,
                 userId: mediaEvents[i].userId);
         DateTime oldEndDateTime = mediaEvents[i].endDateTime;
         mediaEvents.removeAt(i);
@@ -62,6 +64,8 @@ class _CalendarPageState extends State<CalendarPage> {
                     oldEndDateTime.month, oldEndDateTime.day, 0, 0, 0),
                 endDateTime: oldEndDateTime,
                 xpMultiplier: mediaEvents[i].xpMultiplier,
+                finished: mediaEvents[i].finished,
+                type: mediaEvents[i].type,
                 userId: mediaEvents[i].userId);
         mediaEvents.add(newEvent);
       }
@@ -85,6 +89,7 @@ class _CalendarPageState extends State<CalendarPage> {
                     59,
                     59),
                 xpMultiplier: studentEvents[i].xpMultiplier,
+                finished: studentEvents[i].finished,
                 userId: studentEvents[i].userId);
         DateTime oldEndDateTime = studentEvents[i].endDateTime;
         studentEvents.removeAt(i);
@@ -96,6 +101,7 @@ class _CalendarPageState extends State<CalendarPage> {
                 startDateTime: DateTime(oldEndDateTime.year,
                     oldEndDateTime.month, oldEndDateTime.day, 0, 0, 0),
                 endDateTime: oldEndDateTime,
+                finished: studentEvents[i].finished,
                 xpMultiplier: studentEvents[i].xpMultiplier,
                 userId: studentEvents[i].userId);
         studentEvents.add(newEvent);
@@ -105,9 +111,9 @@ class _CalendarPageState extends State<CalendarPage> {
 
   void loadEventsDB() async {
     mediaEvents = await serviceLocator<TimeslotMediaTimeslotSuperDao>()
-        .findAllTimeslotMediaTimeslot();
+        .findAllTimeslotMediaTimeslot(null);
     studentEvents = await serviceLocator<TimeslotStudentTimeslotSuperDao>()
-        .findAllTimeslotStudentTimeslot();
+        .findAllTimeslotStudentTimeslot(null);
     checkMediaEventMultipleDays();
     checkStudentEventMultipleDays();
     setState(() {
@@ -206,6 +212,7 @@ class _CalendarPageState extends State<CalendarPage> {
                             builder: (context) => const WeekView()));
                   }),
               decoration: const BoxDecoration(color: appBackground),
+              rightIconVisible: false,
               headerTextStyle: const TextStyle(
                   fontFamily: 'Poppins',
                   color: Colors.white,

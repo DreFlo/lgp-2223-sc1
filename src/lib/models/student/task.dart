@@ -38,6 +38,8 @@ class Task {
   @ColumnInfo(name: 'subject_id')
   final int? subjectId;
 
+  final bool finished;
+
   Task(
       {this.id,
       required this.name,
@@ -46,5 +48,6 @@ class Task {
       required this.deadline,
       this.taskGroupId,
       this.subjectId,
-      required this.xp});
+      required this.xp,
+      required this.finished});
 }

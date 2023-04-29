@@ -14,6 +14,8 @@ class User {
 
   final int xp;
 
+  final int level;
+
   @ColumnInfo(name: 'image_path')
   final String imagePath;
 
@@ -22,5 +24,6 @@ class User {
       required this.userName,
       required this.password,
       required this.xp,
+      required this.level,
       required this.imagePath});
 }

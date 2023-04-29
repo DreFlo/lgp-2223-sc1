@@ -9,8 +9,8 @@ import 'package:src/env/env.dart';
 import 'package:src/models/user.dart';
 import 'package:src/pages/tasks/institution_form.dart';
 import 'package:src/pages/tasks/subject_form.dart';
-import 'package:src/utils/enums.dart';
 import 'package:src/utils/service_locator.dart';
+import 'package:src/utils/enums.dart';
 import 'package:tmdb_api/tmdb_api.dart';
 import 'package:src/pages/auth/landing_page.dart';
 import 'package:src/pages/catalog_search/leisure_module.dart';
@@ -27,10 +27,11 @@ class HomePage extends StatefulWidget {
   State<HomePage> createState() => _HomePageState();
 }
 
-class _HomePageState extends State<HomePage> {
+class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
   int _counter = 0;
   Object redrawObject = Object();
   bool isFavorite = false;
+  List<String> user = ['John Smith', '11', '400'];
   Status status = Status.goingThrough;
   String title = "She-ra and the Princesses of Power",
       synopsis =
@@ -107,7 +108,8 @@ class _HomePageState extends State<HomePage> {
       appBar: AppBar(
         title: Text(widget.title),
       ),
-      body: ListView(children: [
+      body: SingleChildScrollView(
+          child: Wrap(spacing: 10, children: [
         const SizedBox(height: 30),
         Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -185,6 +187,7 @@ class _HomePageState extends State<HomePage> {
                     id: 0,
                     password: 'secure',
                     xp: 0,
+                    level: 1,
                     imagePath: ''));
                 setState(() {
                   redrawObject = Object();
@@ -398,7 +401,7 @@ class _HomePageState extends State<HomePage> {
                 }),
           ],
         ),
-      ]),
+      ])),
       floatingActionButton: FloatingActionButton(
         onPressed: _incrementCounter,
         tooltip: 'Increment',
