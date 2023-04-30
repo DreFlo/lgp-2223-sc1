@@ -31,7 +31,6 @@ void main() {
         xpMultiplier: 1,
         id: 1,
         finished: false,
-        type: MediaTypes.movie,
         userId: 1);
     final studentEvent = TimeslotStudentTimeslotSuperEntity(
         title: 'My Student Event',

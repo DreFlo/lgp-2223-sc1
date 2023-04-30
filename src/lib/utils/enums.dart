@@ -10,4 +10,3 @@ enum EventType { student, leisure }
 
 enum Module { leisure, student, personal, fitness }
 
-enum MediaTypes { movie, series, book }

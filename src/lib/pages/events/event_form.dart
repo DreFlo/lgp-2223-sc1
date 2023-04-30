@@ -173,7 +173,6 @@ class _EventFormState extends State<EventForm> {
       xpMultiplier: 2,
       userId: 1,
       finished: false,
-      type: MediaTypes.movie, //TODO
     );
   }
 
