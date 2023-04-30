@@ -3,6 +3,8 @@ import 'package:src/models/student/task.dart';
 import 'package:src/pages/tasks/task_form.dart';
 import 'package:src/themes/colors.dart';
 import 'package:src/utils/date_formatter.dart';
+import 'package:src/utils/gamification/game_logic.dart';
+
 
 class TaskBar extends StatefulWidget {
   final bool taskStatus;
@@ -117,6 +119,9 @@ class _TaskBarState extends State<TaskBar> {
                             onTap: () {
                               setState(() {
                                 taskStatus = !taskStatus;
+                                if(!taskStatus) {
+                                  checkNonEventNonTask(task);
+                                }
                               });
                             },
                             child: Container(
@@ -137,6 +142,7 @@ class _TaskBarState extends State<TaskBar> {
                               if (selected) {
                                 onUnselected(task);
                               } else {
+                                print('holo');
                                 onSelected(task);
                               }
                               setState(() {

@@ -2,11 +2,10 @@ import 'package:src/utils/enums.dart';
 
 import 'package:src/models/user.dart';
 import 'package:src/utils/gamification/levels.dart';
-
-class Task {
-  late int id;
-  late Module module;
-}
+import 'package:src/models/student/task.dart';
+import 'package:src/daos/student/task_dao.dart';
+import 'package:src/utils/service_locator.dart';
+import 'package:src/utils/gamification/user_stats.dart';
 
 //timeslot has a lot of tasks -> combos
 class Timeslot {
@@ -14,97 +13,124 @@ class Timeslot {
   late List<int> taskId;
 }
 
-class Game {
-  int getTaskComboPoints(List<Task> tasks) {
-    double points = 0;
+//class Game {
+int getTaskComboPoints(List<Task> tasks) {
+  double points = 0;
 
-    // Base points.
-    points += basePoints * tasks.length;
+  // Base points.
+  points += basePoints * tasks.length;
 
-    // Task points.
-    points += taskComboMultiplier * taskComboPoints * tasks.length;
+  // Task points.
+  points += taskComboMultiplier * taskComboPoints * tasks.length;
 
-    return points.floor();
-  }
+  return points.floor();
+}
 
-  int getImmediatePoints() {
-    return (basePoints * nonEventTaskMultiplier).floor();
-  }
+int getImmediatePoints() {
+  return (basePoints * nonEventTaskMultiplier).floor();
+}
 
-  int getModuleComboPoints(List<Task> tasks) {
-    double points = 0;
+int getModuleComboPoints(List<Task> tasks) {
+  double points = 0;
 
-    points += moduleComboPoints * moduleComboMultiplier * tasks.length;
+  points += moduleComboPoints * moduleComboMultiplier * tasks.length;
 
-    return points.floor();
-  }
+  return points.floor();
+}
 
-  bool checkLevelUp(int userPoints, int currentLevel) {
-    if (userPoints >= levels[currentLevel]!) {
-      return true;
-    }
-
+bool checkLevelUp(int userPoints, int currentLevel) {
+  if(currentLevel + 1 > levels.length) {
     return false;
   }
 
-  void markTaskAsDone(Task task) {
-    //TODO: update task status in the DB.
+  if (userPoints >= levels[currentLevel + 1]!) {
+    return true;
   }
 
-  GameState check(List<Task> tasks, User user, bool differentModules) {
-    for (Task t in tasks) {
-      markTaskAsDone(t);
-    }
+  return false;
+}
 
-    int points = 0;
-    var lastTimeslot = DateTime.now();
-    //TODO: get last "done" timeslot from DB with a query -> last one with finished set to true
+void markTaskAsDone(Task task) async {
+  Task newTask = Task(
+      id: task.id,
+      name: task.name,
+      description: task.description,
+      deadline: task.deadline,
+      finished: true,
+      priority: task.priority,
+      xp: task.xp);
+  await serviceLocator<TaskDao>().updateTask(newTask);
+}
 
-    var taskCount = tasks.length;
-    if (taskCount == 0) {
-      // Illegal function call.
-      throw Error();
-    }
+GameState check(List<Task> tasks, User user, bool differentModules) {
+  for (Task t in tasks) {
+    markTaskAsDone(t);
+  }
 
-    if (lastTimeslot.difference(DateTime.now()).inDays == 0) {
-      // We may have a module combo.
+  int points = 0;
+  var lastTimeslot = DateTime.now();
+  //TODO: get last "done" timeslot from DB with a query -> last one with finished set to true
 
-      //Check if second/third... timeslot of the day is for a different module than the timeslot that came first -> if true, get ModuleComboPoints
-      //bool differentModules = true;
+  var taskCount = tasks.length;
+  if (taskCount == 0) {
+    // Illegal function call.
+    throw Error();
+  }
 
-      if (differentModules) {
-        points = getTaskComboPoints(tasks) + getModuleComboPoints(tasks);
-      } else {
-        points = getTaskComboPoints(tasks);
-      }
+  if (lastTimeslot.difference(DateTime.now()).inDays == 0) {
+    // We may have a module combo.
+
+    //Check if second/third... timeslot of the day is for a different module than the timeslot that came first -> if true, get ModuleComboPoints
+    //bool differentModules = true;
+
+    if (differentModules) {
+      points = getTaskComboPoints(tasks) + getModuleComboPoints(tasks);
     } else {
-      //First timeslot of the day
       points = getTaskComboPoints(tasks);
     }
-
-    //TODO: update user XP.
-    //(points) => {};
-
-    if (checkLevelUp(user.xp, user.level)) {
-      return GameState.levelUp;
-    } else {
-      return GameState.progress;
-    }
+  } else {
+    //First timeslot of the day
+    points = getTaskComboPoints(tasks);
   }
 
-  GameState checkNonEvent(Task task, User user) {
-    markTaskAsDone(task);
+  //TODO: update user XP.
+  //(points) => {};
 
-    //int points = getImmediatePoints();
-
-    //TODO: update user XP.
-
-    if (checkLevelUp(user.xp, user.level)) {
-      return GameState.levelUp;
-    } else {
-      return GameState.progress;
-    }
+  if (checkLevelUp(user.xp, user.level)) {
+    return GameState.levelUp;
+  } else {
+    return GameState.progress;
   }
 }
+
+void checkNonEventNonTask(Task task) async{
+  markTaskAsDone(task);
+
+  int points = getImmediatePoints();
+
+  User user = await getUser();
+
+  User newUser = User(
+      id: user.id,
+      userName: user.userName,
+      password: user.password,
+      xp: user.xp + points,
+      level: user.level,
+      imagePath: user.imagePath);
+  
+  await updateUser(newUser);
+
+
+  if (checkLevelUp(user.xp + points, user.level)) {
+    print("Level up!");
+    //return GameState.levelUp;
+    //show level up screen
+  } else {
+    print("Progress!");
+    //show progress screen
+    //return GameState.progress;
+  }
+}
+//}
 
 //Note for Friday meeting or whenever we can talk to André: show the formula + ask what do we need to store in xpMultiplier

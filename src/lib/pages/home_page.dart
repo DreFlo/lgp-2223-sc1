@@ -619,6 +619,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                                 builder: (context, scrollController) =>
                                     TaskForm(
                                       scrollController: scrollController,
+                                      id:1
                                     )),
                           ));
                 }),
@@ -645,6 +646,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                               builder: (context, scrollController) =>
                                   ProjectForm(
                                     scrollController: scrollController,
+                                    id:1
                                   ))));
                 }),
             ElevatedButton(
