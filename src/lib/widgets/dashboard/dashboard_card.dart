@@ -217,26 +217,35 @@ class _DashboardCardState extends State<DashboardCard> {
       );
     } else if (widget.mediaEvent != null) {
       return Container(
-          margin: const EdgeInsets.only(bottom: 5),
-          padding: const EdgeInsets.symmetric(horizontal: 5),
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(5),
-            color: grayBackground,
-          ),
-          child: Row(
-            children: [
-              for (MediaDBTypes type in mediaTypes)
-                Container(
-                  margin: const EdgeInsets.only(right: 4),
-                  child: Text(
-                    mediaDBTypeToString(type),
-                    style: Theme.of(context).textTheme.headlineLarge?.copyWith(
-                          color: moduleColors[widget.module],
-                        ),
-                  ),
-                ),
-            ],
-          ));
+        margin: const EdgeInsets.only(bottom: 5),
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(5),
+        ),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: mediaTypes
+              .map((MediaDBTypes type) => Container(
+                    margin: const EdgeInsets.only(right: 4),
+                    child: Container(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 5, vertical: 2),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(5),
+                        color: grayBackground,
+                      ),
+                      child: Text(
+                        mediaDBTypeToString(type),
+                        style: Theme.of(context)
+                            .textTheme
+                            .headlineLarge
+                            ?.copyWith(color: moduleColors[widget.module]),
+                      ),
+                    ),
+                  ))
+              .toList(),
+        ),
+      );
     } else {
       return Container();
     }

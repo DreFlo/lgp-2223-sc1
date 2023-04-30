@@ -16,6 +16,8 @@ import 'package:src/daos/student/institution_dao.dart';
 import 'package:src/daos/student/subject_dao.dart';
 import 'package:src/daos/student/task_dao.dart';
 import 'package:src/daos/student/task_group_dao.dart';
+import 'package:src/daos/timeslot/media_media_timeslot_dao.dart';
+import 'package:src/daos/timeslot/task_student_timeslot_dao.dart';
 import 'package:src/daos/timeslot/timeslot_media_timeslot_super_dao.dart';
 import 'package:src/daos/timeslot/timeslot_student_timeslot_super_dao.dart';
 import 'package:src/daos/user_badge_dao.dart';
@@ -51,6 +53,10 @@ Future<void> seedDatabase(GetIt serviceLocator) async {
       .insertTimeslotMediaTimeslotSuperEntities(mockMediaTimeslots);
   await serviceLocator<TimeslotStudentTimeslotSuperDao>()
       .insertTimeslotStudentTimeslotSuperEntities(mockStudentTimeslots);
+  await serviceLocator<MediaMediaTimeslotDao>()
+      .insertMediaMediaTimeslots(mockMediaMediaTimeslots);
+  await serviceLocator<TaskStudentTimeslotDao>()
+      .insertTaskStudentTimeslots(mockTaskStudentTimeslots);
 
   await serviceLocator<NoteBookNoteSuperDao>()
       .insertNoteBookNoteSuperEntities(mockBookNotes);
