@@ -29,7 +29,7 @@ class DashboardCard extends StatefulWidget {
       : super(key: key);
 
   @override
-   State<DashboardCard> createState() => _DashboardCardState();
+  State<DashboardCard> createState() => _DashboardCardState();
 }
 
 class _DashboardCardState extends State<DashboardCard> {

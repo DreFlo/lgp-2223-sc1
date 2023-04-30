@@ -47,7 +47,6 @@ class _DashBoardGridViewState extends State<DashBoardGridView> {
   }
 
   showCard(int index) {
-   
     if (widget.tasks != null && items[index] is Task) {
       return DashboardCard(module: 'Student', task: items[index]);
     } else if (widget.taskGroups != null && items[index] is TaskGroup) {
@@ -71,19 +70,18 @@ class _DashBoardGridViewState extends State<DashBoardGridView> {
             childAspectRatio: 0.81,
           ),
           itemBuilder: (BuildContext context, int index) {
-            
             return FutureBuilder(
-          future: Future.delayed(const Duration(milliseconds: 5), () {}),
-          builder: (context, snapshot) {
-            if (snapshot.connectionState == ConnectionState.waiting) {
-              return const Center(
-                child: CircularProgressIndicator(),
-              );
-            } else {
-              return showCard(index);
-            }
-          },
-        );
+              future: Future.delayed(const Duration(milliseconds: 5), () {}),
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return const Center(
+                    child: CircularProgressIndicator(),
+                  );
+                } else {
+                  return showCard(index);
+                }
+              },
+            );
           },
         ));
   }
