@@ -21,6 +21,15 @@ final mockTasks = [
       xp: 0,
       finished: false),
   Task(
+      name: 'Frontend development',
+      description: 'Create the frontend of the app',
+      priority: Priority.high,
+      deadline: DateTime.now().add(const Duration(hours: 7)),
+      taskGroupId: 1,
+      subjectId: 1,
+      xp: 0,
+      finished: false),
+  Task(
       name: 'Dentist appointment',
       description: 'Get braces',
       priority: Priority.high,

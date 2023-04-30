@@ -20,8 +20,7 @@ class TasksList extends ActivitiesList {
   Future<List<ChooseActivity>> getActivities() async {
     // TODO(events): and filter only the tasks from the user logged in
     List<ChooseActivity> tasksActivities = [];
-    List<Task> tasks = await serviceLocator<TaskDao>()
-        .findTasksActivities(DateTime.now().millisecondsSinceEpoch);
+    List<Task> tasks = await serviceLocator<TaskDao>().findTasksActivities();
 
     for (Task t in tasks) {
       if (activities.every((element) => element.id != t.id)) {

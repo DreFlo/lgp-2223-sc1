@@ -34,6 +34,6 @@ abstract class TaskDao {
   Future<void> deleteTask(Task task);
 
   @Query('''SELECT * FROM task 
-            WHERE deadline >= :date''')
-  Future<List<Task>> findTasksActivities(int date);
+            WHERE deadline >= cast((julianday('now') - 2440587.5) * 86400 * 1000 as integer)''')
+  Future<List<Task>> findTasksActivities();
 }

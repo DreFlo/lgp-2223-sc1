@@ -88,7 +88,7 @@ void main() {
   testWidgets('Create event with incorrect fields test',
       (WidgetTester widgetTester) async {
     final mockTaskDao = serviceLocator.get<TaskDao>();
-    when(mockTaskDao.findTasksActivities(1)).thenAnswer((_) async => []);
+    when(mockTaskDao.findTasksActivities()).thenAnswer((_) async => []);
 
     await widgetTester.pumpWidget(LocalizationsInjector(
         child: EventForm(scrollController: ScrollController())));
@@ -102,9 +102,9 @@ void main() {
         findsOneWidget);
   });
 
-  /*testWidgets('Create event test', (WidgetTester widgetTester) async {
+  testWidgets('Create event test', (WidgetTester widgetTester) async {
     final mockTaskDao = serviceLocator.get<TaskDao>();
-    when(mockTaskDao.findTasksActivities(any)).thenAnswer((_) async {
+    when(mockTaskDao.findTasksActivities()).thenAnswer((_) async {
       return tasks;
     });
 
@@ -136,7 +136,7 @@ void main() {
     expect(find.text('The event title cannot be empty.'), findsNothing);
     expect(
         find.text('The event must have at least one activity.'), findsNothing);
-  });`*/
+  });
 
   testWidgets('Load correct event information test',
       (WidgetTester widgetTester) async {
