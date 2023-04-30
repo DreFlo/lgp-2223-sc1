@@ -1,6 +1,5 @@
 import 'package:src/models/timeslot/timeslot.dart';
 import 'package:src/models/timeslot/media_timeslot.dart';
-import 'package:src/utils/enums.dart';
 
 class TimeslotMediaTimeslotSuperEntity {
   final int? id;
@@ -11,7 +10,6 @@ class TimeslotMediaTimeslotSuperEntity {
   final int xpMultiplier;
   final bool finished;
   final int userId;
-  final MediaTypes type;
 
   TimeslotMediaTimeslotSuperEntity(
       {this.id,
@@ -21,8 +19,7 @@ class TimeslotMediaTimeslotSuperEntity {
       required this.endDateTime,
       required this.xpMultiplier,
       required this.finished,
-      required this.userId,
-      required this.type});
+      required this.userId});
 
   TimeslotMediaTimeslotSuperEntity.fromTimeslotMediaTimeslotEntity(
       MediaTimeslot mediaTimeslot, Timeslot timeslot)
@@ -33,8 +30,7 @@ class TimeslotMediaTimeslotSuperEntity {
         endDateTime = timeslot.endDateTime,
         xpMultiplier = timeslot.xpMultiplier,
         finished = timeslot.finished,
-        userId = timeslot.userId,
-        type = mediaTimeslot.type;
+        userId = timeslot.userId;
 
   Timeslot toTimeslot() {
     return Timeslot(
@@ -50,7 +46,7 @@ class TimeslotMediaTimeslotSuperEntity {
   }
 
   MediaTimeslot toMediaTimeslot() {
-    return MediaTimeslot(id: id!, type: type);
+    return MediaTimeslot(id: id!);
   }
 
   TimeslotMediaTimeslotSuperEntity copyWith(
@@ -61,8 +57,7 @@ class TimeslotMediaTimeslotSuperEntity {
       DateTime? endDateTime,
       int? xpMultiplier,
       bool? finished,
-      int? userId,
-      MediaTypes? type}) {
+      int? userId}) {
     return TimeslotMediaTimeslotSuperEntity(
         id: id ?? this.id,
         title: title ?? this.title,
@@ -71,7 +66,6 @@ class TimeslotMediaTimeslotSuperEntity {
         endDateTime: endDateTime ?? this.endDateTime,
         xpMultiplier: xpMultiplier ?? this.xpMultiplier,
         finished: finished ?? this.finished,
-        userId: userId ?? this.userId,
-        type: type ?? this.type);
+        userId: userId ?? this.userId);
   }
 }

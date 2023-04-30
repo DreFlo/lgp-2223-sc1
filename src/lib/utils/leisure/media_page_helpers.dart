@@ -102,16 +102,18 @@ void saveFavoriteStatus(bool favorite, int id) async {
       await mediaStream.firstWhere((media) => media != null);
   Media media = firstNonNullMedia!;
   Media newMedia = Media(
-      description: media.description,
-      id: media.id,
-      name: media.name,
-      linkImage: media.linkImage,
-      favorite: favorite,
-      status: media.status,
-      genres: media.genres,
-      release: media.release,
-      xp: media.xp,
-      participants: media.participants);
+    description: media.description,
+    id: media.id,
+    name: media.name,
+    linkImage: media.linkImage,
+    favorite: favorite,
+    status: media.status,
+    genres: media.genres,
+    release: media.release,
+    xp: media.xp,
+    participants: media.participants,
+    type: media.type,
+  );
   await serviceLocator<MediaDao>().updateMedia(newMedia);
 }
 

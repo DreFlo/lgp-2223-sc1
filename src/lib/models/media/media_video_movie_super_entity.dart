@@ -23,17 +23,17 @@ class MediaVideoMovieSuperEntity extends Media {
     required this.tagline,
     required this.tmdbId,
   }) : super(
-          id: id,
-          name: name,
-          description: description,
-          linkImage: linkImage,
-          status: status,
-          favorite: favorite,
-          genres: genres,
-          release: release,
-          xp: xp,
-          participants: participants,
-        );
+            id: id,
+            name: name,
+            description: description,
+            linkImage: linkImage,
+            status: status,
+            favorite: favorite,
+            genres: genres,
+            release: release,
+            xp: xp,
+            participants: participants,
+            type: MediaDBTypes.movie);
 
   MediaVideoMovieSuperEntity.fromMediaAndVideoAndMovie(
       Media media, Video video, Movie movie)
@@ -41,31 +41,31 @@ class MediaVideoMovieSuperEntity extends Media {
         tagline = movie.tagline,
         tmdbId = video.tmdbId,
         super(
-          id: media.id,
-          name: media.name,
-          description: media.description,
-          linkImage: media.linkImage,
-          status: media.status,
-          favorite: media.favorite,
-          genres: media.genres,
-          release: media.release,
-          xp: media.xp,
-          participants: media.participants,
-        );
+            id: media.id,
+            name: media.name,
+            description: media.description,
+            linkImage: media.linkImage,
+            status: media.status,
+            favorite: media.favorite,
+            genres: media.genres,
+            release: media.release,
+            xp: media.xp,
+            participants: media.participants,
+            type: MediaDBTypes.movie);
 
   Media toMedia() {
     return Media(
-      id: id,
-      name: name,
-      description: description,
-      linkImage: linkImage,
-      status: status,
-      favorite: favorite,
-      genres: genres,
-      release: release,
-      participants: participants,
-      xp: xp,
-    );
+        id: id,
+        name: name,
+        description: description,
+        linkImage: linkImage,
+        status: status,
+        favorite: favorite,
+        genres: genres,
+        release: release,
+        participants: participants,
+        xp: xp,
+        type: MediaDBTypes.movie);
   }
 
   Video toVideo() {
@@ -116,15 +116,15 @@ class MediaVideoMovieSuperEntity extends Media {
         tagline = json['tagline'],
         tmdbId = json['tmdbId'],
         super(
-          id: json['id'],
-          name: json['name'],
-          description: json['description'],
-          linkImage: json['linkImage'],
-          status: json['status'],
-          favorite: json['favorite'],
-          genres: json['genres'],
-          release: json['release'],
-          xp: json['xp'],
-          participants: json['participants'],
-        );
+            id: json['id'],
+            name: json['name'],
+            description: json['description'],
+            linkImage: json['linkImage'],
+            status: json['status'],
+            favorite: json['favorite'],
+            genres: json['genres'],
+            release: json['release'],
+            xp: json['xp'],
+            participants: json['participants'],
+            type: MediaDBTypes.movie);
 }

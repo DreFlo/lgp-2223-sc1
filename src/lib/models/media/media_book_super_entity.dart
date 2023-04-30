@@ -20,47 +20,47 @@ class MediaBookSuperEntity extends Media {
     required this.totalPages,
     this.progressPages = 0,
   }) : super(
-          id: id,
-          name: name,
-          description: description,
-          linkImage: linkImage,
-          status: status,
-          favorite: favorite,
-          genres: genres,
-          release: release,
-          xp: xp,
-          participants: participants,
-        );
+            id: id,
+            name: name,
+            description: description,
+            linkImage: linkImage,
+            status: status,
+            favorite: favorite,
+            genres: genres,
+            release: release,
+            xp: xp,
+            participants: participants,
+            type: MediaDBTypes.book);
 
   MediaBookSuperEntity.fromMediaAndBook(Media media, Book book)
       : totalPages = book.totalPages,
         progressPages = book.progressPages,
         super(
-          id: media.id,
-          name: media.name,
-          description: media.description,
-          linkImage: media.linkImage,
-          status: media.status,
-          favorite: media.favorite,
-          genres: media.genres,
-          release: media.release,
-          xp: media.xp,
-          participants: media.participants,
-        );
+            id: media.id,
+            name: media.name,
+            description: media.description,
+            linkImage: media.linkImage,
+            status: media.status,
+            favorite: media.favorite,
+            genres: media.genres,
+            release: media.release,
+            xp: media.xp,
+            participants: media.participants,
+            type: MediaDBTypes.book);
 
   Media toMedia() {
     return Media(
-      id: id,
-      name: name,
-      description: description,
-      linkImage: linkImage,
-      status: status,
-      favorite: favorite,
-      genres: genres,
-      release: release,
-      xp: xp,
-      participants: participants,
-    );
+        id: id,
+        name: name,
+        description: description,
+        linkImage: linkImage,
+        status: status,
+        favorite: favorite,
+        genres: genres,
+        release: release,
+        xp: xp,
+        participants: participants,
+        type: MediaDBTypes.book);
   }
 
   Book toBook() {

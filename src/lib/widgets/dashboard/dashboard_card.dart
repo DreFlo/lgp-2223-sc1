@@ -10,6 +10,9 @@ import 'package:src/utils/service_locator.dart';
 import 'package:src/models/student/subject.dart';
 import 'package:src/daos/student/subject_dao.dart';
 import 'package:src/utils/enums.dart';
+import 'package:src/daos/timeslot/media_media_timeslot_dao.dart';
+import 'package:src/daos/media/media_dao.dart';
+import 'package:src/models/media/media.dart';
 
 class DashboardCard extends StatefulWidget {
   final Task? task; //student
@@ -41,10 +44,19 @@ class _DashboardCardState extends State<DashboardCard> {
   String institutionOrMediaType = '';
   int institutionId = 0;
   int nTasks = 0;
+  List<MediaDBTypes> mediaTypes = [];
+  List<int> mediaIds = [];
 
   @override
   void initState() {
     super.initState();
+    getMediaIds().then((value) => setState(() {
+          mediaIds = value;
+          getMediaTypes().then((value) => setState(() {
+                mediaTypes = value;
+              }));
+        }));
+
     getSubjectOrDate().then((value) => setState(() {
           subjectOrDate = value;
           getInstitutionOrMediaType().then((value) => setState(() {
@@ -109,18 +121,13 @@ class _DashboardCardState extends State<DashboardCard> {
   }
 
   Future<String> getInstitutionOrMediaType() async {
+    institutionOrMediaType = '';
     if (widget.task != null) {
       return await loadInstitution();
     } else if (widget.taskGroup != null) {
       return await loadInstitution();
     } else if (widget.mediaEvent != null) {
-      if (widget.mediaEvent!.type == MediaTypes.movie) {
-        return 'Movie';
-      } else if (widget.mediaEvent!.type == MediaTypes.series) {
-        return 'TV Show';
-      } else {
-        return 'Book';
-      }
+      return mediaTypes.length.toString();
     } else {
       return '';
     }
@@ -152,6 +159,87 @@ class _DashboardCardState extends State<DashboardCard> {
       return firstNonNullInstitution?.name ?? '';
     }
     return '';
+  }
+
+  Future<List<int>> getMediaIds() async {
+    if (widget.mediaEvent != null) {
+      return await serviceLocator<MediaMediaTimeslotDao>()
+          .findMediaIdByMediaTimeslotId(widget.mediaEvent!.id ?? 0);
+    } else {
+      return [];
+    }
+  }
+
+  Future<List<MediaDBTypes>> getMediaTypes() async {
+    if (widget.mediaEvent != null) {
+      List<MediaDBTypes> mediaTypes = [];
+      for (int id in mediaIds) {
+        final mediaStream = serviceLocator<MediaDao>().findMediaById(id);
+        Media? firstNonNullMedia = await mediaStream
+            .firstWhere((media) => media != null, orElse: () => null);
+        mediaTypes.add(firstNonNullMedia?.type ?? MediaDBTypes.book);
+      }
+      return mediaTypes;
+    }
+    return [];
+  }
+
+  String mediaDBTypeToString(MediaDBTypes type) {
+    if (type == MediaDBTypes.book) {
+      return 'Book';
+    } else if (type == MediaDBTypes.movie) {
+      return 'Movie';
+    } else if (type == MediaDBTypes.series) {
+      return 'TV Show';
+    } else {
+      return '';
+    }
+  }
+
+  Widget mediaTypesOrInstitutionContainer() {
+    if (widget.task != null || widget.taskGroup != null) {
+      if (institutionOrMediaType == '0') {
+        return Container();
+      }
+      return Container(
+        margin: const EdgeInsets.only(bottom: 5),
+        padding: const EdgeInsets.symmetric(horizontal: 5),
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(5),
+          color: grayBackground,
+        ),
+        child: Text(
+          institutionOrMediaType,
+          style: Theme.of(context).textTheme.headlineLarge?.copyWith(
+                color: moduleColors[widget.module],
+              ),
+        ),
+      );
+    } else if (widget.mediaEvent != null) {
+      return Container(
+          margin: const EdgeInsets.only(bottom: 5),
+          padding: const EdgeInsets.symmetric(horizontal: 5),
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(5),
+            color: grayBackground,
+          ),
+          child: Row(
+            children: [
+              for (MediaDBTypes type in mediaTypes)
+                Container(
+                  margin: const EdgeInsets.only(right: 4),
+                  child: Text(
+                    mediaDBTypeToString(type),
+                    style: Theme.of(context).textTheme.headlineLarge?.copyWith(
+                          color: moduleColors[widget.module],
+                        ),
+                  ),
+                ),
+            ],
+          ));
+    } else {
+      return Container();
+    }
   }
 
   @override
@@ -198,27 +286,7 @@ class _DashboardCardState extends State<DashboardCard> {
                                   // runSpacing: 5,
                                   children: [
                                     institutionOrMediaType != ''
-                                        ? Container(
-                                            margin: const EdgeInsets.only(
-                                                bottom: 5),
-                                            padding: const EdgeInsets.symmetric(
-                                                horizontal: 5),
-                                            decoration: BoxDecoration(
-                                              borderRadius:
-                                                  BorderRadius.circular(5),
-                                              color: grayBackground,
-                                            ),
-                                            child: Text(
-                                              institutionOrMediaType,
-                                              style: Theme.of(context)
-                                                  .textTheme
-                                                  .headlineLarge
-                                                  ?.copyWith(
-                                                    color: moduleColors[
-                                                        widget.module],
-                                                  ),
-                                            ),
-                                          )
+                                        ? mediaTypesOrInstitutionContainer()
                                         : Container(),
                                     subjectOrDate != ''
                                         ? Container(

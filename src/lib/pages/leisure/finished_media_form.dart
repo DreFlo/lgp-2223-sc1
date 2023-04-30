@@ -418,7 +418,8 @@ class _FinishedMediaFormState extends State<FinishedMediaForm> {
                       genres: media.genres,
                       release: media.release,
                       xp: media.xp,
-                      participants: media.participants);
+                      participants: media.participants,
+                      type: media.type);
                   await serviceLocator<MediaDao>().updateMedia(newMedia);
 
                   if (widget.refreshStatus != null) {

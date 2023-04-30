@@ -223,7 +223,8 @@ void main() {
           genres: 'genres',
           release: DateTime.now(),
           xp: 23,
-          participants: 'Me'));
+          participants: 'Me',
+          type: MediaDBTypes.book));
 
       await serviceLocator<BookDao>()
           .insertBook(Book(id: bookId, totalPages: 23, progressPages: 0));
@@ -539,7 +540,8 @@ void main() {
           genres: 'genres',
           release: DateTime.now(),
           xp: 23,
-          participants: 'Me'));
+          participants: 'Me',
+          type: MediaDBTypes.book));
 
       await serviceLocator<SeriesDao>().insertSerie(Series(
           id: seriesId,
@@ -557,7 +559,6 @@ void main() {
               endDateTime: DateTime.now().add(const Duration(days: 1)),
               xpMultiplier: 2,
               finished: false,
-              type: MediaTypes.movie,
               userId: 1);
 
       int id = await serviceLocator<TimeslotMediaTimeslotSuperDao>()
@@ -644,7 +645,8 @@ void main() {
           genres: 'genres',
           release: DateTime.now(),
           xp: 23,
-          participants: 'Me'));
+          participants: 'Me',
+          type: MediaDBTypes.book));
 
       await serviceLocator<SeriesDao>().insertSerie(Series(
           id: seriesId,
@@ -662,7 +664,6 @@ void main() {
               endDateTime: DateTime.now().add(const Duration(days: 1)),
               xpMultiplier: 2,
               finished: false,
-              type: MediaTypes.movie,
               userId: 1);
 
       int id = await serviceLocator<TimeslotMediaTimeslotSuperDao>()
@@ -891,7 +892,8 @@ void main() {
           genres: 'Video 1',
           release: DateTime.now(),
           xp: 0,
-          participants: 'Me'));
+          participants: 'Me',
+          type: MediaDBTypes.movie));
 
       Review review = Review(
           id: 1,

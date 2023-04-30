@@ -36,6 +36,7 @@ class MediaSeriesSuperEntity extends Media {
           release: release,
           xp: xp,
           participants: participants,
+          type: MediaDBTypes.series,
         );
 
   MediaSeriesSuperEntity.fromMediaAndSeries(Media media, Series series)
@@ -55,6 +56,7 @@ class MediaSeriesSuperEntity extends Media {
           release: media.release,
           xp: media.xp,
           participants: media.participants,
+          type: MediaDBTypes.series,
         );
 
   Media toMedia() {
@@ -69,6 +71,7 @@ class MediaSeriesSuperEntity extends Media {
       release: release,
       participants: participants,
       xp: xp,
+      type: MediaDBTypes.series,
     );
   }
 
@@ -134,5 +137,6 @@ class MediaSeriesSuperEntity extends Media {
           release: json['release'],
           xp: json['xp'],
           participants: json['participants'],
+          type: MediaDBTypes.series,
         );
 }
