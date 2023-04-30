@@ -29,7 +29,7 @@ class DashboardCard extends StatefulWidget {
       : super(key: key);
 
   @override
-  State<DashboardCard> createState() => _DashboardCardState();
+   State<DashboardCard> createState() => _DashboardCardState();
 }
 
 class _DashboardCardState extends State<DashboardCard> {
@@ -40,33 +40,39 @@ class _DashboardCardState extends State<DashboardCard> {
     'Fitness': fitnessColor,
   };
   String subjectOrDate = '';
-  String dateTasks = '';
+  String taskDates = '';
   String institutionOrMediaType = '';
   int institutionId = 0;
   int nTasks = 0;
   List<MediaDBTypes> mediaTypes = [];
   List<int> mediaIds = [];
+  bool isReady = false;
 
   @override
   void initState() {
+    isReady = false;
     super.initState();
-    getMediaIds().then((value) => setState(() {
-          mediaIds = value;
-          getMediaTypes().then((value) => setState(() {
-                mediaTypes = value;
-              }));
-        }));
 
-    getSubjectOrDate().then((value) => setState(() {
-          subjectOrDate = value;
-          getInstitutionOrMediaType().then((value) => setState(() {
-                institutionOrMediaType = value;
-              }));
+    Future.wait([
+      getMediaIds().then((value) => setState(() {
+            mediaIds = value;
+            getMediaTypes().then((value) => setState(() {
+                  mediaTypes = value;
+                }));
+          })),
+      getSubjectOrDate().then((value) => setState(() {
+            subjectOrDate = value;
+            getInstitutionOrMediaType().then((value) => setState(() {
+                  institutionOrMediaType = value;
+                }));
+          })),
+      getNTasks().then((value) => setState(() {
+            nTasks = value;
+          })),
+    ]).then((value) => setState(() {
+          isReady = true;
+          taskDates = getTaskDate();
         }));
-    getNTasks().then((value) => setState(() {
-          nTasks = value;
-        }));
-    dateTasks = getTaskDate();
   }
 
   String getTitle() {
@@ -134,6 +140,7 @@ class _DashboardCardState extends State<DashboardCard> {
   }
 
   Future<String> loadSubject() async {
+    subjectOrDate = '';
     int? id;
     if (widget.task != null) {
       id = widget.task?.subjectId;
@@ -253,117 +260,128 @@ class _DashboardCardState extends State<DashboardCard> {
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-        onTap: () {
-          // TODO: Navigate to project page
-        },
-        child: Container(
-            margin: const EdgeInsets.all(8),
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(12),
-              color: grayButton,
-            ),
-            child: Container(
-                margin: const EdgeInsets.all(12),
-                child: Column(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Container(
-                        width: 28,
-                        height: 28,
-                        margin: const EdgeInsets.only(bottom: 9),
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(5),
-                          color: moduleColors[widget.module],
-                        ),
-                      ),
-                      Container(
+    if (!(widget.module == 'Leisure' &&
+            institutionOrMediaType == '' &&
+            subjectOrDate == '') ||
+        !(widget.module == 'Student' && taskDates == '')) {
+      isReady = true;
+      return GestureDetector(
+          onTap: () {
+            // TODO: Navigate to project page
+          },
+          child: Container(
+              margin: const EdgeInsets.all(8),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(12),
+                color: grayButton,
+              ),
+              child: Container(
+                  margin: const EdgeInsets.all(12),
+                  child: Column(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Container(
+                          width: 28,
+                          height: 28,
                           margin: const EdgeInsets.only(bottom: 9),
-                          child: Text(
-                            getTitle(),
-                            style: Theme.of(context).textTheme.labelLarge,
-                          )),
-                      Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            Flexible(
-                                flex: 2,
-                                child: Wrap(
-                                  spacing: 10,
-                                  // runSpacing: 5,
-                                  children: [
-                                    institutionOrMediaType != ''
-                                        ? mediaTypesOrInstitutionContainer()
-                                        : Container(),
-                                    subjectOrDate != ''
-                                        ? Container(
-                                            margin: const EdgeInsets.only(
-                                                bottom: 5),
-                                            padding: const EdgeInsets.symmetric(
-                                                horizontal: 5),
-                                            decoration: BoxDecoration(
-                                              borderRadius:
-                                                  BorderRadius.circular(5),
-                                              color: grayBackground,
-                                            ),
-                                            child: Text(
-                                              subjectOrDate,
-                                              style: Theme.of(context)
-                                                  .textTheme
-                                                  .headlineLarge
-                                                  ?.copyWith(
-                                                    color: moduleColors[
-                                                        widget.module],
-                                                  ),
-                                            ),
-                                          )
-                                        : Container(),
-                                    dateTasks != ''
-                                        ? Container(
-                                            margin: const EdgeInsets.only(
-                                                bottom: 5),
-                                            padding: const EdgeInsets.symmetric(
-                                                horizontal: 5),
-                                            decoration: BoxDecoration(
-                                              borderRadius:
-                                                  BorderRadius.circular(5),
-                                              color: grayBackground,
-                                            ),
-                                            child: Text(
-                                              dateTasks,
-                                              style: Theme.of(context)
-                                                  .textTheme
-                                                  .headlineLarge
-                                                  ?.copyWith(
-                                                    color: moduleColors[
-                                                        widget.module],
-                                                  ),
-                                            ),
-                                          )
-                                        : Container(),
-                                  ],
-                                )),
-                            Flexible(
-                              flex: 1,
-                              child: nTasks != 0
-                                  ? Container(
-                                      width: 25,
-                                      height: 25,
-                                      decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(30),
-                                        color: primaryColor,
-                                      ),
-                                      child: Center(
-                                          child: Text(nTasks.toString(),
-                                              style: Theme.of(context)
-                                                  .textTheme
-                                                  .headlineLarge)),
-                                    )
-                                  : Container(),
-                            ),
-                          ])
-                    ]))));
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(5),
+                            color: moduleColors[widget.module],
+                          ),
+                        ),
+                        Container(
+                            margin: const EdgeInsets.only(bottom: 9),
+                            child: Text(
+                              getTitle(),
+                              style: Theme.of(context).textTheme.labelLarge,
+                            )),
+                        Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              Flexible(
+                                  flex: 2,
+                                  child: Wrap(
+                                    spacing: 10,
+                                    // runSpacing: 5,
+                                    children: [
+                                      institutionOrMediaType != ''
+                                          ? mediaTypesOrInstitutionContainer()
+                                          : Container(),
+                                      subjectOrDate != ''
+                                          ? Container(
+                                              margin: const EdgeInsets.only(
+                                                  bottom: 5),
+                                              padding:
+                                                  const EdgeInsets.symmetric(
+                                                      horizontal: 5),
+                                              decoration: BoxDecoration(
+                                                borderRadius:
+                                                    BorderRadius.circular(5),
+                                                color: grayBackground,
+                                              ),
+                                              child: Text(
+                                                subjectOrDate,
+                                                style: Theme.of(context)
+                                                    .textTheme
+                                                    .headlineLarge
+                                                    ?.copyWith(
+                                                      color: moduleColors[
+                                                          widget.module],
+                                                    ),
+                                              ),
+                                            )
+                                          : Container(),
+                                      taskDates != ''
+                                          ? Container(
+                                              margin: const EdgeInsets.only(
+                                                  bottom: 5),
+                                              padding:
+                                                  const EdgeInsets.symmetric(
+                                                      horizontal: 5),
+                                              decoration: BoxDecoration(
+                                                borderRadius:
+                                                    BorderRadius.circular(5),
+                                                color: grayBackground,
+                                              ),
+                                              child: Text(
+                                                taskDates,
+                                                style: Theme.of(context)
+                                                    .textTheme
+                                                    .headlineLarge
+                                                    ?.copyWith(
+                                                      color: moduleColors[
+                                                          widget.module],
+                                                    ),
+                                              ),
+                                            )
+                                          : Container(),
+                                    ],
+                                  )),
+                              Flexible(
+                                flex: 1,
+                                child: nTasks != 0
+                                    ? Container(
+                                        width: 25,
+                                        height: 25,
+                                        decoration: BoxDecoration(
+                                          borderRadius:
+                                              BorderRadius.circular(30),
+                                          color: primaryColor,
+                                        ),
+                                        child: Center(
+                                            child: Text(nTasks.toString(),
+                                                style: Theme.of(context)
+                                                    .textTheme
+                                                    .headlineLarge)),
+                                      )
+                                    : Container(),
+                              ),
+                            ])
+                      ]))));
+    }
+    isReady = false;
+    return Container();
   }
 }
