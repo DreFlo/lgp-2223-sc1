@@ -317,7 +317,7 @@ class _EventFormState extends State<EventForm> {
                       endDate: endDate,
                       setStartDate: setStartDate,
                       errors: errors),
-                  const SizedBox(height: 10),
+                  const SizedBox(height: 30),
                   EndDatePicker(
                       endDate: endDate,
                       startDate: startDate,
