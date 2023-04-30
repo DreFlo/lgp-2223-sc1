@@ -1,7 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:src/utils/service_locator.dart';
 import '../utils/service_locator_test_util.dart';
-import 'package:src/utils/enums.dart';
 import '../utils/locations_injector.dart';
 import 'package:mockito/mockito.dart';
 import 'package:src/pages/calendar_page.dart';
@@ -31,7 +30,6 @@ void main() {
         xpMultiplier: 1,
         id: 1,
         finished: false,
-        type: MediaTypes.movie,
         userId: 1);
     final studentEvent = TimeslotStudentTimeslotSuperEntity(
         title: 'My Student Event',

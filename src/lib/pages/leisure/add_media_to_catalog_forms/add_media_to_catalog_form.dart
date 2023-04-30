@@ -1,26 +1,34 @@
-// ignore_for_file: file_names
-
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:src/models/media/media.dart';
 import 'package:src/themes/colors.dart';
 import 'package:src/utils/enums.dart';
 
-class AddToCatalogForm extends StatefulWidget {
+abstract class AddMediaToCatalogForm<T extends Media> extends StatefulWidget {
   final String startDate, endDate;
   final Status status;
+  final VoidCallback? refreshStatus;
+  final Future Function() showReviewForm;
+  final void Function(int) setMediaId;
+  final T item; //What we have from the api
 
-  const AddToCatalogForm(
+  const AddMediaToCatalogForm(
       {Key? key,
       required this.startDate,
       required this.endDate,
-      required this.status})
+      required this.status,
+      required this.item,
+      required this.setMediaId,
+      required this.showReviewForm,
+      required this.refreshStatus})
       : super(key: key);
 
   @override
-  State<AddToCatalogForm> createState() => _AddToCatalogFormState();
+  State<AddMediaToCatalogForm> createState();
 }
 
-class _AddToCatalogFormState extends State<AddToCatalogForm> {
+abstract class AddMediaToCatalogFormState<T extends Media>
+    extends State<AddMediaToCatalogForm<T>> {
   late String startDate, endDate;
   late Status status;
 
@@ -64,33 +72,37 @@ class _AddToCatalogFormState extends State<AddToCatalogForm> {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
-                InkWell(
-                  highlightColor: lightGray,
-                  borderRadius: const BorderRadius.all(Radius.circular(10)),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Container(
-                          height: 50,
-                          padding: const EdgeInsets.only(left: 20, right: 20),
-                          alignment: const Alignment(0, 0),
-                          decoration: BoxDecoration(
-                              borderRadius:
-                                  const BorderRadius.all(Radius.circular(10)),
-                              color: (status == Status.planTo
-                                  ? leisureColor
-                                  : lightGray)),
-                          child: Text(AppLocalizations.of(context).plan_to,
-                              style: Theme.of(context).textTheme.bodySmall)),
-                    ],
+                Expanded(
+                  child: InkWell(
+                    highlightColor: lightGray,
+                    borderRadius: const BorderRadius.all(Radius.circular(10)),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Container(
+                            height: 50,
+                            padding: const EdgeInsets.only(left: 20, right: 20),
+                            alignment: const Alignment(0, 0),
+                            decoration: BoxDecoration(
+                                borderRadius:
+                                    const BorderRadius.all(Radius.circular(10)),
+                                color: (status == Status.planTo
+                                    ? leisureColor
+                                    : lightGray)),
+                            child: Text(AppLocalizations.of(context).plan_to,
+                                style: Theme.of(context).textTheme.bodySmall)),
+                      ],
+                    ),
+                    onTap: () {
+                      setState(() {
+                        status = Status.planTo;
+                      });
+                    },
                   ),
-                  onTap: () {
-                    status = Status.planTo;
-
-                    setState(() {});
-                  },
                 ),
-                InkWell(
+                const SizedBox(width: 15),
+                Expanded(
+                    child: InkWell(
                   highlightColor: lightGray,
                   borderRadius: const BorderRadius.all(Radius.circular(10)),
                   child: Column(
@@ -112,12 +124,20 @@ class _AddToCatalogFormState extends State<AddToCatalogForm> {
                     ],
                   ),
                   onTap: () {
-                    status = Status.goingThrough;
-
-                    setState(() {});
+                    setState(() {
+                      status = Status.goingThrough;
+                    });
                   },
-                ),
-                InkWell(
+                )),
+              ],
+            ),
+            const SizedBox(height: 10),
+            const SizedBox(width: 5),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                Expanded(
+                    child: InkWell(
                   highlightColor: lightGray,
                   borderRadius: const BorderRadius.all(Radius.circular(10)),
                   child: Column(
@@ -138,44 +158,14 @@ class _AddToCatalogFormState extends State<AddToCatalogForm> {
                     ],
                   ),
                   onTap: () {
-                    status = Status.done;
-
-                    setState(() {});
+                    setState(() {
+                      status = Status.done;
+                    });
                   },
-                ),
-              ],
-            ),
-            const SizedBox(height: 10),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                InkWell(
-                  highlightColor: lightGray,
-                  borderRadius: const BorderRadius.all(Radius.circular(10)),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Container(
-                          height: 50,
-                          padding: const EdgeInsets.only(left: 30, right: 30),
-                          alignment: const Alignment(0, 0),
-                          decoration: BoxDecoration(
-                              borderRadius:
-                                  const BorderRadius.all(Radius.circular(10)),
-                              color: (status == Status.nothing
-                                  ? leisureColor
-                                  : lightGray)),
-                          child: Text(AppLocalizations.of(context).nothing,
-                              style: Theme.of(context).textTheme.bodySmall)),
-                    ],
-                  ),
-                  onTap: () {
-                    status = Status.nothing;
-
-                    setState(() {});
-                  },
-                ),
-                InkWell(
+                )),
+                const SizedBox(width: 15),
+                Expanded(
+                    child: InkWell(
                   highlightColor: lightGray,
                   borderRadius: const BorderRadius.all(Radius.circular(10)),
                   child: Column(
@@ -196,11 +186,11 @@ class _AddToCatalogFormState extends State<AddToCatalogForm> {
                     ],
                   ),
                   onTap: () {
-                    status = Status.dropped;
-
-                    setState(() {});
+                    setState(() {
+                      status = Status.dropped;
+                    });
                   },
-                )
+                ))
               ],
             )
           ])),
@@ -219,28 +209,31 @@ class _AddToCatalogFormState extends State<AddToCatalogForm> {
           child: InkWell(
               onTap: () async {
                 DateTimeRange? newDateRange = await showDateRangePicker(
-                    builder: (context, Widget? child) => Theme(
-                          data: ThemeData.from(
-                              textTheme: const TextTheme(
-                                labelMedium: TextStyle(
-                                    color: Colors.white, fontFamily: "Poppins"),
-                                labelSmall: TextStyle(
-                                    color: Colors.white, fontFamily: "Poppins"),
-                              ),
-                              colorScheme: const ColorScheme.dark(
-                                primary: leisureColor,
-                              )),
-                          child: child!,
+                  builder: (context, Widget? child) => Theme(
+                    data: ThemeData.from(
+                        textTheme: const TextTheme(
+                          labelMedium: TextStyle(
+                              color: Colors.white, fontFamily: "Poppins"),
+                          labelSmall: TextStyle(
+                              color: Colors.white, fontFamily: "Poppins"),
                         ),
-                    initialEntryMode: DatePickerEntryMode.input,
-                    context: context,
-                    firstDate: DateTime.parse(startDate),
-                    lastDate: DateTime.now());
+                        colorScheme: const ColorScheme.dark(
+                          primary: leisureColor,
+                        )),
+                    child: child!,
+                  ),
+                  initialEntryMode: DatePickerEntryMode.input,
+                  context: context,
+                  firstDate: DateTime(1),
+                  lastDate: DateTime(9999),
+                );
 
-                startDate = newDateRange!.start.toString().split(" ")[0];
-                endDate = newDateRange.end.toString().split(" ")[0];
-
-                setState(() {});
+                if (newDateRange != null &&
+                    newDateRange.start.isBefore(newDateRange.end)) {
+                  startDate = newDateRange.start.toString().split(" ")[0];
+                  endDate = newDateRange.end.toString().split(" ")[0];
+                  setState(() {});
+                }
               },
               child:
                   Row(mainAxisAlignment: MainAxisAlignment.center, children: [
@@ -277,7 +270,35 @@ class _AddToCatalogFormState extends State<AddToCatalogForm> {
                       ],
                     ))
               ]))),
-      const SizedBox(height: 50)
+      const SizedBox(height: 50),
+      Padding(
+          padding: EdgeInsets.only(
+              top: 20, bottom: MediaQuery.of(context).viewInsets.bottom),
+          child: ElevatedButton(
+            onPressed: () async {
+              int mediaId = await storeMediaInDatabase(status);
+
+              widget.setMediaId(mediaId);
+
+              if (widget.refreshStatus != null) {
+                widget.refreshStatus!();
+              }
+              if (status == Status.done) {
+                widget.showReviewForm();
+              }
+            },
+            style: ElevatedButton.styleFrom(
+              minimumSize: Size(MediaQuery.of(context).size.width * 0.95, 55),
+              backgroundColor: leisureColor,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(25.0),
+              ),
+            ),
+            child: Text(AppLocalizations.of(context).save,
+                style: Theme.of(context).textTheme.headlineSmall),
+          ))
     ]);
   }
+
+  Future<int> storeMediaInDatabase(Status status);
 }

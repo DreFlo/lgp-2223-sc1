@@ -38,12 +38,14 @@ class _MyEventCardState extends State<MyEventCard> {
         ? 'th'
         : suffixes[date.day % 10] ?? 'th';
 
+    DateTime tomorrow = DateTime.now().add(const Duration(days: 1));
+
     bool isToday = DateTime.now().day == date.day &&
         DateTime.now().month == date.month &&
         DateTime.now().year == date.year;
-    bool isTomorrow = DateTime.now().day + 1 == date.day &&
-        DateTime.now().month == date.month &&
-        DateTime.now().year == date.year;
+    bool isTomorrow = tomorrow.day == date.day &&
+        tomorrow.month == date.month &&
+        tomorrow.year == date.year;
     int daysDifference = date.difference(DateTime.now()).inDays;
 
     if (isToday) {

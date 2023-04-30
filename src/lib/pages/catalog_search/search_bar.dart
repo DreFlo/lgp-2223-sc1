@@ -1,4 +1,3 @@
-// ignore_for_file: file_names,  sized_box_for_whitespace
 import 'package:flutter/material.dart';
 
 class SearchBar extends StatefulWidget {
@@ -33,7 +32,7 @@ class _SearchBarState extends State<SearchBar> {
     double fem = MediaQuery.of(context).size.width / baseWidth;
 
     return Center(
-      child: Container(
+      child: SizedBox(
         width: 327 * fem,
         height: 50 * fem,
         child: Center(

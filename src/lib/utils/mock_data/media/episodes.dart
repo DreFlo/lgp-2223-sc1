@@ -17,7 +17,8 @@ final mockEpisodes = [
           'Dominic West, Lance Reddick, Sonja Sohn, Wendell Pierce, Idris Elba',
       duration: 60,
       number: 1,
-      seasonId: 1),
+      seasonId: 1,
+      tmdbId: 121),
   MediaVideoEpisodeSuperEntity(
       id: 3,
       name: 'The Detail',
@@ -33,5 +34,6 @@ final mockEpisodes = [
           'Dominic West, Lance Reddick, Sonja Sohn, Wendell Pierce, Idris Elba',
       duration: 60,
       number: 2,
-      seasonId: 1),
+      seasonId: 1,
+      tmdbId: 122),
 ];

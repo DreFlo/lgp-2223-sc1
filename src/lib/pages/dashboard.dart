@@ -182,10 +182,8 @@ class _DashboardState extends State<Dashboard> {
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) => LeisureModule(
-                                        trendingMovies: trendingmovies,
-                                        trendingTvshows: trendingtvshows,
-                                        books: books)))
+                                    builder: (context) =>
+                                        const LeisureModule()))
                           },
                           child: Container(
                             margin: const EdgeInsets.only(right: 8),

@@ -9,6 +9,9 @@ abstract class BookDao {
   @Query('SELECT * FROM book WHERE id = :id')
   Stream<Book?> findBookById(int id);
 
+  @Query('SELECT COUNT() FROM book WHERE id = :id')
+  Future<int?> countBooksByMediaId(int id);
+
   @insert
   Future<int> insertBook(Book book);
 

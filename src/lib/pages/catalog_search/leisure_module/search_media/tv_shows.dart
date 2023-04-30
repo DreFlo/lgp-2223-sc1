@@ -1,38 +1,31 @@
-// ignore_for_file: file_names
-
 import 'package:flutter/material.dart';
-import 'package:tmdb_api/tmdb_api.dart';
-import 'package:src/pages/catalog_search/list_media.dart';
-import 'package:src/env/env.dart';
+import 'package:src/api_wrappers/tmdb_api_tv_wrapper.dart';
+import 'package:src/models/media/media_series_super_entity.dart';
+import 'package:src/pages/catalog_search/list_media_search/list_tv_series_search.dart';
 
 class TVShows extends StatelessWidget {
   final String search;
 
   const TVShows({Key? key, required this.search}) : super(key: key);
 
-  Future<List> loadmedia() async {
-    final tmdb = TMDB(ApiKeys(Env.tmdbApiKey, 'apiReadAccessTokenv4'));
-    Map tvresult;
-    if (search == '') {
-      tvresult = tvresult =
-          await tmdb.v3.trending.getTrending(mediaType: MediaType.tv);
-    } else {
-      tvresult = await tmdb.v3.search.queryTvShows(search);
-    }
-    return tvresult['results'];
+  Future<List<MediaSeriesSuperEntity>> loadMedia() async {
+    final TMDBTVSeriesAPIWrapper tmdb = TMDBTVSeriesAPIWrapper();
+    return search == ''
+        ? tmdb.getTrendingTVSeries()
+        : tmdb.getTVSeriesBySearch(search);
   }
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder<List>(
-      future: loadmedia(),
+    return FutureBuilder<List<MediaSeriesSuperEntity>>(
+      future: loadMedia(),
       builder: (context, snapshot) {
         if (snapshot.hasData) {
-          return ListMedia(title: 'All TV Shows', media: snapshot.data!);
+          return ListTVSeriesSearch(media: snapshot.data!);
         } else if (snapshot.hasError) {
           return Text('Error: ${snapshot.error}');
         } else {
-          return const CircularProgressIndicator();
+          return const Center(child: CircularProgressIndicator());
         }
       },
     );

@@ -3,72 +3,76 @@ import 'package:src/models/media/media.dart';
 import 'package:src/models/media/video.dart';
 import 'package:src/utils/enums.dart';
 
-class MediaVideoEpisodeSuperEntity {
-  final int? id;
-  final String name;
-  final String description;
-  final String linkImage;
-  final Status status;
-  final bool favorite;
-  final String genres;
-  final DateTime release;
-  final int xp;
-  final String participants;
+class MediaVideoEpisodeSuperEntity extends Media {
   final int duration;
   final int number;
   final int seasonId;
+  final int tmdbId;
 
   MediaVideoEpisodeSuperEntity(
-      {this.id,
-      required this.name,
-      required this.description,
-      required this.linkImage,
-      required this.status,
-      required this.favorite,
-      required this.genres,
-      required this.release,
-      required this.xp,
-      required this.participants,
+      {int? id,
+      required String name,
+      required String description,
+      required String linkImage,
+      required Status status,
+      required bool favorite,
+      required String genres,
+      required DateTime release,
+      required int xp,
+      required String participants,
       required this.duration,
       required this.number,
-      required this.seasonId});
+      required this.seasonId,
+      required this.tmdbId})
+      : super(
+            id: id,
+            name: name,
+            description: description,
+            linkImage: linkImage,
+            status: status,
+            favorite: favorite,
+            genres: genres,
+            release: release,
+            xp: xp,
+            participants: participants,
+            type: MediaDBTypes.episode);
 
   MediaVideoEpisodeSuperEntity.fromMediaAndVideoAndEpisode(
       Media media, Video video, Episode episode)
-      : id = media.id,
-        name = media.name,
-        description = media.description,
-        linkImage = media.linkImage,
-        status = media.status,
-        favorite = media.favorite,
-        genres = media.genres,
-        release = media.release,
-        xp = media.xp,
-        participants = media.participants,
-        duration = video.duration,
+      : duration = video.duration,
         number = episode.number,
-        seasonId = episode.seasonId;
+        seasonId = episode.seasonId,
+        tmdbId = video.tmdbId,
+        super(
+            id: media.id,
+            name: media.name,
+            description: media.description,
+            linkImage: media.linkImage,
+            status: media.status,
+            favorite: media.favorite,
+            genres: media.genres,
+            release: media.release,
+            xp: media.xp,
+            participants: media.participants,
+            type: MediaDBTypes.episode);
 
   Media toMedia() {
     return Media(
-      id: id,
-      name: name,
-      description: description,
-      linkImage: linkImage,
-      status: status,
-      favorite: favorite,
-      genres: genres,
-      release: release,
-      participants: participants,
-      xp: xp,
-    );
+        id: id,
+        name: name,
+        description: description,
+        linkImage: linkImage,
+        status: status,
+        favorite: favorite,
+        genres: genres,
+        release: release,
+        participants: participants,
+        xp: xp,
+        type: MediaDBTypes.episode);
   }
 
   Video toVideo() {
-    return Video(
-      id: id!,
-      duration: duration,
-    );
+    return Video(id: id!, duration: duration, tmdbId: tmdbId);
   }
 
   Episode toEpisode() {
@@ -93,6 +97,7 @@ class MediaVideoEpisodeSuperEntity {
     int? number,
     int? seasonId,
     String? participants,
+    int? tmdbId,
   }) {
     return MediaVideoEpisodeSuperEntity(
       id: id ?? this.id,
@@ -108,6 +113,25 @@ class MediaVideoEpisodeSuperEntity {
       duration: duration ?? this.duration,
       number: number ?? this.number,
       seasonId: seasonId ?? this.seasonId,
+      tmdbId: tmdbId ?? this.tmdbId,
     );
   }
+
+  MediaVideoEpisodeSuperEntity.fromJson(Map<String, dynamic> json)
+      : duration = json['duration'],
+        number = json['number'],
+        seasonId = json['seasonId'],
+        tmdbId = json['tmdbId'],
+        super(
+            id: json['id'],
+            name: json['name'],
+            description: json['description'],
+            linkImage: json['linkImage'],
+            status: json['status'],
+            favorite: json['favorite'],
+            genres: json['genres'],
+            release: json['release'],
+            xp: json['xp'],
+            participants: json['participants'],
+            type: MediaDBTypes.episode);
 }
