@@ -151,5 +151,12 @@
   "add_evaluation": "Add Evaluation",
   "eval_name": "Evaluation Name",
   "grade": "Grade",
-  "grade_error": "Grade is required"  
+  "grade_error": "Grade is required",
+  "timer": "Pomodoro Timer",
+  "focus_time": "Focus Time",
+  "short_break": "Short Break",
+  "long_break": "Long Break",
+  "sessions": "Sessions",
+  "minutes_unit": "minutes",
+  "sessions_unit": "sessions"
 }

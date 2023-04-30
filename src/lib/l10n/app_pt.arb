@@ -153,5 +153,12 @@
   "no_media": "Ainda não tens média...",
   "eval_name": "Nome da Avaliação",
   "choose_tasks": "Escolhe tarefas",
-  "choose_media": "Escolhe média"
+  "choose_media": "Escolhe média",
+  "timer": "Temporizador Pomodoro",
+  "focus_time": "Tempo de Foco",
+  "short_break": "Pausa Curta",
+  "long_break": "Pausa Longa",
+  "sessions": "Sessões",
+  "minutes_unit": "minutos",
+  "sessions_unit": "sessões"
 }
