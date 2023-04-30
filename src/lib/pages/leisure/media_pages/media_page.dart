@@ -1,61 +1,48 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:src/models/media/media.dart';
 import 'package:src/themes/colors.dart';
 import 'package:like_button/like_button.dart';
 import 'package:src/widgets/leisure/leisure_tag.dart';
-import 'package:src/utils/enums.dart';
 
-class MediaPage extends StatelessWidget {
-  final String title, synopsis, type;
-  final bool isFavorite;
-  final Status status;
-  final List<dynamic> cast;
-  final Map<String, String> notes;
-  final List<int?> length;
-  final String image;
-  final List<String> leisureTags;
+abstract class MediaPage<T extends Media> extends StatefulWidget {
+  final T item;
+  final Function(bool) toggleFavorite;
 
-  const MediaPage(
-      {Key? key,
-      required this.title,
-      required this.synopsis,
-      required this.type,
-      required this.cast, //for books, it's the author
-      required this.length,
-      required this.notes,
-      required this.isFavorite,
-      required this.image,
-      required this.leisureTags,
-      this.status = Status.nothing})
-      : super(key: key);
+  const MediaPage({
+    Key? key,
+    required this.item,
+    required this.toggleFavorite,
+  }) : super(key: key);
 
-  String getLength(context) {
-    if (type == "TV Show") {
-      if (length[2] == null) {
-        return length[0].toString() +
-            AppLocalizations.of(context).seasons +
-            length[1].toString() +
-            AppLocalizations.of(context).episodes_no_duration;
-      }
-      return length[0].toString() +
-          AppLocalizations.of(context).seasons +
-          length[1].toString() +
-          AppLocalizations.of(context).episodes +
-          length[2].toString() +
-          AppLocalizations.of(context).minutes_each;
-    } else if (type == "Book") {
-      return length[0].toString() + AppLocalizations.of(context).pages;
-    } else {
-      return length[0].toString() + AppLocalizations.of(context).minutes;
-    }
+  @override
+  MediaPageState<T> createState();
+}
+
+abstract class MediaPageState<T extends Media> extends State<MediaPage<T>> {
+  bool isFavorite = false;
+  List<String> leisureTags = [];
+
+  @override
+  void initState() {
+    super.initState();
+    isFavorite = widget.item.favorite;
+    leisureTags = getLeisureTags();
   }
 
+  String getLength(context);
+
+  List<String> getLeisureTags();
+
   showSmallCastList(context) {
-    List<dynamic> firstTen;
-    if (cast.length >= 10) {
-      firstTen = cast.sublist(0, 10);
+    List<String> firstTen;
+    List<String> widgetCast = widget.item.participants.split(', ');
+    if (widgetCast.length >= 10) {
+      firstTen = widgetCast.sublist(0, 10);
+    } else if (widgetCast.isNotEmpty) {
+      firstTen = widgetCast;
     } else {
-      firstTen = cast;
+      firstTen = [AppLocalizations.of(context).no_cast];
     }
     return Row(children: [
       Text(
@@ -67,28 +54,20 @@ class MediaPage extends StatelessWidget {
     ]);
   }
 
-  showImage(String type) {
-    if (type == 'Book') {
-      return Image.network(
-        image,
-        fit: BoxFit.fitWidth,
-      );
-    } else {
-      return Image.network(
-        'https://image.tmdb.org/t/p/w500$image',
-        fit: BoxFit.fitWidth,
-      );
-    }
-  }
+  Image showImage();
 
   double countWords() {
     double wordCount = 0;
     for (String str in leisureTags) {
       List<String> wordsList = str.split(" ");
-      wordCount += wordsList.length;
+      for (String letter in wordsList) {
+        wordCount += letter.length;
+      }
     }
     return wordCount;
   }
+
+  String getType();
 
   @override
   Widget build(BuildContext context) {
@@ -112,7 +91,7 @@ class MediaPage extends StatelessWidget {
                           color: const Color(0xFF414554),
                         ),
                         child: Text(
-                          type.toUpperCase(),
+                          getType(),
                           style: Theme.of(context).textTheme.headlineMedium,
                           textAlign: TextAlign.center,
                         ),
@@ -135,7 +114,7 @@ class MediaPage extends StatelessWidget {
                             Rect.fromLTRB(0, 0, rect.width, rect.height));
                       },
                       blendMode: BlendMode.dstOut,
-                      child: showImage(type),
+                      child: showImage(),
                     ),
                   ),
                 ]),
@@ -146,7 +125,7 @@ class MediaPage extends StatelessWidget {
                     SizedBox(
                         width: MediaQuery.of(context).size.width * 0.85,
                         child: Text(
-                          title.toUpperCase(),
+                          widget.item.name.toUpperCase(),
                           softWrap: true,
                           textWidthBasis: TextWidthBasis.longestLine,
                           style: Theme.of(context).textTheme.titleLarge,
@@ -176,6 +155,8 @@ class MediaPage extends StatelessWidget {
                             return Future.delayed(
                                 const Duration(milliseconds: 1), () {
                               isLiked = !isLiked;
+                              //_toggleFavorite();
+                              widget.toggleFavorite(isLiked);
                               return isLiked;
                             });
                           },
@@ -191,7 +172,7 @@ class MediaPage extends StatelessWidget {
           child: Row(mainAxisAlignment: MainAxisAlignment.start, children: [
             SizedBox(
                 width: MediaQuery.of(context).size.width * 0.85,
-                height: 8 * countWords(),
+                height: 1.5 * countWords(),
                 child: Wrap(
                     spacing: 7.6,
                     alignment: WrapAlignment.start,
@@ -211,16 +192,18 @@ class MediaPage extends StatelessWidget {
             ))
       ]),
       const SizedBox(height: 7.5),
-      Flexible(
-        child: Padding(
-            padding: const EdgeInsets.only(left: 18, right: 18),
-            child: Text(
-              synopsis,
-              softWrap: true,
-              textAlign: TextAlign.justify,
-              style: Theme.of(context).textTheme.bodySmall,
-            )),
-      ),
+      Flex(direction: Axis.horizontal, children: [
+        Flexible(
+          child: Padding(
+              padding: const EdgeInsets.only(left: 18, right: 18),
+              child: Text(
+                widget.item.description,
+                softWrap: true,
+                textAlign: TextAlign.justify,
+                style: Theme.of(context).textTheme.bodySmall,
+              )),
+        ),
+      ]),
       const SizedBox(height: 35),
       Row(children: [
         Padding(

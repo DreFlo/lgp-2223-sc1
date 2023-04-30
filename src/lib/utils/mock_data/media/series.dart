@@ -7,7 +7,7 @@ final mockSeries = [
       name: 'The Wire',
       description:
           'A look at the Baltimore drug scene as seen through the eyes of drug dealers and law enforcement',
-      linkImage: '',
+      linkImage: '/4lbclFySvugI51fwsyxBTOm4DqK.jpg',
       status: Status.goingThrough,
       favorite: true,
       genres: 'drama',
@@ -15,5 +15,9 @@ final mockSeries = [
       xp: 1000,
       participants:
           'Dominic West, Lance Reddick, Sonja Sohn, Wendell Pierce, Idris Elba',
-      tagline: 'The streets are watching')
+      tagline: 'The streets are watching',
+      numberEpisodes: 60,
+      numberSeasons: 5,
+      duration: 60,
+      tmdbId: 1438),
 ];

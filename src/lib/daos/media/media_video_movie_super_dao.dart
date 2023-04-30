@@ -1,6 +1,9 @@
 import 'package:src/daos/media/media_dao.dart';
 import 'package:src/daos/media/movie_dao.dart';
 import 'package:src/daos/media/video_dao.dart';
+import 'package:src/models/media/video.dart';
+import 'package:src/models/media/movie.dart';
+import 'package:src/models/media/media.dart';
 import 'package:src/models/media/media_video_movie_super_entity.dart';
 import 'package:src/utils/service_locator.dart';
 import 'package:src/utils/exceptions.dart';
@@ -14,6 +17,49 @@ class MediaVideoMovieSuperDao {
   }
 
   MediaVideoMovieSuperDao._internal();
+
+  Future<MediaVideoMovieSuperEntity> findMediaVideoMovieByMediaId(
+      int id) async {
+    final mediaStream = serviceLocator<MediaDao>().findMediaById(id);
+    Media? firstNonNullMedia =
+        await mediaStream.firstWhere((media) => media != null);
+    Media media = firstNonNullMedia!;
+    final videoStream = serviceLocator<VideoDao>().findVideoById(media.id ?? 0);
+    Video? firstNonNullVideo =
+        await videoStream.firstWhere((video) => video != null);
+    Video video = firstNonNullVideo!;
+    final movieStream = serviceLocator<MovieDao>().findMovieById(video.id);
+    Movie? firstNonNullMovie =
+        await movieStream.firstWhere((movie) => movie != null);
+    Movie movie = firstNonNullMovie!;
+
+    return MediaVideoMovieSuperEntity.fromMediaAndVideoAndMovie(
+        media, video, movie);
+  }
+
+  Future<List<MediaVideoMovieSuperEntity>> findAllMediaVideoMovie() {
+    return serviceLocator<MovieDao>().findAllMovie().then((movieList) async {
+      List<MediaVideoMovieSuperEntity> mediaVideoMovieSuperEntities = [];
+
+      for (var movie in movieList) {
+        final videoStream = serviceLocator<VideoDao>().findVideoById(movie.id);
+        Video? firstNonNullVideo =
+            await videoStream.firstWhere((video) => video != null);
+        Video video = firstNonNullVideo!;
+
+        final mediaStream = serviceLocator<MediaDao>().findMediaById(movie.id);
+        Media? firstNonNullMedia =
+            await mediaStream.firstWhere((media) => media != null);
+        Media media = firstNonNullMedia!;
+
+        mediaVideoMovieSuperEntities.add(
+            MediaVideoMovieSuperEntity.fromMediaAndVideoAndMovie(
+                media, video, movie));
+      }
+
+      return mediaVideoMovieSuperEntities;
+    });
+  }
 
   Future<int> insertMediaVideoMovieSuperEntity(
     MediaVideoMovieSuperEntity mediaVideoMovieSuperEntity,

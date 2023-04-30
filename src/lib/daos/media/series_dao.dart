@@ -9,6 +9,9 @@ abstract class SeriesDao {
   @Query('SELECT * FROM series WHERE id = :id')
   Stream<Series?> findSeriesById(int id);
 
+  @Query('SELECT COUNT() FROM series WHERE id = :id')
+  Future<int?> countSeriesByMediaId(int id);
+
   @insert
   Future<int> insertSerie(Series series);
 

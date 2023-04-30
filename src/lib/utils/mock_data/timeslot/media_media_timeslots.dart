@@ -1,6 +1,6 @@
 import 'package:src/models/timeslot/media_media_timeslot.dart';
 
-final mediaMediaTimeslots = [
-  MediaMediaTimeslot(mediaId: 2, mediaTimeslotId: 1),
-  MediaMediaTimeslot(mediaId: 3, mediaTimeslotId: 1),
+final mockMediaMediaTimeslots = [
+  MediaMediaTimeslot(mediaId: 4, mediaTimeslotId: 5),
+  MediaMediaTimeslot(mediaId: 5, mediaTimeslotId: 5),
 ];
