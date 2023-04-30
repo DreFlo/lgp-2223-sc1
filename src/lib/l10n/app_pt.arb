@@ -158,6 +158,7 @@
   "no_cast": "Informação sobre elenco não está disponível.",
   "evaluations": "Avaliações",
   "add_evaluation": "Adicionar Avaliação",
+  "eval_name": "Nome da Avaliação",
   "grade": "Nota",
   "grade_error": "Nota é obrigatória"
 }
