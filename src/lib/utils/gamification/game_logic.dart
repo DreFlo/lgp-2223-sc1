@@ -1,3 +1,5 @@
+import 'package:flutter/material.dart';
+import 'package:src/pages/gamification/gained_xp_toast.dart';
 import 'package:src/utils/enums.dart';
 
 import 'package:src/models/user.dart';
@@ -6,6 +8,9 @@ import 'package:src/models/student/task.dart';
 import 'package:src/daos/student/task_dao.dart';
 import 'package:src/utils/service_locator.dart';
 import 'package:src/utils/gamification/user_stats.dart';
+
+
+import 'package:src/utils/gamification/show_snack_bar.dart';
 
 //timeslot has a lot of tasks -> combos
 class Timeslot {
@@ -39,7 +44,7 @@ int getModuleComboPoints(List<Task> tasks) {
 }
 
 bool checkLevelUp(int userPoints, int currentLevel) {
-  if(currentLevel + 1 > levels.length) {
+  if (currentLevel + 1 > levels.length) {
     return false;
   }
 
@@ -103,7 +108,7 @@ GameState check(List<Task> tasks, User user, bool differentModules) {
   }
 }
 
-void checkNonEventNonTask(Task task) async{
+void checkNonEventNonTask(Task task, context) async {
   markTaskAsDone(task);
 
   int points = getImmediatePoints();
@@ -117,20 +122,35 @@ void checkNonEventNonTask(Task task) async{
       xp: user.xp + points,
       level: user.level,
       imagePath: user.imagePath);
-  
+
   await updateUser(newUser);
 
-
   if (checkLevelUp(user.xp + points, user.level)) {
-    print("Level up!");
+    
     //return GameState.levelUp;
     //show level up screen
   } else {
-    print("Progress!");
+    int value = levels[user.level + 1]!;
+    var snackBar = SnackBar(
+      duration: const Duration(seconds: 30),
+      content: GainedXPToast(
+        value: value,
+        level: user.level,
+        points: points,
+      ),
+      backgroundColor: Colors.transparent,
+      elevation: 0,
+    );
+    // Step 3
+    ScaffoldMessenger.of(context).showSnackBar(snackBar);
+    //return null;
     //show progress screen
     //return GameState.progress;
   }
 }
+
 //}
+
+
 
 //Note for Friday meeting or whenever we can talk to André: show the formula + ask what do we need to store in xpMultiplier

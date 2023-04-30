@@ -210,6 +210,7 @@ class _LandingPageState extends State<LandingPage> {
               ),
               onPressed: () {
                 //print("Pressed Google Button!");
+                
 
                 //TODO: Connection with google (MVP?)
               },
