@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:src/pages/timer/timer_page.dart';
 import 'package:src/widgets/modal.dart';
 import 'package:src/widgets/timer/start_button.dart';
 import 'package:src/widgets/timer/timer_form_field.dart';
@@ -101,12 +102,17 @@ class _TimerFormState extends State<TimerForm> {
               onValueChanged: setSessions),
           const SizedBox(height: 25),
           StartButton(onStartCallback: () {
-            print('Focus Time: $focusTime');
-            print('Short Break: $shortBreak');
-            print('Long Break: $longBreak');
-            print('Sessions: $sessions');
             Navigator.pop(context);
-            // TODO: Go to timer page
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => TimerPage(
+                          focusTime: focusTime,
+                          shortBreak: shortBreak,
+                          longBreak: longBreak,
+                          sessions: sessions,
+                        )
+                    ));
           })
         ]);
   }
