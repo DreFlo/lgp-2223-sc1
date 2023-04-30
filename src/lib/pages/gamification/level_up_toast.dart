@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:src/animation_test/constants.dart';
 
-import '../../themes/colors.dart';
+import 'package:src/themes/colors.dart';
 
 class LevelUpToast extends StatefulWidget {
   final int level;

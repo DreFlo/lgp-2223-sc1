@@ -10,10 +10,8 @@ class MockImagePicker extends Mock implements ImagePicker {}
 void main() {
   group('ProgressBarSheet', () {
     late LocalizationsInjector progressBarSheet;
-    late MockImagePicker mockImagePicker;
 
     setUp(() {
-      mockImagePicker = MockImagePicker();
       progressBarSheet = const LocalizationsInjector(
           child: ProgressBarSheet(
         user: ['test_user', '50'],

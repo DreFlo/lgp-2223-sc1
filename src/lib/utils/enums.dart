@@ -9,3 +9,6 @@ enum Reaction { love, like, neutral, dislike, hate }
 enum Module { leisure, student, personal, fitness }
 
 enum MediaTypes { movie, series, book }
+
+enum GameState { levelUp, progress }
+

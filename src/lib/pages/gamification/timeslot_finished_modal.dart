@@ -3,8 +3,8 @@ import 'package:src/themes/colors.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:src/widgets/tasks/timeslot_task_bar.dart';
 
-import '../../models/student/task.dart';
-import '../../models/timeslot/timeslot.dart';
+import 'package:src/models/student/task.dart';
+import 'package:src/models/timeslot/timeslot.dart';
 
 class TimeslotFinishedModal extends StatefulWidget {
   final Timeslot timeslot;

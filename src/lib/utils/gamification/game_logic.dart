@@ -1,7 +1,7 @@
 import 'package:src/utils/enums.dart';
 
-import '../../models/user.dart';
-import 'levels.dart';
+import 'package:src/models/user.dart';
+import 'package:src/utils/gamification/levels.dart';
 
 class Task {
   late int id;
