@@ -70,7 +70,18 @@ class _DashBoardGridViewState extends State<DashBoardGridView> {
             childAspectRatio: 0.81,
           ),
           itemBuilder: (BuildContext context, int index) {
-            return showCard(index);
+            return FutureBuilder(
+              future: Future.delayed(const Duration(milliseconds: 5), () {}),
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return const Center(
+                    child: CircularProgressIndicator(),
+                  );
+                } else {
+                  return showCard(index);
+                }
+              },
+            );
           },
         ));
   }

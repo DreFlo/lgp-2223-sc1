@@ -1,5 +1,3 @@
-// ignore_for_file: file_names
-
 import 'package:flutter/material.dart';
 
 class SeasonTag extends StatelessWidget {
@@ -11,11 +9,8 @@ class SeasonTag extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Expanded(
-        child: Text(text.toUpperCase(),
-            style: const TextStyle(
-                color: Colors.white,
-                fontSize: 16,
-                fontWeight: FontWeight.w600)));
+    return Text(text.toUpperCase(),
+        style: const TextStyle(
+            color: Colors.white, fontSize: 16, fontWeight: FontWeight.w600));
   }
 }

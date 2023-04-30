@@ -1,5 +1,7 @@
 import 'package:src/daos/media/media_dao.dart';
 import 'package:src/daos/media/book_dao.dart';
+import 'package:src/models/media/media.dart';
+import 'package:src/models/media/book.dart';
 import 'package:src/models/media/media_book_super_entity.dart';
 import 'package:src/utils/service_locator.dart';
 import 'package:src/utils/exceptions.dart';
@@ -12,6 +14,37 @@ class MediaBookSuperDao {
   }
 
   MediaBookSuperDao._internal();
+
+  Future<MediaBookSuperEntity> findMediaBookByMediaId(int id) async {
+    final mediaStream = serviceLocator<MediaDao>().findMediaById(id);
+    Media? firstNonNullMedia =
+        await mediaStream.firstWhere((media) => media != null);
+    Media media = firstNonNullMedia!;
+    final bookStream = serviceLocator<BookDao>().findBookById(media.id ?? 0);
+    Book? firstNonNullBook =
+        await bookStream.firstWhere((book) => book != null);
+    Book book = firstNonNullBook!;
+
+    return MediaBookSuperEntity.fromMediaAndBook(media, book);
+  }
+
+  Future<List<MediaBookSuperEntity>> findAllMediaBooks() {
+    return serviceLocator<BookDao>().findAllBooks().then((booksList) async {
+      List<MediaBookSuperEntity> mediaBooksSuperEntities = [];
+
+      for (var book in booksList) {
+        final mediaStream = serviceLocator<MediaDao>().findMediaById(book.id);
+        Media? firstNonNullMedia =
+            await mediaStream.firstWhere((media) => media != null);
+        Media media = firstNonNullMedia!;
+
+        mediaBooksSuperEntities
+            .add(MediaBookSuperEntity.fromMediaAndBook(media, book));
+      }
+
+      return mediaBooksSuperEntities;
+    });
+  }
 
   Future<int> insertMediaBookSuperEntity(
       MediaBookSuperEntity mediaBookSuperEntity) async {

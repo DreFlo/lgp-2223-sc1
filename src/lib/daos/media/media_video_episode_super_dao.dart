@@ -1,5 +1,7 @@
 import 'package:src/daos/media/episode_dao.dart';
 import 'package:src/daos/media/video_dao.dart';
+import 'package:src/models/media/video.dart';
+import 'package:src/models/media/media.dart';
 import 'package:src/daos/media/media_dao.dart';
 import 'package:src/models/media/media_video_episode_super_entity.dart';
 import 'package:src/utils/service_locator.dart';
@@ -14,6 +16,63 @@ class MediaVideoEpisodeSuperDao {
   }
 
   MediaVideoEpisodeSuperDao._internal();
+
+  Future<List<MediaVideoEpisodeSuperEntity>> findMediaVideoEpisodeBySeasonId(
+      int seasonId) {
+    return serviceLocator<EpisodeDao>()
+        .findAllEpisodesBySeasonId(seasonId)
+        .then((episodeList) async {
+      List<MediaVideoEpisodeSuperEntity> mediaVideoEpisodeSuperEntities = [];
+
+      for (var episode in episodeList) {
+        final videoStream =
+            serviceLocator<VideoDao>().findVideoById(episode.id);
+        Video? firstNonNullVideo =
+            await videoStream.firstWhere((video) => video != null);
+        Video video = firstNonNullVideo!;
+
+        final mediaStream =
+            serviceLocator<MediaDao>().findMediaById(episode.id);
+        Media? firstNonNullMedia =
+            await mediaStream.firstWhere((media) => media != null);
+        Media media = firstNonNullMedia!;
+
+        mediaVideoEpisodeSuperEntities.add(
+            MediaVideoEpisodeSuperEntity.fromMediaAndVideoAndEpisode(
+                media, video, episode));
+      }
+
+      return mediaVideoEpisodeSuperEntities;
+    });
+  }
+
+  Future<List<MediaVideoEpisodeSuperEntity>> findAllMediaVideoEpisode() {
+    return serviceLocator<EpisodeDao>()
+        .findAllEpisode()
+        .then((episodeList) async {
+      List<MediaVideoEpisodeSuperEntity> mediaVideoEpisodeSuperEntities = [];
+
+      for (var episode in episodeList) {
+        final videoStream =
+            serviceLocator<VideoDao>().findVideoById(episode.id);
+        Video? firstNonNullVideo =
+            await videoStream.firstWhere((video) => video != null);
+        Video video = firstNonNullVideo!;
+
+        final mediaStream =
+            serviceLocator<MediaDao>().findMediaById(episode.id);
+        Media? firstNonNullMedia =
+            await mediaStream.firstWhere((media) => media != null);
+        Media media = firstNonNullMedia!;
+
+        mediaVideoEpisodeSuperEntities.add(
+            MediaVideoEpisodeSuperEntity.fromMediaAndVideoAndEpisode(
+                media, video, episode));
+      }
+
+      return mediaVideoEpisodeSuperEntities;
+    });
+  }
 
   Future<int> insertMediaVideoEpisodeSuperEntity(
     MediaVideoEpisodeSuperEntity mediaVideoEpisodeSuperEntity,

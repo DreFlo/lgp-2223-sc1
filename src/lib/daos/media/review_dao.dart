@@ -9,6 +9,13 @@ abstract class ReviewDao {
   @Query('SELECT * FROM review WHERE id = :id')
   Stream<Review?> findReviewById(int id);
 
+  @Query('SELECT COUNT() FROM review WHERE media_id = :mediaId')
+  Future<int?> countReviewsByMediaId(int mediaId);
+
+  @Query('SELECT * FROM review WHERE media_id = :mediaId')
+  Stream<Review?> findReviewByMediaId(
+      int mediaId); //each media can only have one review
+
   @insert
   Future<int> insertReview(Review review);
 

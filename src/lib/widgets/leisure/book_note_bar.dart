@@ -1,5 +1,3 @@
-// ignore_for_file: file_names
-
 import 'package:flutter/material.dart';
 import 'package:src/themes/colors.dart';
 
@@ -43,7 +41,6 @@ class _BookNoteBarState extends State<BookNoteBar> {
             //         onPressed: () {
             //           setState(() {});
 
-            //           //TODO: Add functionality for editing note.
             //         },
             //         style: ButtonStyle(
             //           minimumSize:
