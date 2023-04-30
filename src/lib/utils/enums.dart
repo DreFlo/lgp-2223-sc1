@@ -8,6 +8,6 @@ enum Reaction { love, like, neutral, dislike, hate }
 
 enum EventType { student, leisure }
 
-enum Module { leisure, student, personal, fitness }.
+enum Module { leisure, student, personal, fitness }
 
 enum MediaDBTypes { movie, series, book, episode }
