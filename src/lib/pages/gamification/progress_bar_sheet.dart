@@ -57,12 +57,7 @@ class _ProgressBarSheetState extends State<ProgressBarSheet> {
   }
 
   String getText(context) {
-    /* "You’ve completed 122 task across 7 projects! 
-Your media catalog has 34 entries and 
-you love 52% of what you have there!",
-*/
     //Should we count episodes as media entries or not?
-    // "${AppLocalizations.of(context).level.toUpperCase()} ${widget.level + 1}"
     if (!isReady) {
       return "";
     }
@@ -264,14 +259,3 @@ you love 52% of what you have there!",
   }
 }
 
-/* "You’ve completed 122 task across 7 projects! 
-Your media catalog has 34 entries and 
-you love 52% of what you have there!",
-*/
-
-//Plan:
-//1. Get number of tasks completed from DB
-//2. See which tasks belonged to a project
-//3. Get number of different projects
-//4. Get number of media entries
-//5. See how many of them were favorited

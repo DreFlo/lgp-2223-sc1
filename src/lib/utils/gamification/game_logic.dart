@@ -53,7 +53,7 @@ bool checkLevelUp(int userPoints, int currentLevel) {
   return false;
 }
 
-void markTaskAsDoneOrNot(Task task, bool finished) async {
+void markTaskAsDoneOrNot(Task task, bool finished, int xp) async {
   Task newTask = Task(
       id: task.id,
       name: task.name,
@@ -62,13 +62,13 @@ void markTaskAsDoneOrNot(Task task, bool finished) async {
       finished: finished,
       priority: task.priority,
       taskGroupId: task.taskGroupId,
-      xp: task.xp);
+      xp: xp);
   await serviceLocator<TaskDao>().updateTask(newTask);
 }
 
 GameState check(List<Task> tasks, User user, bool differentModules) {
   for (Task t in tasks) {
-    markTaskAsDoneOrNot(t, true);
+    markTaskAsDoneOrNot(t, true, 0);
   }
 
   int points = 0;
@@ -108,10 +108,11 @@ GameState check(List<Task> tasks, User user, bool differentModules) {
 }
 
 Future<GameState> checkNonEventNonTask(Task task, context) async {
-  markTaskAsDoneOrNot(task, true);
-
   int points = getImmediatePoints();
 
+  markTaskAsDoneOrNot(task, true, points);
+
+  
   User user = await getUser();
 
   if (checkLevelUp(user.xp + points, user.level)) {
@@ -167,7 +168,7 @@ Future<GameState> checkNonEventNonTask(Task task, context) async {
 
 void removePoints(int points, Task task) async {
   //mark task as not done
-  markTaskAsDoneOrNot(task, false);
+  markTaskAsDoneOrNot(task, false, 0);
   User user = await getUser();
   int level = user.level;
 

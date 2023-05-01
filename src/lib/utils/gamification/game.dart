@@ -64,9 +64,6 @@ class Points {
     return false;
   }
 
-  void markTaskAsDone(Task task) {
-    //TODO: update task status in the DB.
-  }
 }
 
 //Note for Friday meeting or whenever we can talk to André: show the formula + ask what do we need to store in xpMultiplier
