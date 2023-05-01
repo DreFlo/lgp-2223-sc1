@@ -270,6 +270,7 @@ class _ProjectFormState extends State<ProjectForm> {
                     const SizedBox(height: 30),
                     // Institution
                     getInstitution(context),
+                    const SizedBox(height: 30),
                     //Subject
                     ...getSubject(),
                     const SizedBox(height: 30),
@@ -846,6 +847,7 @@ class _ProjectFormState extends State<ProjectForm> {
                       taskGroupId: id,
                       callback: addTask,
                       scrollController: scrollController,
+                      createProject: true
                     ),
                   )));
         },
