@@ -23,6 +23,12 @@ abstract class MediaDao {
       'SELECT * FROM media WHERE name LIKE :query OR description LIKE :query')
   Future<List<Media>> getMatchingMedia(String query);
 
+  @Query('SELECT COUNT() FROM media WHERE favorite = :favorite')
+  Future<int?> countFavoriteMedia(bool favorite);
+
+  @Query('SELECT COUNT(*) FROM media')
+  Future<int?> countAllMedia();
+
   @insert
   Future<int> insertMedia(Media media);
 

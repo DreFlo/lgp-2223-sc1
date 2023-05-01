@@ -7,6 +7,8 @@ import 'package:src/themes/colors.dart';
 import 'package:src/utils/service_locator.dart';
 import 'package:src/models/user.dart';
 import 'package:src/daos/user_dao.dart';
+import 'package:src/daos/media/media_dao.dart';
+import 'package:src/daos/student/task_dao.dart';
 
 class ProgressBarSheet extends StatefulWidget {
   final List<String> user;
@@ -23,11 +25,46 @@ class ProgressBarSheet extends StatefulWidget {
 
 class _ProgressBarSheetState extends State<ProgressBarSheet> {
   late String image;
+  int numberMedia = 0;
+  int percentageFavoriteMedia = 0;
+  int completedTasks = 0;
+  int projects = 0;
+  bool isReady = false;
 
   @override
   initState() {
     image = widget.image;
     super.initState();
+    loadNumbers();
+  }
+
+  void loadNumbers() async {
+    numberMedia = await serviceLocator<MediaDao>().countAllMedia() ?? 0;
+    int count = await serviceLocator<MediaDao>().countFavoriteMedia(true) ?? 0;
+    percentageFavoriteMedia = (count / numberMedia * 100).round();
+
+    completedTasks = await serviceLocator<TaskDao>().countFinishedTasks(true) ?? 0;
+    projects = await serviceLocator<TaskDao>().countFinishedTaskGroups(true) ?? 0;
+    setState(() {
+      numberMedia = numberMedia;
+      percentageFavoriteMedia = percentageFavoriteMedia;
+      completedTasks = completedTasks;
+      projects = projects;
+      isReady = true;
+    });
+  }
+
+  String getText(){
+    /* "You’ve completed 122 task across 7 projects! 
+Your media catalog has 34 entries and 
+you love 52% of what you have there!",
+*/
+  //Should we count episodes as media entries or not?
+    if(!isReady){
+      return "";
+    }
+    String text = "You've completed $completedTasks tasks across $projects projects! Your media catalog has $numberMedia entries and you love $percentageFavoriteMedia% of what you have there!";
+    return text;
   }
 
   @override
@@ -163,7 +200,7 @@ class _ProgressBarSheetState extends State<ProgressBarSheet> {
           padding: const EdgeInsets.symmetric(horizontal: 18),
           child: Row(mainAxisAlignment: MainAxisAlignment.center, children: [
             Expanded(
-              child: Text(AppLocalizations.of(context).user_progress_3,
+              child: Text(getText(),
                   textAlign: TextAlign.center,
                   style: const TextStyle(
                     fontSize: 24,
