@@ -86,16 +86,12 @@ class BookPageButtonState extends MediaPageButtonState<MediaBookSuperEntity> {
                       borderRadius:
                           BorderRadius.vertical(top: Radius.circular(30.0)),
                     ),
-                    builder: (context) => Padding(
-                        padding: EdgeInsets.only(
-                            bottom: MediaQuery.of(context).viewInsets.bottom),
-                        child: Stack(children: [
-                          AddBookNoteForm(
+                    builder: (context) => AddBookNoteForm(
                               book: widget.item,
                               refreshStatus: () {
                                 Navigator.pop(context);
                               }),
-                        ])));
+                        );
               },
               style: ElevatedButton.styleFrom(
                 minimumSize: Size(MediaQuery.of(context).size.width * 0.45, 55),
@@ -122,20 +118,11 @@ class BookPageButtonState extends MediaPageButtonState<MediaBookSuperEntity> {
                         initialChildSize: 0.55,
                         minChildSize: 0.55,
                         maxChildSize: 0.55,
-                        builder: (context, scrollController) => Stack(
-                                alignment: AlignmentDirectional.bottomCenter,
-                                children: [
-                                  Padding(
-                                      padding: EdgeInsets.only(
-                                          bottom: MediaQuery.of(context)
-                                                  .viewInsets
-                                                  .bottom +
-                                              50),
-                                      child: SingleChildScrollView(
+                        builder: (context, scrollController) => SingleChildScrollView(
                                           controller: scrollController,
                                           child: BookNotesSheet(
                                               book: true, mediaId: dbMediaId)))
-                                ])));
+                                );
               },
               style: ElevatedButton.styleFrom(
                 minimumSize: Size(MediaQuery.of(context).size.width * 0.45, 55),
