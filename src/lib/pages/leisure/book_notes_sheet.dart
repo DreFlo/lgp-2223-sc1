@@ -58,11 +58,11 @@ class _BookNotesSheetState extends State<BookNotesSheet>
 
     if (bookNotes != null) {
       for (var range in bookNotes!) {
-        notes.add(BookNoteBar(
+        notes.add(Padding(padding: EdgeInsets.symmetric(horizontal: 18), child: Row(children: [BookNoteBar(
           startPage: range!.startPage,
           endPage: range.endPage,
           text: range.content,
-        ));
+        )])));
 
         notes.add(const SizedBox(height: 15));
       }
@@ -76,7 +76,7 @@ class _BookNotesSheetState extends State<BookNotesSheet>
     return Wrap(spacing: 10, children: [
       Row(mainAxisAlignment: MainAxisAlignment.center, children: [
         Padding(
-            padding: const EdgeInsets.only(top: 15, bottom: 15),
+            padding: const EdgeInsets.symmetric(vertical: 15),
             child: Container(
               width: 115,
               height: 18,
@@ -87,19 +87,17 @@ class _BookNotesSheetState extends State<BookNotesSheet>
               ),
             ))
       ]),
-      const SizedBox(height: 10),
+      const SizedBox(height: 12.5),
       Row(children: [
         Padding(
-            padding: const EdgeInsets.only(left: 18),
+            padding: const EdgeInsets.symmetric(horizontal: 18),
             child: Text(
               AppLocalizations.of(context).notes,
               style: Theme.of(context).textTheme.displayMedium,
             ))
       ]),
       const SizedBox(height: 7.5),
-      Container(
-          padding: const EdgeInsets.only(left: 18, right: 18),
-          child: Column(children: getNotes())),
+      ...getNotes(),
       const SizedBox(height: 50)
     ]);
   }
