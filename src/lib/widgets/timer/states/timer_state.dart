@@ -46,9 +46,12 @@ abstract class TimerState {
   }
 
   void finish(BuildContext context) {   
-    getPomodoroXP(settings.focusTime, settings.sessions,
-        settings.shortBreak, context);
-    timer?.cancel();
+  getPomodoroXP(settings.focusTime, settings.sessions,
+      settings.shortBreak, context);
+  timer?.cancel();
+  Future.delayed(const Duration(seconds: 5), () {
     Navigator.pop(context);
-  }
+  });
+}
+
 }
