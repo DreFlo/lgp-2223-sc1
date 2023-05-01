@@ -177,10 +177,11 @@ class _EpisodesNotesSheetState extends State<EpisodesNotesSheet>
 
   @override
   Widget build(BuildContext context) {
-    return Wrap(spacing: 10, children: [
+    return Wrap(
+      children: [
       Row(mainAxisAlignment: MainAxisAlignment.center, children: [
         Padding(
-            padding: const EdgeInsets.only(top: 15, bottom: 15),
+            padding: const EdgeInsets.symmetric(vertical: 15),
             child: Container(
               width: 115,
               height: 18,
@@ -191,7 +192,9 @@ class _EpisodesNotesSheetState extends State<EpisodesNotesSheet>
               ),
             ))
       ]),
-      TabBar(
+      Row(
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: [TabBar(
           padding: const EdgeInsets.only(left: 18, right: 18),
           isScrollable: true,
           labelColor: leisureColor,
@@ -213,8 +216,8 @@ class _EpisodesNotesSheetState extends State<EpisodesNotesSheet>
             color: leisureColor,
           ),
           tabs: getSeasons(),
-          controller: controller),
-      const SizedBox(height: 10),
+          controller: controller)]),
+      const SizedBox(height: 30),
       Row(children: [
         Padding(
             padding: const EdgeInsets.only(left: 18),
@@ -226,8 +229,7 @@ class _EpisodesNotesSheetState extends State<EpisodesNotesSheet>
       const SizedBox(height: 7.5),
       Container(
           padding: const EdgeInsets.only(left: 18, right: 18),
-          child: Column(children: getNotes(selectedTab))),
-      const SizedBox(height: 50)
-    ]);
+          child: Column(children: getNotes(selectedTab)))
+      ]);
   }
 }
