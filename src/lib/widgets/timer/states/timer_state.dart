@@ -45,9 +45,7 @@ abstract class TimerState {
     Navigator.pop(context);
   }
 
-  void finish(BuildContext context) {
-    // TODO(gamification): user completed pomodoro - give feedback
-   
+  void finish(BuildContext context) {   
     getPomodoroXP(settings.focusTime, settings.sessions,
         settings.shortBreak, context);
     timer?.cancel();

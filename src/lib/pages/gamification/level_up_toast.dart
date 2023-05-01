@@ -89,25 +89,37 @@ class _LevelUpToastState extends State<LevelUpToast>
       });
 
     Future.delayed(const Duration(milliseconds: 500), () {
-      controller.forward();
+      if(mounted){
+        controller.forward();
+      }
     });
 
-    colorController.forward();
+    if(mounted){
+      colorController.forward();
+    }
 
     Future.delayed(const Duration(milliseconds: 2500), () {
-      colorController2.forward();
+      if(mounted){
+        colorController2.forward();
+      }
     });
 
     Future.delayed(const Duration(milliseconds: 3000), () {
-      colorController3.forward();
+      if(mounted){
+        colorController3.forward();
+      }
     });
 
     Future.delayed(const Duration(milliseconds: 3500), () {
-      colorController4.forward();
+      if(mounted){
+        colorController4.forward();
+      }
     });
 
     Future.delayed(const Duration(milliseconds: 4000), () {
-      colorController5.forward();
+      if(mounted){
+        colorController5.forward();
+      }
     });
   }
 
