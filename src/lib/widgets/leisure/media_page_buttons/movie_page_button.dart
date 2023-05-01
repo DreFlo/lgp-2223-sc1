@@ -36,8 +36,8 @@ class MoviePageButtonState
               builder: (context) => DraggableScrollableSheet(
                   expand: false,
                   initialChildSize: 0.55,
-                  minChildSize: 0.35,
-                  maxChildSize: 0.75,
+                  minChildSize: 0.55,
+                  maxChildSize: 0.55,
                   builder: (context, scrollController) => Stack(
                           alignment: AlignmentDirectional.bottomCenter,
                           children: [
@@ -115,9 +115,9 @@ class MoviePageButtonState
                     ),
                     builder: (context) => DraggableScrollableSheet(
                         expand: false,
-                        initialChildSize: 0.35,
-                        minChildSize: 0.35,
-                        maxChildSize: 0.75,
+                        initialChildSize: 0.5,
+                        minChildSize: 0.5,
+                        maxChildSize: 0.5,
                         builder: (context, scrollController) => Stack(
                                 alignment: AlignmentDirectional.bottomCenter,
                                 children: [
