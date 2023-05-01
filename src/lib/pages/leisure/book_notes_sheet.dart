@@ -58,11 +58,15 @@ class _BookNotesSheetState extends State<BookNotesSheet>
 
     if (bookNotes != null) {
       for (var range in bookNotes!) {
-        notes.add(Padding(padding: EdgeInsets.symmetric(horizontal: 18), child: Row(children: [BookNoteBar(
-          startPage: range!.startPage,
-          endPage: range.endPage,
-          text: range.content,
-        )])));
+        notes.add(Padding(
+            padding: EdgeInsets.symmetric(horizontal: 18),
+            child: Row(children: [
+              BookNoteBar(
+                startPage: range!.startPage,
+                endPage: range.endPage,
+                text: range.content,
+              )
+            ])));
 
         notes.add(const SizedBox(height: 15));
       }

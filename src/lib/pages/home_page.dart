@@ -601,7 +601,8 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                       builder: (context) => Padding(
                             padding: EdgeInsets.only(
                                 bottom:
-                                    MediaQuery.of(context).viewInsets.bottom + 30),
+                                    MediaQuery.of(context).viewInsets.bottom +
+                                        30),
                             child: DraggableScrollableSheet(
                                 expand: false,
                                 initialChildSize: 0.80,

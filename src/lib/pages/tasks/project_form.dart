@@ -844,11 +844,10 @@ class _ProjectFormState extends State<ProjectForm> {
                     minChildSize: 0.80,
                     maxChildSize: 0.85,
                     builder: (context, scrollController) => TaskForm(
-                      taskGroupId: id,
-                      callback: addTask,
-                      scrollController: scrollController,
-                      createProject: true
-                    ),
+                        taskGroupId: id,
+                        callback: addTask,
+                        scrollController: scrollController,
+                        createProject: true),
                   )));
         },
       )

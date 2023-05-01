@@ -189,31 +189,31 @@ class _MarkEpisodesSheetState extends State<MarkEpisodesSheet>
                   style: Theme.of(context).textTheme.displayMedium,
                 )))
       ]),
-
       Row(children: [
-      TabBar(
-          padding: const EdgeInsets.symmetric(horizontal: 18),
-          isScrollable: true,
-          labelColor: leisureColor,
-          unselectedLabelColor: Colors.white,
-          splashBorderRadius: const BorderRadius.all(Radius.circular(10)),
-          splashFactory: NoSplash.splashFactory,
-          overlayColor: MaterialStateProperty.resolveWith<Color?>(
-              (Set<MaterialState> states) {
-            // Use the default focused overlay color
-            return states.contains(MaterialState.focused)
-                ? null
-                : Colors.transparent;
-          }),
-          indicatorSize: TabBarIndicatorSize.tab,
-          indicatorPadding: const EdgeInsets.symmetric(vertical: 5),
-          labelPadding: const EdgeInsets.symmetric(horizontal: 10),
-          indicator: BoxDecoration(
-            borderRadius: BorderRadius.circular(10),
-            color: leisureColor,
-          ),
-          tabs: getSeasons(),
-          controller: controller)]),
+        TabBar(
+            padding: const EdgeInsets.symmetric(horizontal: 18),
+            isScrollable: true,
+            labelColor: leisureColor,
+            unselectedLabelColor: Colors.white,
+            splashBorderRadius: const BorderRadius.all(Radius.circular(10)),
+            splashFactory: NoSplash.splashFactory,
+            overlayColor: MaterialStateProperty.resolveWith<Color?>(
+                (Set<MaterialState> states) {
+              // Use the default focused overlay color
+              return states.contains(MaterialState.focused)
+                  ? null
+                  : Colors.transparent;
+            }),
+            indicatorSize: TabBarIndicatorSize.tab,
+            indicatorPadding: const EdgeInsets.symmetric(vertical: 5),
+            labelPadding: const EdgeInsets.symmetric(horizontal: 10),
+            indicator: BoxDecoration(
+              borderRadius: BorderRadius.circular(10),
+              color: leisureColor,
+            ),
+            tabs: getSeasons(),
+            controller: controller)
+      ]),
       const SizedBox(height: 10),
       Row(children: [
         Padding(

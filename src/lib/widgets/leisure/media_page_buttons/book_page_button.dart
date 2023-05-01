@@ -79,19 +79,19 @@ class BookPageButtonState extends MediaPageButtonState<MediaBookSuperEntity> {
             ElevatedButton(
               onPressed: () {
                 showModalBottomSheet(
-                    context: context,
-                    isScrollControlled: true,
-                    backgroundColor: const Color(0xFF22252D),
-                    shape: const RoundedRectangleBorder(
-                      borderRadius:
-                          BorderRadius.vertical(top: Radius.circular(30.0)),
-                    ),
-                    builder: (context) => AddBookNoteForm(
-                              book: widget.item,
-                              refreshStatus: () {
-                                Navigator.pop(context);
-                              }),
-                        );
+                  context: context,
+                  isScrollControlled: true,
+                  backgroundColor: const Color(0xFF22252D),
+                  shape: const RoundedRectangleBorder(
+                    borderRadius:
+                        BorderRadius.vertical(top: Radius.circular(30.0)),
+                  ),
+                  builder: (context) => AddBookNoteForm(
+                      book: widget.item,
+                      refreshStatus: () {
+                        Navigator.pop(context);
+                      }),
+                );
               },
               style: ElevatedButton.styleFrom(
                 minimumSize: Size(MediaQuery.of(context).size.width * 0.45, 55),
@@ -118,11 +118,11 @@ class BookPageButtonState extends MediaPageButtonState<MediaBookSuperEntity> {
                         initialChildSize: 0.55,
                         minChildSize: 0.55,
                         maxChildSize: 0.55,
-                        builder: (context, scrollController) => SingleChildScrollView(
-                                          controller: scrollController,
-                                          child: BookNotesSheet(
-                                              book: true, mediaId: dbMediaId)))
-                                );
+                        builder: (context, scrollController) =>
+                            SingleChildScrollView(
+                                controller: scrollController,
+                                child: BookNotesSheet(
+                                    book: true, mediaId: dbMediaId))));
               },
               style: ElevatedButton.styleFrom(
                 minimumSize: Size(MediaQuery.of(context).size.width * 0.45, 55),
@@ -159,11 +159,11 @@ class BookPageButtonState extends MediaPageButtonState<MediaBookSuperEntity> {
                         initialChildSize: 0.55,
                         minChildSize: 0.55,
                         maxChildSize: 0.55,
-                        builder: (context, scrollController) => SingleChildScrollView(
-                                          controller: scrollController,
-                                          child: BookNotesSheet(
-                                              book: true, mediaId: dbMediaId))
-                                ));
+                        builder: (context, scrollController) =>
+                            SingleChildScrollView(
+                                controller: scrollController,
+                                child: BookNotesSheet(
+                                    book: true, mediaId: dbMediaId))));
               },
               style: ElevatedButton.styleFrom(
                 minimumSize: Size(MediaQuery.of(context).size.width * 0.90, 55),

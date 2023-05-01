@@ -128,28 +128,26 @@ class _AddBookNoteFormState extends State<AddBookNoteForm> {
                           minChildSize: 0.9,
                           maxChildSize: 0.9,
                           builder: (context, scrollController) => Padding(
-                                        padding: EdgeInsets.only(
-                                            bottom: MediaQuery.of(context)
-                                                    .viewInsets
-                                                    .bottom +
-                                                50),
-                                        child: SingleChildScrollView(
-                                            controller: scrollController,
-                                            child: FinishedMediaForm(
-                                                rating: Reaction.neutral,
-                                                startDate: DateTime.now()
-                                                    .toString()
-                                                    .split(" ")[0],
-                                                endDate: DateTime.now()
-                                                    .toString()
-                                                    .split(" ")[0],
-                                                isFavorite: false,
-                                                mediaId: widget.book.id!,
-                                                refreshStatus: () {
-                                                  widget.refreshStatus!();
-                                                  Navigator.pop(context);
-                                                }))
-                                  )));
+                              padding: EdgeInsets.only(
+                                  bottom:
+                                      MediaQuery.of(context).viewInsets.bottom +
+                                          50),
+                              child: SingleChildScrollView(
+                                  controller: scrollController,
+                                  child: FinishedMediaForm(
+                                      rating: Reaction.neutral,
+                                      startDate: DateTime.now()
+                                          .toString()
+                                          .split(" ")[0],
+                                      endDate: DateTime.now()
+                                          .toString()
+                                          .split(" ")[0],
+                                      isFavorite: false,
+                                      mediaId: widget.book.id!,
+                                      refreshStatus: () {
+                                        widget.refreshStatus!();
+                                        Navigator.pop(context);
+                                      })))));
                 },
                 child: Text(
                   AppLocalizations.of(context).finished_book,
@@ -167,9 +165,10 @@ class _AddBookNoteFormState extends State<AddBookNoteForm> {
       ]),
       const SizedBox(height: 7.5),
       Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 18),
-            child: Row(children: [
-        Flexible(child: TextField(
+          padding: const EdgeInsets.symmetric(horizontal: 18),
+          child: Row(children: [
+            Flexible(
+                child: TextField(
                     controller: _controller,
                     style: Theme.of(context).textTheme.bodySmall,
                     maxLines: 10,
@@ -181,7 +180,8 @@ class _AddBookNoteFormState extends State<AddBookNoteForm> {
                         borderSide: BorderSide.none,
                         borderRadius: BorderRadius.circular(10.0),
                       ),
-                    )))])),
+                    )))
+          ])),
       const SizedBox(height: 30),
       Padding(
           padding: const EdgeInsets.symmetric(horizontal: 18),

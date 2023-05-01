@@ -125,10 +125,11 @@ class _EpisodeBarState extends State<EpisodeBar> {
                                 top: Radius.circular(30.0)),
                           ),
                           builder: (context) => Padding(
-                              padding: EdgeInsets.only(
-                                  bottom:
-                                      MediaQuery.of(context).viewInsets.bottom),
-                              child: AddEpisodeNoteForm(
+                                padding: EdgeInsets.only(
+                                    bottom: MediaQuery.of(context)
+                                        .viewInsets
+                                        .bottom),
+                                child: AddEpisodeNoteForm(
                                     code: widget.code,
                                     episode: episode,
                                     refreshStatus: () {

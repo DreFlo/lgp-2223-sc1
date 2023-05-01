@@ -69,9 +69,7 @@ class _LoginPageState extends State<LoginPage> {
                       fontWeight: FontWeight.w600),
                 ),
               ),
-              const Padding(
-                  padding: EdgeInsets.only(
-                      bottom: 30)),
+              const Padding(padding: EdgeInsets.only(bottom: 30)),
               TextField(
                   controller: secondController,
                   style: Theme.of(context).textTheme.bodySmall,

@@ -45,9 +45,9 @@ abstract class AddMediaToCatalogFormState<T extends Media>
   Widget build(BuildContext context) {
     return Wrap(spacing: 10, children: [
       Padding(
-            padding: const EdgeInsets.only(top: 15, bottom: 15),
-            child: Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-        Container(
+          padding: const EdgeInsets.only(top: 15, bottom: 15),
+          child: Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+            Container(
               width: 115,
               height: 18,
               alignment: Alignment.center,
@@ -56,7 +56,7 @@ abstract class AddMediaToCatalogFormState<T extends Media>
                 color: const Color(0xFF414554),
               ),
             )
-      ])),
+          ])),
       const SizedBox(height: 20),
       Row(children: [
         Padding(
@@ -273,8 +273,7 @@ abstract class AddMediaToCatalogFormState<T extends Media>
               ]))),
       const SizedBox(height: 30),
       Padding(
-          padding: const EdgeInsets.symmetric(
-              horizontal: 18),
+          padding: const EdgeInsets.symmetric(horizontal: 18),
           child: ElevatedButton(
             onPressed: () async {
               int mediaId = await storeMediaInDatabase(status);

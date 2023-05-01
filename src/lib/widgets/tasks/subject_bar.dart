@@ -96,18 +96,22 @@ class _SubjectBarState extends State<SubjectBar> {
                     ]),
               ),
               Flexible(
-                flex: 1,
-                child: Column(mainAxisAlignment: MainAxisAlignment.end, children: [IconButton(
-                  color: Colors.white,
-                  splashRadius: 0.01,
-                  icon: const Icon(Icons.close),
-                  onPressed: () {
-                    if (widget.id != null) {
-                      widget.removeCallbackById!(widget.id!);
-                    } else {
-                      widget.removeCallbackBySubject!(widget.subject);
-                    }
-                  })]))
+                  flex: 1,
+                  child: Column(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        IconButton(
+                            color: Colors.white,
+                            splashRadius: 0.01,
+                            icon: const Icon(Icons.close),
+                            onPressed: () {
+                              if (widget.id != null) {
+                                widget.removeCallbackById!(widget.id!);
+                              } else {
+                                widget.removeCallbackBySubject!(widget.subject);
+                              }
+                            })
+                      ]))
             ]),
           ),
         ));
