@@ -27,8 +27,10 @@ class MoviePageState extends MediaPageState<MediaVideoMovieSuperEntity> {
 
   @override
   String getLength(context) {
-    return (widget.item.duration == 0 ? AppLocalizations.of(context).no_length : widget.item.duration.toString() +
-        AppLocalizations.of(context).minutes);
+    return (widget.item.duration == 0
+        ? AppLocalizations.of(context).no_length
+        : widget.item.duration.toString() +
+            AppLocalizations.of(context).minutes);
   }
 
   @override
