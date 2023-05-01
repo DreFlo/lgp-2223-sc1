@@ -114,18 +114,16 @@ Future<GameState> checkNonEventNonTask(Task task, context) async {
 
   User user = await getUser();
 
- 
-
   if (checkLevelUp(user.xp + points, user.level)) {
-     User newUser = User(
-      id: user.id,
-      userName: user.userName,
-      password: user.password,
-      xp: user.xp + points,
-      level: user.level + 1,
-      imagePath: user.imagePath);
+    User newUser = User(
+        id: user.id,
+        userName: user.userName,
+        password: user.password,
+        xp: user.xp + points,
+        level: user.level + 1,
+        imagePath: user.imagePath);
 
-  await updateUser(newUser);
+    await updateUser(newUser);
 
     var snackBar = SnackBar(
       content: LevelUpToast(oldLevel: user.level, newLevel: user.level + 1),
@@ -139,15 +137,15 @@ Future<GameState> checkNonEventNonTask(Task task, context) async {
     //show level up screen
   } else {
     int value = levels[user.level + 1]!;
-     User newUser = User(
-      id: user.id,
-      userName: user.userName,
-      password: user.password,
-      xp: user.xp + points,
-      level: user.level,
-      imagePath: user.imagePath);
+    User newUser = User(
+        id: user.id,
+        userName: user.userName,
+        password: user.password,
+        xp: user.xp + points,
+        level: user.level,
+        imagePath: user.imagePath);
 
-  await updateUser(newUser);
+    await updateUser(newUser);
 
     var snackBar = SnackBar(
       duration: const Duration(seconds: 30),
@@ -190,10 +188,8 @@ void removePoints(int points, Task task) async {
   await updateUser(newUser);
 
   //should we show a screen for losing a level/xp?
-} 
+}
 
 //}
-
-
 
 //Note for Friday meeting or whenever we can talk to André: show the formula + ask what do we need to store in xpMultiplier

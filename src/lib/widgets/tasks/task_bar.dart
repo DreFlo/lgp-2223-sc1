@@ -115,9 +115,10 @@ class _TaskBarState extends State<TaskBar> {
                     children: [
                       InkWell(
                           onTap: () async {
-                            if (!taskStatus) { //it's currently false, going to become true, when it gets to setState
+                            if (!taskStatus) {
+                              //it's currently false, going to become true, when it gets to setState
                               //gain xp
-                              checkNonEventNonTask(task, context);                              
+                              checkNonEventNonTask(task, context);
                             } else {
                               //lose xp
                               removePoints(getImmediatePoints(), task);

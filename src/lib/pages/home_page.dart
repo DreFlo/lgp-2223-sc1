@@ -36,7 +36,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
   int _counter = 0;
   Object redrawObject = Object();
   List<String> user = ['John Smith', '11', '400'];
- 
+
   void _incrementCounter() {
     setState(() {
       // This call to setState tells the Flutter framework that something has
@@ -47,8 +47,6 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
       _counter++;
     });
   }
-
-
 
   @override
   Widget build(BuildContext context) {
@@ -158,9 +156,8 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                                 maxChildSize: 0.60,
                                 builder: (context, scrollController) =>
                                     TaskForm(
-                                      scrollController: scrollController,
-                                      id:1
-                                    )),
+                                        scrollController: scrollController,
+                                        id: 1)),
                           ));
                 }),
             ElevatedButton(
@@ -179,16 +176,15 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                               bottom: MediaQuery.of(context).viewInsets.bottom +
                                   50),
                           child: Scaffold(
-                            body: DraggableScrollableSheet(
-                              expand: false,
-                              initialChildSize: 0.75,
-                              minChildSize: 0.75,
-                              maxChildSize: 0.75,
-                              builder: (context, scrollController) =>
-                                  ProjectForm(
-                                    scrollController: scrollController,
-                                    id:1
-                                  )))));
+                              body: DraggableScrollableSheet(
+                                  expand: false,
+                                  initialChildSize: 0.75,
+                                  minChildSize: 0.75,
+                                  maxChildSize: 0.75,
+                                  builder: (context, scrollController) =>
+                                      ProjectForm(
+                                          scrollController: scrollController,
+                                          id: 1)))));
                 }),
             ElevatedButton(
                 child: Text("Subject Form"),

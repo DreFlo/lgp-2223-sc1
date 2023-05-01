@@ -10,7 +10,8 @@ class LevelUpToast extends StatefulWidget {
   final int oldLevel;
   final int newLevel;
 
-  const LevelUpToast({super.key, required this.oldLevel, required this.newLevel});
+  const LevelUpToast(
+      {super.key, required this.oldLevel, required this.newLevel});
 
   @override
   State<LevelUpToast> createState() => _LevelUpToastState();

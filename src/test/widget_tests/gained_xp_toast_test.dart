@@ -29,7 +29,6 @@ void main() {
 
     await widgetTester.pump(const Duration(seconds: 10));
 
-
     await widgetTester.pump(const Duration(seconds: 10));
 
     expect(find.text('You gained XP!'), findsOneWidget);
