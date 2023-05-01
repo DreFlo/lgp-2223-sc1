@@ -176,24 +176,15 @@ class TVSeriesButtonState extends MediaPageButtonState<MediaSeriesSuperEntity> {
                     ),
                     builder: (context) => DraggableScrollableSheet(
                         expand: false,
-                        initialChildSize: 0.5,
-                        minChildSize: 0.35,
-                        maxChildSize: 0.75,
-                        builder: (context, scrollController) => Stack(
-                                alignment: AlignmentDirectional.bottomCenter,
-                                children: [
-                                  Padding(
-                                      padding: EdgeInsets.only(
-                                          bottom: MediaQuery.of(context)
-                                                  .viewInsets
-                                                  .bottom +
-                                              50),
-                                      child: SingleChildScrollView(
+                        initialChildSize: 0.4,
+                        minChildSize: 0.4,
+                        maxChildSize: 0.5,
+                        builder: (context, scrollController) => SingleChildScrollView(
                                           controller: scrollController,
                                           child: EpisodesNotesSheet(
                                             mediaId: dbMediaId,
-                                          )))
-                                ])));
+                                          ))
+                ));
               },
               style: ElevatedButton.styleFrom(
                 minimumSize: Size(MediaQuery.of(context).size.width * 0.90, 55),
