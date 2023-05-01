@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:src/daos/student/institution_dao.dart';
 import 'package:src/models/student/institution.dart';
 import 'package:src/daos/student/task_dao.dart';
+import 'package:src/pages/tasks/project_show.dart';
+import 'package:src/pages/tasks/task_show.dart';
 import 'package:src/themes/colors.dart';
 import 'package:src/models/student/task.dart';
 import 'package:src/models/student/task_group.dart';
@@ -267,6 +269,25 @@ class _DashboardCardState extends State<DashboardCard> {
       isReady = true;
       return GestureDetector(
           onTap: () {
+            showModalBottomSheet(
+                context: context,
+                isScrollControlled: true,
+                backgroundColor: const Color(0xFF22252D),
+                shape: const RoundedRectangleBorder(
+                  borderRadius:
+                      BorderRadius.vertical(top: Radius.circular(30.0)),
+                ),
+                builder: (context) => Padding(
+                    padding: EdgeInsets.only(
+                        bottom: MediaQuery.of(context).viewInsets.bottom + 50),
+                    child: DraggableScrollableSheet(
+                      expand: false,
+                      initialChildSize: 0.60,
+                      minChildSize: 0.60,
+                      maxChildSize: 0.9,
+                      builder: (context, scrollController) =>
+                          getShowCard(context, scrollController),
+                    )));
             // TODO: Navigate to project page
           },
           child: Container(
@@ -383,5 +404,26 @@ class _DashboardCardState extends State<DashboardCard> {
     }
     isReady = false;
     return Container();
+  }
+
+  getShowCard(BuildContext context, ScrollController scrollController) {
+    if (widget.task != null) {
+      return TaskShow(
+        task: widget.task!,
+        scrollController: scrollController,
+      );
+    } else if (widget.taskGroup != null) {
+      return ProjectShow(
+        taskGroup: widget.taskGroup!,
+        scrollController: scrollController,
+      );
+    } else if (widget.mediaEvent != null) {
+      //TODO MediaShow
+      // return MediaShow(
+      //   scrollController: scrollController,
+      // );
+    } else {
+      return SizedBox();
+    }
   }
 }

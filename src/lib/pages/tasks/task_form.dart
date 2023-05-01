@@ -23,25 +23,27 @@ import 'dart:math' as Math;
 import 'package:src/utils/enums.dart';
 import 'package:src/utils/service_locator.dart';
 import 'package:src/widgets/error_text.dart';
-import 'package:src/widgets/note_bar.dart';
+import 'package:src/widgets/notes/note_bar.dart';
 
 class TaskForm extends StatefulWidget {
   final int? id;
+  final Task? task;
   final int? taskGroupId;
   final void Function(Task t)? callback;
   final void Function()? deleteCallback;
-  final Task? task;
+  final void Function(List<Note>)? editNotesCallback;
   final ScrollController scrollController;
 
-  const TaskForm(
-      {Key? key,
-      required this.scrollController,
-      this.id,
-      this.taskGroupId,
-      this.callback,
-      this.deleteCallback,
-      this.task})
-      : super(key: key);
+  const TaskForm({
+    Key? key,
+    required this.scrollController,
+    this.id,
+    this.task,
+    this.taskGroupId,
+    this.callback,
+    this.deleteCallback,
+    this.editNotesCallback,
+  }) : super(key: key);
 
   @override
   State<TaskForm> createState() => _TaskFormState();
@@ -342,13 +344,13 @@ class _TaskFormState extends State<TaskForm> {
       serviceLocator<TaskDao>().deleteTask(task);
     }
 
+    if (widget.deleteCallback != null) {
+      widget.deleteCallback!();
+    }
+
     if (context.mounted) {
       Navigator.pop(context);
       Navigator.pop(context);
-    }
-
-    if (widget.deleteCallback != null) {
-      widget.deleteCallback!();
     }
   }
 
@@ -1307,6 +1309,7 @@ class _TaskFormState extends State<TaskForm> {
     setState(() {
       notes.insert(0, note);
     });
+    editNotesCallback();
   }
 
   removeNote(Note note) {
@@ -1334,6 +1337,7 @@ class _TaskFormState extends State<TaskForm> {
       } else {
         throw Exception("Task id is null for edit note callback");
       }
+      editNotesCallback();
     });
   }
 
@@ -1351,6 +1355,7 @@ class _TaskFormState extends State<TaskForm> {
           throw Exception("Task id is not null for edit temp note callback");
         }
       });
+      editNotesCallback();
     };
   }
 
@@ -1359,6 +1364,7 @@ class _TaskFormState extends State<TaskForm> {
       notes.remove(note);
       toRemoveNotes.remove(note);
     });
+    editNotesCallback();
   }
 
   isChild() {
@@ -1368,5 +1374,11 @@ class _TaskFormState extends State<TaskForm> {
 
   isChildOfNotCreated() {
     return isChild() && widget.taskGroupId == null;
+  }
+
+  editNotesCallback() {
+    if (widget.editNotesCallback != null) {
+      widget.editNotesCallback!(notes);
+    }
   }
 }

@@ -21,9 +21,18 @@ import 'package:src/widgets/tasks/task_bar.dart';
 
 class ProjectForm extends StatefulWidget {
   final int? id;
+  final void Function(TaskGroup tg)? callback;
+  final void Function()? deleteCallback;
+  final void Function(List<Task>)? editTasksCallback;
   final ScrollController scrollController;
 
-  const ProjectForm({Key? key, required this.scrollController, this.id})
+  const ProjectForm(
+      {Key? key,
+      required this.scrollController,
+      this.id,
+      this.callback,
+      this.deleteCallback,
+      this.editTasksCallback})
       : super(key: key);
 
   @override
@@ -190,6 +199,10 @@ class _ProjectFormState extends State<ProjectForm> {
       }
     }
 
+    if (widget.callback != null) {
+      widget.callback!(taskGroup);
+    }
+
     if (context.mounted) {
       Navigator.pop(context);
     }
@@ -201,6 +214,10 @@ class _ProjectFormState extends State<ProjectForm> {
           .findTaskGroupById(id!)
           .first as TaskGroup;
       await serviceLocator<TaskGroupDao>().deleteTaskGroup(taskGroup);
+    }
+
+    if (widget.deleteCallback != null) {
+      widget.deleteCallback!();
     }
 
     if (context.mounted) {
@@ -986,6 +1003,7 @@ class _ProjectFormState extends State<ProjectForm> {
     setState(() {
       tasks.insert(0, task);
     });
+    editTasksCallback();
   }
 
   removeTask(Task task) {
@@ -1013,6 +1031,7 @@ class _ProjectFormState extends State<ProjectForm> {
         throw Exception("Task group id is null for edit task calblack");
       }
     });
+    editTasksCallback();
   }
 
   editTempTask(Task oldTask) {
@@ -1029,6 +1048,7 @@ class _ProjectFormState extends State<ProjectForm> {
           throw Exception("Task id is not null for edit temp task calback");
         }
       });
+      editTasksCallback();
     };
   }
 
@@ -1048,6 +1068,13 @@ class _ProjectFormState extends State<ProjectForm> {
           }
         }
       });
+      editTasksCallback();
     };
+  }
+
+  editTasksCallback() {
+    if (widget.editTasksCallback != null) {
+      widget.editTasksCallback!(tasks);
+    }
   }
 }
