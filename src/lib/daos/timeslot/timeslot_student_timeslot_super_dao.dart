@@ -24,7 +24,8 @@ class TimeslotStudentTimeslotSuperDao {
 
       for (var studentTimeslot in studentTimeslots) {
         final timeslot = await serviceLocator<TimeslotDao>()
-            .findTimeslotById(studentTimeslot.id);
+            .findTimeslotById(studentTimeslot.id)
+            .first;
 
         if (startDatetime != null && timeslot != null) {
           if (timeslot.startDateTime.isBefore(startDatetime)) {
@@ -106,15 +107,13 @@ class TimeslotStudentTimeslotSuperDao {
           "Id can't be null for delete for TimeslotStudentTimeslotSuperEntity");
     }
 
+    final timeslot = timeslotStudentTimeslotSuperEntity.toTimeslot();
+    await serviceLocator<TimeslotDao>().deleteTimeslot(timeslot);
+
     final studentTimeslot =
         timeslotStudentTimeslotSuperEntity.toStudentTimeslot();
-
     await serviceLocator<StudentTimeslotDao>()
         .deleteStudentTimeslot(studentTimeslot);
-
-    final timeslot = timeslotStudentTimeslotSuperEntity.toTimeslot();
-
-    await serviceLocator<TimeslotDao>().deleteTimeslot(timeslot);
   }
 }
 

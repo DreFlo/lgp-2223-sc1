@@ -9,6 +9,7 @@ import 'package:src/env/env.dart';
 import 'package:src/models/user.dart';
 import 'package:src/pages/auth/landing_page.dart';
 import 'package:src/pages/catalog_search/leisure_module.dart';
+import 'package:src/pages/events/event_form.dart';
 import 'package:src/pages/tasks/institution_form.dart';
 import 'package:src/pages/tasks/project_form.dart';
 import 'package:src/pages/tasks/subject_form.dart';
@@ -689,6 +690,36 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                               scrollController: scrollController,
                             ),
                           )));
+                }),
+            ElevatedButton(
+                child: Text("Event Form"),
+                onPressed: () {
+                  showModalBottomSheet(
+                      context: context,
+                      isScrollControlled: true,
+                      backgroundColor: Color(0xFF22252D),
+                      shape: RoundedRectangleBorder(
+                        borderRadius:
+                            BorderRadius.vertical(top: Radius.circular(30.0)),
+                      ),
+                      builder: (context) => Padding(
+                            padding: EdgeInsets.only(
+                                bottom:
+                                    MediaQuery.of(context).viewInsets.bottom +
+                                        50),
+                            child: DraggableScrollableSheet(
+                                expand: false,
+                                initialChildSize: 0.9,
+                                minChildSize: 0.9,
+                                maxChildSize: 0.9,
+                                builder: (context, scrollController) =>
+                                    EventForm(
+                                      scrollController: scrollController,
+                                      // id: 2,
+                                      // type: "student",
+                                      // OR (1, leisure)
+                                    )),
+                          ));
                 }),
             ElevatedButton(
                 child: Text("Timer Form"),
