@@ -279,7 +279,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                 child: Text("Level up toast"),
                 onPressed: () {
                   var snackBar = SnackBar(
-                    content: LevelUpToast(level: 2, points: 20),
+                    content: LevelUpToast(oldLevel: 2, newLevel: 3),
                     backgroundColor: Colors.transparent,
                     elevation: 0,
                   );

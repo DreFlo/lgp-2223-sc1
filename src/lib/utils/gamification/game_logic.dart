@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:src/pages/gamification/gained_xp_toast.dart';
+import 'package:src/pages/gamification/level_up_toast.dart';
 import 'package:src/utils/enums.dart';
 
 import 'package:src/models/user.dart';
@@ -106,14 +107,39 @@ GameState check(List<Task> tasks, User user, bool differentModules) {
   }
 }
 
-void checkNonEventNonTask(Task task, context) async {
+Future<GameState> checkNonEventNonTask(Task task, context) async {
   markTaskAsDoneOrNot(task, true);
 
   int points = getImmediatePoints();
 
   User user = await getUser();
 
-  User newUser = User(
+ 
+
+  if (checkLevelUp(user.xp + points, user.level)) {
+     User newUser = User(
+      id: user.id,
+      userName: user.userName,
+      password: user.password,
+      xp: user.xp + points,
+      level: user.level + 1,
+      imagePath: user.imagePath);
+
+  await updateUser(newUser);
+
+    var snackBar = SnackBar(
+      content: LevelUpToast(oldLevel: user.level, newLevel: user.level + 1),
+      backgroundColor: Colors.transparent,
+      elevation: 0,
+    );
+    // Step 3
+    ScaffoldMessenger.of(context).showSnackBar(snackBar);
+
+    return GameState.levelUp;
+    //show level up screen
+  } else {
+    int value = levels[user.level + 1]!;
+     User newUser = User(
       id: user.id,
       userName: user.userName,
       password: user.password,
@@ -123,11 +149,6 @@ void checkNonEventNonTask(Task task, context) async {
 
   await updateUser(newUser);
 
-  if (checkLevelUp(user.xp + points, user.level)) {
-    //return GameState.levelUp;
-    //show level up screen
-  } else {
-    int value = levels[user.level + 1]!;
     var snackBar = SnackBar(
       duration: const Duration(seconds: 30),
       content: GainedXPToast(
@@ -142,7 +163,7 @@ void checkNonEventNonTask(Task task, context) async {
     ScaffoldMessenger.of(context).showSnackBar(snackBar);
     //return null;
     //show progress screen
-    //return GameState.progress;
+    return GameState.progress;
   }
 }
 

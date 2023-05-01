@@ -7,10 +7,10 @@ import 'package:src/animation_test/constants.dart';
 import 'package:src/themes/colors.dart';
 
 class LevelUpToast extends StatefulWidget {
-  final int level;
-  final int points;
+  final int oldLevel;
+  final int newLevel;
 
-  const LevelUpToast({super.key, required this.level, required this.points});
+  const LevelUpToast({super.key, required this.oldLevel, required this.newLevel});
 
   @override
   State<LevelUpToast> createState() => _LevelUpToastState();
@@ -143,7 +143,7 @@ class _LevelUpToastState extends State<LevelUpToast>
           const SizedBox(height: 5),
           Row(children: [
             Text(
-              "${AppLocalizations.of(context).level_up_2}${widget.level}${AppLocalizations.of(context).level_up_3}",
+              "${AppLocalizations.of(context).level_up_2}${widget.newLevel}${AppLocalizations.of(context).level_up_3}",
               style: const TextStyle(
                 color: grayBackground,
                 fontSize: 15,
@@ -172,7 +172,7 @@ class _LevelUpToastState extends State<LevelUpToast>
                 Positioned(
                   left: 10,
                   child: Text(
-                      "${AppLocalizations.of(context).level} ${widget.level - 1}"
+                      "${AppLocalizations.of(context).level} ${widget.oldLevel}"
                           .toUpperCase(),
                       style: const TextStyle(
                         color: Colors.white,

@@ -12,7 +12,7 @@ void main() {
     late LocalizationsInjector levelUpToast;
     setUp(() {
       levelUpToast = const LocalizationsInjector(
-          child: LevelUpToast(level: 2, points: 20));
+          child: LevelUpToast(oldLevel: 2, newLevel: 3));
     });
 
     testWidgets('displays the level', (WidgetTester tester) async {

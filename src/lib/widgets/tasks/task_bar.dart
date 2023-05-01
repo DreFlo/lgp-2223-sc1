@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:src/models/student/task.dart';
-import 'package:src/pages/gamification/gained_xp_toast.dart';
 import 'package:src/pages/tasks/task_form.dart';
 import 'package:src/themes/colors.dart';
 import 'package:src/utils/date_formatter.dart';
@@ -115,10 +114,10 @@ class _TaskBarState extends State<TaskBar> {
                   Row(
                     children: [
                       InkWell(
-                          onTap: () {
+                          onTap: () async {
                             if (!taskStatus) { //it's currently false, going to become true, when it gets to setState
                               //gain xp
-                              checkNonEventNonTask(task, context);
+                              checkNonEventNonTask(task, context);                              
                             } else {
                               //lose xp
                               removePoints(getImmediatePoints(), task);
@@ -145,7 +144,6 @@ class _TaskBarState extends State<TaskBar> {
                             if (selected) {
                               onUnselected(task);
                             } else {
-                              print('holo');
                               onSelected(task);
                             }
                             setState(() {
