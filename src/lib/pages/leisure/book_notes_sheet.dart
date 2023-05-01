@@ -48,10 +48,14 @@ class _BookNotesSheetState extends State<BookNotesSheet>
     List<Widget> notes = [];
 
     if (review != null) {
-      notes.add(Padding(padding: const EdgeInsets.symmetric(horizontal: 18), child: Row(children: [ReviewNoteBar(
-        reaction: review!.emoji,
-        text: review!.review,
-      )])));
+      notes.add(Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 18),
+          child: Row(children: [
+            ReviewNoteBar(
+              reaction: review!.emoji,
+              text: review!.review,
+            )
+          ])));
 
       notes.add(const SizedBox(height: 15));
     }
@@ -93,12 +97,11 @@ class _BookNotesSheetState extends State<BookNotesSheet>
       ]),
       const SizedBox(height: 12.5),
       Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 18),
-            child: Row(children: [
-              Text(
-              AppLocalizations.of(context).notes,
-              style: Theme.of(context).textTheme.displayMedium)
-    ])),
+          padding: const EdgeInsets.symmetric(horizontal: 18),
+          child: Row(children: [
+            Text(AppLocalizations.of(context).notes,
+                style: Theme.of(context).textTheme.displayMedium)
+          ])),
       const SizedBox(height: 7.5),
       ...getNotes(),
       const SizedBox(height: 50)

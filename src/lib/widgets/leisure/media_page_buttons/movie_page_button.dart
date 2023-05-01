@@ -118,11 +118,11 @@ class MoviePageButtonState
                         initialChildSize: 0.5,
                         minChildSize: 0.5,
                         maxChildSize: 0.5,
-                        builder: (context, scrollController) => SingleChildScrollView(
-                                          controller: scrollController,
-                                          child: BookNotesSheet(
-                                              book: false, mediaId: dbMediaId)))
-                                );
+                        builder: (context, scrollController) =>
+                            SingleChildScrollView(
+                                controller: scrollController,
+                                child: BookNotesSheet(
+                                    book: false, mediaId: dbMediaId))));
               },
               style: ElevatedButton.styleFrom(
                 minimumSize: Size(MediaQuery.of(context).size.width * 0.90, 55),
