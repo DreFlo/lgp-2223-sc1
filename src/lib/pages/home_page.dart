@@ -142,9 +142,9 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                                       )*/
                                   )),
                               Positioned(
-                                  left: 16,
-                                  right: 16,
-                                  bottom: 16,
+                                  left: 18,
+                                  right: 18,
+                                  bottom: 18,
                                   child: Padding(
                                       padding: EdgeInsets.only(
                                           bottom: MediaQuery.of(context)
