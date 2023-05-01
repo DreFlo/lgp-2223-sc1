@@ -3,7 +3,7 @@
   "@helloWorld": {
     "description": "The conventional newborn programmer greeting"
   },
- "title": "Título",
+  "title": "Título",
   "synopsis": "Sinopse",
   "cast": "Elenco",
   "length": "Duração",
@@ -40,7 +40,7 @@
   "input_password": "PALAVRA-PASSE",
   "error_input_password": "Password deve ter no mínimo 8 caracteres!",
   "next": "Seguinte",
-  "previous": "Anterior", 
+  "previous": "Anterior",
   "login_title": "Iniciar sessão",
   "login_subtitle": "Não sejas tímido... não mordemos! \nA não ser que gostes.",
   "login_forgot_pass_btn": "Recuperar password",
@@ -56,6 +56,7 @@
   "what_thoughts": "O que pensas?",
   "date": "Data",
   "save": "Guardar",
+  "edit": "Editar",
   "any_thoughts": "Alguma opinião?",
   "finished_media_thoughts": "Escreve a tua opinião.",
   "what_you_thought": "O que achaste?",
@@ -135,7 +136,7 @@
   "cancel": "Cancelar",
   "delete_institution_message": "Tens a certeza que queres eliminar esta instituição?\n\nIsto irá eliminar todas as tarefas e disciplinas associadas a esta instituição.",
   "delete_subject": "Eliminar Disciplina",
-  "delete_subject_message":"Tens a certeza que queres eliminar esta disciplina?\n\nIsto irá eliminar todos os projetos e tarefas associadas a esta disciplina.",
+  "delete_subject_message": "Tens a certeza que queres eliminar esta disciplina?\n\nIsto irá eliminar todos os projetos e tarefas associadas a esta disciplina.",
   "delete_evaluation": "Eliminar Avaliação",
   "delete_evaluation_message": "Tens a certeza que queres eliminar esta avaliação?",
   "delete_note": "Eliminar Nota",
@@ -154,6 +155,5 @@
   "eval_name": "Nome da Avaliação",
   "choose_tasks": "Escolhe tarefas",
   "choose_media": "Escolhe média",
-  "none": "Nenhuma",
-  "edit": "Editar"
+  "none": "Nenhuma"
 }
