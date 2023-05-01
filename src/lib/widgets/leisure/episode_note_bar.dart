@@ -1,5 +1,3 @@
-// ignore_for_file: file_names
-
 import 'package:flutter/material.dart';
 import 'package:src/themes/colors.dart';
 
@@ -39,7 +37,6 @@ class _EpisodeNoteBarState extends State<EpisodeNoteBar> {
             //         onPressed: () {
             //           setState(() {});
 
-            //           //TODO: Add functionality for editing note.
             //         },
             //         style: ButtonStyle(
             //           minimumSize:

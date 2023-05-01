@@ -9,6 +9,9 @@ abstract class TaskNoteDao {
   @Query('SELECT * FROM task_note WHERE id = :id')
   Stream<TaskNote?> findTaskNoteById(int id);
 
+  @Query('SELECT * FROM task_note WHERE task_id = :taskId')
+  Future<List<TaskNote>> findTaskNotesByTaskId(int taskId);
+
   @insert
   Future<int> insertTaskNote(TaskNote taskNote);
 

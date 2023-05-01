@@ -9,5 +9,13 @@ final mockTasks = [
       deadline: DateTime.now(),
       taskGroupId: 1,
       subjectId: 1,
-      xp: 30)
+      xp: 0,
+      finished: false),
+  Task(
+      name: 'Dentist appointment',
+      description: 'Get braces',
+      priority: Priority.high,
+      deadline: DateTime.now(),
+      xp: 0,
+      finished: false),
 ];

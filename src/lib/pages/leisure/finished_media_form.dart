@@ -1,22 +1,29 @@
-// ignore_for_file: file_names
-
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:src/themes/colors.dart';
 import 'package:src/utils/enums.dart';
 import 'package:emojis/emojis.dart';
+import 'package:src/utils/service_locator.dart';
+import 'package:src/daos/media/review_dao.dart';
+import 'package:src/daos/media/media_dao.dart';
+import 'package:src/models/media/media.dart';
+import 'package:src/models/media/review.dart';
 
 class FinishedMediaForm extends StatefulWidget {
   final String startDate, endDate;
   final Reaction rating;
   final bool isFavorite;
+  final int mediaId;
+  final VoidCallback? refreshStatus;
 
   const FinishedMediaForm(
       {Key? key,
       required this.startDate,
       required this.endDate,
       required this.rating,
-      required this.isFavorite})
+      required this.mediaId,
+      required this.isFavorite,
+      required this.refreshStatus})
       : super(key: key);
 
   @override
@@ -27,6 +34,7 @@ class _FinishedMediaFormState extends State<FinishedMediaForm> {
   late String startDate, endDate;
   late Reaction rating;
   late bool isFavorite;
+  TextEditingController controller = TextEditingController();
 
   @override
   initState() {
@@ -80,28 +88,32 @@ class _FinishedMediaFormState extends State<FinishedMediaForm> {
           InkWell(
               onTap: () async {
                 DateTimeRange? newDateRange = await showDateRangePicker(
-                    builder: (context, Widget? child) => Theme(
-                          data: ThemeData.from(
-                              textTheme: const TextTheme(
-                                labelMedium: TextStyle(
-                                    color: Colors.white, fontFamily: "Poppins"),
-                                labelSmall: TextStyle(
-                                    color: Colors.white, fontFamily: "Poppins"),
-                              ),
-                              colorScheme: const ColorScheme.dark(
-                                primary: leisureColor,
-                              )),
-                          child: child!,
-                        ),
-                    initialEntryMode: DatePickerEntryMode.input,
-                    context: context,
-                    firstDate: DateTime.parse(startDate),
-                    lastDate: DateTime.now());
+                  builder: (context, Widget? child) => Theme(
+                    data: ThemeData.from(
+                      textTheme: const TextTheme(
+                        labelMedium: TextStyle(
+                            color: Colors.white, fontFamily: "Poppins"),
+                        labelSmall: TextStyle(
+                            color: Colors.white, fontFamily: "Poppins"),
+                      ),
+                      colorScheme: const ColorScheme.dark(
+                        primary: leisureColor,
+                      ),
+                    ),
+                    child: child!,
+                  ),
+                  initialEntryMode: DatePickerEntryMode.input,
+                  context: context,
+                  firstDate: DateTime(1),
+                  lastDate: DateTime(9999),
+                );
 
-                startDate = newDateRange!.start.toString().split(" ")[0];
-                endDate = newDateRange.end.toString().split(" ")[0];
-
-                setState(() {});
+                if (newDateRange != null &&
+                    newDateRange.start.isBefore(newDateRange.end)) {
+                  startDate = newDateRange.start.toString().split(" ")[0];
+                  endDate = newDateRange.end.toString().split(" ")[0];
+                  setState(() {});
+                }
               },
               child:
                   Row(mainAxisAlignment: MainAxisAlignment.center, children: [
@@ -286,6 +298,7 @@ class _FinishedMediaFormState extends State<FinishedMediaForm> {
               width: MediaQuery.of(context).size.width * 0.90,
               height: 200,
               child: TextField(
+                  controller: controller,
                   style: Theme.of(context).textTheme.bodySmall,
                   maxLines: 10,
                   decoration: InputDecoration(
@@ -305,61 +318,125 @@ class _FinishedMediaFormState extends State<FinishedMediaForm> {
             )
           ]),
           const SizedBox(height: 7.5),
-          SizedBox(
-              height: 50,
-              child:
-                  Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-                ElevatedButton(
-                    onPressed: () {
-                      isFavorite = !isFavorite;
+          SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
+              child: SizedBox(
+                  height: 50,
+                  child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        ElevatedButton(
+                            onPressed: () {
+                              isFavorite = true;
 
-                      setState(() {});
-                    },
-                    style: ButtonStyle(
-                        fixedSize: MaterialStateProperty.all(Size.copy(Size(
-                            (((MediaQuery.of(context).size.width * 0.9) - 10) /
-                                2),
-                            50))),
-                        shape: MaterialStateProperty.all(
-                            const RoundedRectangleBorder(
-                                borderRadius: BorderRadius.only(
-                                    topLeft: Radius.circular(10),
-                                    bottomLeft: Radius.circular(10)))),
-                        backgroundColor: MaterialStateProperty.all(
-                            isFavorite ? leisureColor : lightGray)),
-                    child: Text(AppLocalizations.of(context).yes,
-                        style: const TextStyle(
-                          color: Colors.white,
-                          fontWeight: FontWeight.normal,
-                          fontSize: 16,
-                        ))),
-                const VerticalDivider(color: modalBackground, thickness: 10),
-                ElevatedButton(
-                    onPressed: () {
-                      isFavorite = !isFavorite;
+                              setState(() {});
+                            },
+                            style: ButtonStyle(
+                                fixedSize: MaterialStateProperty.all(Size.copy(
+                                    Size(
+                                        (((MediaQuery.of(context).size.width *
+                                                    0.9) -
+                                                10) /
+                                            2),
+                                        50))),
+                                shape: MaterialStateProperty.all(
+                                    const RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.only(
+                                            topLeft: Radius.circular(10),
+                                            bottomLeft: Radius.circular(10)))),
+                                backgroundColor: MaterialStateProperty.all(
+                                    isFavorite ? leisureColor : lightGray)),
+                            child: Text(AppLocalizations.of(context).yes,
+                                style: const TextStyle(
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.normal,
+                                  fontSize: 16,
+                                ))),
+                        const VerticalDivider(
+                            color: modalBackground, thickness: 10),
+                        ElevatedButton(
+                            onPressed: () {
+                              isFavorite = false;
 
-                      setState(() {});
-                    },
-                    style: ButtonStyle(
-                        fixedSize: MaterialStateProperty.all(Size.copy(Size(
-                            (((MediaQuery.of(context).size.width * 0.9) - 10) /
-                                2),
-                            50))),
-                        shape: MaterialStateProperty.all(
-                            const RoundedRectangleBorder(
-                                borderRadius: BorderRadius.only(
-                                    topRight: Radius.circular(10),
-                                    bottomRight: Radius.circular(10)))),
-                        backgroundColor: MaterialStateProperty.all(
-                            !isFavorite ? leisureColor : lightGray)),
-                    child: Text(AppLocalizations.of(context).no,
-                        style: const TextStyle(
-                          color: Colors.white,
-                          fontWeight: FontWeight.normal,
-                          fontSize: 16,
-                        )))
-              ])),
-          const SizedBox(height: 100)
+                              setState(() {});
+                            },
+                            style: ButtonStyle(
+                                fixedSize: MaterialStateProperty.all(Size.copy(
+                                    Size(
+                                        (((MediaQuery.of(context).size.width *
+                                                    0.9) -
+                                                10) /
+                                            2),
+                                        50))),
+                                shape: MaterialStateProperty.all(
+                                    const RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.only(
+                                            topRight: Radius.circular(10),
+                                            bottomRight: Radius.circular(10)))),
+                                backgroundColor: MaterialStateProperty.all(
+                                    !isFavorite ? leisureColor : lightGray)),
+                            child: Text(AppLocalizations.of(context).no,
+                                style: const TextStyle(
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.normal,
+                                  fontSize: 16,
+                                )))
+                      ]))),
+          const SizedBox(height: 50),
+          Padding(
+              padding: EdgeInsets.only(
+                  top: 20, bottom: MediaQuery.of(context).viewInsets.bottom),
+              child: ElevatedButton(
+                onPressed: () async {
+                  String content = controller.text;
+                  //We can send the review with no text
+                  //Start date can't be after end date -> widget takes care of this constraint
+                  DateTime start = DateTime.parse(startDate);
+                  DateTime end = DateTime.parse(endDate);
+
+                  Review review = Review(
+                      startDate: start,
+                      endDate: end,
+                      review: content,
+                      emoji: rating,
+                      mediaId: widget.mediaId);
+
+                  await serviceLocator<ReviewDao>().insertReview(review);
+
+                  final mediaStream =
+                      serviceLocator<MediaDao>().findMediaById(widget.mediaId);
+                  Media? firstNonNullMedia =
+                      await mediaStream.firstWhere((media) => media != null);
+                  Media media = firstNonNullMedia!;
+                  Media newMedia = Media(
+                      description: media.description,
+                      id: media.id,
+                      name: media.name,
+                      linkImage: media.linkImage,
+                      favorite: isFavorite,
+                      status: Status.done,
+                      genres: media.genres,
+                      release: media.release,
+                      xp: media.xp,
+                      participants: media.participants,
+                      type: media.type);
+                  await serviceLocator<MediaDao>().updateMedia(newMedia);
+
+                  if (widget.refreshStatus != null) {
+                    widget.refreshStatus!();
+                  }
+                },
+                style: ElevatedButton.styleFrom(
+                  minimumSize:
+                      Size(MediaQuery.of(context).size.width * 0.95, 55),
+                  backgroundColor: leisureColor,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(25.0),
+                  ),
+                ),
+                child: Text(AppLocalizations.of(context).save,
+                    style: Theme.of(context).textTheme.headlineSmall),
+              ))
         ]));
   }
 }

@@ -15,7 +15,5 @@ class MediaTimeslot {
   @PrimaryKey()
   final int id;
 
-  MediaTimeslot({
-    required this.id,
-  });
+  MediaTimeslot({required this.id});
 }

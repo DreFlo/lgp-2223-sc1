@@ -27,6 +27,8 @@ class Media {
 
   final String participants;
 
+  final MediaDBTypes type;
+
   Media(
       {this.id,
       required this.name,
@@ -37,5 +39,6 @@ class Media {
       required this.genres,
       required this.release,
       required this.xp,
-      required this.participants});
+      required this.participants,
+      required this.type});
 }

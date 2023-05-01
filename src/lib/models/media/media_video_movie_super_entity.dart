@@ -3,70 +3,73 @@ import 'package:src/models/media/movie.dart';
 import 'package:src/models/media/video.dart';
 import 'package:src/utils/enums.dart';
 
-class MediaVideoMovieSuperEntity {
-  final int? id;
-  final String name;
-  final String description;
-  final String linkImage;
-  final Status status;
-  final bool favorite;
-  final String genres;
-  final String participants;
-  final DateTime release;
-  final int xp;
+class MediaVideoMovieSuperEntity extends Media {
   final int duration;
   final String tagline;
+  final int tmdbId;
 
   MediaVideoMovieSuperEntity({
-    this.id,
-    required this.name,
-    required this.description,
-    required this.linkImage,
-    required this.status,
-    required this.favorite,
-    required this.genres,
-    required this.release,
-    required this.xp,
+    int? id,
+    required String name,
+    required String description,
+    required String linkImage,
+    required Status status,
+    required bool favorite,
+    required String genres,
+    required DateTime release,
+    required int xp,
     required this.duration,
-    required this.participants,
+    required String participants,
     required this.tagline,
-  });
+    required this.tmdbId,
+  }) : super(
+            id: id,
+            name: name,
+            description: description,
+            linkImage: linkImage,
+            status: status,
+            favorite: favorite,
+            genres: genres,
+            release: release,
+            xp: xp,
+            participants: participants,
+            type: MediaDBTypes.movie);
 
   MediaVideoMovieSuperEntity.fromMediaAndVideoAndMovie(
       Media media, Video video, Movie movie)
-      : id = media.id,
-        name = media.name,
-        description = media.description,
-        linkImage = media.linkImage,
-        status = media.status,
-        favorite = media.favorite,
-        genres = media.genres,
-        release = media.release,
-        xp = media.xp,
-        participants = media.participants,
-        duration = video.duration,
-        tagline = movie.tagline;
+      : duration = video.duration,
+        tagline = movie.tagline,
+        tmdbId = video.tmdbId,
+        super(
+            id: media.id,
+            name: media.name,
+            description: media.description,
+            linkImage: media.linkImage,
+            status: media.status,
+            favorite: media.favorite,
+            genres: media.genres,
+            release: media.release,
+            xp: media.xp,
+            participants: media.participants,
+            type: MediaDBTypes.movie);
 
   Media toMedia() {
     return Media(
-      id: id,
-      name: name,
-      description: description,
-      linkImage: linkImage,
-      status: status,
-      favorite: favorite,
-      genres: genres,
-      release: release,
-      participants: participants,
-      xp: xp,
-    );
+        id: id,
+        name: name,
+        description: description,
+        linkImage: linkImage,
+        status: status,
+        favorite: favorite,
+        genres: genres,
+        release: release,
+        participants: participants,
+        xp: xp,
+        type: MediaDBTypes.movie);
   }
 
   Video toVideo() {
-    return Video(
-      id: id!,
-      duration: duration,
-    );
+    return Video(id: id!, duration: duration, tmdbId: tmdbId);
   }
 
   Movie toMovie() {
@@ -89,6 +92,7 @@ class MediaVideoMovieSuperEntity {
     int? duration,
     String? participants,
     String? tagline,
+    int? tmdbId,
   }) {
     return MediaVideoMovieSuperEntity(
       id: id ?? this.id,
@@ -103,6 +107,24 @@ class MediaVideoMovieSuperEntity {
       duration: duration ?? this.duration,
       participants: participants ?? this.participants,
       tagline: tagline ?? this.tagline,
+      tmdbId: tmdbId ?? this.tmdbId,
     );
   }
+
+  MediaVideoMovieSuperEntity.fromJson(Map<String, dynamic> json)
+      : duration = json['duration'],
+        tagline = json['tagline'],
+        tmdbId = json['tmdbId'],
+        super(
+            id: json['id'],
+            name: json['name'],
+            description: json['description'],
+            linkImage: json['linkImage'],
+            status: json['status'],
+            favorite: json['favorite'],
+            genres: json['genres'],
+            release: json['release'],
+            xp: json['xp'],
+            participants: json['participants'],
+            type: MediaDBTypes.movie);
 }

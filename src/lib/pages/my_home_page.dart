@@ -2,11 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:src/notifications/local_notifications_service.dart';
 import 'package:src/widgets/home/homepage_horizontal_scrollview.dart';
 import 'package:src/widgets/home/profile_pic.dart';
-import 'package:src/widgets/home/task_listview.dart';
+import 'package:src/widgets/home/event_listview.dart';
 import 'package:src/widgets/home/welcome_message.dart';
+import 'package:src/models/timeslot/timeslot_media_timeslot_super_entity.dart';
+import 'package:src/daos/timeslot/timeslot_media_timeslot_super_dao.dart';
+import 'package:src/utils/service_locator.dart';
+import 'package:src/models/timeslot/timeslot_student_timeslot_super_entity.dart';
+import 'package:src/daos/timeslot/timeslot_student_timeslot_super_dao.dart';
 
-import 'package:src/models/student/task.dart';
-import 'package:src/utils/enums.dart';
 import 'package:src/widgets/home/badge_placeholder.dart';
 
 class MyHomePage extends StatefulWidget {
@@ -18,69 +21,42 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   int _selectedIndex = 0;
+  List<TimeslotMediaTimeslotSuperEntity> mediaEvents = [];
+  bool loadedAllData = false;
+  List<TimeslotStudentTimeslotSuperEntity> studentEvents = [];
   String name = "Joaquim Almeida"; // TODO Get name from database
 
-  // TODO - get tasks from database
-  // TODO - change logic when we have events (leisure) - for now everything is tasks and description is being used to distinguish between modules
-  List<Task> items = [
-    Task(
-        id: 1,
-        name: 'Ginásio',
-        description: 'Student',
-        deadline: DateTime(2023, 3, 31, 5),
-        priority: Priority.high,
-        taskGroupId: 1,
-        subjectId: 1,
-        xp: 0),
-    Task(
-        id: 1,
-        name: 'Kirby & The Forgotten Land',
-        description: 'Leisure',
-        deadline: DateTime(2023, 4, 3, 10),
-        priority: Priority.medium,
-        taskGroupId: 1,
-        subjectId: 1,
-        xp: 0),
-    Task(
-        id: 1,
-        name: 'Caminhar',
-        description: 'Personal',
-        deadline: DateTime(2023, 4, 4, 5),
-        priority: Priority.low,
-        taskGroupId: 1,
-        subjectId: 1,
-        xp: 0),
-    Task(
-        id: 1,
-        name: 'Treino 5 Minutos',
-        description: 'Fitness',
-        deadline: DateTime(2023, 4, 5, 8),
-        priority: Priority.high,
-        taskGroupId: 1,
-        subjectId: 1,
-        xp: 0),
-  ];
+  @override
+  void initState() {
+    super.initState();
+    loadEventsDB();
+  }
 
-  List<Task> filterItems() {
+  void loadEventsDB() async {
+    DateTime now = DateTime.now();
+    DateTime start = DateTime(now.year, now.month, now.day, 0, 0, 0);
+    mediaEvents = await serviceLocator<TimeslotMediaTimeslotSuperDao>()
+        .findAllTimeslotMediaTimeslot(start);
+    studentEvents = await serviceLocator<TimeslotStudentTimeslotSuperDao>()
+        .findAllTimeslotStudentTimeslot(start);
+    setState(() {
+      mediaEvents = mediaEvents;
+      studentEvents = studentEvents;
+      loadedAllData = true;
+    });
+  }
+
+  showWidget() {
     switch (_selectedIndex) {
+      case 0:
+        return MyEventListView(
+            studentEvents: studentEvents, mediaEvents: mediaEvents);
       case 1:
-        return items
-            .where((element) => element.description == 'Student')
-            .toList();
+        return MyEventListView(studentEvents: studentEvents);
       case 2:
-        return items
-            .where((element) => element.description == 'Leisure')
-            .toList();
-      case 3:
-        return items
-            .where((element) => element.description == 'Fitness')
-            .toList();
-      case 4:
-        return items
-            .where((element) => element.description == 'Personal')
-            .toList();
+        return MyEventListView(mediaEvents: mediaEvents);
       default:
-        return items;
+        return const MyEventListView(studentEvents: [], mediaEvents: []);
     }
   }
 
@@ -107,14 +83,12 @@ class _MyHomePageState extends State<MyHomePage> {
                   child: WelcomeMessage(name: name)),
               const BadgePlaceholder(),
               HorizontalScrollView(
-                nItems: items.length,
+                nItems: studentEvents.length + mediaEvents.length,
                 selectedIndex: _selectedIndex,
                 setSelectedIndex: (int index) =>
                     setState(() => _selectedIndex = index),
               ),
-              Expanded(
-                child: MyTaskListView(items: filterItems()),
-              )
+              loadedAllData ? Expanded(child: showWidget()) : Container()
             ],
           ),
         ],

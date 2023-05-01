@@ -33,10 +33,12 @@ class Task {
   final int xp;
 
   @ColumnInfo(name: 'task_group_id')
-  final int taskGroupId;
+  final int? taskGroupId;
 
   @ColumnInfo(name: 'subject_id')
   final int? subjectId;
+
+  final bool finished;
 
   Task(
       {this.id,
@@ -44,7 +46,8 @@ class Task {
       required this.description,
       required this.priority,
       required this.deadline,
-      required this.taskGroupId,
-      required this.subjectId,
-      required this.xp});
+      this.taskGroupId,
+      this.subjectId,
+      required this.xp,
+      required this.finished});
 }

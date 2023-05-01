@@ -9,6 +9,9 @@ abstract class VideoDao {
   @Query('SELECT * FROM Video WHERE id = :id')
   Stream<Video?> findVideoById(int id);
 
+  @Query('SELECT duration FROM Video WHERE id = :id')
+  Future<List<int>> findVideoDurationById(int id);
+
   @insert
   Future<int> insertVideo(Video video);
 

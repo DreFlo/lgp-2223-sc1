@@ -1,25 +1,20 @@
 // ignore_for_file: prefer_const_constructors, sized_box_for_whitespace
 
+import 'package:books_finder/books_finder.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:src/animation_test/main.dart';
 import 'package:src/daos/user_dao.dart';
+import 'package:src/env/env.dart';
 import 'package:src/models/user.dart';
 import 'package:src/notifications/local_notifications_service.dart';
 import 'package:src/pages/tasks/institution_form.dart';
 import 'package:src/pages/tasks/subject_form.dart';
 import 'package:src/themes/colors.dart';
 import 'package:src/utils/service_locator.dart';
-import 'package:src/pages/leisure/add_to_catalog_form.dart';
-import 'package:src/pages/leisure/mark_episodes_sheet.dart';
-import 'package:src/pages/leisure/episodes_notes_sheet.dart';
-import 'package:src/pages/leisure/book_notes_sheet.dart';
-import 'package:src/pages/leisure/add_book_note_form.dart';
-import 'package:src/pages/leisure/media_page.dart';
 import 'package:src/utils/enums.dart';
-import 'package:src/env/env.dart';
 import 'package:tmdb_api/tmdb_api.dart';
-import 'package:books_finder/books_finder.dart';
+import 'package:src/pages/auth/landing_page.dart';
 import 'package:src/pages/catalog_search/leisure_module.dart';
 
 import 'package:src/pages/tasks/project_form.dart';
@@ -34,10 +29,11 @@ class HomePage extends StatefulWidget {
   State<HomePage> createState() => _HomePageState();
 }
 
-class _HomePageState extends State<HomePage> {
+class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
   int _counter = 0;
   Object redrawObject = Object();
   bool isFavorite = false;
+  List<String> user = ['John Smith', '11', '400'];
   Status status = Status.goingThrough;
   String title = "She-ra and the Princesses of Power",
       synopsis =
@@ -136,13 +132,16 @@ class _HomePageState extends State<HomePage> {
                                               .bottom +
                                           50),
                                   child: SingleChildScrollView(
-                                      controller: scrollController,
-                                      child: AddToCatalogForm(
-                                          status: Status.nothing,
-                                          startDate: DateTime.now()
-                                              .toString()
-                                              .split(" ")[0],
-                                          endDate: 'Not Defined'))),
+                                    controller: scrollController,
+                                    /*child: AddToCatalogForm(
+                                        status: Status.nothing,
+                                        startDate: DateTime.now()
+                                            .toString()
+                                            .split(" ")[0],
+                                        endDate: 'Not Defined',
+                                        onStatusChanged: (value) => value,
+                                      )*/
+                                  )),
                               Positioned(
                                   left: 16,
                                   right: 16,
@@ -153,9 +152,7 @@ class _HomePageState extends State<HomePage> {
                                               .viewInsets
                                               .bottom),
                                       child: ElevatedButton(
-                                        onPressed: () {
-                                          //TODO: Save stuff + send to database.
-                                        },
+                                        onPressed: () {},
                                         style: ElevatedButton.styleFrom(
                                           minimumSize: Size(
                                               MediaQuery.of(context)
@@ -219,9 +216,10 @@ class _HomePageState extends State<HomePage> {
                                                     .bottom +
                                                 50),
                                         child: SingleChildScrollView(
-                                            controller: scrollController,
-                                            child: MarkEpisodesSheet(
-                                                episodes: episodes))),
+                                          controller: scrollController,
+                                          /*child: MarkEpisodesSheet(
+                                                episodes: episodes)*/
+                                        )),
                                   ])));
                 },
                 style: ElevatedButton.styleFrom(
@@ -260,10 +258,11 @@ class _HomePageState extends State<HomePage> {
                                                     .bottom +
                                                 50),
                                         child: SingleChildScrollView(
-                                            controller: scrollController,
-                                            child: EpisodesNotesSheet(
+                                          controller: scrollController,
+                                          /*child: EpisodesNotesSheet(
                                                 notes: notes,
-                                                episodes: episodes)))
+                                                episodes: episodes)*/
+                                        ))
                                   ])));
                 },
                 style: ElevatedButton.styleFrom(
@@ -309,13 +308,16 @@ class _HomePageState extends State<HomePage> {
                                               .bottom +
                                           50),
                                   child: SingleChildScrollView(
-                                      controller: scrollController,
-                                      child: AddToCatalogForm(
-                                          status: Status.nothing,
-                                          startDate: DateTime.now()
-                                              .toString()
-                                              .split(" ")[0],
-                                          endDate: 'Not Defined'))),
+                                    controller: scrollController,
+                                    /*child: AddToCatalogForm(
+                                        status: Status.nothing,
+                                        startDate: DateTime.now()
+                                            .toString()
+                                            .split(" ")[0],
+                                        endDate: 'Not Defined',
+                                        onStatusChanged: (value) => value,
+                                      )*/
+                                  )),
                               Positioned(
                                   left: 16,
                                   right: 16,
@@ -326,9 +328,7 @@ class _HomePageState extends State<HomePage> {
                                               .viewInsets
                                               .bottom),
                                       child: ElevatedButton(
-                                        onPressed: () {
-                                          //TODO: Save stuff + send to database.
-                                        },
+                                        onPressed: () {},
                                         style: ElevatedButton.styleFrom(
                                           minimumSize: Size(
                                               MediaQuery.of(context)
@@ -381,7 +381,7 @@ class _HomePageState extends State<HomePage> {
                           padding: EdgeInsets.only(
                               bottom: MediaQuery.of(context).viewInsets.bottom),
                           child: Stack(children: const [
-                            AddBookNoteForm(),
+                            //AddBookNoteForm(mediaId: 1),
                           ])));
                 },
                 style: ElevatedButton.styleFrom(
@@ -420,9 +420,10 @@ class _HomePageState extends State<HomePage> {
                                                     .bottom +
                                                 50),
                                         child: SingleChildScrollView(
-                                            controller: scrollController,
-                                            child: BookNotesSheet(
-                                                notes: bookNotes)))
+                                          controller: scrollController,
+                                          /*child: BookNotesSheet(
+                                                notes: bookNotes)*/
+                                        ))
                                   ])));
                 },
                 style: ElevatedButton.styleFrom(
@@ -452,7 +453,8 @@ class _HomePageState extends State<HomePage> {
       appBar: AppBar(
         title: Text(widget.title),
       ),
-      body: Wrap(spacing: 10, children: [
+      body: SingleChildScrollView(
+          child: Wrap(spacing: 10, children: [
         const SizedBox(height: 30),
         Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -497,13 +499,8 @@ class _HomePageState extends State<HomePage> {
               child: const Text('Search/Catalog'),
               onPressed: () {
                 loadmedia();
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => LeisureModule(
-                            trendingMovies: trendingmovies,
-                            trendingTvshows: trendingtvshows,
-                            books: books)));
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => LeisureModule()));
                 // builder: (context) => SearchMedia()));
               },
             ),
@@ -530,10 +527,27 @@ class _HomePageState extends State<HomePage> {
                     id: 0,
                     password: 'secure',
                     xp: 0,
+                    level: 1,
                     imagePath: ''));
                 setState(() {
                   redrawObject = Object();
                 });
+              },
+            ),
+            ElevatedButton(
+              style: ButtonStyle(
+                  backgroundColor: MaterialStateProperty.all(Color(0xFF6C5DD3)),
+                  shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                      const RoundedRectangleBorder(
+                          borderRadius: BorderRadius.only(
+                              topRight: Radius.circular(10),
+                              topLeft: Radius.circular(10),
+                              bottomRight: Radius.circular(10),
+                              bottomLeft: Radius.circular(10))))),
+              child: const Text('Auth Pages'),
+              onPressed: () {
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => LandingPage()));
               },
             ),
             ElevatedButton(
@@ -553,8 +567,8 @@ class _HomePageState extends State<HomePage> {
                           maxChildSize: 0.75,
                           builder: (context, scrollController) => Stack(
                                   alignment: AlignmentDirectional.bottomCenter,
-                                  children: [
-                                    SingleChildScrollView(
+                                  children: const [
+                                    /*SingleChildScrollView(
                                         controller: scrollController,
                                         child: MediaPage(
                                             title: title,
@@ -571,7 +585,7 @@ class _HomePageState extends State<HomePage> {
                                         left: 16,
                                         right: 16,
                                         bottom: 16,
-                                        child: mediaPageButton())
+                                        child: mediaPageButton())*/
                                   ])));
                 }),
             ElevatedButton(
@@ -597,15 +611,8 @@ class _HomePageState extends State<HomePage> {
                                 maxChildSize: 0.60,
                                 builder: (context, scrollController) =>
                                     TaskForm(
-                                        scrollController: scrollController,
-                                        title: "Create Task",
-                                        project: "No",
-                                        dueDate: "05/04/2023",
-                                        priority: Priority.high,
-                                        notes: const ["nothing"],
-                                        institution: "FEUP",
-                                        subject: "LPOO",
-                                        description: "nothing")),
+                                      scrollController: scrollController,
+                                    )),
                           ));
                 }),
             ElevatedButton(
@@ -620,25 +627,18 @@ class _HomePageState extends State<HomePage> {
                             BorderRadius.vertical(top: Radius.circular(30.0)),
                       ),
                       builder: (context) => Padding(
-                            padding: EdgeInsets.only(
-                                bottom:
-                                    MediaQuery.of(context).viewInsets.bottom +
-                                        50),
-                            child: DraggableScrollableSheet(
-                                expand: false,
-                                initialChildSize: 0.75,
-                                minChildSize: 0.75,
-                                maxChildSize: 0.75,
-                                builder: (context, scrollController) =>
-                                    ProjectForm(
-                                        scrollController: scrollController,
-                                        title: "Create Project",
-                                        dueDate: "05/04/2023",
-                                        institution: "FEUP",
-                                        subject: "LPOO",
-                                        tasks: const ["", "", ""],
-                                        description: "nothing")),
-                          ));
+                          padding: EdgeInsets.only(
+                              bottom: MediaQuery.of(context).viewInsets.bottom +
+                                  50),
+                          child: DraggableScrollableSheet(
+                              expand: false,
+                              initialChildSize: 0.75,
+                              minChildSize: 0.75,
+                              maxChildSize: 0.75,
+                              builder: (context, scrollController) =>
+                                  ProjectForm(
+                                    scrollController: scrollController,
+                                  ))));
                 }),
             ElevatedButton(
                 child: Text("Subject Form"),
@@ -661,8 +661,6 @@ class _HomePageState extends State<HomePage> {
                             minChildSize: 0.5,
                             maxChildSize: 0.5,
                             builder: (context, scrollController) => SubjectForm(
-                              name: "Hello",
-                              acronym: "HI",
                               scrollController: scrollController,
                             ),
                           )));
@@ -689,12 +687,6 @@ class _HomePageState extends State<HomePage> {
                             maxChildSize: 0.5,
                             builder: (context, scrollController) =>
                                 InstitutionForm(
-                              name: "Hello",
-                              type: InstitutionType.education,
-                              subjects: const {
-                                "LPOO":
-                                    "Laboratório de Programação Orientada a Objetos"
-                              },
                               scrollController: scrollController,
                             ),
                           )));
@@ -754,7 +746,7 @@ class _HomePageState extends State<HomePage> {
                 }),
           ],
         ),
-      ]),
+      ])),
       floatingActionButton: FloatingActionButton(
         onPressed: _incrementCounter,
         tooltip: 'Increment',

@@ -16,6 +16,8 @@ import 'package:src/models/media/media_series_super_entity.dart';
 import 'package:src/models/media/media_video_movie_super_entity.dart';
 import 'package:src/models/media/movie.dart';
 import 'package:src/models/media/season.dart';
+import 'package:src/models/notes/note.dart';
+import 'package:src/daos/notes/note_dao.dart';
 import 'package:src/models/notes/note_book_note_super_entity.dart';
 import 'package:src/daos/notes/note_book_note_super_dao.dart';
 import 'package:src/models/notes/note_subject_note_super_entity.dart';
@@ -83,8 +85,12 @@ void main() {
 
       expect(users.length, 0);
 
-      await serviceLocator<UserDao>().insertUser(
-          User(userName: 'Emil', password: '1234', xp: 23, imagePath: 'test'));
+      await serviceLocator<UserDao>().insertUser(User(
+          userName: 'Emil',
+          password: '1234',
+          xp: 23,
+          level: 1,
+          imagePath: 'test'));
 
       users = await serviceLocator<UserDao>().findAllUsers();
 
@@ -105,7 +111,11 @@ void main() {
           release: DateTime.now(),
           xp: 23,
           participants: "Me",
-          tagline: "Super Cool Test");
+          tagline: "Super Cool Test",
+          numberEpisodes: 23,
+          numberSeasons: 2,
+          duration: 30,
+          tmdbId: 1);
 
       int seriesId = await serviceLocator<MediaSeriesSuperDao>()
           .insertMediaSeriesSuperEntity(mediaSeriesSuperEntity);
@@ -133,6 +143,7 @@ void main() {
         number: 1,
         seasonId: seasonId,
         participants: "Me",
+        tmdbId: 1,
       );
 
       int id = await serviceLocator<MediaVideoEpisodeSuperDao>()
@@ -161,7 +172,8 @@ void main() {
               xp: 23,
               duration: 23,
               participants: "Me",
-              tagline: "Super Cool Test");
+              tagline: "Super Cool Test",
+              tmdbId: 1);
 
       int id = await serviceLocator<MediaVideoMovieSuperDao>()
           .insertMediaVideoMovieSuperEntity(mediaVideoMovieSuperEntity);
@@ -211,7 +223,8 @@ void main() {
           genres: 'genres',
           release: DateTime.now(),
           xp: 23,
-          participants: 'Me'));
+          participants: 'Me',
+          type: MediaDBTypes.book));
 
       await serviceLocator<BookDao>()
           .insertBook(Book(id: bookId, totalPages: 23, progressPages: 0));
@@ -233,13 +246,26 @@ void main() {
           (await serviceLocator<BookNoteDao>().findBookNoteById(id).first)!;
 
       expect(bookNote.startPage, 1);
+
+      await serviceLocator<BookNoteDao>().deleteBookNote(bookNote);
+      BookNote? bookNoteDeleted =
+          await serviceLocator<BookNoteDao>().findBookNoteById(id).first;
+      Note? noteDeleted =
+          await serviceLocator<NoteDao>().findNoteById(id).first;
+
+      expect(bookNoteDeleted, null);
+      expect(noteDeleted, null);
     });
   });
 
   testWidgets('Test SuperDAO for Note/TaskNote', (WidgetTester tester) async {
     await tester.runAsync(() async {
-      await serviceLocator<UserDao>().insertUser(
-          User(userName: 'Emil', password: '1234', xp: 23, imagePath: 'test'));
+      await serviceLocator<UserDao>().insertUser(User(
+          userName: 'Emil',
+          password: '1234',
+          xp: 23,
+          level: 1,
+          imagePath: 'test'));
 
       await serviceLocator<InstitutionDao>().insertInstitution(Institution(
           name: 'name',
@@ -249,7 +275,6 @@ void main() {
 
       await serviceLocator<SubjectDao>().insertSubject(Subject(
         name: 'name',
-        weightAverage: 1.0,
         institutionId: 1,
         acronym: 'acronym',
       ));
@@ -268,7 +293,8 @@ void main() {
           deadline: DateTime.now().subtract(const Duration(days: 1)),
           taskGroupId: 1,
           subjectId: 1,
-          xp: 20));
+          xp: 20,
+          finished: false));
 
       NoteTaskNoteSuperEntity noteTaskNoteSuperEntity = NoteTaskNoteSuperEntity(
           title: 'Note 1',
@@ -285,14 +311,28 @@ void main() {
           (await serviceLocator<TaskNoteDao>().findTaskNoteById(id).first)!;
 
       expect(taskNote.taskId, 1);
+
+      //Test delete callback
+      await serviceLocator<TaskNoteDao>().deleteTaskNote(taskNote);
+      TaskNote? taskNoteDeleted =
+          await serviceLocator<TaskNoteDao>().findTaskNoteById(id).first;
+      Note? noteDeleted =
+          await serviceLocator<NoteDao>().findNoteById(id).first;
+
+      expect(taskNoteDeleted, null);
+      expect(noteDeleted, null);
     });
   });
 
   testWidgets('Test SuperDAO for Note/SubjectNote',
       (WidgetTester tester) async {
     await tester.runAsync(() async {
-      await serviceLocator<UserDao>().insertUser(
-          User(userName: 'Emil', password: '1234', xp: 23, imagePath: 'test'));
+      await serviceLocator<UserDao>().insertUser(User(
+          userName: 'Emil',
+          password: '1234',
+          xp: 23,
+          level: 1,
+          imagePath: 'test'));
 
       await serviceLocator<InstitutionDao>().insertInstitution(Institution(
           name: 'name',
@@ -302,7 +342,6 @@ void main() {
 
       await serviceLocator<SubjectDao>().insertSubject(Subject(
         name: 'name',
-        weightAverage: 1.0,
         institutionId: 1,
         acronym: 'acronym',
       ));
@@ -324,6 +363,16 @@ void main() {
           .first)!;
 
       expect(subjectNote.subjectId, 1);
+
+      //Test delete callback
+      await serviceLocator<SubjectNoteDao>().deleteSubjectNote(subjectNote);
+      SubjectNote? subjectNoteDeleted =
+          await serviceLocator<SubjectNoteDao>().findSubjectNoteById(id).first;
+      Note? noteDeleted =
+          await serviceLocator<NoteDao>().findNoteById(id).first;
+
+      expect(subjectNoteDeleted, null);
+      expect(noteDeleted, null);
     });
   });
 
@@ -339,7 +388,11 @@ void main() {
           release: DateTime.now(),
           xp: 23,
           participants: "Me",
-          tagline: "Super Cool Test");
+          tagline: "Super Cool Test",
+          numberEpisodes: 23,
+          numberSeasons: 2,
+          duration: 30,
+          tmdbId: 1);
 
       int seriesId = await serviceLocator<MediaSeriesSuperDao>()
           .insertMediaSeriesSuperEntity(mediaSeriesSuperEntity);
@@ -367,6 +420,7 @@ void main() {
         number: 1,
         seasonId: seasonId,
         participants: "Me",
+        tmdbId: 1,
       );
 
       int id = await serviceLocator<MediaVideoEpisodeSuperDao>()
@@ -393,7 +447,11 @@ void main() {
           release: DateTime.now(),
           xp: 23,
           participants: "Me",
-          tagline: "Super Cool Test");
+          tagline: "Super Cool Test",
+          numberEpisodes: 23,
+          numberSeasons: 2,
+          duration: 30,
+          tmdbId: 1);
 
       int seriesId = await serviceLocator<MediaSeriesSuperDao>()
           .insertMediaSeriesSuperEntity(mediaSeriesSuperEntity);
@@ -420,7 +478,8 @@ void main() {
               duration: 23,
               number: 1,
               seasonId: seasonId,
-              participants: 'Me');
+              participants: 'Me',
+              tmdbId: 1);
 
       int id = await serviceLocator<MediaVideoEpisodeSuperDao>()
           .insertMediaVideoEpisodeSuperEntity(mediaVideoEpisodeSuperEntity);
@@ -449,14 +508,28 @@ void main() {
           .first)!;
 
       expect(episodeNote.episodeId, id);
+
+      //Test delete callback
+      await serviceLocator<EpisodeNoteDao>().deleteEpisodeNote(episodeNote);
+      EpisodeNote? episodeNoteDeleted =
+          await serviceLocator<EpisodeNoteDao>().findEpisodeNoteById(id).first;
+      Note? noteDeleted =
+          await serviceLocator<NoteDao>().findNoteById(id).first;
+
+      expect(episodeNoteDeleted, null);
+      expect(noteDeleted, null);
     });
   });
 
   testWidgets('Test SuperDAO for Timeslot/MediaTimeslot',
       (WidgetTester tester) async {
     await tester.runAsync(() async {
-      await serviceLocator<UserDao>().insertUser(
-          User(userName: 'Emil', password: '1234', xp: 23, imagePath: 'test'));
+      await serviceLocator<UserDao>().insertUser(User(
+          userName: 'Emil',
+          password: '1234',
+          xp: 23,
+          level: 1,
+          imagePath: 'test'));
 
       int seriesId = await serviceLocator<MediaDao>().insertMedia(Media(
           name: 'name',
@@ -467,10 +540,16 @@ void main() {
           genres: 'genres',
           release: DateTime.now(),
           xp: 23,
-          participants: 'Me'));
+          participants: 'Me',
+          type: MediaDBTypes.book));
 
-      await serviceLocator<SeriesDao>()
-          .insertSerie(Series(id: seriesId, tagline: 'Super Cool Test'));
+      await serviceLocator<SeriesDao>().insertSerie(Series(
+          id: seriesId,
+          tagline: 'Super Cool Test',
+          numberEpisodes: 23,
+          numberSeasons: 2,
+          duration: 30,
+          tmdbId: 1));
 
       TimeslotMediaTimeslotSuperEntity timeslotMediaTimeslotSuperEntity =
           TimeslotMediaTimeslotSuperEntity(
@@ -479,6 +558,7 @@ void main() {
               startDateTime: DateTime.now(),
               endDateTime: DateTime.now().add(const Duration(days: 1)),
               xpMultiplier: 2,
+              finished: false,
               userId: 1);
 
       int id = await serviceLocator<TimeslotMediaTimeslotSuperDao>()
@@ -492,8 +572,12 @@ void main() {
   testWidgets('Test SuperDAO for Timeslot/StudentTimeslot',
       (WidgetTester tester) async {
     await tester.runAsync(() async {
-      await serviceLocator<UserDao>().insertUser(
-          User(userName: 'Emil', password: '1234', xp: 23, imagePath: 'test'));
+      await serviceLocator<UserDao>().insertUser(User(
+          userName: 'Emil',
+          password: '1234',
+          xp: 23,
+          level: 1,
+          imagePath: 'test'));
 
       await serviceLocator<InstitutionDao>().insertInstitution(Institution(
           name: 'name',
@@ -503,7 +587,6 @@ void main() {
 
       await serviceLocator<SubjectDao>().insertSubject(Subject(
         name: 'name',
-        weightAverage: 1.0,
         institutionId: 1,
         acronym: 'acronym',
       ));
@@ -522,7 +605,8 @@ void main() {
           deadline: DateTime.now().subtract(const Duration(days: 1)),
           taskGroupId: 1,
           subjectId: 1,
-          xp: 20));
+          xp: 20,
+          finished: false));
 
       TimeslotStudentTimeslotSuperEntity timeslotStudentTimeslotSuperEntity =
           TimeslotStudentTimeslotSuperEntity(
@@ -531,6 +615,7 @@ void main() {
               startDateTime: DateTime.now(),
               endDateTime: DateTime.now().add(const Duration(days: 1)),
               xpMultiplier: 2,
+              finished: false,
               userId: 1);
 
       int id = await serviceLocator<TimeslotStudentTimeslotSuperDao>()
@@ -544,8 +629,12 @@ void main() {
   testWidgets('Test SuperDAO for Media/MediaTimeslot',
       (WidgetTester tester) async {
     await tester.runAsync(() async {
-      await serviceLocator<UserDao>().insertUser(
-          User(userName: 'Emil', password: '1234', xp: 23, imagePath: 'test'));
+      await serviceLocator<UserDao>().insertUser(User(
+          userName: 'Emil',
+          password: '1234',
+          xp: 23,
+          imagePath: 'test',
+          level: 1));
 
       int seriesId = await serviceLocator<MediaDao>().insertMedia(Media(
           name: 'name',
@@ -556,10 +645,16 @@ void main() {
           genres: 'genres',
           release: DateTime.now(),
           xp: 23,
-          participants: 'Me'));
+          participants: 'Me',
+          type: MediaDBTypes.book));
 
-      await serviceLocator<SeriesDao>()
-          .insertSerie(Series(id: seriesId, tagline: 'Super Cool Test'));
+      await serviceLocator<SeriesDao>().insertSerie(Series(
+          id: seriesId,
+          tagline: 'Super Cool Test',
+          numberEpisodes: 23,
+          numberSeasons: 2,
+          duration: 30,
+          tmdbId: 1));
 
       TimeslotMediaTimeslotSuperEntity timeslotMediaTimeslotSuperEntity =
           TimeslotMediaTimeslotSuperEntity(
@@ -568,6 +663,7 @@ void main() {
               startDateTime: DateTime.now(),
               endDateTime: DateTime.now().add(const Duration(days: 1)),
               xpMultiplier: 2,
+              finished: false,
               userId: 1);
 
       int id = await serviceLocator<TimeslotMediaTimeslotSuperDao>()
@@ -592,8 +688,12 @@ void main() {
   testWidgets('Test SuperDAO for Task/StudentTimeslot',
       (WidgetTester tester) async {
     await tester.runAsync(() async {
-      await serviceLocator<UserDao>().insertUser(
-          User(userName: 'Emil', password: '1234', xp: 23, imagePath: 'test'));
+      await serviceLocator<UserDao>().insertUser(User(
+          userName: 'Emil',
+          password: '1234',
+          xp: 23,
+          imagePath: 'test',
+          level: 1));
 
       await serviceLocator<InstitutionDao>().insertInstitution(Institution(
           name: 'name',
@@ -603,7 +703,6 @@ void main() {
 
       await serviceLocator<SubjectDao>().insertSubject(Subject(
         name: 'name',
-        weightAverage: 1.0,
         institutionId: 1,
         acronym: 'acronym',
       ));
@@ -622,6 +721,7 @@ void main() {
           deadline: DateTime.now().subtract(const Duration(days: 1)),
           taskGroupId: 1,
           subjectId: 1,
+          finished: false,
           xp: 20));
 
       TimeslotStudentTimeslotSuperEntity timeslotStudentTimeslotSuperEntity =
@@ -631,6 +731,7 @@ void main() {
               startDateTime: DateTime.now(),
               endDateTime: DateTime.now().add(const Duration(days: 1)),
               xpMultiplier: 2,
+              finished: false,
               userId: 1);
 
       int id = await serviceLocator<TimeslotStudentTimeslotSuperDao>()
@@ -659,8 +760,12 @@ void main() {
 
       expect(users.length, 0);
 
-      await serviceLocator<UserDao>().insertUser(
-          User(userName: 'Emil', password: '1234', xp: 23, imagePath: 'test'));
+      await serviceLocator<UserDao>().insertUser(User(
+          userName: 'Emil',
+          password: '1234',
+          xp: 23,
+          level: 1,
+          imagePath: 'test'));
 
       users = await serviceLocator<UserDao>().findAllUsers();
       User user = users.first;
@@ -676,6 +781,7 @@ void main() {
         startDateTime: startDateTime,
         endDateTime: endDateTime,
         xpMultiplier: 1,
+        finished: false,
         userId: userId,
       );
 
@@ -786,7 +892,8 @@ void main() {
           genres: 'Video 1',
           release: DateTime.now(),
           xp: 0,
-          participants: 'Me'));
+          participants: 'Me',
+          type: MediaDBTypes.movie));
 
       Review review = Review(
           id: 1,
@@ -814,7 +921,11 @@ void main() {
               release: DateTime.now(),
               xp: 0,
               participants: "Me",
-              tagline: "Super Cool Test"));
+              tagline: "Super Cool Test",
+              numberEpisodes: 23,
+              numberSeasons: 2,
+              duration: 30,
+              tmdbId: 1));
 
       Season season = Season(id: 1, number: -1, seriesId: id);
 
@@ -836,7 +947,11 @@ void main() {
               release: DateTime.now(),
               xp: 0,
               participants: "Me",
-              tagline: "Super Cool Test"));
+              tagline: "Super Cool Test",
+              numberEpisodes: 23,
+              numberSeasons: 2,
+              duration: 30,
+              tmdbId: 1));
 
       int seasonId = await serviceLocator<SeasonDao>()
           .insertSeason(Season(id: 1, number: 1, seriesId: seriesId));
@@ -854,7 +969,8 @@ void main() {
               duration: 1,
               number: -1,
               seasonId: seasonId,
-              participants: 'Me');
+              participants: 'Me',
+              tmdbId: 1);
 
       expect(
           () => serviceLocator<MediaVideoEpisodeSuperDao>()
@@ -863,15 +979,18 @@ void main() {
     });
   });
 
-  testWidgets('Test Trigger subject_weight_average',
-      (WidgetTester tester) async {
+  testWidgets('Test Triggers evaluation_grade', (WidgetTester tester) async {
     await tester.runAsync(() async {
       List<User> users = await serviceLocator<UserDao>().findAllUsers();
 
       expect(users.length, 0);
 
-      await serviceLocator<UserDao>().insertUser(
-          User(userName: 'Emil', password: '1234', xp: 23, imagePath: 'test'));
+      await serviceLocator<UserDao>().insertUser(User(
+          userName: 'Emil',
+          password: '1234',
+          xp: 23,
+          level: 1,
+          imagePath: 'test'));
 
       users = await serviceLocator<UserDao>().findAllUsers();
 
@@ -884,144 +1003,11 @@ void main() {
           type: InstitutionType.education,
           userId: 1));
 
-      Subject subject = Subject(
-          id: 1,
-          name: 'Subject 1',
-          weightAverage: -8,
-          institutionId: 1,
-          acronym: 'S1');
-
-      expect(() => serviceLocator<SubjectDao>().insertSubject(subject),
-          throwsA(isA<DatabaseException>()));
-    });
-  });
-
-  testWidgets('Test Triggers evaluation_grade_and_weight',
-      (WidgetTester tester) async {
-    await tester.runAsync(() async {
-      List<User> users = await serviceLocator<UserDao>().findAllUsers();
-
-      expect(users.length, 0);
-
-      await serviceLocator<UserDao>().insertUser(
-          User(userName: 'Emil', password: '1234', xp: 23, imagePath: 'test'));
-
-      users = await serviceLocator<UserDao>().findAllUsers();
-
-      expect(users.length, 1);
-
-      await serviceLocator<InstitutionDao>().insertInstitution(Institution(
-          id: 1,
-          name: 'Institution 1',
-          picture: 'Institution 1',
-          type: InstitutionType.education,
-          userId: 1));
-
-      await serviceLocator<SubjectDao>().insertSubject(Subject(
-          id: 1,
-          name: 'Subject 1',
-          weightAverage: 8,
-          institutionId: 1,
-          acronym: 'S'));
+      await serviceLocator<SubjectDao>().insertSubject(
+          Subject(id: 1, name: 'Subject 1', institutionId: 1, acronym: 'S'));
 
       StudentEvaluation studentEvaluation = StudentEvaluation(
-          id: 1,
-          name: 'Evaluation 1',
-          weight: 0.5,
-          minimum: 8,
-          grade: -8,
-          subjectId: 1);
-
-      expect(
-          () => serviceLocator<StudentEvaluationDao>()
-              .insertStudentEvaluation(studentEvaluation),
-          throwsA(isA<DatabaseException>()));
-
-      studentEvaluation = StudentEvaluation(
-          id: 1,
-          name: 'Evaluation 1',
-          weight: 4,
-          minimum: 8,
-          grade: 8,
-          subjectId: 1);
-
-      expect(
-          () => serviceLocator<StudentEvaluationDao>()
-              .insertStudentEvaluation(studentEvaluation),
-          throwsA(isA<DatabaseException>()));
-    });
-  });
-
-  testWidgets('Test Triggers evaluation_sum_weight',
-      (WidgetTester tester) async {
-    await tester.runAsync(() async {
-      List<User> users = await serviceLocator<UserDao>().findAllUsers();
-
-      expect(users.length, 0);
-
-      await serviceLocator<UserDao>().insertUser(
-          User(userName: 'Emil', password: '1234', xp: 23, imagePath: 'test'));
-
-      users = await serviceLocator<UserDao>().findAllUsers();
-
-      expect(users.length, 1);
-
-      await serviceLocator<InstitutionDao>().insertInstitution(Institution(
-          id: 1,
-          name: 'Institution 1',
-          picture: 'Institution 1',
-          type: InstitutionType.education,
-          userId: 1));
-
-      await serviceLocator<SubjectDao>().insertSubject(Subject(
-          id: 1,
-          name: 'Subject 1',
-          weightAverage: 8,
-          institutionId: 1,
-          acronym: 'S'));
-
-      StudentEvaluation studentEvaluation = StudentEvaluation(
-          id: 1,
-          name: 'Evaluation 1',
-          weight: -1,
-          minimum: 8,
-          grade: 8,
-          subjectId: 1);
-
-      expect(
-          () => serviceLocator<StudentEvaluationDao>()
-              .insertStudentEvaluation(studentEvaluation),
-          throwsA(isA<DatabaseException>()));
-
-      studentEvaluation = StudentEvaluation(
-          id: 1,
-          name: 'Evaluation 1',
-          weight: 0.5,
-          minimum: -8,
-          grade: 8,
-          subjectId: 1);
-
-      expect(
-          () => serviceLocator<StudentEvaluationDao>()
-              .insertStudentEvaluation(studentEvaluation),
-          throwsA(isA<DatabaseException>()));
-
-      await serviceLocator<StudentEvaluationDao>().insertStudentEvaluation(
-          StudentEvaluation(
-              id: 1,
-              name: 'Evaluation 1',
-              weight: 0.4,
-              minimum: 8,
-              grade: 8,
-              subjectId: 1));
-
-      studentEvaluation = StudentEvaluation(
-          id: 2,
-          name: 'Evaluation 2',
-          weight: 0.7,
-          minimum: 8,
-          grade: 8,
-          subjectId: 1);
+          id: 1, name: 'Evaluation 1', grade: -8, subjectId: 1);
 
       expect(
           () => serviceLocator<StudentEvaluationDao>()
@@ -1036,8 +1022,12 @@ void main() {
 
       expect(users.length, 0);
 
-      await serviceLocator<UserDao>().insertUser(
-          User(userName: 'Emil', password: '1234', xp: 23, imagePath: 'test'));
+      await serviceLocator<UserDao>().insertUser(User(
+          userName: 'Emil',
+          password: '1234',
+          xp: 23,
+          level: 1,
+          imagePath: 'test'));
 
       users = await serviceLocator<UserDao>().findAllUsers();
 
@@ -1057,12 +1047,8 @@ void main() {
           type: InstitutionType.education,
           userId: 1));
 
-      await serviceLocator<SubjectDao>().insertSubject(Subject(
-          id: 1,
-          name: 'Subject 1',
-          weightAverage: 8,
-          institutionId: 1,
-          acronym: 'S'));
+      await serviceLocator<SubjectDao>().insertSubject(
+          Subject(id: 1, name: 'Subject 1', institutionId: 1, acronym: 'S'));
 
       Task task = Task(
           id: 1,
@@ -1072,7 +1058,8 @@ void main() {
           deadline: DateTime.utc(2022, 01, 02),
           taskGroupId: 1,
           subjectId: 1,
-          xp: 1);
+          xp: 1,
+          finished: false);
 
       expect(() => serviceLocator<TaskDao>().insertTask(task),
           throwsA(isA<DatabaseException>()));

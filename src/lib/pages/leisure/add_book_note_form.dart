@@ -1,19 +1,27 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:src/daos/notes/note_book_note_super_dao.dart';
+import 'package:src/models/media/media_book_super_entity.dart';
+import 'package:src/models/notes/note_book_note_super_entity.dart';
+import 'package:src/pages/leisure/finished_media_form.dart';
 import 'package:src/themes/colors.dart';
+import 'package:src/utils/service_locator.dart';
 
 import 'package:src/utils/enums.dart';
-import 'package:src/pages/leisure/finished_media_form.dart';
 
 class AddBookNoteForm extends StatefulWidget {
-  const AddBookNoteForm({Key? key}) : super(key: key);
+  final MediaBookSuperEntity book;
+  final VoidCallback? refreshStatus;
+  const AddBookNoteForm({Key? key, required this.book, this.refreshStatus})
+      : super(key: key);
 
   @override
   State<AddBookNoteForm> createState() => _AddBookNoteFormState();
 }
 
 class _AddBookNoteFormState extends State<AddBookNoteForm> {
-  int? startPage, endPage;
+  int startPage = 0, endPage = 0;
+  final TextEditingController _controller = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -114,8 +122,9 @@ class _AddBookNoteFormState extends State<AddBookNoteForm> {
                       ),
                       builder: (context) => DraggableScrollableSheet(
                           expand: false,
+                          initialChildSize: 0.6,
                           minChildSize: 0.35,
-                          maxChildSize: 0.75,
+                          maxChildSize: 0.9,
                           builder: (context, scrollController) => Stack(
                                   alignment: AlignmentDirectional.bottomCenter,
                                   children: [
@@ -132,42 +141,15 @@ class _AddBookNoteFormState extends State<AddBookNoteForm> {
                                                 startDate: DateTime.now()
                                                     .toString()
                                                     .split(" ")[0],
-                                                endDate: 'Not Defined',
-                                                isFavorite: false))),
-                                    Positioned(
-                                        left: 16,
-                                        right: 16,
-                                        bottom: 16,
-                                        child: Padding(
-                                            padding: EdgeInsets.only(
-                                                bottom: MediaQuery.of(context)
-                                                    .viewInsets
-                                                    .bottom),
-                                            child: ElevatedButton(
-                                              onPressed: () {
-                                                //TODO: Save stuff + send to database.
-                                              },
-                                              style: ElevatedButton.styleFrom(
-                                                minimumSize: Size(
-                                                    MediaQuery.of(context)
-                                                            .size
-                                                            .width *
-                                                        0.95,
-                                                    55),
-                                                backgroundColor: leisureColor,
-                                                shape: RoundedRectangleBorder(
-                                                  borderRadius:
-                                                      BorderRadius.circular(
-                                                          25.0),
-                                                ),
-                                              ),
-                                              child: Text(
-                                                  AppLocalizations.of(context)
-                                                      .save,
-                                                  style: Theme.of(context)
-                                                      .textTheme
-                                                      .headlineSmall),
-                                            )))
+                                                endDate: DateTime.now()
+                                                    .toString()
+                                                    .split(" ")[0],
+                                                isFavorite: false,
+                                                mediaId: widget.book.id!,
+                                                refreshStatus: () {
+                                                  widget.refreshStatus!();
+                                                  Navigator.pop(context);
+                                                })))
                                   ])));
                 },
                 child: Text(
@@ -192,6 +174,7 @@ class _AddBookNoteFormState extends State<AddBookNoteForm> {
                 width: MediaQuery.of(context).size.width * 0.90,
                 height: 200,
                 child: TextField(
+                    controller: _controller,
                     style: Theme.of(context).textTheme.bodySmall,
                     maxLines: 10,
                     decoration: InputDecoration(
@@ -207,8 +190,21 @@ class _AddBookNoteFormState extends State<AddBookNoteForm> {
       Padding(
           padding: const EdgeInsets.only(left: 18, top: 30),
           child: ElevatedButton(
-              onPressed: () {
-                //TODO: Add functionality for adding note (sending to database).
+              onPressed: () async {
+                NoteBookNoteSuperEntity note = NoteBookNoteSuperEntity(
+                    bookId: widget.book.id!,
+                    title: widget.book.name,
+                    date: DateTime.now(),
+                    content: _controller.text,
+                    startPage: startPage,
+                    endPage: endPage);
+
+                await serviceLocator<NoteBookNoteSuperDao>()
+                    .insertNoteBookNoteSuperEntity(note);
+
+                if (widget.refreshStatus != null) {
+                  widget.refreshStatus!();
+                }
               },
               style: ElevatedButton.styleFrom(
                 minimumSize: Size(MediaQuery.of(context).size.width * 0.90, 55),

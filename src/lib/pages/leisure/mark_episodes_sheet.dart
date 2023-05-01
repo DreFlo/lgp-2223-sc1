@@ -1,16 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:src/pages/leisure/finished_media_form.dart';
 import 'package:src/themes/colors.dart';
 import 'package:src/widgets/leisure/season_tag.dart';
 import 'package:src/widgets/leisure/episode_bar.dart';
-
+import 'package:src/models/media/media_video_episode_super_entity.dart';
+import 'package:src/models/media/season.dart';
+import 'package:src/utils/leisure/media_page_helpers.dart';
+import 'package:collection/collection.dart';
 import 'package:src/utils/enums.dart';
-import 'package:src/pages/leisure/finished_media_form.dart';
 
 class MarkEpisodesSheet extends StatefulWidget {
-  final Map<int, Map<dynamic, dynamic>> episodes;
+  final int mediaId;
+  final VoidCallback? refreshStatus;
 
-  const MarkEpisodesSheet({Key? key, required this.episodes}) : super(key: key);
+  const MarkEpisodesSheet({Key? key, required this.mediaId, this.refreshStatus})
+      : super(key: key);
 
   @override
   State<MarkEpisodesSheet> createState() => _MarkEpisodesSheetState();
@@ -18,39 +23,81 @@ class MarkEpisodesSheet extends StatefulWidget {
 
 class _MarkEpisodesSheetState extends State<MarkEpisodesSheet>
     with TickerProviderStateMixin {
-  late int selectedSeason;
-  late TabController? controller;
+  int selectedSeason = 1;
+  late TabController controller;
+
+  List<MediaVideoEpisodeSuperEntity> episodesDB = [];
+  List<Season> seasonsDB = [];
 
   @override
   initState() {
+    super.initState();
+    controller = TabController(length: 1, vsync: this);
+    loadSeasonsAndEpisodes();
+  }
+
+  @override
+  void dispose() {
+    controller.dispose();
+    super.dispose();
+  }
+
+  Future<List<MediaVideoEpisodeSuperEntity>> fetchEpisodes(
+      List<Season> seasons) async {
+    episodesDB = await loadEpisodes(seasonsDB);
+    setState(() {
+      episodesDB = episodesDB;
+    });
+    return episodesDB;
+  }
+
+  Future<List<Season>> fetchSeasons() async {
+    seasonsDB = await loadSeasons(widget.mediaId);
+    setState(() {
+      seasonsDB = seasonsDB;
+    });
+    return seasonsDB;
+  }
+
+  void loadSeasonsAndEpisodes() async {
+    seasonsDB = await fetchSeasons();
+    episodesDB = await fetchEpisodes(seasonsDB);
+
     selectedSeason = 1;
 
     controller = TabController(
-        length: widget.episodes.length,
-        vsync: this,
-        initialIndex: selectedSeason - 1);
+      length: seasonsDB.length,
+      vsync: this,
+      initialIndex: selectedSeason - 1,
+    );
 
-    controller?.addListener(() {
+    controller.addListener(() {
       setState(() {
-        selectedSeason = controller!.index + 1;
+        selectedSeason = controller.index + 1;
       });
     });
-
-    super.initState();
   }
 
   List<Widget> getEpisodes() {
     List<Widget> episodes = [];
 
-    for (int j = 1; j <= widget.episodes[selectedSeason]!.length; j++) {
-      episodes.add(EpisodeBar(
-          code:
-              "S${selectedSeason.toString().padLeft(2, 0.toString())}E${j.toString().padLeft(2, 0.toString())}",
-          title: widget.episodes[selectedSeason]![j]!,
-          favorite: false,
-          watched: true));
+    int? seasonId;
+    if (seasonsDB.isNotEmpty) {
+      Season? selectedSeasonObject = seasonsDB
+          .firstWhereOrNull((season) => season.number == selectedSeason);
+      if (selectedSeasonObject != null) {
+        seasonId = selectedSeasonObject.id;
+      }
+    }
+    for (int j = 0; j <= episodesDB.length - 1; j++) {
+      if (episodesDB[j].seasonId == seasonId) {
+        episodes.add(EpisodeBar(
+          season: selectedSeason,
+          episode: episodesDB[j],
+        ));
 
-      episodes.add(const SizedBox(height: 15));
+        episodes.add(const SizedBox(height: 15));
+      }
     }
 
     return episodes;
@@ -58,11 +105,14 @@ class _MarkEpisodesSheetState extends State<MarkEpisodesSheet>
 
   List<Widget> getSeasons() {
     List<Widget> seasons = [];
-    for (int i = 1; i <= widget.episodes.length; i++) {
+    String seasonNumber = "";
+    for (int i = 0; i <= seasonsDB.length - 1; i++) {
+      seasonNumber = seasonsDB[i].number.toString();
       seasons.add(
         Tab(
             child: SeasonTag(
-                text: "${AppLocalizations.of(context).season_label} $i")),
+                text:
+                    "${AppLocalizations.of(context).season_label} $seasonNumber")),
       );
     }
     return seasons;
@@ -70,6 +120,9 @@ class _MarkEpisodesSheetState extends State<MarkEpisodesSheet>
 
   @override
   Widget build(BuildContext context) {
+    if (seasonsDB.isEmpty || episodesDB.isEmpty) {
+      return const Center(child: CircularProgressIndicator());
+    }
     return Wrap(spacing: 10, children: [
       Row(mainAxisAlignment: MainAxisAlignment.center, children: [
         Padding(
@@ -101,8 +154,9 @@ class _MarkEpisodesSheetState extends State<MarkEpisodesSheet>
                       ),
                       builder: (context) => DraggableScrollableSheet(
                           expand: false,
+                          initialChildSize: 0.6,
                           minChildSize: 0.35,
-                          maxChildSize: 0.75,
+                          maxChildSize: 0.9,
                           builder: (context, scrollController) => Stack(
                                   alignment: AlignmentDirectional.bottomCenter,
                                   children: [
@@ -119,42 +173,15 @@ class _MarkEpisodesSheetState extends State<MarkEpisodesSheet>
                                                 startDate: DateTime.now()
                                                     .toString()
                                                     .split(" ")[0],
-                                                endDate: 'Not Defined',
-                                                isFavorite: false))),
-                                    Positioned(
-                                        left: 16,
-                                        right: 16,
-                                        bottom: 16,
-                                        child: Padding(
-                                            padding: EdgeInsets.only(
-                                                bottom: MediaQuery.of(context)
-                                                    .viewInsets
-                                                    .bottom),
-                                            child: ElevatedButton(
-                                              onPressed: () {
-                                                //TODO: Save stuff + send to database.
-                                              },
-                                              style: ElevatedButton.styleFrom(
-                                                minimumSize: Size(
-                                                    MediaQuery.of(context)
-                                                            .size
-                                                            .width *
-                                                        0.95,
-                                                    55),
-                                                backgroundColor: leisureColor,
-                                                shape: RoundedRectangleBorder(
-                                                  borderRadius:
-                                                      BorderRadius.circular(
-                                                          25.0),
-                                                ),
-                                              ),
-                                              child: Text(
-                                                  AppLocalizations.of(context)
-                                                      .save,
-                                                  style: Theme.of(context)
-                                                      .textTheme
-                                                      .headlineSmall),
-                                            )))
+                                                endDate: DateTime.now()
+                                                    .toString()
+                                                    .split(" ")[0],
+                                                isFavorite: false,
+                                                mediaId: widget.mediaId,
+                                                refreshStatus: () {
+                                                  widget.refreshStatus!();
+                                                  Navigator.pop(context);
+                                                }))),
                                   ])));
                 },
                 child: Text(
