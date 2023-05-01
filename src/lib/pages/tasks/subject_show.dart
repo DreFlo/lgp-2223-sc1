@@ -41,7 +41,7 @@ class _SubjectShowState extends State<SubjectShow> {
     }
 
     Subject? subject =
-        await serviceLocator<SubjectDao>().findSubjectById(widget.id!).first;
+        await serviceLocator<SubjectDao>().findSubjectById(widget.id).first;
 
     name = subject!.name;
     acronym = subject.acronym;
