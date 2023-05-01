@@ -91,7 +91,7 @@ abstract class MediaPageState<T extends Media> extends State<MediaPage<T>> {
                           color: const Color(0xFF414554),
                         ),
                         child: Text(
-                          getType(),
+                          getType().toUpperCase(),
                           style: Theme.of(context).textTheme.headlineMedium,
                           textAlign: TextAlign.center,
                         ),
