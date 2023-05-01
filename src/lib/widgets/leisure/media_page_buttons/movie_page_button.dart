@@ -118,20 +118,11 @@ class MoviePageButtonState
                         initialChildSize: 0.5,
                         minChildSize: 0.5,
                         maxChildSize: 0.5,
-                        builder: (context, scrollController) => Stack(
-                                alignment: AlignmentDirectional.bottomCenter,
-                                children: [
-                                  Padding(
-                                      padding: EdgeInsets.only(
-                                          bottom: MediaQuery.of(context)
-                                                  .viewInsets
-                                                  .bottom +
-                                              50),
-                                      child: SingleChildScrollView(
+                        builder: (context, scrollController) => SingleChildScrollView(
                                           controller: scrollController,
                                           child: BookNotesSheet(
                                               book: false, mediaId: dbMediaId)))
-                                ])));
+                                );
               },
               style: ElevatedButton.styleFrom(
                 minimumSize: Size(MediaQuery.of(context).size.width * 0.90, 55),
