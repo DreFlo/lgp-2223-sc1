@@ -3,6 +3,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:src/models/media/media.dart';
 import 'package:src/themes/colors.dart';
 import 'package:like_button/like_button.dart';
+import 'package:src/utils/enums.dart';
 import 'package:src/widgets/leisure/leisure_tag.dart';
 
 abstract class MediaPage<T extends Media> extends StatefulWidget {
@@ -209,7 +210,7 @@ abstract class MediaPageState<T extends Media> extends State<MediaPage<T>> {
         Padding(
             padding: const EdgeInsets.only(left: 18),
             child: Text(
-              AppLocalizations.of(context).cast,
+              (widget.item.type != MediaDBTypes.book ? AppLocalizations.of(context).cast : AppLocalizations.of(context).author),
               style: Theme.of(context).textTheme.displayMedium,
             ))
       ]),
