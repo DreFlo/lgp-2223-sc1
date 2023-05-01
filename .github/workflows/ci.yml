@@ -28,8 +28,15 @@ jobs:
       - name: Get Flutter packages
         run: flutter pub get
       # Generate l10n
-      - name: Generate l10n
-        run: flutter gen-l10n
+      - name: Gen l10n
+        run: flutter gen-l10n --untranslated-messages-file=untranslated-messages.txt
+      # Check for untranslated messages
+      - name: Check for untraslated messages
+        run: |
+          if ! diff -q untranslated-messages.txt <(echo -n "{}"); then
+            echo "There are untranslated messages"
+            exit 1
+          fi
       # Generate environment variable
       - name: Generate environment variables
         run: flutter pub run build_runner build --delete-conflicting-outputs
