@@ -12,8 +12,8 @@ class TimerSettings {
 
   TimerSettings(
       {required this.focusTime,
-        required this.shortBreak,
-        required this.sessions});
+      required this.shortBreak,
+      required this.sessions});
 }
 
 class TimerForm extends StatefulWidget {

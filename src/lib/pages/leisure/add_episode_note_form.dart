@@ -1,19 +1,30 @@
-// ignore_for_file: file_names
-
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:src/daos/notes/note_episode_note_super_dao.dart';
+import 'package:src/models/media/media_video_episode_super_entity.dart';
+import 'package:src/models/notes/note_episode_note_super_entity.dart';
 import 'package:src/themes/colors.dart';
+import 'package:src/utils/service_locator.dart';
 
 class AddEpisodeNoteForm extends StatefulWidget {
   final String code;
+  final MediaVideoEpisodeSuperEntity episode;
+  final VoidCallback? refreshStatus;
 
-  const AddEpisodeNoteForm({Key? key, required this.code}) : super(key: key);
+  const AddEpisodeNoteForm(
+      {Key? key,
+      required this.code,
+      required this.episode,
+      required this.refreshStatus})
+      : super(key: key);
 
   @override
   State<AddEpisodeNoteForm> createState() => _AddEpisodeNoteFormState();
 }
 
 class _AddEpisodeNoteFormState extends State<AddEpisodeNoteForm> {
+  final TextEditingController _controller = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return Wrap(spacing: 10, children: [
@@ -46,6 +57,7 @@ class _AddEpisodeNoteFormState extends State<AddEpisodeNoteForm> {
               width: MediaQuery.of(context).size.width * 0.90,
               height: 200,
               child: TextField(
+                  controller: _controller,
                   autofocus: true,
                   style: Theme.of(context).textTheme.bodySmall,
                   maxLines: 10,
@@ -61,8 +73,19 @@ class _AddEpisodeNoteFormState extends State<AddEpisodeNoteForm> {
       Padding(
           padding: const EdgeInsets.only(left: 18, top: 30),
           child: ElevatedButton(
-              onPressed: () {
-                //TODO: Add functionality for adding note.
+              onPressed: () async {
+                NoteEpisodeNoteSuperEntity note = NoteEpisodeNoteSuperEntity(
+                    title: widget.code,
+                    content: _controller.text,
+                    date: DateTime.now(),
+                    episodeId: widget.episode.id!);
+
+                await serviceLocator<NoteEpisodeNoteSuperDao>()
+                    .insertNoteEpisodeNoteSuperEntity(note);
+
+                if (widget.refreshStatus != null) {
+                  widget.refreshStatus!();
+                }
               },
               style: ElevatedButton.styleFrom(
                 minimumSize: Size(MediaQuery.of(context).size.width * 0.90, 55),

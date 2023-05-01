@@ -9,6 +9,9 @@ abstract class SeasonDao {
   @Query('SELECT * FROM season WHERE id = :id')
   Stream<Season?> findSeasonById(int id);
 
+  @Query('SELECT * FROM season WHERE series_id = :id')
+  Future<List<Season>> findAllSeasonBySeriesId(int id);
+
   @insert
   Future<int> insertSeason(Season season);
 

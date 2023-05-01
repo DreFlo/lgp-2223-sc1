@@ -1,14 +1,26 @@
-// ignore_for_file: sized_box_for_whitespace
-
 import 'package:flutter/material.dart';
 import 'package:src/pages/catalog_search/search_bar.dart';
-import 'package:src/pages/catalog_search/list_media.dart';
+import 'package:src/pages/catalog_search/list_media_catalog.dart';
+import 'package:src/utils/service_locator.dart';
+import 'package:src/daos/media/media_video_movie_super_dao.dart';
+import 'package:src/daos/media/media_book_super_dao.dart';
+import 'package:src/daos/media/media_series_super_dao.dart';
+import 'package:src/daos/media/media_dao.dart';
+import 'package:src/daos/media/movie_dao.dart';
+import 'package:src/daos/media/series_dao.dart';
+import 'package:src/daos/media/book_dao.dart';
+import 'package:src/models/media/media.dart';
 
 class SeeAll extends StatefulWidget {
-  final List media;
+  final List<Media> media;
   final String title;
+  final VoidCallback? refreshMediaList;
 
-  const SeeAll({Key? key, required this.title, required this.media})
+  const SeeAll(
+      {Key? key,
+      required this.title,
+      required this.media,
+      this.refreshMediaList})
       : super(key: key);
 
   @override
@@ -31,6 +43,70 @@ class SeeAllState extends State<SeeAll> {
     setState(() {
       searchText = text;
     });
+  }
+
+  Future<List<Media>> searchMediaBasedOnType() async {
+    String query = '%$searchText%';
+    final resultsToReturn = <Media>[];
+    final results = await serviceLocator<MediaDao>().getMatchingMedia(query);
+
+    for (Media media in results) {
+      if (widget.title == 'All Movies') {
+        int? isMediaMovie = await serviceLocator<MovieDao>()
+            .countMoviesByMediaId(media.id ?? 0);
+        if (isMediaMovie == 1) {
+          resultsToReturn.add(await serviceLocator<MediaVideoMovieSuperDao>()
+              .findMediaVideoMovieByMediaId(media.id ?? 0));
+        }
+      } else if (widget.title == 'All TV Shows') {
+        int? isMediaSeries = await serviceLocator<SeriesDao>()
+            .countSeriesByMediaId(media.id ?? 0);
+        if (isMediaSeries == 1) {
+          resultsToReturn.add(await serviceLocator<MediaSeriesSuperDao>()
+              .findMediaSeriesByMediaId(media.id ?? 0));
+        }
+      } else if (widget.title == 'All Books') {
+        int? isMediaBook =
+            await serviceLocator<BookDao>().countBooksByMediaId(media.id ?? 0);
+        if (isMediaBook == 1) {
+          resultsToReturn.add(await serviceLocator<MediaBookSuperDao>()
+              .findMediaBookByMediaId(media.id ?? 0));
+        }
+      }
+    }
+    return resultsToReturn;
+  }
+
+  showSearchResultOrSeeAll() {
+    if (searchText == '') {
+      return [
+        SearchBar(onSearch: onSearch),
+        Expanded(
+          child: ListMediaCatalog(title: widget.title, media: widget.media),
+        )
+      ];
+    } else {
+      return [
+        SearchBar(onSearch: onSearch),
+        Expanded(
+          child: FutureBuilder<List<Media>>(
+            future: searchMediaBasedOnType(),
+            builder: (context, AsyncSnapshot<List<Media>> snapshot) {
+              if (snapshot.hasData) {
+                return ListMediaCatalog(
+                    title: widget.title,
+                    media: snapshot.data ?? [],
+                    refreshMediaList: widget.refreshMediaList);
+              } else {
+                return const Center(
+                  child: CircularProgressIndicator(),
+                );
+              }
+            },
+          ),
+        )
+      ];
+    }
   }
 
   @override
@@ -80,14 +156,8 @@ class SeeAllState extends State<SeeAll> {
             ),
           )),
       body: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          SearchBar(onSearch: onSearch),
-          Expanded(
-            child: ListMedia(title: widget.title, media: widget.media),
-          )
-        ],
-      ),
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: showSearchResultOrSeeAll()),
     );
   }
 }

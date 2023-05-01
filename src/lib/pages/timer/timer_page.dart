@@ -55,6 +55,13 @@ class TimerPageState extends State<TimerPage> {
     super.initState();
   }
 
+  @override
+  void setState(fn) {
+    if(mounted) {
+      super.setState(fn);
+    }
+  }
+
   void changeState(TimerState newState) {
     setState(() {
       state = newState;

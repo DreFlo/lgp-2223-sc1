@@ -20,6 +20,18 @@
                 "--flavor",
                 "premium"
             ]
+        },
+        {
+            "name": "premium-seed-db",
+            "request": "launch",
+            "type": "dart",
+            "program": "lib/main_premium.dart",
+            "args": [
+                "--flavor",
+                "premium",
+                "--dart-define",
+                "SEED_DB=true"
+            ]
         }
     ]
 }

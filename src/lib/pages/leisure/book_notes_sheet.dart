@@ -1,16 +1,16 @@
-// ignore_for_file: file_names
-
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:src/utils/enums.dart';
 import 'package:src/widgets/leisure/book_note_bar.dart';
 import 'package:src/widgets/leisure/review_note_bar.dart';
+import 'package:src/models/notes/note_book_note_super_entity.dart';
+import 'package:src/models/media/review.dart';
+import 'package:src/utils/leisure/media_page_helpers.dart';
 
 class BookNotesSheet extends StatefulWidget {
-  final Map<String, String> notes;
-  final Map<Reaction, String>? review;
+  final int mediaId;
+  final bool book;
 
-  const BookNotesSheet({Key? key, required this.notes, this.review})
+  const BookNotesSheet({Key? key, required this.book, required this.mediaId})
       : super(key: key);
 
   @override
@@ -19,29 +19,53 @@ class BookNotesSheet extends StatefulWidget {
 
 class _BookNotesSheetState extends State<BookNotesSheet>
     with TickerProviderStateMixin {
+  List<NoteBookNoteSuperEntity?>? bookNotes;
+  Review? review;
+  @override
+  void initState() {
+    super.initState();
+    if (widget.book) {
+      fetchNotes();
+    }
+    fetchReview();
+  }
+
+  void fetchNotes() async {
+    bookNotes = await loadBookNotes(widget.mediaId);
+    setState(() {
+      bookNotes = bookNotes;
+    });
+  }
+
+  void fetchReview() async {
+    review = await loadReviews(widget.mediaId);
+    setState(() {
+      review = review;
+    });
+  }
+
   List<Widget> getNotes() {
     List<Widget> notes = [];
 
-    if (widget.review != null) {
+    if (review != null) {
       notes.add(ReviewNoteBar(
-        reaction: widget.review!.keys.first,
-        text: widget.review![widget.review!.keys.first],
+        reaction: review!.emoji,
+        text: review!.review,
       ));
 
       notes.add(const SizedBox(height: 15));
     }
 
-    for (var range in widget.notes.keys) {
-      int startPage = int.parse(range.split('-')[0]),
-          endPage = int.parse(range.split('-')[1]);
+    if (bookNotes != null) {
+      for (var range in bookNotes!) {
+        notes.add(BookNoteBar(
+          startPage: range!.startPage,
+          endPage: range.endPage,
+          text: range.content,
+        ));
 
-      notes.add(BookNoteBar(
-        startPage: startPage,
-        endPage: endPage,
-        text: widget.notes[range]!,
-      ));
-
-      notes.add(const SizedBox(height: 15));
+        notes.add(const SizedBox(height: 15));
+      }
     }
 
     return notes;

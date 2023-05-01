@@ -50,9 +50,7 @@ class BreakPausedState extends TimerState {
 
   @override
   Widget getTimerWidget() {
-    return CountdownTimer(
-        seconds: tracker.seconds,
-        focus: false);
+    return CountdownTimer(seconds: tracker.seconds, focus: false);
   }
 
   @override

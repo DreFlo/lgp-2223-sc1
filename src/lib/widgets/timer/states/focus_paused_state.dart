@@ -50,9 +50,7 @@ class FocusPausedState extends TimerState {
 
   @override
   Widget getTimerWidget() {
-    return CountdownTimer(
-        seconds: tracker.seconds,
-        focus: true);
+    return CountdownTimer(seconds: tracker.seconds, focus: true);
   }
 
   @override

@@ -111,7 +111,11 @@ void main() {
           release: DateTime.now(),
           xp: 23,
           participants: "Me",
-          tagline: "Super Cool Test");
+          tagline: "Super Cool Test",
+          numberEpisodes: 23,
+          numberSeasons: 2,
+          duration: 30,
+          tmdbId: 1);
 
       int seriesId = await serviceLocator<MediaSeriesSuperDao>()
           .insertMediaSeriesSuperEntity(mediaSeriesSuperEntity);
@@ -139,6 +143,7 @@ void main() {
         number: 1,
         seasonId: seasonId,
         participants: "Me",
+        tmdbId: 1,
       );
 
       int id = await serviceLocator<MediaVideoEpisodeSuperDao>()
@@ -167,7 +172,8 @@ void main() {
               xp: 23,
               duration: 23,
               participants: "Me",
-              tagline: "Super Cool Test");
+              tagline: "Super Cool Test",
+              tmdbId: 1);
 
       int id = await serviceLocator<MediaVideoMovieSuperDao>()
           .insertMediaVideoMovieSuperEntity(mediaVideoMovieSuperEntity);
@@ -217,7 +223,8 @@ void main() {
           genres: 'genres',
           release: DateTime.now(),
           xp: 23,
-          participants: 'Me'));
+          participants: 'Me',
+          type: MediaDBTypes.book));
 
       await serviceLocator<BookDao>()
           .insertBook(Book(id: bookId, totalPages: 23, progressPages: 0));
@@ -381,7 +388,11 @@ void main() {
           release: DateTime.now(),
           xp: 23,
           participants: "Me",
-          tagline: "Super Cool Test");
+          tagline: "Super Cool Test",
+          numberEpisodes: 23,
+          numberSeasons: 2,
+          duration: 30,
+          tmdbId: 1);
 
       int seriesId = await serviceLocator<MediaSeriesSuperDao>()
           .insertMediaSeriesSuperEntity(mediaSeriesSuperEntity);
@@ -409,6 +420,7 @@ void main() {
         number: 1,
         seasonId: seasonId,
         participants: "Me",
+        tmdbId: 1,
       );
 
       int id = await serviceLocator<MediaVideoEpisodeSuperDao>()
@@ -435,7 +447,11 @@ void main() {
           release: DateTime.now(),
           xp: 23,
           participants: "Me",
-          tagline: "Super Cool Test");
+          tagline: "Super Cool Test",
+          numberEpisodes: 23,
+          numberSeasons: 2,
+          duration: 30,
+          tmdbId: 1);
 
       int seriesId = await serviceLocator<MediaSeriesSuperDao>()
           .insertMediaSeriesSuperEntity(mediaSeriesSuperEntity);
@@ -462,7 +478,8 @@ void main() {
               duration: 23,
               number: 1,
               seasonId: seasonId,
-              participants: 'Me');
+              participants: 'Me',
+              tmdbId: 1);
 
       int id = await serviceLocator<MediaVideoEpisodeSuperDao>()
           .insertMediaVideoEpisodeSuperEntity(mediaVideoEpisodeSuperEntity);
@@ -523,10 +540,16 @@ void main() {
           genres: 'genres',
           release: DateTime.now(),
           xp: 23,
-          participants: 'Me'));
+          participants: 'Me',
+          type: MediaDBTypes.book));
 
-      await serviceLocator<SeriesDao>()
-          .insertSerie(Series(id: seriesId, tagline: 'Super Cool Test'));
+      await serviceLocator<SeriesDao>().insertSerie(Series(
+          id: seriesId,
+          tagline: 'Super Cool Test',
+          numberEpisodes: 23,
+          numberSeasons: 2,
+          duration: 30,
+          tmdbId: 1));
 
       TimeslotMediaTimeslotSuperEntity timeslotMediaTimeslotSuperEntity =
           TimeslotMediaTimeslotSuperEntity(
@@ -536,7 +559,6 @@ void main() {
               endDateTime: DateTime.now().add(const Duration(days: 1)),
               xpMultiplier: 2,
               finished: false,
-              type: MediaTypes.movie,
               userId: 1);
 
       int id = await serviceLocator<TimeslotMediaTimeslotSuperDao>()
@@ -623,10 +645,16 @@ void main() {
           genres: 'genres',
           release: DateTime.now(),
           xp: 23,
-          participants: 'Me'));
+          participants: 'Me',
+          type: MediaDBTypes.book));
 
-      await serviceLocator<SeriesDao>()
-          .insertSerie(Series(id: seriesId, tagline: 'Super Cool Test'));
+      await serviceLocator<SeriesDao>().insertSerie(Series(
+          id: seriesId,
+          tagline: 'Super Cool Test',
+          numberEpisodes: 23,
+          numberSeasons: 2,
+          duration: 30,
+          tmdbId: 1));
 
       TimeslotMediaTimeslotSuperEntity timeslotMediaTimeslotSuperEntity =
           TimeslotMediaTimeslotSuperEntity(
@@ -636,7 +664,6 @@ void main() {
               endDateTime: DateTime.now().add(const Duration(days: 1)),
               xpMultiplier: 2,
               finished: false,
-              type: MediaTypes.movie,
               userId: 1);
 
       int id = await serviceLocator<TimeslotMediaTimeslotSuperDao>()
@@ -865,7 +892,8 @@ void main() {
           genres: 'Video 1',
           release: DateTime.now(),
           xp: 0,
-          participants: 'Me'));
+          participants: 'Me',
+          type: MediaDBTypes.movie));
 
       Review review = Review(
           id: 1,
@@ -893,7 +921,11 @@ void main() {
               release: DateTime.now(),
               xp: 0,
               participants: "Me",
-              tagline: "Super Cool Test"));
+              tagline: "Super Cool Test",
+              numberEpisodes: 23,
+              numberSeasons: 2,
+              duration: 30,
+              tmdbId: 1));
 
       Season season = Season(id: 1, number: -1, seriesId: id);
 
@@ -915,7 +947,11 @@ void main() {
               release: DateTime.now(),
               xp: 0,
               participants: "Me",
-              tagline: "Super Cool Test"));
+              tagline: "Super Cool Test",
+              numberEpisodes: 23,
+              numberSeasons: 2,
+              duration: 30,
+              tmdbId: 1));
 
       int seasonId = await serviceLocator<SeasonDao>()
           .insertSeason(Season(id: 1, number: 1, seriesId: seriesId));
@@ -933,7 +969,8 @@ void main() {
               duration: 1,
               number: -1,
               seasonId: seasonId,
-              participants: 'Me');
+              participants: 'Me',
+              tmdbId: 1);
 
       expect(
           () => serviceLocator<MediaVideoEpisodeSuperDao>()

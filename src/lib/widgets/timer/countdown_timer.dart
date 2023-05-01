@@ -5,8 +5,7 @@ class CountdownTimer extends StatefulWidget {
   final int seconds;
   final bool focus;
 
-  const CountdownTimer(
-      {Key? key, required this.seconds, required this.focus})
+  const CountdownTimer({Key? key, required this.seconds, required this.focus})
       : super(key: key);
 
   @override

@@ -1,38 +1,31 @@
-// ignore_for_file: file_names
-
 import 'package:flutter/material.dart';
-import 'package:tmdb_api/tmdb_api.dart';
-import 'package:src/pages/catalog_search/list_media.dart';
-import 'package:src/env/env.dart';
+import 'package:src/api_wrappers/tmdb_api_movies_wrapper.dart';
+import 'package:src/models/media/media_video_movie_super_entity.dart';
+import 'package:src/pages/catalog_search/list_media_search/list_movies_search.dart';
 
 class Movies extends StatelessWidget {
   final String search;
 
   const Movies({Key? key, required this.search}) : super(key: key);
 
-  Future<List> loadmedia() async {
-    final tmdb = TMDB(ApiKeys(Env.tmdbApiKey, 'apiReadAccessTokenv4'));
-    Map movieresult;
-    if (search == '') {
-      movieresult =
-          await tmdb.v3.trending.getTrending(mediaType: MediaType.movie);
-    } else {
-      movieresult = await tmdb.v3.search.queryMovies(search);
-    }
-    return movieresult['results'];
+  Future<List<MediaVideoMovieSuperEntity>> loadMedia() async {
+    final TMDBMovieAPIWrapper tmdb = TMDBMovieAPIWrapper();
+    return search == ''
+        ? tmdb.getTrendingMovies()
+        : tmdb.getMoviesBySearch(search);
   }
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder<List>(
-      future: loadmedia(),
+    return FutureBuilder<List<MediaVideoMovieSuperEntity>>(
+      future: loadMedia(),
       builder: (context, snapshot) {
         if (snapshot.hasData) {
-          return ListMedia(title: 'All Movies', media: snapshot.data!);
+          return ListMoviesSearch(media: snapshot.data!);
         } else if (snapshot.hasError) {
           return Text('Error: ${snapshot.error}');
         } else {
-          return const CircularProgressIndicator();
+          return const Center(child: CircularProgressIndicator());
         }
       },
     );

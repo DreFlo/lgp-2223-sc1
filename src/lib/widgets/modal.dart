@@ -8,10 +8,10 @@ class Modal extends StatelessWidget {
 
   const Modal(
       {Key? key,
-        required this.title,
-        required this.icon,
-        required this.children,
-        required this.scrollController})
+      required this.title,
+      required this.icon,
+      required this.children,
+      required this.scrollController})
       : super(key: key);
 
   @override
@@ -37,7 +37,7 @@ class Modal extends StatelessWidget {
               Row(children: [
                 Container(
                     padding:
-                    const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                        const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
                     decoration: BoxDecoration(
                         color: const Color(0xFF17181C),
                         shape: BoxShape.rectangle,

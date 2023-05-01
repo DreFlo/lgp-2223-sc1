@@ -2,62 +2,65 @@ import 'package:src/models/media/media.dart';
 import 'package:src/models/media/book.dart';
 import 'package:src/utils/enums.dart';
 
-class MediaBookSuperEntity {
-  final int? id;
-  final String name;
-  final String description;
-  final String linkImage;
-  final Status status;
-  final bool favorite;
-  final String genres;
-  final DateTime release;
-  final int xp;
-  final String participants;
+class MediaBookSuperEntity extends Media {
   final int totalPages;
   final int? progressPages;
 
   MediaBookSuperEntity({
-    this.id,
-    required this.name,
-    required this.description,
-    required this.linkImage,
-    required this.status,
-    required this.favorite,
-    required this.genres,
-    required this.release,
-    required this.xp,
-    required this.participants,
+    int? id,
+    required String name,
+    required String description,
+    required String linkImage,
+    required Status status,
+    required bool favorite,
+    required String genres,
+    required DateTime release,
+    required int xp,
+    required String participants,
     required this.totalPages,
     this.progressPages = 0,
-  });
+  }) : super(
+            id: id,
+            name: name,
+            description: description,
+            linkImage: linkImage,
+            status: status,
+            favorite: favorite,
+            genres: genres,
+            release: release,
+            xp: xp,
+            participants: participants,
+            type: MediaDBTypes.book);
 
   MediaBookSuperEntity.fromMediaAndBook(Media media, Book book)
-      : id = media.id,
-        name = media.name,
-        description = media.description,
-        linkImage = media.linkImage,
-        status = media.status,
-        favorite = media.favorite,
-        genres = media.genres,
-        release = media.release,
-        xp = media.xp,
-        participants = media.participants,
-        totalPages = book.totalPages,
-        progressPages = book.progressPages;
+      : totalPages = book.totalPages,
+        progressPages = book.progressPages,
+        super(
+            id: media.id,
+            name: media.name,
+            description: media.description,
+            linkImage: media.linkImage,
+            status: media.status,
+            favorite: media.favorite,
+            genres: media.genres,
+            release: media.release,
+            xp: media.xp,
+            participants: media.participants,
+            type: MediaDBTypes.book);
 
   Media toMedia() {
     return Media(
-      id: id,
-      name: name,
-      description: description,
-      linkImage: linkImage,
-      status: status,
-      favorite: favorite,
-      genres: genres,
-      release: release,
-      xp: xp,
-      participants: participants,
-    );
+        id: id,
+        name: name,
+        description: description,
+        linkImage: linkImage,
+        status: status,
+        favorite: favorite,
+        genres: genres,
+        release: release,
+        xp: xp,
+        participants: participants,
+        type: MediaDBTypes.book);
   }
 
   Book toBook() {

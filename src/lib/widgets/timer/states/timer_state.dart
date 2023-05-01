@@ -40,11 +40,13 @@ abstract class TimerState {
 
   void leave() {
     // TODO(gamification): user left pomodoro - give feedback
+    timer?.cancel();
     Navigator.pop(context);
   }
 
   void finish() {
     // TODO(gamification): user completed pomodoro - give feedback
+    timer?.cancel();
     Navigator.pop(context);
   }
 }
