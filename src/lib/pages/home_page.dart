@@ -5,8 +5,10 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:src/animation_test/main.dart';
 import 'package:src/daos/user_dao.dart';
 import 'package:src/models/user.dart';
+import 'package:src/pages/events/event_form.dart';
 import 'package:src/pages/gamification/no_progress_in_timeslot_modal.dart';
 import 'package:src/pages/gamification/timeslot_finished_modal.dart';
+import 'package:src/pages/auth/landing_page.dart';
 import 'package:src/pages/tasks/institution_form.dart';
 import 'package:src/pages/tasks/subject_form.dart';
 import 'package:src/themes/colors.dart';
@@ -16,7 +18,6 @@ import 'package:src/models/timeslot/timeslot.dart';
 import 'package:src/pages/gamification/gained_xp_toast.dart';
 import 'package:src/pages/gamification/level_up_toast.dart';
 import 'package:src/utils/enums.dart';
-import 'package:src/pages/auth/landing_page.dart';
 
 import 'package:src/pages/gamification/progress_in_timeslot_modal.dart';
 import 'package:src/pages/tasks/project_form.dart';
@@ -373,6 +374,36 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                           child: NoProgressInTimeslotModal()));
                 }),
                             ElevatedButton(
+                child: Text("Event Form"),
+                onPressed: () {
+                  showModalBottomSheet(
+                      context: context,
+                      isScrollControlled: true,
+                      backgroundColor: Color(0xFF22252D),
+                      shape: RoundedRectangleBorder(
+                        borderRadius:
+                            BorderRadius.vertical(top: Radius.circular(30.0)),
+                      ),
+                      builder: (context) => Padding(
+                            padding: EdgeInsets.only(
+                                bottom:
+                                    MediaQuery.of(context).viewInsets.bottom +
+                                        50),
+                            child: DraggableScrollableSheet(
+                                expand: false,
+                                initialChildSize: 0.9,
+                                minChildSize: 0.9,
+                                maxChildSize: 0.9,
+                                builder: (context, scrollController) =>
+                                    EventForm(
+                                      scrollController: scrollController,
+                                      // id: 2,
+                                      // type: "student",
+                                      // OR (1, leisure)
+                                    )),
+                          ));
+                }),
+            ElevatedButton(
                 child: Text("Timer Form"),
                 onPressed: () {
                   showModalBottomSheet(

@@ -24,7 +24,8 @@ class TimeslotMediaTimeslotSuperDao {
 
       for (var mediaTimeslot in mediaTimeslots) {
         final timeslot = await serviceLocator<TimeslotDao>()
-            .findTimeslotById(mediaTimeslot.id);
+            .findTimeslotById(mediaTimeslot.id)
+            .first;
 
         if (startDatetime != null && timeslot != null) {
           if (timeslot.startDateTime.isBefore(startDatetime)) {
@@ -101,13 +102,11 @@ class TimeslotMediaTimeslotSuperDao {
           "Id can't be null for delete for TimeslotMediaTimeslotSuperEntity");
     }
 
-    final timeslot = timeslotMediaTimeslotSuperEntity.toTimeslot();
-
-    await serviceLocator<TimeslotDao>().deleteTimeslot(timeslot);
-
     final mediaTimeslot = timeslotMediaTimeslotSuperEntity.toMediaTimeslot();
-
     await serviceLocator<MediaTimeslotDao>().deleteMediaTimeslot(mediaTimeslot);
+
+    final timeslot = timeslotMediaTimeslotSuperEntity.toTimeslot();
+    await serviceLocator<TimeslotDao>().deleteTimeslot(timeslot);
   }
 }
 
