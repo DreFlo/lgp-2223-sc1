@@ -219,7 +219,7 @@ abstract class MediaPageState<T extends Media> extends State<MediaPage<T>> {
       const SizedBox(height: 35),
       Row(children: [
         Padding(
-            padding: const EdgeInsets.only(left: 18),
+            padding: const EdgeInsets.symmetric(horizontal: 18),
             child: Text(
               (widget.item.type != MediaDBTypes.book
                   ? AppLocalizations.of(context).cast
@@ -230,14 +230,14 @@ abstract class MediaPageState<T extends Media> extends State<MediaPage<T>> {
       const SizedBox(height: 7.5),
       Row(children: [
         Padding(
-          padding: const EdgeInsets.only(left: 18, right: 18),
+          padding: const EdgeInsets.symmetric(horizontal: 18),
           child: showSmallCastList(context),
         ),
       ]),
       const SizedBox(height: 35),
       Row(children: [
         Padding(
-            padding: const EdgeInsets.only(left: 18),
+            padding: const EdgeInsets.symmetric(horizontal: 18),
             child: Text(
               AppLocalizations.of(context).length,
               style: Theme.of(context).textTheme.displayMedium,
