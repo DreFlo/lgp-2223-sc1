@@ -39,8 +39,9 @@ class LocalNotificationService {
             ledOffMs: 500,
             colorized: true,
             importance: Importance.max,
-            playSound: false,
+            playSound: true,
             priority: Priority.max,
+            timeoutAfter: 30000,
             //autoCancel: false,
             //ongoing: true
             ),
