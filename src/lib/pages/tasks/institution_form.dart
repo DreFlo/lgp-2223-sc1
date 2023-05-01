@@ -305,9 +305,9 @@ class _InstitutionFormState extends State<InstitutionForm> {
                                               50),
                                       child: DraggableScrollableSheet(
                                         expand: false,
-                                        initialChildSize: 0.60,
-                                        minChildSize: 0.60,
-                                        maxChildSize: 0.60,
+                                        initialChildSize: 0.5,
+                                        minChildSize: 0.5,
+                                        maxChildSize: 0.55,
                                         builder: (context, scrollController) =>
                                             SubjectForm(
                                                 scrollController:
