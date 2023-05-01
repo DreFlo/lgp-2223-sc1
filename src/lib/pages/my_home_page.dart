@@ -30,6 +30,7 @@ class _MyHomePageState extends State<MyHomePage> {
   void initState() {
     super.initState();
     loadEventsDB();
+    LocalNotificationService.initialize();
   }
 
   void loadEventsDB() async {
@@ -60,12 +61,6 @@ class _MyHomePageState extends State<MyHomePage> {
     }
   }
 
-  @override
-  void initState() {
-    super.initState();
-    // Initialise  localnotification
-    LocalNotificationService.initialize();
-  }
 
   @override
   Widget build(BuildContext context) {
