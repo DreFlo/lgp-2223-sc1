@@ -16,9 +16,10 @@ import 'package:src/utils/enums.dart';
 import 'package:tmdb_api/tmdb_api.dart';
 import 'package:src/pages/auth/landing_page.dart';
 import 'package:src/pages/catalog_search/leisure_module.dart';
-
 import 'package:src/pages/tasks/project_form.dart';
 import 'package:src/pages/tasks/task_form.dart';
+import 'package:src/pages/timer/timer_form.dart';
+
 
 class HomePage extends StatefulWidget {
   final String title;
@@ -695,6 +696,32 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                 child: Text("notif"),
                 onPressed: () {
                   LocalNotificationService.display('Go Study or else \u{1F52A}');
+                }
+            ),
+            ElevatedButton(
+                child: Text("Timer Form"),
+                onPressed: () {
+                  showModalBottomSheet(
+                      context: context,
+                      isScrollControlled: true,
+                      backgroundColor: Color(0xFF22252D),
+                      shape: RoundedRectangleBorder(
+                        borderRadius:
+                            BorderRadius.vertical(top: Radius.circular(30.0)),
+                      ),
+                      builder: (context) => Padding(
+                          padding: EdgeInsets.only(
+                              bottom: MediaQuery.of(context).viewInsets.bottom +
+                                  30),
+                          child: DraggableScrollableSheet(
+                            expand: false,
+                            initialChildSize: 0.6,
+                            minChildSize: 0.6,
+                            maxChildSize: 0.6,
+                            builder: (context, scrollController) => TimerForm(
+                              scrollController: scrollController,
+                            ),
+                          )));
                 }),
             FutureBuilder(
                 key: ValueKey<Object>(redrawObject),
