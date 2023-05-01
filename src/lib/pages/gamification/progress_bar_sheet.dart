@@ -43,8 +43,10 @@ class _ProgressBarSheetState extends State<ProgressBarSheet> {
     int count = await serviceLocator<MediaDao>().countFavoriteMedia(true) ?? 0;
     percentageFavoriteMedia = (count / numberMedia * 100).round();
 
-    completedTasks = await serviceLocator<TaskDao>().countFinishedTasks(true) ?? 0;
-    projects = await serviceLocator<TaskDao>().countFinishedTaskGroups(true) ?? 0;
+    completedTasks =
+        await serviceLocator<TaskDao>().countFinishedTasks(true) ?? 0;
+    projects =
+        await serviceLocator<TaskDao>().countFinishedTaskGroups(true) ?? 0;
     setState(() {
       numberMedia = numberMedia;
       percentageFavoriteMedia = percentageFavoriteMedia;
@@ -54,16 +56,65 @@ class _ProgressBarSheetState extends State<ProgressBarSheet> {
     });
   }
 
-  String getText(){
+  String getText(context) {
     /* "You’ve completed 122 task across 7 projects! 
 Your media catalog has 34 entries and 
 you love 52% of what you have there!",
 */
-  //Should we count episodes as media entries or not?
-    if(!isReady){
+    //Should we count episodes as media entries or not?
+    // "${AppLocalizations.of(context).level.toUpperCase()} ${widget.level + 1}"
+    if (!isReady) {
       return "";
     }
-    String text = "You've completed $completedTasks tasks across $projects projects! Your media catalog has $numberMedia entries and you love $percentageFavoriteMedia% of what you have there!";
+    String text = AppLocalizations.of(context).user_progress_3;
+    text += completedTasks.toString();
+
+    if (projects >= 1) {
+      if (completedTasks <= 1) {
+        text += AppLocalizations.of(context).user_progress_task;
+        text += AppLocalizations.of(context).user_progress_across;
+      } else {
+        text += AppLocalizations.of(context).user_progress_tasks;
+        text += AppLocalizations.of(context).user_progress_across;
+      }
+
+      text += projects.toString();
+
+      if (projects == 1) {
+        text += AppLocalizations.of(context).user_progress_project;
+      } else {
+        text += AppLocalizations.of(context).user_progress_projects;
+      }
+    } else {
+      //no project
+      if (completedTasks <= 1) {
+        text += AppLocalizations.of(context).user_progress_task_no_project;
+      } else {
+        text += AppLocalizations.of(context).user_progress_tasks_no_project;
+      }
+    }
+
+    text += AppLocalizations.of(context).user_progress_media_catalog;
+    text += numberMedia.toString();
+
+    if (percentageFavoriteMedia > 0) {
+      if (numberMedia <= 1) {
+        text += AppLocalizations.of(context).user_progress_media_catalog_1;
+      } else {
+        text += AppLocalizations.of(context).user_progress_media_catalog_2;
+      }
+      text += percentageFavoriteMedia.toString();
+      text += AppLocalizations.of(context).user_progress_media_catalog_3;
+    } else {
+      if (numberMedia <= 1) {
+        text +=
+            AppLocalizations.of(context).user_progress_media_catalog_1_no_love;
+      } else {
+        text +=
+            AppLocalizations.of(context).user_progress_media_catalog_2_no_love;
+      }
+    }
+
     return text;
   }
 
@@ -200,7 +251,7 @@ you love 52% of what you have there!",
           padding: const EdgeInsets.symmetric(horizontal: 18),
           child: Row(mainAxisAlignment: MainAxisAlignment.center, children: [
             Expanded(
-              child: Text(getText(),
+              child: Text(getText(context),
                   textAlign: TextAlign.center,
                   style: const TextStyle(
                     fontSize: 24,
