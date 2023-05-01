@@ -43,12 +43,10 @@ class _AddBookNoteFormState extends State<AddBookNoteForm> {
       Padding(
           padding: const EdgeInsets.symmetric(horizontal: 18),
           child: Row(children: [
-            Container(
-              child: Text(AppLocalizations.of(context).progress_callout,
+            Text(AppLocalizations.of(context).progress_callout,
                   softWrap: true,
                   style: Theme.of(context).textTheme.titleLarge,
                   textAlign: TextAlign.left),
-            )
           ])),
       const SizedBox(height: 20),
       Padding(
