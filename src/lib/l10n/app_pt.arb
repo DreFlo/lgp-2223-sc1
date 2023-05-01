@@ -157,12 +157,11 @@
   "timer": "Temporizador Pomodoro",
   "focus_time": "Tempo de Foco",
   "short_break": "Pausa Curta",
-  "long_break": "Pausa Longa",
   "sessions": "Sessões",
   "minutes_unit": "minutos",
   "sessions_unit": "sessões",
   "pause": "Pausar",
-  "resume": "Continuar",
+  "resume": "Começar",
   "focus": "Foco",
   "break_": "Pausa",
   "leave": "Sair"

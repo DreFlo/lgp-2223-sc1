@@ -155,12 +155,11 @@
   "timer": "Pomodoro Timer",
   "focus_time": "Focus Time",
   "short_break": "Short Break",
-  "long_break": "Long Break",
   "sessions": "Sessions",
   "minutes_unit": "minutes",
   "sessions_unit": "sessions",
   "pause": "Pause",
-  "resume": "Resume",
+  "start_": "Start",
   "focus": "Focus",
   "break_": "Break",
   "leave": "Leave"

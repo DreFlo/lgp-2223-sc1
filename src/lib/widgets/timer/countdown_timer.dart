@@ -1,19 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:src/themes/colors.dart';
 
-class CountdownTimerWidget extends StatefulWidget {
+class CountdownTimer extends StatefulWidget {
   final int seconds;
   final bool focus;
 
-  const CountdownTimerWidget(
+  const CountdownTimer(
       {Key? key, required this.seconds, required this.focus})
       : super(key: key);
 
   @override
-  State<CountdownTimerWidget> createState() => _CountdownTimerWidgetState();
+  State<CountdownTimer> createState() => _CountdownTimerState();
 }
 
-class _CountdownTimerWidgetState extends State<CountdownTimerWidget> {
+class _CountdownTimerState extends State<CountdownTimer> {
   @override
   void initState() {
     super.initState();
@@ -24,6 +24,14 @@ class _CountdownTimerWidgetState extends State<CountdownTimerWidget> {
     return '${duration.inMinutes.toString().padLeft(2, '0')}:${(duration.inSeconds % 60).toString().padLeft(2, '0')}';
   }
 
+  Color get mainColor {
+    return widget.focus ? primaryColor : grayBackground;
+  }
+
+  Color get borderColor {
+    return widget.focus ? grayBackground : primaryColor;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -32,18 +40,18 @@ class _CountdownTimerWidgetState extends State<CountdownTimerWidget> {
       decoration: BoxDecoration(
         boxShadow: [
           BoxShadow(
-            color: widget.focus ? grayBackground : primaryColor,
+            color: borderColor,
             blurRadius: 8,
           ),
         ],
         border: Border.fromBorderSide(
           BorderSide(
-            color: widget.focus ? grayBackground : primaryColor,
+            color: borderColor,
             width: 8,
           ),
         ),
         shape: BoxShape.circle,
-        color: widget.focus ? primaryColor : grayBackground,
+        color: mainColor,
       ),
       child: Center(
         child: Text(

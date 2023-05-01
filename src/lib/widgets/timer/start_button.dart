@@ -28,7 +28,7 @@ class _StartButtonState extends State<StartButton> {
             borderRadius: BorderRadius.circular(25.0),
           ),
         ),
-        child: Text(AppLocalizations.of(context).start,
+        child: Text(AppLocalizations.of(context).start_,
             style: Theme.of(context).textTheme.headlineSmall));
   }
 }

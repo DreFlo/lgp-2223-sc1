@@ -5,6 +5,17 @@ import 'package:src/widgets/modal.dart';
 import 'package:src/widgets/timer/start_button.dart';
 import 'package:src/widgets/timer/timer_form_field.dart';
 
+class TimerSettings {
+  final int focusTime;
+  final int shortBreak;
+  final int sessions;
+
+  TimerSettings(
+      {required this.focusTime,
+        required this.shortBreak,
+        required this.sessions});
+}
+
 class TimerForm extends StatefulWidget {
   final ScrollController scrollController;
 
@@ -17,7 +28,6 @@ class TimerForm extends StatefulWidget {
 class _TimerFormState extends State<TimerForm> {
   int focusTime = 30;
   int shortBreak = 10;
-  int longBreak = 20;
   int sessions = 4;
 
   @override
@@ -37,12 +47,6 @@ class _TimerFormState extends State<TimerForm> {
     });
   }
 
-  void setLongBreak(int value) {
-    setState(() {
-      longBreak = value;
-    });
-  }
-
   void setSessions(int value) {
     setState(() {
       sessions = value;
@@ -56,7 +60,7 @@ class _TimerFormState extends State<TimerForm> {
         icon: Icons.access_time_rounded,
         scrollController: widget.scrollController,
         children: [
-          const SizedBox(height: 25),
+          const SizedBox(height: 30),
           TimerFormField(
               scrollController: widget.scrollController,
               title: AppLocalizations.of(context).focus_time,
@@ -81,17 +85,6 @@ class _TimerFormState extends State<TimerForm> {
           const SizedBox(height: 25),
           TimerFormField(
               scrollController: widget.scrollController,
-              title: AppLocalizations.of(context).long_break,
-              icon: Icons.timelapse_rounded,
-              currentValue: longBreak,
-              minValue: 10,
-              maxValue: 60,
-              step: 5,
-              unit: AppLocalizations.of(context).minutes_unit,
-              onValueChanged: setLongBreak),
-          const SizedBox(height: 25),
-          TimerFormField(
-              scrollController: widget.scrollController,
               title: AppLocalizations.of(context).sessions,
               icon: Icons.restart_alt_rounded,
               currentValue: sessions,
@@ -100,19 +93,18 @@ class _TimerFormState extends State<TimerForm> {
               step: 1,
               unit: AppLocalizations.of(context).sessions_unit,
               onValueChanged: setSessions),
-          const SizedBox(height: 25),
+          const SizedBox(height: 35),
           StartButton(onStartCallback: () {
             Navigator.pop(context);
             Navigator.push(
                 context,
                 MaterialPageRoute(
                     builder: (context) => TimerPage(
+                            settings: TimerSettings(
                           focusTime: focusTime,
                           shortBreak: shortBreak,
-                          longBreak: longBreak,
                           sessions: sessions,
-                        )
-                    ));
+                        ))));
           })
         ]);
   }

@@ -2,93 +2,69 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:src/pages/timer/timer_form.dart';
 import 'package:src/themes/colors.dart';
-import 'package:src/widgets/timer/countdown_timer.dart';
-import 'package:src/widgets/timer/outlined_button.dart';
 import 'package:src/widgets/timer/sessions_progress.dart';
+import 'package:src/widgets/timer/states/focus_paused_state.dart';
+import 'package:src/widgets/timer/states/timer_state.dart';
+
+class TimerTracker {
+  int currentSession;
+  int seconds;
+
+  TimerTracker({required this.currentSession, required this.seconds});
+
+  void setSeconds(int value) {
+    seconds = value;
+  }
+
+  void incrementSession() {
+    currentSession++;
+  }
+
+  void decrementSeconds() {
+    seconds--;
+  }
+}
 
 class TimerPage extends StatefulWidget {
-  final int focusTime;
-  final int shortBreak;
-  final int longBreak;
-  final int sessions;
+  final TimerSettings settings;
 
-  const TimerPage(
-      {Key? key,
-      required this.focusTime,
-      required this.shortBreak,
-      required this.longBreak,
-      required this.sessions})
-      : super(key: key);
+  const TimerPage({Key? key, required this.settings}) : super(key: key);
 
   @override
   State<TimerPage> createState() => TimerPageState();
 }
 
 class TimerPageState extends State<TimerPage> {
-  int _seconds = 0;
+  late TimerState state;
+  late TimerTracker tracker;
   Timer? _timer;
-  bool focus = true;
-  bool isRunning = true;
-  int currentSession = 1;
-
-  int get initialSeconds =>
-      focus ? widget.focusTime * 60 : widget.shortBreak * 60;
 
   @override
   void initState() {
-    _seconds = widget.focusTime * 60;
+    tracker = TimerTracker(currentSession: 1, seconds: 0);
+    state = FocusPausedState(
+        timer: _timer,
+        settings: widget.settings,
+        tracker: tracker,
+        context: context,
+        setState: setState,
+        changeState: changeState,
+        reset: true);
     super.initState();
-    startTimer();
+  }
+
+  void changeState(TimerState newState) {
+    setState(() {
+      state = newState;
+    });
   }
 
   @override
   void dispose() {
     _timer?.cancel();
     super.dispose();
-  }
-
-  void pauseTimer() {
-    _timer?.cancel();
-    setState(() {
-      isRunning = false;
-    });
-  }
-
-  void startTimer() {
-    _timer?.cancel();
-    _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
-      setState(() {
-        if (_seconds > 0) {
-          _seconds--;
-        } else {
-          _timer?.cancel();
-          if (focus) {
-            _seconds = widget.shortBreak * 60;
-            focus = false;
-            startTimer();
-          } else {
-            if (currentSession < widget.sessions) {
-              currentSession++;
-              _seconds = widget.focusTime * 60;
-              focus = true;
-              startTimer();
-            } else {
-              // TODO: user completed pomodoro - give feedback
-              Navigator.pop(context);
-            }
-          }
-        }
-      });
-    });
-    setState(() {
-      isRunning = true;
-    });
-  }
-
-  leave() {
-    // TODO: user left pomodoro - give feedback
-    Navigator.pop(context);
   }
 
   @override
@@ -106,9 +82,7 @@ class TimerPageState extends State<TimerPage> {
                   style: Theme.of(context).textTheme.titleMedium,
                 ),
                 Text(
-                  focus
-                      ? AppLocalizations.of(context).focus
-                      : AppLocalizations.of(context).break_,
+                  state.mode(),
                   style: const TextStyle(
                     color: primaryColor,
                     fontFamily: 'Poppins',
@@ -119,21 +93,14 @@ class TimerPageState extends State<TimerPage> {
                 ),
               ],
             ),
-            CountdownTimerWidget(seconds: _seconds, focus: focus),
+            state.getTimerWidget(),
             Column(
               children: [
                 SessionsProgress(
-                    sessions: widget.sessions, currentSession: currentSession),
+                    sessions: widget.settings.sessions,
+                    currentSession: tracker.currentSession),
                 const SizedBox(height: 40),
-                isRunning
-                    ? MyOutlinedButton(
-                        onPressed: pauseTimer,
-                        title: AppLocalizations.of(context).pause,
-                      )
-                    : MyOutlinedButton(
-                        onPressed: startTimer,
-                        title: AppLocalizations.of(context).resume,
-                      ),
+                state.getButtonWidget(),
                 const SizedBox(height: 5),
                 TextButton(
                     onPressed: () => Navigator.pop(context),
