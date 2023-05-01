@@ -9,9 +9,6 @@ import 'package:src/daos/student/task_dao.dart';
 import 'package:src/utils/service_locator.dart';
 import 'package:src/utils/gamification/user_stats.dart';
 
-
-import 'package:src/utils/gamification/show_snack_bar.dart';
-
 //timeslot has a lot of tasks -> combos
 class Timeslot {
   late int id;
@@ -55,21 +52,22 @@ bool checkLevelUp(int userPoints, int currentLevel) {
   return false;
 }
 
-void markTaskAsDone(Task task) async {
+void markTaskAsDoneOrNot(Task task, bool finished) async {
   Task newTask = Task(
       id: task.id,
       name: task.name,
       description: task.description,
       deadline: task.deadline,
-      finished: true,
+      finished: finished,
       priority: task.priority,
+      taskGroupId: task.taskGroupId,
       xp: task.xp);
   await serviceLocator<TaskDao>().updateTask(newTask);
 }
 
 GameState check(List<Task> tasks, User user, bool differentModules) {
   for (Task t in tasks) {
-    markTaskAsDone(t);
+    markTaskAsDoneOrNot(t, true);
   }
 
   int points = 0;
@@ -109,7 +107,7 @@ GameState check(List<Task> tasks, User user, bool differentModules) {
 }
 
 void checkNonEventNonTask(Task task, context) async {
-  markTaskAsDone(task);
+  markTaskAsDoneOrNot(task, true);
 
   int points = getImmediatePoints();
 
@@ -126,7 +124,6 @@ void checkNonEventNonTask(Task task, context) async {
   await updateUser(newUser);
 
   if (checkLevelUp(user.xp + points, user.level)) {
-    
     //return GameState.levelUp;
     //show level up screen
   } else {
@@ -148,6 +145,31 @@ void checkNonEventNonTask(Task task, context) async {
     //return GameState.progress;
   }
 }
+
+void removePoints(int points, Task task) async {
+  //mark task as not done
+  markTaskAsDoneOrNot(task, false);
+  User user = await getUser();
+  int level = user.level;
+
+  //check if user is gonna lose a level
+  if (user.xp - points < levels[user.level]!) {
+    //user is gonna lose a level
+    level = user.level -
+        1; //could he lose more than one level at a time? With just tasks I don't think so
+  }
+  User newUser = User(
+      id: user.id,
+      userName: user.userName,
+      password: user.password,
+      xp: user.xp - points,
+      level: level,
+      imagePath: user.imagePath);
+
+  await updateUser(newUser);
+
+  //should we show a screen for losing a level/xp?
+} 
 
 //}
 

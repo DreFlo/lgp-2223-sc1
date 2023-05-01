@@ -41,7 +41,7 @@ class _TaskBarState extends State<TaskBar> {
 
   @override
   initState() {
-    taskStatus = widget.taskStatus;
+    taskStatus = widget.task.finished;
 
     task = widget.task;
     onUnselected = widget.onUnselected;
@@ -116,7 +116,13 @@ class _TaskBarState extends State<TaskBar> {
                     children: [
                       InkWell(
                           onTap: () {
-                            checkNonEventNonTask(task, context);
+                            if (!taskStatus) { //it's currently false, going to become true, when it gets to setState
+                              //gain xp
+                              checkNonEventNonTask(task, context);
+                            } else {
+                              //lose xp
+                              removePoints(getImmediatePoints(), task);
+                            }
 
                             setState(() {
                               taskStatus = !taskStatus;
@@ -127,11 +133,11 @@ class _TaskBarState extends State<TaskBar> {
                             decoration: BoxDecoration(
                                 shape: BoxShape.circle,
                                 color:
-                                    (taskStatus ? Colors.green : Colors.white)),
+                                    (taskStatus ? Colors.white : Colors.green)),
                             child: Icon(Icons.check_rounded,
                                 color: (!taskStatus
-                                    ? Colors.green
-                                    : Colors.white)),
+                                    ? Colors.white
+                                    : Colors.green)),
                           )),
                       const SizedBox(width: 10),
                       InkWell(
