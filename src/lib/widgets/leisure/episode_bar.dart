@@ -128,14 +128,13 @@ class _EpisodeBarState extends State<EpisodeBar> {
                               padding: EdgeInsets.only(
                                   bottom:
                                       MediaQuery.of(context).viewInsets.bottom),
-                              child: Stack(children: [
-                                AddEpisodeNoteForm(
+                              child: AddEpisodeNoteForm(
                                     code: widget.code,
                                     episode: episode,
                                     refreshStatus: () {
                                       Navigator.pop(context);
                                     }),
-                              ])));
+                              ));
                     }
                   },
                   style: ButtonStyle(
