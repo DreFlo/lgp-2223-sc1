@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:src/pages/gamification/progress_bar_sheet.dart';
 import 'package:src/themes/colors.dart';
+import 'package:src/utils/gamification/user_stats.dart';
 
 class ProfilePic extends StatefulWidget {
   const ProfilePic({Key? key}) : super(key: key);
@@ -9,6 +11,8 @@ class ProfilePic extends StatefulWidget {
 }
 
 class _ProfilePicState extends State<ProfilePic> {
+   List<String> user = ['John Smith', '11', '400'];
+
   @override
   Widget build(BuildContext context) {
     return Row(
@@ -16,7 +20,24 @@ class _ProfilePicState extends State<ProfilePic> {
         const Spacer(),
         GestureDetector(
           onTap: () {
-            // TODO Handle the tap on the profile picture
+            showModalBottomSheet(
+                      context: context,
+                      isScrollControlled: true,
+                      backgroundColor: const Color(0xFF22252D),
+                      shape: const RoundedRectangleBorder(
+                        borderRadius:
+                            BorderRadius.vertical(top: Radius.circular(30.0)),
+                      ),
+                      builder: (context) => Padding(
+                            padding: EdgeInsets.only(
+                                bottom:
+                                    MediaQuery.of(context).viewInsets.bottom +
+                                        50),
+                            child: ProgressBarSheet(
+                                level: 2,
+                                user: user,
+                                image: 'assets/images/poster.jpg'),
+                          ));
           },
           child: const CircleAvatar(
             radius: 30,

@@ -15,7 +15,6 @@ import 'package:src/models/student/task.dart';
 import 'package:src/models/timeslot/timeslot.dart';
 import 'package:src/pages/gamification/gained_xp_toast.dart';
 import 'package:src/pages/gamification/level_up_toast.dart';
-import 'package:src/pages/gamification/progress_bar_sheet.dart';
 import 'package:src/utils/enums.dart';
 import 'package:src/pages/auth/landing_page.dart';
 
@@ -235,28 +234,6 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                               scrollController: scrollController,
                             ),
                           )));
-                }),
-            ElevatedButton(
-                child: Text("Progress Bar"),
-                onPressed: () {
-                  showModalBottomSheet(
-                      context: context,
-                      isScrollControlled: true,
-                      backgroundColor: Color(0xFF22252D),
-                      shape: RoundedRectangleBorder(
-                        borderRadius:
-                            BorderRadius.vertical(top: Radius.circular(30.0)),
-                      ),
-                      builder: (context) => Padding(
-                            padding: EdgeInsets.only(
-                                bottom:
-                                    MediaQuery.of(context).viewInsets.bottom +
-                                        50),
-                            child: ProgressBarSheet(
-                                level: 2,
-                                user: user,
-                                image: 'assets/images/poster.jpg'),
-                          ));
                 }),
             ElevatedButton(
                 child: Text("Gaining progress toast"),
