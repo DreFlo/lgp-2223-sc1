@@ -307,7 +307,7 @@ class _InstitutionFormState extends State<InstitutionForm> {
                                         expand: false,
                                         initialChildSize: 0.5,
                                         minChildSize: 0.5,
-                                        maxChildSize: 0.55,
+                                        maxChildSize: 0.5,
                                         builder: (context, scrollController) =>
                                             SubjectForm(
                                                 scrollController:
