@@ -182,7 +182,7 @@ class _LandingPageState extends State<LandingPage> {
                   builder: (context) => DraggableScrollableSheet(
                       expand: false,
                       initialChildSize: 0.85,
-                      minChildSize: 0.35,
+                      minChildSize: 0.85,
                       maxChildSize: 0.95,
                       builder: (context, scrollController) => Stack(
                               alignment: AlignmentDirectional.topCenter,

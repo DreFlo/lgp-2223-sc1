@@ -69,9 +69,9 @@ class _LoginPageState extends State<LoginPage> {
                       fontWeight: FontWeight.w600),
                 ),
               ),
-              Padding(
+              const Padding(
                   padding: EdgeInsets.only(
-                      bottom: MediaQuery.of(context).size.height * 0.025)),
+                      bottom: 30)),
               TextField(
                   controller: secondController,
                   style: Theme.of(context).textTheme.bodySmall,
@@ -110,9 +110,9 @@ class _LoginPageState extends State<LoginPage> {
                           ),
                           builder: (context) => DraggableScrollableSheet(
                               expand: false,
-                              initialChildSize: 0.85,
-                              minChildSize: 0.35,
-                              maxChildSize: 0.95,
+                              initialChildSize: 0.80,
+                              minChildSize: 0.80,
+                              maxChildSize: 0.85,
                               builder: (context, scrollController) => Stack(
                                       alignment: AlignmentDirectional.topCenter,
                                       children: [
