@@ -13,6 +13,8 @@ import 'package:src/models/student/institution.dart';
 import 'package:src/models/student/subject.dart';
 import 'package:src/models/student/task.dart';
 import 'package:src/models/student/task_group.dart';
+import 'package:src/pages/tasks/institution_show.dart';
+import 'package:src/pages/tasks/subject_show.dart';
 import 'package:src/pages/tasks/task_form.dart';
 import 'package:src/themes/colors.dart';
 import 'package:src/utils/date_formatter.dart';
@@ -418,89 +420,134 @@ class _TaskShowState extends State<TaskShow> {
 
   Widget getInstitution(BuildContext context) {
     return InkWell(
+        onTap: () {
+          showModalBottomSheet(
+              context: context,
+              isScrollControlled: true,
+              backgroundColor: const Color(0xFF22252D),
+              shape: const RoundedRectangleBorder(
+                borderRadius: BorderRadius.vertical(top: Radius.circular(30.0)),
+              ),
+              builder: (context) => Container(
+                  padding: EdgeInsets.only(
+                      bottom: MediaQuery.of(context).viewInsets.bottom + 50),
+                  child: DraggableScrollableSheet(
+                      expand: false,
+                      initialChildSize: 0.75,
+                      minChildSize: 0.75,
+                      maxChildSize: 0.75,
+                      builder: (context, scrollController) => InstitutionShow(
+                            scrollController: scrollController,
+                            id: institution.id!,
+                          ))));
+        },
         child: Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
-      Flexible(
-          flex: 1,
-          child: Column(children: [
-            Container(
-                height: 40,
-                width: 40,
-                decoration: const BoxDecoration(
-                  color: Color(0xFF414554),
-                  shape: BoxShape.circle,
-                ),
-                child: const Icon(
-                  Icons.account_balance_rounded,
-                  color: Color(0xFF71788D),
-                  size: 20,
-                ))
-          ])),
-      const SizedBox(width: 15),
-      Flexible(
-          flex: 5,
-          child: Column(mainAxisAlignment: MainAxisAlignment.start, children: [
-            Row(children: [
-              Text(AppLocalizations.of(context).institution,
-                  style: const TextStyle(
-                      fontFamily: 'Poppins',
+          Flexible(
+              flex: 1,
+              child: Column(children: [
+                Container(
+                    height: 40,
+                    width: 40,
+                    decoration: const BoxDecoration(
+                      color: Color(0xFF414554),
+                      shape: BoxShape.circle,
+                    ),
+                    child: const Icon(
+                      Icons.account_balance_rounded,
                       color: Color(0xFF71788D),
-                      fontSize: 16,
-                      fontWeight: FontWeight.w400),
-                  textAlign: TextAlign.center),
-            ]),
-            const SizedBox(height: 10),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                HighlightText(institution.name,
-                    key: const Key("taskInstitution")),
-              ],
-            )
-          ]))
-    ]));
+                      size: 20,
+                    ))
+              ])),
+          const SizedBox(width: 15),
+          Flexible(
+              flex: 5,
+              child:
+                  Column(mainAxisAlignment: MainAxisAlignment.start, children: [
+                Row(children: [
+                  Text(AppLocalizations.of(context).institution,
+                      style: const TextStyle(
+                          fontFamily: 'Poppins',
+                          color: Color(0xFF71788D),
+                          fontSize: 16,
+                          fontWeight: FontWeight.w400),
+                      textAlign: TextAlign.center),
+                ]),
+                const SizedBox(height: 10),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    HighlightText(institution.name,
+                        key: const Key("taskInstitution")),
+                  ],
+                )
+              ]))
+        ]));
   }
 
   Widget getSubject() {
     return InkWell(
+        onTap: () {
+          showModalBottomSheet(
+              context: context,
+              isScrollControlled: true,
+              backgroundColor: const Color(0xFF22252D),
+              shape: const RoundedRectangleBorder(
+                borderRadius: BorderRadius.vertical(top: Radius.circular(30.0)),
+              ),
+              builder: (context) => Container(
+                  padding: EdgeInsets.only(
+                      bottom: MediaQuery.of(context).viewInsets.bottom + 50),
+                  child: DraggableScrollableSheet(
+                      expand: false,
+                      initialChildSize: 0.75,
+                      minChildSize: 0.75,
+                      maxChildSize: 0.75,
+                      builder: (context, scrollController) => SubjectShow(
+                            scrollController: scrollController,
+                            id: subject.id!,
+                          ))));
+        },
         child: Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
-      Flexible(
-          flex: 1,
-          child: Column(children: [
-            Container(
-                height: 40,
-                width: 40,
-                decoration: const BoxDecoration(
-                  color: Color(0xFF414554),
-                  shape: BoxShape.circle,
-                ),
-                child: const Icon(
-                  Icons.account_balance_rounded,
-                  color: Color(0xFF71788D),
-                  size: 20,
-                ))
-          ])),
-      const SizedBox(width: 15),
-      Flexible(
-          flex: 5,
-          child: Column(mainAxisAlignment: MainAxisAlignment.start, children: [
-            Row(children: [
-              Text(AppLocalizations.of(context).subject,
-                  style: const TextStyle(
-                      fontFamily: 'Poppins',
+          Flexible(
+              flex: 1,
+              child: Column(children: [
+                Container(
+                    height: 40,
+                    width: 40,
+                    decoration: const BoxDecoration(
+                      color: Color(0xFF414554),
+                      shape: BoxShape.circle,
+                    ),
+                    child: const Icon(
+                      Icons.account_balance_rounded,
                       color: Color(0xFF71788D),
-                      fontSize: 16,
-                      fontWeight: FontWeight.w400),
-                  textAlign: TextAlign.center),
-            ]),
-            const SizedBox(height: 10),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                HighlightText(subject.acronym, key: const Key("taskSubject")),
-              ],
-            )
-          ]))
-    ]));
+                      size: 20,
+                    ))
+              ])),
+          const SizedBox(width: 15),
+          Flexible(
+              flex: 5,
+              child:
+                  Column(mainAxisAlignment: MainAxisAlignment.start, children: [
+                Row(children: [
+                  Text(AppLocalizations.of(context).subject,
+                      style: const TextStyle(
+                          fontFamily: 'Poppins',
+                          color: Color(0xFF71788D),
+                          fontSize: 16,
+                          fontWeight: FontWeight.w400),
+                      textAlign: TextAlign.center),
+                ]),
+                const SizedBox(height: 10),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    HighlightText(subject.acronym,
+                        key: const Key("taskSubject")),
+                  ],
+                )
+              ]))
+        ]));
   }
 
   Widget getAddNoteButton(BuildContext context) {
