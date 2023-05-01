@@ -8,6 +8,7 @@ import 'package:src/daos/user_dao.dart';
 import 'package:src/env/env.dart';
 import 'package:src/models/user.dart';
 import 'package:src/pages/tasks/institution_form.dart';
+import 'package:src/pages/tasks/institution_show.dart';
 import 'package:src/pages/tasks/subject_form.dart';
 import 'package:src/pages/tasks/subject_show.dart';
 import 'package:src/themes/colors.dart';
@@ -660,7 +661,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                             initialChildSize: 0.5,
                             minChildSize: 0.5,
                             maxChildSize: 0.5,
-                            builder: (context, scrollController) => SubjectShow(
+                            builder: (context, scrollController) => SubjectForm(
                               scrollController: scrollController,
                               id: 1
                             ),
@@ -687,8 +688,9 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                             minChildSize: 0.5,
                             maxChildSize: 0.5,
                             builder: (context, scrollController) =>
-                                InstitutionForm(
+                                InstitutionShow(
                               scrollController: scrollController,
+                              id: 1
                             ),
                           )));
                 }),

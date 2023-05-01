@@ -13,8 +13,10 @@ import 'package:src/widgets/tasks/subject_bar.dart';
 class InstitutionForm extends StatefulWidget {
   final int? id;
   final ScrollController scrollController;
+  final Function()? callback;
 
-  const InstitutionForm({Key? key, required this.scrollController, this.id})
+  const InstitutionForm(
+      {Key? key, required this.scrollController, this.id, this.callback})
       : super(key: key);
 
   @override
@@ -426,6 +428,10 @@ class _InstitutionFormState extends State<InstitutionForm> {
 
       if (context.mounted) {
         Navigator.pop(context);
+      }
+
+      if (widget.callback != null) {
+        widget.callback!();
       }
     }
   }
