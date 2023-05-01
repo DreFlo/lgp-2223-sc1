@@ -126,7 +126,7 @@ class _AddBookNoteFormState extends State<AddBookNoteForm> {
                           expand: false,
                           initialChildSize: 0.9,
                           minChildSize: 0.9,
-                          maxChildSize: 0.95,
+                          maxChildSize: 0.9,
                           builder: (context, scrollController) => Padding(
                                         padding: EdgeInsets.only(
                                             bottom: MediaQuery.of(context)
