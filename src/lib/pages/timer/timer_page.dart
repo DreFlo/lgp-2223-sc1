@@ -57,7 +57,7 @@ class TimerPageState extends State<TimerPage> {
 
   @override
   void setState(fn) {
-    if(mounted) {
+    if (mounted) {
       super.setState(fn);
     }
   }
