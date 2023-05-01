@@ -33,37 +33,29 @@ class BookPageButtonState extends MediaPageButtonState<MediaBookSuperEntity> {
                 borderRadius: BorderRadius.vertical(top: Radius.circular(30.0)),
               ),
               builder: (context) => DraggableScrollableSheet(
-                  expand: false,
-                  initialChildSize: 0.5,
-                  minChildSize: 0.35,
-                  maxChildSize: 0.75,
-                  builder: (context, scrollController) => Stack(
-                          alignment: AlignmentDirectional.bottomCenter,
-                          children: [
-                            Padding(
-                                padding: EdgeInsets.only(
-                                    bottom: MediaQuery.of(context)
-                                            .viewInsets
-                                            .bottom +
-                                        50),
-                                child: SingleChildScrollView(
-                                    controller: scrollController,
-                                    child: AddBookToCatalogForm(
-                                      status: Status.nothing,
-                                      startDate: DateTime.now()
-                                          .toString()
-                                          .split(" ")[0],
-                                      endDate: DateTime.now()
-                                          .toString()
-                                          .split(" ")[0],
-                                      item: widget.item,
-                                      setMediaId: setMediaId,
-                                      showReviewForm: showReviewForm,
-                                      refreshStatus: () {
-                                        Navigator.pop(context);
-                                      },
-                                    ))),
-                          ])));
+                    expand: false,
+                    initialChildSize: 0.55,
+                    minChildSize: 0.55,
+                    maxChildSize: 0.55,
+                    builder: (context, scrollController) => Padding(
+                        padding: EdgeInsets.only(
+                            bottom:
+                                MediaQuery.of(context).viewInsets.bottom + 3),
+                        child: SingleChildScrollView(
+                            controller: scrollController,
+                            child: AddBookToCatalogForm(
+                              status: Status.nothing,
+                              startDate:
+                                  DateTime.now().toString().split(" ")[0],
+                              endDate: DateTime.now().toString().split(" ")[0],
+                              item: widget.item,
+                              setMediaId: setMediaId,
+                              showReviewForm: showReviewForm,
+                              refreshStatus: () {
+                                Navigator.pop(context);
+                              },
+                            ))),
+                  ));
         },
         style: ElevatedButton.styleFrom(
           minimumSize: Size(MediaQuery.of(context).size.width * 0.95, 55),
@@ -127,9 +119,9 @@ class BookPageButtonState extends MediaPageButtonState<MediaBookSuperEntity> {
                     ),
                     builder: (context) => DraggableScrollableSheet(
                         expand: false,
-                        initialChildSize: 0.35,
-                        minChildSize: 0.35,
-                        maxChildSize: 0.75,
+                        initialChildSize: 0.55,
+                        minChildSize: 0.55,
+                        maxChildSize: 0.55,
                         builder: (context, scrollController) => Stack(
                                 alignment: AlignmentDirectional.bottomCenter,
                                 children: [
@@ -177,9 +169,9 @@ class BookPageButtonState extends MediaPageButtonState<MediaBookSuperEntity> {
                     ),
                     builder: (context) => DraggableScrollableSheet(
                         expand: false,
-                        initialChildSize: 0.35,
-                        minChildSize: 0.35,
-                        maxChildSize: 0.75,
+                        initialChildSize: 0.55,
+                        minChildSize: 0.55,
+                        maxChildSize: 0.55,
                         builder: (context, scrollController) => Stack(
                                 alignment: AlignmentDirectional.bottomCenter,
                                 children: [
