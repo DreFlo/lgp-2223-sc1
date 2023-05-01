@@ -68,7 +68,7 @@ abstract class AddMediaToCatalogFormState<T extends Media>
       ]),
       const SizedBox(height: 7.5),
       Container(
-          padding: const EdgeInsets.only(left: 18, right: 18),
+          padding: const EdgeInsets.symmetric(horizontal: 18),
           child: Column(children: [
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -206,7 +206,7 @@ abstract class AddMediaToCatalogFormState<T extends Media>
       ]),
       const SizedBox(height: 7.5),
       Padding(
-          padding: const EdgeInsets.only(left: 18, right: 18),
+          padding: const EdgeInsets.symmetric(horizontal: 18),
           child: InkWell(
               onTap: () async {
                 DateTimeRange? newDateRange = await showDateRangePicker(
