@@ -6,6 +6,7 @@
   "title": "Title",
   "synopsis": "Synopsis",
   "cast": "Cast",
+  "author": "Author",
   "length": "Length",
   "season": " season, ",
   "no_cast": "Cast information was not available.",
