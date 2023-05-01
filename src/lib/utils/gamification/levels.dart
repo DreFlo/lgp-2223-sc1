@@ -22,3 +22,8 @@ const taskComboPoints = 30;
 
 const moduleComboMultiplier = 0.5;
 const moduleComboPoints = 20;
+
+// Pomodoro constants
+const sessionBonus = 6; //0.2*30*number of sessions
+const longerBreakPoints = 35;
+const longerWorkPoints = 40;

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:src/pages/gamification/progress_bar_sheet.dart';
 import 'package:src/themes/colors.dart';
-import 'package:src/utils/gamification/user_stats.dart';
 
 class ProfilePic extends StatefulWidget {
   const ProfilePic({Key? key}) : super(key: key);

@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/cupertino.dart';
 import 'package:src/pages/timer/timer_form.dart';
 import 'package:src/pages/timer/timer_page.dart';
+import 'package:src/utils/gamification/game_logic.dart';
 
 abstract class TimerState {
   Timer? timer;
@@ -44,8 +45,11 @@ abstract class TimerState {
     Navigator.pop(context);
   }
 
-  void finish() {
+  void finish(BuildContext context) {
     // TODO(gamification): user completed pomodoro - give feedback
+   
+    getPomodoroXP(settings.focusTime, settings.sessions,
+        settings.shortBreak, context);
     timer?.cancel();
     Navigator.pop(context);
   }

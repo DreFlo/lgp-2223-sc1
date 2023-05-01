@@ -190,6 +190,64 @@ void removePoints(int points, Task task) async {
   //should we show a screen for losing a level/xp?
 }
 
+void getPomodoroXP(int focusTime, int sessions, int shortBreak, context) async {
+  int points = 6 * sessions;
+  if (focusTime / shortBreak < 0.2) {
+    points += longerWorkPoints;
+  } else if (focusTime / shortBreak > 0.2) {
+    points += longerBreakPoints;
+  } else {
+    points += basePoints;
+  }
+
+  User user = await getUser();
+
+  if (checkLevelUp(user.xp + points, user.level)) {
+    User newUser = User(
+        id: user.id,
+        userName: user.userName,
+        password: user.password,
+        xp: user.xp + points,
+        level: user.level + 1,
+        imagePath: user.imagePath);
+
+    await updateUser(newUser);
+    var snackBar = SnackBar(
+      content: LevelUpToast(oldLevel: user.level, newLevel: user.level + 1),
+      backgroundColor: Colors.transparent,
+      elevation: 0,
+    );
+    // Step 3
+    ScaffoldMessenger.of(context).showSnackBar(snackBar);
+
+    //show level up screen
+  } else {
+    int value = levels[user.level + 1]!;
+    User newUser = User(
+        id: user.id,
+        userName: user.userName,
+        password: user.password,
+        xp: user.xp + points,
+        level: user.level,
+        imagePath: user.imagePath);
+
+    await updateUser(newUser);
+
+    var snackBar = SnackBar(
+      duration: const Duration(seconds: 30),
+      content: GainedXPToast(
+        value: value,
+        level: user.level,
+        points: points,
+      ),
+      backgroundColor: Colors.transparent,
+      elevation: 0,
+    );
+    // Step 3
+    ScaffoldMessenger.of(context).showSnackBar(snackBar);
+  }
+}
+
 //}
 
 //Note for Friday meeting or whenever we can talk to André: show the formula + ask what do we need to store in xpMultiplier

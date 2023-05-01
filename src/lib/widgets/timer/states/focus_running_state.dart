@@ -68,7 +68,7 @@ class FocusRunningState extends TimerState {
           changeState: changeState,
           reset: true));
     } else {
-      finish();
+      finish(context);
     }
   }
 
