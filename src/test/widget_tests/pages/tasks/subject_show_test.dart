@@ -19,14 +19,10 @@ import 'package:src/pages/tasks/subject_show.dart';
 import 'package:src/pages/tasks/task_show.dart';
 import 'package:src/utils/enums.dart';
 import 'package:src/utils/service_locator.dart';
-import 'package:src/widgets/tasks/subject_bar_show.dart';
 import '../../../utils/service_locator_test_util.dart';
 import 'package:flutter/material.dart';
-import '../../../utils/service_locator_test_util.mocks.dart';
 import '../../widget_tests_utils.dart';
 import 'package:mockito/mockito.dart';
-
-import '../../../utils/model_mocks_util.mocks.dart';
 
 void main() {
   setUp(() async {
@@ -204,11 +200,10 @@ void main() {
         .thenAnswer((_) async => [TaskNote(id: 1, taskId: 1)]);
 
     final mockNoteDao = serviceLocator.get<NoteDao>();
-    when(mockNoteDao.findNoteById(1))
-        .thenAnswer((_) => Stream.value(Note(
-      title: 'note_title',
-      content: 'note_content',
-      date: DateTime.now().add(const Duration(days: 1)))));
+    when(mockNoteDao.findNoteById(1)).thenAnswer((_) => Stream.value(Note(
+        title: 'note_title',
+        content: 'note_content',
+        date: DateTime.now().add(const Duration(days: 1)))));
 
     await widgetTester.pumpWidget(LocalizationsInjector(
       child: TaskShow(

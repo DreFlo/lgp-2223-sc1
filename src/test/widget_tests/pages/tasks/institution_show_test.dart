@@ -19,14 +19,10 @@ import 'package:src/pages/tasks/subject_show.dart';
 import 'package:src/pages/tasks/task_show.dart';
 import 'package:src/utils/enums.dart';
 import 'package:src/utils/service_locator.dart';
-import 'package:src/widgets/tasks/subject_bar_show.dart';
 import '../../../utils/service_locator_test_util.dart';
 import 'package:flutter/material.dart';
-import '../../../utils/service_locator_test_util.mocks.dart';
 import '../../widget_tests_utils.dart';
 import 'package:mockito/mockito.dart';
-
-import '../../../utils/model_mocks_util.mocks.dart';
 
 void main() {
   setUp(() async {
@@ -152,7 +148,10 @@ void main() {
     final mockInstitutionDao = serviceLocator.get<InstitutionDao>();
     when(mockInstitutionDao.findInstitutionById(1)).thenAnswer((_) =>
         Stream.value(Institution(
-            id: 1, name: 'inst_name', type: InstitutionType.education, userId: 1)));
+            id: 1,
+            name: 'inst_name',
+            type: InstitutionType.education,
+            userId: 1)));
 
     final mockSubjectDao = serviceLocator.get<SubjectDao>();
     when(mockSubjectDao.findSubjectByInstitutionId(1)).thenAnswer((_) async =>
