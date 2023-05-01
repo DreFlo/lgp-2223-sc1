@@ -172,5 +172,9 @@
   "no_media": "Ainda não tens média...",
   "eval_name": "Nome da Avaliação",
   "choose_tasks": "Escolhe tarefas",
-  "choose_media": "Escolhe média"
+  "choose_media": "Escolhe média",
+  "user_progress": "Bom trabalho, ",
+  "user_progress_2": "!",
+  "user_progress_3": "Completaste 122 tarefas ao longo de 7 projetos! O teu catálogo de média tems 34 entradas e adoras 52% do que lá tem!",
+  "user_progress_4": "Emil está orgulhoso,\n continua o bom trabalho!"
 }

@@ -13,10 +13,11 @@ class GainedXPToast extends StatefulWidget {
   final int levelXP = 100;
 
   const GainedXPToast(
-      {    Key? key,
+      {Key? key,
       required this.value,
       required this.level,
-      required this.points}): super(key: key);
+      required this.points})
+      : super(key: key);
 
   @override
   State<GainedXPToast> createState() => _GainedXPToastState();
@@ -66,7 +67,8 @@ class _GainedXPToastState extends State<GainedXPToast>
 
   @override
   void dispose() {
-    controller.stop();
+    controller.dispose();
+    opacityController.dispose();
     super.dispose();
   }
 
