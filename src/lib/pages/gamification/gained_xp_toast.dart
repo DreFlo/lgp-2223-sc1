@@ -59,10 +59,14 @@ class _GainedXPToastState extends State<GainedXPToast>
           });
 
     Future.delayed(const Duration(seconds: 1), () {
-      controller.forward();
+      if (mounted) {
+        controller.forward();
+      }
     });
 
-    opacityController.forward();
+    if(mounted){
+      opacityController.forward();
+    }
   }
 
   @override
