@@ -33,21 +33,10 @@ class TVSeriesButtonState extends MediaPageButtonState<MediaSeriesSuperEntity> {
               ),
               builder: (context) => DraggableScrollableSheet(
                   expand: false,
-                  initialChildSize: 0.5,
-                  minChildSize: 0.35,
-                  maxChildSize: 0.75,
-                  builder: (context, scrollController) => Stack(
-                          alignment: AlignmentDirectional.bottomCenter,
-                          children: [
-                            Padding(
-                                padding: EdgeInsets.only(
-                                    bottom: MediaQuery.of(context)
-                                            .viewInsets
-                                            .bottom +
-                                        50),
-                                child: SingleChildScrollView(
-                                    controller: scrollController,
-                                    child: AddTVSeriesToCatalogForm(
+                  initialChildSize: 0.55,
+                  minChildSize: 0.55,
+                  maxChildSize: 0.55,
+                  builder: (context, scrollController) => AddTVSeriesToCatalogForm(
                                       status: Status.nothing,
                                       startDate: DateTime.now()
                                           .toString()
@@ -62,8 +51,8 @@ class TVSeriesButtonState extends MediaPageButtonState<MediaSeriesSuperEntity> {
                                         refreshStatus();
                                         Navigator.pop(context);
                                       },
-                                    ))),
-                          ])));
+                                    )),
+                          );
         },
         style: ElevatedButton.styleFrom(
           minimumSize: Size(MediaQuery.of(context).size.width * 0.95, 55),
@@ -96,9 +85,9 @@ class TVSeriesButtonState extends MediaPageButtonState<MediaSeriesSuperEntity> {
                     ),
                     builder: (context) => DraggableScrollableSheet(
                         expand: false,
-                        initialChildSize: 0.5,
-                        minChildSize: 0.35,
-                        maxChildSize: 0.75,
+                        initialChildSize: 0.55,
+                        minChildSize: 0.5,
+                        maxChildSize: 0.5,
                         builder: (context, scrollController) => Stack(
                                 alignment: AlignmentDirectional.bottomCenter,
                                 children: [
@@ -138,8 +127,8 @@ class TVSeriesButtonState extends MediaPageButtonState<MediaSeriesSuperEntity> {
                     builder: (context) => DraggableScrollableSheet(
                         expand: false,
                         initialChildSize: 0.5,
-                        minChildSize: 0.35,
-                        maxChildSize: 0.75,
+                        minChildSize: 0.5,
+                        maxChildSize: 0.5,
                         builder: (context, scrollController) => Stack(
                                 alignment: AlignmentDirectional.bottomCenter,
                                 children: [
