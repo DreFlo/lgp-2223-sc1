@@ -9,6 +9,7 @@ import 'package:src/models/student/evaluation.dart';
 import 'package:src/pages/tasks/subject_form.dart';
 import 'package:src/themes/colors.dart';
 import 'package:src/utils/service_locator.dart';
+import 'package:src/widgets/tasks/evaluation_bar_show.dart';
 
 class SubjectShow extends StatefulWidget {
   final ScrollController scrollController;
@@ -213,16 +214,8 @@ class _SubjectShowState extends State<SubjectShow> {
                 fontWeight: FontWeight.normal))
       ]));
     } else {
-      for (int i = 0; i < evaluations.length; i++) {
-        /* evaluationsList.add(EvaluationBar(
-          key: ValueKey(evaluations[i]),
-          subjectId: widget.id,
-          evaluation: evaluations[i],
-          removeCallback: removeEvaluation,
-          updateCallback: widget.id == null
-              ? editTempEvaluationFactory(evaluations[i])
-              : editEvaluation,
-        )); */
+      for (var element in evaluations) {
+        evaluationsList.add(EvaluationBarShow(evaluation: element));
       }
     }
     return evaluationsList;
