@@ -154,8 +154,8 @@ class _MarkEpisodesSheetState extends State<MarkEpisodesSheet>
                       ),
                       builder: (context) => DraggableScrollableSheet(
                           expand: false,
-                          initialChildSize: 0.6,
-                          minChildSize: 0.6,
+                          initialChildSize: 0.9,
+                          minChildSize: 0.9,
                           maxChildSize: 0.9,
                           builder: (context, scrollController) => Stack(
                                   alignment: AlignmentDirectional.bottomCenter,
