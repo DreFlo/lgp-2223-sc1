@@ -178,6 +178,7 @@ class _EpisodesNotesSheetState extends State<EpisodesNotesSheet>
   @override
   Widget build(BuildContext context) {
     return Wrap(
+      runSpacing: 10,
       children: [
       Row(mainAxisAlignment: MainAxisAlignment.center, children: [
         Padding(
@@ -195,7 +196,7 @@ class _EpisodesNotesSheetState extends State<EpisodesNotesSheet>
       Row(
         mainAxisAlignment: MainAxisAlignment.start,
         children: [TabBar(
-          padding: const EdgeInsets.only(left: 18, right: 18),
+          padding: const EdgeInsets.symmetric(horizontal: 18),
           isScrollable: true,
           labelColor: leisureColor,
           unselectedLabelColor: Colors.white,
