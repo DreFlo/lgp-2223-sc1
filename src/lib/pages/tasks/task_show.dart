@@ -420,6 +420,7 @@ class _TaskShowState extends State<TaskShow> {
 
   Widget getInstitution(BuildContext context) {
     return InkWell(
+        key: const Key('institutionShow'),
         onTap: () {
           showModalBottomSheet(
               context: context,
@@ -486,6 +487,7 @@ class _TaskShowState extends State<TaskShow> {
 
   Widget getSubject() {
     return InkWell(
+        key: const Key('subjectShow'),
         onTap: () {
           showModalBottomSheet(
               context: context,

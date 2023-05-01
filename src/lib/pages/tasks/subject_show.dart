@@ -237,6 +237,7 @@ class _SubjectShowState extends State<SubjectShow> {
       Flexible(
           flex: 10,
           child: InkWell(
+              key: const Key('institutionShow'),
               onTap: () {
                 if (institutionId != -1) {
                   showModalBottomSheet(
