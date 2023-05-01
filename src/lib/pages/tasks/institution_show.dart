@@ -45,11 +45,11 @@ class _InstitutionShowState extends State<InstitutionShow> {
     name = institution!.name;
 
     if (context.mounted) {
-      if (institution!.type == InstitutionType.work) {
+      if (institution.type == InstitutionType.work) {
         type = AppLocalizations.of(context).work;
-      } else if (institution!.type == InstitutionType.other) {
+      } else if (institution.type == InstitutionType.other) {
         type = AppLocalizations.of(context).other;
-      } else if (institution!.type == InstitutionType.education) {
+      } else if (institution.type == InstitutionType.education) {
         type = AppLocalizations.of(context).education;
       }
     }

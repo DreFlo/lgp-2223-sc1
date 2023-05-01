@@ -6,6 +6,7 @@ import 'package:src/daos/student/evaluation_dao.dart';
 import 'package:src/models/student/institution.dart';
 import 'package:src/models/student/subject.dart';
 import 'package:src/models/student/evaluation.dart';
+import 'package:src/pages/tasks/institution_show.dart';
 import 'package:src/pages/tasks/subject_form.dart';
 import 'package:src/themes/colors.dart';
 import 'package:src/utils/service_locator.dart';
@@ -27,6 +28,7 @@ class _SubjectShowState extends State<SubjectShow> {
   bool init = false;
   late String name, acronym, institutionName;
   late List<StudentEvaluation> evaluations;
+  late int institutionId;
 
   @override
   initState() {
@@ -49,8 +51,10 @@ class _SubjectShowState extends State<SubjectShow> {
           .findInstitutionById(subject.institutionId!)
           .first;
 
-      institutionName = institution!.name;
+      institutionId = institution!.id!;
+      institutionName = institution.name;
     } else {
+      institutionId = -1;
       if (context.mounted) {
         institutionName = AppLocalizations.of(context).none;
       }
@@ -167,17 +171,7 @@ class _SubjectShowState extends State<SubjectShow> {
                       )
                     ]),
                     const SizedBox(height: 7.5),
-                    Row(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          Flexible(
-                              flex: 10,
-                              child: Text(institutionName,
-                                  style: const TextStyle(
-                                      fontSize: 20,
-                                      color: Colors.white,
-                                      fontWeight: FontWeight.w400)))
-                        ]),
+                    getInstitution(),
                     const SizedBox(height: 30),
                     Row(children: [
                       Text(
@@ -236,6 +230,45 @@ class _SubjectShowState extends State<SubjectShow> {
         ),
         child: Text(AppLocalizations.of(context).edit,
             style: Theme.of(context).textTheme.headlineSmall));
+  }
+
+  Widget getInstitution() {
+    return Row(crossAxisAlignment: CrossAxisAlignment.center, children: [
+      Flexible(
+          flex: 10,
+          child: InkWell(
+              onTap: () {
+                if (institutionId != -1) {
+                  showModalBottomSheet(
+                      context: context,
+                      isScrollControlled: true,
+                      backgroundColor: const Color(0xFF22252D),
+                      shape: const RoundedRectangleBorder(
+                        borderRadius:
+                            BorderRadius.vertical(top: Radius.circular(30.0)),
+                      ),
+                      builder: (context) => Container(
+                          padding: EdgeInsets.only(
+                              bottom: MediaQuery.of(context).viewInsets.bottom +
+                                  50),
+                          child: DraggableScrollableSheet(
+                              expand: false,
+                              initialChildSize: 0.75,
+                              minChildSize: 0.75,
+                              maxChildSize: 0.75,
+                              builder: (context, scrollController) =>
+                                  InstitutionShow(
+                                    scrollController: scrollController,
+                                    id: institutionId,
+                                  ))));
+                }
+              },
+              child: Text(institutionName,
+                  style: const TextStyle(
+                      fontSize: 20,
+                      color: Colors.white,
+                      fontWeight: FontWeight.w400))))
+    ]);
   }
 
   void edit(BuildContext context) {
