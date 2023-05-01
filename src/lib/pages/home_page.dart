@@ -171,10 +171,8 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                         borderRadius:
                             BorderRadius.vertical(top: Radius.circular(30.0)),
                       ),
-                      builder: (context) => Padding(
-                          padding: EdgeInsets.only(
-                              bottom: MediaQuery.of(context).viewInsets.bottom +
-                                  50),
+                      builder: (context) => Container(
+                          height: MediaQuery.of(context).size.height * 0.75,
                           child: Scaffold(
                               body: DraggableScrollableSheet(
                                   expand: false,

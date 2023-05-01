@@ -112,7 +112,6 @@ Future<GameState> checkNonEventNonTask(Task task, context) async {
 
   markTaskAsDoneOrNot(task, true, points);
 
-  
   User user = await getUser();
 
   if (checkLevelUp(user.xp + points, user.level)) {

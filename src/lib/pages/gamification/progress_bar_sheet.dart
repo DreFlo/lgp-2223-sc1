@@ -258,4 +258,3 @@ class _ProgressBarSheetState extends State<ProgressBarSheet> {
     ]);
   }
 }
-
