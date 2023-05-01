@@ -45,6 +45,22 @@ class _MyHomePageState extends State<MyHomePage> {
     });
   }
 
+  void checkEventDone(){
+    // TODO Check if event is done and update database
+    studentEvents.sort((a, b) => a.endDateTime.compareTo(b.endDateTime));
+    for(var i=0; i<studentEvents.length; i++){
+      if(studentEvents[i].endDateTime.isBefore(DateTime.now())){
+      }
+    }
+
+    mediaEvents.sort((a, b) => a.endDateTime.compareTo(b.endDateTime));
+    for(var i=0; i<mediaEvents.length; i++){
+      if(mediaEvents[i].endDateTime.isBefore(DateTime.now())){
+      }
+    }
+
+  }
+
   showWidget() {
     switch (_selectedIndex) {
       case 0:

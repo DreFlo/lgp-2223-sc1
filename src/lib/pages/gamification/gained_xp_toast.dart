@@ -67,6 +67,7 @@ class _GainedXPToastState extends State<GainedXPToast>
     if(mounted){
       opacityController.forward();
     }
+
   }
 
   @override
@@ -96,7 +97,7 @@ class _GainedXPToastState extends State<GainedXPToast>
                 SizedBox(
                     width: 50,
                     child: Image(
-                        image: AssetImage('assets/images/excited_emil.png')))
+                        image: AssetImage('assets/images/emil.png')))
               ],
             )),
         const SizedBox(width: 30),
