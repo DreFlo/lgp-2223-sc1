@@ -1151,7 +1151,8 @@ class _TaskFormState extends State<TaskForm> {
               fontSize: 16,
               fontWeight: FontWeight.w400),
           textAlign: TextAlign.center),
-      (widget.id == null && widget.taskGroupId == null) //Can add notes and they will be saved
+      (widget.id == null &&
+              widget.taskGroupId == null) //Can add notes and they will be saved
           ? const SizedBox()
           : IconButton(
               key: const Key('addNoteButton'),

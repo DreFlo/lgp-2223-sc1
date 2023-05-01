@@ -91,9 +91,9 @@ class _TaskShowState extends State<TaskShow> {
       subject = await serviceLocator<SubjectDao>()
           .findSubjectById(task.subjectId!)
           .first as Subject;
-      if (subject!.institutionId != null) {
+      if (subject.institutionId != null) {
         institution = await serviceLocator<InstitutionDao>()
-            .findInstitutionById(subject!.institutionId!)
+            .findInstitutionById(subject.institutionId!)
             .first as Institution;
       } else {
         institution = institutionNone;

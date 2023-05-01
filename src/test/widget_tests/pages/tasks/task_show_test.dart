@@ -113,7 +113,7 @@ void main() {
         .thenAnswer((_) async => [taskNote]);
 
     final mockNoteDao = serviceLocator.get<NoteDao>();
-    when(mockNoteDao.findNoteById(taskNote.id!))
+    when(mockNoteDao.findNoteById(taskNote.id))
         .thenAnswer((_) => Stream.value(note));
   }
 
