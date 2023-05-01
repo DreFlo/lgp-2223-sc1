@@ -1169,8 +1169,10 @@ class _TaskFormState extends State<TaskForm> {
               shape: const RoundedRectangleBorder(
                 borderRadius: BorderRadius.vertical(top: Radius.circular(30.0)),
               ),
-              builder: (builder) => SingleChildScrollView(
-                  child: AddTaskNoteForm(taskId: id, callback: addNote)));
+              builder: (builder) => Padding(padding: EdgeInsets.only(
+                                bottom:
+                                    MediaQuery.of(context).viewInsets.bottom + 30), child: SingleChildScrollView(
+                  child: AddTaskNoteForm(taskId: id, callback: addNote))));
         },
       ),
     ]);

@@ -244,9 +244,9 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                       ),
                       builder: (context) => DraggableScrollableSheet(
                           expand: false,
-                          initialChildSize: 0.35,
-                          minChildSize: 0.35,
-                          maxChildSize: 0.5,
+                          initialChildSize: 0.85,
+                          minChildSize: 0.85,
+                          maxChildSize: 0.9,
                           builder: (context, scrollController) => Stack(
                                   alignment: AlignmentDirectional.bottomCenter,
                                   children: [
@@ -601,13 +601,12 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                       builder: (context) => Padding(
                             padding: EdgeInsets.only(
                                 bottom:
-                                    MediaQuery.of(context).viewInsets.bottom +
-                                        50),
+                                    MediaQuery.of(context).viewInsets.bottom + 30),
                             child: DraggableScrollableSheet(
                                 expand: false,
-                                initialChildSize: 0.60,
-                                minChildSize: 0.60,
-                                maxChildSize: 0.60,
+                                initialChildSize: 0.80,
+                                minChildSize: 0.80,
+                                maxChildSize: 0.85,
                                 builder: (context, scrollController) =>
                                     TaskForm(
                                       scrollController: scrollController,
