@@ -153,5 +153,7 @@
   "no_media": "Ainda não tens média...",
   "eval_name": "Nome da Avaliação",
   "choose_tasks": "Escolhe tarefas",
-  "choose_media": "Escolhe média"
+  "choose_media": "Escolhe média",
+  "none": "Nenhuma",
+  "edit": "Editar"
 }

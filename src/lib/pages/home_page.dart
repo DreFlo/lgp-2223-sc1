@@ -9,6 +9,7 @@ import 'package:src/env/env.dart';
 import 'package:src/models/user.dart';
 import 'package:src/pages/tasks/institution_form.dart';
 import 'package:src/pages/tasks/subject_form.dart';
+import 'package:src/pages/tasks/subject_show.dart';
 import 'package:src/themes/colors.dart';
 import 'package:src/utils/service_locator.dart';
 import 'package:src/utils/enums.dart';
@@ -659,8 +660,9 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                             initialChildSize: 0.5,
                             minChildSize: 0.5,
                             maxChildSize: 0.5,
-                            builder: (context, scrollController) => SubjectForm(
+                            builder: (context, scrollController) => SubjectShow(
                               scrollController: scrollController,
+                              id: 1
                             ),
                           )));
                 }),

@@ -153,5 +153,7 @@
   "add_evaluation": "Add Evaluation",
   "eval_name": "Evaluation Name",
   "grade": "Grade",
-  "grade_error": "Grade is required"  
+  "grade_error": "Grade is required",
+  "none": "None",
+  "edit": "Edit"
 }
