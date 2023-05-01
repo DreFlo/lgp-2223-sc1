@@ -40,11 +40,14 @@ abstract class MediaPageState<T extends Media> extends State<MediaPage<T>> {
     List<String> widgetCast = widget.item.participants.split(', ');
     if (widgetCast.length >= 10) {
       firstTen = widgetCast.sublist(0, 10);
+    } else if (widgetCast[0] == "") {
+      firstTen = [AppLocalizations.of(context).no_cast];
     } else if (widgetCast.isNotEmpty) {
       firstTen = widgetCast;
     } else {
       firstTen = [AppLocalizations.of(context).no_cast];
     }
+
     return Row(children: [
       Text(
         firstTen.join("\n"),
