@@ -423,7 +423,7 @@ class _DashboardCardState extends State<DashboardCard> {
       //   scrollController: scrollController,
       // );
     } else {
-      return SizedBox();
+      return const SizedBox();
     }
   }
 }

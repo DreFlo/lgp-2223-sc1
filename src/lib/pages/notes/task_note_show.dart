@@ -4,7 +4,7 @@ import 'package:src/models/notes/note.dart';
 import 'package:src/pages/notes/add_task_note_form.dart';
 import 'package:src/themes/colors.dart';
 import 'package:src/widgets/highlight_text.dart';
-import 'dart:math' as Math;
+import 'dart:math' as math;
 
 class TaskNoteShow extends StatefulWidget {
   final void Function(Note n)? callback;
@@ -95,7 +95,7 @@ class _TaskNoteShowState extends State<TaskNoteShow> {
           child: AspectRatio(
               aspectRatio: 1,
               child: Transform.rotate(
-                  angle: -Math.pi / 4,
+                  angle: -math.pi / 4,
                   child: ElevatedButton(
                     style: ButtonStyle(
                         shadowColor:
