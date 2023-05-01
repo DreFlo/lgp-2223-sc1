@@ -112,7 +112,12 @@ class _LevelUpToastState extends State<LevelUpToast>
 
   @override
   void dispose() {
-    controller.stop();
+    controller.dispose();
+    colorController.dispose();
+    colorController2.dispose();
+    colorController3.dispose();
+    colorController4.dispose();
+    colorController5.dispose();
     super.dispose();
   }
 
