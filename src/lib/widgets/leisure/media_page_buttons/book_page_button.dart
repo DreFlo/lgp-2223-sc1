@@ -172,20 +172,11 @@ class BookPageButtonState extends MediaPageButtonState<MediaBookSuperEntity> {
                         initialChildSize: 0.55,
                         minChildSize: 0.55,
                         maxChildSize: 0.55,
-                        builder: (context, scrollController) => Stack(
-                                alignment: AlignmentDirectional.bottomCenter,
-                                children: [
-                                  Padding(
-                                      padding: EdgeInsets.only(
-                                          bottom: MediaQuery.of(context)
-                                                  .viewInsets
-                                                  .bottom +
-                                              50),
-                                      child: SingleChildScrollView(
+                        builder: (context, scrollController) => SingleChildScrollView(
                                           controller: scrollController,
                                           child: BookNotesSheet(
-                                              book: true, mediaId: dbMediaId)))
-                                ])));
+                                              book: true, mediaId: dbMediaId))
+                                ));
               },
               style: ElevatedButton.styleFrom(
                 minimumSize: Size(MediaQuery.of(context).size.width * 0.90, 55),
