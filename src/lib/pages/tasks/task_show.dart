@@ -6,6 +6,7 @@ import 'package:src/daos/notes/note_dao.dart';
 import 'package:src/daos/notes/task_note_dao.dart';
 import 'package:src/daos/student/institution_dao.dart';
 import 'package:src/daos/student/subject_dao.dart';
+import 'package:src/daos/student/task_group_dao.dart';
 import 'package:src/models/notes/note.dart';
 import 'package:src/models/notes/task_note.dart';
 import 'package:src/models/student/institution.dart';
@@ -105,7 +106,13 @@ class _TaskShowState extends State<TaskShow> {
     if (widget.taskGroup != null) {
       taskGroup = widget.taskGroup;
     } else {
-      taskGroup = taskGroupNone;
+      if (task.taskGroupId != null) {
+        taskGroup = await serviceLocator<TaskGroupDao>()
+            .findTaskGroupById(task.taskGroupId!)
+            .first as TaskGroup;
+      } else {
+        taskGroup = taskGroupNone;
+      }
     }
 
     await initNotes();
@@ -399,7 +406,7 @@ class _TaskShowState extends State<TaskShow> {
                 Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    HighlightText(widget.taskGroup!.name,
+                    HighlightText(taskGroup!.name,
                         key: const Key("taskProject")),
                   ],
                 )

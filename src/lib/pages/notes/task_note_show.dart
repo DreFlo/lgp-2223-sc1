@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:src/models/notes/note.dart';
-import 'package:src/models/student/task.dart';
 import 'package:src/pages/notes/add_task_note_form.dart';
 import 'package:src/themes/colors.dart';
 import 'package:src/widgets/highlight_text.dart';
@@ -10,12 +9,12 @@ import 'dart:math' as Math;
 class TaskNoteShow extends StatefulWidget {
   final void Function(Note n)? callback;
   final void Function()? deleteCallback;
-  final Task task;
+  final int taskId;
   final Note note;
 
   const TaskNoteShow({
     Key? key,
-    required this.task,
+    required this.taskId,
     required this.note,
     this.callback,
     this.deleteCallback,
@@ -154,7 +153,7 @@ class _TaskNoteShowState extends State<TaskNoteShow> {
         builder: (builder) => SingleChildScrollView(
             child: AddTaskNoteForm(
                 note: note,
-                taskId: widget.task.id,
+                taskId: widget.taskId,
                 callback: editNote,
                 deleteNoteCallback: deleteNote)));
   }

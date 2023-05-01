@@ -53,7 +53,7 @@ class _NoteShowBarState extends State<NoteShowBar> {
               ),
               builder: (builder) => SingleChildScrollView(
                       child: TaskNoteShow(
-                    task: widget.task,
+                    taskId: widget.task.id!,
                     note: note,
                     callback: editNote,
                     deleteCallback: deleteNote,

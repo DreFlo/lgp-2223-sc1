@@ -1143,10 +1143,6 @@ class _TaskFormState extends State<TaskForm> {
   }
 
   Widget getAddNoteButton(BuildContext context) {
-    if (isChildOfNotCreated()) {
-      return const SizedBox();
-    }
-
     return Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
       Text(AppLocalizations.of(context).notes,
           style: const TextStyle(
@@ -1155,26 +1151,29 @@ class _TaskFormState extends State<TaskForm> {
               fontSize: 16,
               fontWeight: FontWeight.w400),
           textAlign: TextAlign.center),
-      IconButton(
-        key: const Key('addNoteButton'),
-        padding: const EdgeInsets.all(0),
-        icon: const Icon(Icons.add),
-        color: const Color(0xFF71788D),
-        iconSize: 20,
-        splashRadius: 0.1,
-        constraints: const BoxConstraints(maxWidth: 20, maxHeight: 20),
-        onPressed: () {
-          showModalBottomSheet(
-              context: context,
-              isScrollControlled: true,
-              backgroundColor: const Color(0xFF22252D),
-              shape: const RoundedRectangleBorder(
-                borderRadius: BorderRadius.vertical(top: Radius.circular(30.0)),
-              ),
-              builder: (builder) => SingleChildScrollView(
-                  child: AddTaskNoteForm(taskId: id, callback: addNote)));
-        },
-      ),
+      (widget.id == null && widget.taskGroupId == null) //Can add notes and they will be saved
+          ? const SizedBox()
+          : IconButton(
+              key: const Key('addNoteButton'),
+              padding: const EdgeInsets.all(0),
+              icon: const Icon(Icons.add),
+              color: const Color(0xFF71788D),
+              iconSize: 20,
+              splashRadius: 0.1,
+              constraints: const BoxConstraints(maxWidth: 20, maxHeight: 20),
+              onPressed: () {
+                showModalBottomSheet(
+                    context: context,
+                    isScrollControlled: true,
+                    backgroundColor: const Color(0xFF22252D),
+                    shape: const RoundedRectangleBorder(
+                      borderRadius:
+                          BorderRadius.vertical(top: Radius.circular(30.0)),
+                    ),
+                    builder: (builder) => SingleChildScrollView(
+                        child: AddTaskNoteForm(taskId: id, callback: addNote)));
+              },
+            ),
     ]);
   }
 
