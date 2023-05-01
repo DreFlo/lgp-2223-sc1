@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:src/pages/tasks/subject_show.dart';
 import 'package:src/themes/colors.dart';
 import 'package:src/models/student/subject.dart';
 
@@ -25,7 +26,28 @@ class _SubjectBarShowState extends State<SubjectBarShow> {
     return Padding(
         padding: const EdgeInsetsDirectional.only(bottom: 10),
         child: InkWell(
-          onTap: () {},
+          onTap: () {
+            showModalBottomSheet(
+                context: context,
+                isScrollControlled: true,
+                backgroundColor: const Color(0xFF22252D),
+                shape: const RoundedRectangleBorder(
+                  borderRadius:
+                      BorderRadius.vertical(top: Radius.circular(30.0)),
+                ),
+                builder: (context) => Container(
+                    padding: EdgeInsets.only(
+                        bottom: MediaQuery.of(context).viewInsets.bottom + 50),
+                    child: DraggableScrollableSheet(
+                        expand: false,
+                        initialChildSize: 0.75,
+                        minChildSize: 0.75,
+                        maxChildSize: 0.75,
+                        builder: (context, scrollController) => SubjectShow(
+                              scrollController: scrollController,
+                              id: widget.subject.id!,
+                            ))));
+          },
           child: Container(
             padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 15),
             width: MediaQuery.of(context).size.width * 0.9,

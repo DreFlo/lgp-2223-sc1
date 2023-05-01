@@ -279,20 +279,19 @@ class _SubjectShowState extends State<SubjectShow> {
         shape: const RoundedRectangleBorder(
           borderRadius: BorderRadius.vertical(top: Radius.circular(30.0)),
         ),
-        builder: (context) => Padding(
+        builder: (context) => Container(
             padding: EdgeInsets.only(
                 bottom: MediaQuery.of(context).viewInsets.bottom + 50),
             child: DraggableScrollableSheet(
-              expand: false,
-              initialChildSize: 0.5,
-              minChildSize: 0.5,
-              maxChildSize: 0.5,
-              builder: (context, scrollController) => SubjectForm(
-                scrollController: scrollController,
-                id: widget.id,
-                callback: onSubjectEdited,
-              ),
-            )));
+                expand: false,
+                initialChildSize: 0.75,
+                minChildSize: 0.75,
+                maxChildSize: 0.75,
+                builder: (context, scrollController) => SubjectForm(
+                      scrollController: scrollController,
+                      id: widget.id,
+                      callback: onSubjectEdited,
+                    ))));
   }
 
   void onSubjectEdited() {
