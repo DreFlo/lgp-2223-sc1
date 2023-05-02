@@ -172,10 +172,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                         borderRadius:
                             BorderRadius.vertical(top: Radius.circular(30.0)),
                       ),
-                      builder: (context) => Container(
-                          height: MediaQuery.of(context).size.height * 0.75,
-                          child: Scaffold(
-                              body: DraggableScrollableSheet(
+                      builder: (context) => DraggableScrollableSheet(
                                   expand: false,
                                   initialChildSize: 0.75,
                                   minChildSize: 0.75,
@@ -183,7 +180,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                                   builder: (context, scrollController) =>
                                       ProjectForm(
                                           scrollController: scrollController,
-                                          id: 1)))));
+                                          id: 1)));
                 }),
             ElevatedButton(
                 child: Text("Subject Form"),
