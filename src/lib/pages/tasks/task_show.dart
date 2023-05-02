@@ -1,5 +1,3 @@
-// ignore_for_file: file_names, library_prefixes
-
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:src/daos/notes/note_dao.dart';
@@ -16,7 +14,7 @@ import 'package:src/models/student/task_group.dart';
 import 'package:src/pages/tasks/task_form.dart';
 import 'package:src/themes/colors.dart';
 import 'package:src/utils/date_formatter.dart';
-import 'dart:math' as Math;
+import 'dart:math' as math;
 import 'package:src/utils/enums.dart';
 import 'package:src/utils/service_locator.dart';
 import 'package:src/widgets/highlight_text.dart';
@@ -229,7 +227,7 @@ class _TaskShowState extends State<TaskShow> {
           child: AspectRatio(
               aspectRatio: 1,
               child: Transform.rotate(
-                  angle: -Math.pi / 4,
+                  angle: -math.pi / 4,
                   child: ElevatedButton(
                     style: ButtonStyle(
                         shadowColor:
@@ -365,9 +363,9 @@ class _TaskShowState extends State<TaskShow> {
   }
 
   Widget getProject(BuildContext context) {
-    if (taskGroup!.id! == -1) {
-      return const SizedBox();
-    }
+    // if (taskGroup!.id! == -1) {
+    //   return const SizedBox();
+    // }
     return InkWell(
         child: Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
       Flexible(
@@ -585,7 +583,7 @@ class _TaskShowState extends State<TaskShow> {
   editTask(Task task) async {
     await initNotes();
     setState(() {
-      task = task;
+      this.task = task;
       notes = notes;
     });
     if (widget.callback != null) {

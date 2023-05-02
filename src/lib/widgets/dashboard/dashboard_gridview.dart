@@ -5,9 +5,9 @@ import 'package:src/models/student/task_group.dart';
 import 'package:src/models/timeslot/timeslot_media_timeslot_super_entity.dart';
 
 class DashBoardGridView extends StatefulWidget {
-  final List<Task?>? tasks; //student
-  final List<TaskGroup?>? taskGroups; //student
-  final List<TimeslotMediaTimeslotSuperEntity?>? mediaEvents; //media
+  final List<Task>? tasks; //student
+  final List<TaskGroup>? taskGroups; //student
+  final List<TimeslotMediaTimeslotSuperEntity>? mediaEvents; //media
 
   const DashBoardGridView(
       {Key? key, this.tasks, this.taskGroups, this.mediaEvents})
@@ -18,42 +18,52 @@ class DashBoardGridView extends StatefulWidget {
 }
 
 class _DashBoardGridViewState extends State<DashBoardGridView> {
+  late List<Task> tasks;
+  late List<TaskGroup> taskGroups;
+  late List<TimeslotMediaTimeslotSuperEntity> mediaEvents;
   List get items {
     final List combined = [];
-    if (widget.tasks != null) {
-      combined.addAll(widget.tasks!);
-    }
-    if (widget.taskGroups != null) {
-      combined.addAll(widget.taskGroups!);
-    }
-    if (widget.mediaEvents != null) {
-      combined.addAll(widget.mediaEvents!);
-    }
+    combined.addAll(tasks);
+    combined.addAll(taskGroups);
+    combined.addAll(mediaEvents);
+
     return combined;
   }
 
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    tasks = widget.tasks ?? [];
+    taskGroups = widget.taskGroups ?? [];
+    mediaEvents = widget.mediaEvents ?? [];
+  }
+
   int getLength() {
-    if (widget.tasks != null &&
-        widget.taskGroups != null &&
-        widget.mediaEvents != null) {
-      return items.length;
-    } else if (widget.mediaEvents != null) {
-      return widget.mediaEvents!.length;
-    } else if (widget.tasks != null || widget.taskGroups != null) {
-      return items.length;
-    } else {
-      return 0;
-    }
+    // sum of lengths of all lists
+    return tasks.length + taskGroups.length + mediaEvents.length;
   }
 
   showCard(int index) {
-    if (widget.tasks != null && items[index] is Task) {
-      return DashboardCard(module: 'Student', task: items[index]);
-    } else if (widget.taskGroups != null && items[index] is TaskGroup) {
-      return DashboardCard(module: 'Student', taskGroup: items[index]);
-    } else if (widget.mediaEvents != null &&
+    if (tasks.isNotEmpty && items[index] is Task) {
+      return DashboardCard(
+        module: 'Student',
+        task: items[index],
+        deleteCallback: deleteTask(items[index]),
+      );
+    } else if (taskGroups.isNotEmpty && items[index] is TaskGroup) {
+      return DashboardCard(
+        module: 'Student',
+        taskGroup: items[index],
+        deleteCallback: deleteTaskGroup(items[index]),
+      );
+    } else if (mediaEvents.isNotEmpty &&
         items[index] is TimeslotMediaTimeslotSuperEntity) {
-      return DashboardCard(module: 'Leisure', mediaEvent: items[index]);
+      return DashboardCard(
+        module: 'Leisure',
+        mediaEvent: items[index],
+        deleteCallback: deleteMediaEvent(items[index]),
+      );
     } else {
       return Container();
     }
@@ -84,5 +94,29 @@ class _DashBoardGridViewState extends State<DashBoardGridView> {
             );
           },
         ));
+  }
+
+  deleteTask(Task oldTask) {
+    return () {
+      setState(() {
+        tasks.remove(oldTask);
+      });
+    };
+  }
+
+  deleteTaskGroup(TaskGroup oldTaskGroup) {
+    return () {
+      setState(() {
+        taskGroups.remove(oldTaskGroup);
+      });
+    };
+  }
+
+  deleteMediaEvent(TimeslotMediaTimeslotSuperEntity oldMediaEvent) {
+    return () {
+      setState(() {
+        mediaEvents.remove(oldMediaEvent);
+      });
+    };
   }
 }

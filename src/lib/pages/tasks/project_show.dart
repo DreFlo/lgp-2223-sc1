@@ -1,5 +1,3 @@
-// ignore_for_file: file_names, library_prefixes
-
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:src/daos/student/subject_dao.dart';
@@ -12,7 +10,7 @@ import 'package:src/models/student/task_group.dart';
 import 'package:src/pages/tasks/project_form.dart';
 import 'package:src/themes/colors.dart';
 import 'package:src/utils/date_formatter.dart';
-import 'dart:math' as Math;
+import 'dart:math' as math;
 import 'package:src/utils/enums.dart';
 import 'package:src/utils/service_locator.dart';
 import 'package:src/widgets/highlight_text.dart';
@@ -21,9 +19,15 @@ import 'package:src/widgets/tasks/task_show_bar.dart';
 class ProjectShow extends StatefulWidget {
   final TaskGroup taskGroup;
   final ScrollController scrollController;
+  final Function(TaskGroup tg)? callback;
+  final Function()? deleteCallback;
 
   const ProjectShow(
-      {Key? key, required this.scrollController, required this.taskGroup})
+      {Key? key,
+      required this.scrollController,
+      required this.taskGroup,
+      this.callback,
+      this.deleteCallback})
       : super(key: key);
 
   @override
@@ -59,6 +63,17 @@ class _ProjectShowState extends State<ProjectShow> {
     }
 
     taskGroup = widget.taskGroup;
+    await initSubjectInstitution();
+
+    //Tasks
+    await initTasks();
+
+    init = true;
+
+    return 0;
+  }
+
+  Future<void> initSubjectInstitution() async {
     if (taskGroup.subjectId != null) {
       subject = await serviceLocator<SubjectDao>()
           .findSubjectById(taskGroup.subjectId!)
@@ -74,13 +89,6 @@ class _ProjectShowState extends State<ProjectShow> {
       subject = subjectNone;
       institution = institutionNone;
     }
-
-    //Tasks
-    await initTasks();
-
-    init = true;
-
-    return 0;
   }
 
   @override
@@ -191,7 +199,7 @@ class _ProjectShowState extends State<ProjectShow> {
           child: AspectRatio(
               aspectRatio: 1,
               child: Transform.rotate(
-                  angle: -Math.pi / 4,
+                  angle: -math.pi / 4,
                   child: ElevatedButton(
                     style: ButtonStyle(
                         shadowColor:
@@ -493,19 +501,26 @@ class _ProjectShowState extends State<ProjectShow> {
 
   editTaskGroup(TaskGroup taskGroup) async {
     setState(() {
-      taskGroup = taskGroup;
+      this.taskGroup = taskGroup;
     });
     await initTasks();
+    await initSubjectInstitution();
+    callCallback();
   }
 
   deleteTaskGroup() {
     Navigator.pop(context);
+
+    if (widget.deleteCallback != null) {
+      widget.deleteCallback!();
+    }
   }
 
   editTaskGroupTasks(List<Task> tasks) {
     setState(() {
       this.tasks = tasks;
     });
+    callCallback();
   }
 
   editTask(Task task) {
@@ -525,5 +540,11 @@ class _ProjectShowState extends State<ProjectShow> {
         tasks.remove(oldTask);
       });
     };
+  }
+
+  callCallback() {
+    if (widget.callback != null) {
+      widget.callback!(taskGroup);
+    }
   }
 }
