@@ -46,6 +46,7 @@ class _TaskShowState extends State<TaskShow> {
   late Subject subject;
   late TaskGroup? taskGroup;
   late Task task;
+  late bool finished;
   bool init = false;
 
   TaskGroup taskGroupNone = TaskGroup(
@@ -121,6 +122,8 @@ class _TaskShowState extends State<TaskShow> {
   @override
   initState() {
     super.initState();
+
+    finished = widget.task.finished;
   }
 
   @override
@@ -154,7 +157,9 @@ class _TaskShowState extends State<TaskShow> {
                             ),
                           ))
                     ]),
-                    Row(children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
                       Container(
                           padding: const EdgeInsets.symmetric(
                               horizontal: 10, vertical: 5),
@@ -174,7 +179,24 @@ class _TaskShowState extends State<TaskShow> {
                                       fontWeight: FontWeight.w600),
                                   textAlign: TextAlign.center),
                             ])
-                          ]))
+                          ])),
+                      InkWell(
+                          splashColor: Colors.transparent,
+                          onTap: () {
+                            setState(() {
+                              finished = !finished;
+                            });
+                          },
+                          child: Container(
+                            padding: const EdgeInsets.all(5),
+                            decoration: BoxDecoration(
+                                shape: BoxShape.circle,
+                                color:
+                                    (finished ? Colors.green : Colors.white)),
+                            child: Icon(Icons.check_rounded,
+                                color:
+                                    (!finished ? Colors.green : Colors.white)),
+                          ))
                     ]),
                     const SizedBox(height: 15),
                     getTitle(context),
@@ -214,8 +236,12 @@ class _TaskShowState extends State<TaskShow> {
     return Row(children: [
       Flexible(
           flex: 1,
-          child: HighlightText(task.description,
-              key: const Key("taskDescription")))
+          child: Text(
+            task.description,
+            key: const Key("taskDescription"),
+            style: const TextStyle(
+                color: Colors.white, fontSize: 16, fontWeight: FontWeight.normal),
+          ))
     ]);
   }
 
