@@ -221,7 +221,8 @@ class _ProjectFormState extends State<ProjectForm> {
         builder: (BuildContext context, AsyncSnapshot<int> snapshot) {
           if (snapshot.hasData) {
             return ClipRRect(
-                borderRadius: const BorderRadius.vertical(top: Radius.circular(30.0)),
+                borderRadius:
+                    const BorderRadius.vertical(top: Radius.circular(30.0)),
                 child: Scaffold(
                     primary: false,
                     backgroundColor: modalBackground,

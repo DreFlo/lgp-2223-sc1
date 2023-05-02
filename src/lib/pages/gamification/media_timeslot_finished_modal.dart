@@ -112,33 +112,40 @@ class _MediaTimeslotFinishedModalState
                     const EdgeInsets.symmetric(vertical: 15, horizontal: 50))),
             onPressed: () {
               List<Media> mediasDone = [];
+              int mediaAlredyDone = 0;
               for (TimeslotMediaBar m in mediaState) {
                 if (m.taskStatus) {
                   mediasDone.add(m.media);
                 }
+                if (m.media.status == Status.done) {
+                  mediaAlredyDone++;
+                }
               }
 
-              if(mediasDone.isEmpty){
-                  WidgetsBinding.instance.addPostFrameCallback((_) {
-                showDialog(
+              if (mediasDone.isEmpty) {
+                WidgetsBinding.instance.addPostFrameCallback((_) {
+                  showDialog(
                       context: context,
                       builder: (context) => Dialog(
                           backgroundColor: modalBackground,
-                          insetPadding: const EdgeInsets.symmetric(horizontal: 20),
+                          insetPadding:
+                              const EdgeInsets.symmetric(horizontal: 20),
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(30),
                           ),
-                          child: NoProgressInTimeslotModal(mediasDone: mediasDone,
-                            mediaTimeslot: widget.timeslot,)));
-                  });
-              }
-              else {
-                  WidgetsBinding.instance.addPostFrameCallback((_) {
-                showDialog(
+                          child: NoProgressInTimeslotModal(
+                            mediasDone: mediasDone,
+                            mediaTimeslot: widget.timeslot,
+                          )));
+                });
+              } else {
+                WidgetsBinding.instance.addPostFrameCallback((_) {
+                  showDialog(
                       context: context,
                       builder: (context) => Dialog(
                           backgroundColor: modalBackground,
-                          insetPadding: const EdgeInsets.symmetric(horizontal: 20),
+                          insetPadding:
+                              const EdgeInsets.symmetric(horizontal: 20),
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(30),
                           ),
@@ -150,14 +157,14 @@ class _MediaTimeslotFinishedModalState
                               Module.leisure
                             ],
                             taskCount: widget.medias.length,
-                            finishedTaskCount: mediasDone.length,
+                            finishedTaskCount:
+                                mediasDone.length + mediaAlredyDone,
                             mediasDone: mediasDone,
                             mediaTimeslot: widget.timeslot,
                           )));
+                });
               }
-              );              
-              }
-           },
+            },
             child: Text(AppLocalizations.of(context).confirm,
                 style: Theme.of(context).textTheme.headlineSmall),
           )),

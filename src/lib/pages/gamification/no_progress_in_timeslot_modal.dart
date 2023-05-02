@@ -6,15 +6,19 @@ import 'package:src/models/timeslot/timeslot_media_timeslot_super_entity.dart';
 import 'package:src/models/timeslot/timeslot_student_timeslot_super_entity.dart';
 import 'package:src/utils/gamification/game_logic.dart';
 
-
 class NoProgressInTimeslotModal extends StatefulWidget {
   final List<Media>? mediasDone;
   final List<Task>? tasksDone;
   final TimeslotMediaTimeslotSuperEntity? mediaTimeslot;
   final TimeslotStudentTimeslotSuperEntity? studentTimeslot;
 
-
-  const NoProgressInTimeslotModal({Key? key, this.mediasDone, this.tasksDone, this.mediaTimeslot, this.studentTimeslot}) : super(key: key);
+  const NoProgressInTimeslotModal(
+      {Key? key,
+      this.mediasDone,
+      this.tasksDone,
+      this.mediaTimeslot,
+      this.studentTimeslot})
+      : super(key: key);
 
   @override
   State<NoProgressInTimeslotModal> createState() =>

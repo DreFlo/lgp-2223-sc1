@@ -127,11 +127,25 @@ void markTimeslotAsDoneOrNot(
     int points) async {
   Timeslot newTimeslot;
   if (mediaTimeslot != null) {
-    newTimeslot = Timeslot(id: mediaTimeslot.id, title: mediaTimeslot.title, description: mediaTimeslot.description,
-        startDateTime: mediaTimeslot.startDateTime, endDateTime: mediaTimeslot.endDateTime, finished: finished, xpMultiplier: points, userId: mediaTimeslot.userId);
+    newTimeslot = Timeslot(
+        id: mediaTimeslot.id,
+        title: mediaTimeslot.title,
+        description: mediaTimeslot.description,
+        startDateTime: mediaTimeslot.startDateTime,
+        endDateTime: mediaTimeslot.endDateTime,
+        finished: finished,
+        xpMultiplier: points,
+        userId: mediaTimeslot.userId);
   } else {
-    newTimeslot = Timeslot(id: studentTimeslot!.id, title: studentTimeslot.title, description: studentTimeslot.description,
-        startDateTime: studentTimeslot.startDateTime, endDateTime: studentTimeslot.endDateTime, finished: finished, xpMultiplier: points, userId: studentTimeslot.userId);
+    newTimeslot = Timeslot(
+        id: studentTimeslot!.id,
+        title: studentTimeslot.title,
+        description: studentTimeslot.description,
+        startDateTime: studentTimeslot.startDateTime,
+        endDateTime: studentTimeslot.endDateTime,
+        finished: finished,
+        xpMultiplier: points,
+        userId: studentTimeslot.userId);
   }
 
   await serviceLocator<TimeslotDao>().updateTimeslot(newTimeslot);
@@ -399,4 +413,3 @@ void getPomodoroXP(int focusTime, int sessions, int shortBreak, context) async {
 }
 
 //}
-
