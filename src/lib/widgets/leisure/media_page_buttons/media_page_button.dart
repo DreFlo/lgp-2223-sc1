@@ -62,9 +62,9 @@ class MediaPageButtonState<T extends Media> extends State<MediaPageButton<T>> {
         ),
         builder: (context) => DraggableScrollableSheet(
             expand: false,
-            initialChildSize: 0.6,
-            minChildSize: 0.35,
-            maxChildSize: 0.75,
+            initialChildSize: 0.9,
+            minChildSize: 0.9,
+            maxChildSize: 0.9,
             builder: (context, scrollController) =>
                 Stack(alignment: AlignmentDirectional.bottomCenter, children: [
                   Padding(

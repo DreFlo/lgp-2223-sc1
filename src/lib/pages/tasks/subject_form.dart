@@ -199,7 +199,6 @@ class _SubjectFormState extends State<SubjectForm> {
                             fontWeight: FontWeight.w400),
                       )
                     ]),
-                    const SizedBox(height: 7.5),
                     Row(
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
@@ -264,7 +263,7 @@ class _SubjectFormState extends State<SubjectForm> {
                                   },
                                 ),
                               ]),
-                    const SizedBox(height: 30),
+                    const SizedBox(height: 10),
                     ...getEvaluations(),
                     const SizedBox(height: 30),
                     displayEndButtons(context),
@@ -291,7 +290,7 @@ class _SubjectFormState extends State<SubjectForm> {
         )
       ]));
 
-      widgets.add(const SizedBox(height: 7.5));
+      widgets.add(const SizedBox(height: 10));
 
       widgets.add(Row(crossAxisAlignment: CrossAxisAlignment.center, children: [
         Flexible(

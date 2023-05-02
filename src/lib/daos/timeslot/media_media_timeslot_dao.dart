@@ -23,7 +23,7 @@ abstract class MediaMediaTimeslotDao {
   Future<void> insertMediaMediaTimeslot(MediaMediaTimeslot mediaMediaTimeslot);
 
   @insert
-  Future<List<int>> insertMediaMediaTimeslots(
+  Future<void> insertMediaMediaTimeslots(
       List<MediaMediaTimeslot> mediaMediaTimeslots);
 
   @update
@@ -31,6 +31,10 @@ abstract class MediaMediaTimeslotDao {
 
   @delete
   Future<void> deleteMediaMediaTimeslot(MediaMediaTimeslot mediaMediaTimeslot);
+
+  @Query('''DELETE FROM media_media_timeslot 
+          WHERE media_timeslot_id = :id''')
+  Future<void> deleteMediaMediaTimeslotByMediaTimeslotId(int id);
 
   @Query('''SELECT M.* 
           FROM media_media_timeslot MT JOIN media M ON MT.media_id = M.id 

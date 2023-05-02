@@ -3,6 +3,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:src/models/media/media.dart';
 import 'package:src/themes/colors.dart';
 import 'package:like_button/like_button.dart';
+import 'package:src/utils/enums.dart';
 import 'package:src/widgets/leisure/leisure_tag.dart';
 
 abstract class MediaPage<T extends Media> extends StatefulWidget {
@@ -39,11 +40,14 @@ abstract class MediaPageState<T extends Media> extends State<MediaPage<T>> {
     List<String> widgetCast = widget.item.participants.split(', ');
     if (widgetCast.length >= 10) {
       firstTen = widgetCast.sublist(0, 10);
+    } else if (widgetCast[0] == "") {
+      firstTen = [AppLocalizations.of(context).no_cast];
     } else if (widgetCast.isNotEmpty) {
       firstTen = widgetCast;
     } else {
       firstTen = [AppLocalizations.of(context).no_cast];
     }
+
     return Row(children: [
       Text(
         firstTen.join("\n"),
@@ -91,7 +95,7 @@ abstract class MediaPageState<T extends Media> extends State<MediaPage<T>> {
                           color: const Color(0xFF414554),
                         ),
                         child: Text(
-                          getType(),
+                          getType().toUpperCase(),
                           style: Theme.of(context).textTheme.headlineMedium,
                           textAlign: TextAlign.center,
                         ),
@@ -120,7 +124,7 @@ abstract class MediaPageState<T extends Media> extends State<MediaPage<T>> {
                 ]),
             Row(children: [
               Padding(
-                  padding: const EdgeInsets.only(left: 18.0, right: 18.0),
+                  padding: const EdgeInsets.symmetric(horizontal: 18.0),
                   child: Stack(clipBehavior: Clip.none, children: [
                     SizedBox(
                         width: MediaQuery.of(context).size.width * 0.85,
@@ -166,23 +170,34 @@ abstract class MediaPageState<T extends Media> extends State<MediaPage<T>> {
           ],
         )
       ]),
-      const SizedBox(height: 20),
-      Padding(
-          padding: const EdgeInsets.only(left: 18),
-          child: Row(mainAxisAlignment: MainAxisAlignment.start, children: [
-            SizedBox(
-                width: MediaQuery.of(context).size.width * 0.85,
-                height: 1.5 * countWords(),
-                child: Wrap(
-                    spacing: 7.6,
-                    alignment: WrapAlignment.start,
-                    runSpacing: 7.5,
-                    children: [
-                      for (var i = 0; i < leisureTags.length; i++)
-                        LeisureTag(text: leisureTags[i])
-                    ])),
-          ])),
+      const SizedBox(height: 7.5),
+      ((leisureTags[0].contains(".") || leisureTags[0].contains(','))
+          ? Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 18),
+              child: Row(children: [
+                Text(leisureTags[0],
+                    style: const TextStyle(
+                        color: grayText,
+                        fontSize: 15,
+                        fontWeight: FontWeight.normal,
+                        fontStyle: FontStyle.italic))
+              ]))
+          : const Padding(
+              padding: EdgeInsets.symmetric(horizontal: 7.5), child: Text(''))),
       const SizedBox(height: 15),
+      Row(children: [
+        Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 18),
+            child: Wrap(
+                spacing: 6.5,
+                alignment: WrapAlignment.center,
+                runSpacing: 7.5,
+                children: [
+                  for (var i = 1; i < leisureTags.length; i++)
+                    LeisureTag(text: leisureTags[i])
+                ]))
+      ]),
+      const SizedBox(height: 30),
       Row(children: [
         Padding(
             padding: const EdgeInsets.only(left: 18),
@@ -207,23 +222,25 @@ abstract class MediaPageState<T extends Media> extends State<MediaPage<T>> {
       const SizedBox(height: 35),
       Row(children: [
         Padding(
-            padding: const EdgeInsets.only(left: 18),
+            padding: const EdgeInsets.symmetric(horizontal: 18),
             child: Text(
-              AppLocalizations.of(context).cast,
+              (widget.item.type != MediaDBTypes.book
+                  ? AppLocalizations.of(context).cast
+                  : AppLocalizations.of(context).author),
               style: Theme.of(context).textTheme.displayMedium,
             ))
       ]),
       const SizedBox(height: 7.5),
       Row(children: [
         Padding(
-          padding: const EdgeInsets.only(left: 18, right: 18),
+          padding: const EdgeInsets.symmetric(horizontal: 18),
           child: showSmallCastList(context),
         ),
       ]),
       const SizedBox(height: 35),
       Row(children: [
         Padding(
-            padding: const EdgeInsets.only(left: 18),
+            padding: const EdgeInsets.symmetric(horizontal: 18),
             child: Text(
               AppLocalizations.of(context).length,
               style: Theme.of(context).textTheme.displayMedium,

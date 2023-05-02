@@ -270,6 +270,7 @@ class _ProjectFormState extends State<ProjectForm> {
                     const SizedBox(height: 30),
                     // Institution
                     getInstitution(context),
+                    const SizedBox(height: 30),
                     //Subject
                     ...getSubject(),
                     const SizedBox(height: 30),
@@ -839,14 +840,14 @@ class _ProjectFormState extends State<ProjectForm> {
                       bottom: MediaQuery.of(context).viewInsets.bottom + 50),
                   child: DraggableScrollableSheet(
                     expand: false,
-                    initialChildSize: 0.60,
-                    minChildSize: 0.60,
-                    maxChildSize: 0.60,
+                    initialChildSize: 0.80,
+                    minChildSize: 0.80,
+                    maxChildSize: 0.85,
                     builder: (context, scrollController) => TaskForm(
-                      taskGroupId: id,
-                      callback: addTask,
-                      scrollController: scrollController,
-                    ),
+                        taskGroupId: id,
+                        callback: addTask,
+                        scrollController: scrollController,
+                        createProject: true),
                   )));
         },
       )

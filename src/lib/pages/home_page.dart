@@ -1,21 +1,26 @@
 // ignore_for_file: prefer_const_constructors, sized_box_for_whitespace
 
+import 'package:books_finder/books_finder.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:src/animation_test/main.dart';
 import 'package:src/daos/user_dao.dart';
+import 'package:src/env/env.dart';
 import 'package:src/models/user.dart';
 import 'package:src/notifications/local_notifications_service.dart';
+import 'package:src/pages/auth/landing_page.dart';
+import 'package:src/pages/events/event_form.dart';
 import 'package:src/pages/tasks/institution_form.dart';
 import 'package:src/pages/tasks/subject_form.dart';
 import 'package:src/settings/settings_globals.dart';
 import 'package:src/themes/colors.dart';
 import 'package:src/utils/service_locator.dart';
-import 'package:src/pages/auth/landing_page.dart';
 import 'package:src/pages/tasks/project_form.dart';
 import 'package:src/pages/tasks/task_form.dart';
 import 'package:src/pages/timer/timer_form.dart';
 import 'package:settings_ui/settings_ui.dart';
+import 'package:src/utils/reset_db.dart';
+import 'package:tmdb_api/tmdb_api.dart';
 
 class HomePage extends StatefulWidget {
   final String title;
@@ -40,6 +45,373 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
       _counter++;
     });
   }
+
+  List trendingmovies = [];
+  List trendingtvshows = [];
+  List books = [];
+
+  void loadmedia() async {
+    final tmdb = TMDB(ApiKeys(Env.tmdbApiKey, 'apiReadAccessTokenv4'));
+    Map movieresult =
+        await tmdb.v3.trending.getTrending(mediaType: MediaType.movie);
+    Map tvresult = await tmdb.v3.trending
+        .getTrending(mediaType: MediaType.tv); //doesn't have ['results']
+    books = await queryBooks(
+      'batman',
+      maxResults: 40,
+      printType: PrintType.books,
+      orderBy: OrderBy.relevance,
+    );
+
+    setState(() {
+      trendingmovies = movieresult['results'];
+      trendingtvshows = tvresult['results'];
+      books = books;
+    });
+  }
+
+  // Widget mediaPageButton() {
+  //   if (type == "TV Show") {
+  //     if (status == Status.nothing) {
+  //       // If the media is not in the catalog, show a button to add it.
+  //       return ElevatedButton(
+  //         onPressed: () {
+  //           showModalBottomSheet(
+  //               context: context,
+  //               isScrollControlled: true,
+  //               backgroundColor: Color(0xFF22252D),
+  //               shape: RoundedRectangleBorder(
+  //                 borderRadius:
+  //                     BorderRadius.vertical(top: Radius.circular(30.0)),
+  //               ),
+  //               builder: (context) => DraggableScrollableSheet(
+  //                   expand: false,
+  //                   initialChildSize: 0.35,
+  //                   minChildSize: 0.35,
+  //                   maxChildSize: 0.5,
+  //                   builder: (context, scrollController) => Stack(
+  //                           alignment: AlignmentDirectional.bottomCenter,
+  //                           children: [
+  //                             Padding(
+  //                                 padding: EdgeInsets.only(
+  //                                     bottom: MediaQuery.of(context)
+  //                                             .viewInsets
+  //                                             .bottom +
+  //                                         50),
+  //                                 child: SingleChildScrollView(
+  //                                   controller: scrollController,
+  //                                   /*child: AddToCatalogForm(
+  //                                       status: Status.nothing,
+  //                                       startDate: DateTime.now()
+  //                                           .toString()
+  //                                           .split(" ")[0],
+  //                                       endDate: 'Not Defined',
+  //                                       onStatusChanged: (value) => value,
+  //                                     )*/
+  //                                 )),
+  //                             Positioned(
+  //                                 left: 18,
+  //                                 right: 18,
+  //                                 bottom: 18,
+  //                                 child: Padding(
+  //                                     padding: EdgeInsets.only(
+  //                                         bottom: MediaQuery.of(context)
+  //                                             .viewInsets
+  //                                             .bottom),
+  //                                     child: ElevatedButton(
+  //                                       onPressed: () {},
+  //                                       style: ElevatedButton.styleFrom(
+  //                                         minimumSize: Size(
+  //                                             MediaQuery.of(context)
+  //                                                     .size
+  //                                                     .width *
+  //                                                 0.95,
+  //                                             55),
+  //                                         backgroundColor: leisureColor,
+  //                                         shape: RoundedRectangleBorder(
+  //                                           borderRadius:
+  //                                               BorderRadius.circular(25.0),
+  //                                         ),
+  //                                       ),
+  //                                       child: Text(
+  //                                           AppLocalizations.of(context).save,
+  //                                           style: Theme.of(context)
+  //                                               .textTheme
+  //                                               .headlineSmall),
+  //                                     )))
+  //                           ])));
+  //         },
+  //         style: ElevatedButton.styleFrom(
+  //           minimumSize: Size(MediaQuery.of(context).size.width * 0.95, 55),
+  //           backgroundColor: leisureColor,
+  //           shape: RoundedRectangleBorder(
+  //             borderRadius: BorderRadius.circular(25.0),
+  //           ),
+  //         ),
+  //         child: Text(AppLocalizations.of(context).add,
+  //             style: Theme.of(context).textTheme.headlineSmall),
+  //       );
+  //     } else {
+  //       // If media is somehow in the catalog, then user should be able to see their notes and edit info.
+  //       return Container(
+  //         width: MediaQuery.of(context).size.width * 0.95,
+  //         child: Row(
+  //           mainAxisAlignment: MainAxisAlignment.spaceBetween,
+  //           children: [
+  //             ElevatedButton(
+  //               onPressed: () {
+  //                 showModalBottomSheet(
+  //                     context: context,
+  //                     isScrollControlled: true,
+  //                     backgroundColor: Color(0xFF22252D),
+  //                     shape: RoundedRectangleBorder(
+  //                       borderRadius:
+  //                           BorderRadius.vertical(top: Radius.circular(30.0)),
+  //                     ),
+  //                     builder: (context) => DraggableScrollableSheet(
+  //                         expand: false,
+  //                         initialChildSize: 0.35,
+  //                         minChildSize: 0.35,
+  //                         maxChildSize: 0.5,
+  //                         builder: (context, scrollController) => Stack(
+  //                                 alignment: AlignmentDirectional.bottomCenter,
+  //                                 children: [
+  //                                   Padding(
+  //                                       padding: EdgeInsets.only(
+  //                                           bottom: MediaQuery.of(context)
+  //                                                   .viewInsets
+  //                                                   .bottom +
+  //                                               50),
+  //                                       child: SingleChildScrollView(
+  //                                         controller: scrollController,
+  //                                         /*child: MarkEpisodesSheet(
+  //                                               episodes: episodes)*/
+  //                                       )),
+  //                                 ])));
+  //               },
+  //               style: ElevatedButton.styleFrom(
+  //                 minimumSize:
+  //                     Size(MediaQuery.of(context).size.width * 0.45, 55),
+  //                 backgroundColor: leisureColor,
+  //                 shape: RoundedRectangleBorder(
+  //                   borderRadius: BorderRadius.circular(25.0),
+  //                 ),
+  //               ),
+  //               child: Text(AppLocalizations.of(context).progress,
+  //                   style: Theme.of(context).textTheme.headlineSmall),
+  //             ),
+  //             ElevatedButton(
+  //               onPressed: () {
+  //                 showModalBottomSheet(
+  //                     context: context,
+  //                     isScrollControlled: true,
+  //                     backgroundColor: Color(0xFF22252D),
+  //                     shape: RoundedRectangleBorder(
+  //                       borderRadius:
+  //                           BorderRadius.vertical(top: Radius.circular(30.0)),
+  //                     ),
+  //                     builder: (context) => DraggableScrollableSheet(
+  //                         expand: false,
+  //                         initialChildSize: 0.85,
+  //                         minChildSize: 0.85,
+  //                         maxChildSize: 0.9,
+  //                         builder: (context, scrollController) => Stack(
+  //                                 alignment: AlignmentDirectional.bottomCenter,
+  //                                 children: [
+  //                                   Padding(
+  //                                       padding: EdgeInsets.only(
+  //                                           bottom: MediaQuery.of(context)
+  //                                                   .viewInsets
+  //                                                   .bottom +
+  //                                               50),
+  //                                       child: SingleChildScrollView(
+  //                                         controller: scrollController,
+  //                                         /*child: EpisodesNotesSheet(
+  //                                               notes: notes,
+  //                                               episodes: episodes)*/
+  //                                       ))
+  //                                 ])));
+  //               },
+  //               style: ElevatedButton.styleFrom(
+  //                 minimumSize:
+  //                     Size(MediaQuery.of(context).size.width * 0.45, 55),
+  //                 backgroundColor: leisureColor,
+  //                 shape: RoundedRectangleBorder(
+  //                   borderRadius: BorderRadius.circular(25.0),
+  //                 ),
+  //               ),
+  //               child: Text(AppLocalizations.of(context).notes,
+  //                   style: Theme.of(context).textTheme.headlineSmall),
+  //             )
+  //           ],
+  //         ),
+  //       );
+  //     }
+  //   } else if (type == "Book") {
+  //     if (status == Status.nothing) {
+  //       // If the media is not in the catalog, show a button to add it.
+  //       return ElevatedButton(
+  //         onPressed: () {
+  //           showModalBottomSheet(
+  //               context: context,
+  //               isScrollControlled: true,
+  //               backgroundColor: Color(0xFF22252D),
+  //               shape: RoundedRectangleBorder(
+  //                 borderRadius:
+  //                     BorderRadius.vertical(top: Radius.circular(30.0)),
+  //               ),
+  //               builder: (context) => DraggableScrollableSheet(
+  //                   expand: false,
+  //                   initialChildSize: 0.35,
+  //                   minChildSize: 0.35,
+  //                   maxChildSize: 0.5,
+  //                   builder: (context, scrollController) => Stack(
+  //                           alignment: AlignmentDirectional.bottomCenter,
+  //                           children: [
+  //                             Padding(
+  //                                 padding: EdgeInsets.only(
+  //                                     bottom: MediaQuery.of(context)
+  //                                             .viewInsets
+  //                                             .bottom +
+  //                                         50),
+  //                                 child: SingleChildScrollView(
+  //                                   controller: scrollController,
+  //                                   /*child: AddToCatalogForm(
+  //                                       status: Status.nothing,
+  //                                       startDate: DateTime.now()
+  //                                           .toString()
+  //                                           .split(" ")[0],
+  //                                       endDate: 'Not Defined',
+  //                                       onStatusChanged: (value) => value,
+  //                                     )*/
+  //                                 )),
+  //                             Positioned(
+  //                                 left: 16,
+  //                                 right: 16,
+  //                                 bottom: 16,
+  //                                 child: Padding(
+  //                                     padding: EdgeInsets.only(
+  //                                         bottom: MediaQuery.of(context)
+  //                                             .viewInsets
+  //                                             .bottom),
+  //                                     child: ElevatedButton(
+  //                                       onPressed: () {},
+  //                                       style: ElevatedButton.styleFrom(
+  //                                         minimumSize: Size(
+  //                                             MediaQuery.of(context)
+  //                                                     .size
+  //                                                     .width *
+  //                                                 0.95,
+  //                                             55),
+  //                                         backgroundColor: leisureColor,
+  //                                         shape: RoundedRectangleBorder(
+  //                                           borderRadius:
+  //                                               BorderRadius.circular(25.0),
+  //                                         ),
+  //                                       ),
+  //                                       child: Text(
+  //                                           AppLocalizations.of(context).save,
+  //                                           style: Theme.of(context)
+  //                                               .textTheme
+  //                                               .headlineSmall),
+  //                                     )))
+  //                           ])));
+  //         },
+  //         style: ElevatedButton.styleFrom(
+  //           minimumSize: Size(MediaQuery.of(context).size.width * 0.95, 55),
+  //           backgroundColor: leisureColor,
+  //           shape: RoundedRectangleBorder(
+  //             borderRadius: BorderRadius.circular(25.0),
+  //           ),
+  //         ),
+  //         child: Text(AppLocalizations.of(context).add,
+  //             style: Theme.of(context).textTheme.headlineSmall),
+  //       );
+  //     } else {
+  //       // If media is somehow in the catalog, then user should be able to see their notes and edit info.
+  //       return Container(
+  //         width: MediaQuery.of(context).size.width * 0.95,
+  //         child: Row(
+  //           mainAxisAlignment: MainAxisAlignment.spaceBetween,
+  //           children: [
+  //             ElevatedButton(
+  //               onPressed: () {
+  //                 showModalBottomSheet(
+  //                     context: context,
+  //                     isScrollControlled: true,
+  //                     backgroundColor: Color(0xFF22252D),
+  //                     shape: RoundedRectangleBorder(
+  //                       borderRadius:
+  //                           BorderRadius.vertical(top: Radius.circular(30.0)),
+  //                     ),
+  //                     builder: (context) => Padding(
+  //                         padding: EdgeInsets.only(
+  //                             bottom: MediaQuery.of(context).viewInsets.bottom),
+  //                         child: Stack(children: const [
+  //                           //AddBookNoteForm(mediaId: 1),
+  //                         ])));
+  //               },
+  //               style: ElevatedButton.styleFrom(
+  //                 minimumSize:
+  //                     Size(MediaQuery.of(context).size.width * 0.45, 55),
+  //                 backgroundColor: leisureColor,
+  //                 shape: RoundedRectangleBorder(
+  //                   borderRadius: BorderRadius.circular(25.0),
+  //                 ),
+  //               ),
+  //               child: Text(AppLocalizations.of(context).progress,
+  //                   style: Theme.of(context).textTheme.headlineSmall),
+  //             ),
+  //             ElevatedButton(
+  //               onPressed: () {
+  //                 showModalBottomSheet(
+  //                     context: context,
+  //                     isScrollControlled: true,
+  //                     backgroundColor: Color(0xFF22252D),
+  //                     shape: RoundedRectangleBorder(
+  //                       borderRadius:
+  //                           BorderRadius.vertical(top: Radius.circular(30.0)),
+  //                     ),
+  //                     builder: (context) => DraggableScrollableSheet(
+  //                         expand: false,
+  //                         initialChildSize: 0.35,
+  //                         minChildSize: 0.35,
+  //                         maxChildSize: 0.5,
+  //                         builder: (context, scrollController) => Stack(
+  //                                 alignment: AlignmentDirectional.bottomCenter,
+  //                                 children: [
+  //                                   Padding(
+  //                                       padding: EdgeInsets.only(
+  //                                           bottom: MediaQuery.of(context)
+  //                                                   .viewInsets
+  //                                                   .bottom +
+  //                                               50),
+  //                                       child: SingleChildScrollView(
+  //                                         controller: scrollController,
+  //                                         /*child: BookNotesSheet(
+  //                                               notes: bookNotes)*/
+  //                                       ))
+  //                                 ])));
+  //               },
+  //               style: ElevatedButton.styleFrom(
+  //                 minimumSize:
+  //                     Size(MediaQuery.of(context).size.width * 0.45, 55),
+  //                 backgroundColor: leisureColor,
+  //                 shape: RoundedRectangleBorder(
+  //                   borderRadius: BorderRadius.circular(25.0),
+  //                 ),
+  //               ),
+  //               child: Text(AppLocalizations.of(context).notes,
+  //                   style: Theme.of(context).textTheme.headlineSmall),
+  //             )
+  //           ],
+  //         ),
+  //       );
+  //     }
+  //   }
+
+  //   return Container();
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -188,12 +560,12 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                             padding: EdgeInsets.only(
                                 bottom:
                                     MediaQuery.of(context).viewInsets.bottom +
-                                        50),
+                                        30),
                             child: DraggableScrollableSheet(
                                 expand: false,
-                                initialChildSize: 0.60,
-                                minChildSize: 0.60,
-                                maxChildSize: 0.60,
+                                initialChildSize: 0.80,
+                                minChildSize: 0.80,
+                                maxChildSize: 0.85,
                                 builder: (context, scrollController) =>
                                     TaskForm(
                                       scrollController: scrollController,
@@ -242,9 +614,9 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                                   50),
                           child: DraggableScrollableSheet(
                             expand: false,
-                            initialChildSize: 0.5,
-                            minChildSize: 0.5,
-                            maxChildSize: 0.5,
+                            initialChildSize: 0.70,
+                            minChildSize: 0.70,
+                            maxChildSize: 0.75,
                             builder: (context, scrollController) => SubjectForm(
                               scrollController: scrollController,
                             ),
@@ -264,12 +636,12 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                       builder: (context) => Padding(
                           padding: EdgeInsets.only(
                               bottom: MediaQuery.of(context).viewInsets.bottom +
-                                  50),
+                                  30),
                           child: DraggableScrollableSheet(
                             expand: false,
-                            initialChildSize: 0.5,
-                            minChildSize: 0.5,
-                            maxChildSize: 0.5,
+                            initialChildSize: 0.65,
+                            minChildSize: 0.65,
+                            maxChildSize: 0.70,
                             builder: (context, scrollController) =>
                                 InstitutionForm(
                               scrollController: scrollController,
@@ -281,6 +653,36 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                 onPressed: () {
                   LocalNotificationService.display(
                       'Go Study or else \u{1F52A}');
+                }),
+            ElevatedButton(
+                child: Text("Event Form"),
+                onPressed: () {
+                  showModalBottomSheet(
+                      context: context,
+                      isScrollControlled: true,
+                      backgroundColor: Color(0xFF22252D),
+                      shape: RoundedRectangleBorder(
+                        borderRadius:
+                            BorderRadius.vertical(top: Radius.circular(30.0)),
+                      ),
+                      builder: (context) => Padding(
+                            padding: EdgeInsets.only(
+                                bottom:
+                                    MediaQuery.of(context).viewInsets.bottom +
+                                        50),
+                            child: DraggableScrollableSheet(
+                                expand: false,
+                                initialChildSize: 0.9,
+                                minChildSize: 0.9,
+                                maxChildSize: 0.9,
+                                builder: (context, scrollController) =>
+                                    EventForm(
+                                      scrollController: scrollController,
+                                      // id: 2,
+                                      // type: "student",
+                                      // OR (1, leisure)
+                                    )),
+                          ));
                 }),
             ElevatedButton(
                 child: Text("Timer Form"),
@@ -307,6 +709,8 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                             ),
                           )));
                 }),
+            ElevatedButton(
+                onPressed: resetAndSeedDatabase, child: Text("Reset Database")),
             FutureBuilder(
                 key: ValueKey<Object>(redrawObject),
                 future: serviceLocator<UserDao>().findAllUsers(),
