@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:src/notifications/local_notifications_service.dart';
 import 'package:src/widgets/home/homepage_horizontal_scrollview.dart';
 import 'package:src/widgets/home/profile_pic.dart';
 import 'package:src/widgets/home/event_listview.dart';
@@ -30,7 +29,6 @@ class _MyHomePageState extends State<MyHomePage> {
   void initState() {
     super.initState();
     loadEventsDB();
-    LocalNotificationService.initialize();
   }
 
   void loadEventsDB() async {
