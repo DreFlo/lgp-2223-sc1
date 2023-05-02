@@ -18,7 +18,6 @@ import 'package:src/daos/student/task_dao.dart';
 import 'package:src/utils/service_locator.dart';
 import 'package:src/utils/gamification/user_stats.dart';
 
-//class Game {
 int getTaskComboPoints() {
   double points = 0;
 
@@ -412,4 +411,3 @@ void getPomodoroXP(int focusTime, int sessions, int shortBreak, context) async {
   }
 }
 
-//}
