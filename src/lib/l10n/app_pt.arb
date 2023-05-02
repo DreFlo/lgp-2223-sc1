@@ -164,5 +164,11 @@
   "resume": "Começar",
   "focus": "Foco",
   "break_": "Pausa",
-  "leave": "Sair"
+  "leave": "Sair",
+  "settings": "Definições",
+  "general": "Geral",
+  "language": "Linguagem",
+  "english": "Inglês",
+  "portuguese": "Português",
+  "dark_mode": "Modo Escuro"
 }
