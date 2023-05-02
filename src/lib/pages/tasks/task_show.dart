@@ -158,46 +158,48 @@ class _TaskShowState extends State<TaskShow> {
                           ))
                     ]),
                     Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                      Container(
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: 10, vertical: 5),
-                          decoration: BoxDecoration(
-                              color: const Color(0xFF17181C),
-                              shape: BoxShape.rectangle,
-                              borderRadius: BorderRadius.circular(10)),
-                          child: Wrap(children: [
-                            Row(children: [
-                              const Icon(Icons.task,
-                                  color: Colors.white, size: 20),
-                              const SizedBox(width: 10),
-                              Text(AppLocalizations.of(context).task,
-                                  style: const TextStyle(
-                                      color: Colors.white,
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.w600),
-                                  textAlign: TextAlign.center),
-                            ])
-                          ])),
-                      InkWell(
-                          splashColor: Colors.transparent,
-                          onTap: () {
-                            setState(() {
-                              finished = !finished;
-                            });
-                          },
-                          child: Container(
-                            padding: const EdgeInsets.all(5),
-                            decoration: BoxDecoration(
-                                shape: BoxShape.circle,
-                                color:
-                                    (finished ? Colors.green : Colors.white)),
-                            child: Icon(Icons.check_rounded,
-                                color:
-                                    (!finished ? Colors.green : Colors.white)),
-                          ))
-                    ]),
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Container(
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 10, vertical: 5),
+                              decoration: BoxDecoration(
+                                  color: const Color(0xFF17181C),
+                                  shape: BoxShape.rectangle,
+                                  borderRadius: BorderRadius.circular(10)),
+                              child: Wrap(children: [
+                                Row(children: [
+                                  const Icon(Icons.task,
+                                      color: Colors.white, size: 20),
+                                  const SizedBox(width: 10),
+                                  Text(AppLocalizations.of(context).task,
+                                      style: const TextStyle(
+                                          color: Colors.white,
+                                          fontSize: 16,
+                                          fontWeight: FontWeight.w600),
+                                      textAlign: TextAlign.center),
+                                ])
+                              ])),
+                          InkWell(
+                              splashColor: Colors.transparent,
+                              onTap: () {
+                                setState(() {
+                                  finished = !finished;
+                                });
+                              },
+                              child: Container(
+                                padding: const EdgeInsets.all(5),
+                                decoration: BoxDecoration(
+                                    shape: BoxShape.circle,
+                                    color: (finished
+                                        ? Colors.green
+                                        : Colors.white)),
+                                child: Icon(Icons.check_rounded,
+                                    color: (!finished
+                                        ? Colors.green
+                                        : Colors.white)),
+                              ))
+                        ]),
                     const SizedBox(height: 15),
                     getTitle(context),
                     const SizedBox(height: 30),
@@ -240,7 +242,9 @@ class _TaskShowState extends State<TaskShow> {
             task.description,
             key: const Key("taskDescription"),
             style: const TextStyle(
-                color: Colors.white, fontSize: 16, fontWeight: FontWeight.normal),
+                color: Colors.white,
+                fontSize: 16,
+                fontWeight: FontWeight.normal),
           ))
     ]);
   }
