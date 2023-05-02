@@ -59,8 +59,8 @@ class _NoProgressInTimeslotModalState extends State<NoProgressInTimeslotModal> {
                 padding: MaterialStateProperty.all(
                     const EdgeInsets.symmetric(vertical: 15, horizontal: 50))),
             onPressed: () {
-              //TODO: Use Game class :)
-              //TODO: show emil modal <3
+              Navigator.pop(context);
+              Navigator.pop(context);
             },
             child: Text(AppLocalizations.of(context).thank_you_emil,
                 style: Theme.of(context).textTheme.headlineSmall),
