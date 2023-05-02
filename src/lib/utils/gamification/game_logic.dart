@@ -1,4 +1,16 @@
+import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
+import 'package:src/daos/media/media_dao.dart';
+import 'package:src/daos/timeslot/media_timeslot_dao.dart';
+import 'package:src/daos/timeslot/student_timeslot_dao.dart';
+import 'package:src/daos/timeslot/timeslot_dao.dart';
+import 'package:src/daos/timeslot/timeslot_student_timeslot_super_dao.dart';
+import 'package:src/models/media/media.dart';
+import 'package:src/models/timeslot/media_timeslot.dart';
+import 'package:src/models/timeslot/student_timeslot.dart';
+import 'package:src/models/timeslot/timeslot.dart';
+import 'package:src/models/timeslot/timeslot_media_timeslot_super_entity.dart';
+import 'package:src/models/timeslot/timeslot_student_timeslot_super_entity.dart';
 import 'package:src/pages/gamification/gained_xp_toast.dart';
 import 'package:src/pages/gamification/level_up_toast.dart';
 import 'package:src/utils/enums.dart';
@@ -10,21 +22,15 @@ import 'package:src/daos/student/task_dao.dart';
 import 'package:src/utils/service_locator.dart';
 import 'package:src/utils/gamification/user_stats.dart';
 
-//timeslot has a lot of tasks -> combos
-class Timeslot {
-  late int id;
-  late List<int> taskId;
-}
-
 //class Game {
-int getTaskComboPoints(List<Task> tasks) {
+int getTaskComboPoints() {
   double points = 0;
 
   // Base points.
-  points += basePoints * tasks.length;
+  points += basePoints;
 
   // Task points.
-  points += taskComboMultiplier * taskComboPoints * tasks.length;
+  points += taskComboMultiplier * taskComboPoints;
 
   return points.floor();
 }
@@ -33,12 +39,50 @@ int getImmediatePoints() {
   return (basePoints * nonEventTaskMultiplier).floor();
 }
 
-int getModuleComboPoints(List<Task> tasks) {
-  double points = 0;
-
-  points += moduleComboPoints * moduleComboMultiplier * tasks.length;
+int getModuleComboPoints() {
+  double points = moduleComboPoints * moduleComboMultiplier;
 
   return points.floor();
+}
+
+Future<List<EventType>> getLastTimeslotTypes() async {
+  List<EventType> lastTimeslotType = [];
+
+  // Get most recently finished timeslots
+  List<Timeslot> timeslots =
+      await serviceLocator<TimeslotDao>().findAllFinishedTimeslots(true);
+  timeslots.sort((a, b) => b.endDateTime.isBefore(a.endDateTime) ? -1 : 1);
+
+  // Check if there's any timeslots that finished today
+  List<int> timeslotsTodayIds = [];
+  for(int i = 0; i < timeslots.length; i++) {
+    if(timeslots[i].endDateTime.difference(DateTime.now()).inDays == 0) {
+      timeslotsTodayIds.add(timeslots[i].id!);
+    }
+    else {
+      break;
+    }
+  }
+
+  // Get all the types of timeslots that finished today
+  for(int i= 0; i < timeslotsTodayIds.length; i++) {
+      Stream studentStream = serviceLocator<StudentTimeslotDao>()
+      .findStudentTimeslotById(timeslotsTodayIds[i]);
+      bool isStudentStreamEmpty = await studentStream.isEmpty;
+
+      Stream mediaStream = serviceLocator<MediaTimeslotDao>()
+      .findMediaTimeslotById(timeslotsTodayIds[i]);
+      bool isMediaStreamEmpty = await mediaStream.isEmpty;
+
+      if(!isStudentStreamEmpty){
+        lastTimeslotType.add(EventType.student);
+      }
+      else if(!isMediaStreamEmpty){
+        lastTimeslotType.add(EventType.leisure);
+      }
+  }
+
+  return lastTimeslotType;
 }
 
 bool checkLevelUp(int userPoints, int currentLevel) {
@@ -66,43 +110,103 @@ void markTaskAsDoneOrNot(Task task, bool finished, int xp) async {
   await serviceLocator<TaskDao>().updateTask(newTask);
 }
 
-GameState check(List<Task> tasks, User user, bool differentModules) {
-  for (Task t in tasks) {
-    markTaskAsDoneOrNot(t, true, 0);
-  }
+void markMediaAsDoneOrNot(Media media, bool finished, int xp) async {
+  Media newMedia = Media(
+      id: media.id,
+      name: media.name,
+      description: media.description,
+      linkImage: media.linkImage,
+      status: Status.done,
+      favorite: media.favorite,
+      genres: media.genres,
+      release: media.release,
+      participants: media.participants,
+      type: media.type,
+      xp: xp);
+  await serviceLocator<MediaDao>().updateMedia(newMedia);
+}
 
+Future<GameState> check(
+    List<Task>? tasks,
+    User user,
+    List<Media>? medias,
+    TimeslotMediaTimeslotSuperEntity? mediaTimeslot,
+    TimeslotStudentTimeslotSuperEntity? studentTimeslot) async {
+  
+  EventType eventType = studentTimeslot != null ? EventType.student : EventType.leisure;
   int points = 0;
-  var lastTimeslot = DateTime.now();
-  //TODO: get last "done" timeslot from DB with a query -> last one with finished set to true
+  bool differentModules = false;
+  List<EventType> lastTimeslotInfo = await getLastTimeslotTypes(); 
 
-  var taskCount = tasks.length;
-  if (taskCount == 0) {
-    // Illegal function call.
-    throw Error();
-  }
+  if (lastTimeslotInfo.isNotEmpty) { //there was a timeslot today
 
-  if (lastTimeslot.difference(DateTime.now()).inDays == 0) {
     // We may have a module combo.
 
     //Check if second/third... timeslot of the day is for a different module than the timeslot that came first -> if true, get ModuleComboPoints
-    //bool differentModules = true;
+
+    lastTimeslotInfo.contains(EventType.student) && eventType == EventType.student ? differentModules = false : differentModules = true;
+    lastTimeslotInfo.contains(EventType.leisure) && eventType == EventType.leisure ? differentModules = false : differentModules = true;
+
 
     if (differentModules) {
-      points = getTaskComboPoints(tasks) + getModuleComboPoints(tasks);
+      points = getTaskComboPoints() + getModuleComboPoints();
     } else {
-      points = getTaskComboPoints(tasks);
-    }
+      points = getTaskComboPoints();
+    } 
   } else {
     //First timeslot of the day
-    points = getTaskComboPoints(tasks);
+    points = getTaskComboPoints();
   }
 
-  //TODO: update user XP.
-  //(points) => {};
+  //Check which type of timeslot it is
+  if (mediaTimeslot != null) {
+    //have to focus on media
+    if (medias!.isEmpty) {
+      //Illegal function call
+      throw Error();
+    }
 
-  if (checkLevelUp(user.xp, user.level)) {
+    for (Media m in medias) {
+      markMediaAsDoneOrNot(m, true, points);
+    }
+
+    points = points * medias.length;
+
+  } else if (studentTimeslot != null) {
+    //have to focus on tasks
+    if (tasks!.isEmpty) {
+      //Illegal function call
+      throw Error();
+    }
+    for (Task t in tasks) {
+    markTaskAsDoneOrNot(t, true, points);
+  }
+    points = points * tasks.length;
+  }
+
+  if (checkLevelUp(user.xp + points, user.level)) {
+    User newUser = User(
+        id: user.id,
+        userName: user.userName,
+        password: user.password,
+        xp: user.xp + points,
+        level: user.level + 1,
+        imagePath: user.imagePath);
+
+    await updateUser(newUser);
+
     return GameState.levelUp;
   } else {
+    User newUser = User(
+        id: user.id,
+        userName: user.userName,
+        password: user.password,
+        xp: user.xp + points,
+        level: user.level,
+        imagePath: user.imagePath);
+
+    await updateUser(newUser);
+
     return GameState.progress;
   }
 }
@@ -250,4 +354,3 @@ void getPomodoroXP(int focusTime, int sessions, int shortBreak, context) async {
 
 //}
 
-//Note for Friday meeting or whenever we can talk to André: show the formula + ask what do we need to store in xpMultiplier
