@@ -33,7 +33,7 @@ void main() {
     testWidgets('displays text', (WidgetTester tester) async {
       disableOverflowErrors();
       timeslotFinishedModal = LocalizationsInjector(
-          child: TimeslotFinishedModal(
+          child: StudentTimeslotFinishedModal(
               tasks: [
             Task(
                 id: 1,

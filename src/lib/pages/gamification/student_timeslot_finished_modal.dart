@@ -7,19 +7,19 @@ import 'package:src/widgets/tasks/timeslot_task_bar.dart';
 import 'package:src/models/student/task.dart';
 
 //This will be the modal that will appear when the user finishes a student timeslot
-class TimeslotFinishedModal extends StatefulWidget {
+class StudentTimeslotFinishedModal extends StatefulWidget {
   final TimeslotStudentTimeslotSuperEntity timeslot;
   final List<Task> tasks;
 
-  const TimeslotFinishedModal(
+  const StudentTimeslotFinishedModal(
       {Key? key, required this.timeslot, required this.tasks})
       : super(key: key);
 
   @override
-  State<TimeslotFinishedModal> createState() => _TimeslotFinishedModalState();
+  State<StudentTimeslotFinishedModal> createState() => _StudentTimeslotFinishedModalState();
 }
 
-class _TimeslotFinishedModalState extends State<TimeslotFinishedModal> {
+class _StudentTimeslotFinishedModalState extends State<StudentTimeslotFinishedModal> {
   late List<TimeslotTaskBar> tasksState;
 
   List<Widget> getTasks() {

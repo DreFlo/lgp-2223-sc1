@@ -271,7 +271,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(30),
                           ),
-                          child: TimeslotFinishedModal(
+                          child: StudentTimeslotFinishedModal(
                               timeslot: TimeslotStudentTimeslotSuperEntity(
                                   title: "Finish LGP project!",
                                   description: "Finish LGP project!",
