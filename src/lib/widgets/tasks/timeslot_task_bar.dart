@@ -1,24 +1,35 @@
+// ignore_for_file: must_be_immutable
 import 'package:flutter/material.dart';
+import 'package:src/models/student/task.dart';
 import 'package:src/themes/colors.dart';
 
 class TimeslotTaskBar extends StatefulWidget {
-  final int taskId;
-  final String title, dueDate;
-  bool taskStatus;
+  final Task task;
+  bool taskStatus = false;
 
-  TimeslotTaskBar(
-      {Key? key,
-      required this.taskId,
-      required this.title,
-      required this.dueDate,
-      required this.taskStatus})
-      : super(key: key);
+  TimeslotTaskBar({Key? key, required this.task}) : super(key: key);
 
   @override
   State<TimeslotTaskBar> createState() => _TimeslotTaskBarState();
 }
 
 class _TimeslotTaskBarState extends State<TimeslotTaskBar> {
+  late bool taskStatus;
+
+  String getDateText() {
+    return "${widget.task.deadline.day.toString()}/${widget.task.deadline.month.toString()}/${widget.task.deadline.year.toString()}";
+  }
+
+  @override
+  void initState() {
+    if (widget.task.finished) {
+      taskStatus = true;
+    } else {
+      taskStatus = false;
+    }
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -28,7 +39,7 @@ class _TimeslotTaskBarState extends State<TimeslotTaskBar> {
       child: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
         Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
           Row(mainAxisAlignment: MainAxisAlignment.start, children: [
-            Text(widget.title,
+            Text(widget.task.name,
                 overflow: TextOverflow.ellipsis,
                 style: const TextStyle(
                     color: Colors.white,
@@ -36,7 +47,7 @@ class _TimeslotTaskBarState extends State<TimeslotTaskBar> {
                     fontWeight: FontWeight.w600))
           ]),
           Row(mainAxisAlignment: MainAxisAlignment.start, children: [
-            Text(widget.dueDate,
+            Text(getDateText(),
                 style: const TextStyle(
                     color: Color.fromARGB(255, 127, 127, 127),
                     fontSize: 10,
@@ -51,7 +62,8 @@ class _TimeslotTaskBarState extends State<TimeslotTaskBar> {
                 InkWell(
                     onTap: () {
                       return setState(() {
-                        widget.taskStatus = !widget.taskStatus;
+                        taskStatus = !taskStatus;
+                        widget.taskStatus = taskStatus;
                       });
                     },
                     child: Container(
