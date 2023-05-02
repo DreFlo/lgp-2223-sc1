@@ -118,8 +118,6 @@ class _MediaTimeslotFinishedModalState
                 }
               }
 
-              check([], mediasDone, widget.timeslot, null, context);
-
               if(mediasDone.isEmpty){
                   WidgetsBinding.instance.addPostFrameCallback((_) {
                 showDialog(
@@ -152,9 +150,11 @@ class _MediaTimeslotFinishedModalState
                             ],
                             taskCount: widget.medias.length,
                             finishedTaskCount: mediasDone.length,
+                            mediasDone: mediasDone,
+                            mediaTimeslot: widget.timeslot,
                           )));
               }
-              );
+              );              
               }
            },
             child: Text(AppLocalizations.of(context).confirm,
