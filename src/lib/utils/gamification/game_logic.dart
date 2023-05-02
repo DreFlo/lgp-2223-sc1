@@ -1,13 +1,9 @@
-import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:src/daos/media/media_dao.dart';
 import 'package:src/daos/timeslot/media_timeslot_dao.dart';
 import 'package:src/daos/timeslot/student_timeslot_dao.dart';
 import 'package:src/daos/timeslot/timeslot_dao.dart';
-import 'package:src/daos/timeslot/timeslot_student_timeslot_super_dao.dart';
 import 'package:src/models/media/media.dart';
-import 'package:src/models/timeslot/media_timeslot.dart';
-import 'package:src/models/timeslot/student_timeslot.dart';
 import 'package:src/models/timeslot/timeslot.dart';
 import 'package:src/models/timeslot/timeslot_media_timeslot_super_entity.dart';
 import 'package:src/models/timeslot/timeslot_student_timeslot_super_entity.dart';
@@ -55,31 +51,29 @@ Future<List<EventType>> getLastTimeslotTypes() async {
 
   // Check if there's any timeslots that finished today
   List<int> timeslotsTodayIds = [];
-  for(int i = 0; i < timeslots.length; i++) {
-    if(timeslots[i].endDateTime.difference(DateTime.now()).inDays == 0) {
+  for (int i = 0; i < timeslots.length; i++) {
+    if (timeslots[i].endDateTime.difference(DateTime.now()).inDays == 0) {
       timeslotsTodayIds.add(timeslots[i].id!);
-    }
-    else {
+    } else {
       break;
     }
   }
 
   // Get all the types of timeslots that finished today
-  for(int i= 0; i < timeslotsTodayIds.length; i++) {
-      Stream studentStream = serviceLocator<StudentTimeslotDao>()
-      .findStudentTimeslotById(timeslotsTodayIds[i]);
-      bool isStudentStreamEmpty = await studentStream.isEmpty;
+  for (int i = 0; i < timeslotsTodayIds.length; i++) {
+    Stream studentStream = serviceLocator<StudentTimeslotDao>()
+        .findStudentTimeslotById(timeslotsTodayIds[i]);
+    bool isStudentStreamEmpty = await studentStream.isEmpty;
 
-      Stream mediaStream = serviceLocator<MediaTimeslotDao>()
-      .findMediaTimeslotById(timeslotsTodayIds[i]);
-      bool isMediaStreamEmpty = await mediaStream.isEmpty;
+    Stream mediaStream = serviceLocator<MediaTimeslotDao>()
+        .findMediaTimeslotById(timeslotsTodayIds[i]);
+    bool isMediaStreamEmpty = await mediaStream.isEmpty;
 
-      if(!isStudentStreamEmpty){
-        lastTimeslotType.add(EventType.student);
-      }
-      else if(!isMediaStreamEmpty){
-        lastTimeslotType.add(EventType.leisure);
-      }
+    if (!isStudentStreamEmpty) {
+      lastTimeslotType.add(EventType.student);
+    } else if (!isMediaStreamEmpty) {
+      lastTimeslotType.add(EventType.leisure);
+    }
   }
 
   return lastTimeslotType;
@@ -126,33 +120,57 @@ void markMediaAsDoneOrNot(Media media, bool finished, int xp) async {
   await serviceLocator<MediaDao>().updateMedia(newMedia);
 }
 
+void markTimeslotAsDoneOrNot(
+    TimeslotMediaTimeslotSuperEntity? mediaTimeslot,
+    TimeslotStudentTimeslotSuperEntity? studentTimeslot,
+    bool finished,
+    int points) async {
+  Timeslot newTimeslot;
+  if (mediaTimeslot != null) {
+    newTimeslot = Timeslot(id: mediaTimeslot.id, title: mediaTimeslot.title, description: mediaTimeslot.description,
+        startDateTime: mediaTimeslot.startDateTime, endDateTime: mediaTimeslot.endDateTime, finished: finished, xpMultiplier: points, userId: mediaTimeslot.userId);
+  } else {
+    newTimeslot = Timeslot(id: studentTimeslot!.id, title: studentTimeslot.title, description: studentTimeslot.description,
+        startDateTime: studentTimeslot.startDateTime, endDateTime: studentTimeslot.endDateTime, finished: finished, xpMultiplier: points, userId: studentTimeslot.userId);
+  }
+
+  await serviceLocator<TimeslotDao>().updateTimeslot(newTimeslot);
+}
+
 Future<GameState> check(
     List<Task>? tasks,
-    User user,
     List<Media>? medias,
     TimeslotMediaTimeslotSuperEntity? mediaTimeslot,
-    TimeslotStudentTimeslotSuperEntity? studentTimeslot) async {
-  
-  EventType eventType = studentTimeslot != null ? EventType.student : EventType.leisure;
+    TimeslotStudentTimeslotSuperEntity? studentTimeslot,
+    context) async {
+  EventType eventType =
+      studentTimeslot != null ? EventType.student : EventType.leisure;
   int points = 0;
   bool differentModules = false;
-  List<EventType> lastTimeslotInfo = await getLastTimeslotTypes(); 
+  User user = await getUser();
+  List<EventType> lastTimeslotInfo = await getLastTimeslotTypes();
 
-  if (lastTimeslotInfo.isNotEmpty) { //there was a timeslot today
+  if (lastTimeslotInfo.isNotEmpty) {
+    //there was a timeslot today
 
     // We may have a module combo.
 
     //Check if second/third... timeslot of the day is for a different module than the timeslot that came first -> if true, get ModuleComboPoints
 
-    lastTimeslotInfo.contains(EventType.student) && eventType == EventType.student ? differentModules = false : differentModules = true;
-    lastTimeslotInfo.contains(EventType.leisure) && eventType == EventType.leisure ? differentModules = false : differentModules = true;
-
+    lastTimeslotInfo.contains(EventType.student) &&
+            eventType == EventType.student
+        ? differentModules = false
+        : differentModules = true;
+    lastTimeslotInfo.contains(EventType.leisure) &&
+            eventType == EventType.leisure
+        ? differentModules = false
+        : differentModules = true;
 
     if (differentModules) {
       points = getTaskComboPoints() + getModuleComboPoints();
     } else {
       points = getTaskComboPoints();
-    } 
+    }
   } else {
     //First timeslot of the day
     points = getTaskComboPoints();
@@ -171,7 +189,6 @@ Future<GameState> check(
     }
 
     points = points * medias.length;
-
   } else if (studentTimeslot != null) {
     //have to focus on tasks
     if (tasks!.isEmpty) {
@@ -179,9 +196,16 @@ Future<GameState> check(
       throw Error();
     }
     for (Task t in tasks) {
-    markTaskAsDoneOrNot(t, true, points);
-  }
+      markTaskAsDoneOrNot(t, true, points);
+    }
     points = points * tasks.length;
+  }
+
+  //Update timeslot
+  if (mediaTimeslot != null) {
+    markTimeslotAsDoneOrNot(mediaTimeslot, null, true, points);
+  } else if (studentTimeslot != null) {
+    markTimeslotAsDoneOrNot(null, studentTimeslot, true, points);
   }
 
   if (checkLevelUp(user.xp + points, user.level)) {
@@ -195,8 +219,17 @@ Future<GameState> check(
 
     await updateUser(newUser);
 
+    var snackBar = SnackBar(
+      content: LevelUpToast(oldLevel: user.level, newLevel: user.level + 1),
+      backgroundColor: Colors.transparent,
+      elevation: 0,
+    );
+    // Step 3
+    ScaffoldMessenger.of(context).showSnackBar(snackBar);
+
     return GameState.levelUp;
   } else {
+    int value = levels[user.level + 1]!;
     User newUser = User(
         id: user.id,
         userName: user.userName,
@@ -206,6 +239,19 @@ Future<GameState> check(
         imagePath: user.imagePath);
 
     await updateUser(newUser);
+
+    var snackBar = SnackBar(
+      duration: const Duration(seconds: 30),
+      content: GainedXPToast(
+        value: value,
+        level: user.level,
+        points: points,
+      ),
+      backgroundColor: Colors.transparent,
+      elevation: 0,
+    );
+    // Step 3
+    ScaffoldMessenger.of(context).showSnackBar(snackBar);
 
     return GameState.progress;
   }
