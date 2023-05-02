@@ -29,6 +29,7 @@ class _TaskShowBarState extends State<TaskShowBar> {
 
   late TaskGroup taskGroup;
   late Task task;
+  late int points;
   bool selected = false;
 
   @override
@@ -36,6 +37,7 @@ class _TaskShowBarState extends State<TaskShowBar> {
     taskStatus = widget.task.finished;
     taskGroup = widget.taskGroup;
     task = widget.task;
+    points = widget.task.xp;
     super.initState();
   }
 
@@ -107,10 +109,10 @@ class _TaskShowBarState extends State<TaskShowBar> {
                               if (!taskStatus) {
                                 //it's currently false, going to become true, when it gets to setState
                                 //gain xp
-                                checkNonEventNonTask(task, context, true);
+                                points = await checkNonEventNonTask(task, context, true);
                               } else {
                                 //lose xp
-                                removePoints(getImmediatePoints(), task);
+                                removePoints(points, task);
                               }
 
                               setState(() {
