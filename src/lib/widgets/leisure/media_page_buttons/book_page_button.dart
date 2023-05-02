@@ -86,12 +86,17 @@ class BookPageButtonState extends MediaPageButtonState<MediaBookSuperEntity> {
                     borderRadius:
                         BorderRadius.vertical(top: Radius.circular(30.0)),
                   ),
-                  builder: (context) => AddBookNoteForm(
+                  builder: (context) => DraggableScrollableSheet(
+                    expand: false,
+                    initialChildSize: 0.85,
+                    minChildSize: 0.85,
+                    maxChildSize: 0.85,
+                    builder: (context, scrollController) =>  SingleChildScrollView(child: AddBookNoteForm(
                       book: widget.item,
                       refreshStatus: () {
                         Navigator.pop(context);
                       }),
-                );
+                )));
               },
               style: ElevatedButton.styleFrom(
                 minimumSize: Size(MediaQuery.of(context).size.width * 0.45, 55),
