@@ -181,7 +181,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 setSelectedIndex: (int index) =>
                     setState(() => _selectedIndex = index),
               ),
-              loadedAllData ? Expanded(child: showWidget()) : Container()
+              loadedAllData ? Expanded(child: showWidget()) : Container(),
             ],
           ),
         ],
