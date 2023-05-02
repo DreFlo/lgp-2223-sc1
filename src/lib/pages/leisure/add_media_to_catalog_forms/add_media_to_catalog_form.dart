@@ -44,10 +44,10 @@ abstract class AddMediaToCatalogFormState<T extends Media>
   @override
   Widget build(BuildContext context) {
     return Wrap(spacing: 10, children: [
-      Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-        Padding(
-            padding: const EdgeInsets.only(top: 15, bottom: 15),
-            child: Container(
+      Padding(
+          padding: const EdgeInsets.only(top: 15, bottom: 15),
+          child: Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+            Container(
               width: 115,
               height: 18,
               alignment: Alignment.center,
@@ -55,8 +55,9 @@ abstract class AddMediaToCatalogFormState<T extends Media>
                 borderRadius: BorderRadius.circular(10),
                 color: const Color(0xFF414554),
               ),
-            ))
-      ]),
+            )
+          ])),
+      const SizedBox(height: 20),
       Row(children: [
         Padding(
             padding: const EdgeInsets.only(left: 18),
@@ -67,7 +68,7 @@ abstract class AddMediaToCatalogFormState<T extends Media>
       ]),
       const SizedBox(height: 7.5),
       Container(
-          padding: const EdgeInsets.only(left: 18, right: 18),
+          padding: const EdgeInsets.symmetric(horizontal: 18),
           child: Column(children: [
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -194,7 +195,7 @@ abstract class AddMediaToCatalogFormState<T extends Media>
               ],
             )
           ])),
-      const SizedBox(height: 50),
+      const SizedBox(height: 30),
       Row(children: [
         Padding(
             padding: const EdgeInsets.only(left: 18),
@@ -205,7 +206,7 @@ abstract class AddMediaToCatalogFormState<T extends Media>
       ]),
       const SizedBox(height: 7.5),
       Padding(
-          padding: const EdgeInsets.only(left: 18, right: 18),
+          padding: const EdgeInsets.symmetric(horizontal: 18),
           child: InkWell(
               onTap: () async {
                 DateTimeRange? newDateRange = await showDateRangePicker(
@@ -270,10 +271,9 @@ abstract class AddMediaToCatalogFormState<T extends Media>
                       ],
                     ))
               ]))),
-      const SizedBox(height: 50),
+      const SizedBox(height: 30),
       Padding(
-          padding: EdgeInsets.only(
-              top: 20, bottom: MediaQuery.of(context).viewInsets.bottom),
+          padding: const EdgeInsets.symmetric(horizontal: 18),
           child: ElevatedButton(
             onPressed: () async {
               int mediaId = await storeMediaInDatabase(status);
@@ -296,7 +296,7 @@ abstract class AddMediaToCatalogFormState<T extends Media>
             ),
             child: Text(AppLocalizations.of(context).save,
                 style: Theme.of(context).textTheme.headlineSmall),
-          ))
+          )),
     ]);
   }
 

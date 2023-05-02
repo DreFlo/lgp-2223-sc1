@@ -126,7 +126,7 @@ class _MarkEpisodesSheetState extends State<MarkEpisodesSheet>
     return Wrap(spacing: 10, children: [
       Row(mainAxisAlignment: MainAxisAlignment.center, children: [
         Padding(
-            padding: const EdgeInsets.only(top: 15, bottom: 15),
+            padding: const EdgeInsets.symmetric(vertical: 15),
             child: Container(
               width: 115,
               height: 18,
@@ -139,7 +139,7 @@ class _MarkEpisodesSheetState extends State<MarkEpisodesSheet>
       ]),
       Row(mainAxisAlignment: MainAxisAlignment.center, children: [
         Padding(
-            padding: const EdgeInsets.only(left: 18),
+            padding: const EdgeInsets.symmetric(horizontal: 18),
             child: TextButton(
                 onPressed: () {
                   Navigator.pop(context);
@@ -154,8 +154,8 @@ class _MarkEpisodesSheetState extends State<MarkEpisodesSheet>
                       ),
                       builder: (context) => DraggableScrollableSheet(
                           expand: false,
-                          initialChildSize: 0.6,
-                          minChildSize: 0.35,
+                          initialChildSize: 0.9,
+                          minChildSize: 0.9,
                           maxChildSize: 0.9,
                           builder: (context, scrollController) => Stack(
                                   alignment: AlignmentDirectional.bottomCenter,
@@ -189,33 +189,35 @@ class _MarkEpisodesSheetState extends State<MarkEpisodesSheet>
                   style: Theme.of(context).textTheme.displayMedium,
                 )))
       ]),
-      TabBar(
-          padding: const EdgeInsets.only(left: 18, right: 18),
-          isScrollable: true,
-          labelColor: leisureColor,
-          unselectedLabelColor: Colors.white,
-          splashBorderRadius: const BorderRadius.all(Radius.circular(10)),
-          splashFactory: NoSplash.splashFactory,
-          overlayColor: MaterialStateProperty.resolveWith<Color?>(
-              (Set<MaterialState> states) {
-            // Use the default focused overlay color
-            return states.contains(MaterialState.focused)
-                ? null
-                : Colors.transparent;
-          }),
-          indicatorSize: TabBarIndicatorSize.tab,
-          indicatorPadding: const EdgeInsets.only(top: 5, bottom: 5),
-          labelPadding: const EdgeInsets.only(left: 10, right: 10),
-          indicator: BoxDecoration(
-            borderRadius: BorderRadius.circular(10),
-            color: leisureColor,
-          ),
-          tabs: getSeasons(),
-          controller: controller),
+      Row(children: [
+        TabBar(
+            padding: const EdgeInsets.symmetric(horizontal: 18),
+            isScrollable: true,
+            labelColor: leisureColor,
+            unselectedLabelColor: Colors.white,
+            splashBorderRadius: const BorderRadius.all(Radius.circular(10)),
+            splashFactory: NoSplash.splashFactory,
+            overlayColor: MaterialStateProperty.resolveWith<Color?>(
+                (Set<MaterialState> states) {
+              // Use the default focused overlay color
+              return states.contains(MaterialState.focused)
+                  ? null
+                  : Colors.transparent;
+            }),
+            indicatorSize: TabBarIndicatorSize.tab,
+            indicatorPadding: const EdgeInsets.symmetric(vertical: 5),
+            labelPadding: const EdgeInsets.symmetric(horizontal: 10),
+            indicator: BoxDecoration(
+              borderRadius: BorderRadius.circular(10),
+              color: leisureColor,
+            ),
+            tabs: getSeasons(),
+            controller: controller)
+      ]),
       const SizedBox(height: 10),
       Row(children: [
         Padding(
-            padding: const EdgeInsets.only(left: 18),
+            padding: const EdgeInsets.symmetric(horizontal: 18),
             child: Text(
               AppLocalizations.of(context).episodes_label,
               style: Theme.of(context).textTheme.displayMedium,
@@ -223,7 +225,7 @@ class _MarkEpisodesSheetState extends State<MarkEpisodesSheet>
       ]),
       const SizedBox(height: 7.5),
       Container(
-          padding: const EdgeInsets.only(left: 18, right: 18),
+          padding: const EdgeInsets.symmetric(horizontal: 18),
           child: Column(children: getEpisodes())),
       const SizedBox(height: 50)
     ]);
