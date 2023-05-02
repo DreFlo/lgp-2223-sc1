@@ -49,6 +49,39 @@ class TimeslotStudentTimeslotSuperDao {
     });
   }
 
+  Future<List<TimeslotStudentTimeslotSuperEntity>>
+      findAllFinishedTimeslotStudentTimeslot(DateTime? endDatetime) {
+    return serviceLocator<StudentTimeslotDao>()
+        .findAllStudentTimeslots()
+        .then((studentTimeslots) async {
+      List<TimeslotStudentTimeslotSuperEntity>
+          timeslotStudentTimeslotSuperEntities = [];
+
+      for (var studentTimeslot in studentTimeslots) {
+        final timeslot = await serviceLocator<TimeslotDao>()
+            .findTimeslotById(studentTimeslot.id)
+            .first;
+
+        if (endDatetime != null && timeslot != null) {
+          if (timeslot.endDateTime.isBefore(endDatetime) && timeslot.finished == false) {
+            final timeslotStudentTimeslotSuperEntity =
+              TimeslotStudentTimeslotSuperEntity
+                  .fromTimeslotStudentTimeslotEntity(
+            studentTimeslot,
+            timeslot,
+          );
+          timeslotStudentTimeslotSuperEntities
+              .add(timeslotStudentTimeslotSuperEntity);
+        }
+          }
+
+
+      }
+
+      return timeslotStudentTimeslotSuperEntities;
+    });
+  }
+  
   Future<int> insertTimeslotStudentTimeslotSuperEntity(
     TimeslotStudentTimeslotSuperEntity timeslotStudentTimeslotSuperEntity,
   ) async {

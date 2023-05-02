@@ -1,52 +1,48 @@
 import 'package:flutter/material.dart';
-import 'package:src/models/timeslot/timeslot_student_timeslot_super_entity.dart';
+import 'package:src/models/timeslot/timeslot_media_timeslot_super_entity.dart';
 import 'package:src/themes/colors.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:src/widgets/tasks/timeslot_task_bar.dart';
+import 'package:src/widgets/leisure/timeslot_media_bar.dart';
 
-import 'package:src/models/student/task.dart';
+import 'package:src/models/media/media.dart';
 
-//This will be the modal that will appear when the user finishes a student timeslot
-class StudentTimeslotFinishedModal extends StatefulWidget {
-  final TimeslotStudentTimeslotSuperEntity timeslot;
-  final List<Task> tasks;
+//This will be the modal that will appear when the user finishes a media timeslot
+class MediaTimeslotFinishedModal extends StatefulWidget {
+  final TimeslotMediaTimeslotSuperEntity timeslot;
+  final List<Media> medias;
 
-  const StudentTimeslotFinishedModal(
-      {Key? key, required this.timeslot, required this.tasks})
+  const MediaTimeslotFinishedModal(
+      {Key? key, required this.timeslot, required this.medias})
       : super(key: key);
 
   @override
-  State<StudentTimeslotFinishedModal> createState() => _StudentTimeslotFinishedModalState();
+  State<MediaTimeslotFinishedModal> createState() => _MediaTimeslotFinishedModalState();
 }
 
-class _StudentTimeslotFinishedModalState extends State<StudentTimeslotFinishedModal> {
-  late List<TimeslotTaskBar> tasksState;
+class _MediaTimeslotFinishedModalState extends State<MediaTimeslotFinishedModal> {
+  late List<TimeslotMediaBar> mediaState;
 
-  List<Widget> getTasks() {
-    tasksState = [];
+  List<Widget> getMedia() {
+    mediaState = [];
 
-    List<Widget> tasks = [];
+    List<Widget> medias = [];
 
-    for (int i = 0; i < widget.tasks.length; i++) {
-      var task = TimeslotTaskBar(
-          taskId: widget.tasks[i].id!,
-          title: widget.tasks[i].name,
-          dueDate: widget.tasks[i].deadline.toString(),
-          taskStatus: false);
+    for (int i = 0; i < widget.medias.length; i++) {
+      var media = TimeslotMediaBar(media: widget.medias[i]);
 
-      tasks.add(
+      medias.add(
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
-          children: [task],
+          children: [media],
         ),
       );
 
-      tasksState.add(task);
+      mediaState.add(media);
 
-      if (i != widget.tasks.length - 1) tasks.add(const SizedBox(height: 10));
+      if (i != widget.medias.length - 1) medias.add(const SizedBox(height: 10));
     }
 
-    return tasks;
+    return medias;
   }
 
   @override
@@ -89,7 +85,7 @@ class _StudentTimeslotFinishedModalState extends State<StudentTimeslotFinishedMo
             height: 300,
             child: ScrollConfiguration(
                 behavior: const ScrollBehavior(),
-                child: ListView(shrinkWrap: true, children: getTasks()))),
+                child: ListView(shrinkWrap: true, children: getMedia()))),
         const SizedBox(height: 30),
         Row(mainAxisAlignment: MainAxisAlignment.center, children: [
           Expanded(
@@ -100,16 +96,16 @@ class _StudentTimeslotFinishedModalState extends State<StudentTimeslotFinishedMo
                 padding: MaterialStateProperty.all(
                     const EdgeInsets.symmetric(vertical: 15, horizontal: 50))),
             onPressed: () {
-              List<int> taskIds = [];
-              for (TimeslotTaskBar t in tasksState) {
-                if (t.taskStatus) {
+              List<int> mediaIds = [];
+              /*for (TimeslotMediaBar m in mediaState) {
+                if (m.) {
                   taskIds.add(t.taskId);
                 }
               }
 
               taskIds.add(0);
               //TODO: Use Game class :)
-              //TODO: show emil modal <3
+              //TODO: show emil modal <3*/
             },
             child: Text(AppLocalizations.of(context).confirm,
                 style: Theme.of(context).textTheme.headlineSmall),
