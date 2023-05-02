@@ -31,7 +31,7 @@ void main() {
 
   testWidgets('test if XP gain is accused', (WidgetTester widgetTester) async {
     final user = User(
-        userName: 'Emil', password: 'test', xp: 300, level: 2, imagePath: '');
+        userName: 'Emil', password: 'test', xp: 200, level: 2, imagePath: '');
 
     final mockUserDao = serviceLocator.get<UserDao>();
     when(mockUserDao.findUserById(1)).thenAnswer((_) => Stream.value(user));
@@ -66,6 +66,7 @@ void main() {
 
     var button = find.byType(InkWell, skipOffstage: false).at(1);
     await widgetTester.tap(button, warnIfMissed: false);
+    await widgetTester.pumpAndSettle(const Duration(milliseconds: 750));
     expect(find.byType(GainedXPToast, skipOffstage: false), findsOneWidget);
   });
 }
