@@ -177,10 +177,10 @@ class _EpisodesNotesSheetState extends State<EpisodesNotesSheet>
 
   @override
   Widget build(BuildContext context) {
-    return Wrap(spacing: 10, children: [
+    return Wrap(runSpacing: 10, children: [
       Row(mainAxisAlignment: MainAxisAlignment.center, children: [
         Padding(
-            padding: const EdgeInsets.only(top: 15, bottom: 15),
+            padding: const EdgeInsets.symmetric(vertical: 15),
             child: Container(
               width: 115,
               height: 18,
@@ -191,30 +191,32 @@ class _EpisodesNotesSheetState extends State<EpisodesNotesSheet>
               ),
             ))
       ]),
-      TabBar(
-          padding: const EdgeInsets.only(left: 18, right: 18),
-          isScrollable: true,
-          labelColor: leisureColor,
-          unselectedLabelColor: Colors.white,
-          splashBorderRadius: const BorderRadius.all(Radius.circular(10)),
-          splashFactory: NoSplash.splashFactory,
-          overlayColor: MaterialStateProperty.resolveWith<Color?>(
-              (Set<MaterialState> states) {
-            // Use the default focused overlay color
-            return states.contains(MaterialState.focused)
-                ? null
-                : Colors.transparent;
-          }),
-          indicatorSize: TabBarIndicatorSize.tab,
-          indicatorPadding: const EdgeInsets.only(top: 5, bottom: 5),
-          labelPadding: const EdgeInsets.only(left: 10, right: 10),
-          indicator: BoxDecoration(
-            borderRadius: BorderRadius.circular(10),
-            color: leisureColor,
-          ),
-          tabs: getSeasons(),
-          controller: controller),
-      const SizedBox(height: 10),
+      Row(mainAxisAlignment: MainAxisAlignment.start, children: [
+        TabBar(
+            padding: const EdgeInsets.symmetric(horizontal: 18),
+            isScrollable: true,
+            labelColor: leisureColor,
+            unselectedLabelColor: Colors.white,
+            splashBorderRadius: const BorderRadius.all(Radius.circular(10)),
+            splashFactory: NoSplash.splashFactory,
+            overlayColor: MaterialStateProperty.resolveWith<Color?>(
+                (Set<MaterialState> states) {
+              // Use the default focused overlay color
+              return states.contains(MaterialState.focused)
+                  ? null
+                  : Colors.transparent;
+            }),
+            indicatorSize: TabBarIndicatorSize.tab,
+            indicatorPadding: const EdgeInsets.only(top: 5, bottom: 5),
+            labelPadding: const EdgeInsets.only(left: 10, right: 10),
+            indicator: BoxDecoration(
+              borderRadius: BorderRadius.circular(10),
+              color: leisureColor,
+            ),
+            tabs: getSeasons(),
+            controller: controller)
+      ]),
+      const SizedBox(height: 30),
       Row(children: [
         Padding(
             padding: const EdgeInsets.only(left: 18),
@@ -226,8 +228,7 @@ class _EpisodesNotesSheetState extends State<EpisodesNotesSheet>
       const SizedBox(height: 7.5),
       Container(
           padding: const EdgeInsets.only(left: 18, right: 18),
-          child: Column(children: getNotes(selectedTab))),
-      const SizedBox(height: 50)
+          child: Column(children: getNotes(selectedTab)))
     ]);
   }
 }

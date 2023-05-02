@@ -23,6 +23,11 @@ import 'package:src/pages/gamification/progress_in_timeslot_modal.dart';
 import 'package:src/pages/tasks/project_form.dart';
 import 'package:src/pages/tasks/task_form.dart';
 import 'package:src/pages/timer/timer_form.dart';
+import 'package:src/themes/colors.dart';
+import 'package:src/utils/enums.dart';
+import 'package:src/utils/reset_db.dart';
+import 'package:src/utils/service_locator.dart';
+import 'package:tmdb_api/tmdb_api.dart';
 
 class HomePage extends StatefulWidget {
   final String title;
@@ -48,6 +53,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
       _counter++;
     });
   }
+
 
   @override
   Widget build(BuildContext context) {
@@ -149,12 +155,12 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                             padding: EdgeInsets.only(
                                 bottom:
                                     MediaQuery.of(context).viewInsets.bottom +
-                                        50),
+                                        30),
                             child: DraggableScrollableSheet(
                                 expand: false,
-                                initialChildSize: 0.60,
-                                minChildSize: 0.60,
-                                maxChildSize: 0.60,
+                                initialChildSize: 0.80,
+                                minChildSize: 0.80,
+                                maxChildSize: 0.85,
                                 builder: (context, scrollController) =>
                                     TaskForm(
                                         scrollController: scrollController,
@@ -197,9 +203,9 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                                   50),
                           child: DraggableScrollableSheet(
                             expand: false,
-                            initialChildSize: 0.5,
-                            minChildSize: 0.5,
-                            maxChildSize: 0.5,
+                            initialChildSize: 0.70,
+                            minChildSize: 0.70,
+                            maxChildSize: 0.75,
                             builder: (context, scrollController) => SubjectForm(
                               scrollController: scrollController,
                             ),
@@ -219,12 +225,12 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                       builder: (context) => Padding(
                           padding: EdgeInsets.only(
                               bottom: MediaQuery.of(context).viewInsets.bottom +
-                                  50),
+                                  30),
                           child: DraggableScrollableSheet(
                             expand: false,
-                            initialChildSize: 0.5,
-                            minChildSize: 0.5,
-                            maxChildSize: 0.5,
+                            initialChildSize: 0.65,
+                            minChildSize: 0.65,
+                            maxChildSize: 0.70,
                             builder: (context, scrollController) =>
                                 InstitutionForm(
                               scrollController: scrollController,
@@ -423,6 +429,8 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                             ),
                           )));
                 }),
+            ElevatedButton(
+                onPressed: resetAndSeedDatabase, child: Text("Reset Database")),
             FutureBuilder(
                 key: ValueKey<Object>(redrawObject),
                 future: serviceLocator<UserDao>().findAllUsers(),

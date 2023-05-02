@@ -21,9 +21,18 @@ import 'package:src/widgets/tasks/task_bar.dart';
 
 class ProjectForm extends StatefulWidget {
   final int? id;
+  final void Function(TaskGroup tg)? callback;
+  final void Function()? deleteCallback;
+  final void Function(List<Task>)? editTasksCallback;
   final ScrollController scrollController;
 
-  const ProjectForm({Key? key, required this.scrollController, this.id})
+  const ProjectForm(
+      {Key? key,
+      required this.scrollController,
+      this.id,
+      this.callback,
+      this.deleteCallback,
+      this.editTasksCallback})
       : super(key: key);
 
   @override
@@ -172,7 +181,8 @@ class _ProjectFormState extends State<ProjectForm> {
           Task newTask = Task(
               id: oldTask.id,
               name: oldTask.name,
-              deadline: oldTask.deadline,
+              deadline:
+                  date!.isBefore(oldTask.deadline) ? date! : oldTask.deadline,
               priority: oldTask.priority,
               description: oldTask.description,
               taskGroupId: newId,
@@ -190,6 +200,10 @@ class _ProjectFormState extends State<ProjectForm> {
       }
     }
 
+    if (widget.callback != null) {
+      widget.callback!(taskGroup);
+    }
+
     if (context.mounted) {
       Navigator.pop(context);
     }
@@ -201,6 +215,10 @@ class _ProjectFormState extends State<ProjectForm> {
           .findTaskGroupById(id!)
           .first as TaskGroup;
       await serviceLocator<TaskGroupDao>().deleteTaskGroup(taskGroup);
+    }
+
+    if (widget.deleteCallback != null) {
+      widget.deleteCallback!();
     }
 
     if (context.mounted) {
@@ -220,95 +238,87 @@ class _ProjectFormState extends State<ProjectForm> {
         future: initData(),
         builder: (BuildContext context, AsyncSnapshot<int> snapshot) {
           if (snapshot.hasData) {
-            return ClipRRect(
-                borderRadius:
-                    const BorderRadius.vertical(top: Radius.circular(30.0)),
-                child: Scaffold(
-                    primary: false,
-                    backgroundColor: modalBackground,
-                    body: SingleChildScrollView(
-                      padding: const EdgeInsets.symmetric(horizontal: 24),
-                      controller: widget.scrollController,
-                      child: Wrap(spacing: 10, children: [
-                        Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Padding(
-                                  padding: const EdgeInsets.only(
-                                      top: 15, bottom: 15),
-                                  child: Container(
-                                    width: 115,
-                                    height: 18,
-                                    alignment: Alignment.center,
-                                    decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(10),
-                                      color: const Color(0xFF414554),
-                                    ),
-                                  ))
-                            ]),
-                        Row(children: [
-                          Container(
-                              padding: const EdgeInsets.symmetric(
-                                  horizontal: 10, vertical: 5),
-                              decoration: BoxDecoration(
-                                  color: const Color(0xFF17181C),
-                                  shape: BoxShape.rectangle,
-                                  borderRadius: BorderRadius.circular(10)),
-                              child: Wrap(children: [
-                                Row(children: [
-                                  const Icon(Icons.list_rounded,
-                                      color: Colors.white, size: 20),
-                                  const SizedBox(width: 10),
-                                  Text(AppLocalizations.of(context).project,
-                                      style: const TextStyle(
-                                          color: Colors.white,
-                                          fontSize: 16,
-                                          fontWeight: FontWeight.w600),
-                                      textAlign: TextAlign.center),
-                                ])
-                              ]))
-                        ]),
-                        const SizedBox(height: 15),
-                        ...getTitle(context),
-                        const SizedBox(height: 30),
-                        ...getDate(context),
-                        const SizedBox(height: 30),
-                        // Priority
-                        ...getPriority(context),
-                        const SizedBox(height: 30),
-                        // Institution
-                        getInstitution(context),
-                        //Subject
-                        ...getSubject(),
-                        const SizedBox(height: 30),
+            return Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 24),
+                child: SingleChildScrollView(
+                  controller: widget.scrollController,
+                  child: Wrap(spacing: 10, children: [
+                    Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+                      Padding(
+                          padding: const EdgeInsets.only(top: 15, bottom: 15),
+                          child: Container(
+                            width: 115,
+                            height: 18,
+                            alignment: Alignment.center,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(10),
+                              color: const Color(0xFF414554),
+                            ),
+                          ))
+                    ]),
+                    Row(children: [
+                      Container(
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 10, vertical: 5),
+                          decoration: BoxDecoration(
+                              color: const Color(0xFF17181C),
+                              shape: BoxShape.rectangle,
+                              borderRadius: BorderRadius.circular(10)),
+                          child: Wrap(children: [
+                            Row(children: [
+                              const Icon(Icons.list_rounded,
+                                  color: Colors.white, size: 20),
+                              const SizedBox(width: 10),
+                              Text(AppLocalizations.of(context).project,
+                                  style: const TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.w600),
+                                  textAlign: TextAlign.center),
+                            ])
+                          ]))
+                    ]),
+                    const SizedBox(height: 15),
+                    ...getTitle(context),
+                    const SizedBox(height: 30),
+                    ...getDate(context),
+                    const SizedBox(height: 30),
+                    // Priority
+                    ...getPriority(context),
+                    const SizedBox(height: 30),
+                    // Institution
+                    getInstitution(context),
+                    const SizedBox(height: 30),
+                    //Subject
+                    ...getSubject(),
+                    const SizedBox(height: 30),
 
-                        // Description
-                        Row(children: [
-                          Text(AppLocalizations.of(context).description,
-                              style: const TextStyle(
-                                  fontFamily: 'Poppins',
-                                  color: Color(0xFF71788D),
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.w400),
-                              textAlign: TextAlign.center),
-                        ]),
-                        const SizedBox(height: 7.5),
-                        ...getDescription(),
-                        const SizedBox(height: 30),
-                        getAddTask(context),
-                        const SizedBox(height: 7.5),
-                        ...getTasks(),
-                        const SizedBox(height: 30),
-                        getEndButtons(context),
-                        const SizedBox(height: 30)
-                      ]),
-                    )));
+                    // Description
+                    Row(children: [
+                      Text(AppLocalizations.of(context).description,
+                          style: const TextStyle(
+                              fontFamily: 'Poppins',
+                              color: Color(0xFF71788D),
+                              fontSize: 16,
+                              fontWeight: FontWeight.w400),
+                          textAlign: TextAlign.center),
+                    ]),
+                    const SizedBox(height: 7.5),
+                    ...getDescription(),
+                    const SizedBox(height: 30),
+                    getAddTask(context),
+                    const SizedBox(height: 7.5),
+                    ...getTasks(),
+                    const SizedBox(height: 30),
+                    getEndButtons(context),
+                  ]),
+                ));
           } else {
             return const Center(child: CircularProgressIndicator());
           }
         });
   }
-
+  
   List<Widget> getTitle(BuildContext context) {
     Widget titleWidget =
         Row(crossAxisAlignment: CrossAxisAlignment.center, children: [
@@ -384,8 +394,8 @@ class _ProjectFormState extends State<ProjectForm> {
         onTap: () async {
           var date = await showDatePicker(
               context: context,
-              initialDate: DateTime.now(),
-              firstDate: DateTime.now(),
+              initialDate: id != null ? this.date! : DateTime.now(),
+              firstDate: id != null ? this.date! : DateTime.now(),
               lastDate: DateTime(2100));
           if (date == null) {
             return;
@@ -848,14 +858,14 @@ class _ProjectFormState extends State<ProjectForm> {
                       bottom: MediaQuery.of(context).viewInsets.bottom + 50),
                   child: DraggableScrollableSheet(
                     expand: false,
-                    initialChildSize: 0.60,
-                    minChildSize: 0.60,
-                    maxChildSize: 0.60,
+                    initialChildSize: 0.80,
+                    minChildSize: 0.80,
+                    maxChildSize: 0.85,
                     builder: (context, scrollController) => TaskForm(
-                      taskGroupId: id,
-                      callback: addTask,
-                      scrollController: scrollController,
-                    ),
+                        taskGroupId: id ?? -1,
+                        callback: addTask,
+                        scrollController: scrollController,
+                        createProject: true),
                   )));
         },
       )
@@ -995,6 +1005,7 @@ class _ProjectFormState extends State<ProjectForm> {
     setState(() {
       tasks.insert(0, task);
     });
+    editTasksCallback();
   }
 
   removeTask(Task task) {
@@ -1022,6 +1033,7 @@ class _ProjectFormState extends State<ProjectForm> {
         throw Exception("Task group id is null for edit task calblack");
       }
     });
+    editTasksCallback();
   }
 
   editTempTask(Task oldTask) {
@@ -1038,6 +1050,7 @@ class _ProjectFormState extends State<ProjectForm> {
           throw Exception("Task id is not null for edit temp task calback");
         }
       });
+      editTasksCallback();
     };
   }
 
@@ -1057,6 +1070,13 @@ class _ProjectFormState extends State<ProjectForm> {
           }
         }
       });
+      editTasksCallback();
     };
+  }
+
+  editTasksCallback() {
+    if (widget.editTasksCallback != null) {
+      widget.editTasksCallback!(tasks);
+    }
   }
 }
