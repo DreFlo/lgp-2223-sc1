@@ -4,6 +4,7 @@ import 'package:src/models/student/task_group.dart';
 import 'package:src/pages/tasks/task_show.dart';
 import 'package:src/themes/colors.dart';
 import 'package:src/utils/date_formatter.dart';
+import 'package:src/utils/gamification/game_logic.dart';
 
 class TaskShowBar extends StatefulWidget {
   final void Function(Task t)? editTask;
@@ -102,11 +103,20 @@ class _TaskShowBarState extends State<TaskShowBar> {
                     Row(
                       children: [
                         InkWell(
-                            onTap: () {
-                              setState(() {
-                                taskStatus = !taskStatus;
-                              });
-                            },
+                            onTap: () async {
+                            if (!taskStatus) {
+                              //it's currently false, going to become true, when it gets to setState
+                              //gain xp
+                              checkNonEventNonTask(task, context, true);
+                            } else {
+                              //lose xp
+                              removePoints(getImmediatePoints(), task);
+                            }
+
+                            setState(() {
+                              taskStatus = !taskStatus;
+                            });
+                          },
                             child: Container(
                               padding: const EdgeInsets.all(5),
                               decoration: BoxDecoration(

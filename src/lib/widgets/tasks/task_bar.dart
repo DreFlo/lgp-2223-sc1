@@ -3,7 +3,6 @@ import 'package:src/models/student/task.dart';
 import 'package:src/pages/tasks/task_form.dart';
 import 'package:src/themes/colors.dart';
 import 'package:src/utils/date_formatter.dart';
-import 'package:src/utils/gamification/game_logic.dart';
 
 class TaskBar extends StatefulWidget {
   final bool taskStatus;
@@ -114,15 +113,8 @@ class _TaskBarState extends State<TaskBar> {
                   Row(
                     children: [
                       InkWell(
-                          onTap: () async {
-                            if (!taskStatus) {
-                              //it's currently false, going to become true, when it gets to setState
-                              //gain xp
-                              checkNonEventNonTask(task, context, true);
-                            } else {
-                              //lose xp
-                              removePoints(getImmediatePoints(), task);
-                            }
+                          onTap: () {
+                            
 
                             setState(() {
                               taskStatus = !taskStatus;
