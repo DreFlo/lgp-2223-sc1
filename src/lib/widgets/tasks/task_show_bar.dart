@@ -122,12 +122,12 @@ class _TaskShowBarState extends State<TaskShowBar> {
                               decoration: BoxDecoration(
                                   shape: BoxShape.circle,
                                   color: (taskStatus
-                                      ? Colors.green
-                                      : Colors.white)),
+                                      ? Colors.white
+                                      : Colors.green)),
                               child: Icon(Icons.check_rounded,
                                   color: (!taskStatus
-                                      ? Colors.green
-                                      : Colors.white)),
+                                      ? Colors.white
+                                      : Colors.green)),
                             )),
                       ],
                     )

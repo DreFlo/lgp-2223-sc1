@@ -16,6 +16,7 @@ import 'package:src/themes/colors.dart';
 import 'package:src/utils/date_formatter.dart';
 import 'dart:math' as math;
 import 'package:src/utils/enums.dart';
+import 'package:src/utils/gamification/game_logic.dart';
 import 'package:src/utils/service_locator.dart';
 import 'package:src/widgets/highlight_text.dart';
 import 'package:src/widgets/notes/note_show_bar.dart';
@@ -139,11 +140,14 @@ class _TaskShowState extends State<TaskShow> {
             } else {
               priorityText = AppLocalizations.of(context).high;
             }
-            return Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 24),
-                child: SingleChildScrollView(
-                  controller: widget.scrollController,
-                  child: Wrap(spacing: 10, children: [
+            return ClipRRect(borderRadius: const BorderRadius.vertical(top: Radius.circular(30.0)),
+                child: Scaffold(
+                  primary: false,
+                  backgroundColor: modalBackground,
+                  body: SingleChildScrollView(
+                                    padding: const EdgeInsets.symmetric(horizontal: 24),
+                controller: widget.scrollController,
+                child: Wrap(spacing: 10, children: [
                     Row(mainAxisAlignment: MainAxisAlignment.center, children: [
                       Padding(
                           padding: const EdgeInsets.only(top: 15, bottom: 15),
@@ -182,7 +186,13 @@ class _TaskShowState extends State<TaskShow> {
                               ])),
                           InkWell(
                               splashColor: Colors.transparent,
-                              onTap: () {
+                              onTap: () async {
+                                if (!finished) {
+                                  checkNonEventNonTask(task, context, false);
+                                } else {
+                                  //lose xp
+                                  removePoints(getImmediatePoints(), task);
+                                }
                                 setState(() {
                                   finished = !finished;
                                 });
@@ -192,12 +202,12 @@ class _TaskShowState extends State<TaskShow> {
                                 decoration: BoxDecoration(
                                     shape: BoxShape.circle,
                                     color: (finished
-                                        ? Colors.green
-                                        : Colors.white)),
+                                        ? Colors.white
+                                        : Colors.green)),
                                 child: Icon(Icons.check_rounded,
                                     color: (!finished
-                                        ? Colors.green
-                                        : Colors.white)),
+                                        ? Colors.white
+                                        : Colors.green)),
                               ))
                         ]),
                     const SizedBox(height: 15),
@@ -227,7 +237,7 @@ class _TaskShowState extends State<TaskShow> {
                     const SizedBox(height: 30),
                     getEndButtons(context),
                   ]),
-                ));
+                )));
           } else {
             return const Center(child: CircularProgressIndicator());
           }
