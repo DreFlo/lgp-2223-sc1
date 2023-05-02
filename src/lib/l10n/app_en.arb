@@ -164,5 +164,11 @@
   "start_": "Start",
   "focus": "Focus",
   "break_": "Break",
-  "leave": "Leave"
+  "leave": "Leave",
+  "settings": "Settings",
+  "general": "General",
+  "language": "Language",
+  "english": "English",
+  "portuguese": "Portuguese",
+  "dark_mode": "Dark Mode"
 }
