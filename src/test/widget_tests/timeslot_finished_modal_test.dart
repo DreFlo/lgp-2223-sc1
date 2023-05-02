@@ -3,8 +3,8 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:mockito/mockito.dart';
 import 'package:src/models/student/task.dart';
-import 'package:src/models/timeslot/timeslot.dart';
-import 'package:src/pages/gamification/timeslot_finished_modal.dart';
+import 'package:src/models/timeslot/timeslot_student_timeslot_super_entity.dart';
+import 'package:src/pages/gamification/student_timeslot_finished_modal.dart';
 import 'package:src/utils/enums.dart';
 
 import '../utils/locations_injector.dart';
@@ -44,7 +44,7 @@ void main() {
                 priority: Priority.high,
                 deadline: DateTime.now())
           ],
-              timeslot: Timeslot(
+              timeslot: TimeslotStudentTimeslotSuperEntity(
                 title: "Hello",
                 description: "World",
                 startDateTime: DateTime.now(),

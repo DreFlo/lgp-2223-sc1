@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:src/models/timeslot/timeslot_student_timeslot_super_entity.dart';
 import 'package:src/themes/colors.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:src/widgets/tasks/timeslot_task_bar.dart';
 
 import 'package:src/models/student/task.dart';
-import 'package:src/models/timeslot/timeslot.dart';
 
+//This will be the modal that will appear when the user finishes a student timeslot
 class TimeslotFinishedModal extends StatefulWidget {
-  final Timeslot timeslot;
+  final TimeslotStudentTimeslotSuperEntity timeslot;
   final List<Task> tasks;
 
   const TimeslotFinishedModal(

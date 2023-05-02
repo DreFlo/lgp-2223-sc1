@@ -4,17 +4,17 @@ import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:src/animation_test/main.dart';
 import 'package:src/daos/user_dao.dart';
+import 'package:src/models/timeslot/timeslot_student_timeslot_super_entity.dart';
 import 'package:src/models/user.dart';
 import 'package:src/pages/events/event_form.dart';
 import 'package:src/pages/gamification/no_progress_in_timeslot_modal.dart';
-import 'package:src/pages/gamification/timeslot_finished_modal.dart';
+import 'package:src/pages/gamification/student_timeslot_finished_modal.dart';
 import 'package:src/pages/auth/landing_page.dart';
 import 'package:src/pages/tasks/institution_form.dart';
 import 'package:src/pages/tasks/subject_form.dart';
 import 'package:src/themes/colors.dart';
 import 'package:src/utils/service_locator.dart';
 import 'package:src/models/student/task.dart';
-import 'package:src/models/timeslot/timeslot.dart';
 import 'package:src/pages/gamification/gained_xp_toast.dart';
 import 'package:src/pages/gamification/level_up_toast.dart';
 import 'package:src/utils/enums.dart';
@@ -272,7 +272,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                             borderRadius: BorderRadius.circular(30),
                           ),
                           child: TimeslotFinishedModal(
-                              timeslot: Timeslot(
+                              timeslot: TimeslotStudentTimeslotSuperEntity(
                                   title: "Finish LGP project!",
                                   description: "Finish LGP project!",
                                   xpMultiplier: 2,

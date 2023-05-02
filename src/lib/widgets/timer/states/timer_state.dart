@@ -40,7 +40,6 @@ abstract class TimerState {
   void onTimeUp() {}
 
   void leave() {
-    // TODO(gamification): user left pomodoro - give feedback
     timer?.cancel();
     Navigator.pop(context);
   }

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:src/pages/gamification/student_timeslot_finished_modal.dart';
 import 'package:src/widgets/home/homepage_horizontal_scrollview.dart';
 import 'package:src/widgets/home/profile_pic.dart';
 import 'package:src/widgets/home/event_listview.dart';
@@ -46,10 +47,10 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   void checkEventDone(){
-    // TODO Check if event is done and update database
     studentEvents.sort((a, b) => a.endDateTime.compareTo(b.endDateTime));
     for(var i=0; i<studentEvents.length; i++){
       if(studentEvents[i].endDateTime.isBefore(DateTime.now())){
+
       }
     }
 
