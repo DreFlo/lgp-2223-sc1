@@ -128,7 +128,9 @@ class _ProjectShowState extends State<ProjectShow> {
                             ),
                           ))
                     ]),
-                    Row(children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
                       Container(
                           padding: const EdgeInsets.symmetric(
                               horizontal: 10, vertical: 5),
@@ -147,7 +149,8 @@ class _ProjectShowState extends State<ProjectShow> {
                                       fontSize: 16,
                                       fontWeight: FontWeight.w600),
                                   textAlign: TextAlign.center),
-                            ])
+                              
+                            ]),
                           ]))
                     ]),
                     const SizedBox(height: 15),
@@ -451,6 +454,8 @@ class _ProjectShowState extends State<ProjectShow> {
           editTask: editTask,
           deleteTask: deleteTask(tasks[i]),
         ));
+
+        taskList.add(const SizedBox(height: 15));
       }
     }
 
