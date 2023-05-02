@@ -41,6 +41,7 @@ class TaskForm extends StatefulWidget {
       this.id,
       this.taskGroupId,
       this.callback,
+      this.editNotesCallback,
       this.deleteCallback,
       this.task,
       this.createProject = true})
