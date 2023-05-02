@@ -28,9 +28,10 @@ void main() {
   testWidgets('test if XP gain is accused', (WidgetTester widgetTester) async {
     final user = User(
         userName: 'Emil', password: 'test', xp: 300, level: 2, imagePath: '');
-    
+
     final mockUserDao = serviceLocator.get<UserDao>();
-    when(mockUserDao.findAllUsers()).thenAnswer((_) async => [user]);
+    when(mockUserDao.findUserById(1)).thenAnswer((_) => Stream.value(user));
+
 
     final mockInstitutionDao = serviceLocator.get<InstitutionDao>();
     when(mockInstitutionDao.findAllInstitutions()).thenAnswer((_) async => []);
