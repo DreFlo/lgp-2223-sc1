@@ -150,6 +150,52 @@ void markTimeslotAsDoneOrNot(
   await serviceLocator<TimeslotDao>().updateTimeslot(newTimeslot);
 }
 
+void updateUserShowLevelUpToast(User user, int points, context) async {
+  User newUser = User(
+      id: user.id,
+      userName: user.userName,
+      password: user.password,
+      xp: user.xp + points,
+      level: user.level + 1,
+      imagePath: user.imagePath);
+
+  await updateUser(newUser);
+
+  var snackBar = SnackBar(
+    content: LevelUpToast(oldLevel: user.level, newLevel: user.level + 1),
+    backgroundColor: Colors.transparent,
+    elevation: 0,
+  );
+  // Step 3
+  ScaffoldMessenger.of(context).showSnackBar(snackBar);
+}
+
+void updateUserShowGainedXPToast(User user, int points, context) async{
+  int value = levels[user.level + 1]!;
+    User newUser = User(
+        id: user.id,
+        userName: user.userName,
+        password: user.password,
+        xp: user.xp + points,
+        level: user.level,
+        imagePath: user.imagePath);
+
+    await updateUser(newUser);
+
+    var snackBar = SnackBar(
+      duration: const Duration(seconds: 30),
+      content: GainedXPToast(
+        value: value,
+        level: user.level,
+        points: points,
+      ),
+      backgroundColor: Colors.transparent,
+      elevation: 0,
+    );
+    // Step 3
+    ScaffoldMessenger.of(context).showSnackBar(snackBar);
+}
+
 Future<GameState> check(
     List<Task>? tasks,
     List<Media>? medias,
@@ -222,49 +268,11 @@ Future<GameState> check(
   }
 
   if (checkLevelUp(user.xp + points, user.level)) {
-    User newUser = User(
-        id: user.id,
-        userName: user.userName,
-        password: user.password,
-        xp: user.xp + points,
-        level: user.level + 1,
-        imagePath: user.imagePath);
-
-    await updateUser(newUser);
-
-    var snackBar = SnackBar(
-      content: LevelUpToast(oldLevel: user.level, newLevel: user.level + 1),
-      backgroundColor: Colors.transparent,
-      elevation: 0,
-    );
-    // Step 3
-    ScaffoldMessenger.of(context).showSnackBar(snackBar);
+    updateUserShowLevelUpToast(user, points, context);
 
     return GameState.levelUp;
   } else {
-    int value = levels[user.level + 1]!;
-    User newUser = User(
-        id: user.id,
-        userName: user.userName,
-        password: user.password,
-        xp: user.xp + points,
-        level: user.level,
-        imagePath: user.imagePath);
-
-    await updateUser(newUser);
-
-    var snackBar = SnackBar(
-      duration: const Duration(seconds: 30),
-      content: GainedXPToast(
-        value: value,
-        level: user.level,
-        points: points,
-      ),
-      backgroundColor: Colors.transparent,
-      elevation: 0,
-    );
-    // Step 3
-    ScaffoldMessenger.of(context).showSnackBar(snackBar);
+    updateUserShowGainedXPToast(user, points, context);
 
     return GameState.progress;
   }
@@ -278,52 +286,12 @@ Future<GameState> checkNonEventNonTask(Task task, context) async {
   User user = await getUser();
 
   if (checkLevelUp(user.xp + points, user.level)) {
-    User newUser = User(
-        id: user.id,
-        userName: user.userName,
-        password: user.password,
-        xp: user.xp + points,
-        level: user.level + 1,
-        imagePath: user.imagePath);
-
-    await updateUser(newUser);
-
-    var snackBar = SnackBar(
-      content: LevelUpToast(oldLevel: user.level, newLevel: user.level + 1),
-      backgroundColor: Colors.transparent,
-      elevation: 0,
-    );
-    // Step 3
-    ScaffoldMessenger.of(context).showSnackBar(snackBar);
+    updateUserShowLevelUpToast(user, points, context);
 
     return GameState.levelUp;
     //show level up screen
   } else {
-    int value = levels[user.level + 1]!;
-    User newUser = User(
-        id: user.id,
-        userName: user.userName,
-        password: user.password,
-        xp: user.xp + points,
-        level: user.level,
-        imagePath: user.imagePath);
-
-    await updateUser(newUser);
-
-    var snackBar = SnackBar(
-      duration: const Duration(seconds: 30),
-      content: GainedXPToast(
-        value: value,
-        level: user.level,
-        points: points,
-      ),
-      backgroundColor: Colors.transparent,
-      elevation: 0,
-    );
-    // Step 3
-    ScaffoldMessenger.of(context).showSnackBar(snackBar);
-    //return null;
-    //show progress screen
+    updateUserShowGainedXPToast(user, points, context);
     return GameState.progress;
   }
 }
@@ -366,48 +334,10 @@ void getPomodoroXP(int focusTime, int sessions, int shortBreak, context) async {
   User user = await getUser();
 
   if (checkLevelUp(user.xp + points, user.level)) {
-    User newUser = User(
-        id: user.id,
-        userName: user.userName,
-        password: user.password,
-        xp: user.xp + points,
-        level: user.level + 1,
-        imagePath: user.imagePath);
-
-    await updateUser(newUser);
-    var snackBar = SnackBar(
-      content: LevelUpToast(oldLevel: user.level, newLevel: user.level + 1),
-      backgroundColor: Colors.transparent,
-      elevation: 0,
-    );
-    // Step 3
-    ScaffoldMessenger.of(context).showSnackBar(snackBar);
+    updateUserShowLevelUpToast(user, points, context);
 
     //show level up screen
   } else {
-    int value = levels[user.level + 1]!;
-    User newUser = User(
-        id: user.id,
-        userName: user.userName,
-        password: user.password,
-        xp: user.xp + points,
-        level: user.level,
-        imagePath: user.imagePath);
-
-    await updateUser(newUser);
-
-    var snackBar = SnackBar(
-      duration: const Duration(seconds: 30),
-      content: GainedXPToast(
-        value: value,
-        level: user.level,
-        points: points,
-      ),
-      backgroundColor: Colors.transparent,
-      elevation: 0,
-    );
-    // Step 3
-    ScaffoldMessenger.of(context).showSnackBar(snackBar);
+    updateUserShowGainedXPToast(user, points, context);
   }
 }
-
