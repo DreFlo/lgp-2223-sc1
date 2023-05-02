@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:src/daos/media/media_dao.dart';
 import 'package:src/daos/timeslot/media_timeslot_dao.dart';
 import 'package:src/daos/timeslot/student_timeslot_dao.dart';
+import 'package:src/daos/timeslot/task_student_timeslot_dao.dart';
 import 'package:src/daos/timeslot/timeslot_dao.dart';
 import 'package:src/models/media/media.dart';
 import 'package:src/models/timeslot/timeslot.dart';
@@ -34,8 +35,8 @@ int getImmediatePoints() {
   return (basePoints * nonEventTaskMultiplier).floor();
 }
 
-int getTaskGroupPoints() {
-  double points = getImmediatePoints() + taskGroupPoints * taskGroupMultiplier;
+int getTaskGroupBonusPoints() {
+  double points = taskGroupPoints * taskGroupMultiplier;
 
   return points.floor();
 }
@@ -202,6 +203,21 @@ void updateUserShowGainedXPToast(User user, int points, context) async {
   ScaffoldMessenger.of(context).showSnackBar(snackBar);
 }
 
+Future<bool> checkTaskFromEvent(Task task) async {
+  Timeslot? event;
+  List<int> eventsId = await serviceLocator<TaskStudentTimeslotDao>()
+      .findStudentTimeslotIdByTaskId(task.id!);
+  if (eventsId.isNotEmpty) {
+    for (int i = 0; i < eventsId.length; i++) {
+      event = await serviceLocator<TimeslotDao>().findTimeslotById(eventsId[i]).first;
+      if (!event!.finished && event.startDateTime.isBefore(DateTime.now()) && event.endDateTime.isAfter(DateTime.now())) {
+        return true;
+      }
+    }
+  }
+  return false;
+}
+
 Future<GameState> check(
     List<Task>? tasks,
     List<Media>? medias,
@@ -287,14 +303,25 @@ Future<GameState> check(
 Future<GameState> checkNonEventNonTask(
     Task task, context, bool fromTaskGroup) async {
   int points = getImmediatePoints();
+
+  // need to check if task is part of an event; if event is not finished and if event is taking place rn
+  // if so, give extra points due to event
+  bool fromEvent = await checkTaskFromEvent(task);
+
+  if (fromEvent) {
+    points = getTaskComboPoints();
+  }
   if (fromTaskGroup) {
     //gets bonus points for being part of a taskgroup
-    points = getTaskGroupPoints();
+    points += getTaskGroupBonusPoints();
   }
 
   markTaskAsDoneOrNot(task, true, points);
 
   User user = await getUser();
+
+  // Check if user could level up more than one level at a time
+  // Check remove points again
 
   if (checkLevelUp(user.xp + points, user.level)) {
     updateUserShowLevelUpToast(user, points, context);
