@@ -17,6 +17,6 @@ final mockMediaTimeslots = [
       startDateTime: DateTime(2023, 5, 1, 0, 0, 0),
       endDateTime: DateTime(2023, 5, 1, 23, 59, 59),
       xpMultiplier: 0,
-      finished: false,
+      finished: true,
       userId: 1)
 ];

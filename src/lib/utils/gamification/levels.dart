@@ -15,11 +15,17 @@ const levels = {
 // Level calculation constants.
 const basePoints = 50;
 
-const nonEventTaskMultiplier = 0.6;
+const nonEventTaskMultiplier = 0.6; //normal task
 
+//tasks in taskgroup
+const taskGroupMultiplier = 0.1;
+const taskGroupPoints = 20;
+
+//task/taskgroup in events
 const taskComboMultiplier = 0.2;
 const taskComboPoints = 30;
 
+//different modules in events
 const moduleComboMultiplier = 0.5;
 const moduleComboPoints = 20;
 

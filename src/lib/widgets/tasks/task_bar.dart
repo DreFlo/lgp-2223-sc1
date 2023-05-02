@@ -118,7 +118,7 @@ class _TaskBarState extends State<TaskBar> {
                             if (!taskStatus) {
                               //it's currently false, going to become true, when it gets to setState
                               //gain xp
-                              checkNonEventNonTask(task, context);
+                              checkNonEventNonTask(task, context, true);
                             } else {
                               //lose xp
                               removePoints(getImmediatePoints(), task);

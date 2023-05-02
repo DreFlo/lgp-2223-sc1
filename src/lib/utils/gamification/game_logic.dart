@@ -34,6 +34,12 @@ int getImmediatePoints() {
   return (basePoints * nonEventTaskMultiplier).floor();
 }
 
+int getTaskGroupPoints() {
+  double points = getImmediatePoints() + taskGroupPoints * taskGroupMultiplier;
+
+  return points.floor();
+}
+
 int getModuleComboPoints() {
   double points = moduleComboPoints * moduleComboMultiplier;
 
@@ -170,30 +176,30 @@ void updateUserShowLevelUpToast(User user, int points, context) async {
   ScaffoldMessenger.of(context).showSnackBar(snackBar);
 }
 
-void updateUserShowGainedXPToast(User user, int points, context) async{
+void updateUserShowGainedXPToast(User user, int points, context) async {
   int value = levels[user.level + 1]!;
-    User newUser = User(
-        id: user.id,
-        userName: user.userName,
-        password: user.password,
-        xp: user.xp + points,
-        level: user.level,
-        imagePath: user.imagePath);
+  User newUser = User(
+      id: user.id,
+      userName: user.userName,
+      password: user.password,
+      xp: user.xp + points,
+      level: user.level,
+      imagePath: user.imagePath);
 
-    await updateUser(newUser);
+  await updateUser(newUser);
 
-    var snackBar = SnackBar(
-      duration: const Duration(seconds: 30),
-      content: GainedXPToast(
-        value: value,
-        level: user.level,
-        points: points,
-      ),
-      backgroundColor: Colors.transparent,
-      elevation: 0,
-    );
-    // Step 3
-    ScaffoldMessenger.of(context).showSnackBar(snackBar);
+  var snackBar = SnackBar(
+    duration: const Duration(seconds: 30),
+    content: GainedXPToast(
+      value: value,
+      level: user.level,
+      points: points,
+    ),
+    backgroundColor: Colors.transparent,
+    elevation: 0,
+  );
+  // Step 3
+  ScaffoldMessenger.of(context).showSnackBar(snackBar);
 }
 
 Future<GameState> check(
@@ -278,8 +284,13 @@ Future<GameState> check(
   }
 }
 
-Future<GameState> checkNonEventNonTask(Task task, context) async {
+Future<GameState> checkNonEventNonTask(
+    Task task, context, bool fromTaskGroup) async {
   int points = getImmediatePoints();
+  if (fromTaskGroup) {
+    //gets bonus points for being part of a taskgroup
+    points = getTaskGroupPoints();
+  }
 
   markTaskAsDoneOrNot(task, true, points);
 
