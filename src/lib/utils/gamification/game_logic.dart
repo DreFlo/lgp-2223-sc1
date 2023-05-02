@@ -85,6 +85,19 @@ Future<List<EventType>> getLastTimeslotTypes() async {
   return lastTimeslotType;
 }
 
+int getLevel(int currentPoints, int points, int currentLevel) {
+  int level = currentLevel;
+
+  while (points >= levels[level + 1]!) {
+    if (level == 10) {
+      break;
+    }
+    level++;
+  }
+
+  return level;
+}
+
 bool checkLevelUp(int userPoints, int currentLevel) {
   if (currentLevel + 1 > levels.length) {
     return false;
@@ -158,18 +171,20 @@ void markTimeslotAsDoneOrNot(
 }
 
 void updateUserShowLevelUpToast(User user, int points, context) async {
+  int level = getLevel(user.xp, points, user.level);
+
   User newUser = User(
       id: user.id,
       userName: user.userName,
       password: user.password,
       xp: user.xp + points,
-      level: user.level + 1,
+      level: level,
       imagePath: user.imagePath);
 
   await updateUser(newUser);
 
   var snackBar = SnackBar(
-    content: LevelUpToast(oldLevel: user.level, newLevel: user.level + 1),
+    content: LevelUpToast(oldLevel: user.level, newLevel: level),
     backgroundColor: Colors.transparent,
     elevation: 0,
   );
@@ -209,8 +224,12 @@ Future<bool> checkTaskFromEvent(Task task) async {
       .findStudentTimeslotIdByTaskId(task.id!);
   if (eventsId.isNotEmpty) {
     for (int i = 0; i < eventsId.length; i++) {
-      event = await serviceLocator<TimeslotDao>().findTimeslotById(eventsId[i]).first;
-      if (!event!.finished && event.startDateTime.isBefore(DateTime.now()) && event.endDateTime.isAfter(DateTime.now())) {
+      event = await serviceLocator<TimeslotDao>()
+          .findTimeslotById(eventsId[i])
+          .first;
+      if (!event!.finished &&
+          event.startDateTime.isBefore(DateTime.now()) &&
+          event.endDateTime.isAfter(DateTime.now())) {
         return true;
       }
     }
@@ -355,8 +374,6 @@ void removePoints(int points, Task task) async {
       imagePath: user.imagePath);
 
   await updateUser(newUser);
-
-  //should we show a screen for losing a level/xp?
 }
 
 void getPomodoroXP(int focusTime, int sessions, int shortBreak, context) async {
