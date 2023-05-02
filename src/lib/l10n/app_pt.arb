@@ -179,5 +179,7 @@
   "language": "Linguagem",
   "english": "Inglês",
   "portuguese": "Português",
-  "dark_mode": "Modo Escuro"
+  "dark_mode": "Modo Escuro",
+  "starting" : "a começar",
+  "ending" : "a terminar"
 }
