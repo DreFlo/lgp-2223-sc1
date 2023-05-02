@@ -67,9 +67,10 @@ class _MediaTimeslotFinishedModalState
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Flexible(
-              fit: FlexFit.loose,
+              fit: FlexFit.tight,
               child: Text(
                 widget.timeslot.title,
+                textAlign: TextAlign.center,
                 style: const TextStyle(
                   color: leisureColor,
                   fontSize: 35,
