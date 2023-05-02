@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:src/models/timeslot/timeslot_media_timeslot_super_entity.dart';
 import 'package:src/themes/colors.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:src/utils/gamification/game_logic.dart';
 import 'package:src/widgets/leisure/timeslot_media_bar.dart';
 
 import 'package:src/models/media/media.dart';
