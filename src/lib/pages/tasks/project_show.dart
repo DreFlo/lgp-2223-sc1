@@ -110,11 +110,14 @@ class _ProjectShowState extends State<ProjectShow> {
             } else {
               priorityText = AppLocalizations.of(context).high;
             }
-            return Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 24),
-                child: SingleChildScrollView(
-                  controller: widget.scrollController,
-                  child: Wrap(spacing: 10, children: [
+            return ClipRRect(borderRadius: const BorderRadius.vertical(top: Radius.circular(30.0)),
+                child: Scaffold(
+                  primary: false,
+                  backgroundColor: modalBackground,
+                  body: SingleChildScrollView(
+                                    padding: const EdgeInsets.symmetric(horizontal: 24),
+                controller: widget.scrollController,
+                child: Wrap(spacing: 10, children: [
                     Row(mainAxisAlignment: MainAxisAlignment.center, children: [
                       Padding(
                           padding: const EdgeInsets.only(top: 15, bottom: 15),
@@ -185,8 +188,9 @@ class _ProjectShowState extends State<ProjectShow> {
                     ...getTasks(),
                     const SizedBox(height: 30),
                     getEndButtons(context),
+                    const SizedBox(height: 30),
                   ]),
-                ));
+                )));
           } else {
             return const Center(child: CircularProgressIndicator());
           }
