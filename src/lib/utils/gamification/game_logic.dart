@@ -85,7 +85,7 @@ Future<List<EventType>> getLastTimeslotTypes() async {
   return lastTimeslotType;
 }
 
-int getLevel(int currentPoints, int points, int currentLevel) {
+int getLevel(int points, int currentLevel) {
   int level = currentLevel;
 
   while (points >= levels[level + 1]!) {
@@ -171,7 +171,7 @@ void markTimeslotAsDoneOrNot(
 }
 
 void updateUserShowLevelUpToast(User user, int points, context) async {
-  int level = getLevel(user.xp, points, user.level);
+  int level = getLevel(user.xp + points, user.level);
 
   User newUser = User(
       id: user.id,
