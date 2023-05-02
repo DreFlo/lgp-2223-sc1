@@ -220,24 +220,30 @@ class _ProjectFormState extends State<ProjectForm> {
         future: initData(),
         builder: (BuildContext context, AsyncSnapshot<int> snapshot) {
           if (snapshot.hasData) {
-            return Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 24),
-                child: SingleChildScrollView(
-                  controller: widget.scrollController,
-                  child: Wrap(spacing: 10, children: [
-                    Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-                      Padding(
-                          padding: const EdgeInsets.only(top: 15, bottom: 15),
-                          child: Container(
-                            width: 115,
-                            height: 18,
-                            alignment: Alignment.center,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(10),
-                              color: const Color(0xFF414554),
-                            ),
-                          ))
-                    ]),
+            return ClipRRect(borderRadius: BorderRadius.vertical(top: Radius.circular(30.0)),
+                child: Scaffold(
+                  primary: false,
+                  backgroundColor: modalBackground,
+                  body: SingleChildScrollView(
+                                    padding: const EdgeInsets.symmetric(horizontal: 24),
+                controller: widget.scrollController,
+                child: Wrap(spacing: 10, children: [
+                    Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Padding(
+                              padding: const EdgeInsets.only(
+                                  top: 15, bottom: 15),
+                              child: Container(
+                                width: 115,
+                                height: 18,
+                                alignment: Alignment.center,
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(10),
+                                  color: const Color(0xFF414554),
+                                ),
+                              ))
+                        ]),
                     Row(children: [
                       Container(
                           padding: const EdgeInsets.symmetric(
@@ -292,8 +298,9 @@ class _ProjectFormState extends State<ProjectForm> {
                     ...getTasks(),
                     const SizedBox(height: 30),
                     getEndButtons(context),
+                    const SizedBox(height: 30)
                   ]),
-                ));
+                )));
           } else {
             return const Center(child: CircularProgressIndicator());
           }
