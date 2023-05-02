@@ -9,7 +9,6 @@ import 'package:src/models/user.dart';
 import 'package:src/pages/gamification/gained_xp_toast.dart';
 import 'package:src/utils/enums.dart';
 import 'package:src/utils/service_locator.dart';
-import 'package:src/widgets/tasks/task_bar.dart';
 import 'package:src/widgets/tasks/task_show_bar.dart';
 
 import '../../../utils/locations_injector.dart';

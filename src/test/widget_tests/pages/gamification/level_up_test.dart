@@ -6,7 +6,6 @@ import 'package:src/models/student/task.dart';
 import 'package:src/daos/user_dao.dart';
 import 'package:src/models/student/task_group.dart';
 import 'package:src/models/user.dart';
-import 'package:src/pages/gamification/level_up_toast.dart';
 import 'package:src/utils/enums.dart';
 import 'package:src/utils/service_locator.dart';
 import 'package:src/widgets/tasks/task_show_bar.dart';
