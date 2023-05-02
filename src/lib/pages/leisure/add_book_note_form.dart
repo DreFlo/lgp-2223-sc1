@@ -74,7 +74,7 @@ class _AddBookNoteFormState extends State<AddBookNoteForm> {
                     textAlign: TextAlign.center,
                     decoration: InputDecoration(
                       filled: true,
-                      fillColor: textField,
+                      fillColor: darkTextField,
                       helperStyle: Theme.of(context).textTheme.labelSmall,
                       border: OutlineInputBorder(
                         borderSide: BorderSide.none,
@@ -96,7 +96,7 @@ class _AddBookNoteFormState extends State<AddBookNoteForm> {
                     textAlign: TextAlign.center,
                     decoration: InputDecoration(
                       filled: true,
-                      fillColor: textField,
+                      fillColor: darkTextField,
                       helperStyle: Theme.of(context).textTheme.labelSmall,
                       border: OutlineInputBorder(
                         borderSide: BorderSide.none,
@@ -179,7 +179,7 @@ class _AddBookNoteFormState extends State<AddBookNoteForm> {
                     maxLines: 10,
                     decoration: InputDecoration(
                       filled: true,
-                      fillColor: textField,
+                      fillColor: darkTextField,
                       helperStyle: Theme.of(context).textTheme.labelSmall,
                       border: OutlineInputBorder(
                         borderSide: BorderSide.none,
