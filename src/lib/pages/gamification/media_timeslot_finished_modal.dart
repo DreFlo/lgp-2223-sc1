@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:src/models/timeslot/timeslot_media_timeslot_super_entity.dart';
+import 'package:src/pages/gamification/no_progress_in_timeslot_modal.dart';
+import 'package:src/pages/gamification/progress_in_timeslot_modal.dart';
 import 'package:src/themes/colors.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:src/utils/enums.dart';
+import 'package:src/utils/gamification/game_logic.dart';
 import 'package:src/widgets/leisure/timeslot_media_bar.dart';
 
 import 'package:src/models/media/media.dart';
@@ -107,17 +111,52 @@ class _MediaTimeslotFinishedModalState
                 padding: MaterialStateProperty.all(
                     const EdgeInsets.symmetric(vertical: 15, horizontal: 50))),
             onPressed: () {
-              List<int> mediaIds = [];
-              /*for (TimeslotMediaBar m in mediaState) {
-                if (m.) {
-                  taskIds.add(t.taskId);
+              List<Media> mediasDone = [];
+              for (TimeslotMediaBar m in mediaState) {
+                if (m.taskStatus) {
+                  mediasDone.add(m.media);
                 }
               }
 
-              taskIds.add(0);
-              //TODO: Use Game class :)
-              //TODO: show emil modal <3*/
-            },
+              check([], mediasDone, widget.timeslot, null, context);
+
+              if(mediasDone.isEmpty){
+                  WidgetsBinding.instance.addPostFrameCallback((_) {
+                showDialog(
+                      context: context,
+                      builder: (context) => Dialog(
+                          backgroundColor: modalBackground,
+                          insetPadding: const EdgeInsets.symmetric(horizontal: 20),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(30),
+                          ),
+                          child: const NoProgressInTimeslotModal()));
+                  });
+              }
+              else {
+                  WidgetsBinding.instance.addPostFrameCallback((_) {
+                showDialog(
+                      context: context,
+                      builder: (context) => Dialog(
+                          backgroundColor: modalBackground,
+                          insetPadding: const EdgeInsets.symmetric(horizontal: 20),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(30),
+                          ),
+                          child: ProgressInTimeslotModal(
+                            modules: const [
+                              Module.student,
+                              Module.fitness,
+                              Module.personal,
+                              Module.leisure
+                            ],
+                            taskCount: widget.medias.length,
+                            finishedTaskCount: mediasDone.length,
+                          )));
+              }
+              );
+              }
+           },
             child: Text(AppLocalizations.of(context).confirm,
                 style: Theme.of(context).textTheme.headlineSmall),
           )),

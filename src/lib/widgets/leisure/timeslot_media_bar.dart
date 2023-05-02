@@ -5,8 +5,9 @@ import 'package:src/utils/enums.dart';
 
 class TimeslotMediaBar extends StatefulWidget {
   final Media media;
+  bool taskStatus = false;
 
-  const TimeslotMediaBar({Key? key, required this.media}) : super(key: key);
+  TimeslotMediaBar({Key? key, required this.media}) : super(key: key);
 
   @override
   State<TimeslotMediaBar> createState() => _TimeslotMediaBarState();
@@ -50,6 +51,7 @@ class _TimeslotMediaBarState extends State<TimeslotMediaBar> {
                     onTap: () {
                       return setState(() {
                         taskStatus = !taskStatus;
+                        widget.taskStatus = taskStatus;
                       });
                     },
                     child: Container(
