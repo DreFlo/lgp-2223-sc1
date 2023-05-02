@@ -48,8 +48,8 @@ class _MyBottomNavigationBarState extends State<MyBottomNavigationBar> {
       width: MediaQuery.of(context).size.width,
       height: 90,
       padding: const EdgeInsets.only(left: 30, right: 30),
-      decoration: BoxDecoration(
-          borderRadius: const BorderRadius.only(
+      decoration: const BoxDecoration(
+          borderRadius: BorderRadius.only(
             topLeft: Radius.circular(20),
             topRight: Radius.circular(20),
           ),
