@@ -20,17 +20,21 @@ const Color fitnessColor = Color(0xFF4690FF);
 
 const Color lightGray = Color(0xFF2F3443);
 
+Color modalBackground = (darkMode ? modalDarkBackground : modalLightBackground);
 const Color modalLightBackground = Color(0xFF2F3443);
 const Color modalDarkBackground = Color(0xFFF3F4F6);
 
+Color textField = (darkMode ? darkTextField : lightTextField);
 const Color darkTextField = Color(0xFF17181C);
 const Color lightTextField = Color(0xFFF4F4F6);
 
+Color bottomNavbar = (darkMode ? darkBottomNavbar : lightBottomNavbar);
 const Color darkBottomNavbar = Color(0xFF1A1D25);
 const Color lightBottomNavbar = Color(0xFFF3F4F7);
 
 const Color shadowColor = Color(0xFF1B2135);
 
+Color grayBackground = (darkMode ? darkGrayBackground : lightGrayBackground);
 const Color darkGrayBackground = Color(0xFF414554);
 const Color lightGrayBackground = Color(0xFFF3F4F6);
 
