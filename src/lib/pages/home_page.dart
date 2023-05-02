@@ -17,6 +17,7 @@ import 'package:src/pages/tasks/task_form.dart';
 import 'package:src/pages/timer/timer_form.dart';
 import 'package:src/themes/colors.dart';
 import 'package:src/utils/enums.dart';
+import 'package:src/utils/reset_db.dart';
 import 'package:src/utils/service_locator.dart';
 import 'package:tmdb_api/tmdb_api.dart';
 
@@ -746,6 +747,8 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                             ),
                           )));
                 }),
+            ElevatedButton(
+                onPressed: resetAndSeedDatabase, child: Text("Reset Database")),
             FutureBuilder(
                 key: ValueKey<Object>(redrawObject),
                 future: serviceLocator<UserDao>().findAllUsers(),
