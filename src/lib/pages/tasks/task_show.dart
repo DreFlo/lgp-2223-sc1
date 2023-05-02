@@ -48,6 +48,7 @@ class _TaskShowState extends State<TaskShow> {
   late TaskGroup? taskGroup;
   late Task task;
   late bool finished;
+  late int points;
   bool init = false;
 
   TaskGroup taskGroupNone = TaskGroup(
@@ -125,6 +126,7 @@ class _TaskShowState extends State<TaskShow> {
     super.initState();
 
     finished = widget.task.finished;
+    points = widget.task.xp;
   }
 
   @override
@@ -193,11 +195,11 @@ class _TaskShowState extends State<TaskShow> {
                                   splashColor: Colors.transparent,
                                   onTap: () async {
                                     if (!finished) {
-                                      checkNonEventNonTask(
+                                      points = await checkNonEventNonTask(
                                           task, context, false);
                                     } else {
                                       //lose xp
-                                      removePoints(getImmediatePoints(), task);
+                                      removePoints(points, task);
                                     }
                                     setState(() {
                                       finished = !finished;

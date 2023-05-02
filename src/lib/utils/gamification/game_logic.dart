@@ -318,7 +318,7 @@ Future<GameState> check(
   }
 }
 
-Future<GameState> checkNonEventNonTask(
+Future<int> checkNonEventNonTask(
     Task task, context, bool fromTaskGroup) async {
   int points = getImmediatePoints();
 
@@ -344,11 +344,11 @@ Future<GameState> checkNonEventNonTask(
   if (checkLevelUp(user.xp + points, user.level)) {
     updateUserShowLevelUpToast(user, points, context);
 
-    return GameState.levelUp;
+    return points;
     //show level up screen
   } else {
     updateUserShowGainedXPToast(user, points, context);
-    return GameState.progress;
+    return points;
   }
 }
 
