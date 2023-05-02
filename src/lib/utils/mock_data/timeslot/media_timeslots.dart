@@ -15,7 +15,7 @@ final mockMediaTimeslots = [
       title: 'Star Wars marathon',
       description: 'word words words words words',
       startDateTime: DateTime(2023, 5, 1, 0, 0, 0),
-      endDateTime: DateTime(2023, 5, 1 , 23, 59, 59),
+      endDateTime: DateTime(2023, 5, 1, 23, 59, 59),
       xpMultiplier: 0,
       finished: true,
       userId: 1)

@@ -60,10 +60,9 @@ class FocusRunningState extends TimerState {
   void onTimeUp() {
     if (tracker.currentSession < settings.sessions) {
       // TODO(notifications): sent notification to user (It is BREAK time!)
-      if(tracker.currentSession != 1){
-        getPomodoroXP(
-        settings.focusTime, tracker.currentSession, settings.sessions, settings.shortBreak, context, false);
-
+      if (tracker.currentSession != 1) {
+        getPomodoroXP(settings.focusTime, tracker.currentSession,
+            settings.sessions, settings.shortBreak, context, false);
       }
       changeState(BreakPausedState(
           timer: timer,

@@ -374,19 +374,19 @@ void removePoints(int points, Task task) async {
   await updateUser(newUser);
 }
 
-void getPomodoroXP(
-    int focusTime, int currentSession, int sessions, int shortBreak, context, bool end) async {
+void getPomodoroXP(int focusTime, int currentSession, int sessions,
+    int shortBreak, context, bool end) async {
   int points = 6 * currentSession;
   double percentagePoints = 1.0;
 
   if (end) {
     percentagePoints = (currentSession == sessions) ? 1.0 : 0.9;
     if (focusTime / shortBreak < 0.2) {
-      points += (longerWorkPoints*percentagePoints).floor();
+      points += (longerWorkPoints * percentagePoints).floor();
     } else if (focusTime / shortBreak > 0.2) {
-      points += (longerBreakPoints*percentagePoints).floor();
+      points += (longerBreakPoints * percentagePoints).floor();
     } else {
-      points += (basePoints*percentagePoints).floor();
+      points += (basePoints * percentagePoints).floor();
     }
   }
 

@@ -63,19 +63,19 @@ class _StudentTimeslotFinishedModalState
                   fontWeight: FontWeight.bold)),
         ]),
         Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-           Flexible(
-              fit: FlexFit.tight,
-              child: Text(
-                widget.timeslot.title,
-                textAlign: TextAlign.center,
-                style: const TextStyle(
-                  color: leisureColor,
-                  fontSize: 35,
-                  fontWeight: FontWeight.w600,
-                  fontStyle: FontStyle.italic,
-                ),
+          Flexible(
+            fit: FlexFit.tight,
+            child: Text(
+              widget.timeslot.title,
+              textAlign: TextAlign.center,
+              style: const TextStyle(
+                color: leisureColor,
+                fontSize: 35,
+                fontWeight: FontWeight.w600,
+                fontStyle: FontStyle.italic,
               ),
             ),
+          ),
         ]),
         Row(mainAxisAlignment: MainAxisAlignment.center, children: [
           Text(AppLocalizations.of(context).event_finished_2,

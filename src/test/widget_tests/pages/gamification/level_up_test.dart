@@ -35,26 +35,25 @@ void main() {
     await widgetTester.pumpWidget(LocalizationsInjector(
         child: Scaffold(
             body: TaskShowBar(
-                key: const Key("task_1"),
-                taskGroup: TaskGroup(
-                    name: 'Install flutter packages',
-                    description: 'Run flutter pub get',
-                    id: 1,
-                    subjectId: 1,
-                    deadline: DateTime.now(),
-                    priority: Priority.high
-                ),
-                task: Task(
-                    name: 'Install flutter packages',
-                    description: 'Run flutter pub get',
-                    priority: Priority.high,
-                    deadline: DateTime.now().subtract(const Duration(days: 1)),
-                    taskGroupId: 1,
-                    subjectId: 1,
-                    xp: 10,
-                    id: 1,
-                    finished: false),
-                ))));
+      key: const Key("task_1"),
+      taskGroup: TaskGroup(
+          name: 'Install flutter packages',
+          description: 'Run flutter pub get',
+          id: 1,
+          subjectId: 1,
+          deadline: DateTime.now(),
+          priority: Priority.high),
+      task: Task(
+          name: 'Install flutter packages',
+          description: 'Run flutter pub get',
+          priority: Priority.high,
+          deadline: DateTime.now().subtract(const Duration(days: 1)),
+          taskGroupId: 1,
+          subjectId: 1,
+          xp: 10,
+          id: 1,
+          finished: false),
+    ))));
 
     var task = find.byKey(Key('task_$id'), skipOffstage: false);
     expect(task, findsOneWidget);
