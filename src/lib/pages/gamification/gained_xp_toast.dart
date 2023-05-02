@@ -58,7 +58,7 @@ class _GainedXPToastState extends State<GainedXPToast>
             });
           });
 
-    Future.delayed(const Duration(seconds: 1), () {
+    Future.delayed(const Duration(milliseconds: 750), () {
       if (mounted) {
         controller.forward();
       }

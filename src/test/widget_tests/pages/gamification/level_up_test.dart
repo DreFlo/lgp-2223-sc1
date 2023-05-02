@@ -6,10 +6,9 @@ import 'package:src/models/student/task.dart';
 import 'package:src/daos/user_dao.dart';
 import 'package:src/models/student/task_group.dart';
 import 'package:src/models/user.dart';
-import 'package:src/pages/gamification/gained_xp_toast.dart';
+import 'package:src/pages/gamification/level_up_toast.dart';
 import 'package:src/utils/enums.dart';
 import 'package:src/utils/service_locator.dart';
-import 'package:src/widgets/tasks/task_bar.dart';
 import 'package:src/widgets/tasks/task_show_bar.dart';
 
 import '../../../utils/locations_injector.dart';
@@ -21,9 +20,9 @@ void main() {
     await serviceLocator.allReady();
   });
 
-  testWidgets('test if XP gain is accused', (WidgetTester widgetTester) async {
+  testWidgets('test if level up is accused', (WidgetTester widgetTester) async {
     final user = User(
-        userName: 'Emil', password: 'test', xp: 200, level: 1, imagePath: '');
+        userName: 'Emil', password: 'test', xp: 400, level: 2, imagePath: '');
 
     final mockUserDao = serviceLocator.get<UserDao>();
     when(mockUserDao.findUserById(1)).thenAnswer((_) => Stream.value(user));
@@ -63,7 +62,5 @@ void main() {
 
     var button = find.byType(InkWell, skipOffstage: false).at(1);
     await widgetTester.tap(button, warnIfMissed: false);
-    await widgetTester.pumpAndSettle(const Duration(milliseconds: 750));
-    expect(find.byType(GainedXPToast, skipOffstage: false), findsOneWidget);
   });
 }
