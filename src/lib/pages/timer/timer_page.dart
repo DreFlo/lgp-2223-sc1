@@ -110,7 +110,7 @@ class TimerPageState extends State<TimerPage> {
                 state.getButtonWidget(),
                 const SizedBox(height: 5),
                 TextButton(
-                    onPressed: () => Navigator.pop(context),
+                    onPressed: () => state.leave(),
                     child: Text(AppLocalizations.of(context).leave,
                         style: Theme.of(context)
                             .textTheme

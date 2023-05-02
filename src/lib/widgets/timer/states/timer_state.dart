@@ -40,13 +40,25 @@ abstract class TimerState {
   void onTimeUp() {}
 
   void leave() {
+    if(tracker.currentSession == 1){
+      timer?.cancel();
+      Navigator.pop(context);
+    }
+    else{
+      getPomodoroXP(
+        settings.focusTime, tracker.currentSession, settings.sessions, settings.shortBreak, context, true);
     timer?.cancel();
-    Navigator.pop(context);
+    Future.delayed(const Duration(seconds: 5), () {
+      Navigator.pop(context);
+    });
+
+    }
+    
   }
 
   void finish(BuildContext context) {
     getPomodoroXP(
-        settings.focusTime, settings.sessions, settings.shortBreak, context);
+        settings.focusTime, tracker.currentSession, settings.sessions, settings.shortBreak, context, true);
     timer?.cancel();
     Future.delayed(const Duration(seconds: 5), () {
       Navigator.pop(context);
