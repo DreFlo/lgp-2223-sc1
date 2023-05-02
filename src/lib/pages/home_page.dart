@@ -240,7 +240,6 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                 child: Text("Gaining progress toast"),
                 onPressed: () {
                   var snackBar = SnackBar(
-                    duration: const Duration(seconds: 15),
                     content: GainedXPToast(value: 40, level: 2, points: 10),
                     backgroundColor: Colors.transparent,
                     elevation: 0,

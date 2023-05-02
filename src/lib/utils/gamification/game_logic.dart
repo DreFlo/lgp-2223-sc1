@@ -205,7 +205,6 @@ void updateUserShowGainedXPToast(User user, int points, context) async {
   await updateUser(newUser);
 
   var snackBar = SnackBar(
-    duration: const Duration(seconds: 30),
     content: GainedXPToast(
       value: value,
       level: user.level,
