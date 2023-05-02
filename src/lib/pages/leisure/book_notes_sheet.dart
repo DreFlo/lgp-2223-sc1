@@ -76,6 +76,13 @@ class _BookNotesSheetState extends State<BookNotesSheet>
       }
     }
 
+    if (notes.isEmpty) {
+      notes.add(Padding(padding: EdgeInsets.symmetric(horizontal: 18), child: Row(mainAxisAlignment: MainAxisAlignment.start, children: [
+        Text(AppLocalizations.of(context).no_notes,
+            style: const TextStyle(color: Colors.white, fontSize: 18, fontWeight: FontWeight.w400))
+      ])));
+    }
+
     return notes;
   }
 
