@@ -12,6 +12,7 @@ import 'package:src/models/timeslot/task_student_timeslot.dart';
 import 'package:src/models/timeslot/timeslot.dart';
 import 'package:src/models/timeslot/timeslot_media_timeslot_super_entity.dart';
 import 'package:src/models/timeslot/timeslot_student_timeslot_super_entity.dart';
+import 'package:src/notifications/local_notifications_service.dart';
 import 'package:src/themes/colors.dart';
 import 'package:src/utils/enums.dart';
 import 'package:src/utils/formatters.dart';
@@ -200,6 +201,12 @@ class _EventFormState extends State<EventForm> {
       return;
     }
     _moduleColor == studentColor ? saveStudentEvent() : saveMediaEvent();
+
+    LocalNotificationService.scheduleNotification(
+        DateTime.now().microsecondsSinceEpoch % 1000000,
+        'Event',
+        DateTime.now().add(const Duration(minutes: 1)),
+        'Body');
 
     Navigator.pop(context);
   }
