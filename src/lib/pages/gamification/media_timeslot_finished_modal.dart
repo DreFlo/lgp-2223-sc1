@@ -5,7 +5,6 @@ import 'package:src/pages/gamification/progress_in_timeslot_modal.dart';
 import 'package:src/themes/colors.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:src/utils/enums.dart';
-import 'package:src/utils/gamification/game_logic.dart';
 import 'package:src/widgets/leisure/timeslot_media_bar.dart';
 
 import 'package:src/models/media/media.dart';
@@ -129,7 +128,8 @@ class _MediaTimeslotFinishedModalState
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(30),
                           ),
-                          child: const NoProgressInTimeslotModal()));
+                          child: NoProgressInTimeslotModal(mediasDone: mediasDone,
+                            mediaTimeslot: widget.timeslot,)));
                   });
               }
               else {
