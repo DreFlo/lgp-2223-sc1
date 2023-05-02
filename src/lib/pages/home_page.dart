@@ -7,17 +7,18 @@ import 'package:src/animation_test/main.dart';
 import 'package:src/daos/user_dao.dart';
 import 'package:src/env/env.dart';
 import 'package:src/models/user.dart';
-import 'package:src/pages/tasks/institution_form.dart';
-import 'package:src/pages/tasks/subject_form.dart';
-import 'package:src/themes/colors.dart';
-import 'package:src/utils/service_locator.dart';
-import 'package:src/utils/enums.dart';
-import 'package:tmdb_api/tmdb_api.dart';
 import 'package:src/pages/auth/landing_page.dart';
 import 'package:src/pages/catalog_search/leisure_module.dart';
-
+import 'package:src/pages/events/event_form.dart';
+import 'package:src/pages/tasks/institution_form.dart';
 import 'package:src/pages/tasks/project_form.dart';
+import 'package:src/pages/tasks/subject_form.dart';
 import 'package:src/pages/tasks/task_form.dart';
+import 'package:src/pages/timer/timer_form.dart';
+import 'package:src/themes/colors.dart';
+import 'package:src/utils/enums.dart';
+import 'package:src/utils/service_locator.dart';
+import 'package:tmdb_api/tmdb_api.dart';
 
 class HomePage extends StatefulWidget {
   final String title;
@@ -686,6 +687,61 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                             maxChildSize: 0.5,
                             builder: (context, scrollController) =>
                                 InstitutionForm(
+                              scrollController: scrollController,
+                            ),
+                          )));
+                }),
+            ElevatedButton(
+                child: Text("Event Form"),
+                onPressed: () {
+                  showModalBottomSheet(
+                      context: context,
+                      isScrollControlled: true,
+                      backgroundColor: Color(0xFF22252D),
+                      shape: RoundedRectangleBorder(
+                        borderRadius:
+                            BorderRadius.vertical(top: Radius.circular(30.0)),
+                      ),
+                      builder: (context) => Padding(
+                            padding: EdgeInsets.only(
+                                bottom:
+                                    MediaQuery.of(context).viewInsets.bottom +
+                                        50),
+                            child: DraggableScrollableSheet(
+                                expand: false,
+                                initialChildSize: 0.9,
+                                minChildSize: 0.9,
+                                maxChildSize: 0.9,
+                                builder: (context, scrollController) =>
+                                    EventForm(
+                                      scrollController: scrollController,
+                                      // id: 2,
+                                      // type: "student",
+                                      // OR (1, leisure)
+                                    )),
+                          ));
+                }),
+            ElevatedButton(
+                child: Text("Timer Form"),
+                onPressed: () {
+                  showModalBottomSheet(
+                      context: context,
+                      isScrollControlled: true,
+                      backgroundColor: Color(0xFF22252D),
+                      shape: RoundedRectangleBorder(
+                        borderRadius:
+                            BorderRadius.vertical(top: Radius.circular(30.0)),
+                      ),
+                      builder: (context) => Padding(
+                          padding: EdgeInsets.only(
+                              bottom: MediaQuery.of(context).viewInsets.bottom +
+                                  30),
+                          child: DraggableScrollableSheet(
+                            expand: false,
+                            initialChildSize: 0.6,
+                            minChildSize: 0.6,
+                            maxChildSize: 0.6,
+                            builder: (context, scrollController) => TimerForm(
                               scrollController: scrollController,
                             ),
                           )));

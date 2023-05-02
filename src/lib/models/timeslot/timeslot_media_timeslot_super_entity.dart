@@ -11,15 +11,16 @@ class TimeslotMediaTimeslotSuperEntity {
   final bool finished;
   final int userId;
 
-  TimeslotMediaTimeslotSuperEntity(
-      {this.id,
-      required this.title,
-      required this.description,
-      required this.startDateTime,
-      required this.endDateTime,
-      required this.xpMultiplier,
-      required this.finished,
-      required this.userId});
+  TimeslotMediaTimeslotSuperEntity({
+    this.id,
+    required this.title,
+    required this.description,
+    required this.startDateTime,
+    required this.endDateTime,
+    required this.xpMultiplier,
+    required this.finished,
+    required this.userId,
+  });
 
   TimeslotMediaTimeslotSuperEntity.fromTimeslotMediaTimeslotEntity(
       MediaTimeslot mediaTimeslot, Timeslot timeslot)
