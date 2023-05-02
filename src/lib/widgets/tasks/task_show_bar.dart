@@ -104,19 +104,19 @@ class _TaskShowBarState extends State<TaskShowBar> {
                       children: [
                         InkWell(
                             onTap: () async {
-                            if (!taskStatus) {
-                              //it's currently false, going to become true, when it gets to setState
-                              //gain xp
-                              checkNonEventNonTask(task, context, true);
-                            } else {
-                              //lose xp
-                              removePoints(getImmediatePoints(), task);
-                            }
+                              if (!taskStatus) {
+                                //it's currently false, going to become true, when it gets to setState
+                                //gain xp
+                                checkNonEventNonTask(task, context, true);
+                              } else {
+                                //lose xp
+                                removePoints(getImmediatePoints(), task);
+                              }
 
-                            setState(() {
-                              taskStatus = !taskStatus;
-                            });
-                          },
+                              setState(() {
+                                taskStatus = !taskStatus;
+                              });
+                            },
                             child: Container(
                               padding: const EdgeInsets.all(5),
                               decoration: BoxDecoration(

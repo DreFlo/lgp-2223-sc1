@@ -107,13 +107,12 @@ class _StudentTimeslotFinishedModalState
                 if (t.taskStatus) {
                   tasksDone.add(t.task);
                 } else {
-                  if(t.task.finished){
+                  if (t.task.finished) {
                     taskAlreadyDone++;
                   }
                 }
               }
 
-              
               if (tasksDone.isEmpty) {
                 WidgetsBinding.instance.addPostFrameCallback((_) {
                   showDialog(
@@ -156,7 +155,6 @@ class _StudentTimeslotFinishedModalState
                           )));
                 });
               }
-
             },
             child: Text(AppLocalizations.of(context).confirm,
                 style: Theme.of(context).textTheme.headlineSmall),

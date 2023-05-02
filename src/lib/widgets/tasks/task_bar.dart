@@ -114,8 +114,6 @@ class _TaskBarState extends State<TaskBar> {
                     children: [
                       InkWell(
                           onTap: () {
-                            
-
                             setState(() {
                               taskStatus = !taskStatus;
                             });

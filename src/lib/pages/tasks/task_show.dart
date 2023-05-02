@@ -140,104 +140,110 @@ class _TaskShowState extends State<TaskShow> {
             } else {
               priorityText = AppLocalizations.of(context).high;
             }
-            return ClipRRect(borderRadius: const BorderRadius.vertical(top: Radius.circular(30.0)),
+            return ClipRRect(
+                borderRadius:
+                    const BorderRadius.vertical(top: Radius.circular(30.0)),
                 child: Scaffold(
-                  primary: false,
-                  backgroundColor: modalBackground,
-                  body: SingleChildScrollView(
-                                    padding: const EdgeInsets.symmetric(horizontal: 24),
-                controller: widget.scrollController,
-                child: Wrap(spacing: 10, children: [
-                    Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-                      Padding(
-                          padding: const EdgeInsets.only(top: 15, bottom: 15),
-                          child: Container(
-                            width: 115,
-                            height: 18,
-                            alignment: Alignment.center,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(10),
-                              color: const Color(0xFF414554),
-                            ),
-                          ))
-                    ]),
-                    Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Container(
-                              padding: const EdgeInsets.symmetric(
-                                  horizontal: 10, vertical: 5),
-                              decoration: BoxDecoration(
-                                  color: const Color(0xFF17181C),
-                                  shape: BoxShape.rectangle,
-                                  borderRadius: BorderRadius.circular(10)),
-                              child: Wrap(children: [
-                                Row(children: [
-                                  const Icon(Icons.task,
-                                      color: Colors.white, size: 20),
-                                  const SizedBox(width: 10),
-                                  Text(AppLocalizations.of(context).task,
-                                      style: const TextStyle(
-                                          color: Colors.white,
-                                          fontSize: 16,
-                                          fontWeight: FontWeight.w600),
-                                      textAlign: TextAlign.center),
-                                ])
-                              ])),
-                          InkWell(
-                              splashColor: Colors.transparent,
-                              onTap: () async {
-                                if (!finished) {
-                                  checkNonEventNonTask(task, context, false);
-                                } else {
-                                  //lose xp
-                                  removePoints(getImmediatePoints(), task);
-                                }
-                                setState(() {
-                                  finished = !finished;
-                                });
-                              },
-                              child: Container(
-                                padding: const EdgeInsets.all(5),
-                                decoration: BoxDecoration(
-                                    shape: BoxShape.circle,
-                                    color: (finished
-                                        ? Colors.white
-                                        : Colors.green)),
-                                child: Icon(Icons.check_rounded,
-                                    color: (!finished
-                                        ? Colors.white
-                                        : Colors.green)),
-                              ))
-                        ]),
-                    const SizedBox(height: 15),
-                    getTitle(context),
-                    const SizedBox(height: 30),
-                    // priority
-                    getPriority(context),
-                    const SizedBox(height: 30),
-                    getDate(context),
-                    const SizedBox(height: 30),
-                    // Project
-                    getProject(context),
-                    const SizedBox(height: 30),
-                    // Insitution
-                    getInstitution(context),
-                    const SizedBox(height: 30),
-                    // Subject
-                    getSubject(),
-                    const SizedBox(height: 30),
-                    getLabelDescription(context),
-                    const SizedBox(height: 7.5),
-                    getDescription(),
-                    const SizedBox(height: 30),
-                    getAddNoteButton(context),
-                    const SizedBox(height: 7.5),
-                    ...getNotes(),
-                    const SizedBox(height: 30),
-                    getEndButtons(context),
-                  ]),
-                )));
+                    primary: false,
+                    backgroundColor: modalBackground,
+                    body: SingleChildScrollView(
+                      padding: const EdgeInsets.symmetric(horizontal: 24),
+                      controller: widget.scrollController,
+                      child: Wrap(spacing: 10, children: [
+                        Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Padding(
+                                  padding: const EdgeInsets.only(
+                                      top: 15, bottom: 15),
+                                  child: Container(
+                                    width: 115,
+                                    height: 18,
+                                    alignment: Alignment.center,
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(10),
+                                      color: const Color(0xFF414554),
+                                    ),
+                                  ))
+                            ]),
+                        Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Container(
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 10, vertical: 5),
+                                  decoration: BoxDecoration(
+                                      color: const Color(0xFF17181C),
+                                      shape: BoxShape.rectangle,
+                                      borderRadius: BorderRadius.circular(10)),
+                                  child: Wrap(children: [
+                                    Row(children: [
+                                      const Icon(Icons.task,
+                                          color: Colors.white, size: 20),
+                                      const SizedBox(width: 10),
+                                      Text(AppLocalizations.of(context).task,
+                                          style: const TextStyle(
+                                              color: Colors.white,
+                                              fontSize: 16,
+                                              fontWeight: FontWeight.w600),
+                                          textAlign: TextAlign.center),
+                                    ])
+                                  ])),
+                              InkWell(
+                                  splashColor: Colors.transparent,
+                                  onTap: () async {
+                                    if (!finished) {
+                                      checkNonEventNonTask(
+                                          task, context, false);
+                                    } else {
+                                      //lose xp
+                                      removePoints(getImmediatePoints(), task);
+                                    }
+                                    setState(() {
+                                      finished = !finished;
+                                    });
+                                  },
+                                  child: Container(
+                                    padding: const EdgeInsets.all(5),
+                                    decoration: BoxDecoration(
+                                        shape: BoxShape.circle,
+                                        color: (finished
+                                            ? Colors.white
+                                            : Colors.green)),
+                                    child: Icon(Icons.check_rounded,
+                                        color: (!finished
+                                            ? Colors.white
+                                            : Colors.green)),
+                                  ))
+                            ]),
+                        const SizedBox(height: 15),
+                        getTitle(context),
+                        const SizedBox(height: 30),
+                        // priority
+                        getPriority(context),
+                        const SizedBox(height: 30),
+                        getDate(context),
+                        const SizedBox(height: 30),
+                        // Project
+                        getProject(context),
+                        const SizedBox(height: 30),
+                        // Insitution
+                        getInstitution(context),
+                        const SizedBox(height: 30),
+                        // Subject
+                        getSubject(),
+                        const SizedBox(height: 30),
+                        getLabelDescription(context),
+                        const SizedBox(height: 7.5),
+                        getDescription(),
+                        const SizedBox(height: 30),
+                        getAddNoteButton(context),
+                        const SizedBox(height: 7.5),
+                        ...getNotes(),
+                        const SizedBox(height: 30),
+                        getEndButtons(context),
+                      ]),
+                    )));
           } else {
             return const Center(child: CircularProgressIndicator());
           }
