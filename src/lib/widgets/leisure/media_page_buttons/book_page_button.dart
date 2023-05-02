@@ -52,6 +52,7 @@ class BookPageButtonState extends MediaPageButtonState<MediaBookSuperEntity> {
                               setMediaId: setMediaId,
                               showReviewForm: showReviewForm,
                               refreshStatus: () {
+                                refreshStatus();
                                 Navigator.pop(context);
                               },
                             ))),
