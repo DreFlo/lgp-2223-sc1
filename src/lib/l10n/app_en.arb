@@ -158,8 +158,6 @@
   "edit_event": "Edit Event",
   "delete_event": "Delete Event",
   "delete_event_message":"Are you sure you want to delete this event?",
-  "season": "season,",
-  "no_cast": "Cast information is not available.",
   "evaluations": "Evaluations",
   "add_evaluation": "Add Evaluation",
   "eval_name": "Evaluation Name",
