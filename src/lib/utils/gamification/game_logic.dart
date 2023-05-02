@@ -318,8 +318,7 @@ Future<GameState> check(
   }
 }
 
-Future<int> checkNonEventNonTask(
-    Task task, context, bool fromTaskGroup) async {
+Future<int> checkNonEventNonTask(Task task, context, bool fromTaskGroup) async {
   int points = getImmediatePoints();
 
   // need to check if task is part of an event; if event is not finished and if event is taking place rn
@@ -375,14 +374,20 @@ void removePoints(int points, Task task) async {
   await updateUser(newUser);
 }
 
-void getPomodoroXP(int focusTime, int sessions, int shortBreak, context) async {
-  int points = 6 * sessions;
-  if (focusTime / shortBreak < 0.2) {
-    points += longerWorkPoints;
-  } else if (focusTime / shortBreak > 0.2) {
-    points += longerBreakPoints;
-  } else {
-    points += basePoints;
+void getPomodoroXP(
+    int focusTime, int currentSession, int sessions, int shortBreak, context, bool end) async {
+  int points = 6 * currentSession;
+  double percentagePoints = 1.0;
+
+  if (end) {
+    percentagePoints = (currentSession == sessions) ? 1.0 : 0.9;
+    if (focusTime / shortBreak < 0.2) {
+      points += (longerWorkPoints*percentagePoints).floor();
+    } else if (focusTime / shortBreak > 0.2) {
+      points += (longerBreakPoints*percentagePoints).floor();
+    } else {
+      points += (basePoints*percentagePoints).floor();
+    }
   }
 
   User user = await getUser();
