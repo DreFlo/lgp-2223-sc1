@@ -411,9 +411,7 @@ class _SignUpPageState extends State<SignUpPage>
               ),
             ),
           ),
-          Padding(
-              padding: EdgeInsets.only(
-                  bottom: MediaQuery.of(context).size.height * 0.07)),
+          const Padding(padding: EdgeInsets.only(bottom: 15)),
           SizedBox(
             height: MediaQuery.of(context).size.height * 0.5,
             child: SlideTransition(

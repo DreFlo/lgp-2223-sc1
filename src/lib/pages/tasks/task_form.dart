@@ -32,6 +32,7 @@ class TaskForm extends StatefulWidget {
   final void Function()? deleteCallback;
   final Task? task;
   final ScrollController scrollController;
+  final bool createProject;
 
   const TaskForm(
       {Key? key,
@@ -40,7 +41,8 @@ class TaskForm extends StatefulWidget {
       this.taskGroupId,
       this.callback,
       this.deleteCallback,
-      this.task})
+      this.task,
+      this.createProject = true})
       : super(key: key);
 
   @override
@@ -1169,8 +1171,11 @@ class _TaskFormState extends State<TaskForm> {
               shape: const RoundedRectangleBorder(
                 borderRadius: BorderRadius.vertical(top: Radius.circular(30.0)),
               ),
-              builder: (builder) => SingleChildScrollView(
-                  child: AddTaskNoteForm(taskId: id, callback: addNote)));
+              builder: (builder) => Padding(
+                  padding: EdgeInsets.only(
+                      bottom: MediaQuery.of(context).viewInsets.bottom + 30),
+                  child: SingleChildScrollView(
+                      child: AddTaskNoteForm(taskId: id, callback: addNote))));
         },
       ),
     ]);
@@ -1179,7 +1184,7 @@ class _TaskFormState extends State<TaskForm> {
   List<Widget> getNotes() {
     List<Widget> notesList = [];
 
-    if (notes.isEmpty) {
+    if (notes.isEmpty && !widget.createProject) {
       notesList.add(Row(mainAxisAlignment: MainAxisAlignment.center, children: [
         Text(AppLocalizations.of(context).no_notes,
             style: const TextStyle(

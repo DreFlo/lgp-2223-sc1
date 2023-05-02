@@ -48,24 +48,44 @@ class _BookNotesSheetState extends State<BookNotesSheet>
     List<Widget> notes = [];
 
     if (review != null) {
-      notes.add(ReviewNoteBar(
-        reaction: review!.emoji,
-        text: review!.review,
-      ));
+      notes.add(Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 18),
+          child: Row(children: [
+            ReviewNoteBar(
+              reaction: review!.emoji,
+              text: review!.review,
+            )
+          ])));
 
       notes.add(const SizedBox(height: 15));
     }
 
     if (bookNotes != null) {
       for (var range in bookNotes!) {
-        notes.add(BookNoteBar(
-          startPage: range!.startPage,
-          endPage: range.endPage,
-          text: range.content,
-        ));
+        notes.add(Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 18),
+            child: Row(children: [
+              BookNoteBar(
+                startPage: range!.startPage,
+                endPage: range.endPage,
+                text: range.content,
+              )
+            ])));
 
         notes.add(const SizedBox(height: 15));
       }
+    }
+
+    if (notes.isEmpty) {
+      notes.add(Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 18),
+          child: Row(mainAxisAlignment: MainAxisAlignment.start, children: [
+            Text(AppLocalizations.of(context).no_notes,
+                style: const TextStyle(
+                    color: Colors.white,
+                    fontSize: 18,
+                    fontWeight: FontWeight.w400))
+          ])));
     }
 
     return notes;
@@ -76,7 +96,7 @@ class _BookNotesSheetState extends State<BookNotesSheet>
     return Wrap(spacing: 10, children: [
       Row(mainAxisAlignment: MainAxisAlignment.center, children: [
         Padding(
-            padding: const EdgeInsets.only(top: 15, bottom: 15),
+            padding: const EdgeInsets.symmetric(vertical: 15),
             child: Container(
               width: 115,
               height: 18,
@@ -87,19 +107,15 @@ class _BookNotesSheetState extends State<BookNotesSheet>
               ),
             ))
       ]),
-      const SizedBox(height: 10),
-      Row(children: [
-        Padding(
-            padding: const EdgeInsets.only(left: 18),
-            child: Text(
-              AppLocalizations.of(context).notes,
-              style: Theme.of(context).textTheme.displayMedium,
-            ))
-      ]),
+      const SizedBox(height: 12.5),
+      Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 18),
+          child: Row(children: [
+            Text(AppLocalizations.of(context).notes,
+                style: Theme.of(context).textTheme.displayMedium)
+          ])),
       const SizedBox(height: 7.5),
-      Container(
-          padding: const EdgeInsets.only(left: 18, right: 18),
-          child: Column(children: getNotes())),
+      ...getNotes(),
       const SizedBox(height: 50)
     ]);
   }
