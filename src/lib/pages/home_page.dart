@@ -173,14 +173,12 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                             BorderRadius.vertical(top: Radius.circular(30.0)),
                       ),
                       builder: (context) => DraggableScrollableSheet(
-                                  expand: false,
-                                  initialChildSize: 0.75,
-                                  minChildSize: 0.75,
-                                  maxChildSize: 0.75,
-                                  builder: (context, scrollController) =>
-                                      ProjectForm(
-                                          scrollController: scrollController,
-                                          id: 1)));
+                          expand: false,
+                          initialChildSize: 0.75,
+                          minChildSize: 0.75,
+                          maxChildSize: 0.75,
+                          builder: (context, scrollController) => ProjectForm(
+                              scrollController: scrollController, id: 1)));
                 }),
             ElevatedButton(
                 child: Text("Subject Form"),
@@ -370,7 +368,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                           ),
                           child: NoProgressInTimeslotModal()));
                 }),
-                            ElevatedButton(
+            ElevatedButton(
                 child: Text("Event Form"),
                 onPressed: () {
                   showModalBottomSheet(

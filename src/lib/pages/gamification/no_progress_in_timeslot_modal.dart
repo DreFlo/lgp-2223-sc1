@@ -33,7 +33,10 @@ class _NoProgressInTimeslotModalState extends State<NoProgressInTimeslotModal> {
         ]),
         const SizedBox(height: 30),
         Row(mainAxisAlignment: MainAxisAlignment.center, children: const [
-          Image(height: 250, width: 250, image: AssetImage('assets/images/emil.png'))
+          Image(
+              height: 250,
+              width: 250,
+              image: AssetImage('assets/images/emil.png'))
         ]),
         const SizedBox(height: 30),
         Row(mainAxisAlignment: MainAxisAlignment.center, children: [

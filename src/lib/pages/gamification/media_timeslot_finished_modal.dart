@@ -16,10 +16,12 @@ class MediaTimeslotFinishedModal extends StatefulWidget {
       : super(key: key);
 
   @override
-  State<MediaTimeslotFinishedModal> createState() => _MediaTimeslotFinishedModalState();
+  State<MediaTimeslotFinishedModal> createState() =>
+      _MediaTimeslotFinishedModalState();
 }
 
-class _MediaTimeslotFinishedModalState extends State<MediaTimeslotFinishedModal> {
+class _MediaTimeslotFinishedModalState
+    extends State<MediaTimeslotFinishedModal> {
   late List<TimeslotMediaBar> mediaState;
 
   List<Widget> getMedia() {
@@ -57,14 +59,23 @@ class _MediaTimeslotFinishedModalState extends State<MediaTimeslotFinishedModal>
                   fontSize: 32,
                   fontWeight: FontWeight.bold)),
         ]),
-        Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-          Text(widget.timeslot.title,
-              style: const TextStyle(
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Flexible(
+              fit: FlexFit.loose,
+              child: Text(
+                widget.timeslot.title,
+                style: const TextStyle(
                   color: leisureColor,
                   fontSize: 35,
                   fontWeight: FontWeight.w600,
-                  fontStyle: FontStyle.italic))
-        ]),
+                  fontStyle: FontStyle.italic,
+                ),
+              ),
+            ),
+          ],
+        ),
         Row(mainAxisAlignment: MainAxisAlignment.center, children: [
           Text(AppLocalizations.of(context).event_finished_2,
               style: const TextStyle(

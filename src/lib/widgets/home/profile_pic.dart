@@ -10,7 +10,7 @@ class ProfilePic extends StatefulWidget {
 }
 
 class _ProfilePicState extends State<ProfilePic> {
-   List<String> user = ['John Smith', '11', '400'];
+  List<String> user = ['John Smith', '11', '400'];
 
   @override
   Widget build(BuildContext context) {
@@ -20,23 +20,22 @@ class _ProfilePicState extends State<ProfilePic> {
         GestureDetector(
           onTap: () {
             showModalBottomSheet(
-                      context: context,
-                      isScrollControlled: true,
-                      backgroundColor: const Color(0xFF22252D),
-                      shape: const RoundedRectangleBorder(
-                        borderRadius:
-                            BorderRadius.vertical(top: Radius.circular(30.0)),
-                      ),
-                      builder: (context) => Padding(
-                            padding: EdgeInsets.only(
-                                bottom:
-                                    MediaQuery.of(context).viewInsets.bottom +
-                                        50),
-                            child: ProgressBarSheet(
-                                level: 2,
-                                user: user,
-                                image: 'assets/images/poster.jpg'),
-                          ));
+                context: context,
+                isScrollControlled: true,
+                backgroundColor: const Color(0xFF22252D),
+                shape: const RoundedRectangleBorder(
+                  borderRadius:
+                      BorderRadius.vertical(top: Radius.circular(30.0)),
+                ),
+                builder: (context) => Padding(
+                      padding: EdgeInsets.only(
+                          bottom:
+                              MediaQuery.of(context).viewInsets.bottom + 50),
+                      child: ProgressBarSheet(
+                          level: 2,
+                          user: user,
+                          image: 'assets/images/poster.jpg'),
+                    ));
           },
           child: const CircleAvatar(
             radius: 30,

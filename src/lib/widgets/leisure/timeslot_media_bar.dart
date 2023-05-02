@@ -18,8 +18,7 @@ class _TimeslotMediaBarState extends State<TimeslotMediaBar> {
   initState() {
     if (widget.media.status == Status.done) {
       taskStatus = true;
-    }
-    else{
+    } else {
       taskStatus = false;
     }
     super.initState();
@@ -57,9 +56,7 @@ class _TimeslotMediaBarState extends State<TimeslotMediaBar> {
                       padding: const EdgeInsets.all(5),
                       decoration: BoxDecoration(
                           shape: BoxShape.circle,
-                          color: (taskStatus
-                              ? Colors.green
-                              : Colors.white)),
+                          color: (taskStatus ? Colors.green : Colors.white)),
                       child: const Icon(Icons.check_rounded, size: 20),
                     ))
               ],

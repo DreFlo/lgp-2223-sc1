@@ -63,25 +63,24 @@ class TimeslotStudentTimeslotSuperDao {
             .first;
 
         if (endDatetime != null && timeslot != null) {
-          if (timeslot.endDateTime.isBefore(endDatetime) && timeslot.finished == false) {
+          if (timeslot.endDateTime.isBefore(endDatetime) &&
+              timeslot.finished == false) {
             final timeslotStudentTimeslotSuperEntity =
-              TimeslotStudentTimeslotSuperEntity
-                  .fromTimeslotStudentTimeslotEntity(
-            studentTimeslot,
-            timeslot,
-          );
-          timeslotStudentTimeslotSuperEntities
-              .add(timeslotStudentTimeslotSuperEntity);
-        }
+                TimeslotStudentTimeslotSuperEntity
+                    .fromTimeslotStudentTimeslotEntity(
+              studentTimeslot,
+              timeslot,
+            );
+            timeslotStudentTimeslotSuperEntities
+                .add(timeslotStudentTimeslotSuperEntity);
           }
-
-
+        }
       }
 
       return timeslotStudentTimeslotSuperEntities;
     });
   }
-  
+
   Future<int> insertTimeslotStudentTimeslotSuperEntity(
     TimeslotStudentTimeslotSuperEntity timeslotStudentTimeslotSuperEntity,
   ) async {

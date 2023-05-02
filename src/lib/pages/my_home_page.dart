@@ -106,15 +106,19 @@ class _MyHomePageState extends State<MyHomePage> {
     return tasksFinishedTimeslotMap;
   }
 
-  void showFinishedTimeslot(context, TimeslotStudentTimeslotSuperEntity? studentTimeslot,
-      List<Task> tasks, TimeslotMediaTimeslotSuperEntity? mediaTimeslot, List<Media> medias ) {
+  void showFinishedTimeslot(
+      context,
+      TimeslotStudentTimeslotSuperEntity? studentTimeslot,
+      List<Task> tasks,
+      TimeslotMediaTimeslotSuperEntity? mediaTimeslot,
+      List<Media> medias) {
     Widget timeslot = Container();
-    if (studentTimeslot != null){
-      timeslot = StudentTimeslotFinishedModal(
-          timeslot: studentTimeslot, tasks: tasks);
-    } else if(mediaTimeslot != null){
-      timeslot = MediaTimeslotFinishedModal(
-          timeslot: mediaTimeslot, medias: medias);
+    if (studentTimeslot != null) {
+      timeslot =
+          StudentTimeslotFinishedModal(timeslot: studentTimeslot, tasks: tasks);
+    } else if (mediaTimeslot != null) {
+      timeslot =
+          MediaTimeslotFinishedModal(timeslot: mediaTimeslot, medias: medias);
     }
     showDialog(
         barrierDismissible: false,
@@ -130,8 +134,11 @@ class _MyHomePageState extends State<MyHomePage> {
 
   void checkEventDone() {
     for (int i = 0; i < finishedStudentEvents.length; i++) {
-      showFinishedTimeslot(context, finishedStudentEvents[i],
-          tasksFinishedEventMap[finishedStudentEvents[i].id ?? 0] ?? [], null, []);
+      showFinishedTimeslot(
+          context,
+          finishedStudentEvents[i],
+          tasksFinishedEventMap[finishedStudentEvents[i].id ?? 0] ?? [],
+          null, []);
     }
     for (int i = 0; i < finishedMediaEvents.length; i++) {
       showFinishedTimeslot(context, null, [], finishedMediaEvents[i],

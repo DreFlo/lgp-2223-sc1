@@ -48,8 +48,8 @@ class TimeslotMediaTimeslotSuperDao {
     });
   }
 
-  Future<List<TimeslotMediaTimeslotSuperEntity>> findAllFinishedTimeslotMediaTimeslot(
-      DateTime? endDatetime) {
+  Future<List<TimeslotMediaTimeslotSuperEntity>>
+      findAllFinishedTimeslotMediaTimeslot(DateTime? endDatetime) {
     return serviceLocator<MediaTimeslotDao>()
         .findAllMediaTimeslots()
         .then((mediaTimeslots) async {
@@ -62,19 +62,19 @@ class TimeslotMediaTimeslotSuperDao {
             .first;
 
         if (endDatetime != null && timeslot != null) {
-          if (timeslot.startDateTime.isBefore(endDatetime) && timeslot.finished == false) {
+          if (timeslot.startDateTime.isBefore(endDatetime) &&
+              timeslot.finished == false) {
             final timeslotMediaTimeslotSuperEntity =
-              TimeslotMediaTimeslotSuperEntity.fromTimeslotMediaTimeslotEntity(
-            mediaTimeslot,
-            timeslot,
-          );
-          timeslotMediaTimeslotSuperEntities
-              .add(timeslotMediaTimeslotSuperEntity);
+                TimeslotMediaTimeslotSuperEntity
+                    .fromTimeslotMediaTimeslotEntity(
+              mediaTimeslot,
+              timeslot,
+            );
+            timeslotMediaTimeslotSuperEntities
+                .add(timeslotMediaTimeslotSuperEntity);
           }
         }
-
-       
-        }
+      }
 
       return timeslotMediaTimeslotSuperEntities;
     });

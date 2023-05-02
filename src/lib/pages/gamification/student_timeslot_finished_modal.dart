@@ -16,10 +16,12 @@ class StudentTimeslotFinishedModal extends StatefulWidget {
       : super(key: key);
 
   @override
-  State<StudentTimeslotFinishedModal> createState() => _StudentTimeslotFinishedModalState();
+  State<StudentTimeslotFinishedModal> createState() =>
+      _StudentTimeslotFinishedModalState();
 }
 
-class _StudentTimeslotFinishedModalState extends State<StudentTimeslotFinishedModal> {
+class _StudentTimeslotFinishedModalState
+    extends State<StudentTimeslotFinishedModal> {
   late List<TimeslotTaskBar> tasksState;
 
   List<Widget> getTasks() {
