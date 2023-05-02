@@ -572,7 +572,7 @@ class _TaskShowState extends State<TaskShow> {
                 maxChildSize: 0.75,
                 builder: (context, scrollController) => TaskForm(
                       id: task.id,
-                      taskGroupId: task.taskGroupId,
+                      taskGroupId: task.taskGroupId ?? -1,
                       callback: editTask,
                       deleteCallback: deleteTask,
                       editNotesCallback: editTaskNotes,

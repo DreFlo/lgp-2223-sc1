@@ -196,22 +196,17 @@ class _TaskFormState extends State<TaskForm> {
   validateDate() {
     DateTime now = DateTime.now();
     now = DateFormatter.day(now);
-    if (isChild()) {
+
+    if (taskGroup!.id != -1) {
       if (date!.isAfter(taskGroup!.deadline)) {
         errors['date'] =
             AppLocalizations.of(context).studentErrorTaskGroupAfterDate;
       }
-      // Date can't be after parent task
+    } else if (isChildOfNotCreated()) {
+      // The not created project will change the date to the earliest date between this and the project itself
     } else {
-      if (taskGroup!.id != -1) {
-        if (date!.isAfter(taskGroup!.deadline)) {
-          errors['date'] =
-              AppLocalizations.of(context).studentErrorTaskGroupAfterDate;
-        }
-      } else {
-        if (date!.isAfter(now)) {
-          errors['date'] = AppLocalizations.of(context).studentErrorPastDate;
-        }
+      if (now.isAfter(date!)) {
+        errors['date'] = AppLocalizations.of(context).studentErrorPastDate;
       }
     }
   }
@@ -554,8 +549,8 @@ class _TaskFormState extends State<TaskForm> {
         onTap: () async {
           var date = await showDatePicker(
               context: context,
-              initialDate: DateTime.now(),
-              firstDate: DateTime.now(),
+              initialDate: id != null ? this.date! : DateTime.now(),
+              firstDate: id != null ? this.date! : DateTime.now(),
               lastDate: DateTime(2100));
           if (date == null) {
             return;
@@ -1369,11 +1364,11 @@ class _TaskFormState extends State<TaskForm> {
 
   isChild() {
     //If we are making a new task inside of a taks group
-    return widget.callback != null;
+    return widget.taskGroupId != null;
   }
 
   isChildOfNotCreated() {
-    return isChild() && widget.taskGroupId == null;
+    return widget.taskGroupId == -1;
   }
 
   editNotesCallback() {

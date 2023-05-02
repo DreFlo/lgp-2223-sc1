@@ -181,7 +181,8 @@ class _ProjectFormState extends State<ProjectForm> {
           Task newTask = Task(
               id: oldTask.id,
               name: oldTask.name,
-              deadline: oldTask.deadline,
+              deadline:
+                  date!.isBefore(oldTask.deadline) ? date! : oldTask.deadline,
               priority: oldTask.priority,
               description: oldTask.description,
               taskGroupId: newId,
@@ -392,8 +393,8 @@ class _ProjectFormState extends State<ProjectForm> {
         onTap: () async {
           var date = await showDatePicker(
               context: context,
-              initialDate: DateTime.now(),
-              firstDate: DateTime.now(),
+              initialDate: id != null ? this.date! : DateTime.now(),
+              firstDate: id != null ? this.date! : DateTime.now(),
               lastDate: DateTime(2100));
           if (date == null) {
             return;
@@ -860,7 +861,7 @@ class _ProjectFormState extends State<ProjectForm> {
                     minChildSize: 0.60,
                     maxChildSize: 0.60,
                     builder: (context, scrollController) => TaskForm(
-                      taskGroupId: id,
+                      taskGroupId: id ?? -1,
                       callback: addTask,
                       scrollController: scrollController,
                     ),
