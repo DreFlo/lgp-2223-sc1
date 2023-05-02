@@ -9,15 +9,19 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
 import 'package:src/daos/student/institution_dao.dart';
+import 'package:src/daos/timeslot/task_student_timeslot_dao.dart';
 import 'package:src/models/student/task.dart';
 import 'package:src/daos/user_dao.dart';
+import 'package:src/models/timeslot/timeslot.dart';
 import 'package:src/models/user.dart';
+import 'package:src/pages/gamification/gained_xp_toast.dart';
 import 'package:src/utils/enums.dart';
 import 'package:src/utils/service_locator.dart';
 import 'package:src/widgets/tasks/task_bar.dart';
 
 import '../../../utils/locations_injector.dart';
 import '../../../utils/service_locator_test_util.dart';
+import '../../../utils/service_locator_test_util.mocks.dart';
 
 void main() {
   setUp(() async {
@@ -32,13 +36,14 @@ void main() {
     final mockUserDao = serviceLocator.get<UserDao>();
     when(mockUserDao.findUserById(1)).thenAnswer((_) => Stream.value(user));
 
-
-    final mockInstitutionDao = serviceLocator.get<InstitutionDao>();
-    when(mockInstitutionDao.findAllInstitutions()).thenAnswer((_) async => []);
+    final mockTaskStudentTimeslotDao =
+        serviceLocator.get<TaskStudentTimeslotDao>();
+    when(mockTaskStudentTimeslotDao.findStudentTimeslotIdByTaskId(1))
+        .thenAnswer((_) => Future.value(<int>[]));
 
     int id = 1;
     await widgetTester.pumpWidget(LocalizationsInjector(
-        child: TaskBar(
+        child: Scaffold(body:TaskBar(
             key: const Key("task_1"),
             taskStatus: false,
             deleteTask: () {},
@@ -50,16 +55,17 @@ void main() {
                 taskGroupId: 1,
                 subjectId: 1,
                 xp: 10,
+                id: 1, 
                 finished: false),
             editTask: (Task t) {},
             onSelected: (Task n) {},
-            onUnselected: (Task n) {})));
+            onUnselected: (Task n) {}))));
 
     var task = find.byKey(Key('task_$id'), skipOffstage: false);
     expect(task, findsOneWidget);
 
     var button = find.byType(InkWell, skipOffstage: false).at(1);
     await widgetTester.tap(button, warnIfMissed: false);
-    expect(find.text('You gained XP!', skipOffstage: false), findsOneWidget);
+    expect(find.byType(GainedXPToast, skipOffstage: false), findsOneWidget);
   });
 }
