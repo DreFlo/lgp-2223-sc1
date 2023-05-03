@@ -4,6 +4,7 @@ import 'package:src/daos/notes/note_dao.dart';
 import 'package:src/daos/notes/task_note_dao.dart';
 import 'package:src/daos/student/institution_dao.dart';
 import 'package:src/daos/student/subject_dao.dart';
+import 'package:src/daos/student/task_dao.dart';
 import 'package:src/daos/student/task_group_dao.dart';
 import 'package:src/models/notes/note.dart';
 import 'package:src/models/notes/task_note.dart';
@@ -115,6 +116,8 @@ class _TaskShowState extends State<TaskShow> {
         taskGroup = taskGroupNone;
       }
     }
+
+    finished = await serviceLocator<TaskDao>().isTaskFinished(task.id!) ?? false;
 
     await initNotes();
     init = true;
