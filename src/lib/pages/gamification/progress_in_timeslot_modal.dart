@@ -130,13 +130,12 @@ class _ProgressInTimeslotModalState extends State<ProgressInTimeslotModal> {
                 padding: MaterialStateProperty.all(
                     const EdgeInsets.symmetric(vertical: 15, horizontal: 50))),
             onPressed: () async {
-                check(widget.tasksDone, widget.mediasDone, widget.mediaTimeslot,
+              check(widget.tasksDone, widget.mediasDone, widget.mediaTimeslot,
                   widget.studentTimeslot, context);
               Future.delayed(const Duration(milliseconds: 500), () {
                 Navigator.pop(context);
                 Navigator.pop(context);
               });
-              
             },
             child: Text(AppLocalizations.of(context).lets_go,
                 style: Theme.of(context).textTheme.headlineSmall),

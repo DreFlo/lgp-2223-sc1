@@ -139,30 +139,30 @@ class _MediaTimeslotFinishedModalState
                           )));
                 });
               } else {
-                  WidgetsBinding.instance.addPostFrameCallback((_) {
-                    showDialog(
-                        context: context,
-                        builder: (context) => Dialog(
-                            backgroundColor: modalBackground,
-                            insetPadding:
-                                const EdgeInsets.symmetric(horizontal: 20),
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(30),
-                            ),
-                            child: ProgressInTimeslotModal(
-                              modules: const [
-                                Module.student,
-                                Module.fitness,
-                                Module.personal,
-                                Module.leisure
-                              ],
-                              taskCount: widget.medias.length,
-                              finishedTaskCount:
-                                  mediasDone.length + mediaAlredyDone,
-                              mediasDone: mediasDone,
-                              mediaTimeslot: widget.timeslot,
-                            )));
-                  });
+                WidgetsBinding.instance.addPostFrameCallback((_) {
+                  showDialog(
+                      context: context,
+                      builder: (context) => Dialog(
+                          backgroundColor: modalBackground,
+                          insetPadding:
+                              const EdgeInsets.symmetric(horizontal: 20),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(30),
+                          ),
+                          child: ProgressInTimeslotModal(
+                            modules: const [
+                              Module.student,
+                              Module.fitness,
+                              Module.personal,
+                              Module.leisure
+                            ],
+                            taskCount: widget.medias.length,
+                            finishedTaskCount:
+                                mediasDone.length + mediaAlredyDone,
+                            mediasDone: mediasDone,
+                            mediaTimeslot: widget.timeslot,
+                          )));
+                });
               }
             },
             child: Text(AppLocalizations.of(context).confirm,
