@@ -120,7 +120,7 @@ class _StudentTimeslotFinishedModalState
                 }
               }
 
-              if (tasksDone.isEmpty) {
+              if (tasksDone.isEmpty && taskAlreadyDone == 0) {
                 WidgetsBinding.instance.addPostFrameCallback((_) {
                   showDialog(
                       context: context,
