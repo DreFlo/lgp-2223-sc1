@@ -90,7 +90,20 @@ int getLevel(int points, int currentLevel) {
 
   while (points >= levels[level + 1]!) {
     level++;
-    if(level == 10){
+    if (level == 10) {
+      return level;
+    }
+  }
+
+  return level;
+}
+
+int getLevelDecrease(int points, int currentLevel) {
+  int level = currentLevel;
+
+  while (points < levels[level]!) {
+    level--;
+    if (level == 0) {
       return level;
     }
   }
@@ -360,8 +373,7 @@ void removePoints(int points, Task task) async {
   //check if user is gonna lose a level
   if (user.xp - points < levels[user.level]!) {
     //user is gonna lose a level
-    level = user.level -
-        1; //could he lose more than one level at a time? With just tasks I don't think so
+    level = getLevelDecrease(user.xp - points, user.level);
   }
   User newUser = User(
       id: user.id,
