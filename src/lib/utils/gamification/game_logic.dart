@@ -206,7 +206,7 @@ void updateUserShowLevelUpToast(User user, int points, context) async {
 }
 
 void updateUserShowGainedXPToast(User user, int points, context) async {
-  int value = levels[user.level + 1]!;
+  int value = levels[user.level + 1]! - levels[user.level]!;
   User newUser = User(
       id: user.id,
       userName: user.userName,
@@ -222,7 +222,7 @@ void updateUserShowGainedXPToast(User user, int points, context) async {
       value: points,
       level: user.level,
       points: points,
-      levelXP: levels[user.level]!,
+      levelXP: value,
     ),
     backgroundColor: Colors.transparent,
     elevation: 0,
