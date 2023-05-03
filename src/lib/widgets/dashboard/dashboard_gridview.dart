@@ -18,46 +18,47 @@ class DashBoardGridView extends StatefulWidget {
 }
 
 class _DashBoardGridViewState extends State<DashBoardGridView> {
-  late List<Task> tasks;
-  late List<TaskGroup> taskGroups;
-  late List<TimeslotMediaTimeslotSuperEntity> mediaEvents;
   List get items {
     final List combined = [];
-    combined.addAll(tasks);
-    combined.addAll(taskGroups);
-    combined.addAll(mediaEvents);
+    if(widget.tasks != null){
+      combined.addAll(widget.tasks!);
+    }
+    if(widget.taskGroups != null){
+      combined.addAll(widget.taskGroups!);
+    }
+    if(widget.mediaEvents != null){
+      combined.addAll(widget.mediaEvents!);
+    }
 
     return combined;
   }
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
-    tasks = widget.tasks ?? [];
-    taskGroups = widget.taskGroups ?? [];
-    mediaEvents = widget.mediaEvents ?? [];
   }
 
   int getLength() {
     // sum of lengths of all lists
-    return tasks.length + taskGroups.length + mediaEvents.length;
+    return (widget.tasks == null ? 0 : widget.tasks!.length) +
+        (widget.taskGroups == null ? 0 : widget.taskGroups!.length) +
+        (widget.mediaEvents == null ? 0 : widget.mediaEvents!.length);
   }
 
   showCard(int index) {
-    if (tasks.isNotEmpty && items[index] is Task) {
+    if (widget.tasks!= null && items[index] is Task) {
       return DashboardCard(
         module: 'Student',
         task: items[index],
         deleteCallback: deleteTask(items[index]),
       );
-    } else if (taskGroups.isNotEmpty && items[index] is TaskGroup) {
+    } else if (widget.taskGroups != null && items[index] is TaskGroup) {
       return DashboardCard(
         module: 'Student',
         taskGroup: items[index],
         deleteCallback: deleteTaskGroup(items[index]),
       );
-    } else if (mediaEvents.isNotEmpty &&
+    } else if (widget.mediaEvents != null &&
         items[index] is TimeslotMediaTimeslotSuperEntity) {
       return DashboardCard(
         module: 'Leisure',
@@ -99,7 +100,7 @@ class _DashBoardGridViewState extends State<DashBoardGridView> {
   deleteTask(Task oldTask) {
     return () {
       setState(() {
-        tasks.remove(oldTask);
+        widget.tasks!.remove(oldTask);
       });
     };
   }
@@ -107,7 +108,7 @@ class _DashBoardGridViewState extends State<DashBoardGridView> {
   deleteTaskGroup(TaskGroup oldTaskGroup) {
     return () {
       setState(() {
-        taskGroups.remove(oldTaskGroup);
+        widget.taskGroups!.remove(oldTaskGroup);
       });
     };
   }
@@ -115,7 +116,7 @@ class _DashBoardGridViewState extends State<DashBoardGridView> {
   deleteMediaEvent(TimeslotMediaTimeslotSuperEntity oldMediaEvent) {
     return () {
       setState(() {
-        mediaEvents.remove(oldMediaEvent);
+        widget.mediaEvents!.remove(oldMediaEvent);
       });
     };
   }
