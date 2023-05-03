@@ -279,7 +279,7 @@ void check(
   if (mediaTimeslot != null) {
     //have to focus on media
     if (medias!.isEmpty) {
-      //Illegal function call
+      markTimeslotAsDoneOrNot(mediaTimeslot, null, true, points);
       return;
     }
 
@@ -291,7 +291,7 @@ void check(
   } else if (studentTimeslot != null) {
     //have to focus on tasks
     if (tasks!.isEmpty) {
-      //Illegal function call
+      markTimeslotAsDoneOrNot(null, studentTimeslot, true, points);
       return;
     }
     for (Task t in tasks) {

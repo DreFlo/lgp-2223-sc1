@@ -20,13 +20,13 @@ class DashBoardGridView extends StatefulWidget {
 class _DashBoardGridViewState extends State<DashBoardGridView> {
   List get items {
     final List combined = [];
-    if(widget.tasks != null){
+    if (widget.tasks != null) {
       combined.addAll(widget.tasks!);
     }
-    if(widget.taskGroups != null){
+    if (widget.taskGroups != null) {
       combined.addAll(widget.taskGroups!);
     }
-    if(widget.mediaEvents != null){
+    if (widget.mediaEvents != null) {
       combined.addAll(widget.mediaEvents!);
     }
 
@@ -46,7 +46,7 @@ class _DashBoardGridViewState extends State<DashBoardGridView> {
   }
 
   showCard(int index) {
-    if (widget.tasks!= null && items[index] is Task) {
+    if (widget.tasks != null && items[index] is Task) {
       return DashboardCard(
         module: 'Student',
         task: items[index],
