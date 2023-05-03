@@ -15,7 +15,7 @@ import 'package:src/themes/colors.dart';
 import 'package:src/utils/date_formatter.dart';
 import 'package:src/utils/service_locator.dart';
 import 'package:src/utils/enums.dart';
-import 'package:src/widgets/note_bar.dart';
+import 'package:src/widgets/notes/note_bar.dart';
 import '../../../utils/model_mocks_util.mocks.dart';
 import '../../../utils/service_locator_test_util.dart';
 import '../../widget_tests_utils.dart';

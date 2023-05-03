@@ -23,14 +23,15 @@ import 'dart:math' as Math;
 import 'package:src/utils/enums.dart';
 import 'package:src/utils/service_locator.dart';
 import 'package:src/widgets/error_text.dart';
-import 'package:src/widgets/note_bar.dart';
+import 'package:src/widgets/notes/note_bar.dart';
 
 class TaskForm extends StatefulWidget {
   final int? id;
+  final Task? task;
   final int? taskGroupId;
   final void Function(Task t)? callback;
   final void Function()? deleteCallback;
-  final Task? task;
+  final void Function(List<Note>)? editNotesCallback;
   final ScrollController scrollController;
   final bool createProject;
 
@@ -40,6 +41,7 @@ class TaskForm extends StatefulWidget {
       this.id,
       this.taskGroupId,
       this.callback,
+      this.editNotesCallback,
       this.deleteCallback,
       this.task,
       this.createProject = true})
@@ -196,22 +198,17 @@ class _TaskFormState extends State<TaskForm> {
   validateDate() {
     DateTime now = DateTime.now();
     now = DateFormatter.day(now);
-    if (isChild()) {
+
+    if (taskGroup!.id != -1) {
       if (date!.isAfter(taskGroup!.deadline)) {
         errors['date'] =
             AppLocalizations.of(context).studentErrorTaskGroupAfterDate;
       }
-      // Date can't be after parent task
+    } else if (isChildOfNotCreated()) {
+      // The not created project will change the date to the earliest date between this and the project itself
     } else {
-      if (taskGroup!.id != -1) {
-        if (date!.isAfter(taskGroup!.deadline)) {
-          errors['date'] =
-              AppLocalizations.of(context).studentErrorTaskGroupAfterDate;
-        }
-      } else {
-        if (date!.isAfter(now)) {
-          errors['date'] = AppLocalizations.of(context).studentErrorPastDate;
-        }
+      if (now.isAfter(date!)) {
+        errors['date'] = AppLocalizations.of(context).studentErrorPastDate;
       }
     }
   }
@@ -344,13 +341,13 @@ class _TaskFormState extends State<TaskForm> {
       serviceLocator<TaskDao>().deleteTask(task);
     }
 
+    if (widget.deleteCallback != null) {
+      widget.deleteCallback!();
+    }
+
     if (context.mounted) {
       Navigator.pop(context);
       Navigator.pop(context);
-    }
-
-    if (widget.deleteCallback != null) {
-      widget.deleteCallback!();
     }
   }
 
@@ -554,8 +551,8 @@ class _TaskFormState extends State<TaskForm> {
         onTap: () async {
           var date = await showDatePicker(
               context: context,
-              initialDate: DateTime.now(),
-              firstDate: DateTime.now(),
+              initialDate: id != null ? this.date! : DateTime.now(),
+              firstDate: id != null ? this.date! : DateTime.now(),
               lastDate: DateTime(2100));
           if (date == null) {
             return;
@@ -1143,10 +1140,6 @@ class _TaskFormState extends State<TaskForm> {
   }
 
   Widget getAddNoteButton(BuildContext context) {
-    if (isChildOfNotCreated()) {
-      return const SizedBox();
-    }
-
     return Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
       Text(AppLocalizations.of(context).notes,
           style: const TextStyle(
@@ -1285,11 +1278,11 @@ class _TaskFormState extends State<TaskForm> {
     );
 
     AlertDialog alert = AlertDialog(
-      title: Text(AppLocalizations.of(context).delete_subject,
+      title: Text(AppLocalizations.of(context).delete_task,
           style: const TextStyle(
               color: Colors.white, fontSize: 20, fontWeight: FontWeight.w600),
           textAlign: TextAlign.center),
-      content: Text(AppLocalizations.of(context).delete_subject_message,
+      content: Text(AppLocalizations.of(context).delete_task_message,
           style: const TextStyle(
               color: Colors.white, fontSize: 14, fontWeight: FontWeight.w600),
           textAlign: TextAlign.center),
@@ -1312,6 +1305,7 @@ class _TaskFormState extends State<TaskForm> {
     setState(() {
       notes.insert(0, note);
     });
+    editNotesCallback();
   }
 
   removeNote(Note note) {
@@ -1339,6 +1333,7 @@ class _TaskFormState extends State<TaskForm> {
       } else {
         throw Exception("Task id is null for edit note callback");
       }
+      editNotesCallback();
     });
   }
 
@@ -1356,6 +1351,7 @@ class _TaskFormState extends State<TaskForm> {
           throw Exception("Task id is not null for edit temp note callback");
         }
       });
+      editNotesCallback();
     };
   }
 
@@ -1364,14 +1360,21 @@ class _TaskFormState extends State<TaskForm> {
       notes.remove(note);
       toRemoveNotes.remove(note);
     });
+    editNotesCallback();
   }
 
   isChild() {
     //If we are making a new task inside of a taks group
-    return widget.callback != null;
+    return widget.taskGroupId != null;
   }
 
   isChildOfNotCreated() {
-    return isChild() && widget.taskGroupId == null;
+    return widget.taskGroupId == -1;
+  }
+
+  editNotesCallback() {
+    if (widget.editNotesCallback != null) {
+      widget.editNotesCallback!(notes);
+    }
   }
 }
