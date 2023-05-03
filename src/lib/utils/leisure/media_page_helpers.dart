@@ -145,7 +145,7 @@ void showMediaPageForTV(MediaSeriesSuperEntity item, BuildContext context,
         builder: (context) => DraggableScrollableSheet(
             expand: false,
             initialChildSize: 0.75,
-            minChildSize: 0.35,
+            minChildSize: 0.75,
             maxChildSize: 0.9,
             builder: (context, scrollController) =>
                 Stack(alignment: AlignmentDirectional.bottomCenter, children: [
@@ -187,7 +187,7 @@ void showMediaPageForMovies(MediaVideoMovieSuperEntity item,
       builder: (context) => DraggableScrollableSheet(
           expand: false,
           initialChildSize: 0.75,
-          minChildSize: 0.35,
+          minChildSize: 0.75,
           maxChildSize: 0.9,
           builder: (context, scrollController) =>
               Stack(alignment: AlignmentDirectional.bottomCenter, children: [
@@ -225,7 +225,7 @@ void showMediaPageForBooks(MediaBookSuperEntity item, BuildContext context,
       builder: (context) => DraggableScrollableSheet(
           expand: false,
           initialChildSize: 0.75,
-          minChildSize: 0.35,
+          minChildSize: 0.75,
           maxChildSize: 0.9,
           builder: (context, scrollController) =>
               Stack(alignment: AlignmentDirectional.bottomCenter, children: [

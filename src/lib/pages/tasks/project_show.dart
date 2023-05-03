@@ -128,28 +128,30 @@ class _ProjectShowState extends State<ProjectShow> {
                             ),
                           ))
                     ]),
-                    Row(children: [
-                      Container(
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: 10, vertical: 5),
-                          decoration: BoxDecoration(
-                              color: const Color(0xFF17181C),
-                              shape: BoxShape.rectangle,
-                              borderRadius: BorderRadius.circular(10)),
-                          child: Wrap(children: [
-                            Row(children: [
-                              const Icon(Icons.list_rounded,
-                                  color: Colors.white, size: 20),
-                              const SizedBox(width: 10),
-                              Text(AppLocalizations.of(context).project,
-                                  style: const TextStyle(
-                                      color: Colors.white,
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.w600),
-                                  textAlign: TextAlign.center),
-                            ])
-                          ]))
-                    ]),
+                    Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Container(
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 10, vertical: 5),
+                              decoration: BoxDecoration(
+                                  color: const Color(0xFF17181C),
+                                  shape: BoxShape.rectangle,
+                                  borderRadius: BorderRadius.circular(10)),
+                              child: Wrap(children: [
+                                Row(children: [
+                                  const Icon(Icons.list_rounded,
+                                      color: Colors.white, size: 20),
+                                  const SizedBox(width: 10),
+                                  Text(AppLocalizations.of(context).project,
+                                      style: const TextStyle(
+                                          color: Colors.white,
+                                          fontSize: 16,
+                                          fontWeight: FontWeight.w600),
+                                      textAlign: TextAlign.center),
+                                ]),
+                              ]))
+                        ]),
                     const SizedBox(height: 15),
                     getTitle(context),
                     const SizedBox(height: 30),
@@ -451,6 +453,8 @@ class _ProjectShowState extends State<ProjectShow> {
           editTask: editTask,
           deleteTask: deleteTask(tasks[i]),
         ));
+
+        taskList.add(const SizedBox(height: 15));
       }
     }
 

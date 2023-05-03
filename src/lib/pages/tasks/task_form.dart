@@ -33,17 +33,19 @@ class TaskForm extends StatefulWidget {
   final void Function()? deleteCallback;
   final void Function(List<Note>)? editNotesCallback;
   final ScrollController scrollController;
+  final bool createProject;
 
-  const TaskForm({
-    Key? key,
-    required this.scrollController,
-    this.id,
-    this.task,
-    this.taskGroupId,
-    this.callback,
-    this.deleteCallback,
-    this.editNotesCallback,
-  }) : super(key: key);
+  const TaskForm(
+      {Key? key,
+      required this.scrollController,
+      this.id,
+      this.taskGroupId,
+      this.callback,
+      this.editNotesCallback,
+      this.deleteCallback,
+      this.task,
+      this.createProject = true})
+      : super(key: key);
 
   @override
   State<TaskForm> createState() => _TaskFormState();
@@ -1146,37 +1148,36 @@ class _TaskFormState extends State<TaskForm> {
               fontSize: 16,
               fontWeight: FontWeight.w400),
           textAlign: TextAlign.center),
-      (widget.id == null &&
-              widget.taskGroupId == null) //Can add notes and they will be saved
-          ? const SizedBox()
-          : IconButton(
-              key: const Key('addNoteButton'),
-              padding: const EdgeInsets.all(0),
-              icon: const Icon(Icons.add),
-              color: const Color(0xFF71788D),
-              iconSize: 20,
-              splashRadius: 0.1,
-              constraints: const BoxConstraints(maxWidth: 20, maxHeight: 20),
-              onPressed: () {
-                showModalBottomSheet(
-                    context: context,
-                    isScrollControlled: true,
-                    backgroundColor: const Color(0xFF22252D),
-                    shape: const RoundedRectangleBorder(
-                      borderRadius:
-                          BorderRadius.vertical(top: Radius.circular(30.0)),
-                    ),
-                    builder: (builder) => SingleChildScrollView(
-                        child: AddTaskNoteForm(taskId: id, callback: addNote)));
-              },
-            ),
+      IconButton(
+        key: const Key('addNoteButton'),
+        padding: const EdgeInsets.all(0),
+        icon: const Icon(Icons.add),
+        color: const Color(0xFF71788D),
+        iconSize: 20,
+        splashRadius: 0.1,
+        constraints: const BoxConstraints(maxWidth: 20, maxHeight: 20),
+        onPressed: () {
+          showModalBottomSheet(
+              context: context,
+              isScrollControlled: true,
+              backgroundColor: const Color(0xFF22252D),
+              shape: const RoundedRectangleBorder(
+                borderRadius: BorderRadius.vertical(top: Radius.circular(30.0)),
+              ),
+              builder: (builder) => Padding(
+                  padding: EdgeInsets.only(
+                      bottom: MediaQuery.of(context).viewInsets.bottom + 30),
+                  child: SingleChildScrollView(
+                      child: AddTaskNoteForm(taskId: id, callback: addNote))));
+        },
+      ),
     ]);
   }
 
   List<Widget> getNotes() {
     List<Widget> notesList = [];
 
-    if (notes.isEmpty) {
+    if (notes.isEmpty && !widget.createProject) {
       notesList.add(Row(mainAxisAlignment: MainAxisAlignment.center, children: [
         Text(AppLocalizations.of(context).no_notes,
             style: const TextStyle(

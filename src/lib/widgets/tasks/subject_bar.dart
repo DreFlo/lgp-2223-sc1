@@ -70,8 +70,9 @@ class _SubjectBarState extends State<SubjectBar> {
             width: MediaQuery.of(context).size.width * 0.9,
             decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(10), color: lightGray),
-            child: Row(mainAxisAlignment: MainAxisAlignment.start, children: [
-              Expanded(
+            child: Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+              Flexible(
+                flex: 8,
                 child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -94,17 +95,23 @@ class _SubjectBarState extends State<SubjectBar> {
                           ])
                     ]),
               ),
-              IconButton(
-                  color: Colors.white,
-                  splashRadius: 0.01,
-                  icon: const Icon(Icons.close),
-                  onPressed: () {
-                    if (widget.id != null) {
-                      widget.removeCallbackById!(widget.id!);
-                    } else {
-                      widget.removeCallbackBySubject!(widget.subject);
-                    }
-                  })
+              Flexible(
+                  flex: 1,
+                  child: Column(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        IconButton(
+                            color: Colors.white,
+                            splashRadius: 0.01,
+                            icon: const Icon(Icons.close),
+                            onPressed: () {
+                              if (widget.id != null) {
+                                widget.removeCallbackById!(widget.id!);
+                              } else {
+                                widget.removeCallbackBySubject!(widget.subject);
+                              }
+                            })
+                      ]))
             ]),
           ),
         ));

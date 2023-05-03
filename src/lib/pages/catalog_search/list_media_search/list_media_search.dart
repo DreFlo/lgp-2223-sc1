@@ -69,7 +69,7 @@ abstract class ListMediaSearchState<T extends Media>
                         builder: (context) => DraggableScrollableSheet(
                               expand: false,
                               initialChildSize: 0.75,
-                              minChildSize: 0.35,
+                              minChildSize: 0.75,
                               maxChildSize: 0.9,
                               builder: (context, scrollController) => Stack(
                                   alignment: AlignmentDirectional.bottomCenter,
