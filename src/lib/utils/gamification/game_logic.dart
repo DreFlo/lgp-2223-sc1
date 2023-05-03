@@ -89,10 +89,10 @@ int getLevel(int points, int currentLevel) {
   int level = currentLevel;
 
   while (points >= levels[level + 1]!) {
-    if (level == 10) {
-      break;
-    }
     level++;
+    if(level == 10){
+      return level;
+    }
   }
 
   return level;
