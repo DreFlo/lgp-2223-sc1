@@ -212,24 +212,24 @@ class _EventFormState extends State<EventForm> {
     // TODO: Figure out ids
     if (_moduleColor == studentColor) {
       TimeslotStudentTimeslotSuperEntity studentTimeslot = getStudentTimeslot();
-      LocalNotificationService.scheduleNotification(
+      serviceLocator<LocalNotificationService>().scheduleNotification(
           DateTime.now().microsecondsSinceEpoch % 1000000,
           '🟡${studentTimeslot.title} ${AppLocalizations.of(context).starting}',
           studentTimeslot.startDateTime,
           studentTimeslot.description);
-      LocalNotificationService.scheduleNotification(
+      serviceLocator<LocalNotificationService>().scheduleNotification(
           DateTime.now().microsecondsSinceEpoch % 9999999,
           '🟡${studentTimeslot.title} ${AppLocalizations.of(context).ending}',
           studentTimeslot.endDateTime,
           studentTimeslot.description);
     } else if (_moduleColor == leisureColor) {
       TimeslotMediaTimeslotSuperEntity mediaTimeslot = getMediaTimeslot();
-      LocalNotificationService.scheduleNotification(
+      serviceLocator<LocalNotificationService>().scheduleNotification(
           DateTime.now().microsecondsSinceEpoch % 1000000,
           '🔴${mediaTimeslot.title} ${AppLocalizations.of(context).starting}',
           mediaTimeslot.startDateTime,
           mediaTimeslot.description);
-      LocalNotificationService.scheduleNotification(
+      serviceLocator<LocalNotificationService>().scheduleNotification(
           DateTime.now().microsecondsSinceEpoch % 9999999,
           '🔴${mediaTimeslot.title} ${AppLocalizations.of(context).ending}',
           mediaTimeslot.endDateTime,

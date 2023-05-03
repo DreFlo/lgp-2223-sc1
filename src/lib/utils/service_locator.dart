@@ -46,6 +46,7 @@ import 'package:src/daos/mood_dao.dart';
 import 'package:src/daos/user_dao.dart';
 
 import 'package:src/database/callbacks.dart';
+import 'package:src/notifications/local_notifications_service.dart';
 import 'package:src/utils/database_seeder.dart';
 
 final GetIt serviceLocator = GetIt.instance;
@@ -190,6 +191,12 @@ Future<void> setup(
       .registerSingletonWithDependencies<TimeslotStudentTimeslotSuperDao>(
           () => timeslotStudentTimeslotSuperDao,
           dependsOn: [AppDatabase]);
+
+  if (!testing) {
+    serviceLocator.registerSingleton<LocalNotificationService>(
+        LocalNotificationService());
+    serviceLocator<LocalNotificationService>().initialize();
+  }
 
   if (seedDB) {
     if (kDebugMode) {

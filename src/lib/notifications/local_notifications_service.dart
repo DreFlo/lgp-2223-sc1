@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:flutter_native_timezone/flutter_native_timezone.dart';
 import 'package:src/themes/colors.dart';
 import 'package:timezone/data/latest.dart' as tz;
 import 'package:timezone/timezone.dart' as tz;
-import 'package:flutter_native_timezone/flutter_native_timezone.dart';
 
 class LocalNotificationService {
   // Instance of Flutternotification plugin
   static final FlutterLocalNotificationsPlugin _notificationsPlugin =
       FlutterLocalNotificationsPlugin();
-
-  static Future<void> initialize() async {
+      
+  Future<void> initialize() async {
     await _configureLocalTimeZone();
     // Initialization  setting for android
     const InitializationSettings initializationSettingsAndroid =
@@ -25,13 +25,13 @@ class LocalNotificationService {
     );
   }
 
-  static Future<void> _configureLocalTimeZone() async {
+  Future<void> _configureLocalTimeZone() async {
     tz.initializeTimeZones();
     final String timeZone = await FlutterNativeTimezone.getLocalTimezone();
     tz.setLocalLocation(tz.getLocation(timeZone));
   }
 
-  static tz.TZDateTime _convertTime(DateTime dateTime) {
+  tz.TZDateTime _convertTime(DateTime dateTime) {
     final tz.TZDateTime now = tz.TZDateTime.now(tz.local);
     tz.TZDateTime scheduleDate = tz.TZDateTime(
       tz.local,
@@ -47,7 +47,7 @@ class LocalNotificationService {
     return scheduleDate;
   }
 
-  static Future<void> display(String message) async {
+  Future<void> display(String message) async {
     // To display the notification in device
     try {
       final id = DateTime.now().millisecondsSinceEpoch ~/ 1000;
@@ -81,7 +81,7 @@ class LocalNotificationService {
     }
   }
 
-  static Future<void> scheduleNotification(
+  Future<void> scheduleNotification(
       int id, String title, DateTime dateTime, String body,
       {NotificationDetails? details}) async {
     await _notificationsPlugin.zonedSchedule(
@@ -113,7 +113,7 @@ class LocalNotificationService {
       uiLocalNotificationDateInterpretation:
           UILocalNotificationDateInterpretation.absoluteTime,
       matchDateTimeComponents: DateTimeComponents.time,
-      androidAllowWhileIdle: true,
+      androidScheduleMode: AndroidScheduleMode.exactAllowWhileIdle,
     );
   }
 
