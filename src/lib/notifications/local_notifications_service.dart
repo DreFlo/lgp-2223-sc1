@@ -9,7 +9,7 @@ class LocalNotificationService {
   // Instance of Flutternotification plugin
   static final FlutterLocalNotificationsPlugin _notificationsPlugin =
       FlutterLocalNotificationsPlugin();
-      
+
   Future<void> initialize() async {
     await _configureLocalTimeZone();
     // Initialization  setting for android

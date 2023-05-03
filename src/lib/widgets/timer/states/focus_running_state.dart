@@ -60,8 +60,8 @@ class FocusRunningState extends TimerState {
   @override
   void onTimeUp() {
     if (tracker.currentSession < settings.sessions) {
-      serviceLocator<LocalNotificationService>().display(
-          'It\'s BREAK time! Congrats, Emil is proud 🎉');
+      serviceLocator<LocalNotificationService>()
+          .display('It\'s BREAK time! Congrats, Emil is proud 🎉');
       changeState(BreakPausedState(
           timer: timer,
           settings: settings,
