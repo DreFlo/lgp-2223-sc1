@@ -25,7 +25,7 @@ void main() {
     when(mockInstitutionDao.findAllInstitutions()).thenAnswer((_) async => []);
 
     await widgetTester.pumpWidget(const LocalizationsInjector(
-        child: GainedXPToast(value: 10, level: 1, points: 20)));
+        child: GainedXPToast(value: 10, level: 1, points: 20, levelXP: 100)));
 
     await widgetTester.pump(const Duration(seconds: 10));
 

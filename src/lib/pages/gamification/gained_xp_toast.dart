@@ -10,13 +10,14 @@ class GainedXPToast extends StatefulWidget {
   final int value;
   final int level;
   final int points;
-  final int levelXP = 100;
+  final int levelXP;
 
   const GainedXPToast(
       {Key? key,
       required this.value,
       required this.level,
-      required this.points})
+      required this.points,
+      required this.levelXP})
       : super(key: key);
 
   @override

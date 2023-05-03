@@ -219,9 +219,10 @@ void updateUserShowGainedXPToast(User user, int points, context) async {
 
   var snackBar = SnackBar(
     content: GainedXPToast(
-      value: value,
+      value: points,
       level: user.level,
       points: points,
+      levelXP: levels[user.level]!,
     ),
     backgroundColor: Colors.transparent,
     elevation: 0,
