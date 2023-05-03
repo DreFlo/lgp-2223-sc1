@@ -1277,11 +1277,11 @@ class _TaskFormState extends State<TaskForm> {
     );
 
     AlertDialog alert = AlertDialog(
-      title: Text(AppLocalizations.of(context).delete_subject,
+      title: Text(AppLocalizations.of(context).delete_task,
           style: const TextStyle(
               color: Colors.white, fontSize: 20, fontWeight: FontWeight.w600),
           textAlign: TextAlign.center),
-      content: Text(AppLocalizations.of(context).delete_subject_message,
+      content: Text(AppLocalizations.of(context).delete_task_message,
           style: const TextStyle(
               color: Colors.white, fontSize: 14, fontWeight: FontWeight.w600),
           textAlign: TextAlign.center),
