@@ -3,6 +3,8 @@ import 'package:src/database/database.dart';
 import 'package:src/utils/gamification/game_logic.dart';
 import 'package:src/utils/service_locator.dart';
 
+import '../utils/service_locator_test_util.dart';
+
 void main() {
   setUp(() async {
     await setup(testing: true);
@@ -20,4 +22,13 @@ void main() {
       expect(level, 10);
     });
   });
+
+  testWidgets('Check if user can level up', (WidgetTester tester) async {
+    await tester.runAsync(() async {
+      bool canLevelUp = checkLevelUp(2260, 1);
+      expect(canLevelUp, true);
+    });
+  });
+
+  
 }
