@@ -42,7 +42,6 @@ class LocalNotificationService {
       dateTime.minute,
     );
     if (scheduleDate.isBefore(now)) {
-      // TODO: Maybe better exception
       throw Exception("Invalid Date Time");
     }
     return scheduleDate;
@@ -55,20 +54,22 @@ class LocalNotificationService {
 
       NotificationDetails notificationDetails = const NotificationDetails(
         android: AndroidNotificationDetails(
-          "Channel Id",
+          "Sound Please",
           "Main Channel",
           groupKey: "gfg",
-          category: AndroidNotificationCategory.service,
+          playSound: true,
+          sound: RawResourceAndroidNotificationSound('notification'),
+          category: AndroidNotificationCategory.alarm,
           color: primaryColor,
           ledColor: primaryColor,
           ledOnMs: 1000,
           ledOffMs: 500,
           colorized: true,
           importance: Importance.max,
-          playSound: true,
           priority: Priority.max,
           timeoutAfter: 30000,
-          //autoCancel: false,
+          autoCancel: false,
+          enableVibration: true,
           //ongoing: true
         ),
         //to make it persistent you need autoCancel: false and ongoing: true
@@ -90,10 +91,11 @@ class LocalNotificationService {
       _convertTime(dateTime),
       details ?? const NotificationDetails(
         android: AndroidNotificationDetails(
-          "Channel Id",
+          "Scheduled Notification",
           "Main Channel",
           groupKey: "gfg",
-          category: AndroidNotificationCategory.service,
+          sound: RawResourceAndroidNotificationSound('notification'),
+          category: AndroidNotificationCategory.alarm,
           color: primaryColor,
           ledColor: primaryColor,
           ledOnMs: 1000,
@@ -103,10 +105,10 @@ class LocalNotificationService {
           playSound: true,
           priority: Priority.max,
           timeoutAfter: 30000,
+          enableVibration: true
           //autoCancel: false,
           //ongoing: true
         ),
-        //to make it persistent you need autoCancel: false and ongoing: true
       ),
       uiLocalNotificationDateInterpretation: UILocalNotificationDateInterpretation.absoluteTime,
       matchDateTimeComponents: DateTimeComponents.time,
