@@ -131,12 +131,18 @@ class _DashboardState extends State<Dashboard> {
               refreshCards: loadDataDB);
         case 1:
           return DashBoardGridView(
-              tasks: taskResults, taskGroups: taskGroupResults, refreshCards: loadDataDB);
+              tasks: taskResults,
+              taskGroups: taskGroupResults,
+              refreshCards: loadDataDB);
         case 2:
-          return DashBoardGridView(mediaEvents: mediaResults, refreshCards: loadDataDB);
+          return DashBoardGridView(
+              mediaEvents: mediaResults, refreshCards: loadDataDB);
         default:
           return DashBoardGridView(
-              tasks: const [], taskGroups: const [], mediaEvents: const [], refreshCards: loadDataDB);
+              tasks: const [],
+              taskGroups: const [],
+              mediaEvents: const [],
+              refreshCards: loadDataDB);
       }
     }
   }

@@ -117,7 +117,8 @@ class _TaskShowState extends State<TaskShow> {
       }
     }
 
-    finished = await serviceLocator<TaskDao>().isTaskFinished(task.id!) ?? false;
+    finished =
+        await serviceLocator<TaskDao>().isTaskFinished(task.id!) ?? false;
 
     await initNotes();
     init = true;

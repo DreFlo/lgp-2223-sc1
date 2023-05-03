@@ -3,7 +3,6 @@ import 'package:src/database/database.dart';
 import 'package:src/utils/gamification/game_logic.dart';
 import 'package:src/utils/service_locator.dart';
 
-
 void main() {
   setUp(() async {
     await setup(testing: true);
@@ -29,12 +28,11 @@ void main() {
     });
   });
 
-  testWidgets('Get the level user is going to downgrade to', (WidgetTester tester) async {
+  testWidgets('Get the level user is going to downgrade to',
+      (WidgetTester tester) async {
     await tester.runAsync(() async {
       int level = getLevelDecrease(50, 10);
       expect(level, 0);
     });
   });
-
-
 }

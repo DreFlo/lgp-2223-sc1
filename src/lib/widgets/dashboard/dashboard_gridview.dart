@@ -60,11 +60,10 @@ class _DashBoardGridViewState extends State<DashBoardGridView> {
       );
     } else if (widget.taskGroups != null && items[index] is TaskGroup) {
       return DashboardCard(
-        module: 'Student',
-        taskGroup: items[index],
-        deleteCallback: deleteTaskGroup(items[index]),
-        refreshCards: widget.refreshCards
-      );
+          module: 'Student',
+          taskGroup: items[index],
+          deleteCallback: deleteTaskGroup(items[index]),
+          refreshCards: widget.refreshCards);
     } else if (widget.mediaEvents != null &&
         items[index] is TimeslotMediaTimeslotSuperEntity) {
       return DashboardCard(
