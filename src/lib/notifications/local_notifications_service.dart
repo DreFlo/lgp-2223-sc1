@@ -89,28 +89,29 @@ class LocalNotificationService {
       title,
       body,
       _convertTime(dateTime),
-      details ?? const NotificationDetails(
-        android: AndroidNotificationDetails(
-          "Scheduled Notification",
-          "Main Channel",
-          groupKey: "gfg",
-          sound: RawResourceAndroidNotificationSound('notification'),
-          category: AndroidNotificationCategory.alarm,
-          color: primaryColor,
-          ledColor: primaryColor,
-          ledOnMs: 1000,
-          ledOffMs: 500,
-          colorized: true,
-          importance: Importance.max,
-          playSound: true,
-          priority: Priority.max,
-          timeoutAfter: 30000,
-          enableVibration: true
-          //autoCancel: false,
-          //ongoing: true
-        ),
-      ),
-      uiLocalNotificationDateInterpretation: UILocalNotificationDateInterpretation.absoluteTime,
+      details ??
+          const NotificationDetails(
+            android: AndroidNotificationDetails(
+                "Scheduled Notification", "Main Channel",
+                groupKey: "gfg",
+                sound: RawResourceAndroidNotificationSound('notification'),
+                category: AndroidNotificationCategory.alarm,
+                color: primaryColor,
+                ledColor: primaryColor,
+                ledOnMs: 1000,
+                ledOffMs: 500,
+                colorized: true,
+                importance: Importance.max,
+                playSound: true,
+                priority: Priority.max,
+                timeoutAfter: 30000,
+                enableVibration: true
+                //autoCancel: false,
+                //ongoing: true
+                ),
+          ),
+      uiLocalNotificationDateInterpretation:
+          UILocalNotificationDateInterpretation.absoluteTime,
       matchDateTimeComponents: DateTimeComponents.time,
       androidAllowWhileIdle: true,
     );
