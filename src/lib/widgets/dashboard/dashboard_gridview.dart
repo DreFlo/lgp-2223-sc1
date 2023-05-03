@@ -8,9 +8,14 @@ class DashBoardGridView extends StatefulWidget {
   final List<Task>? tasks; //student
   final List<TaskGroup>? taskGroups; //student
   final List<TimeslotMediaTimeslotSuperEntity>? mediaEvents; //media
+  final void Function() refreshCards;
 
   const DashBoardGridView(
-      {Key? key, this.tasks, this.taskGroups, this.mediaEvents})
+      {Key? key,
+      this.tasks,
+      this.taskGroups,
+      this.mediaEvents,
+      required this.refreshCards})
       : super(key: key);
 
   @override
@@ -51,12 +56,14 @@ class _DashBoardGridViewState extends State<DashBoardGridView> {
         module: 'Student',
         task: items[index],
         deleteCallback: deleteTask(items[index]),
+        refreshCards: widget.refreshCards,
       );
     } else if (widget.taskGroups != null && items[index] is TaskGroup) {
       return DashboardCard(
         module: 'Student',
         taskGroup: items[index],
         deleteCallback: deleteTaskGroup(items[index]),
+        refreshCards: widget.refreshCards
       );
     } else if (widget.mediaEvents != null &&
         items[index] is TimeslotMediaTimeslotSuperEntity) {
@@ -64,6 +71,7 @@ class _DashBoardGridViewState extends State<DashBoardGridView> {
         module: 'Leisure',
         mediaEvent: items[index],
         deleteCallback: deleteMediaEvent(items[index]),
+        refreshCards: widget.refreshCards,
       );
     } else {
       return Container();
@@ -101,6 +109,7 @@ class _DashBoardGridViewState extends State<DashBoardGridView> {
     return () {
       setState(() {
         widget.tasks!.remove(oldTask);
+        widget.refreshCards();
       });
     };
   }
@@ -109,6 +118,7 @@ class _DashBoardGridViewState extends State<DashBoardGridView> {
     return () {
       setState(() {
         widget.taskGroups!.remove(oldTaskGroup);
+        widget.refreshCards();
       });
     };
   }
@@ -117,6 +127,7 @@ class _DashBoardGridViewState extends State<DashBoardGridView> {
     return () {
       setState(() {
         widget.mediaEvents!.remove(oldMediaEvent);
+        widget.refreshCards();
       });
     };
   }

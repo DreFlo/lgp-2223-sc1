@@ -88,6 +88,7 @@ class _DashboardState extends State<Dashboard> {
   }
 
   void loadDataDB() async {
+    loadedAllData = false;
     DateTime now = DateTime.now();
     DateTime start = DateTime(now.year, now.month, now.day, 0, 0, 0);
 
@@ -115,9 +116,7 @@ class _DashboardState extends State<Dashboard> {
 
   showWidget() {
     if (loadedAllData) {
-      if (searchResults.isEmpty) {
-        searchResults = items;
-      }
+      searchResults = items;
       List<Task> taskResults = searchResults.whereType<Task>().toList();
       List<TaskGroup> taskGroupResults =
           searchResults.whereType<TaskGroup>().toList();
@@ -128,15 +127,16 @@ class _DashboardState extends State<Dashboard> {
           return DashBoardGridView(
               tasks: taskResults,
               taskGroups: taskGroupResults,
-              mediaEvents: mediaResults);
+              mediaEvents: mediaResults,
+              refreshCards: loadDataDB);
         case 1:
           return DashBoardGridView(
-              tasks: taskResults, taskGroups: taskGroupResults);
+              tasks: taskResults, taskGroups: taskGroupResults, refreshCards: loadDataDB);
         case 2:
-          return DashBoardGridView(mediaEvents: mediaResults);
+          return DashBoardGridView(mediaEvents: mediaResults, refreshCards: loadDataDB);
         default:
-          return const DashBoardGridView(
-              tasks: [], taskGroups: [], mediaEvents: []);
+          return DashBoardGridView(
+              tasks: const [], taskGroups: const [], mediaEvents: const [], refreshCards: loadDataDB);
       }
     }
   }
