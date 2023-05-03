@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:src/daos/student/institution_dao.dart';
 import 'package:src/models/student/institution.dart';
 import 'package:src/daos/student/task_dao.dart';
+import 'package:src/pages/tasks/project_show.dart';
+import 'package:src/pages/tasks/task_show.dart';
 import 'package:src/themes/colors.dart';
 import 'package:src/models/student/task.dart';
 import 'package:src/models/student/task_group.dart';
@@ -19,13 +21,15 @@ class DashboardCard extends StatefulWidget {
   final TaskGroup? taskGroup; //student
   final TimeslotMediaTimeslotSuperEntity? mediaEvent; //media
   final String module;
+  final Function()? deleteCallback;
 
   const DashboardCard(
       {Key? key,
       required this.module,
       this.task,
       this.taskGroup,
-      this.mediaEvent})
+      this.mediaEvent,
+      this.deleteCallback})
       : super(key: key);
 
   @override
@@ -48,11 +52,22 @@ class _DashboardCardState extends State<DashboardCard> {
   List<int> mediaIds = [];
   bool isReady = false;
 
+  late Task? task;
+  late TaskGroup? taskGroup;
+  late TimeslotMediaTimeslotSuperEntity? mediaEvent;
+
   @override
   void initState() {
     isReady = false;
+    task = widget.task;
+    taskGroup = widget.taskGroup;
+    mediaEvent = widget.mediaEvent;
     super.initState();
 
+    cardInformationUpdate();
+  }
+
+  void cardInformationUpdate() {
     Future.wait([
       getMediaIds().then((value) => setState(() {
             mediaIds = value;
@@ -76,21 +91,21 @@ class _DashboardCardState extends State<DashboardCard> {
   }
 
   String getTitle() {
-    if (widget.task != null) {
-      return widget.task!.name;
-    } else if (widget.taskGroup != null) {
-      return widget.taskGroup!.name;
-    } else if (widget.mediaEvent != null) {
-      return widget.mediaEvent!.title;
+    if (task != null) {
+      return task!.name;
+    } else if (taskGroup != null) {
+      return taskGroup!.name;
+    } else if (mediaEvent != null) {
+      return mediaEvent!.title;
     } else {
       return '';
     }
   }
 
   Future<int> getNTasks() async {
-    if (widget.taskGroup != null) {
+    if (taskGroup != null) {
       return await serviceLocator<TaskDao>()
-              .countTasksByTaskGroupId(widget.taskGroup?.id ?? 0) ??
+              .countTasksByTaskGroupId(taskGroup?.id ?? 0) ??
           0;
     } else {
       return 0;
@@ -98,13 +113,13 @@ class _DashboardCardState extends State<DashboardCard> {
   }
 
   Future<String> getSubjectOrDate() async {
-    if (widget.task != null) {
+    if (task != null) {
       return await loadSubject();
-    } else if (widget.taskGroup != null) {
+    } else if (taskGroup != null) {
       return await loadSubject();
-    } else if (widget.mediaEvent != null) {
+    } else if (mediaEvent != null) {
       String startDate =
-          "${widget.mediaEvent!.startDateTime.day.toString()}/${widget.mediaEvent!.startDateTime.month.toString()}";
+          "${mediaEvent!.startDateTime.day.toString()}/${mediaEvent!.startDateTime.month.toString()}";
 
       return startDate;
     } else {
@@ -114,13 +129,13 @@ class _DashboardCardState extends State<DashboardCard> {
 
   String getTaskDate() {
     String date = '';
-    if (widget.task != null) {
+    if (task != null) {
       date =
-          "${widget.task!.deadline.day.toString()}/${widget.task!.deadline.month.toString()}";
+          "${task!.deadline.day.toString()}/${task!.deadline.month.toString()}";
       return date;
-    } else if (widget.taskGroup != null) {
+    } else if (taskGroup != null) {
       date =
-          "${widget.taskGroup!.deadline.day.toString()}/${widget.taskGroup!.deadline.month.toString()}";
+          "${taskGroup!.deadline.day.toString()}/${taskGroup!.deadline.month.toString()}";
       return date;
     }
     return date;
@@ -128,11 +143,11 @@ class _DashboardCardState extends State<DashboardCard> {
 
   Future<String> getInstitutionOrMediaType() async {
     institutionOrMediaType = '';
-    if (widget.task != null) {
+    if (task != null) {
       return await loadInstitution();
-    } else if (widget.taskGroup != null) {
+    } else if (taskGroup != null) {
       return await loadInstitution();
-    } else if (widget.mediaEvent != null) {
+    } else if (mediaEvent != null) {
       return mediaTypes.length.toString();
     } else {
       return '';
@@ -142,10 +157,10 @@ class _DashboardCardState extends State<DashboardCard> {
   Future<String> loadSubject() async {
     subjectOrDate = '';
     int? id;
-    if (widget.task != null) {
-      id = widget.task?.subjectId;
-    } else if (widget.taskGroup != null) {
-      id = widget.taskGroup?.subjectId;
+    if (task != null) {
+      id = task?.subjectId;
+    } else if (taskGroup != null) {
+      id = taskGroup?.subjectId;
     }
     if (id != null) {
       final subjectStream = serviceLocator<SubjectDao>().findSubjectById(id);
@@ -169,16 +184,16 @@ class _DashboardCardState extends State<DashboardCard> {
   }
 
   Future<List<int>> getMediaIds() async {
-    if (widget.mediaEvent != null) {
+    if (mediaEvent != null) {
       return await serviceLocator<MediaMediaTimeslotDao>()
-          .findMediaIdByMediaTimeslotId(widget.mediaEvent!.id ?? 0);
+          .findMediaIdByMediaTimeslotId(mediaEvent!.id ?? 0);
     } else {
       return [];
     }
   }
 
   Future<List<MediaDBTypes>> getMediaTypes() async {
-    if (widget.mediaEvent != null) {
+    if (mediaEvent != null) {
       List<MediaDBTypes> mediaTypes = [];
       for (int id in mediaIds) {
         final mediaStream = serviceLocator<MediaDao>().findMediaById(id);
@@ -204,7 +219,7 @@ class _DashboardCardState extends State<DashboardCard> {
   }
 
   Widget mediaTypesOrInstitutionContainer() {
-    if (widget.task != null || widget.taskGroup != null) {
+    if (task != null || taskGroup != null) {
       if (institutionOrMediaType == '0') {
         return Container();
       }
@@ -222,7 +237,7 @@ class _DashboardCardState extends State<DashboardCard> {
               ),
         ),
       );
-    } else if (widget.mediaEvent != null) {
+    } else if (mediaEvent != null) {
       return Container(
         margin: const EdgeInsets.only(bottom: 5),
         decoration: BoxDecoration(
@@ -267,6 +282,25 @@ class _DashboardCardState extends State<DashboardCard> {
       isReady = true;
       return GestureDetector(
           onTap: () {
+            showModalBottomSheet(
+                context: context,
+                isScrollControlled: true,
+                backgroundColor: const Color(0xFF22252D),
+                shape: const RoundedRectangleBorder(
+                  borderRadius:
+                      BorderRadius.vertical(top: Radius.circular(30.0)),
+                ),
+                builder: (context) => Padding(
+                    padding: EdgeInsets.only(
+                        bottom: MediaQuery.of(context).viewInsets.bottom + 50),
+                    child: DraggableScrollableSheet(
+                      expand: false,
+                      initialChildSize: 0.60,
+                      minChildSize: 0.60,
+                      maxChildSize: 0.9,
+                      builder: (context, scrollController) =>
+                          getShowCard(context, scrollController),
+                    )));
             // TODO: Navigate to project page
           },
           child: Container(
@@ -383,5 +417,43 @@ class _DashboardCardState extends State<DashboardCard> {
     }
     isReady = false;
     return Container();
+  }
+
+  getShowCard(BuildContext context, ScrollController scrollController) {
+    if (task != null) {
+      return TaskShow(
+        task: task!,
+        scrollController: scrollController,
+        callback: editTask,
+        deleteCallback: widget.deleteCallback,
+      );
+    } else if (taskGroup != null) {
+      return ProjectShow(
+          taskGroup: taskGroup!,
+          scrollController: scrollController,
+          callback: editTaskGroup,
+          deleteCallback: widget.deleteCallback);
+    } else if (mediaEvent != null) {
+      //TODO MediaShow
+      // return MediaShow(
+      //   scrollController: scrollController,
+      // );
+    } else {
+      return const SizedBox();
+    }
+  }
+
+  editTask(Task t) {
+    setState(() {
+      task = t;
+      cardInformationUpdate();
+    });
+  }
+
+  editTaskGroup(TaskGroup tg) {
+    setState(() {
+      taskGroup = tg;
+      cardInformationUpdate();
+    });
   }
 }

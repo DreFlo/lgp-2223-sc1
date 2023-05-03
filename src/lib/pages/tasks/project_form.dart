@@ -21,9 +21,18 @@ import 'package:src/widgets/tasks/task_bar.dart';
 
 class ProjectForm extends StatefulWidget {
   final int? id;
+  final void Function(TaskGroup tg)? callback;
+  final void Function()? deleteCallback;
+  final void Function(List<Task>)? editTasksCallback;
   final ScrollController scrollController;
 
-  const ProjectForm({Key? key, required this.scrollController, this.id})
+  const ProjectForm(
+      {Key? key,
+      required this.scrollController,
+      this.id,
+      this.callback,
+      this.deleteCallback,
+      this.editTasksCallback})
       : super(key: key);
 
   @override
@@ -172,7 +181,8 @@ class _ProjectFormState extends State<ProjectForm> {
           Task newTask = Task(
               id: oldTask.id,
               name: oldTask.name,
-              deadline: oldTask.deadline,
+              deadline:
+                  date!.isBefore(oldTask.deadline) ? date! : oldTask.deadline,
               priority: oldTask.priority,
               description: oldTask.description,
               taskGroupId: newId,
@@ -190,6 +200,10 @@ class _ProjectFormState extends State<ProjectForm> {
       }
     }
 
+    if (widget.callback != null) {
+      widget.callback!(taskGroup);
+    }
+
     if (context.mounted) {
       Navigator.pop(context);
     }
@@ -201,6 +215,10 @@ class _ProjectFormState extends State<ProjectForm> {
           .findTaskGroupById(id!)
           .first as TaskGroup;
       await serviceLocator<TaskGroupDao>().deleteTaskGroup(taskGroup);
+    }
+
+    if (widget.deleteCallback != null) {
+      widget.deleteCallback!();
     }
 
     if (context.mounted) {
@@ -376,8 +394,8 @@ class _ProjectFormState extends State<ProjectForm> {
         onTap: () async {
           var date = await showDatePicker(
               context: context,
-              initialDate: DateTime.now(),
-              firstDate: DateTime.now(),
+              initialDate: id != null ? this.date! : DateTime.now(),
+              firstDate: id != null ? this.date! : DateTime.now(),
               lastDate: DateTime(2100));
           if (date == null) {
             return;
@@ -844,7 +862,7 @@ class _ProjectFormState extends State<ProjectForm> {
                     minChildSize: 0.80,
                     maxChildSize: 0.85,
                     builder: (context, scrollController) => TaskForm(
-                        taskGroupId: id,
+                        taskGroupId: id ?? -1,
                         callback: addTask,
                         scrollController: scrollController,
                         createProject: true),
@@ -960,11 +978,11 @@ class _ProjectFormState extends State<ProjectForm> {
     );
 
     AlertDialog alert = AlertDialog(
-      title: Text(AppLocalizations.of(context).delete_subject,
+      title: Text(AppLocalizations.of(context).delete_task_group,
           style: const TextStyle(
               color: Colors.white, fontSize: 20, fontWeight: FontWeight.w600),
           textAlign: TextAlign.center),
-      content: Text(AppLocalizations.of(context).delete_subject_message,
+      content: Text(AppLocalizations.of(context).delete_task_group_message,
           style: const TextStyle(
               color: Colors.white, fontSize: 14, fontWeight: FontWeight.w600),
           textAlign: TextAlign.center),
@@ -987,6 +1005,7 @@ class _ProjectFormState extends State<ProjectForm> {
     setState(() {
       tasks.insert(0, task);
     });
+    editTasksCallback();
   }
 
   removeTask(Task task) {
@@ -1014,6 +1033,7 @@ class _ProjectFormState extends State<ProjectForm> {
         throw Exception("Task group id is null for edit task calblack");
       }
     });
+    editTasksCallback();
   }
 
   editTempTask(Task oldTask) {
@@ -1030,6 +1050,7 @@ class _ProjectFormState extends State<ProjectForm> {
           throw Exception("Task id is not null for edit temp task calback");
         }
       });
+      editTasksCallback();
     };
   }
 
@@ -1049,6 +1070,13 @@ class _ProjectFormState extends State<ProjectForm> {
           }
         }
       });
+      editTasksCallback();
     };
+  }
+
+  editTasksCallback() {
+    if (widget.editTasksCallback != null) {
+      widget.editTasksCallback!(tasks);
+    }
   }
 }
