@@ -236,7 +236,7 @@ Future<bool> checkTaskFromEvent(Task task) async {
   return false;
 }
 
-Future<GameState> check(
+void check(
     List<Task>? tasks,
     List<Media>? medias,
     TimeslotMediaTimeslotSuperEntity? mediaTimeslot,
@@ -280,7 +280,7 @@ Future<GameState> check(
     //have to focus on media
     if (medias!.isEmpty) {
       //Illegal function call
-      throw Error();
+      return;
     }
 
     for (Media m in medias) {
@@ -292,7 +292,7 @@ Future<GameState> check(
     //have to focus on tasks
     if (tasks!.isEmpty) {
       //Illegal function call
-      throw Error();
+      return;
     }
     for (Task t in tasks) {
       markTaskAsDoneOrNot(t, true, points);
@@ -310,11 +310,11 @@ Future<GameState> check(
   if (checkLevelUp(user.xp + points, user.level)) {
     updateUserShowLevelUpToast(user, points, context);
 
-    return GameState.levelUp;
+    return;
   } else {
     updateUserShowGainedXPToast(user, points, context);
 
-    return GameState.progress;
+    return;
   }
 }
 
