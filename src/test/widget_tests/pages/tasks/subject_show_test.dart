@@ -24,6 +24,8 @@ import 'package:flutter/material.dart';
 import '../../widget_tests_utils.dart';
 import 'package:mockito/mockito.dart';
 
+void callback() {}
+
 void main() {
   setUp(() async {
     setupMockServiceLocatorUnitTests();
@@ -55,7 +57,8 @@ void main() {
             [StudentEvaluation(name: 'eval_name', grade: 1.1, subjectId: 1)]);
 
     await widgetTester.pumpWidget(LocalizationsInjector(
-      child: SubjectShow(scrollController: ScrollController(), id: 1),
+      child: SubjectShow(
+          scrollController: ScrollController(), id: 1, callback: callback),
     ));
 
     await widgetTester.pumpAndSettle();
@@ -92,7 +95,8 @@ void main() {
             [StudentEvaluation(name: 'eval_name', grade: 1.1, subjectId: 1)]);
 
     await widgetTester.pumpWidget(LocalizationsInjector(
-      child: InstitutionShow(scrollController: ScrollController(), id: 1),
+      child: InstitutionShow(
+          scrollController: ScrollController(), id: 1, callback: callback),
     ));
 
     await widgetTester.pumpAndSettle();
