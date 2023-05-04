@@ -239,7 +239,7 @@ class _ProjectFormState extends State<ProjectForm> {
         builder: (BuildContext context, AsyncSnapshot<int> snapshot) {
           if (snapshot.hasData) {
             return Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 24),
+                padding: const EdgeInsets.symmetric(horizontal: 20),
                 child: SingleChildScrollView(
                   controller: widget.scrollController,
                   child: Wrap(spacing: 10, children: [
@@ -294,15 +294,6 @@ class _ProjectFormState extends State<ProjectForm> {
                     const SizedBox(height: 30),
 
                     // Description
-                    Row(children: [
-                      Text(AppLocalizations.of(context).description,
-                          style: const TextStyle(
-                              fontFamily: 'Poppins',
-                              color: Color(0xFF71788D),
-                              fontSize: 16,
-                              fontWeight: FontWeight.w400),
-                          textAlign: TextAlign.center),
-                    ]),
                     const SizedBox(height: 7.5),
                     ...getDescription(),
                     const SizedBox(height: 30),
@@ -322,32 +313,16 @@ class _ProjectFormState extends State<ProjectForm> {
   List<Widget> getTitle(BuildContext context) {
     Widget titleWidget =
         Row(crossAxisAlignment: CrossAxisAlignment.center, children: [
-      const SizedBox(width: 7.5),
       Flexible(
           flex: 1,
-          child: AspectRatio(
-              aspectRatio: 1,
-              child: Transform.rotate(
-                  angle: -Math.pi / 4,
-                  child: ElevatedButton(
-                    style: ButtonStyle(
-                        shadowColor:
-                            MaterialStateProperty.all(Colors.transparent),
-                        elevation: MaterialStateProperty.all(0),
-                        alignment: const Alignment(0, 0),
-                        backgroundColor:
-                            MaterialStateProperty.all(studentColor)),
-                    onPressed: () {
-                      //TODO: Change the associated module (?)
-                    },
-                    child: Container(
-                        decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(5),
-                    )),
-                  )))),
+          child: Transform.rotate(
+            angle: -Math.pi / 4,
+            child:
+                const Icon(Icons.square_rounded, size: 50, color: studentColor),
+          )),
       const SizedBox(width: 15),
       Flexible(
-          flex: 10,
+          flex: 5,
           child: TextField(
               key: const Key('projectTitle'),
               controller: titleController,
@@ -502,7 +477,8 @@ class _ProjectFormState extends State<ProjectForm> {
             Row(
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
-                InkWell(
+                Expanded(
+                    child: InkWell(
                   highlightColor: lightGray,
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -530,9 +506,10 @@ class _ProjectFormState extends State<ProjectForm> {
                     priority = Priority.low;
                     setState(() {});
                   },
-                ),
+                )),
                 const SizedBox(width: 5),
-                InkWell(
+                Expanded(
+                    child: InkWell(
                   highlightColor: lightGray,
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -555,9 +532,10 @@ class _ProjectFormState extends State<ProjectForm> {
                     priority = Priority.medium;
                     setState(() {});
                   },
-                ),
+                )),
                 const SizedBox(width: 5),
-                InkWell(
+                Expanded(
+                    child: InkWell(
                   highlightColor: lightGray,
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -585,7 +563,7 @@ class _ProjectFormState extends State<ProjectForm> {
                     priority = Priority.high;
                     setState(() {});
                   },
-                ),
+                )),
               ],
             )
           ]))
@@ -635,58 +613,65 @@ class _ProjectFormState extends State<ProjectForm> {
             Row(
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
-                FutureBuilder(
-                    future:
-                        serviceLocator<InstitutionDao>().findAllInstitutions(),
-                    builder: (BuildContext context,
-                        AsyncSnapshot<List<Institution>> snapshot) {
-                      if (snapshot.hasData) {
-                        bool institutionFound = false;
-                        bool institutionNoneFound = false;
-                        for (final i in snapshot.data!) {
-                          if (i.id == institution.id) {
-                            institution = i;
-                            institutionFound = true;
-                          }
-                          if (i.id == institutionNone.id) {
-                            institutionNoneFound = true;
-                          }
-                        }
-                        if (!institutionFound) {
-                          institution = institutionNone;
-                        }
-                        if (!institutionNoneFound) {
-                          snapshot.data!.insert(0, institutionNone);
-                        }
-
-                        return DropdownButton<Institution>(
-                          key: const Key('projectInstitution'),
-                          value: institution,
-                          items: snapshot.data!.map((i) {
-                            return DropdownMenuItem<Institution>(
-                                value: i,
-                                child: Text(i.name,
-                                    key: Key('projectInstitution_${i.name}'),
-                                    style: const TextStyle(
-                                        fontFamily: 'Poppins',
-                                        color: Color(0xFF71788D),
-                                        fontSize: 16,
-                                        fontWeight: FontWeight.w400),
-                                    textAlign: TextAlign.center));
-                          }).toList(),
-                          onChanged: (Institution? newInstitution) {
-                            setState(() {
-                              if (institution.id != newInstitution!.id) {
-                                subject = subjectNone;
+                Expanded(
+                    child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.stretch,
+                        children: [
+                      FutureBuilder(
+                          future: serviceLocator<InstitutionDao>()
+                              .findAllInstitutions(),
+                          builder: (BuildContext context,
+                              AsyncSnapshot<List<Institution>> snapshot) {
+                            if (snapshot.hasData) {
+                              bool institutionFound = false;
+                              bool institutionNoneFound = false;
+                              for (final i in snapshot.data!) {
+                                if (i.id == institution.id) {
+                                  institution = i;
+                                  institutionFound = true;
+                                }
+                                if (i.id == institutionNone.id) {
+                                  institutionNoneFound = true;
+                                }
                               }
-                              institution = newInstitution;
-                            });
-                          },
-                        );
-                      } else {
-                        return const SizedBox();
-                      }
-                    }),
+                              if (!institutionFound) {
+                                institution = institutionNone;
+                              }
+                              if (!institutionNoneFound) {
+                                snapshot.data!.insert(0, institutionNone);
+                              }
+
+                              return DropdownButton<Institution>(
+                                key: const Key('projectInstitution'),
+                                value: institution,
+                                isExpanded: true,
+                                items: snapshot.data!.map((i) {
+                                  return DropdownMenuItem<Institution>(
+                                      value: i,
+                                      child: Text(i.name,
+                                          key: Key(
+                                              'projectInstitution_${i.name}'),
+                                          style: const TextStyle(
+                                              fontFamily: 'Poppins',
+                                              color: Color(0xFF71788D),
+                                              fontSize: 16,
+                                              fontWeight: FontWeight.w400),
+                                          textAlign: TextAlign.center));
+                                }).toList(),
+                                onChanged: (Institution? newInstitution) {
+                                  setState(() {
+                                    if (institution.id != newInstitution!.id) {
+                                      subject = subjectNone;
+                                    }
+                                    institution = newInstitution;
+                                  });
+                                },
+                              );
+                            } else {
+                              return const SizedBox();
+                            }
+                          }),
+                    ]))
               ],
             )
           ]))
@@ -729,60 +714,67 @@ class _ProjectFormState extends State<ProjectForm> {
             Row(
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
-                FutureBuilder(
-                    future: institution.id == -1
-                        ? serviceLocator<SubjectDao>()
-                            .findSubjectByInstitutionIdNull()
-                        : serviceLocator<SubjectDao>()
-                            .findSubjectByInstitutionId(institution.id!),
-                    builder: (BuildContext context,
-                        AsyncSnapshot<List<Subject>> snapshot) {
-                      if (snapshot.hasData) {
-                        bool subjectFound = false;
-                        bool subjectNoneFound = false;
+                Expanded(
+                    child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.stretch,
+                        children: [
+                      FutureBuilder(
+                          future: institution.id == -1
+                              ? serviceLocator<SubjectDao>()
+                                  .findSubjectByInstitutionIdNull()
+                              : serviceLocator<SubjectDao>()
+                                  .findSubjectByInstitutionId(institution.id!),
+                          builder: (BuildContext context,
+                              AsyncSnapshot<List<Subject>> snapshot) {
+                            if (snapshot.hasData) {
+                              bool subjectFound = false;
+                              bool subjectNoneFound = false;
 
-                        for (final s in snapshot.data!) {
-                          if (s.id == subject!.id) {
-                            subject = s;
-                            subjectFound = true;
-                          }
-                          if (s.id == subjectNone.id) {
-                            subjectNoneFound = true;
-                          }
-                        }
+                              for (final s in snapshot.data!) {
+                                if (s.id == subject!.id) {
+                                  subject = s;
+                                  subjectFound = true;
+                                }
+                                if (s.id == subjectNone.id) {
+                                  subjectNoneFound = true;
+                                }
+                              }
 
-                        if (!subjectFound) {
-                          subject = subjectNone;
-                        }
-                        if (!subjectNoneFound) {
-                          snapshot.data!.insert(0, subjectNone);
-                        }
+                              if (!subjectFound) {
+                                subject = subjectNone;
+                              }
+                              if (!subjectNoneFound) {
+                                snapshot.data!.insert(0, subjectNone);
+                              }
 
-                        return DropdownButton<Subject>(
-                          key: const Key('projectSubject'),
-                          value: subject,
-                          items: snapshot.data!.map((s) {
-                            return DropdownMenuItem<Subject>(
-                                value: s,
-                                child: Text(s.acronym,
-                                    key: Key('projectSubject_${s.acronym}'),
-                                    style: const TextStyle(
-                                        fontFamily: 'Poppins',
-                                        color: Color(0xFF71788D),
-                                        fontSize: 16,
-                                        fontWeight: FontWeight.w400),
-                                    textAlign: TextAlign.center));
-                          }).toList(),
-                          onChanged: (Subject? newSubject) {
-                            setState(() {
-                              subject = newSubject!;
-                            });
-                          },
-                        );
-                      } else {
-                        return const SizedBox();
-                      }
-                    }),
+                              return DropdownButton<Subject>(
+                                key: const Key('projectSubject'),
+                                value: subject,
+                                isExpanded: true,
+                                items: snapshot.data!.map((s) {
+                                  return DropdownMenuItem<Subject>(
+                                      value: s,
+                                      child: Text(s.acronym,
+                                          key: Key(
+                                              'projectSubject_${s.acronym}'),
+                                          style: const TextStyle(
+                                              fontFamily: 'Poppins',
+                                              color: Color(0xFF71788D),
+                                              fontSize: 16,
+                                              fontWeight: FontWeight.w400),
+                                          textAlign: TextAlign.center));
+                                }).toList(),
+                                onChanged: (Subject? newSubject) {
+                                  setState(() {
+                                    subject = newSubject!;
+                                  });
+                                },
+                              );
+                            } else {
+                              return const SizedBox();
+                            }
+                          }),
+                    ]))
               ],
             )
           ]))
@@ -796,7 +788,17 @@ class _ProjectFormState extends State<ProjectForm> {
   }
 
   List<Widget> getDescription() {
-    Widget descriptionWidget = Row(children: [
+    Widget descriptionLabelWidget = Row(children: [
+      Text(AppLocalizations.of(context).description,
+          style: const TextStyle(
+              fontFamily: 'Poppins',
+              color: Color(0xFF71788D),
+              fontSize: 16,
+              fontWeight: FontWeight.w400),
+          textAlign: TextAlign.center),
+    ]);
+
+    Widget descriptionWidget = Expanded(child: Row(children: [
       Flexible(
           flex: 1,
           child: TextField(
@@ -819,13 +821,13 @@ class _ProjectFormState extends State<ProjectForm> {
               description = input;
             },
           ))
-    ]);
+    ])) ;
     bool isError = errors.containsKey('description');
     if (!isError) {
       return [descriptionWidget];
     }
     Widget errorWidget = ErrorText(text: errors['description']!);
-    return [descriptionWidget, errorWidget];
+    return [descriptionLabelWidget, descriptionWidget, errorWidget];
   }
 
   Row getAddTask(BuildContext context) {
