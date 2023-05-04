@@ -195,8 +195,8 @@ Future<void> setup(
           dependsOn: [AppDatabase]);
 
   if (!testing) {
-    final permissionStatusFuture = await
-        NotificationPermissions.getNotificationPermissionStatus();
+    final permissionStatusFuture =
+        await NotificationPermissions.getNotificationPermissionStatus();
     if (permissionStatusFuture != PermissionStatus.granted) {
       await NotificationPermissions.requestNotificationPermissions();
     }

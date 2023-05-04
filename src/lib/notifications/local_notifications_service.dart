@@ -17,7 +17,6 @@ class LocalNotificationService {
         InitializationSettings(
             android: AndroidInitializationSettings("@mipmap/ic_launcher"));
 
-    
     await _notificationsPlugin.initialize(
       initializationSettingsAndroid,
       // to handle event when we receive notification
