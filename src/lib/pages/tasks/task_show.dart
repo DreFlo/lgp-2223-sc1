@@ -258,22 +258,12 @@ class _TaskShowState extends State<TaskShow> {
               aspectRatio: 1,
               child: Transform.rotate(
                   angle: -math.pi / 4,
-                  child: ElevatedButton(
-                    style: ButtonStyle(
-                        shadowColor:
-                            MaterialStateProperty.all(Colors.transparent),
-                        elevation: MaterialStateProperty.all(0),
-                        alignment: const Alignment(0, 0),
-                        backgroundColor:
-                            MaterialStateProperty.all(studentColor)),
-                    onPressed: () {
-                      //TODO: Change the associated module (?)
-                    },
                     child: Container(
                         decoration: BoxDecoration(
+                          color: studentColor,
                       borderRadius: BorderRadius.circular(5),
                     )),
-                  )))),
+                  ))),
       const SizedBox(width: 15),
       Flexible(
           flex: 10,
