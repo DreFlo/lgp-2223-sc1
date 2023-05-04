@@ -12,6 +12,8 @@ import 'package:src/models/timeslot/task_student_timeslot.dart';
 import 'package:src/models/timeslot/timeslot.dart';
 import 'package:src/models/timeslot/timeslot_media_timeslot_super_entity.dart';
 import 'package:src/models/timeslot/timeslot_student_timeslot_super_entity.dart';
+import 'package:src/notifications/local_notifications_service.dart';
+import 'package:src/settings/settings_globals.dart';
 import 'package:src/themes/colors.dart';
 import 'package:src/utils/enums.dart';
 import 'package:src/utils/formatters.dart';
@@ -211,6 +213,41 @@ class _EventFormState extends State<EventForm> {
 
     if (widget.callback != null) {
       widget.callback!();
+    }
+
+    if (notifications == false) {
+      if (context.mounted) {
+        Navigator.pop(context);
+      }
+      return;
+    }
+
+    // To test notification scheduling change schedule time
+    // TODO: Figure out ids
+    if (_moduleColor == studentColor) {
+      TimeslotStudentTimeslotSuperEntity studentTimeslot = getStudentTimeslot();
+      serviceLocator<LocalNotificationService>().scheduleNotification(
+          DateTime.now().microsecondsSinceEpoch % 1000000,
+          '🟡${studentTimeslot.title} ${AppLocalizations.of(context).starting}',
+          studentTimeslot.startDateTime,
+          studentTimeslot.description);
+      serviceLocator<LocalNotificationService>().scheduleNotification(
+          DateTime.now().microsecondsSinceEpoch % 9999999,
+          '🟡${studentTimeslot.title} ${AppLocalizations.of(context).ending}',
+          studentTimeslot.endDateTime,
+          studentTimeslot.description);
+    } else if (_moduleColor == leisureColor) {
+      TimeslotMediaTimeslotSuperEntity mediaTimeslot = getMediaTimeslot();
+      serviceLocator<LocalNotificationService>().scheduleNotification(
+          DateTime.now().microsecondsSinceEpoch % 1000000,
+          '🔴${mediaTimeslot.title} ${AppLocalizations.of(context).starting}',
+          mediaTimeslot.startDateTime,
+          mediaTimeslot.description);
+      serviceLocator<LocalNotificationService>().scheduleNotification(
+          DateTime.now().microsecondsSinceEpoch % 9999999,
+          '🔴${mediaTimeslot.title} ${AppLocalizations.of(context).ending}',
+          mediaTimeslot.endDateTime,
+          mediaTimeslot.description);
     }
 
     if (context.mounted) {
