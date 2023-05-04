@@ -562,7 +562,11 @@ class _TaskShowState extends State<TaskShow> {
             note: notes[i],
             editNote: editNote,
             deleteNote: deleteNote(notes[i])));
+        
+        notesList.add(const SizedBox(height: 10));
       }
+
+      
     }
     return notesList;
   }
