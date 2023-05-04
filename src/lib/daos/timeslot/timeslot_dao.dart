@@ -14,6 +14,11 @@ abstract class TimeslotDao {
     DateTime start,
   );
 
+  @Query('SELECT * FROM timeslot WHERE finished = :finished')
+  Future<List<Timeslot>> findAllFinishedTimeslots(
+    bool finished,
+  );
+
   @insert
   Future<int> insertTimeslot(Timeslot timeslot);
 

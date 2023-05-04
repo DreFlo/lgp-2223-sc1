@@ -126,7 +126,7 @@ class _EvaluationBarState extends State<EvaluationBar> {
         cancelButton,
         deleteButton,
       ],
-      backgroundColor: modalBackground,
+      backgroundColor: modalDarkBackground,
     );
 
     showDialog(
@@ -143,7 +143,7 @@ class _EvaluationBarState extends State<EvaluationBar> {
           style: const TextStyle(
               color: Colors.white, fontSize: 20, fontWeight: FontWeight.w600),
           textAlign: TextAlign.center),
-      backgroundColor: modalBackground,
+      backgroundColor: modalDarkBackground,
       content: EvaluationForm(
           subjectId: widget.subjectId,
           evaluation: widget.evaluation,

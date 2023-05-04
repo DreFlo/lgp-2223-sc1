@@ -15,6 +15,14 @@ abstract class TaskStudentTimeslotDao {
   Future<List<TaskStudentTimeslot>> findTaskStudentTimeslotByStudentTimeslotId(
       int id);
 
+  @Query(
+      'SELECT task_id FROM task_student_timeslot WHERE student_timeslot_id = :id')
+  Future<List<int>> findTaskIdByStudentTimeslotId(int id);
+
+  @Query(
+      'SELECT student_timeslot_id FROM task_student_timeslot WHERE task_id = :id')
+  Future<List<int>> findStudentTimeslotIdByTaskId(int id);
+
   @insert
   Future<void> insertTaskStudentTimeslot(
       TaskStudentTimeslot taskStudentTimeslot);

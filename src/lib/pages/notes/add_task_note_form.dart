@@ -150,7 +150,7 @@ class _AddTaskNoteFormState extends State<AddTaskNoteForm> {
                             controller: contentController,
                             decoration: InputDecoration(
                               filled: true,
-                              fillColor: textField,
+                              fillColor: darkTextField,
                               helperStyle:
                                   Theme.of(context).textTheme.labelSmall,
                               border: OutlineInputBorder(

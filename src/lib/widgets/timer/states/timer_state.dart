@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/cupertino.dart';
 import 'package:src/pages/timer/timer_form.dart';
 import 'package:src/pages/timer/timer_page.dart';
+import 'package:src/utils/gamification/game_logic.dart';
 
 abstract class TimerState {
   Timer? timer;
@@ -39,14 +40,25 @@ abstract class TimerState {
   void onTimeUp() {}
 
   void leave() {
-    // TODO(gamification): user left pomodoro - give feedback
-    timer?.cancel();
-    Navigator.pop(context);
+    if (tracker.currentSession == 1) {
+      timer?.cancel();
+      Navigator.pop(context);
+    } else {
+      getPomodoroXP(settings.focusTime, tracker.currentSession,
+          settings.sessions, settings.shortBreak, context, true);
+      timer?.cancel();
+      Future.delayed(const Duration(seconds: 5), () {
+        Navigator.pop(context);
+      });
+    }
   }
 
-  void finish() {
-    // TODO(gamification): user completed pomodoro - give feedback
+  void finish(BuildContext context) {
+    getPomodoroXP(settings.focusTime, tracker.currentSession, settings.sessions,
+        settings.shortBreak, context, true);
     timer?.cancel();
-    Navigator.pop(context);
+    Future.delayed(const Duration(seconds: 5), () {
+      Navigator.pop(context);
+    });
   }
 }

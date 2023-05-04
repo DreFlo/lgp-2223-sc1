@@ -159,7 +159,6 @@ abstract class MediaPageState<T extends Media> extends State<MediaPage<T>> {
                             return Future.delayed(
                                 const Duration(milliseconds: 1), () {
                               isLiked = !isLiked;
-                              //_toggleFavorite();
                               widget.toggleFavorite(isLiked);
                               return isLiked;
                             });

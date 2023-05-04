@@ -22,6 +22,7 @@ class DashboardCard extends StatefulWidget {
   final TimeslotMediaTimeslotSuperEntity? mediaEvent; //media
   final String module;
   final Function()? deleteCallback;
+  final void Function() refreshCards;
 
   const DashboardCard(
       {Key? key,
@@ -29,7 +30,8 @@ class DashboardCard extends StatefulWidget {
       this.task,
       this.taskGroup,
       this.mediaEvent,
-      this.deleteCallback})
+      this.deleteCallback,
+      required this.refreshCards})
       : super(key: key);
 
   @override
@@ -228,7 +230,7 @@ class _DashboardCardState extends State<DashboardCard> {
         padding: const EdgeInsets.symmetric(horizontal: 5),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(5),
-          color: grayBackground,
+          color: darkGrayBackground,
         ),
         child: Text(
           institutionOrMediaType,
@@ -254,7 +256,7 @@ class _DashboardCardState extends State<DashboardCard> {
                           horizontal: 5, vertical: 2),
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(5),
-                        color: grayBackground,
+                        color: darkGrayBackground,
                       ),
                       child: Text(
                         mediaDBTypeToString(type),
@@ -353,7 +355,7 @@ class _DashboardCardState extends State<DashboardCard> {
                                               decoration: BoxDecoration(
                                                 borderRadius:
                                                     BorderRadius.circular(5),
-                                                color: grayBackground,
+                                                color: darkGrayBackground,
                                               ),
                                               child: Text(
                                                 subjectOrDate,
@@ -377,7 +379,7 @@ class _DashboardCardState extends State<DashboardCard> {
                                               decoration: BoxDecoration(
                                                 borderRadius:
                                                     BorderRadius.circular(5),
-                                                color: grayBackground,
+                                                color: darkGrayBackground,
                                               ),
                                               child: Text(
                                                 taskDates,
@@ -447,6 +449,7 @@ class _DashboardCardState extends State<DashboardCard> {
     setState(() {
       task = t;
       cardInformationUpdate();
+      widget.refreshCards();
     });
   }
 
@@ -454,6 +457,7 @@ class _DashboardCardState extends State<DashboardCard> {
     setState(() {
       taskGroup = tg;
       cardInformationUpdate();
+      widget.refreshCards();
     });
   }
 }

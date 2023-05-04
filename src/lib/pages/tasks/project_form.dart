@@ -1,4 +1,4 @@
-// ignore_for_file: file_names, library_prefixes
+// ignore_for_file: library_prefixes
 
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
