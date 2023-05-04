@@ -281,8 +281,10 @@ class _AddTaskNoteFormState extends State<AddTaskNoteForm> {
   Widget displayEndButtons() {
     if (widget.note == null || widget.taskId == null) {
       return Padding(
-          padding: const EdgeInsets.only(left: 40, top: 30),
-          child: ElevatedButton(
+          padding: const EdgeInsets.symmetric(vertical: 30),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [ElevatedButton(
               key: const Key('saveTaskNoteButton'),
               onPressed: () async {
                 await save(context);
@@ -295,11 +297,12 @@ class _AddTaskNoteFormState extends State<AddTaskNoteForm> {
                 ),
               ),
               child: Text(AppLocalizations.of(context).save,
-                  style: Theme.of(context).textTheme.headlineSmall)));
+                  style: Theme.of(context).textTheme.headlineSmall))]));
     } else {
       return Padding(
-          padding: const EdgeInsets.only(left: 25, top: 30),
+          padding: const EdgeInsets.symmetric(vertical: 30),
           child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
               ElevatedButton(
                   key: const Key('saveTaskNoteButton'),
