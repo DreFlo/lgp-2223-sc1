@@ -34,7 +34,7 @@ const Color lightBottomNavbar = Color(0xFFF3F4F7);
 
 const Color shadowColor = Color(0xFF1B2135);
 
-Color grayBackground = (darkMode ? darkGrayBackground : lightGrayBackground);
+const Color grayBackground = Color(0xFF414554);
 const Color darkGrayBackground = Color(0xFF414554);
 const Color lightGrayBackground = Color(0xFFF3F4F6);
 
