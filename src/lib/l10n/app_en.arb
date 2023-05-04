@@ -204,6 +204,7 @@
   "eval_name": "Evaluation Name",
   "grade": "Grade",
   "grade_error": "Grade is required",
+  "none": "None",
   "timer": "Pomodoro Timer",
   "focus_time": "Focus Time",
   "short_break": "Short Break",

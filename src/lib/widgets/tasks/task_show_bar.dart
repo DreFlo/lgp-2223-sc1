@@ -11,6 +11,7 @@ class TaskShowBar extends StatefulWidget {
   final void Function()? deleteTask;
   final TaskGroup taskGroup;
   final Task task;
+  final Function() callback;
 
   const TaskShowBar({
     Key? key,
@@ -18,6 +19,7 @@ class TaskShowBar extends StatefulWidget {
     required this.task,
     this.editTask,
     this.deleteTask,
+    required this.callback,
   }) : super(key: key);
 
   @override
@@ -67,6 +69,7 @@ class _TaskShowBarState extends State<TaskShowBar> {
                             task: task,
                             callback: widget.editTask,
                             deleteCallback: widget.deleteTask,
+                            updateCallback: widget.callback,
                           ))));
         },
         child: Container(
