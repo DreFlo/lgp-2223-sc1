@@ -358,7 +358,7 @@ class _TaskFormState extends State<TaskForm> {
         builder: (BuildContext context, AsyncSnapshot<int> snapshot) {
           if (snapshot.hasData) {
             return Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 24),
+                padding: const EdgeInsets.symmetric(horizontal: 20),
                 child: SingleChildScrollView(
                   controller: widget.scrollController,
                   child: Wrap(spacing: 10, children: [
@@ -461,32 +461,15 @@ class _TaskFormState extends State<TaskForm> {
   List<Widget> getTitle(BuildContext context) {
     Widget titleWidget =
         Row(crossAxisAlignment: CrossAxisAlignment.center, children: [
-      const SizedBox(width: 7.5),
       Flexible(
           flex: 1,
-          child: AspectRatio(
-              aspectRatio: 1,
-              child: Transform.rotate(
+          child: Transform.rotate(
                   angle: -Math.pi / 4,
-                  child: ElevatedButton(
-                    style: ButtonStyle(
-                        shadowColor:
-                            MaterialStateProperty.all(Colors.transparent),
-                        elevation: MaterialStateProperty.all(0),
-                        alignment: const Alignment(0, 0),
-                        backgroundColor:
-                            MaterialStateProperty.all(studentColor)),
-                    onPressed: () {
-                      //TODO: Change the associated module (?)
-                    },
-                    child: Container(
-                        decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(5),
-                    )),
-                  )))),
+                  child: const Icon(Icons.square_rounded, size: 50, color: studentColor),
+                      )),
       const SizedBox(width: 15),
-      Flexible(
-          flex: 10,
+      Expanded(
+          flex: 5,
           child: TextField(
               key: const Key('taskTitle'),
               controller: titleController,
@@ -627,8 +610,7 @@ class _TaskFormState extends State<TaskForm> {
   }
 
   List<Widget> getPriority(BuildContext context) {
-    Widget priorityWidget =
-        Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
+    Widget priorityWidget = Row(crossAxisAlignment: CrossAxisAlignment.center, children: [
       Flexible(
           flex: 1,
           child: Column(children: [
@@ -660,9 +642,7 @@ class _TaskFormState extends State<TaskForm> {
             ]),
             const SizedBox(height: 10),
             Row(
-              mainAxisAlignment: MainAxisAlignment.start,
               children: [
-                InkWell(
                   highlightColor: lightGray,
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -690,9 +670,7 @@ class _TaskFormState extends State<TaskForm> {
                     priority = Priority.low;
                     setState(() {});
                   },
-                ),
                 const SizedBox(width: 5),
-                InkWell(
                   highlightColor: lightGray,
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -715,9 +693,7 @@ class _TaskFormState extends State<TaskForm> {
                     priority = Priority.medium;
                     setState(() {});
                   },
-                ),
                 const SizedBox(width: 5),
-                InkWell(
                   highlightColor: lightGray,
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -745,7 +721,6 @@ class _TaskFormState extends State<TaskForm> {
                     priority = Priority.high;
                     setState(() {});
                   },
-                ),
               ],
             )
           ]))
