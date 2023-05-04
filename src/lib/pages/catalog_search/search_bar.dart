@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class SearchBar extends StatefulWidget {
   final Function(String) onSearch;
@@ -47,7 +48,7 @@ class _SearchBarState extends State<SearchBar> {
               fontWeight: FontWeight.normal,
             ),
             decoration: InputDecoration(
-              hintText: 'Search',
+              hintText: AppLocalizations.of(context).search,
               hintStyle: const TextStyle(
                 fontFamily: 'Poppins',
                 fontSize: 16,

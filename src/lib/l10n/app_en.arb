@@ -89,7 +89,7 @@
   "land_title_1": "Organize your life in a Wan of a Kind way.",
   "land_subtitle_1": "This is a beautiful text that makes you like us even more...",
   "land_title_2": "Manage Everything in One Place.",
-  "land_subtitle_2": "From leisure to school, everything in just one app. Free Space...",
+  "land_subtitle_2": "From leisure to studying or work, everything in just one app.",
   "land_title_3": "Organize and Schedule all of you.",
   "land_subtitle_3": "Reflect your organization and personality in our app...",
   "sign_up": "Sign Up",
@@ -214,5 +214,13 @@
   "start_": "Start",
   "focus": "Focus",
   "break_": "Break",
-  "leave": "Leave"
+  "leave": "Leave",
+  "settings": "Settings",
+  "general": "General",
+  "language": "Language",
+  "english": "English",
+  "portuguese": "Portuguese",
+  "dark_mode": "Dark Mode",
+  "starting": "starting",
+  "ending": "ending"
 }
