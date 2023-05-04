@@ -5,7 +5,7 @@ final mockUsers = [
       name: 'Emil',
       email: 'emil@gmail.com',
       password: 'password',
-      xp: 345,
+      xp: 400,
       level: 2,
       imagePath: 'assets/images/poster.jpg')
 ];

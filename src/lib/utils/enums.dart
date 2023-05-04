@@ -10,4 +10,6 @@ enum EventType { student, leisure }
 
 enum Module { leisure, student, personal, fitness }
 
+enum GameState { levelUp, progress }
+
 enum MediaDBTypes { movie, series, book, episode }

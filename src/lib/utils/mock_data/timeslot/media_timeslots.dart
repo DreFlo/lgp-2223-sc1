@@ -5,8 +5,8 @@ final mockMediaTimeslots = [
       id: 1,
       title: 'Bruh I\'m done with this',
       description: 'word words words words words',
-      startDateTime: DateTime(2023, 4, 25, 12, 0),
-      endDateTime: DateTime(2023, 4, 26, 16, 0),
+      startDateTime: DateTime(2023, 5, 6, 12, 0),
+      endDateTime: DateTime(2023, 5, 6, 16, 0),
       xpMultiplier: 2,
       finished: false,
       userId: 1),
@@ -17,6 +17,6 @@ final mockMediaTimeslots = [
       startDateTime: DateTime(2023, 5, 1, 0, 0, 0),
       endDateTime: DateTime(2023, 5, 1, 23, 59, 59),
       xpMultiplier: 0,
-      finished: false,
+      finished: true,
       userId: 1)
 ];
