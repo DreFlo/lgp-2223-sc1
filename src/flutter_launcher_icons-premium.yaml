@@ -1,5 +1,6 @@
 flutter_icons:
-  image_path: "assets/icons/wokka_logo.png"
+  image_path: "assets/icons/wokka_logo_no_background.png"
+  image_path_ios: "assets/icons/wokka_logo.png"
   android: true
   ios: true
   remove_alpha_ios: true
