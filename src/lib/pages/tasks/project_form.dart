@@ -798,7 +798,7 @@ class _ProjectFormState extends State<ProjectForm> {
           textAlign: TextAlign.center),
     ]);
 
-    Widget descriptionWidget = Expanded(child: Row(children: [
+    Widget descriptionWidget = Row(children: [
       Flexible(
           flex: 1,
           child: TextField(
@@ -821,7 +821,7 @@ class _ProjectFormState extends State<ProjectForm> {
               description = input;
             },
           ))
-    ])) ;
+    ]);
     bool isError = errors.containsKey('description');
     if (!isError) {
       return [descriptionWidget];
