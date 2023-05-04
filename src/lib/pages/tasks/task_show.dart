@@ -208,6 +208,19 @@ class _TaskShowState extends State<TaskShow> {
                                     setState(() {
                                       finished = !finished;
                                     });
+                                    Task newTask = Task(
+                                        deadline: task.deadline,
+                                        description: task.description,
+                                        finished: finished,
+                                        id: task.id,
+                                        priority: task.priority,
+                                        subjectId: task.subjectId,
+                                        taskGroupId: task.taskGroupId,
+                                        name: task.name,
+                                        xp: points);
+                                    if (widget.callback != null) {
+                                      widget.callback!(newTask);
+                                    }
                                   },
                                   child: Container(
                                     padding: const EdgeInsets.all(5),
