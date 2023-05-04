@@ -226,28 +226,32 @@ class _EventFormState extends State<EventForm> {
     // TODO: Figure out ids
     if (_moduleColor == studentColor) {
       TimeslotStudentTimeslotSuperEntity studentTimeslot = getStudentTimeslot();
-      serviceLocator<LocalNotificationService>().scheduleNotification(
-          DateTime.now().microsecondsSinceEpoch % 1000000,
-          '🟡${studentTimeslot.title} ${AppLocalizations.of(context).starting}',
-          studentTimeslot.startDateTime,
-          studentTimeslot.description);
-      serviceLocator<LocalNotificationService>().scheduleNotification(
-          DateTime.now().microsecondsSinceEpoch % 9999999,
-          '🟡${studentTimeslot.title} ${AppLocalizations.of(context).ending}',
-          studentTimeslot.endDateTime,
-          studentTimeslot.description);
+      if (context.mounted) {
+        serviceLocator<LocalNotificationService>().scheduleNotification(
+            DateTime.now().microsecondsSinceEpoch % 1000000,
+            '🟡${studentTimeslot.title} ${AppLocalizations.of(context).starting}',
+            studentTimeslot.startDateTime,
+            studentTimeslot.description);
+        serviceLocator<LocalNotificationService>().scheduleNotification(
+            DateTime.now().microsecondsSinceEpoch % 9999999,
+            '🟡${studentTimeslot.title} ${AppLocalizations.of(context).ending}',
+            studentTimeslot.endDateTime,
+            studentTimeslot.description);
+      }
     } else if (_moduleColor == leisureColor) {
       TimeslotMediaTimeslotSuperEntity mediaTimeslot = getMediaTimeslot();
-      serviceLocator<LocalNotificationService>().scheduleNotification(
-          DateTime.now().microsecondsSinceEpoch % 1000000,
-          '🔴${mediaTimeslot.title} ${AppLocalizations.of(context).starting}',
-          mediaTimeslot.startDateTime,
-          mediaTimeslot.description);
-      serviceLocator<LocalNotificationService>().scheduleNotification(
-          DateTime.now().microsecondsSinceEpoch % 9999999,
-          '🔴${mediaTimeslot.title} ${AppLocalizations.of(context).ending}',
-          mediaTimeslot.endDateTime,
-          mediaTimeslot.description);
+      if (context.mounted) {
+        serviceLocator<LocalNotificationService>().scheduleNotification(
+            DateTime.now().microsecondsSinceEpoch % 1000000,
+            '🔴${mediaTimeslot.title} ${AppLocalizations.of(context).starting}',
+            mediaTimeslot.startDateTime,
+            mediaTimeslot.description);
+        serviceLocator<LocalNotificationService>().scheduleNotification(
+            DateTime.now().microsecondsSinceEpoch % 9999999,
+            '🔴${mediaTimeslot.title} ${AppLocalizations.of(context).ending}',
+            mediaTimeslot.endDateTime,
+            mediaTimeslot.description);
+      }
     }
 
     if (context.mounted) {
