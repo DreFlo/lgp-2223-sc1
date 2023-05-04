@@ -24,11 +24,11 @@ class _CountdownTimerState extends State<CountdownTimer> {
   }
 
   Color get mainColor {
-    return widget.focus ? primaryColor : grayBackground;
+    return widget.focus ? primaryColor : darkGrayBackground;
   }
 
   Color get borderColor {
-    return widget.focus ? grayBackground : primaryColor;
+    return widget.focus ? darkGrayBackground : primaryColor;
   }
 
   @override

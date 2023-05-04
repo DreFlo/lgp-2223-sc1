@@ -230,7 +230,7 @@ class _DashboardCardState extends State<DashboardCard> {
         padding: const EdgeInsets.symmetric(horizontal: 5),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(5),
-          color: grayBackground,
+          color: darkGrayBackground,
         ),
         child: Text(
           institutionOrMediaType,
@@ -256,7 +256,7 @@ class _DashboardCardState extends State<DashboardCard> {
                           horizontal: 5, vertical: 2),
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(5),
-                        color: grayBackground,
+                        color: darkGrayBackground,
                       ),
                       child: Text(
                         mediaDBTypeToString(type),
@@ -355,7 +355,7 @@ class _DashboardCardState extends State<DashboardCard> {
                                               decoration: BoxDecoration(
                                                 borderRadius:
                                                     BorderRadius.circular(5),
-                                                color: grayBackground,
+                                                color: darkGrayBackground,
                                               ),
                                               child: Text(
                                                 subjectOrDate,
@@ -379,7 +379,7 @@ class _DashboardCardState extends State<DashboardCard> {
                                               decoration: BoxDecoration(
                                                 borderRadius:
                                                     BorderRadius.circular(5),
-                                                color: grayBackground,
+                                                color: darkGrayBackground,
                                               ),
                                               child: Text(
                                                 taskDates,
