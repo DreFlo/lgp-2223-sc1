@@ -780,8 +780,8 @@ class _TaskFormState extends State<TaskForm> {
             Row(
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
-                Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
+                Expanded(child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
                     FutureBuilder(
                         key: ValueKey(taskGroup),
@@ -791,11 +791,9 @@ class _TaskFormState extends State<TaskForm> {
                             AsyncSnapshot<List<TaskGroup>> snapshot) {
                           return projectFutureBuilder(snapshot);
                         }),
-                  ],
-                )
               ],
             )
-          ]))
+      )])]))
     ]));
   }
 
@@ -833,6 +831,7 @@ class _TaskFormState extends State<TaskForm> {
       return DropdownButton<TaskGroup>(
         key: const Key('taskTaskGroup'),
         value: taskGroup,
+        isExpanded: true,
         items: snapshot.data!.map((t) {
           return DropdownMenuItem<TaskGroup>(
               value: t,
@@ -886,7 +885,8 @@ class _TaskFormState extends State<TaskForm> {
         child: Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
       Flexible(
           flex: 1,
-          child: Column(children: [
+          child: Column(
+            children: [
             Container(
                 height: 40,
                 width: 40,
@@ -917,6 +917,10 @@ class _TaskFormState extends State<TaskForm> {
             Row(
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
+                Expanded(
+                    child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.stretch,
+                        children: [
                 FutureBuilder(
                     key: ValueKey(institution),
                     future:
@@ -926,7 +930,7 @@ class _TaskFormState extends State<TaskForm> {
                       return institutionFutureBuilder(snapshot);
                     }),
               ],
-            )
+            ))])
           ]))
     ]));
   }
@@ -969,6 +973,7 @@ class _TaskFormState extends State<TaskForm> {
       return DropdownButton<Institution>(
         key: const Key('taskInstitution'),
         value: institution,
+        isExpanded: true,
         items: snapshot.data!.map((i) {
           return DropdownMenuItem<Institution>(
               value: i,
@@ -1035,6 +1040,10 @@ class _TaskFormState extends State<TaskForm> {
             Row(
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
+                Expanded(
+                    child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.stretch,
+                        children: [
                 FutureBuilder(
                     key: ValueKey(subject),
                     future: institution.id == -1
@@ -1047,8 +1056,8 @@ class _TaskFormState extends State<TaskForm> {
                       return subjectFutureBuilder(snapshot);
                     }),
               ],
-            )
-          ]))
+            ))
+          ])]))
     ]));
     bool isError = errors.containsKey('subject');
     if (!isError) {
@@ -1097,6 +1106,7 @@ class _TaskFormState extends State<TaskForm> {
       return DropdownButton<Subject>(
         key: const Key('taskSubject'),
         value: subject,
+        isExpanded: true,
         items: snapshot.data!.map((s) {
           return DropdownMenuItem<Subject>(
               value: s,
