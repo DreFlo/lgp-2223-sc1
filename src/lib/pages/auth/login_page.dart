@@ -155,7 +155,7 @@ class _LoginPageState extends State<LoginPage> {
                   children: [
                     ElevatedButton(
                       onPressed: () async {
-                        onLoginCallback();
+                        onLoginSubmitPressed();
                       },
                       style: ElevatedButton.styleFrom(
                         minimumSize:
@@ -174,7 +174,7 @@ class _LoginPageState extends State<LoginPage> {
             ])));
   }
 
-  Future<void> onLoginCallback() async {
+  Future<void> onLoginSubmitPressed() async {
     String email = firstController.text;
     String password = secondController.text;
 

@@ -103,20 +103,8 @@ class _SignUpPageState extends State<SignUpPage>
               Column(
                 children: [
                   ElevatedButton(
-                    onPressed: () {
-                      setState(() {
-                        String nameInput = inputNameController.text;
-
-                        if (nameInput == "") {
-                          _nameErrText =
-                              AppLocalizations.of(context).error_input_name;
-                        } else {
-                          _name = nameInput;
-
-                          _pageCount++;
-                          _animationController.forward(from: 0.0);
-                        }
-                      });
+                    onPressed: () async {
+                      onRegisterNameNextPressed();
                     },
                     style: ElevatedButton.styleFrom(
                       minimumSize:
@@ -427,5 +415,21 @@ class _SignUpPageState extends State<SignUpPage>
         ],
       ),
     );
+  }
+
+  void onRegisterNameNextPressed() {
+    String name = inputNameController.text;
+
+    if (name.isEmpty) {
+      setState(() {
+        _nameErrText = AppLocalizations.of(context).error_input_name;
+      });
+    }
+
+    setState(() {
+      _name = name;
+      _pageCount++;
+      _animationController.forward(from: 0.0);
+    });
   }
 }
