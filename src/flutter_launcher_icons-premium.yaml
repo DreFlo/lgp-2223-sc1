@@ -1,10 +1,10 @@
 flutter_icons:
-  image_path: "assets/icons/temp_icon_premium.png"
+  image_path: "assets/icons/wokka_logo.png"
   android: true
   ios: true
   remove_alpha_ios: true
   web:
     generate: true
-    image_path: "assets/icons/temp_icon_premium.png"
+    image_path: "assets/icons/wokka_logo.png"
     background_color: "#ffffff"
     theme_color: "#ffffff"
