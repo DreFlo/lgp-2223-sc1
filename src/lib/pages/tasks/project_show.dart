@@ -110,83 +110,92 @@ class _ProjectShowState extends State<ProjectShow> {
             } else {
               priorityText = AppLocalizations.of(context).high;
             }
-            return Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 24),
-                child: SingleChildScrollView(
-                  controller: widget.scrollController,
-                  child: Wrap(spacing: 10, children: [
-                    Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-                      Padding(
-                          padding: const EdgeInsets.only(top: 15, bottom: 15),
-                          child: Container(
-                            width: 115,
-                            height: 18,
-                            alignment: Alignment.center,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(10),
-                              color: const Color(0xFF414554),
-                            ),
-                          ))
-                    ]),
-                    Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Container(
-                              padding: const EdgeInsets.symmetric(
-                                  horizontal: 10, vertical: 5),
-                              decoration: BoxDecoration(
-                                  color: const Color(0xFF17181C),
-                                  shape: BoxShape.rectangle,
-                                  borderRadius: BorderRadius.circular(10)),
-                              child: Wrap(children: [
-                                Row(children: [
-                                  const Icon(Icons.list_rounded,
-                                      color: Colors.white, size: 20),
-                                  const SizedBox(width: 10),
-                                  Text(AppLocalizations.of(context).project,
-                                      style: const TextStyle(
-                                          color: Colors.white,
-                                          fontSize: 16,
-                                          fontWeight: FontWeight.w600),
-                                      textAlign: TextAlign.center),
-                                ]),
-                              ]))
-                        ]),
-                    const SizedBox(height: 15),
-                    getTitle(context),
-                    const SizedBox(height: 30),
-                    getDate(context),
-                    const SizedBox(height: 30),
-                    // Priority
-                    getPriority(context),
-                    const SizedBox(height: 30),
-                    // Institution
-                    getInstitution(context),
-                    const SizedBox(height: 30),
-                    //Subject
-                    getSubject(),
-                    const SizedBox(height: 30),
+            return ClipRRect(
+                borderRadius:
+                    const BorderRadius.vertical(top: Radius.circular(30.0)),
+                child: Scaffold(
+                    primary: false,
+                    backgroundColor: modalBackground,
+                    body: SingleChildScrollView(
+                      padding: const EdgeInsets.symmetric(horizontal: 24),
+                      controller: widget.scrollController,
+                      child: Wrap(spacing: 10, children: [
+                        Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Padding(
+                                  padding: const EdgeInsets.only(
+                                      top: 15, bottom: 15),
+                                  child: Container(
+                                    width: 115,
+                                    height: 18,
+                                    alignment: Alignment.center,
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(10),
+                                      color: const Color(0xFF414554),
+                                    ),
+                                  ))
+                            ]),
+                        Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Container(
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 10, vertical: 5),
+                                  decoration: BoxDecoration(
+                                      color: const Color(0xFF17181C),
+                                      shape: BoxShape.rectangle,
+                                      borderRadius: BorderRadius.circular(10)),
+                                  child: Wrap(children: [
+                                    Row(children: [
+                                      const Icon(Icons.list_rounded,
+                                          color: Colors.white, size: 20),
+                                      const SizedBox(width: 10),
+                                      Text(AppLocalizations.of(context).project,
+                                          style: const TextStyle(
+                                              color: Colors.white,
+                                              fontSize: 16,
+                                              fontWeight: FontWeight.w600),
+                                          textAlign: TextAlign.center),
+                                    ]),
+                                  ]))
+                            ]),
+                        const SizedBox(height: 15),
+                        getTitle(context),
+                        const SizedBox(height: 30),
+                        getDate(context),
+                        const SizedBox(height: 30),
+                        // Priority
+                        getPriority(context),
+                        const SizedBox(height: 30),
+                        // Institution
+                        getInstitution(context),
+                        const SizedBox(height: 30),
+                        //Subject
+                        getSubject(),
+                        const SizedBox(height: 30),
 
-                    // Description
-                    Row(children: [
-                      Text(AppLocalizations.of(context).description,
-                          style: const TextStyle(
-                              fontFamily: 'Poppins',
-                              color: Color(0xFF71788D),
-                              fontSize: 16,
-                              fontWeight: FontWeight.w400),
-                          textAlign: TextAlign.center),
-                    ]),
-                    const SizedBox(height: 7.5),
-                    getDescription(),
-                    const SizedBox(height: 7.5),
-                    getAddTask(context),
-                    const SizedBox(height: 7.5),
-                    ...getTasks(),
-                    const SizedBox(height: 30),
-                    getEndButtons(context),
-                  ]),
-                ));
+                        // Description
+                        Row(children: [
+                          Text(AppLocalizations.of(context).description,
+                              style: const TextStyle(
+                                  fontFamily: 'Poppins',
+                                  color: Color(0xFF71788D),
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.w400),
+                              textAlign: TextAlign.center),
+                        ]),
+                        const SizedBox(height: 7.5),
+                        getDescription(),
+                        const SizedBox(height: 7.5),
+                        getAddTask(context),
+                        const SizedBox(height: 7.5),
+                        ...getTasks(),
+                        const SizedBox(height: 30),
+                        getEndButtons(context),
+                        const SizedBox(height: 30),
+                      ]),
+                    )));
           } else {
             return const Center(child: CircularProgressIndicator());
           }

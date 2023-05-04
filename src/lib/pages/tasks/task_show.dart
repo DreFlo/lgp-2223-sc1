@@ -4,6 +4,7 @@ import 'package:src/daos/notes/note_dao.dart';
 import 'package:src/daos/notes/task_note_dao.dart';
 import 'package:src/daos/student/institution_dao.dart';
 import 'package:src/daos/student/subject_dao.dart';
+import 'package:src/daos/student/task_dao.dart';
 import 'package:src/daos/student/task_group_dao.dart';
 import 'package:src/models/notes/note.dart';
 import 'package:src/models/notes/task_note.dart';
@@ -16,6 +17,7 @@ import 'package:src/themes/colors.dart';
 import 'package:src/utils/date_formatter.dart';
 import 'dart:math' as math;
 import 'package:src/utils/enums.dart';
+import 'package:src/utils/gamification/game_logic.dart';
 import 'package:src/utils/service_locator.dart';
 import 'package:src/widgets/highlight_text.dart';
 import 'package:src/widgets/notes/note_show_bar.dart';
@@ -47,6 +49,7 @@ class _TaskShowState extends State<TaskShow> {
   late TaskGroup? taskGroup;
   late Task task;
   late bool finished;
+  late int points;
   bool init = false;
 
   TaskGroup taskGroupNone = TaskGroup(
@@ -114,6 +117,9 @@ class _TaskShowState extends State<TaskShow> {
       }
     }
 
+    finished =
+        await serviceLocator<TaskDao>().isTaskFinished(task.id!) ?? false;
+
     await initNotes();
     init = true;
     return 0;
@@ -124,6 +130,7 @@ class _TaskShowState extends State<TaskShow> {
     super.initState();
 
     finished = widget.task.finished;
+    points = widget.task.xp;
   }
 
   @override
@@ -139,95 +146,123 @@ class _TaskShowState extends State<TaskShow> {
             } else {
               priorityText = AppLocalizations.of(context).high;
             }
-            return Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 24),
-                child: SingleChildScrollView(
-                  controller: widget.scrollController,
-                  child: Wrap(spacing: 10, children: [
-                    Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-                      Padding(
-                          padding: const EdgeInsets.only(top: 15, bottom: 15),
-                          child: Container(
-                            width: 115,
-                            height: 18,
-                            alignment: Alignment.center,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(10),
-                              color: const Color(0xFF414554),
-                            ),
-                          ))
-                    ]),
-                    Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Container(
-                              padding: const EdgeInsets.symmetric(
-                                  horizontal: 10, vertical: 5),
-                              decoration: BoxDecoration(
-                                  color: const Color(0xFF17181C),
-                                  shape: BoxShape.rectangle,
-                                  borderRadius: BorderRadius.circular(10)),
-                              child: Wrap(children: [
-                                Row(children: [
-                                  const Icon(Icons.task,
-                                      color: Colors.white, size: 20),
-                                  const SizedBox(width: 10),
-                                  Text(AppLocalizations.of(context).task,
-                                      style: const TextStyle(
-                                          color: Colors.white,
-                                          fontSize: 16,
-                                          fontWeight: FontWeight.w600),
-                                      textAlign: TextAlign.center),
-                                ])
-                              ])),
-                          InkWell(
-                              splashColor: Colors.transparent,
-                              onTap: () {
-                                setState(() {
-                                  finished = !finished;
-                                });
-                              },
-                              child: Container(
-                                padding: const EdgeInsets.all(5),
-                                decoration: BoxDecoration(
-                                    shape: BoxShape.circle,
-                                    color: (finished
-                                        ? Colors.green
-                                        : Colors.white)),
-                                child: Icon(Icons.check_rounded,
-                                    color: (!finished
-                                        ? Colors.green
-                                        : Colors.white)),
-                              ))
-                        ]),
-                    const SizedBox(height: 15),
-                    getTitle(context),
-                    const SizedBox(height: 30),
-                    // priority
-                    getPriority(context),
-                    const SizedBox(height: 30),
-                    getDate(context),
-                    const SizedBox(height: 30),
-                    // Project
-                    getProject(context),
-                    const SizedBox(height: 30),
-                    // Insitution
-                    getInstitution(context),
-                    const SizedBox(height: 30),
-                    // Subject
-                    getSubject(),
-                    const SizedBox(height: 30),
-                    getLabelDescription(context),
-                    const SizedBox(height: 7.5),
-                    getDescription(),
-                    const SizedBox(height: 30),
-                    getAddNoteButton(context),
-                    const SizedBox(height: 7.5),
-                    ...getNotes(),
-                    const SizedBox(height: 30),
-                    getEndButtons(context),
-                  ]),
-                ));
+            return ClipRRect(
+                borderRadius:
+                    const BorderRadius.vertical(top: Radius.circular(30.0)),
+                child: Scaffold(
+                    primary: false,
+                    backgroundColor: modalBackground,
+                    body: SingleChildScrollView(
+                      padding: const EdgeInsets.symmetric(horizontal: 24),
+                      controller: widget.scrollController,
+                      child: Wrap(spacing: 10, children: [
+                        Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Padding(
+                                  padding: const EdgeInsets.only(
+                                      top: 15, bottom: 15),
+                                  child: Container(
+                                    width: 115,
+                                    height: 18,
+                                    alignment: Alignment.center,
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(10),
+                                      color: const Color(0xFF414554),
+                                    ),
+                                  ))
+                            ]),
+                        Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Container(
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 10, vertical: 5),
+                                  decoration: BoxDecoration(
+                                      color: const Color(0xFF17181C),
+                                      shape: BoxShape.rectangle,
+                                      borderRadius: BorderRadius.circular(10)),
+                                  child: Wrap(children: [
+                                    Row(children: [
+                                      const Icon(Icons.task,
+                                          color: Colors.white, size: 20),
+                                      const SizedBox(width: 10),
+                                      Text(AppLocalizations.of(context).task,
+                                          style: const TextStyle(
+                                              color: Colors.white,
+                                              fontSize: 16,
+                                              fontWeight: FontWeight.w600),
+                                          textAlign: TextAlign.center),
+                                    ])
+                                  ])),
+                              InkWell(
+                                  splashColor: Colors.transparent,
+                                  onTap: () async {
+                                    if (!finished) {
+                                      points = await checkNonEventNonTask(
+                                          task, context, false);
+                                    } else {
+                                      //lose xp
+                                      removePoints(points, task);
+                                    }
+                                    setState(() {
+                                      finished = !finished;
+                                    });
+                                    Task newTask = Task(
+                                        deadline: task.deadline,
+                                        description: task.description,
+                                        finished: finished,
+                                        id: task.id,
+                                        priority: task.priority,
+                                        subjectId: task.subjectId,
+                                        taskGroupId: task.taskGroupId,
+                                        name: task.name,
+                                        xp: points);
+                                    if (widget.callback != null) {
+                                      widget.callback!(newTask);
+                                    }
+                                  },
+                                  child: Container(
+                                    padding: const EdgeInsets.all(5),
+                                    decoration: BoxDecoration(
+                                        shape: BoxShape.circle,
+                                        color: (finished
+                                            ? Colors.white
+                                            : Colors.green)),
+                                    child: Icon(Icons.check_rounded,
+                                        color: (!finished
+                                            ? Colors.white
+                                            : Colors.green)),
+                                  ))
+                            ]),
+                        const SizedBox(height: 15),
+                        getTitle(context),
+                        const SizedBox(height: 30),
+                        // priority
+                        getPriority(context),
+                        const SizedBox(height: 30),
+                        getDate(context),
+                        const SizedBox(height: 30),
+                        // Project
+                        getProject(context),
+                        const SizedBox(height: 30),
+                        // Insitution
+                        getInstitution(context),
+                        const SizedBox(height: 30),
+                        // Subject
+                        getSubject(),
+                        const SizedBox(height: 30),
+                        getLabelDescription(context),
+                        const SizedBox(height: 7.5),
+                        getDescription(),
+                        const SizedBox(height: 30),
+                        getAddNoteButton(context),
+                        const SizedBox(height: 7.5),
+                        ...getNotes(),
+                        const SizedBox(height: 30),
+                        getEndButtons(context),
+                      ]),
+                    )));
           } else {
             return const Center(child: CircularProgressIndicator());
           }

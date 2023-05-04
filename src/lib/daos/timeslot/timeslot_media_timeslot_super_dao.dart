@@ -48,6 +48,38 @@ class TimeslotMediaTimeslotSuperDao {
     });
   }
 
+  Future<List<TimeslotMediaTimeslotSuperEntity>>
+      findAllFinishedTimeslotMediaTimeslot(DateTime? endDatetime) {
+    return serviceLocator<MediaTimeslotDao>()
+        .findAllMediaTimeslots()
+        .then((mediaTimeslots) async {
+      List<TimeslotMediaTimeslotSuperEntity>
+          timeslotMediaTimeslotSuperEntities = [];
+
+      for (var mediaTimeslot in mediaTimeslots) {
+        final timeslot = await serviceLocator<TimeslotDao>()
+            .findTimeslotById(mediaTimeslot.id)
+            .first;
+
+        if (endDatetime != null && timeslot != null) {
+          if (timeslot.startDateTime.isBefore(endDatetime) &&
+              timeslot.finished == false) {
+            final timeslotMediaTimeslotSuperEntity =
+                TimeslotMediaTimeslotSuperEntity
+                    .fromTimeslotMediaTimeslotEntity(
+              mediaTimeslot,
+              timeslot,
+            );
+            timeslotMediaTimeslotSuperEntities
+                .add(timeslotMediaTimeslotSuperEntity);
+          }
+        }
+      }
+
+      return timeslotMediaTimeslotSuperEntities;
+    });
+  }
+
   Future<int> insertTimeslotMediaTimeslotSuperEntity(
     TimeslotMediaTimeslotSuperEntity timeslotMediaTimeslotSuperEntity,
   ) async {
