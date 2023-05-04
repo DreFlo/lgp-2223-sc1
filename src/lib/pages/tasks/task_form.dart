@@ -358,7 +358,7 @@ class _TaskFormState extends State<TaskForm> {
         builder: (BuildContext context, AsyncSnapshot<int> snapshot) {
           if (snapshot.hasData) {
             return Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 24),
+                padding: const EdgeInsets.symmetric(horizontal: 20),
                 child: SingleChildScrollView(
                   controller: widget.scrollController,
                   child: Wrap(spacing: 10, children: [
@@ -461,32 +461,16 @@ class _TaskFormState extends State<TaskForm> {
   List<Widget> getTitle(BuildContext context) {
     Widget titleWidget =
         Row(crossAxisAlignment: CrossAxisAlignment.center, children: [
-      const SizedBox(width: 7.5),
       Flexible(
           flex: 1,
-          child: AspectRatio(
-              aspectRatio: 1,
-              child: Transform.rotate(
-                  angle: -Math.pi / 4,
-                  child: ElevatedButton(
-                    style: ButtonStyle(
-                        shadowColor:
-                            MaterialStateProperty.all(Colors.transparent),
-                        elevation: MaterialStateProperty.all(0),
-                        alignment: const Alignment(0, 0),
-                        backgroundColor:
-                            MaterialStateProperty.all(studentColor)),
-                    onPressed: () {
-                      //TODO: Change the associated module (?)
-                    },
-                    child: Container(
-                        decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(5),
-                    )),
-                  )))),
+          child: Transform.rotate(
+            angle: -Math.pi / 4,
+            child:
+                const Icon(Icons.square_rounded, size: 50, color: studentColor),
+          )),
       const SizedBox(width: 15),
-      Flexible(
-          flex: 10,
+      Expanded(
+          flex: 5,
           child: TextField(
               key: const Key('taskTitle'),
               controller: titleController,
@@ -628,7 +612,7 @@ class _TaskFormState extends State<TaskForm> {
 
   List<Widget> getPriority(BuildContext context) {
     Widget priorityWidget =
-        Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
+        Row(crossAxisAlignment: CrossAxisAlignment.center, children: [
       Flexible(
           flex: 1,
           child: Column(children: [
@@ -646,109 +630,118 @@ class _TaskFormState extends State<TaskForm> {
                 ))
           ])),
       const SizedBox(width: 15),
-      Flexible(
+      Expanded(
           flex: 5,
-          child: Column(mainAxisAlignment: MainAxisAlignment.start, children: [
-            Row(children: [
-              Text(AppLocalizations.of(context).priority,
-                  style: const TextStyle(
-                      fontFamily: 'Poppins',
-                      color: Color(0xFF71788D),
-                      fontSize: 16,
-                      fontWeight: FontWeight.w400),
-                  textAlign: TextAlign.center),
-            ]),
-            const SizedBox(height: 10),
-            Row(
+          child: Column(
               mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                InkWell(
-                  highlightColor: lightGray,
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Container(
-                          key: const Key('priorityLow'),
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: 15, vertical: 10),
-                          decoration: BoxDecoration(
-                            borderRadius: const BorderRadius.only(
-                                topLeft: Radius.circular(10),
-                                bottomLeft: Radius.circular(10)),
-                            color: (priority == Priority.low
-                                ? primaryColor
-                                : lightGray),
-                          ),
-                          alignment: const Alignment(0, 0),
-                          child: Text(AppLocalizations.of(context).low,
-                              textAlign: TextAlign.center,
-                              style: const TextStyle(
-                                  fontSize: 12, fontWeight: FontWeight.normal)))
-                    ],
-                  ),
-                  onTap: () {
-                    priority = Priority.low;
-                    setState(() {});
-                  },
-                ),
-                const SizedBox(width: 5),
-                InkWell(
-                  highlightColor: lightGray,
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Container(
-                          key: const Key('priorityMedium'),
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: 15, vertical: 10),
-                          color: (priority == Priority.medium
-                              ? primaryColor
-                              : lightGray),
-                          alignment: const Alignment(0, 0),
-                          child: Text(AppLocalizations.of(context).medium,
-                              textAlign: TextAlign.center,
-                              style: const TextStyle(
-                                  fontSize: 12, fontWeight: FontWeight.normal)))
-                    ],
-                  ),
-                  onTap: () {
-                    priority = Priority.medium;
-                    setState(() {});
-                  },
-                ),
-                const SizedBox(width: 5),
-                InkWell(
-                  highlightColor: lightGray,
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Container(
-                          key: const Key('priorityHigh'),
-                          decoration: BoxDecoration(
-                            borderRadius: const BorderRadius.only(
-                                topRight: Radius.circular(10),
-                                bottomRight: Radius.circular(10)),
-                            color: (priority == Priority.high
-                                ? primaryColor
-                                : lightGray),
-                          ),
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: 15, vertical: 10),
-                          alignment: const Alignment(0, 0),
-                          child: Text(AppLocalizations.of(context).high,
-                              textAlign: TextAlign.center,
-                              style: const TextStyle(
-                                  fontSize: 12, fontWeight: FontWeight.normal)))
-                    ],
-                  ),
-                  onTap: () {
-                    priority = Priority.high;
-                    setState(() {});
-                  },
-                ),
-              ],
-            )
-          ]))
+                Row(children: [
+                  Text(AppLocalizations.of(context).priority,
+                      style: const TextStyle(
+                          fontFamily: 'Poppins',
+                          color: Color(0xFF71788D),
+                          fontSize: 16,
+                          fontWeight: FontWeight.w400),
+                      textAlign: TextAlign.center),
+                ]),
+                const SizedBox(height: 10),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Expanded(
+                        child: InkWell(
+                      highlightColor: lightGray,
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Container(
+                              key: const Key('priorityLow'),
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 15, vertical: 10),
+                              decoration: BoxDecoration(
+                                borderRadius: const BorderRadius.only(
+                                    topLeft: Radius.circular(10),
+                                    bottomLeft: Radius.circular(10)),
+                                color: (priority == Priority.low
+                                    ? primaryColor
+                                    : lightGray),
+                              ),
+                              alignment: const Alignment(0, 0),
+                              child: Text(AppLocalizations.of(context).low,
+                                  textAlign: TextAlign.center,
+                                  style: const TextStyle(
+                                      fontSize: 12,
+                                      fontWeight: FontWeight.normal)))
+                        ],
+                      ),
+                      onTap: () {
+                        priority = Priority.low;
+                        setState(() {});
+                      },
+                    )),
+                    const SizedBox(width: 5),
+                    Expanded(
+                        child: InkWell(
+                      highlightColor: lightGray,
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Container(
+                              key: const Key('priorityMedium'),
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 15, vertical: 10),
+                              color: (priority == Priority.medium
+                                  ? primaryColor
+                                  : lightGray),
+                              alignment: const Alignment(0, 0),
+                              child: Text(AppLocalizations.of(context).medium,
+                                  textAlign: TextAlign.center,
+                                  style: const TextStyle(
+                                      fontSize: 12,
+                                      fontWeight: FontWeight.normal)))
+                        ],
+                      ),
+                      onTap: () {
+                        priority = Priority.medium;
+                        setState(() {});
+                      },
+                    )),
+                    const SizedBox(width: 5),
+                    Expanded(
+                        child: InkWell(
+                      highlightColor: lightGray,
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Container(
+                              key: const Key('priorityHigh'),
+                              decoration: BoxDecoration(
+                                borderRadius: const BorderRadius.only(
+                                    topRight: Radius.circular(10),
+                                    bottomRight: Radius.circular(10)),
+                                color: (priority == Priority.high
+                                    ? primaryColor
+                                    : lightGray),
+                              ),
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 15, vertical: 10),
+                              alignment: const Alignment(0, 0),
+                              child: Text(AppLocalizations.of(context).high,
+                                  textAlign: TextAlign.center,
+                                  style: const TextStyle(
+                                      fontSize: 12,
+                                      fontWeight: FontWeight.normal)))
+                        ],
+                      ),
+                      onTap: () {
+                        priority = Priority.high;
+                        setState(() {});
+                      },
+                    )),
+                  ],
+                )
+              ]))
     ]);
 
     bool isError = errors.containsKey('priority');
@@ -795,24 +788,22 @@ class _TaskFormState extends State<TaskForm> {
                   textAlign: TextAlign.center),
             ]),
             const SizedBox(height: 10),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    FutureBuilder(
-                        key: ValueKey(taskGroup),
-                        future:
-                            serviceLocator<TaskGroupDao>().findAllTaskGroups(),
-                        builder: (BuildContext context,
-                            AsyncSnapshot<List<TaskGroup>> snapshot) {
-                          return projectFutureBuilder(snapshot);
-                        }),
-                  ],
-                )
-              ],
-            )
+            Row(mainAxisAlignment: MainAxisAlignment.start, children: [
+              Expanded(
+                  child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  FutureBuilder(
+                      key: ValueKey(taskGroup),
+                      future:
+                          serviceLocator<TaskGroupDao>().findAllTaskGroups(),
+                      builder: (BuildContext context,
+                          AsyncSnapshot<List<TaskGroup>> snapshot) {
+                        return projectFutureBuilder(snapshot);
+                      }),
+                ],
+              ))
+            ])
           ]))
     ]));
   }
@@ -851,6 +842,7 @@ class _TaskFormState extends State<TaskForm> {
       return DropdownButton<TaskGroup>(
         key: const Key('taskTaskGroup'),
         value: taskGroup,
+        isExpanded: true,
         items: snapshot.data!.map((t) {
           return DropdownMenuItem<TaskGroup>(
               value: t,
@@ -932,19 +924,22 @@ class _TaskFormState extends State<TaskForm> {
                   textAlign: TextAlign.center),
             ]),
             const SizedBox(height: 10),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                FutureBuilder(
-                    key: ValueKey(institution),
-                    future:
-                        serviceLocator<InstitutionDao>().findAllInstitutions(),
-                    builder: (BuildContext context,
-                        AsyncSnapshot<List<Institution>> snapshot) {
-                      return institutionFutureBuilder(snapshot);
-                    }),
-              ],
-            )
+            Row(mainAxisAlignment: MainAxisAlignment.start, children: [
+              Expanded(
+                  child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  FutureBuilder(
+                      key: ValueKey(institution),
+                      future: serviceLocator<InstitutionDao>()
+                          .findAllInstitutions(),
+                      builder: (BuildContext context,
+                          AsyncSnapshot<List<Institution>> snapshot) {
+                        return institutionFutureBuilder(snapshot);
+                      }),
+                ],
+              ))
+            ])
           ]))
     ]));
   }
@@ -987,6 +982,7 @@ class _TaskFormState extends State<TaskForm> {
       return DropdownButton<Institution>(
         key: const Key('taskInstitution'),
         value: institution,
+        isExpanded: true,
         items: snapshot.data!.map((i) {
           return DropdownMenuItem<Institution>(
               value: i,
@@ -1050,22 +1046,25 @@ class _TaskFormState extends State<TaskForm> {
                   textAlign: TextAlign.center),
             ]),
             const SizedBox(height: 10),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                FutureBuilder(
-                    key: ValueKey(subject),
-                    future: institution.id == -1
-                        ? serviceLocator<SubjectDao>()
-                            .findSubjectByInstitutionIdNull()
-                        : serviceLocator<SubjectDao>()
-                            .findSubjectByInstitutionId(institution.id!),
-                    builder: (BuildContext context,
-                        AsyncSnapshot<List<Subject>> snapshot) {
-                      return subjectFutureBuilder(snapshot);
-                    }),
-              ],
-            )
+            Row(mainAxisAlignment: MainAxisAlignment.start, children: [
+              Expanded(
+                  child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  FutureBuilder(
+                      key: ValueKey(subject),
+                      future: institution.id == -1
+                          ? serviceLocator<SubjectDao>()
+                              .findSubjectByInstitutionIdNull()
+                          : serviceLocator<SubjectDao>()
+                              .findSubjectByInstitutionId(institution.id!),
+                      builder: (BuildContext context,
+                          AsyncSnapshot<List<Subject>> snapshot) {
+                        return subjectFutureBuilder(snapshot);
+                      }),
+                ],
+              ))
+            ])
           ]))
     ]));
     bool isError = errors.containsKey('subject');
@@ -1115,6 +1114,7 @@ class _TaskFormState extends State<TaskForm> {
       return DropdownButton<Subject>(
         key: const Key('taskSubject'),
         value: subject,
+        isExpanded: true,
         items: snapshot.data!.map((s) {
           return DropdownMenuItem<Subject>(
               value: s,
@@ -1196,6 +1196,8 @@ class _TaskFormState extends State<TaskForm> {
           editNote: id == null ? editTempNoteFactory(notes[i]) : editNote,
           deleteNote: deleteNote,
         ));
+
+        notesList.add(const SizedBox(height: 10));
       }
     }
     return notesList;
