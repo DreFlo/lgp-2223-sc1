@@ -79,53 +79,6 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
       ),
       body: SingleChildScrollView(
           child: Wrap(spacing: 10, children: [
-        SettingsList(
-          lightTheme: SettingsThemeData(
-            leadingIconsColor: primaryColor,
-            settingsListBackground: appBackground,
-            settingsTileTextColor: (darkMode ? white : black),
-            titleTextColor: (darkMode ? white : black),
-          ),
-          shrinkWrap: true,
-          sections: [
-            SettingsSection(
-              title: Text(AppLocalizations.of(context).general),
-              tiles: <SettingsTile>[
-                SettingsTile.switchTile(
-                  initialValue: darkMode,
-                  leading: Icon(Icons.lightbulb_outline),
-                  title: Text(AppLocalizations.of(context).dark_mode),
-                  onToggle: (value) {
-                    setState(() {
-                      darkMode = !darkMode;
-                    });
-                  },
-                  onPressed: (context) {
-                    setState(() {
-                      darkMode = !darkMode;
-                    });
-                  },
-                ),
-                SettingsTile.navigation(
-                  leading: Icon(Icons.language),
-                  title: Text('Language'),
-                  value: Text('English'),
-                  onPressed: (context) {},
-                ),
-                SettingsTile.switchTile(
-                  onToggle: (value) {
-                    setState(() {
-                      notifications = !notifications;
-                    });
-                  },
-                  initialValue: notifications,
-                  leading: Icon(Icons.notifications),
-                  title: Text('Notifications'),
-                ),
-              ],
-            ),
-          ],
-        ),
         const SizedBox(height: 30),
         Column(
           mainAxisAlignment: MainAxisAlignment.center,
