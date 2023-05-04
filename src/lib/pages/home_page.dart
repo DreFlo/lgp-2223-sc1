@@ -276,9 +276,9 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                                   30),
                           child: DraggableScrollableSheet(
                             expand: false,
-                            initialChildSize: 0.6,
-                            minChildSize: 0.6,
-                            maxChildSize: 0.6,
+                            initialChildSize: 0.7,
+                            minChildSize: 0.7,
+                            maxChildSize: 0.7,
                             builder: (context, scrollController) => TimerForm(
                               scrollController: scrollController,
                             ),
