@@ -103,6 +103,7 @@
   "your_input": "YOUR ",
   "input_email": "EMAIL",
   "error_input_email": "Please insert a valid email!",
+  "error_email_in_use": "The email has already been taken!",
   "sign_up_title_p3": "Password",
   "sign_up_subtitle_p3": "And no... 'password123' is not a good one.",
   "sign_up_input_password": "YOUR PASSWORD",

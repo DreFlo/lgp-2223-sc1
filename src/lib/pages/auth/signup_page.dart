@@ -1,7 +1,10 @@
 //ignore_for_file: unused_field
 import 'package:flutter/material.dart';
+import 'package:src/daos/user_dao.dart';
+import 'package:src/models/user.dart';
 import 'package:src/themes/colors.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:src/utils/service_locator.dart';
 
 class SignUpPage extends StatefulWidget {
   const SignUpPage({Key? key}) : super(key: key);
@@ -20,7 +23,6 @@ class _SignUpPageState extends State<SignUpPage>
   int _pageCount = 0;
   String _name = "";
   String _email = "";
-  String _password = "";
 
   String _nameErrText = "";
   String _emailErrText = "";
@@ -43,6 +45,21 @@ class _SignUpPageState extends State<SignUpPage>
     inputEmailController.dispose();
     inputPasswordController.dispose();
     super.dispose();
+  }
+
+  void clearAllFields() {
+    setState(() {
+      inputNameController.clear();
+      inputEmailController.clear();
+      inputPasswordController.clear();
+
+      _name = "";
+      _email = "";
+
+      _nameErrText = "";
+      _emailErrText = "";
+      _passwordErrText = "";
+    });
   }
 
   List<Widget> getAllSignUpPages(BuildContext context) {
@@ -76,7 +93,7 @@ class _SignUpPageState extends State<SignUpPage>
                   TextField(
                     style: Theme.of(context).textTheme.bodySmall,
                     controller: inputNameController,
-                    onChanged: (value) => {_nameErrText = ""},
+                    onChanged: (value) => {setState(() => _nameErrText = "")},
                     decoration: InputDecoration(
                       border: const UnderlineInputBorder(),
                       labelText:
@@ -103,8 +120,8 @@ class _SignUpPageState extends State<SignUpPage>
               Column(
                 children: [
                   ElevatedButton(
-                    onPressed: () async {
-                      onRegisterNameNextPressed();
+                    onPressed: () {
+                      onNamePageNextPressed();
                     },
                     style: ElevatedButton.styleFrom(
                       minimumSize:
@@ -153,7 +170,7 @@ class _SignUpPageState extends State<SignUpPage>
                   TextField(
                     style: Theme.of(context).textTheme.bodySmall,
                     controller: inputEmailController,
-                    onChanged: (value) => {_emailErrText = ""},
+                    onChanged: (value) => {setState(() => _emailErrText = "")},
                     decoration: InputDecoration(
                       border: const UnderlineInputBorder(),
                       labelText: AppLocalizations.of(context).your_input +
@@ -184,11 +201,7 @@ class _SignUpPageState extends State<SignUpPage>
                     children: [
                       ElevatedButton(
                         onPressed: () {
-                          setState(() {
-                            _email = inputEmailController.text;
-
-                            _pageCount--;
-                          });
+                          onEmailPageBackPressed();
                         },
                         style: ElevatedButton.styleFrom(
                           minimumSize: Size(
@@ -205,25 +218,8 @@ class _SignUpPageState extends State<SignUpPage>
                           padding: EdgeInsets.only(
                               right: MediaQuery.of(context).size.width * 0.05)),
                       ElevatedButton(
-                        onPressed: () {
-                          setState(() {
-                            String inputEmail = inputEmailController.text;
-
-                            RegExp emailRE = RegExp(
-                                r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+");
-
-                            if (!emailRE.hasMatch(inputEmail)) {
-                              _emailErrText = AppLocalizations.of(context)
-                                  .error_input_email;
-                            } else {
-                              // TODO(auth): add to check if user with this email already exists
-
-                              _email = inputEmail;
-
-                              _pageCount++;
-                              _animationController.forward(from: 0.0);
-                            }
-                          });
+                        onPressed: () async {
+                          onEmailPageNextPressed();
                         },
                         style: ElevatedButton.styleFrom(
                           minimumSize: Size(
@@ -275,7 +271,8 @@ class _SignUpPageState extends State<SignUpPage>
                     style: Theme.of(context).textTheme.bodySmall,
                     obscureText: true,
                     controller: inputPasswordController,
-                    onChanged: (value) => {_passwordErrText = ""},
+                    onChanged: (value) =>
+                        {setState(() => _passwordErrText = "")},
                     decoration: InputDecoration(
                       border: const UnderlineInputBorder(),
                       labelText:
@@ -307,11 +304,7 @@ class _SignUpPageState extends State<SignUpPage>
                     children: [
                       ElevatedButton(
                         onPressed: () {
-                          setState(() {
-                            _password = inputPasswordController.text;
-
-                            _pageCount--;
-                          });
+                          onPasswordPageBackPressed();
                         },
                         style: ElevatedButton.styleFrom(
                           minimumSize: Size(
@@ -328,28 +321,12 @@ class _SignUpPageState extends State<SignUpPage>
                           padding: EdgeInsets.only(
                               right: MediaQuery.of(context).size.width * 0.05)),
                       ElevatedButton(
-                        onPressed: () {
-                          setState(() {
-                            String passwordInput = inputPasswordController.text;
-
-                            if (passwordInput.length < 8) {
-                              _passwordErrText = AppLocalizations.of(context)
-                                  .error_input_password;
-                            } else {
-                              //TODO(auth): Encrypt password - before saving - i think there's a package for this
-
-                              _password = passwordInput;
-
-                              // TODO(auth): Save things in database (_name, _email and _password)
-
-                              inputNameController.text = "";
-                              inputEmailController.text = "";
-                              inputPasswordController.text = "";
-
-                              //Pop the modal and send to Landing page
-                              Navigator.pop(context);
-                            }
-                          });
+                        onPressed: () async {
+                          onPasswordPageNextPressed();
+                          if (_passwordErrText.isEmpty) {
+                            // Pop the modal and send to Landing page
+                            Navigator.pop(context);
+                          }
                         },
                         style: ElevatedButton.styleFrom(
                           minimumSize: Size(
@@ -417,13 +394,14 @@ class _SignUpPageState extends State<SignUpPage>
     );
   }
 
-  void onRegisterNameNextPressed() {
+  void onNamePageNextPressed() {
     String name = inputNameController.text;
 
     if (name.isEmpty) {
       setState(() {
         _nameErrText = AppLocalizations.of(context).error_input_name;
       });
+      return;
     }
 
     setState(() {
@@ -431,5 +409,70 @@ class _SignUpPageState extends State<SignUpPage>
       _pageCount++;
       _animationController.forward(from: 0.0);
     });
+  }
+
+  void onEmailPageBackPressed() {
+    setState(() {
+      _pageCount--;
+    });
+  }
+
+  void onEmailPageNextPressed() async {
+    String email = inputEmailController.text;
+
+    // Check if email is valid
+    RegExp emailRE = RegExp(
+        r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+");
+
+    if (!emailRE.hasMatch(email)) {
+      setState(() {
+        _emailErrText = AppLocalizations.of(context).error_input_email;
+      });
+      return;
+    }
+
+    // Check if email is already in use
+    User? user = await serviceLocator<UserDao>().findUserByEmail(email);
+    if (user != null) {
+      setState(() {
+        _emailErrText = AppLocalizations.of(context).error_email_in_use;
+      });
+      return;
+    }
+
+    setState(() {
+      _email = email;
+      _pageCount++;
+      _animationController.forward(from: 0.0);
+    });
+  }
+
+  void onPasswordPageBackPressed() {
+    setState(() {
+      _pageCount--;
+    });
+  }
+
+  void onPasswordPageNextPressed() async {
+    String password = inputPasswordController.text;
+
+    // Check if password is valid
+    if (password.isEmpty || password.length < 8) {
+      setState(() {
+        _passwordErrText = AppLocalizations.of(context).error_input_password;
+      });
+      return;
+    }
+
+    // Create user
+    await serviceLocator<UserDao>().insertUser(User(
+        name: _name,
+        email: _email,
+        password: password,
+        xp: 0,
+        level: 0,
+        imagePath: ""));
+
+    clearAllFields();
   }
 }

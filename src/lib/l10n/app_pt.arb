@@ -36,6 +36,7 @@
   "your_input": "O TEU ",
   "input_email": "EMAIL",
   "error_input_email": "Por favor insere um email válido!",
+  "error_email_in_use": "O email já é usado por outro utilizador!",
   "sign_up_title_p3": "Palavra Passe",
   "sign_up_subtitle_p3": "E não... 'password123' não é uma boa ideia.",
   "sign_up_input_password": "A TUA PALAVRA-PASSE",
