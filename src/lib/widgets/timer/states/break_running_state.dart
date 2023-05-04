@@ -61,7 +61,6 @@ class BreakRunningState extends TimerState {
       timer?.cancel();
     });
     tracker.incrementSession();
-    // TODO(notifications): sent notification to user (It is FOCUS time!)
     changeState(FocusPausedState(
         timer: timer,
         settings: settings,
