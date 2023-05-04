@@ -86,11 +86,12 @@ class _StudentTimeslotFinishedModalState
         ]),
         const SizedBox(height: 15),
         Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-          Text(
+          Expanded(
+              child: Text(
             AppLocalizations.of(context).event_finished_3,
             style: Theme.of(context).textTheme.displayMedium,
             textAlign: TextAlign.center,
-          )
+          ))
         ]),
         const SizedBox(height: 30),
         SizedBox(
