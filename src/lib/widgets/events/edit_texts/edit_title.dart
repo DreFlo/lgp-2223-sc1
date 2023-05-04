@@ -37,7 +37,7 @@ class _EditTitleState extends State<EditTitle> {
                               horizontal: 10, vertical: 5),
                           border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(10)),
-                          disabledBorder: OutlineInputBorder(
+                          disabledBorder: const OutlineInputBorder(
                               borderSide: BorderSide(color: grayBackground)),
                           hintText: AppLocalizations.of(context).title,
                           hintStyle: const TextStyle(
