@@ -1,26 +1,20 @@
 // ignore_for_file: prefer_const_constructors, sized_box_for_whitespace
 
-import 'package:books_finder/books_finder.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:src/animation_test/main.dart';
 import 'package:src/daos/user_dao.dart';
-import 'package:src/env/env.dart';
 import 'package:src/models/user.dart';
 import 'package:src/notifications/local_notifications_service.dart';
 import 'package:src/pages/auth/landing_page.dart';
 import 'package:src/pages/events/event_form.dart';
 import 'package:src/pages/tasks/institution_form.dart';
 import 'package:src/pages/tasks/subject_form.dart';
-import 'package:src/settings/settings_globals.dart';
-import 'package:src/themes/colors.dart';
 import 'package:src/utils/service_locator.dart';
 import 'package:src/pages/tasks/project_form.dart';
 import 'package:src/pages/tasks/task_form.dart';
 import 'package:src/pages/timer/timer_form.dart';
-import 'package:settings_ui/settings_ui.dart';
 import 'package:src/utils/reset_db.dart';
-import 'package:tmdb_api/tmdb_api.dart';
 
 class HomePage extends StatefulWidget {
   final String title;
@@ -34,6 +28,7 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
   int _counter = 0;
   Object redrawObject = Object();
+  List<String> user = ['John Smith', '11', '400'];
 
   void _incrementCounter() {
     setState(() {
@@ -43,30 +38,6 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
       // _counter without calling setState(), then the build method would not be
       // called again, and so nothing would appear to happen.
       _counter++;
-    });
-  }
-
-  List trendingmovies = [];
-  List trendingtvshows = [];
-  List books = [];
-
-  void loadmedia() async {
-    final tmdb = TMDB(ApiKeys(Env.tmdbApiKey, 'apiReadAccessTokenv4'));
-    Map movieresult =
-        await tmdb.v3.trending.getTrending(mediaType: MediaType.movie);
-    Map tvresult = await tmdb.v3.trending
-        .getTrending(mediaType: MediaType.tv); //doesn't have ['results']
-    books = await queryBooks(
-      'batman',
-      maxResults: 40,
-      printType: PrintType.books,
-      orderBy: OrderBy.relevance,
-    );
-
-    setState(() {
-      trendingmovies = movieresult['results'];
-      trendingtvshows = tvresult['results'];
-      books = books;
     });
   }
 
@@ -178,8 +149,8 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                                 maxChildSize: 0.85,
                                 builder: (context, scrollController) =>
                                     TaskForm(
-                                      scrollController: scrollController,
-                                    )),
+                                        scrollController: scrollController,
+                                        id: 1)),
                           ));
                 }),
             ElevatedButton(
@@ -193,19 +164,13 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                         borderRadius:
                             BorderRadius.vertical(top: Radius.circular(30.0)),
                       ),
-                      builder: (context) => Padding(
-                          padding: EdgeInsets.only(
-                              bottom: MediaQuery.of(context).viewInsets.bottom +
-                                  50),
-                          child: DraggableScrollableSheet(
-                              expand: false,
-                              initialChildSize: 0.75,
-                              minChildSize: 0.75,
-                              maxChildSize: 0.75,
-                              builder: (context, scrollController) =>
-                                  ProjectForm(
-                                    scrollController: scrollController,
-                                  ))));
+                      builder: (context) => DraggableScrollableSheet(
+                          expand: false,
+                          initialChildSize: 0.75,
+                          minChildSize: 0.75,
+                          maxChildSize: 0.75,
+                          builder: (context, scrollController) => ProjectForm(
+                              scrollController: scrollController, id: 1)));
                 }),
             ElevatedButton(
                 child: Text("Subject Form"),

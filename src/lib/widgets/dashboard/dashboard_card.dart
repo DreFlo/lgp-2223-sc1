@@ -22,6 +22,7 @@ class DashboardCard extends StatefulWidget {
   final TimeslotMediaTimeslotSuperEntity? mediaEvent; //media
   final String module;
   final Function()? deleteCallback;
+  final void Function() refreshCards;
 
   const DashboardCard(
       {Key? key,
@@ -29,7 +30,8 @@ class DashboardCard extends StatefulWidget {
       this.task,
       this.taskGroup,
       this.mediaEvent,
-      this.deleteCallback})
+      this.deleteCallback,
+      required this.refreshCards})
       : super(key: key);
 
   @override
@@ -447,6 +449,7 @@ class _DashboardCardState extends State<DashboardCard> {
     setState(() {
       task = t;
       cardInformationUpdate();
+      widget.refreshCards();
     });
   }
 
@@ -454,6 +457,7 @@ class _DashboardCardState extends State<DashboardCard> {
     setState(() {
       taskGroup = tg;
       cardInformationUpdate();
+      widget.refreshCards();
     });
   }
 }

@@ -8,5 +8,12 @@ final mockTaskGroups = [
       description: 'Put mock data in the database',
       priority: Priority.high,
       deadline: DateTime.now().add(const Duration(days: 1)),
+      subjectId: 1),
+  TaskGroup(
+      id: 2,
+      name: 'Stupid',
+      description: 'Stupid mc stupid face',
+      priority: Priority.high,
+      deadline: DateTime.now(),
       subjectId: 1)
 ];
