@@ -209,24 +209,26 @@ class _EventShowState extends State<EventShow> {
     return SizedBox(
         height: 25,
         width: 25,
-        child: Flexible(
-            flex: 1,
-            child: AspectRatio(
-                aspectRatio: 1,
-                child: Transform.rotate(
-                    angle: -math.pi / 4,
-                    child: ElevatedButton(
-                      style: ButtonStyle(
-                        shadowColor:
-                            MaterialStateProperty.all(Colors.transparent),
-                        elevation: MaterialStateProperty.all(0),
-                        alignment: const Alignment(0, 0),
-                        backgroundColor:
-                            MaterialStateProperty.all(_moduleColor),
-                      ),
-                      onPressed: () {},
-                      child: null,
-                    )))));
+        child: Flex(direction: Axis.vertical, children: [
+          Flexible(
+              flex: 1,
+              child: AspectRatio(
+                  aspectRatio: 1,
+                  child: Transform.rotate(
+                      angle: -math.pi / 4,
+                      child: ElevatedButton(
+                        style: ButtonStyle(
+                          shadowColor:
+                              MaterialStateProperty.all(Colors.transparent),
+                          elevation: MaterialStateProperty.all(0),
+                          alignment: const Alignment(0, 0),
+                          backgroundColor:
+                              MaterialStateProperty.all(_moduleColor),
+                        ),
+                        onPressed: () {},
+                        child: null,
+                      ))))
+        ]));
   }
 
   Widget showDate(bool start, DateTime date) {
