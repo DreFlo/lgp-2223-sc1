@@ -201,8 +201,7 @@ class _MyHomePageState extends State<MyHomePage> {
               ),
               FutureBuilder(
                   future: loadEventsDB(),
-                  builder:
-                      (BuildContext context, AsyncSnapshot<int> snapshot) {
+                  builder: (BuildContext context, AsyncSnapshot<int> snapshot) {
                     if (snapshot.hasData) {
                       return Expanded(child: showWidget());
                     }

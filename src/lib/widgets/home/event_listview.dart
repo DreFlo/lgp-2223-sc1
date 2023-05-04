@@ -9,7 +9,8 @@ class MyEventListView extends StatefulWidget {
   final List<TimeslotStudentTimeslotSuperEntity?>? studentEvents;
   final Function() callback;
 
-  const MyEventListView({Key? key, this.mediaEvents, this.studentEvents, required this.callback})
+  const MyEventListView(
+      {Key? key, this.mediaEvents, this.studentEvents, required this.callback})
       : super(key: key);
 
   @override
