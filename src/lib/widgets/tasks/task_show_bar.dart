@@ -4,6 +4,7 @@ import 'package:src/models/student/task_group.dart';
 import 'package:src/pages/tasks/task_show.dart';
 import 'package:src/themes/colors.dart';
 import 'package:src/utils/date_formatter.dart';
+import 'package:src/utils/gamification/game_logic.dart';
 
 class TaskShowBar extends StatefulWidget {
   final void Function(Task t)? editTask;
@@ -28,6 +29,7 @@ class _TaskShowBarState extends State<TaskShowBar> {
 
   late TaskGroup taskGroup;
   late Task task;
+  late int points;
   bool selected = false;
 
   @override
@@ -35,6 +37,7 @@ class _TaskShowBarState extends State<TaskShowBar> {
     taskStatus = widget.task.finished;
     taskGroup = widget.taskGroup;
     task = widget.task;
+    points = widget.task.xp;
     super.initState();
   }
 
@@ -102,7 +105,17 @@ class _TaskShowBarState extends State<TaskShowBar> {
                     Row(
                       children: [
                         InkWell(
-                            onTap: () {
+                            onTap: () async {
+                              if (!taskStatus) {
+                                //it's currently false, going to become true, when it gets to setState
+                                //gain xp
+                                points = await checkNonEventNonTask(
+                                    task, context, true);
+                              } else {
+                                //lose xp
+                                removePoints(points, task);
+                              }
+
                               setState(() {
                                 taskStatus = !taskStatus;
                               });
@@ -112,12 +125,12 @@ class _TaskShowBarState extends State<TaskShowBar> {
                               decoration: BoxDecoration(
                                   shape: BoxShape.circle,
                                   color: (taskStatus
-                                      ? Colors.green
-                                      : Colors.white)),
+                                      ? Colors.white
+                                      : Colors.green)),
                               child: Icon(Icons.check_rounded,
                                   color: (!taskStatus
-                                      ? Colors.green
-                                      : Colors.white)),
+                                      ? Colors.white
+                                      : Colors.green)),
                             )),
                       ],
                     )
