@@ -115,7 +115,7 @@ class _ProjectShowState extends State<ProjectShow> {
                     const BorderRadius.vertical(top: Radius.circular(30.0)),
                 child: Scaffold(
                     primary: false,
-                    backgroundColor: modalBackground,
+                    backgroundColor: modalLightBackground,
                     body: SingleChildScrollView(
                       padding: const EdgeInsets.symmetric(horizontal: 24),
                       controller: widget.scrollController,

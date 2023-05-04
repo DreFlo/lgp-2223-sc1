@@ -151,7 +151,7 @@ class _TaskShowState extends State<TaskShow> {
                     const BorderRadius.vertical(top: Radius.circular(30.0)),
                 child: Scaffold(
                     primary: false,
-                    backgroundColor: modalBackground,
+                    backgroundColor: modalLightBackground,
                     body: SingleChildScrollView(
                       padding: const EdgeInsets.symmetric(horizontal: 24),
                       controller: widget.scrollController,
@@ -292,13 +292,13 @@ class _TaskShowState extends State<TaskShow> {
           child: AspectRatio(
               aspectRatio: 1,
               child: Transform.rotate(
-                  angle: -math.pi / 4,
-                    child: Container(
-                        decoration: BoxDecoration(
-                          color: studentColor,
-                      borderRadius: BorderRadius.circular(5),
-                    )),
-                  ))),
+                angle: -math.pi / 4,
+                child: Container(
+                    decoration: BoxDecoration(
+                  color: studentColor,
+                  borderRadius: BorderRadius.circular(5),
+                )),
+              ))),
       const SizedBox(width: 15),
       Flexible(
           flex: 10,
@@ -587,11 +587,9 @@ class _TaskShowState extends State<TaskShow> {
             note: notes[i],
             editNote: editNote,
             deleteNote: deleteNote(notes[i])));
-        
+
         notesList.add(const SizedBox(height: 10));
       }
-
-      
     }
     return notesList;
   }
