@@ -54,7 +54,7 @@ class _SubjectShowState extends State<SubjectShow> {
       return 0;
     }
 
-    name = subject!.name;
+    name = subject.name;
     acronym = subject.acronym;
 
     if (subject.institutionId != null) {

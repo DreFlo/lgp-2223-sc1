@@ -53,7 +53,7 @@ class _InstitutionShowState extends State<InstitutionShow> {
       return 0;
     }
 
-    name = institution!.name;
+    name = institution.name;
 
     if (context.mounted) {
       if (institution.type == InstitutionType.work) {
