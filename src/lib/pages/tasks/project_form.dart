@@ -181,7 +181,8 @@ class _ProjectFormState extends State<ProjectForm> {
           Task newTask = Task(
               id: oldTask.id,
               name: oldTask.name,
-              deadline: oldTask.deadline,
+              deadline:
+                  date!.isBefore(oldTask.deadline) ? date! : oldTask.deadline,
               priority: oldTask.priority,
               description: oldTask.description,
               taskGroupId: newId,
@@ -287,6 +288,7 @@ class _ProjectFormState extends State<ProjectForm> {
                     const SizedBox(height: 30),
                     // Institution
                     getInstitution(context),
+                    const SizedBox(height: 30),
                     //Subject
                     ...getSubject(),
                     const SizedBox(height: 30),
@@ -392,8 +394,8 @@ class _ProjectFormState extends State<ProjectForm> {
         onTap: () async {
           var date = await showDatePicker(
               context: context,
-              initialDate: DateTime.now(),
-              firstDate: DateTime.now(),
+              initialDate: id != null ? this.date! : DateTime.now(),
+              firstDate: id != null ? this.date! : DateTime.now(),
               lastDate: DateTime(2100));
           if (date == null) {
             return;
@@ -856,14 +858,14 @@ class _ProjectFormState extends State<ProjectForm> {
                       bottom: MediaQuery.of(context).viewInsets.bottom + 50),
                   child: DraggableScrollableSheet(
                     expand: false,
-                    initialChildSize: 0.60,
-                    minChildSize: 0.60,
-                    maxChildSize: 0.60,
+                    initialChildSize: 0.80,
+                    minChildSize: 0.80,
+                    maxChildSize: 0.85,
                     builder: (context, scrollController) => TaskForm(
-                      taskGroupId: id,
-                      callback: addTask,
-                      scrollController: scrollController,
-                    ),
+                        taskGroupId: id ?? -1,
+                        callback: addTask,
+                        scrollController: scrollController,
+                        createProject: true),
                   )));
         },
       )
@@ -976,11 +978,11 @@ class _ProjectFormState extends State<ProjectForm> {
     );
 
     AlertDialog alert = AlertDialog(
-      title: Text(AppLocalizations.of(context).delete_subject,
+      title: Text(AppLocalizations.of(context).delete_task_group,
           style: const TextStyle(
               color: Colors.white, fontSize: 20, fontWeight: FontWeight.w600),
           textAlign: TextAlign.center),
-      content: Text(AppLocalizations.of(context).delete_subject_message,
+      content: Text(AppLocalizations.of(context).delete_task_group_message,
           style: const TextStyle(
               color: Colors.white, fontSize: 14, fontWeight: FontWeight.w600),
           textAlign: TextAlign.center),

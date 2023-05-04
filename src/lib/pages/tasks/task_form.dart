@@ -33,17 +33,19 @@ class TaskForm extends StatefulWidget {
   final void Function()? deleteCallback;
   final void Function(List<Note>)? editNotesCallback;
   final ScrollController scrollController;
+  final bool createProject;
 
-  const TaskForm({
-    Key? key,
-    required this.scrollController,
-    this.id,
-    this.task,
-    this.taskGroupId,
-    this.callback,
-    this.deleteCallback,
-    this.editNotesCallback,
-  }) : super(key: key);
+  const TaskForm(
+      {Key? key,
+      required this.scrollController,
+      this.id,
+      this.taskGroupId,
+      this.callback,
+      this.editNotesCallback,
+      this.deleteCallback,
+      this.task,
+      this.createProject = true})
+      : super(key: key);
 
   @override
   State<TaskForm> createState() => _TaskFormState();
@@ -196,22 +198,17 @@ class _TaskFormState extends State<TaskForm> {
   validateDate() {
     DateTime now = DateTime.now();
     now = DateFormatter.day(now);
-    if (isChild()) {
+
+    if (taskGroup!.id != -1) {
       if (date!.isAfter(taskGroup!.deadline)) {
         errors['date'] =
             AppLocalizations.of(context).studentErrorTaskGroupAfterDate;
       }
-      // Date can't be after parent task
+    } else if (isChildOfNotCreated()) {
+      // The not created project will change the date to the earliest date between this and the project itself
     } else {
-      if (taskGroup!.id != -1) {
-        if (date!.isAfter(taskGroup!.deadline)) {
-          errors['date'] =
-              AppLocalizations.of(context).studentErrorTaskGroupAfterDate;
-        }
-      } else {
-        if (date!.isAfter(now)) {
-          errors['date'] = AppLocalizations.of(context).studentErrorPastDate;
-        }
+      if (now.isAfter(date!)) {
+        errors['date'] = AppLocalizations.of(context).studentErrorPastDate;
       }
     }
   }
@@ -554,8 +551,8 @@ class _TaskFormState extends State<TaskForm> {
         onTap: () async {
           var date = await showDatePicker(
               context: context,
-              initialDate: DateTime.now(),
-              firstDate: DateTime.now(),
+              initialDate: id != null ? this.date! : DateTime.now(),
+              firstDate: id != null ? this.date! : DateTime.now(),
               lastDate: DateTime(2100));
           if (date == null) {
             return;
@@ -1151,37 +1148,36 @@ class _TaskFormState extends State<TaskForm> {
               fontSize: 16,
               fontWeight: FontWeight.w400),
           textAlign: TextAlign.center),
-      (widget.id == null &&
-              widget.taskGroupId == null) //Can add notes and they will be saved
-          ? const SizedBox()
-          : IconButton(
-              key: const Key('addNoteButton'),
-              padding: const EdgeInsets.all(0),
-              icon: const Icon(Icons.add),
-              color: const Color(0xFF71788D),
-              iconSize: 20,
-              splashRadius: 0.1,
-              constraints: const BoxConstraints(maxWidth: 20, maxHeight: 20),
-              onPressed: () {
-                showModalBottomSheet(
-                    context: context,
-                    isScrollControlled: true,
-                    backgroundColor: const Color(0xFF22252D),
-                    shape: const RoundedRectangleBorder(
-                      borderRadius:
-                          BorderRadius.vertical(top: Radius.circular(30.0)),
-                    ),
-                    builder: (builder) => SingleChildScrollView(
-                        child: AddTaskNoteForm(taskId: id, callback: addNote)));
-              },
-            ),
+      IconButton(
+        key: const Key('addNoteButton'),
+        padding: const EdgeInsets.all(0),
+        icon: const Icon(Icons.add),
+        color: const Color(0xFF71788D),
+        iconSize: 20,
+        splashRadius: 0.1,
+        constraints: const BoxConstraints(maxWidth: 20, maxHeight: 20),
+        onPressed: () {
+          showModalBottomSheet(
+              context: context,
+              isScrollControlled: true,
+              backgroundColor: const Color(0xFF22252D),
+              shape: const RoundedRectangleBorder(
+                borderRadius: BorderRadius.vertical(top: Radius.circular(30.0)),
+              ),
+              builder: (builder) => Padding(
+                  padding: EdgeInsets.only(
+                      bottom: MediaQuery.of(context).viewInsets.bottom + 30),
+                  child: SingleChildScrollView(
+                      child: AddTaskNoteForm(taskId: id, callback: addNote))));
+        },
+      ),
     ]);
   }
 
   List<Widget> getNotes() {
     List<Widget> notesList = [];
 
-    if (notes.isEmpty) {
+    if (notes.isEmpty && !widget.createProject) {
       notesList.add(Row(mainAxisAlignment: MainAxisAlignment.center, children: [
         Text(AppLocalizations.of(context).no_notes,
             style: const TextStyle(
@@ -1282,11 +1278,11 @@ class _TaskFormState extends State<TaskForm> {
     );
 
     AlertDialog alert = AlertDialog(
-      title: Text(AppLocalizations.of(context).delete_subject,
+      title: Text(AppLocalizations.of(context).delete_task,
           style: const TextStyle(
               color: Colors.white, fontSize: 20, fontWeight: FontWeight.w600),
           textAlign: TextAlign.center),
-      content: Text(AppLocalizations.of(context).delete_subject_message,
+      content: Text(AppLocalizations.of(context).delete_task_message,
           style: const TextStyle(
               color: Colors.white, fontSize: 14, fontWeight: FontWeight.w600),
           textAlign: TextAlign.center),
@@ -1369,11 +1365,11 @@ class _TaskFormState extends State<TaskForm> {
 
   isChild() {
     //If we are making a new task inside of a taks group
-    return widget.callback != null;
+    return widget.taskGroupId != null;
   }
 
   isChildOfNotCreated() {
-    return isChild() && widget.taskGroupId == null;
+    return widget.taskGroupId == -1;
   }
 
   editNotesCallback() {

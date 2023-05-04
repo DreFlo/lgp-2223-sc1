@@ -7,7 +7,7 @@ abstract class TimeslotDao {
   Future<List<Timeslot>> findAllTimeslots();
 
   @Query('SELECT * FROM timeslot WHERE id = :id')
-  Future<Timeslot?> findTimeslotById(int id);
+  Stream<Timeslot?> findTimeslotById(int id);
 
   @Query('SELECT * FROM timeslot WHERE start_datetime >= :start')
   Future<List<Timeslot>> findAllTimeslotsAfterStart(

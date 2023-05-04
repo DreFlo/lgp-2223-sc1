@@ -307,9 +307,9 @@ class _InstitutionFormState extends State<InstitutionForm> {
                                               50),
                                       child: DraggableScrollableSheet(
                                         expand: false,
-                                        initialChildSize: 0.60,
-                                        minChildSize: 0.60,
-                                        maxChildSize: 0.60,
+                                        initialChildSize: 0.5,
+                                        minChildSize: 0.5,
+                                        maxChildSize: 0.5,
                                         builder: (context, scrollController) =>
                                             SubjectForm(
                                                 scrollController:
@@ -322,7 +322,7 @@ class _InstitutionFormState extends State<InstitutionForm> {
                           ),
                         ]),
                     const SizedBox(height: 7.5),
-                    displaySubjects(),
+                    ...displaySubjects(),
                     const SizedBox(height: 30),
                     displayEndButtons(),
                   ]),
@@ -333,19 +333,22 @@ class _InstitutionFormState extends State<InstitutionForm> {
         });
   }
 
-  Widget displaySubjects() {
+  List<Widget> displaySubjects() {
+    List<Widget> subjects = [];
+
     if (widget.id == null) {
       if (noDbSubjects.isEmpty) {
-        return Padding(
-            padding: const EdgeInsets.symmetric(vertical: 15),
-            child: Text(AppLocalizations.of(context).no_subjects,
-                textAlign: TextAlign.center,
-                style: const TextStyle(
-                    color: Colors.white,
-                    fontSize: 16,
-                    fontWeight: FontWeight.normal)));
+        subjects
+            .add(Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+          Text(AppLocalizations.of(context).no_subjects,
+              textAlign: TextAlign.center,
+              style: const TextStyle(
+                  color: Colors.white,
+                  fontSize: 16,
+                  fontWeight: FontWeight.normal))
+        ]));
       } else {
-        return Column(
+        subjects.add(Column(
             mainAxisAlignment: MainAxisAlignment.start,
             children: noDbSubjects
                 .map((e) => SubjectBar(
@@ -354,10 +357,10 @@ class _InstitutionFormState extends State<InstitutionForm> {
                       selectInstitution: false,
                       removeCallbackBySubject: removeNoDbSubject,
                     ))
-                .toList());
+                .toList()));
       }
     } else {
-      return FutureBuilder(
+      subjects.add(FutureBuilder(
           future: serviceLocator<SubjectDao>()
               .findSubjectByInstitutionId(widget.id!),
           builder:
@@ -396,8 +399,12 @@ class _InstitutionFormState extends State<InstitutionForm> {
             } else {
               return const Center(child: CircularProgressIndicator());
             }
-          });
+          }));
     }
+
+    subjects.add(const SizedBox(height: 15));
+
+    return subjects;
   }
 
   save() async {

@@ -23,8 +23,10 @@ class BookPageState extends MediaPageState<MediaBookSuperEntity> {
 
   @override
   String getLength(context) {
-    return widget.item.totalPages.toString() +
-        AppLocalizations.of(context).pages;
+    return (widget.item.totalPages == 0
+        ? AppLocalizations.of(context).no_length
+        : widget.item.totalPages.toString() +
+            AppLocalizations.of(context).pages);
   }
 
   @override
