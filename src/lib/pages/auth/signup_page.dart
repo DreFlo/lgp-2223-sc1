@@ -228,6 +228,8 @@ class _SignUpPageState extends State<SignUpPage>
                               _emailErrText = AppLocalizations.of(context)
                                   .error_input_email;
                             } else {
+                              // TODO(auth): add to check if user with this email already exists
+
                               _email = inputEmail;
 
                               _pageCount++;

@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:src/daos/user_dao.dart';
+import 'package:src/models/user.dart';
 import 'package:src/themes/colors.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import 'package:src/pages/auth/password_recov_page.dart';
+import 'package:src/utils/service_locator.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
@@ -15,11 +18,9 @@ class _LoginPageState extends State<LoginPage> {
   TextEditingController firstController = TextEditingController();
   TextEditingController secondController = TextEditingController();
 
-  String _email = "";
-  String _password = "";
-
   String _emailErrText = "";
   String _passwordErrText = "";
+  String _loginErrText = "";
 
   @override
   void dispose() {
@@ -51,7 +52,10 @@ class _LoginPageState extends State<LoginPage> {
               TextField(
                 controller: firstController,
                 style: Theme.of(context).textTheme.bodySmall,
-                onChanged: (value) => {_emailErrText = ""},
+                onChanged: (value) => setState(() {
+                  _emailErrText = "";
+                  _loginErrText = "";
+                }),
                 decoration: InputDecoration(
                   border: const UnderlineInputBorder(),
                   labelText: AppLocalizations.of(context).input_email,
@@ -73,7 +77,10 @@ class _LoginPageState extends State<LoginPage> {
               TextField(
                   controller: secondController,
                   style: Theme.of(context).textTheme.bodySmall,
-                  onChanged: (value) => {_passwordErrText = ""},
+                  onChanged: (value) => setState(() {
+                        _passwordErrText = "";
+                        _loginErrText = "";
+                      }),
                   obscureText: true,
                   decoration: InputDecoration(
                     border: const UnderlineInputBorder(),
@@ -91,6 +98,16 @@ class _LoginPageState extends State<LoginPage> {
                         fontSize: 14,
                         fontWeight: FontWeight.w600),
                   )),
+              if (_loginErrText.isNotEmpty)
+                const Padding(padding: EdgeInsets.only(bottom: 30)),
+              if (_loginErrText.isNotEmpty)
+                Text(_loginErrText,
+                    style: const TextStyle(
+                        fontFamily: "Poppins",
+                        color: leisureColor,
+                        fontSize: 14,
+                        fontWeight: FontWeight.w600),
+                    textAlign: TextAlign.left),
               Padding(
                   padding: EdgeInsets.only(
                       bottom: MediaQuery.of(context).size.height * 0.05)),
@@ -137,46 +154,8 @@ class _LoginPageState extends State<LoginPage> {
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
                     ElevatedButton(
-                      onPressed: () {
-                        setState(() {
-                          String inputEmail = firstController.text;
-                          String inputPassword = secondController.text;
-
-                          RegExp emailRE = RegExp(
-                              r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+");
-
-                          if (!emailRE.hasMatch(inputEmail)) {
-                            _emailErrText =
-                                AppLocalizations.of(context).error_input_email;
-                          } else {
-                            _email = inputEmail;
-                          }
-
-                          if (inputPassword.length < 8) {
-                            _passwordErrText = AppLocalizations.of(context)
-                                .error_input_password;
-                          } else {
-                            _password = inputPassword;
-                          }
-
-                          if (_emailErrText == "" && _passwordErrText == "") {
-                            showDialog(
-                              context: context,
-                              builder: (context) {
-                                return AlertDialog(
-                                    // Retrieve the text by using the
-                                    // TextEditingController.
-                                    content: Text(
-                                        "Email: $_email \nPassword: $_password",
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .labelMedium));
-                              },
-                            );
-                          }
-
-                          // TODO(auth): Add database connection here to check email and password
-                        });
+                      onPressed: () async {
+                        onLoginCallback();
                       },
                       style: ElevatedButton.styleFrom(
                         minimumSize:
@@ -193,5 +172,44 @@ class _LoginPageState extends State<LoginPage> {
                 )
               ]),
             ])));
+  }
+
+  Future<void> onLoginCallback() async {
+    String email = firstController.text;
+    String password = secondController.text;
+
+    // Validate email and password
+    RegExp emailRE = RegExp(
+        r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+");
+
+    if (!emailRE.hasMatch(email)) {
+      setState(() {
+        _emailErrText = AppLocalizations.of(context).error_input_email;
+      });
+    }
+
+    if (password.isEmpty) {
+      setState(() {
+        _passwordErrText = AppLocalizations.of(context).error_empty_password;
+      });
+    }
+
+    if (_emailErrText != "" || _passwordErrText != "") return;
+
+    // Check if user exists
+    User? user = await serviceLocator<UserDao>()
+        .findUserByEmailAndPassword(email, password);
+    if (user == null) {
+      setState(() {
+        _loginErrText = AppLocalizations.of(context).error_login;
+        // TODO(auth): set error border for email and password fields
+      });
+      return;
+    }
+
+    // TODO(auth): save logged user and navigate to home page
+    setState(() {
+      _loginErrText = "Logged in successfully! As ${user.name}";
+    });
   }
 }

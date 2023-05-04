@@ -13,7 +13,7 @@ abstract class UserDao {
   Stream<User?> findUserByEmail(String email);
 
   @Query('SELECT * FROM user WHERE email = :email AND password = :password')
-  Stream<User?> findUserByEmailAndPassword(String email, String password);
+  Future<User?> findUserByEmailAndPassword(String email, String password);
 
   @insert
   Future<int> insertUser(User user);
