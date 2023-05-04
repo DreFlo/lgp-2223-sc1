@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:src/daos/authentication_dao.dart';
 import 'package:src/widgets/home/homepage_horizontal_scrollview.dart';
 import 'package:src/widgets/home/profile_pic.dart';
 import 'package:src/widgets/home/event_listview.dart';
@@ -23,12 +24,18 @@ class _MyHomePageState extends State<MyHomePage> {
   List<TimeslotMediaTimeslotSuperEntity> mediaEvents = [];
   bool loadedAllData = false;
   List<TimeslotStudentTimeslotSuperEntity> studentEvents = [];
-  String name = "Joaquim Almeida"; // TODO Get name from database
+  String name = getUserName();
 
   @override
   void initState() {
     super.initState();
     loadEventsDB();
+  }
+
+  static String getUserName() {
+    return serviceLocator<AuthenticationDao>().isUserLoggedIn()
+        ? serviceLocator<AuthenticationDao>().getLoggedInUser()!.name
+        : "Joaquim Almeida";
   }
 
   void loadEventsDB() async {

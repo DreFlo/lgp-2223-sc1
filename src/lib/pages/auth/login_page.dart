@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:src/daos/authentication_dao.dart';
 import 'package:src/daos/user_dao.dart';
 import 'package:src/models/user.dart';
+import 'package:src/pages/navigation_page.dart';
 import 'package:src/themes/colors.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
@@ -155,7 +157,16 @@ class _LoginPageState extends State<LoginPage> {
                   children: [
                     ElevatedButton(
                       onPressed: () async {
-                        onLoginSubmitPressed();
+                        onLoginSubmitPressed().then((_) => {
+                              if (noValidationErrors())
+                                {
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) =>
+                                              const NavigationPage()))
+                                }
+                            });
                       },
                       style: ElevatedButton.styleFrom(
                         minimumSize:
@@ -172,6 +183,12 @@ class _LoginPageState extends State<LoginPage> {
                 )
               ]),
             ])));
+  }
+
+  bool noValidationErrors() {
+    return _emailErrText.isEmpty &&
+        _passwordErrText.isEmpty &&
+        _loginErrText.isEmpty;
   }
 
   Future<void> onLoginSubmitPressed() async {
@@ -207,9 +224,6 @@ class _LoginPageState extends State<LoginPage> {
       return;
     }
 
-    // TODO(auth): save logged user and navigate to home page
-    setState(() {
-      _loginErrText = "Logged in successfully! As ${user.name}";
-    });
+    serviceLocator<AuthenticationDao>().setLoggedInUser(user);
   }
 }
