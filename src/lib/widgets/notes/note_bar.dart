@@ -68,7 +68,8 @@ class _NoteBarState extends State<NoteBar> {
                             textAlign: TextAlign.justify,
                             overflow: TextOverflow.ellipsis,
                             style: TextStyle(
-                                color: selected ? Colors.black : Colors.grey[400],
+                                color:
+                                    selected ? Colors.black : Colors.grey[400],
                                 fontSize: 16,
                                 fontWeight: FontWeight.normal))
                       ])),

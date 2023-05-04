@@ -464,9 +464,10 @@ class _TaskFormState extends State<TaskForm> {
       Flexible(
           flex: 1,
           child: Transform.rotate(
-                  angle: -Math.pi / 4,
-                  child: const Icon(Icons.square_rounded, size: 50, color: studentColor),
-                      )),
+            angle: -Math.pi / 4,
+            child:
+                const Icon(Icons.square_rounded, size: 50, color: studentColor),
+          )),
       const SizedBox(width: 15),
       Expanded(
           flex: 5,
@@ -610,7 +611,8 @@ class _TaskFormState extends State<TaskForm> {
   }
 
   List<Widget> getPriority(BuildContext context) {
-    Widget priorityWidget = Row(crossAxisAlignment: CrossAxisAlignment.center, children: [
+    Widget priorityWidget =
+        Row(crossAxisAlignment: CrossAxisAlignment.center, children: [
       Flexible(
           flex: 1,
           child: Column(children: [
@@ -630,107 +632,116 @@ class _TaskFormState extends State<TaskForm> {
       const SizedBox(width: 15),
       Expanded(
           flex: 5,
-          child: Column(mainAxisAlignment: MainAxisAlignment.start, crossAxisAlignment: CrossAxisAlignment.start, children: [
-            Row(children: [
-              Text(AppLocalizations.of(context).priority,
-                  style: const TextStyle(
-                      fontFamily: 'Poppins',
-                      color: Color(0xFF71788D),
-                      fontSize: 16,
-                      fontWeight: FontWeight.w400),
-                  textAlign: TextAlign.center),
-            ]),
-            const SizedBox(height: 10),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Expanded(child: InkWell(
-                  highlightColor: lightGray,
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Container(
-                          key: const Key('priorityLow'),
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: 15, vertical: 10),
-                          decoration: BoxDecoration(
-                            borderRadius: const BorderRadius.only(
-                                topLeft: Radius.circular(10),
-                                bottomLeft: Radius.circular(10)),
-                            color: (priority == Priority.low
-                                ? primaryColor
-                                : lightGray),
-                          ),
-                          alignment: const Alignment(0, 0),
-                          child: Text(AppLocalizations.of(context).low,
-                              textAlign: TextAlign.center,
-                              style: const TextStyle(
-                                  fontSize: 12, fontWeight: FontWeight.normal)))
-                    ],
-                  ),
-                  onTap: () {
-                    priority = Priority.low;
-                    setState(() {});
-                  },
-                )),
-                const SizedBox(width: 5),
-                Expanded(child: InkWell(
-                  highlightColor: lightGray,
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Container(
-                          key: const Key('priorityMedium'),
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: 15, vertical: 10),
-                          color: (priority == Priority.medium
-                              ? primaryColor
-                              : lightGray),
-                          alignment: const Alignment(0, 0),
-                          child: Text(AppLocalizations.of(context).medium,
-                              textAlign: TextAlign.center,
-                              style: const TextStyle(
-                                  fontSize: 12, fontWeight: FontWeight.normal)))
-                    ],
-                  ),
-                  onTap: () {
-                    priority = Priority.medium;
-                    setState(() {});
-                  },
-                )),
-                const SizedBox(width: 5),
-                Expanded(child: InkWell(
-                  highlightColor: lightGray,
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Container(
-                          key: const Key('priorityHigh'),
-                          decoration: BoxDecoration(
-                            borderRadius: const BorderRadius.only(
-                                topRight: Radius.circular(10),
-                                bottomRight: Radius.circular(10)),
-                            color: (priority == Priority.high
-                                ? primaryColor
-                                : lightGray),
-                          ),
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: 15, vertical: 10),
-                          alignment: const Alignment(0, 0),
-                          child: Text(AppLocalizations.of(context).high,
-                              textAlign: TextAlign.center,
-                              style: const TextStyle(
-                                  fontSize: 12, fontWeight: FontWeight.normal)))
-                    ],
-                  ),
-                  onTap: () {
-                    priority = Priority.high;
-                    setState(() {});
-                  },
-                )),
-              ],
-            )
-          ]))
+                Row(children: [
+                  Text(AppLocalizations.of(context).priority,
+                      style: const TextStyle(
+                          fontFamily: 'Poppins',
+                          color: Color(0xFF71788D),
+                          fontSize: 16,
+                          fontWeight: FontWeight.w400),
+                      textAlign: TextAlign.center),
+                ]),
+                const SizedBox(height: 10),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Expanded(
+                        child: InkWell(
+                      highlightColor: lightGray,
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Container(
+                              key: const Key('priorityLow'),
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 15, vertical: 10),
+                              decoration: BoxDecoration(
+                                borderRadius: const BorderRadius.only(
+                                    topLeft: Radius.circular(10),
+                                    bottomLeft: Radius.circular(10)),
+                                color: (priority == Priority.low
+                                    ? primaryColor
+                                    : lightGray),
+                              ),
+                              alignment: const Alignment(0, 0),
+                              child: Text(AppLocalizations.of(context).low,
+                                  textAlign: TextAlign.center,
+                                  style: const TextStyle(
+                                      fontSize: 12,
+                                      fontWeight: FontWeight.normal)))
+                        ],
+                      ),
+                      onTap: () {
+                        priority = Priority.low;
+                        setState(() {});
+                      },
+                    )),
+                    const SizedBox(width: 5),
+                    Expanded(
+                        child: InkWell(
+                      highlightColor: lightGray,
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Container(
+                              key: const Key('priorityMedium'),
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 15, vertical: 10),
+                              color: (priority == Priority.medium
+                                  ? primaryColor
+                                  : lightGray),
+                              alignment: const Alignment(0, 0),
+                              child: Text(AppLocalizations.of(context).medium,
+                                  textAlign: TextAlign.center,
+                                  style: const TextStyle(
+                                      fontSize: 12,
+                                      fontWeight: FontWeight.normal)))
+                        ],
+                      ),
+                      onTap: () {
+                        priority = Priority.medium;
+                        setState(() {});
+                      },
+                    )),
+                    const SizedBox(width: 5),
+                    Expanded(
+                        child: InkWell(
+                      highlightColor: lightGray,
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Container(
+                              key: const Key('priorityHigh'),
+                              decoration: BoxDecoration(
+                                borderRadius: const BorderRadius.only(
+                                    topRight: Radius.circular(10),
+                                    bottomRight: Radius.circular(10)),
+                                color: (priority == Priority.high
+                                    ? primaryColor
+                                    : lightGray),
+                              ),
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 15, vertical: 10),
+                              alignment: const Alignment(0, 0),
+                              child: Text(AppLocalizations.of(context).high,
+                                  textAlign: TextAlign.center,
+                                  style: const TextStyle(
+                                      fontSize: 12,
+                                      fontWeight: FontWeight.normal)))
+                        ],
+                      ),
+                      onTap: () {
+                        priority = Priority.high;
+                        setState(() {});
+                      },
+                    )),
+                  ],
+                )
+              ]))
     ]);
 
     bool isError = errors.containsKey('priority');
@@ -777,23 +788,23 @@ class _TaskFormState extends State<TaskForm> {
                   textAlign: TextAlign.center),
             ]),
             const SizedBox(height: 10),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                Expanded(child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: [
-                    FutureBuilder(
-                        key: ValueKey(taskGroup),
-                        future:
-                            serviceLocator<TaskGroupDao>().findAllTaskGroups(),
-                        builder: (BuildContext context,
-                            AsyncSnapshot<List<TaskGroup>> snapshot) {
-                          return projectFutureBuilder(snapshot);
-                        }),
-              ],
-            )
-      )])]))
+            Row(mainAxisAlignment: MainAxisAlignment.start, children: [
+              Expanded(
+                  child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  FutureBuilder(
+                      key: ValueKey(taskGroup),
+                      future:
+                          serviceLocator<TaskGroupDao>().findAllTaskGroups(),
+                      builder: (BuildContext context,
+                          AsyncSnapshot<List<TaskGroup>> snapshot) {
+                        return projectFutureBuilder(snapshot);
+                      }),
+                ],
+              ))
+            ])
+          ]))
     ]));
   }
 
@@ -885,8 +896,7 @@ class _TaskFormState extends State<TaskForm> {
         child: Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
       Flexible(
           flex: 1,
-          child: Column(
-            children: [
+          child: Column(children: [
             Container(
                 height: 40,
                 width: 40,
@@ -914,23 +924,22 @@ class _TaskFormState extends State<TaskForm> {
                   textAlign: TextAlign.center),
             ]),
             const SizedBox(height: 10),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                Expanded(
-                    child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.stretch,
-                        children: [
-                FutureBuilder(
-                    key: ValueKey(institution),
-                    future:
-                        serviceLocator<InstitutionDao>().findAllInstitutions(),
-                    builder: (BuildContext context,
-                        AsyncSnapshot<List<Institution>> snapshot) {
-                      return institutionFutureBuilder(snapshot);
-                    }),
-              ],
-            ))])
+            Row(mainAxisAlignment: MainAxisAlignment.start, children: [
+              Expanded(
+                  child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  FutureBuilder(
+                      key: ValueKey(institution),
+                      future: serviceLocator<InstitutionDao>()
+                          .findAllInstitutions(),
+                      builder: (BuildContext context,
+                          AsyncSnapshot<List<Institution>> snapshot) {
+                        return institutionFutureBuilder(snapshot);
+                      }),
+                ],
+              ))
+            ])
           ]))
     ]));
   }
@@ -1037,27 +1046,26 @@ class _TaskFormState extends State<TaskForm> {
                   textAlign: TextAlign.center),
             ]),
             const SizedBox(height: 10),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                Expanded(
-                    child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.stretch,
-                        children: [
-                FutureBuilder(
-                    key: ValueKey(subject),
-                    future: institution.id == -1
-                        ? serviceLocator<SubjectDao>()
-                            .findSubjectByInstitutionIdNull()
-                        : serviceLocator<SubjectDao>()
-                            .findSubjectByInstitutionId(institution.id!),
-                    builder: (BuildContext context,
-                        AsyncSnapshot<List<Subject>> snapshot) {
-                      return subjectFutureBuilder(snapshot);
-                    }),
-              ],
-            ))
-          ])]))
+            Row(mainAxisAlignment: MainAxisAlignment.start, children: [
+              Expanded(
+                  child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  FutureBuilder(
+                      key: ValueKey(subject),
+                      future: institution.id == -1
+                          ? serviceLocator<SubjectDao>()
+                              .findSubjectByInstitutionIdNull()
+                          : serviceLocator<SubjectDao>()
+                              .findSubjectByInstitutionId(institution.id!),
+                      builder: (BuildContext context,
+                          AsyncSnapshot<List<Subject>> snapshot) {
+                        return subjectFutureBuilder(snapshot);
+                      }),
+                ],
+              ))
+            ])
+          ]))
     ]));
     bool isError = errors.containsKey('subject');
     if (!isError) {
