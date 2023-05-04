@@ -131,7 +131,7 @@ class _MyHomePageState extends State<MyHomePage> {
         barrierDismissible: false,
         context: context,
         builder: (context) => Dialog(
-            backgroundColor: modalBackground,
+            backgroundColor: modalLightBackground,
             insetPadding: const EdgeInsets.symmetric(horizontal: 20),
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(30),

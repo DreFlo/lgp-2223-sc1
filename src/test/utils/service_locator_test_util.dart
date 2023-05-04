@@ -202,7 +202,7 @@ void setupMockServiceLocatorUnitTests() {
 
   // Authentication Dao
   serviceLocator.registerSingleton<AuthenticationDao>(MockAuthenticationDao());
-  
+
   // Services
   serviceLocator.registerSingleton<LocalNotificationService>(
       MockLocalNotificationsService());
