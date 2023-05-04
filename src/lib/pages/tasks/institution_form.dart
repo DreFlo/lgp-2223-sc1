@@ -588,7 +588,7 @@ class _InstitutionFormState extends State<InstitutionForm> {
         cancelButton,
         deleteButton,
       ],
-      backgroundColor: modalBackground,
+      backgroundColor: modalDarkBackground,
     );
 
     showDialog(

@@ -63,7 +63,7 @@ class _AddEpisodeNoteFormState extends State<AddEpisodeNoteForm> {
                   maxLines: 10,
                   decoration: InputDecoration(
                     filled: true,
-                    fillColor: textField,
+                    fillColor: darkTextField,
                     helperStyle: Theme.of(context).textTheme.labelSmall,
                     border: OutlineInputBorder(
                       borderSide: BorderSide.none,

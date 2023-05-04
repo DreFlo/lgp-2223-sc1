@@ -38,8 +38,10 @@ import 'package:src/daos/timeslot/timeslot_student_timeslot_super_dao.dart';
 import 'package:src/daos/user_badge_dao.dart';
 import 'package:src/daos/user_dao.dart';
 import 'package:src/database/database.dart';
+import 'package:src/notifications/local_notifications_service.dart';
 import 'package:src/utils/service_locator.dart';
 
+import 'local_notifications_service_mock.dart';
 import 'service_locator_test_util.mocks.dart';
 
 @GenerateNiceMocks([
@@ -200,4 +202,8 @@ void setupMockServiceLocatorUnitTests() {
 
   // Authentication Dao
   serviceLocator.registerSingleton<AuthenticationDao>(MockAuthenticationDao());
+  
+  // Services
+  serviceLocator.registerSingleton<LocalNotificationService>(
+      MockLocalNotificationsService());
 }
