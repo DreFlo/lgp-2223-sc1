@@ -15,9 +15,13 @@ import 'package:src/widgets/tasks/evaluation_bar_show.dart';
 class SubjectShow extends StatefulWidget {
   final ScrollController scrollController;
   final int id;
+  final Function() callback;
 
   const SubjectShow(
-      {Key? key, required this.scrollController, required this.id})
+      {Key? key,
+      required this.scrollController,
+      required this.id,
+      required this.callback})
       : super(key: key);
 
   @override
@@ -42,6 +46,13 @@ class _SubjectShowState extends State<SubjectShow> {
 
     Subject? subject =
         await serviceLocator<SubjectDao>().findSubjectById(widget.id).first;
+
+    if (subject == null) {
+      if (context.mounted) {
+        Navigator.pop(context);
+      }
+      return 0;
+    }
 
     name = subject!.name;
     acronym = subject.acronym;
@@ -261,6 +272,7 @@ class _SubjectShowState extends State<SubjectShow> {
                                   InstitutionShow(
                                     scrollController: scrollController,
                                     id: institutionId,
+                                    callback: onEdited,
                                   ))));
                 }
               },
@@ -291,13 +303,14 @@ class _SubjectShowState extends State<SubjectShow> {
                 builder: (context, scrollController) => SubjectForm(
                       scrollController: scrollController,
                       id: widget.id,
-                      callback: onSubjectEdited,
+                      callback: onEdited,
                     ))));
   }
 
-  void onSubjectEdited() {
+  void onEdited() {
     setState(() {
       init = false;
+      widget.callback();
     });
   }
 }

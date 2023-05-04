@@ -29,6 +29,7 @@ class TaskShow extends StatefulWidget {
   final TaskGroup? taskGroup;
   final void Function(Task t)? callback;
   final void Function()? deleteCallback;
+  final Function()? updateCallback;
   final ScrollController scrollController;
 
   const TaskShow({
@@ -38,6 +39,7 @@ class TaskShow extends StatefulWidget {
     this.callback,
     this.deleteCallback,
     required this.scrollController,
+    this.updateCallback,
   }) : super(key: key);
 
   @override
@@ -503,6 +505,14 @@ class _TaskShowState extends State<TaskShow> {
                       builder: (context, scrollController) => InstitutionShow(
                             scrollController: scrollController,
                             id: institution.id!,
+                            callback: () {
+                              setState(() {
+                                init = false;
+                                if(widget.updateCallback != null){
+                                  widget.updateCallback!();
+                                }
+                              });
+                            },
                           ))));
         },
         child: Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
@@ -568,9 +578,16 @@ class _TaskShowState extends State<TaskShow> {
                       minChildSize: 0.75,
                       maxChildSize: 0.75,
                       builder: (context, scrollController) => SubjectShow(
-                            scrollController: scrollController,
-                            id: subject.id!,
-                          ))));
+                          scrollController: scrollController,
+                          id: subject.id!,
+                          callback: () {
+                            setState(() {
+                              init = false;
+                              if(widget.updateCallback != null){
+                                  widget.updateCallback!();
+                                }
+                            });
+                          }))));
         },
         child: Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
           Flexible(

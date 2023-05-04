@@ -13,9 +13,13 @@ import 'package:src/widgets/tasks/subject_bar_show.dart';
 class InstitutionShow extends StatefulWidget {
   final int id;
   final ScrollController scrollController;
+  final Function() callback;
 
   const InstitutionShow(
-      {Key? key, required this.scrollController, required this.id})
+      {Key? key,
+      required this.scrollController,
+      required this.id,
+      required this.callback})
       : super(key: key);
 
   @override
@@ -41,6 +45,13 @@ class _InstitutionShowState extends State<InstitutionShow> {
     Institution? institution = await serviceLocator<InstitutionDao>()
         .findInstitutionById(widget.id)
         .first;
+
+    if (institution == null) {
+      if (context.mounted) {
+        Navigator.pop(context);
+      }
+      return 0;
+    }
 
     name = institution!.name;
 
@@ -192,6 +203,7 @@ class _InstitutionShowState extends State<InstitutionShow> {
           children: subjects
               .map((e) => SubjectBarShow(
                     subject: e,
+                    callback: onEdit,
                   ))
               .toList());
     }
@@ -240,6 +252,7 @@ class _InstitutionShowState extends State<InstitutionShow> {
   onEdit() {
     setState(() {
       init = false;
+      widget.callback();
     });
   }
 }

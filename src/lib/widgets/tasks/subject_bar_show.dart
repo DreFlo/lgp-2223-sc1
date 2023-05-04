@@ -5,11 +5,11 @@ import 'package:src/models/student/subject.dart';
 
 class SubjectBarShow extends StatefulWidget {
   final Subject subject;
+  final Function() callback;
 
-  const SubjectBarShow({
-    Key? key,
-    required this.subject,
-  }) : super(key: key);
+  const SubjectBarShow(
+      {Key? key, required this.subject, required this.callback})
+      : super(key: key);
 
   @override
   State<SubjectBarShow> createState() => _SubjectBarShowState();
@@ -46,6 +46,7 @@ class _SubjectBarShowState extends State<SubjectBarShow> {
                         builder: (context, scrollController) => SubjectShow(
                               scrollController: scrollController,
                               id: widget.subject.id!,
+                              callback: widget.callback,
                             ))));
           },
           child: Container(

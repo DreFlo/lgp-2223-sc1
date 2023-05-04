@@ -357,6 +357,11 @@ class _ProjectShowState extends State<ProjectShow> {
                       builder: (context, scrollController) => InstitutionShow(
                             scrollController: scrollController,
                             id: institution.id!,
+                            callback: () {
+                              setState(() {
+                                init = false;
+                              });
+                            },
                           ))));
         },
         child: Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
@@ -424,6 +429,11 @@ class _ProjectShowState extends State<ProjectShow> {
                       builder: (context, scrollController) => SubjectShow(
                             scrollController: scrollController,
                             id: subject.id!,
+                            callback: () {
+                              setState(() {
+                                init = false;
+                              });
+                            },
                           ))));
         },
         child: Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
@@ -509,6 +519,11 @@ class _ProjectShowState extends State<ProjectShow> {
           task: tasks[i],
           editTask: editTask,
           deleteTask: deleteTask(tasks[i]),
+          callback: () {
+            setState(() {
+              init = false;
+            });
+          },
         ));
 
         taskList.add(const SizedBox(height: 15));
