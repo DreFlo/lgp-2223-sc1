@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:src/models/timeslot/timeslot_media_timeslot_super_entity.dart';
 import 'package:src/models/timeslot/timeslot_student_timeslot_super_entity.dart';
+import 'package:src/pages/events/event_show.dart';
 
 import 'package:src/themes/colors.dart';
+import 'package:src/utils/enums.dart';
 
 class MyEventCard extends StatefulWidget {
   final TimeslotMediaTimeslotSuperEntity? mediaEvent;
@@ -82,7 +84,35 @@ class _MyEventCardState extends State<MyEventCard> {
 
     return GestureDetector(
         onTap: () {
-          // TODO - Navigate to event page
+          int id = 0;
+          EventType type = EventType.leisure;
+          if (item is TimeslotMediaTimeslotSuperEntity) {
+            id = item.id!;
+          } else if (item is TimeslotStudentTimeslotSuperEntity) {
+            id = item.id!;
+            type = EventType.student;
+          }
+
+          showModalBottomSheet(
+              context: context,
+              isScrollControlled: true,
+              backgroundColor: const Color(0xFF22252D),
+              shape: const RoundedRectangleBorder(
+                borderRadius: BorderRadius.vertical(top: Radius.circular(30.0)),
+              ),
+              builder: (context) => Container(
+                  padding: EdgeInsets.only(
+                      bottom: MediaQuery.of(context).viewInsets.bottom + 50),
+                  child: DraggableScrollableSheet(
+                      expand: false,
+                      initialChildSize: 0.75,
+                      minChildSize: 0.75,
+                      maxChildSize: 0.75,
+                      builder: (context, scrollController) => EventShow(
+                            scrollController: scrollController,
+                            id: id,
+                            type: type,
+                          ))));
         },
         child: Container(
           height: 80,
