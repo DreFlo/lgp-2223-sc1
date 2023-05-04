@@ -1196,6 +1196,8 @@ class _TaskFormState extends State<TaskForm> {
           editNote: id == null ? editTempNoteFactory(notes[i]) : editNote,
           deleteNote: deleteNote,
         ));
+
+        notesList.add(const SizedBox(height: 10));
       }
     }
     return notesList;
