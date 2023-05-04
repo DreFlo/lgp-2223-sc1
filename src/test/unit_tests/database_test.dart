@@ -86,7 +86,8 @@ void main() {
       expect(users.length, 0);
 
       await serviceLocator<UserDao>().insertUser(User(
-          userName: 'Emil',
+          name: 'Emil',
+          email: 'emil@gmail.com',
           password: '1234',
           xp: 23,
           level: 1,
@@ -261,7 +262,8 @@ void main() {
   testWidgets('Test SuperDAO for Note/TaskNote', (WidgetTester tester) async {
     await tester.runAsync(() async {
       await serviceLocator<UserDao>().insertUser(User(
-          userName: 'Emil',
+          name: 'Emil',
+          email: 'emil@gmail.com',
           password: '1234',
           xp: 23,
           level: 1,
@@ -328,7 +330,8 @@ void main() {
       (WidgetTester tester) async {
     await tester.runAsync(() async {
       await serviceLocator<UserDao>().insertUser(User(
-          userName: 'Emil',
+          name: 'Emil',
+          email: 'emil@gmail.com',
           password: '1234',
           xp: 23,
           level: 1,
@@ -525,7 +528,8 @@ void main() {
       (WidgetTester tester) async {
     await tester.runAsync(() async {
       await serviceLocator<UserDao>().insertUser(User(
-          userName: 'Emil',
+          name: 'Emil',
+          email: 'emil@gmail.com',
           password: '1234',
           xp: 23,
           level: 1,
@@ -573,7 +577,8 @@ void main() {
       (WidgetTester tester) async {
     await tester.runAsync(() async {
       await serviceLocator<UserDao>().insertUser(User(
-          userName: 'Emil',
+          name: 'Emil',
+          email: 'emil@gmail.com',
           password: '1234',
           xp: 23,
           level: 1,
@@ -630,7 +635,8 @@ void main() {
       (WidgetTester tester) async {
     await tester.runAsync(() async {
       await serviceLocator<UserDao>().insertUser(User(
-          userName: 'Emil',
+          name: 'Emil',
+          email: 'emil@gmail.com',
           password: '1234',
           xp: 23,
           imagePath: 'test',
@@ -689,7 +695,8 @@ void main() {
       (WidgetTester tester) async {
     await tester.runAsync(() async {
       await serviceLocator<UserDao>().insertUser(User(
-          userName: 'Emil',
+          name: 'Emil',
+          email: 'emil@gmail.com',
           password: '1234',
           xp: 23,
           imagePath: 'test',
@@ -761,7 +768,8 @@ void main() {
       expect(users.length, 0);
 
       await serviceLocator<UserDao>().insertUser(User(
-          userName: 'Emil',
+          name: 'Emil',
+          email: 'emil@gmail.com',
           password: '1234',
           xp: 23,
           level: 1,
@@ -986,7 +994,8 @@ void main() {
       expect(users.length, 0);
 
       await serviceLocator<UserDao>().insertUser(User(
-          userName: 'Emil',
+          name: 'Emil',
+          email: 'emil@gmail.com',
           password: '1234',
           xp: 23,
           level: 1,
@@ -1023,7 +1032,8 @@ void main() {
       expect(users.length, 0);
 
       await serviceLocator<UserDao>().insertUser(User(
-          userName: 'Emil',
+          name: 'Emil',
+          email: 'emil@gmail.com',
           password: '1234',
           xp: 23,
           level: 1,

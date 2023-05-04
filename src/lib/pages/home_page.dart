@@ -524,8 +524,9 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
               child: const Text('Add name'),
               onPressed: () async {
                 await serviceLocator<UserDao>().insertUser(User(
-                    userName: nameInputController.text,
                     id: 0,
+                    name: nameInputController.text,
+                    email: '${nameInputController.text}@gmail.com',
                     password: 'secure',
                     xp: 0,
                     level: 1,
@@ -757,7 +758,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                   if (snapshot.hasData) {
                     StringBuffer stringBuffer = StringBuffer();
                     for (User person in snapshot.data) {
-                      stringBuffer.write('${person.userName}, ');
+                      stringBuffer.write('${person.name}, ');
                     }
                     children = <Widget>[
                       Padding(
