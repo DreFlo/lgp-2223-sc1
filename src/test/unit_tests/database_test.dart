@@ -1,5 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:sqflite/sqflite.dart';
+import 'package:src/daos/authentication_dao.dart';
 import 'package:src/daos/media/media_series_super_dao.dart';
 import 'package:src/daos/media/media_video_movie_super_dao.dart';
 import 'package:src/daos/media/media_book_super_dao.dart';
@@ -757,6 +758,29 @@ void main() {
 
       expect(taskList.length, 1);
       expect(studentTimeslotList.length, 1);
+    });
+  });
+
+  testWidgets('Test AuthenticationDao', (WidgetTester tester) async {
+    await tester.runAsync(() async {
+      User user = User(
+          name: 'Emil',
+          email: 'emil@gmail.com',
+          password: '1234',
+          xp: 23,
+          level: 1,
+          imagePath: 'test');
+
+      expect(serviceLocator<AuthenticationDao>().isUserLoggedIn(), false);
+      expect(serviceLocator<AuthenticationDao>().getLoggedInUser(), null);
+
+      serviceLocator<AuthenticationDao>().setLoggedInUser(user);
+      expect(serviceLocator<AuthenticationDao>().isUserLoggedIn(), true);
+      expect(serviceLocator<AuthenticationDao>().getLoggedInUser(), user);
+
+      serviceLocator<AuthenticationDao>().logoutUser();
+      expect(serviceLocator<AuthenticationDao>().isUserLoggedIn(), false);
+      expect(serviceLocator<AuthenticationDao>().getLoggedInUser(), null);
     });
   });
 
