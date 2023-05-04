@@ -49,6 +49,8 @@ import 'package:src/database/callbacks.dart';
 import 'package:src/notifications/local_notifications_service.dart';
 import 'package:src/utils/database_seeder.dart';
 
+import 'package:notification_permissions/notification_permissions.dart';
+
 final GetIt serviceLocator = GetIt.instance;
 
 /// Setup the GetIt service locator
@@ -193,6 +195,11 @@ Future<void> setup(
           dependsOn: [AppDatabase]);
 
   if (!testing) {
+    final permissionStatusFuture = await
+        NotificationPermissions.getNotificationPermissionStatus();
+    if (permissionStatusFuture != PermissionStatus.granted) {
+      await NotificationPermissions.requestNotificationPermissions();
+    }
     serviceLocator.registerSingleton<LocalNotificationService>(
         LocalNotificationService());
     serviceLocator<LocalNotificationService>().initialize();
