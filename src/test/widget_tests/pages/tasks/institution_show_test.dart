@@ -88,7 +88,8 @@ void main() {
             [StudentEvaluation(name: 'eval_name', grade: 1.1, subjectId: 1)]);
 
     await widgetTester.pumpWidget(LocalizationsInjector(
-      child: SubjectShow(scrollController: ScrollController(), id: 1, callback: callback),
+      child: SubjectShow(
+          scrollController: ScrollController(), id: 1, callback: callback),
     ));
 
     await widgetTester.pumpAndSettle();

@@ -508,7 +508,7 @@ class _TaskShowState extends State<TaskShow> {
                             callback: () {
                               setState(() {
                                 init = false;
-                                if(widget.updateCallback != null){
+                                if (widget.updateCallback != null) {
                                   widget.updateCallback!();
                                 }
                               });
@@ -583,9 +583,9 @@ class _TaskShowState extends State<TaskShow> {
                           callback: () {
                             setState(() {
                               init = false;
-                              if(widget.updateCallback != null){
-                                  widget.updateCallback!();
-                                }
+                              if (widget.updateCallback != null) {
+                                widget.updateCallback!();
+                              }
                             });
                           }))));
         },
