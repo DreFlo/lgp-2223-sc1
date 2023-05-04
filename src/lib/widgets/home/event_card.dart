@@ -11,9 +11,14 @@ class MyEventCard extends StatefulWidget {
   final TimeslotMediaTimeslotSuperEntity? mediaEvent;
   final TimeslotStudentTimeslotSuperEntity? studentEvent;
   final String module;
+  final Function() callback;
 
   const MyEventCard(
-      {Key? key, this.mediaEvent, this.studentEvent, required this.module})
+      {Key? key,
+      this.mediaEvent,
+      this.studentEvent,
+      required this.module,
+      required this.callback})
       : super(key: key);
 
   @override
@@ -112,6 +117,7 @@ class _MyEventCardState extends State<MyEventCard> {
                             scrollController: scrollController,
                             id: id,
                             type: type,
+                            callback: widget.callback,
                           ))));
         },
         child: Container(

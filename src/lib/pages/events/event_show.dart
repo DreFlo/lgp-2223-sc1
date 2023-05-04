@@ -1,35 +1,17 @@
-import 'package:calendar_view/calendar_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:intl/intl.dart';
 import 'package:src/daos/timeslot/media_media_timeslot_dao.dart';
 import 'package:src/daos/timeslot/task_student_timeslot_dao.dart';
 import 'package:src/daos/timeslot/timeslot_dao.dart';
-import 'package:src/daos/timeslot/timeslot_media_timeslot_super_dao.dart';
-import 'package:src/daos/timeslot/timeslot_student_timeslot_super_dao.dart';
 import 'package:src/models/media/media.dart';
 import 'package:src/models/student/task.dart';
-import 'package:src/models/timeslot/media_media_timeslot.dart';
-import 'package:src/models/timeslot/task_student_timeslot.dart';
 import 'package:src/models/timeslot/timeslot.dart';
-import 'package:src/models/timeslot/timeslot_media_timeslot_super_entity.dart';
-import 'package:src/models/timeslot/timeslot_student_timeslot_super_entity.dart';
 import 'package:src/themes/colors.dart';
-import 'package:src/utils/date_formatter.dart';
 import 'package:src/utils/enums.dart';
 import 'package:src/utils/formatters.dart';
 import 'package:src/utils/service_locator.dart';
-import 'package:src/utils/validators.dart';
 import 'package:src/widgets/events/bars/activity_bar_show.dart';
-import 'package:src/widgets/events/buttons/delete_button.dart';
-import 'package:src/widgets/events/buttons/module_button.dart';
-import 'package:src/widgets/events/buttons/save_button.dart';
-import 'package:src/widgets/events/dates/end_date_picker.dart';
-import 'package:src/widgets/events/dates/start_date_picker.dart';
-import 'package:src/widgets/events/edit_texts/edit_description.dart';
-import 'package:src/widgets/events/edit_texts/edit_title.dart';
-import 'package:src/widgets/events/lists/media_list.dart';
-import 'package:src/widgets/events/lists/tasks_list.dart';
 import 'package:src/widgets/highlight_text.dart';
 import 'package:src/widgets/modal.dart';
 import 'package:src/pages/events/event_form.dart';
@@ -39,10 +21,15 @@ import 'dart:math' as math;
 class EventShow extends StatefulWidget {
   final int id;
   final ScrollController scrollController;
-  final EventType? type;
+  final EventType type;
+  final Function() callback;
 
   const EventShow(
-      {Key? key, required this.scrollController, required this.id, this.type})
+      {Key? key,
+      required this.scrollController,
+      required this.id,
+      required this.type,
+      required this.callback})
       : super(key: key);
 
   @override
@@ -50,8 +37,6 @@ class EventShow extends StatefulWidget {
 }
 
 class _EventShowState extends State<EventShow> {
-  final GlobalKey buttonKey = GlobalKey();
-
   bool initialized = false;
   Color _moduleColor = studentColor;
 
@@ -82,12 +67,12 @@ class _EventShowState extends State<EventShow> {
       return 0;
     }
 
-    title = timeslot!.title;
+    title = timeslot.title;
     description = timeslot.description;
     startDate = timeslot.startDateTime;
     endDate = timeslot.endDateTime;
 
-    if (widget.type == null || widget.type == EventType.student) {
+    if (widget.type == EventType.student) {
       _moduleColor = studentColor;
       initStudentEventActivities();
     } else if (widget.type == EventType.leisure) {
@@ -101,7 +86,7 @@ class _EventShowState extends State<EventShow> {
 
   void initMediaEventActivities() async {
     List<Media> media = await serviceLocator<MediaMediaTimeslotDao>()
-        .findMediaByMediaTimeslotId(widget.id!);
+        .findMediaByMediaTimeslotId(widget.id);
 
     setState(() {
       activities = media
@@ -113,7 +98,7 @@ class _EventShowState extends State<EventShow> {
 
   void initStudentEventActivities() async {
     List<Task> tasks = await serviceLocator<TaskStudentTimeslotDao>()
-        .findTaskByStudentTimeslotId(widget.id!);
+        .findTaskByStudentTimeslotId(widget.id);
 
     setState(() {
       activities = tasks
@@ -139,14 +124,6 @@ class _EventShowState extends State<EventShow> {
                 Row(crossAxisAlignment: CrossAxisAlignment.center, children: [
                   const SizedBox(width: 7.5),
                   showModule(),
-                  // Module Button without tap
-                  /* ModuleButton(
-                      buttonKey: buttonKey,
-                      moduleColor: _moduleColor,
-                      setModuleColor: setModuleColor,
-                      clearActivities: clearActivities,
-                      disabled: widget.id != null,
-                    ), */
                   const SizedBox(width: 15),
                   Expanded(
                       child: Row(
@@ -360,6 +337,7 @@ class _EventShowState extends State<EventShow> {
   void onEdit() {
     setState(() {
       initialized = false;
+      widget.callback();
     });
   }
 }
