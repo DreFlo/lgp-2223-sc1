@@ -628,9 +628,9 @@ class _TaskFormState extends State<TaskForm> {
                 ))
           ])),
       const SizedBox(width: 15),
-      Flexible(
+      Expanded(
           flex: 5,
-          child: Column(mainAxisAlignment: MainAxisAlignment.start, children: [
+          child: Column(mainAxisAlignment: MainAxisAlignment.start, crossAxisAlignment: CrossAxisAlignment.start, children: [
             Row(children: [
               Text(AppLocalizations.of(context).priority,
                   style: const TextStyle(
@@ -642,7 +642,9 @@ class _TaskFormState extends State<TaskForm> {
             ]),
             const SizedBox(height: 10),
             Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
+                Expanded(child: InkWell(
                   highlightColor: lightGray,
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -670,7 +672,9 @@ class _TaskFormState extends State<TaskForm> {
                     priority = Priority.low;
                     setState(() {});
                   },
+                )),
                 const SizedBox(width: 5),
+                Expanded(child: InkWell(
                   highlightColor: lightGray,
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -693,7 +697,9 @@ class _TaskFormState extends State<TaskForm> {
                     priority = Priority.medium;
                     setState(() {});
                   },
+                )),
                 const SizedBox(width: 5),
+                Expanded(child: InkWell(
                   highlightColor: lightGray,
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -721,6 +727,7 @@ class _TaskFormState extends State<TaskForm> {
                     priority = Priority.high;
                     setState(() {});
                   },
+                )),
               ],
             )
           ]))
