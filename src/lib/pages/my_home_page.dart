@@ -43,7 +43,6 @@ class _MyHomePageState extends State<MyHomePage> {
     super.initState();
   }
 
-  
   static String getUserName() {
     return serviceLocator<AuthenticationDao>().isUserLoggedIn()
         ? serviceLocator<AuthenticationDao>().getLoggedInUser()!.name
