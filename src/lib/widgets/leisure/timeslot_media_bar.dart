@@ -57,7 +57,9 @@ class _TimeslotMediaBarState extends State<TimeslotMediaBar> {
                       padding: const EdgeInsets.all(5),
                       decoration: BoxDecoration(
                           shape: BoxShape.circle,
-                          color: (widget.taskStatus ? Colors.white : Colors.green)),
+                          color: (widget.taskStatus
+                              ? Colors.white
+                              : Colors.green)),
                       child: const Icon(Icons.check_rounded, size: 20),
                     ))
               ],

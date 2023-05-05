@@ -202,7 +202,6 @@ class _EventFormState extends State<EventForm> {
     }
     _moduleColor == studentColor ? saveStudentEvent() : saveMediaEvent();
 
-
     // To test notification scheduling change schedule time
     // TODO: Figure out ids
     if (_moduleColor == studentColor) {

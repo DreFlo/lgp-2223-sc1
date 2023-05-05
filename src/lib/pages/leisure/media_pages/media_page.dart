@@ -169,7 +169,6 @@ abstract class MediaPageState<T extends Media> extends State<MediaPage<T>> {
           ],
         )
       ]),
-      
       const SizedBox(height: 7.5),
       ((leisureTags[0].contains(".") || leisureTags[0].contains(','))
           ? Padding(

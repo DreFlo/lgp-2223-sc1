@@ -14,7 +14,6 @@ class TimeslotTaskBar extends StatefulWidget {
 }
 
 class _TimeslotTaskBarState extends State<TimeslotTaskBar> {
-
   String getDateText() {
     return "${widget.task.deadline.day.toString()}/${widget.task.deadline.month.toString()}/${widget.task.deadline.year.toString()}";
   }
