@@ -15,13 +15,12 @@ class TimeslotMediaBar extends StatefulWidget {
 }
 
 class _TimeslotMediaBarState extends State<TimeslotMediaBar> {
-  late bool taskStatus;
   @override
   initState() {
     if (widget.media.status == Status.done) {
-      taskStatus = true;
+      widget.taskStatus = true;
     } else {
-      taskStatus = false;
+      widget.taskStatus = false;
     }
     super.initState();
   }
@@ -51,15 +50,14 @@ class _TimeslotMediaBarState extends State<TimeslotMediaBar> {
                 InkWell(
                     onTap: () {
                       return setState(() {
-                        taskStatus = !taskStatus;
-                        widget.taskStatus = taskStatus;
+                        widget.taskStatus = !widget.taskStatus;
                       });
                     },
                     child: Container(
                       padding: const EdgeInsets.all(5),
                       decoration: BoxDecoration(
                           shape: BoxShape.circle,
-                          color: (taskStatus ? Colors.white : Colors.green)),
+                          color: (widget.taskStatus ? Colors.white : Colors.green)),
                       child: const Icon(Icons.check_rounded, size: 20),
                     ))
               ],

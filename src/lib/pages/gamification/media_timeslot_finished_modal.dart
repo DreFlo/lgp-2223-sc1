@@ -113,17 +113,17 @@ class _MediaTimeslotFinishedModalState
                     const EdgeInsets.symmetric(vertical: 15, horizontal: 50))),
             onPressed: () {
               List<Media> mediasDone = [];
-              int mediaAlredyDone = 0;
+              int mediaAlreadyDone = 0;
               for (TimeslotMediaBar m in mediaState) {
-                if (m.taskStatus) {
+                if (m.media.status != Status.done && m.taskStatus) {
                   mediasDone.add(m.media);
                 }
                 if (m.media.status == Status.done && m.taskStatus) {
-                  mediaAlredyDone++;
+                  mediaAlreadyDone++;
                 }
               }
 
-              if (mediasDone.isEmpty && mediaAlredyDone == 0) {
+              if (mediasDone.isEmpty && mediaAlreadyDone == 0) {
                 WidgetsBinding.instance.addPostFrameCallback((_) {
                   showDialog(
                       context: context,
@@ -159,7 +159,7 @@ class _MediaTimeslotFinishedModalState
                             ],
                             taskCount: widget.medias.length,
                             finishedTaskCount:
-                                mediasDone.length + mediaAlredyDone,
+                                mediasDone.length + mediaAlreadyDone,
                             mediasDone: mediasDone,
                             mediaTimeslot: widget.timeslot,
                           )));
