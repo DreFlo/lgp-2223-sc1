@@ -7,8 +7,10 @@ import 'package:src/widgets/home/event_card.dart';
 class MyEventListView extends StatefulWidget {
   final List<TimeslotMediaTimeslotSuperEntity?>? mediaEvents;
   final List<TimeslotStudentTimeslotSuperEntity?>? studentEvents;
+  final Function() callback;
 
-  const MyEventListView({Key? key, this.mediaEvents, this.studentEvents})
+  const MyEventListView(
+      {Key? key, this.mediaEvents, this.studentEvents, required this.callback})
       : super(key: key);
 
   @override
@@ -53,10 +55,18 @@ class _MyEventListViewState extends State<MyEventListView> {
   showCard(Object? item) {
     if (widget.studentEvents != null &&
         item is TimeslotStudentTimeslotSuperEntity) {
-      return MyEventCard(module: 'Student', studentEvent: item);
+      return MyEventCard(
+        module: 'Student',
+        studentEvent: item,
+        callback: widget.callback,
+      );
     } else if (widget.mediaEvents != null &&
         item is TimeslotMediaTimeslotSuperEntity) {
-      return MyEventCard(module: 'Leisure', mediaEvent: item);
+      return MyEventCard(
+        module: 'Leisure',
+        mediaEvent: item,
+        callback: widget.callback,
+      );
     } else {
       return Container();
     }
@@ -66,10 +76,11 @@ class _MyEventListViewState extends State<MyEventListView> {
   Widget build(BuildContext context) {
     return SingleChildScrollView(
         scrollDirection: Axis.vertical,
-        child: Column(
+        child: Expanded(
+            child: Column(
           children: [
             for (var item in items) showCard(item),
           ],
-        ));
+        )));
   }
 }

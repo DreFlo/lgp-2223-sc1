@@ -42,9 +42,14 @@ class EventForm extends StatefulWidget {
   final int? id;
   final ScrollController scrollController;
   final EventType? type;
+  final Function()? callback;
 
   const EventForm(
-      {Key? key, required this.scrollController, this.id, this.type})
+      {Key? key,
+      required this.scrollController,
+      this.id,
+      this.type,
+      this.callback})
       : super(key: key);
 
   @override
@@ -192,7 +197,7 @@ class _EventFormState extends State<EventForm> {
     );
   }
 
-  void onSaveCallback() {
+  void onSaveCallback() async {
     errors = validateEventForm(
         context, titleController.text, startDate, endDate, activities);
     if (errors.isNotEmpty) {
@@ -201,10 +206,19 @@ class _EventFormState extends State<EventForm> {
       setState(() {});
       return;
     }
-    _moduleColor == studentColor ? saveStudentEvent() : saveMediaEvent();
+
+    _moduleColor == studentColor
+        ? await saveStudentEvent()
+        : await saveMediaEvent();
+
+    if (widget.callback != null) {
+      widget.callback!();
+    }
 
     if (notifications == false) {
-      Navigator.pop(context);
+      if (context.mounted) {
+        Navigator.pop(context);
+      }
       return;
     }
 
@@ -212,33 +226,40 @@ class _EventFormState extends State<EventForm> {
     // TODO: Figure out ids
     if (_moduleColor == studentColor) {
       TimeslotStudentTimeslotSuperEntity studentTimeslot = getStudentTimeslot();
-      serviceLocator<LocalNotificationService>().scheduleNotification(
-          DateTime.now().microsecondsSinceEpoch % 1000000,
-          '🟡${studentTimeslot.title} ${AppLocalizations.of(context).starting}',
-          studentTimeslot.startDateTime,
-          studentTimeslot.description);
-      serviceLocator<LocalNotificationService>().scheduleNotification(
-          DateTime.now().microsecondsSinceEpoch % 9999999,
-          '🟡${studentTimeslot.title} ${AppLocalizations.of(context).ending}',
-          studentTimeslot.endDateTime,
-          studentTimeslot.description);
+      if (context.mounted) {
+        serviceLocator<LocalNotificationService>().scheduleNotification(
+            DateTime.now().microsecondsSinceEpoch % 1000000,
+            '🟡${studentTimeslot.title} ${AppLocalizations.of(context).starting}',
+            studentTimeslot.startDateTime,
+            studentTimeslot.description);
+        serviceLocator<LocalNotificationService>().scheduleNotification(
+            DateTime.now().microsecondsSinceEpoch % 9999999,
+            '🟡${studentTimeslot.title} ${AppLocalizations.of(context).ending}',
+            studentTimeslot.endDateTime,
+            studentTimeslot.description);
+      }
     } else if (_moduleColor == leisureColor) {
       TimeslotMediaTimeslotSuperEntity mediaTimeslot = getMediaTimeslot();
-      serviceLocator<LocalNotificationService>().scheduleNotification(
-          DateTime.now().microsecondsSinceEpoch % 1000000,
-          '🔴${mediaTimeslot.title} ${AppLocalizations.of(context).starting}',
-          mediaTimeslot.startDateTime,
-          mediaTimeslot.description);
-      serviceLocator<LocalNotificationService>().scheduleNotification(
-          DateTime.now().microsecondsSinceEpoch % 9999999,
-          '🔴${mediaTimeslot.title} ${AppLocalizations.of(context).ending}',
-          mediaTimeslot.endDateTime,
-          mediaTimeslot.description);
+      if (context.mounted) {
+        serviceLocator<LocalNotificationService>().scheduleNotification(
+            DateTime.now().microsecondsSinceEpoch % 1000000,
+            '🔴${mediaTimeslot.title} ${AppLocalizations.of(context).starting}',
+            mediaTimeslot.startDateTime,
+            mediaTimeslot.description);
+        serviceLocator<LocalNotificationService>().scheduleNotification(
+            DateTime.now().microsecondsSinceEpoch % 9999999,
+            '🔴${mediaTimeslot.title} ${AppLocalizations.of(context).ending}',
+            mediaTimeslot.endDateTime,
+            mediaTimeslot.description);
+      }
     }
-    Navigator.pop(context);
+
+    if (context.mounted) {
+      Navigator.pop(context);
+    }
   }
 
-  void saveMediaEvent() async {
+  Future<void> saveMediaEvent() async {
     TimeslotMediaTimeslotSuperEntity mediaTimeslot = getMediaTimeslot();
 
     int id;
@@ -265,7 +286,7 @@ class _EventFormState extends State<EventForm> {
     }
   }
 
-  void saveStudentEvent() async {
+  Future<void> saveStudentEvent() async {
     TimeslotStudentTimeslotSuperEntity studentTimeslot = getStudentTimeslot();
 
     int id;
@@ -294,12 +315,21 @@ class _EventFormState extends State<EventForm> {
 
   void onDeleteCallback() async {
     if (widget.id != null) {
-      _moduleColor == studentColor ? deleteStudentEvent() : deleteMediaEvent();
-      Navigator.pop(context);
+      _moduleColor == studentColor
+          ? await deleteStudentEvent()
+          : await deleteMediaEvent();
+
+      if (widget.callback != null) {
+        widget.callback!();
+      }
+
+      if (context.mounted) {
+        Navigator.pop(context);
+      }
     }
   }
 
-  void deleteMediaEvent() async {
+  Future<void> deleteMediaEvent() async {
     await serviceLocator<MediaMediaTimeslotDao>()
         .deleteMediaMediaTimeslotByMediaTimeslotId(widget.id!);
 
@@ -308,7 +338,7 @@ class _EventFormState extends State<EventForm> {
         .deleteTimeslotMediaTimeslotSuperEntity(mediaTimeslot);
   }
 
-  void deleteStudentEvent() async {
+  Future<void> deleteStudentEvent() async {
     await serviceLocator<TaskStudentTimeslotDao>()
         .deleteTaskStudentTimeslotByStudentTimeslotId(widget.id!);
 
