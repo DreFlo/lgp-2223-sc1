@@ -13,7 +13,6 @@ import 'package:src/models/timeslot/timeslot.dart';
 import 'package:src/models/timeslot/timeslot_media_timeslot_super_entity.dart';
 import 'package:src/models/timeslot/timeslot_student_timeslot_super_entity.dart';
 import 'package:src/notifications/local_notifications_service.dart';
-import 'package:src/settings/settings_globals.dart';
 import 'package:src/themes/colors.dart';
 import 'package:src/utils/enums.dart';
 import 'package:src/utils/formatters.dart';
@@ -203,10 +202,6 @@ class _EventFormState extends State<EventForm> {
     }
     _moduleColor == studentColor ? saveStudentEvent() : saveMediaEvent();
 
-    if (notifications == false) {
-      Navigator.pop(context);
-      return;
-    }
 
     // To test notification scheduling change schedule time
     // TODO: Figure out ids

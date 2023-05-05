@@ -128,7 +128,7 @@ class _MediaTimeslotFinishedModalState
                   showDialog(
                       context: context,
                       builder: (context) => Dialog(
-                          backgroundColor: modalLightBackground,
+                          backgroundColor: modalBackground,
                           insetPadding:
                               const EdgeInsets.symmetric(horizontal: 20),
                           shape: RoundedRectangleBorder(
@@ -144,7 +144,7 @@ class _MediaTimeslotFinishedModalState
                   showDialog(
                       context: context,
                       builder: (context) => Dialog(
-                          backgroundColor: modalLightBackground,
+                          backgroundColor: modalBackground,
                           insetPadding:
                               const EdgeInsets.symmetric(horizontal: 20),
                           shape: RoundedRectangleBorder(

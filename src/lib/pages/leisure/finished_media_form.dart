@@ -311,7 +311,7 @@ class _FinishedMediaFormState extends State<FinishedMediaForm> {
                   maxLines: 10,
                   decoration: InputDecoration(
                     filled: true,
-                    fillColor: darkTextField,
+                    fillColor: textField,
                     helperStyle: Theme.of(context).textTheme.labelSmall,
                     border: OutlineInputBorder(
                       borderSide: BorderSide.none,
@@ -361,7 +361,7 @@ class _FinishedMediaFormState extends State<FinishedMediaForm> {
                                   fontSize: 16,
                                 ))),
                         const VerticalDivider(
-                            color: modalLightBackground, thickness: 10),
+                            color: modalBackground, thickness: 10),
                         ElevatedButton(
                             onPressed: () {
                               isFavorite = false;

@@ -155,7 +155,7 @@ class _TaskShowState extends State<TaskShow> {
                     const BorderRadius.vertical(top: Radius.circular(30.0)),
                 child: Scaffold(
                     primary: false,
-                    backgroundColor: modalLightBackground,
+                    backgroundColor: modalBackground,
                     body: SingleChildScrollView(
                       padding: const EdgeInsets.symmetric(horizontal: 24),
                       controller: widget.scrollController,
