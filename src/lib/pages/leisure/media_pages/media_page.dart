@@ -169,6 +169,7 @@ abstract class MediaPageState<T extends Media> extends State<MediaPage<T>> {
           ],
         )
       ]),
+      
       const SizedBox(height: 7.5),
       ((leisureTags[0].contains(".") || leisureTags[0].contains(','))
           ? Padding(
@@ -184,18 +185,20 @@ abstract class MediaPageState<T extends Media> extends State<MediaPage<T>> {
           : const Padding(
               padding: EdgeInsets.symmetric(horizontal: 7.5), child: Text(''))),
       const SizedBox(height: 15),
-      Row(children: [
-        Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 18),
-            child: Wrap(
-                spacing: 6.5,
-                alignment: WrapAlignment.center,
-                runSpacing: 7.5,
-                children: [
-                  for (var i = 1; i < leisureTags.length; i++)
-                    LeisureTag(text: leisureTags[i])
-                ]))
-      ]),
+      Padding(
+          padding: const EdgeInsets.only(left: 18),
+          child: Row(mainAxisAlignment: MainAxisAlignment.start, children: [
+            SizedBox(
+                width: MediaQuery.of(context).size.width * 0.85,
+                child: Wrap(
+                    spacing: 6.5,
+                    alignment: WrapAlignment.start,
+                    runSpacing: 7.5,
+                    children: [
+                      for (var i = 1; i < leisureTags.length; i++)
+                        LeisureTag(text: leisureTags[i])
+                    ])),
+          ])),
       const SizedBox(height: 30),
       Row(children: [
         Padding(
