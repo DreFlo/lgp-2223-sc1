@@ -2,7 +2,8 @@ import 'package:src/models/user.dart';
 
 final mockUsers = [
   User(
-      userName: 'Emil',
+      name: 'Emil',
+      email: 'emil@gmail.com',
       password: 'password',
       xp: 400,
       level: 2,
