@@ -112,7 +112,7 @@ class _StudentTimeslotFinishedModalState
               List<Task> tasksDone = [];
               int taskAlreadyDone = 0;
               for (TimeslotTaskBar t in tasksState) {
-                if (t.taskStatus) {
+                if (!(t.task.finished) && t.taskStatus) {
                   tasksDone.add(t.task);
                 }
                 if (t.task.finished && t.taskStatus) {
