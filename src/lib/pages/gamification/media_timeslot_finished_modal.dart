@@ -118,7 +118,7 @@ class _MediaTimeslotFinishedModalState
                 if (m.taskStatus) {
                   mediasDone.add(m.media);
                 }
-                if (m.media.status == Status.done) {
+                if (m.media.status == Status.done && m.taskStatus) {
                   mediaAlredyDone++;
                 }
               }
