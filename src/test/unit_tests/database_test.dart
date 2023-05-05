@@ -1,5 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:sqflite/sqflite.dart';
+import 'package:src/daos/authentication_dao.dart';
 import 'package:src/daos/media/media_series_super_dao.dart';
 import 'package:src/daos/media/media_video_movie_super_dao.dart';
 import 'package:src/daos/media/media_book_super_dao.dart';
@@ -86,7 +87,8 @@ void main() {
       expect(users.length, 0);
 
       await serviceLocator<UserDao>().insertUser(User(
-          userName: 'Emil',
+          name: 'Emil',
+          email: 'emil@gmail.com',
           password: '1234',
           xp: 23,
           level: 1,
@@ -261,7 +263,8 @@ void main() {
   testWidgets('Test SuperDAO for Note/TaskNote', (WidgetTester tester) async {
     await tester.runAsync(() async {
       await serviceLocator<UserDao>().insertUser(User(
-          userName: 'Emil',
+          name: 'Emil',
+          email: 'emil@gmail.com',
           password: '1234',
           xp: 23,
           level: 1,
@@ -328,7 +331,8 @@ void main() {
       (WidgetTester tester) async {
     await tester.runAsync(() async {
       await serviceLocator<UserDao>().insertUser(User(
-          userName: 'Emil',
+          name: 'Emil',
+          email: 'emil@gmail.com',
           password: '1234',
           xp: 23,
           level: 1,
@@ -525,7 +529,8 @@ void main() {
       (WidgetTester tester) async {
     await tester.runAsync(() async {
       await serviceLocator<UserDao>().insertUser(User(
-          userName: 'Emil',
+          name: 'Emil',
+          email: 'emil@gmail.com',
           password: '1234',
           xp: 23,
           level: 1,
@@ -573,7 +578,8 @@ void main() {
       (WidgetTester tester) async {
     await tester.runAsync(() async {
       await serviceLocator<UserDao>().insertUser(User(
-          userName: 'Emil',
+          name: 'Emil',
+          email: 'emil@gmail.com',
           password: '1234',
           xp: 23,
           level: 1,
@@ -630,7 +636,8 @@ void main() {
       (WidgetTester tester) async {
     await tester.runAsync(() async {
       await serviceLocator<UserDao>().insertUser(User(
-          userName: 'Emil',
+          name: 'Emil',
+          email: 'emil@gmail.com',
           password: '1234',
           xp: 23,
           imagePath: 'test',
@@ -689,7 +696,8 @@ void main() {
       (WidgetTester tester) async {
     await tester.runAsync(() async {
       await serviceLocator<UserDao>().insertUser(User(
-          userName: 'Emil',
+          name: 'Emil',
+          email: 'emil@gmail.com',
           password: '1234',
           xp: 23,
           imagePath: 'test',
@@ -753,6 +761,29 @@ void main() {
     });
   });
 
+  testWidgets('Test AuthenticationDao', (WidgetTester tester) async {
+    await tester.runAsync(() async {
+      User user = User(
+          name: 'Emil',
+          email: 'emil@gmail.com',
+          password: '1234',
+          xp: 23,
+          level: 1,
+          imagePath: 'test');
+
+      expect(serviceLocator<AuthenticationDao>().isUserLoggedIn(), false);
+      expect(serviceLocator<AuthenticationDao>().getLoggedInUser(), null);
+
+      serviceLocator<AuthenticationDao>().setLoggedInUser(user);
+      expect(serviceLocator<AuthenticationDao>().isUserLoggedIn(), true);
+      expect(serviceLocator<AuthenticationDao>().getLoggedInUser(), user);
+
+      serviceLocator<AuthenticationDao>().logoutUser();
+      expect(serviceLocator<AuthenticationDao>().isUserLoggedIn(), false);
+      expect(serviceLocator<AuthenticationDao>().getLoggedInUser(), null);
+    });
+  });
+
 // ---------------------------- TRIGGER TESTS ----------------------------
   testWidgets('Test Trigger timeslot_date', (WidgetTester tester) async {
     await tester.runAsync(() async {
@@ -761,7 +792,8 @@ void main() {
       expect(users.length, 0);
 
       await serviceLocator<UserDao>().insertUser(User(
-          userName: 'Emil',
+          name: 'Emil',
+          email: 'emil@gmail.com',
           password: '1234',
           xp: 23,
           level: 1,
@@ -986,7 +1018,8 @@ void main() {
       expect(users.length, 0);
 
       await serviceLocator<UserDao>().insertUser(User(
-          userName: 'Emil',
+          name: 'Emil',
+          email: 'emil@gmail.com',
           password: '1234',
           xp: 23,
           level: 1,
@@ -1023,7 +1056,8 @@ void main() {
       expect(users.length, 0);
 
       await serviceLocator<UserDao>().insertUser(User(
-          userName: 'Emil',
+          name: 'Emil',
+          email: 'emil@gmail.com',
           password: '1234',
           xp: 23,
           level: 1,

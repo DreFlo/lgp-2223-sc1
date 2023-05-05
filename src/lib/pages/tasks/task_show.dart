@@ -12,6 +12,8 @@ import 'package:src/models/student/institution.dart';
 import 'package:src/models/student/subject.dart';
 import 'package:src/models/student/task.dart';
 import 'package:src/models/student/task_group.dart';
+import 'package:src/pages/tasks/institution_show.dart';
+import 'package:src/pages/tasks/subject_show.dart';
 import 'package:src/pages/tasks/task_form.dart';
 import 'package:src/themes/colors.dart';
 import 'package:src/utils/date_formatter.dart';
@@ -27,6 +29,7 @@ class TaskShow extends StatefulWidget {
   final TaskGroup? taskGroup;
   final void Function(Task t)? callback;
   final void Function()? deleteCallback;
+  final Function()? updateCallback;
   final ScrollController scrollController;
 
   const TaskShow({
@@ -36,6 +39,7 @@ class TaskShow extends StatefulWidget {
     this.callback,
     this.deleteCallback,
     required this.scrollController,
+    this.updateCallback,
   }) : super(key: key);
 
   @override
@@ -292,23 +296,13 @@ class _TaskShowState extends State<TaskShow> {
           child: AspectRatio(
               aspectRatio: 1,
               child: Transform.rotate(
-                  angle: -math.pi / 4,
-                  child: ElevatedButton(
-                    style: ButtonStyle(
-                        shadowColor:
-                            MaterialStateProperty.all(Colors.transparent),
-                        elevation: MaterialStateProperty.all(0),
-                        alignment: const Alignment(0, 0),
-                        backgroundColor:
-                            MaterialStateProperty.all(studentColor)),
-                    onPressed: () {
-                      //TODO: Change the associated module (?)
-                    },
-                    child: Container(
-                        decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(5),
-                    )),
-                  )))),
+                angle: -math.pi / 4,
+                child: Container(
+                    decoration: BoxDecoration(
+                  color: studentColor,
+                  borderRadius: BorderRadius.circular(5),
+                )),
+              ))),
       const SizedBox(width: 15),
       Flexible(
           flex: 10,
@@ -481,89 +475,151 @@ class _TaskShowState extends State<TaskShow> {
 
   Widget getInstitution(BuildContext context) {
     return InkWell(
+        key: const Key('institutionShow'),
+        onTap: () {
+          showModalBottomSheet(
+              context: context,
+              isScrollControlled: true,
+              backgroundColor: const Color(0xFF22252D),
+              shape: const RoundedRectangleBorder(
+                borderRadius: BorderRadius.vertical(top: Radius.circular(30.0)),
+              ),
+              builder: (context) => Container(
+                  padding: EdgeInsets.only(
+                      bottom: MediaQuery.of(context).viewInsets.bottom + 50),
+                  child: DraggableScrollableSheet(
+                      expand: false,
+                      initialChildSize: 0.75,
+                      minChildSize: 0.75,
+                      maxChildSize: 0.75,
+                      builder: (context, scrollController) => InstitutionShow(
+                            scrollController: scrollController,
+                            id: institution.id!,
+                            callback: () {
+                              setState(() {
+                                init = false;
+                                if (widget.updateCallback != null) {
+                                  widget.updateCallback!();
+                                }
+                              });
+                            },
+                          ))));
+        },
         child: Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
-      Flexible(
-          flex: 1,
-          child: Column(children: [
-            Container(
-                height: 40,
-                width: 40,
-                decoration: const BoxDecoration(
-                  color: Color(0xFF414554),
-                  shape: BoxShape.circle,
-                ),
-                child: const Icon(
-                  Icons.account_balance_rounded,
-                  color: Color(0xFF71788D),
-                  size: 20,
-                ))
-          ])),
-      const SizedBox(width: 15),
-      Flexible(
-          flex: 5,
-          child: Column(mainAxisAlignment: MainAxisAlignment.start, children: [
-            Row(children: [
-              Text(AppLocalizations.of(context).institution,
-                  style: const TextStyle(
-                      fontFamily: 'Poppins',
+          Flexible(
+              flex: 1,
+              child: Column(children: [
+                Container(
+                    height: 40,
+                    width: 40,
+                    decoration: const BoxDecoration(
+                      color: Color(0xFF414554),
+                      shape: BoxShape.circle,
+                    ),
+                    child: const Icon(
+                      Icons.account_balance_rounded,
                       color: Color(0xFF71788D),
-                      fontSize: 16,
-                      fontWeight: FontWeight.w400),
-                  textAlign: TextAlign.center),
-            ]),
-            const SizedBox(height: 10),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                HighlightText(institution.name,
-                    key: const Key("taskInstitution")),
-              ],
-            )
-          ]))
-    ]));
+                      size: 20,
+                    ))
+              ])),
+          const SizedBox(width: 15),
+          Flexible(
+              flex: 5,
+              child:
+                  Column(mainAxisAlignment: MainAxisAlignment.start, children: [
+                Row(children: [
+                  Text(AppLocalizations.of(context).institution,
+                      style: const TextStyle(
+                          fontFamily: 'Poppins',
+                          color: Color(0xFF71788D),
+                          fontSize: 16,
+                          fontWeight: FontWeight.w400),
+                      textAlign: TextAlign.center),
+                ]),
+                const SizedBox(height: 10),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    HighlightText(institution.name,
+                        key: const Key("taskInstitution")),
+                  ],
+                )
+              ]))
+        ]));
   }
 
   Widget getSubject() {
     return InkWell(
+        key: const Key('subjectShow'),
+        onTap: () {
+          showModalBottomSheet(
+              context: context,
+              isScrollControlled: true,
+              backgroundColor: const Color(0xFF22252D),
+              shape: const RoundedRectangleBorder(
+                borderRadius: BorderRadius.vertical(top: Radius.circular(30.0)),
+              ),
+              builder: (context) => Container(
+                  padding: EdgeInsets.only(
+                      bottom: MediaQuery.of(context).viewInsets.bottom + 50),
+                  child: DraggableScrollableSheet(
+                      expand: false,
+                      initialChildSize: 0.75,
+                      minChildSize: 0.75,
+                      maxChildSize: 0.75,
+                      builder: (context, scrollController) => SubjectShow(
+                          scrollController: scrollController,
+                          id: subject.id!,
+                          callback: () {
+                            setState(() {
+                              init = false;
+                              if (widget.updateCallback != null) {
+                                widget.updateCallback!();
+                              }
+                            });
+                          }))));
+        },
         child: Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
-      Flexible(
-          flex: 1,
-          child: Column(children: [
-            Container(
-                height: 40,
-                width: 40,
-                decoration: const BoxDecoration(
-                  color: Color(0xFF414554),
-                  shape: BoxShape.circle,
-                ),
-                child: const Icon(
-                  Icons.account_balance_rounded,
-                  color: Color(0xFF71788D),
-                  size: 20,
-                ))
-          ])),
-      const SizedBox(width: 15),
-      Flexible(
-          flex: 5,
-          child: Column(mainAxisAlignment: MainAxisAlignment.start, children: [
-            Row(children: [
-              Text(AppLocalizations.of(context).subject,
-                  style: const TextStyle(
-                      fontFamily: 'Poppins',
+          Flexible(
+              flex: 1,
+              child: Column(children: [
+                Container(
+                    height: 40,
+                    width: 40,
+                    decoration: const BoxDecoration(
+                      color: Color(0xFF414554),
+                      shape: BoxShape.circle,
+                    ),
+                    child: const Icon(
+                      Icons.account_balance_rounded,
                       color: Color(0xFF71788D),
-                      fontSize: 16,
-                      fontWeight: FontWeight.w400),
-                  textAlign: TextAlign.center),
-            ]),
-            const SizedBox(height: 10),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                HighlightText(subject.acronym, key: const Key("taskSubject")),
-              ],
-            )
-          ]))
-    ]));
+                      size: 20,
+                    ))
+              ])),
+          const SizedBox(width: 15),
+          Flexible(
+              flex: 5,
+              child:
+                  Column(mainAxisAlignment: MainAxisAlignment.start, children: [
+                Row(children: [
+                  Text(AppLocalizations.of(context).subject,
+                      style: const TextStyle(
+                          fontFamily: 'Poppins',
+                          color: Color(0xFF71788D),
+                          fontSize: 16,
+                          fontWeight: FontWeight.w400),
+                      textAlign: TextAlign.center),
+                ]),
+                const SizedBox(height: 10),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    HighlightText(subject.acronym,
+                        key: const Key("taskSubject")),
+                  ],
+                )
+              ]))
+        ]));
   }
 
   Widget getAddNoteButton(BuildContext context) {
@@ -597,6 +653,8 @@ class _TaskShowState extends State<TaskShow> {
             note: notes[i],
             editNote: editNote,
             deleteNote: deleteNote(notes[i])));
+
+        notesList.add(const SizedBox(height: 10));
       }
     }
     return notesList;

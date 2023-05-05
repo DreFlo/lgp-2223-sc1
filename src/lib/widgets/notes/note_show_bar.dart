@@ -76,6 +76,15 @@ class _NoteShowBarState extends State<NoteShowBar> {
                         children: [
                           Text(note.title,
                               softWrap: true,
+                              overflow: TextOverflow.ellipsis,
+                              textAlign: TextAlign.justify,
+                              style: TextStyle(
+                                  color: selected ? Colors.black : Colors.white,
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.bold)),
+                          Text(note.content,
+                              softWrap: true,
+                              overflow: TextOverflow.ellipsis,
                               textAlign: TextAlign.justify,
                               style: TextStyle(
                                   color: selected ? Colors.black : Colors.white,

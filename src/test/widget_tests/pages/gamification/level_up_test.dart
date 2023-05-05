@@ -13,6 +13,8 @@ import 'package:src/widgets/tasks/task_show_bar.dart';
 import '../../../utils/locations_injector.dart';
 import '../../../utils/service_locator_test_util.dart';
 
+void callback() {}
+
 void main() {
   setUp(() async {
     setupMockServiceLocatorUnitTests();
@@ -21,7 +23,12 @@ void main() {
 
   testWidgets('test if level up is accused', (WidgetTester widgetTester) async {
     final user = User(
-        userName: 'Emil', password: 'test', xp: 400, level: 2, imagePath: '');
+        name: 'Emil',
+        email: 'emil@gmail.com',
+        password: 'test',
+        xp: 400,
+        level: 2,
+        imagePath: '');
 
     final mockUserDao = serviceLocator.get<UserDao>();
     when(mockUserDao.findUserById(1)).thenAnswer((_) => Stream.value(user));
@@ -53,6 +60,7 @@ void main() {
           xp: 10,
           id: 1,
           finished: false),
+      callback: callback,
     ))));
 
     var task = find.byKey(Key('task_$id'), skipOffstage: false);

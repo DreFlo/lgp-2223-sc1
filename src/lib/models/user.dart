@@ -7,8 +7,9 @@ class User {
   @PrimaryKey(autoGenerate: true)
   final int? id;
 
-  @ColumnInfo(name: 'user_name')
-  final String userName;
+  final String name;
+
+  final String email;
 
   final String password;
 
@@ -21,7 +22,8 @@ class User {
 
   User(
       {this.id,
-      required this.userName,
+      required this.name,
+      required this.email,
       required this.password,
       required this.xp,
       required this.level,

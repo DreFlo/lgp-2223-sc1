@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:src/daos/authentication_dao.dart';
 import 'package:src/daos/media/media_dao.dart';
 import 'package:src/daos/student/task_dao.dart';
 import 'package:src/daos/timeslot/media_media_timeslot_dao.dart';
@@ -35,11 +36,18 @@ class _MyHomePageState extends State<MyHomePage> {
   List<TimeslotMediaTimeslotSuperEntity> finishedMediaEvents = [];
   Map<int, List<Task>> tasksFinishedEventMap = {};
   Map<int, List<Media>> mediasFinishedEventMap = {};
-  String name = "Joaquim Almeida"; // TODO Get name from database
+  String name = getUserName();
 
   @override
   void initState() {
     super.initState();
+  }
+
+  
+  static String getUserName() {
+    return serviceLocator<AuthenticationDao>().isUserLoggedIn()
+        ? serviceLocator<AuthenticationDao>().getLoggedInUser()!.name
+        : "Joaquim Almeida";
   }
 
   Future<int> loadEventsDB() async {
@@ -60,15 +68,6 @@ class _MyHomePageState extends State<MyHomePage> {
     checkEventDone();
 
     return 0;
-    /* setState(() {
-      mediaEvents = mediaEvents;
-      studentEvents = studentEvents;
-      finishedStudentEvents = finishedStudentEvents;
-      tasksFinishedEventMap = tasksFinishedEventMap;
-      mediasFinishedEventMap = mediasFinishedEventMap;
-      loadedAllData = true;
-      checkEventDone();
-    }); */
   }
 
   Future<Map<int, List<Media>>> getMedias() async {
