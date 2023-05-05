@@ -1,6 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:get_it/get_it.dart';
 import 'package:sqflite/sqflite.dart';
+import 'package:src/daos/authentication_dao.dart';
 import 'package:src/daos/media/media_video_movie_super_dao.dart';
 import 'package:src/daos/media/media_book_super_dao.dart';
 import 'package:src/daos/media/media_series_super_dao.dart';
@@ -193,6 +194,9 @@ Future<void> setup(
       .registerSingletonWithDependencies<TimeslotStudentTimeslotSuperDao>(
           () => timeslotStudentTimeslotSuperDao,
           dependsOn: [AppDatabase]);
+
+  // Single instance to save logged user
+  serviceLocator.registerSingleton<AuthenticationDao>(authenticationDao);
 
   if (!testing) {
     final permissionStatusFuture =

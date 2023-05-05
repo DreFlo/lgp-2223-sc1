@@ -188,7 +188,8 @@ void updateUserShowLevelUpToast(User user, int points, context) async {
 
   User newUser = User(
       id: user.id,
-      userName: user.userName,
+      name: user.name,
+      email: user.email,
       password: user.password,
       xp: user.xp + points,
       level: level,
@@ -209,7 +210,8 @@ void updateUserShowGainedXPToast(User user, int points, context) async {
   int value = levels[user.level + 1]! - levels[user.level]!;
   User newUser = User(
       id: user.id,
-      userName: user.userName,
+      name: user.name,
+      email: user.email,
       password: user.password,
       xp: user.xp + points,
       level: user.level,
@@ -378,7 +380,8 @@ void removePoints(int points, Task task) async {
   }
   User newUser = User(
       id: user.id,
-      userName: user.userName,
+      name: user.name,
+      email: user.email,
       password: user.password,
       xp: user.xp - points,
       level: level,

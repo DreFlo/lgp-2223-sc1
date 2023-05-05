@@ -23,7 +23,12 @@ void main() {
 
   testWidgets('test if level up is accused', (WidgetTester widgetTester) async {
     final user = User(
-        userName: 'Emil', password: 'test', xp: 400, level: 2, imagePath: '');
+        name: 'Emil',
+        email: 'emil@gmail.com',
+        password: 'test',
+        xp: 400,
+        level: 2,
+        imagePath: '');
 
     final mockUserDao = serviceLocator.get<UserDao>();
     when(mockUserDao.findUserById(1)).thenAnswer((_) => Stream.value(user));

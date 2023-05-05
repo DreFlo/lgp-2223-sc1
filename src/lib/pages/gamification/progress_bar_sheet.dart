@@ -165,7 +165,8 @@ class _ProgressBarSheetState extends State<ProgressBarSheet> {
                           //update user
                           User userNew = User(
                               id: user.id,
-                              userName: user.userName,
+                              name: user.name,
+                              email: user.email,
                               password: user.password,
                               xp: user.xp,
                               level: user.level,

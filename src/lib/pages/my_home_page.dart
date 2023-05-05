@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:src/daos/authentication_dao.dart';
 import 'package:src/daos/media/media_dao.dart';
 import 'package:src/daos/student/task_dao.dart';
 import 'package:src/daos/timeslot/media_media_timeslot_dao.dart';
@@ -29,19 +30,25 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   int _selectedIndex = 0;
-  List<TimeslotMediaTimeslotSuperEntity> mediaEvents = [];
   bool loadedAllData = false;
+  List<TimeslotMediaTimeslotSuperEntity> mediaEvents = [];
   List<TimeslotStudentTimeslotSuperEntity> studentEvents = [];
   List<TimeslotStudentTimeslotSuperEntity> finishedStudentEvents = [];
   List<TimeslotMediaTimeslotSuperEntity> finishedMediaEvents = [];
   Map<int, List<Task>> tasksFinishedEventMap = {};
   Map<int, List<Media>> mediasFinishedEventMap = {};
-  String name = "Joaquim Almeida"; // TODO Get name from database
+  String name = getUserName();
 
   @override
   void initState() {
     super.initState();
     loadEventsDB();
+  }
+
+  static String getUserName() {
+    return serviceLocator<AuthenticationDao>().isUserLoggedIn()
+        ? serviceLocator<AuthenticationDao>().getLoggedInUser()!.name
+        : "Joaquim Almeida";
   }
 
   void loadEventsDB() async {
