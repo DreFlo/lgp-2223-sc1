@@ -71,8 +71,8 @@ class _TimeslotTaskBarState extends State<TimeslotTaskBar> {
                       decoration: BoxDecoration(
                           shape: BoxShape.circle,
                           color: (widget.taskStatus
-                              ? Colors.green
-                              : Colors.white)),
+                              ? Colors.white
+                              : Colors.green)),
                       child: const Icon(Icons.check_rounded, size: 20),
                     ))
               ],
