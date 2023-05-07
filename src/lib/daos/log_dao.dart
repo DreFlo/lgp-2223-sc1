@@ -15,6 +15,9 @@ abstract class LogDao {
   @Query('SELECT COUNT(*) FROM log WHERE date = :date')
   Future<int> countLogsByDate(DateTime date);
 
+  @Query('SELECT COUNT(*) FROM log')
+  Future<int> countLogs();
+
   @insert
   Future<int> insertLog(Log log);
 
