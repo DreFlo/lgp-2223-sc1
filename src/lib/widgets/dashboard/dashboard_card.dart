@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:src/daos/student/institution_dao.dart';
 import 'package:src/models/student/institution.dart';
 import 'package:src/daos/student/task_dao.dart';
+import 'package:src/pages/events/event_show.dart';
 import 'package:src/pages/tasks/project_show.dart';
 import 'package:src/pages/tasks/task_show.dart';
 import 'package:src/themes/colors.dart';
@@ -437,10 +438,12 @@ class _DashboardCardState extends State<DashboardCard> {
           callback: editTaskGroup,
           deleteCallback: widget.deleteCallback);
     } else if (mediaEvent != null) {
-      //TODO MediaShow
-      // return MediaShow(
-      //   scrollController: scrollController,
-      // );
+      return EventShow(
+        scrollController: scrollController,
+        id: mediaEvent!.id!,
+        type: EventType.leisure,
+        callback: widget.refreshCards,
+      );
     } else {
       return const SizedBox();
     }
