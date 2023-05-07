@@ -46,10 +46,11 @@ class _BadgeAlertState extends State<BadgeAlert> with TickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
+        shape: const RoundedRectangleBorder(
+                borderRadius: BorderRadius.all(Radius.circular(30.0))),
         backgroundColor: lightGray,
         contentPadding: const EdgeInsets.symmetric(horizontal: 10, vertical: 30),
         content: Wrap(
-          spacing: 10,
           children: [
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -64,15 +65,37 @@ class _BadgeAlertState extends State<BadgeAlert> with TickerProviderStateMixin {
                   )
               ]
             ),
+            const Divider(),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Container(
+                  height: 100,
+                  width: 100,
                   decoration: BoxDecoration(
-                    gradient: LinearGradient(colors: getColors()),
+                    gradient: LinearGradient(
+                      colors: getColors(),
+                      begin: Alignment.topLeft,
+                      end: Alignment.bottomRight
+                    ),
                     shape: BoxShape.circle,
+                    color: Colors.white
                   ),
                 )
+              ]
+            ),
+            const Divider(height: 2.5),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(
+                  widget.title,
+                  textAlign: TextAlign.center,
+                  style: const TextStyle(
+                      color: Colors.white,
+                      fontSize: 20,
+                      fontWeight: FontWeight.w600),
+                  )
               ]
             ),
           ]
