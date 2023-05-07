@@ -191,12 +191,19 @@ class _MyHomePageState extends State<MyHomePage> {
                   padding: const EdgeInsets.only(left: 36, top: 90),
                   child: WelcomeMessage(name: name)),
               const BadgePlaceholder(),
-              HorizontalScrollView(
-                nItems: studentEvents.length + mediaEvents.length,
-                selectedIndex: _selectedIndex,
-                setSelectedIndex: (int index) =>
-                    setState(() => _selectedIndex = index),
-              ),
+              FutureBuilder(
+                  future: loadEventsDB(),
+                  builder: (BuildContext context, AsyncSnapshot<int> snapshot) {
+                    if (snapshot.hasData) {
+                      return HorizontalScrollView(
+                        nItems: studentEvents.length + mediaEvents.length,
+                        selectedIndex: _selectedIndex,
+                        setSelectedIndex: (int index) =>
+                            setState(() => _selectedIndex = index),
+                      );
+                    }
+                    return const Center(child: CircularProgressIndicator());
+                  }),
               FutureBuilder(
                   future: loadEventsDB(),
                   builder: (BuildContext context, AsyncSnapshot<int> snapshot) {
