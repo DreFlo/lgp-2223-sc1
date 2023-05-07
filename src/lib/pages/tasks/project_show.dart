@@ -485,7 +485,10 @@ class _ProjectShowState extends State<ProjectShow> {
           flex: 1,
           child: Text(taskGroup.description,
               key: const Key("projectDescription"),
-              style: const TextStyle(color: Colors.white, fontSize: 16, fontWeight: FontWeight.normal))),
+              style: const TextStyle(
+                  color: Colors.white,
+                  fontSize: 16,
+                  fontWeight: FontWeight.normal))),
     ]);
   }
 

@@ -113,47 +113,49 @@ class _TaskBarState extends State<TaskBar> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Expanded(child: 
-                      InkWell(
-                          onTap: () {
-                            setState(() {
-                              taskStatus = !taskStatus;
-                            });
-                          },
-                          child: Container(
-                            alignment: const Alignment(0, 0),
-                            padding: const EdgeInsets.all(5),
-                            decoration: BoxDecoration(
-                                shape: BoxShape.circle,
-                                color:
-                                    (taskStatus ? Colors.white : Colors.green)),
-                            child: Icon(Icons.check_rounded,
-                                color: (!taskStatus
-                                    ? Colors.white
-                                    : Colors.green)),
-                          ))),
+                      Expanded(
+                          child: InkWell(
+                              onTap: () {
+                                setState(() {
+                                  taskStatus = !taskStatus;
+                                });
+                              },
+                              child: Container(
+                                alignment: const Alignment(0, 0),
+                                padding: const EdgeInsets.all(5),
+                                decoration: BoxDecoration(
+                                    shape: BoxShape.circle,
+                                    color: (taskStatus
+                                        ? Colors.white
+                                        : Colors.green)),
+                                child: Icon(Icons.check_rounded,
+                                    color: (!taskStatus
+                                        ? Colors.white
+                                        : Colors.green)),
+                              ))),
                       const SizedBox(width: 5),
-                      Expanded(child: 
-                      InkWell(
-                          onTap: () {
-                            if (selected) {
-                              onUnselected(task);
-                            } else {
-                              onSelected(task);
-                            }
-                            setState(() {
-                              selected = !selected;
-                            });
-                          },
-                          child: Container(
-                            alignment: const Alignment(0, 0),
-                            padding: const EdgeInsets.all(5),
-                            decoration: const BoxDecoration(
-                                shape: BoxShape.circle, color: primaryColor),
-                            child:
-                                const Icon(Icons.delete, color: Colors.white),
-                          )),
-                  )],
+                      Expanded(
+                        child: InkWell(
+                            onTap: () {
+                              if (selected) {
+                                onUnselected(task);
+                              } else {
+                                onSelected(task);
+                              }
+                              setState(() {
+                                selected = !selected;
+                              });
+                            },
+                            child: Container(
+                              alignment: const Alignment(0, 0),
+                              padding: const EdgeInsets.all(5),
+                              decoration: const BoxDecoration(
+                                  shape: BoxShape.circle, color: primaryColor),
+                              child:
+                                  const Icon(Icons.delete, color: Colors.white),
+                            )),
+                      )
+                    ],
                   )
                 ],
               ))
