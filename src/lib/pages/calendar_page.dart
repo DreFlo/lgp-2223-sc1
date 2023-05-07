@@ -209,7 +209,7 @@ class _CalendarPageState extends State<CalendarPage> {
                         MaterialPageRoute(
                             builder: (context) => const WeekView()));
                   }),
-              decoration: BoxDecoration(color: appBackground),
+              decoration: const BoxDecoration(color: appBackground),
               rightIconVisible: false,
               headerTextStyle: const TextStyle(
                   fontFamily: 'Poppins',
@@ -299,7 +299,7 @@ class _CalendarPageState extends State<CalendarPage> {
                                 Navigator.pop(context);
                               }),
                           rightIconVisible: false,
-                          decoration: BoxDecoration(color: appBackground),
+                          decoration: const BoxDecoration(color: appBackground),
                           headerTextStyle: const TextStyle(
                               fontFamily: 'Poppins',
                               color: Colors.white,

@@ -139,13 +139,13 @@ class TimeslotStudentTimeslotSuperDao {
           "Id can't be null for delete for TimeslotStudentTimeslotSuperEntity");
     }
 
-    final timeslot = timeslotStudentTimeslotSuperEntity.toTimeslot();
-    await serviceLocator<TimeslotDao>().deleteTimeslot(timeslot);
-
     final studentTimeslot =
         timeslotStudentTimeslotSuperEntity.toStudentTimeslot();
     await serviceLocator<StudentTimeslotDao>()
         .deleteStudentTimeslot(studentTimeslot);
+
+    final timeslot = timeslotStudentTimeslotSuperEntity.toTimeslot();
+    await serviceLocator<TimeslotDao>().deleteTimeslot(timeslot);
   }
 }
 

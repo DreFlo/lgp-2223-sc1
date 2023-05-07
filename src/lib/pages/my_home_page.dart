@@ -30,7 +30,6 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   int _selectedIndex = 0;
-  bool loadedAllData = false;
   List<TimeslotMediaTimeslotSuperEntity> mediaEvents = [];
   List<TimeslotStudentTimeslotSuperEntity> studentEvents = [];
   List<TimeslotStudentTimeslotSuperEntity> finishedStudentEvents = [];
@@ -42,7 +41,6 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   void initState() {
     super.initState();
-    loadEventsDB();
   }
 
   static String getUserName() {
@@ -51,7 +49,7 @@ class _MyHomePageState extends State<MyHomePage> {
         : "Joaquim Almeida";
   }
 
-  void loadEventsDB() async {
+  Future<int> loadEventsDB() async {
     DateTime now = DateTime.now();
     DateTime start = DateTime(now.year, now.month, now.day, 0, 0, 0);
     mediaEvents = await serviceLocator<TimeslotMediaTimeslotSuperDao>()
@@ -65,15 +63,10 @@ class _MyHomePageState extends State<MyHomePage> {
         .findAllFinishedTimeslotMediaTimeslot(now);
     tasksFinishedEventMap = await getTasks();
     mediasFinishedEventMap = await getMedias();
-    setState(() {
-      mediaEvents = mediaEvents;
-      studentEvents = studentEvents;
-      finishedStudentEvents = finishedStudentEvents;
-      tasksFinishedEventMap = tasksFinishedEventMap;
-      mediasFinishedEventMap = mediasFinishedEventMap;
-      loadedAllData = true;
-      checkEventDone();
-    });
+
+    checkEventDone();
+
+    return 0;
   }
 
   Future<Map<int, List<Media>>> getMedias() async {
@@ -157,14 +150,30 @@ class _MyHomePageState extends State<MyHomePage> {
     switch (_selectedIndex) {
       case 0:
         return MyEventListView(
-            studentEvents: studentEvents, mediaEvents: mediaEvents);
+          studentEvents: studentEvents,
+          mediaEvents: mediaEvents,
+          callback: updateEvents,
+        );
       case 1:
-        return MyEventListView(studentEvents: studentEvents);
+        return MyEventListView(
+          studentEvents: studentEvents,
+          callback: updateEvents,
+        );
       case 2:
-        return MyEventListView(mediaEvents: mediaEvents);
+        return MyEventListView(
+          mediaEvents: mediaEvents,
+          callback: updateEvents,
+        );
       default:
-        return const MyEventListView(studentEvents: [], mediaEvents: []);
+        return MyEventListView(
+            studentEvents: const [],
+            mediaEvents: const [],
+            callback: updateEvents);
     }
+  }
+
+  updateEvents() {
+    setState(() {});
   }
 
   @override
@@ -188,7 +197,14 @@ class _MyHomePageState extends State<MyHomePage> {
                 setSelectedIndex: (int index) =>
                     setState(() => _selectedIndex = index),
               ),
-              loadedAllData ? Expanded(child: showWidget()) : Container(),
+              FutureBuilder(
+                  future: loadEventsDB(),
+                  builder: (BuildContext context, AsyncSnapshot<int> snapshot) {
+                    if (snapshot.hasData) {
+                      return Expanded(child: showWidget());
+                    }
+                    return const Center(child: CircularProgressIndicator());
+                  })
             ],
           ),
         ],
