@@ -438,3 +438,11 @@ Future<bool> checkFirstTaskEver() async {
   }
   return false;
 }
+
+Future<bool> checkTwoFavoriteMedia() async {
+  int numberMedia = await serviceLocator<MediaDao>().countFavoriteMedia(true) ?? 0;
+  if (numberMedia == 2) {
+    return true;
+  }
+  return false;
+}
