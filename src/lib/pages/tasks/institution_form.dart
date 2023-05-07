@@ -168,41 +168,37 @@ class _InstitutionFormState extends State<InstitutionForm> {
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
                         InkWell(
-                                key:
-                                    const Key('educationInstitutionTypeButton'),
-                                highlightColor: lightGray,
-                                child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    Container(
-                                        key: const Key(
-                                            'educationInstitutionType'),
-                                        padding: const EdgeInsets.symmetric(
-                                            horizontal: 15, vertical: 10),
-                                        decoration: BoxDecoration(
-                                          borderRadius: const BorderRadius.only(
-                                              topLeft: Radius.circular(10),
-                                              bottomLeft: Radius.circular(10)),
-                                          color:
-                                              (type == InstitutionType.education
-                                                  ? primaryColor
-                                                  : lightGray),
-                                        ),
-                                        alignment: const Alignment(0, 0),
-                                        child: Text(
-                                            AppLocalizations.of(context)
-                                                .education,
-                                            textAlign: TextAlign.center,
-                                            style: const TextStyle(
-                                                fontSize: 15,
-                                                fontWeight: FontWeight.normal)))
-                                  ],
-                                ),
-                                onTap: () {
-                                  type = InstitutionType.education;
-                                  setState(() {});
-                                },
-                              ),
+                          key: const Key('educationInstitutionTypeButton'),
+                          highlightColor: lightGray,
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Container(
+                                  key: const Key('educationInstitutionType'),
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 15, vertical: 10),
+                                  decoration: BoxDecoration(
+                                    borderRadius: const BorderRadius.only(
+                                        topLeft: Radius.circular(10),
+                                        bottomLeft: Radius.circular(10)),
+                                    color: (type == InstitutionType.education
+                                        ? primaryColor
+                                        : lightGray),
+                                  ),
+                                  alignment: const Alignment(0, 0),
+                                  child: Text(
+                                      AppLocalizations.of(context).education,
+                                      textAlign: TextAlign.center,
+                                      style: const TextStyle(
+                                          fontSize: 15,
+                                          fontWeight: FontWeight.normal)))
+                            ],
+                          ),
+                          onTap: () {
+                            type = InstitutionType.education;
+                            setState(() {});
+                          },
+                        ),
                         const SizedBox(width: 5),
                         Flexible(
                             flex: 1,

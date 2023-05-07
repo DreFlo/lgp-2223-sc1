@@ -174,14 +174,14 @@ abstract class MediaPageState<T extends Media> extends State<MediaPage<T>> {
           ? Padding(
               padding: const EdgeInsets.symmetric(horizontal: 18),
               child: Row(children: [
-                Expanded(child: 
-                Text(leisureTags[0],
-                    style: const TextStyle(
-                        color: grayText,
-                        fontSize: 15,
-                        fontWeight: FontWeight.normal,
-                        fontStyle: FontStyle.italic))
-          )]))
+                Expanded(
+                    child: Text(leisureTags[0],
+                        style: const TextStyle(
+                            color: grayText,
+                            fontSize: 15,
+                            fontWeight: FontWeight.normal,
+                            fontStyle: FontStyle.italic)))
+              ]))
           : const Padding(
               padding: EdgeInsets.symmetric(horizontal: 7.5), child: Text(''))),
       const SizedBox(height: 15),

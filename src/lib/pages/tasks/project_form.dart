@@ -824,7 +824,11 @@ class _ProjectFormState extends State<ProjectForm> {
 
     bool isError = errors.containsKey('description');
     if (!isError) {
-      return [descriptionLabelWidget, const SizedBox(height: 7.5), descriptionWidget];
+      return [
+        descriptionLabelWidget,
+        const SizedBox(height: 7.5),
+        descriptionWidget
+      ];
     }
 
     Widget errorWidget = ErrorText(text: errors['description']!);

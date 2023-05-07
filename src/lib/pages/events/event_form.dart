@@ -214,7 +214,6 @@ class _EventFormState extends State<EventForm> {
       widget.callback!();
     }
 
-
     // To test notification scheduling change schedule time
     // TODO: Figure out ids
     if (_moduleColor == studentColor) {
