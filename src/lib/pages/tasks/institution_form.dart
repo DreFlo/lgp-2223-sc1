@@ -167,10 +167,7 @@ class _InstitutionFormState extends State<InstitutionForm> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
-                        Wrap(children: [
-                          Flexible(
-                              flex: 1,
-                              child: InkWell(
+                        InkWell(
                                 key:
                                     const Key('educationInstitutionTypeButton'),
                                 highlightColor: lightGray,
@@ -205,8 +202,7 @@ class _InstitutionFormState extends State<InstitutionForm> {
                                   type = InstitutionType.education;
                                   setState(() {});
                                 },
-                              ))
-                        ]),
+                              ),
                         const SizedBox(width: 5),
                         Flexible(
                             flex: 1,
