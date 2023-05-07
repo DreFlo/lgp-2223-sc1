@@ -6,11 +6,13 @@ import 'package:src/daos/timeslot/media_timeslot_dao.dart';
 import 'package:src/daos/timeslot/student_timeslot_dao.dart';
 import 'package:src/daos/timeslot/task_student_timeslot_dao.dart';
 import 'package:src/daos/timeslot/timeslot_dao.dart';
+import 'package:src/daos/user_badge_dao.dart';
 import 'package:src/models/log.dart';
 import 'package:src/models/media/media.dart';
 import 'package:src/models/timeslot/timeslot.dart';
 import 'package:src/models/timeslot/timeslot_media_timeslot_super_entity.dart';
 import 'package:src/models/timeslot/timeslot_student_timeslot_super_entity.dart';
+import 'package:src/models/user_badge.dart';
 import 'package:src/pages/gamification/gained_xp_toast.dart';
 import 'package:src/pages/gamification/level_up_toast.dart';
 import 'package:src/utils/enums.dart';
@@ -439,4 +441,10 @@ Future<bool> insertLogAndCheckStreak() async {
     return true;
   }
   return false;
+}
+
+void unlockBadgeForUser(int badgeId) async {
+  User user = serviceLocator<AuthenticationDao>().getLoggedInUser()!;
+  await serviceLocator<UserBadgeDao>()
+      .insertUserBadge(UserBadge(userId: user.id!, badgeId: badgeId));
 }
