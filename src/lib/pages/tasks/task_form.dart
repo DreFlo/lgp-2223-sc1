@@ -264,16 +264,11 @@ class _TaskFormState extends State<TaskForm> {
           xp: 0);
       newId = await serviceLocator<TaskDao>().insertTask(task);
 
-      task = Task(
-          id: newId,
-          name: titleController.text,
-          deadline: date!,
-          priority: priority!,
-          subjectId: subjectId,
-          description: description!,
-          taskGroupId: taskGroupId,
-          finished: false,
-          xp: 0);
+      // check if it's the first task ever 
+      if (await serviceLocator<TaskDao>().countTasks() == 1) {
+        // win badge + show badge
+      }
+      
     } else {
       task = Task(
           id: id,
