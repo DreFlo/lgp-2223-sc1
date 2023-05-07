@@ -314,12 +314,13 @@ class _DashboardCardState extends State<DashboardCard> {
                 color: grayButton,
               ),
               child: Container(
+                  alignment: Alignment.bottomCenter,
                   margin: const EdgeInsets.all(12),
-                  child: Column(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      crossAxisAlignment: CrossAxisAlignment.start,
+                  child: Wrap(
+                      alignment: WrapAlignment.end,
                       children: [
-                        Container(
+                        Row(children: [
+                          Container(
                           width: 28,
                           height: 28,
                           margin: const EdgeInsets.only(bottom: 9),
@@ -327,13 +328,15 @@ class _DashboardCardState extends State<DashboardCard> {
                             borderRadius: BorderRadius.circular(5),
                             color: moduleColors[widget.module],
                           ),
-                        ),
+                        )]),
+                        Row(children: [
+                          Expanded(child: 
                         Container(
                             margin: const EdgeInsets.only(bottom: 9),
                             child: Text(
                               getTitle(),
                               style: Theme.of(context).textTheme.labelLarge,
-                            )),
+                            )))]),
                         Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             crossAxisAlignment: CrossAxisAlignment.center,
@@ -342,7 +345,6 @@ class _DashboardCardState extends State<DashboardCard> {
                                   flex: 2,
                                   child: Wrap(
                                     spacing: 10,
-                                    // runSpacing: 5,
                                     children: [
                                       institutionOrMediaType != ''
                                           ? mediaTypesOrInstitutionContainer()
