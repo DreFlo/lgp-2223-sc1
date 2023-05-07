@@ -4,6 +4,7 @@ import 'package:src/daos/notes/note_episode_note_super_dao.dart';
 import 'package:src/models/media/media_video_episode_super_entity.dart';
 import 'package:src/models/notes/note_episode_note_super_entity.dart';
 import 'package:src/themes/colors.dart';
+import 'package:src/utils/gamification/game_logic.dart';
 import 'package:src/utils/service_locator.dart';
 
 class AddEpisodeNoteForm extends StatefulWidget {
@@ -82,6 +83,12 @@ class _AddEpisodeNoteFormState extends State<AddEpisodeNoteForm> {
 
                 await serviceLocator<NoteEpisodeNoteSuperDao>()
                     .insertNoteEpisodeNoteSuperEntity(note);
+
+                bool badge = await insertLogAndCheckStreak();
+                if (badge) {
+                  //show badge
+                  unlockBadgeForUser(1); //streak
+                }
 
                 if (widget.refreshStatus != null) {
                   widget.refreshStatus!();
