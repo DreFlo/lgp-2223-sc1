@@ -424,7 +424,9 @@ void insertLog() async {
   int numberActivities =
       await serviceLocator<LogDao>().countLogsByDate(DateTime.now());
   if (numberActivities == 0) {
-      Log log = Log(date: DateTime.now(), userId: serviceLocator<AuthenticationDao>().getLoggedInUser()!.id ?? 0);
-      await serviceLocator<LogDao>().insertLog(log);
+    Log log = Log(
+        date: DateTime.now(),
+        userId: serviceLocator<AuthenticationDao>().getLoggedInUser()!.id ?? 0);
+    await serviceLocator<LogDao>().insertLog(log);
   }
 }
