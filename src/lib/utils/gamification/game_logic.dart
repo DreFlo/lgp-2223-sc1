@@ -437,7 +437,8 @@ Future<bool> insertLogAndCheckStreak() async {
 
   //Check streak
   int countStreaks = await serviceLocator<LogDao>().countLogs();
-  if (countStreaks == 7) { //need to also check if user doesn't have the streak badge yet
+  if (countStreaks == 7) {
+    //need to also check if user doesn't have the streak badge yet
     return true;
   }
   return false;

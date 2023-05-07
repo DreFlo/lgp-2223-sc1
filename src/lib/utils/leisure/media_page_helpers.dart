@@ -116,12 +116,12 @@ void saveFavoriteStatus(bool favorite, int id) async {
   );
   await serviceLocator<MediaDao>().updateMedia(newMedia);
 
-  int numberMedia = await serviceLocator<MediaDao>().countFavoriteMedia(true) ?? 0;
+  int numberMedia =
+      await serviceLocator<MediaDao>().countFavoriteMedia(true) ?? 0;
 
-  if(numberMedia == 2) {
+  if (numberMedia == 2) {
     //win badge + show badge
   }
-
 }
 
 MediaImageWidget showWidget(Media item) {

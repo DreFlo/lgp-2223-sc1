@@ -22,8 +22,5 @@ class Log {
   @ColumnInfo(name: 'user_id')
   final int userId;
 
-  Log(
-      {this.id,
-      required this.date,
-      required this.userId});
+  Log({this.id, required this.date, required this.userId});
 }
