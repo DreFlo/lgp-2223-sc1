@@ -226,5 +226,9 @@
   "portuguese": "Português",
   "dark_mode": "Modo Escuro",
   "starting" : "a começar",
-  "ending" : "a terminar"
+  "ending" : "a terminar",
+  "won_badge": "Ganhaste um emblema!",
+  "won_badge_2": "...mas, há mais!",
+  "check_it_out": "Mostra-me!",
+  "maybe_later": "Talvez depois..."
 }
