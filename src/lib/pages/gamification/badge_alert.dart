@@ -67,7 +67,12 @@ class _BadgeAlertState extends State<BadgeAlert> with TickerProviderStateMixin {
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Container(decoration: BoxDecoration(gradient: LinearGradient(colors: getColors())),)
+                Container(
+                  decoration: BoxDecoration(
+                    gradient: LinearGradient(colors: getColors()),
+                    shape: BoxShape.circle,
+                  ),
+                )
               ]
             ),
           ]
