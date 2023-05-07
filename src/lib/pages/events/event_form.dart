@@ -170,28 +170,26 @@ class _EventFormState extends State<EventForm> {
   }
 
   TimeslotMediaTimeslotSuperEntity getMediaTimeslot() {
-    // TODO(eventos): correct xp formula and get user logged id
     return TimeslotMediaTimeslotSuperEntity(
       id: widget.id,
       title: titleController.text,
       description: descriptionController.text,
       startDateTime: startDate,
       endDateTime: endDate,
-      xpMultiplier: 2,
+      xpMultiplier: 0,
       userId: 1,
       finished: false,
     );
   }
 
   TimeslotStudentTimeslotSuperEntity getStudentTimeslot() {
-    // TODO(eventos): correct xp formula and get user logged id
     return TimeslotStudentTimeslotSuperEntity(
       id: widget.id,
       title: titleController.text,
       description: descriptionController.text,
       startDateTime: startDate,
       endDateTime: endDate,
-      xpMultiplier: 2,
+      xpMultiplier: 0,
       userId: 1,
       finished: false,
     );
