@@ -8,6 +8,7 @@ import 'package:src/models/notes/note_episode_note_super_entity.dart';
 import 'package:src/pages/leisure/media_pages/book_page.dart';
 import 'package:src/pages/leisure/media_pages/movie_page.dart';
 import 'package:src/pages/leisure/media_pages/tv_series_page.dart';
+import 'package:src/utils/gamification/game_logic.dart';
 import 'package:src/widgets/leisure/media_image_widgets/book_image.dart';
 import 'package:src/widgets/leisure/media_image_widgets/media_image.dart';
 import 'package:src/widgets/leisure/media_image_widgets/movie_image.dart';
@@ -116,11 +117,18 @@ void saveFavoriteStatus(bool favorite, int id) async {
   );
   await serviceLocator<MediaDao>().updateMedia(newMedia);
 
+  bool badge = await insertLogAndCheckStreak();
+  if (badge) {
+    //show badge
+    unlockBadgeForUser(1); //streak
+  }
+
   int numberMedia =
       await serviceLocator<MediaDao>().countFavoriteMedia(true) ?? 0;
 
   if (numberMedia == 2) {
     //win badge + show badge
+    unlockBadgeForUser(3);
   }
 }
 

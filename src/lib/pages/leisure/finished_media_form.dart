@@ -3,6 +3,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:src/themes/colors.dart';
 import 'package:src/utils/enums.dart';
 import 'package:emojis/emojis.dart';
+import 'package:src/utils/gamification/game_logic.dart';
 import 'package:src/utils/service_locator.dart';
 import 'package:src/daos/media/review_dao.dart';
 import 'package:src/daos/media/media_dao.dart';
@@ -402,6 +403,12 @@ class _FinishedMediaFormState extends State<FinishedMediaForm> {
                       mediaId: widget.mediaId);
 
                   await serviceLocator<ReviewDao>().insertReview(review);
+
+                  bool badge = await insertLogAndCheckStreak();
+                  if (badge) {
+                    //show badge
+                    unlockBadgeForUser(1); //streak
+                  }
 
                   final mediaStream =
                       serviceLocator<MediaDao>().findMediaById(widget.mediaId);
