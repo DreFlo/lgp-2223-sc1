@@ -420,11 +420,11 @@ void getPomodoroXP(int focusTime, int currentSession, int sessions,
   }
 }
 
-void insertLogAndCheckStreak() async {
+Future<bool> insertLogAndCheckStreak() async {
   int numberActivitiesToday =
       await serviceLocator<LogDao>().countLogsByDate(DateTime.now());
-  int numberActivitiesYesterday =
-      await serviceLocator<LogDao>().countLogsByDate(DateTime.now().subtract(const Duration(days: 1)));
+  int numberActivitiesYesterday = await serviceLocator<LogDao>()
+      .countLogsByDate(DateTime.now().subtract(const Duration(days: 1)));
   //To have a streak, user needs to be in the app every day
   if (numberActivitiesToday == 0 && numberActivitiesYesterday > 0) {
     Log log = Log(
@@ -432,5 +432,11 @@ void insertLogAndCheckStreak() async {
         userId: serviceLocator<AuthenticationDao>().getLoggedInUser()!.id ?? 0);
     await serviceLocator<LogDao>().insertLog(log);
   }
-}
 
+  //Check streak
+  int countStreaks = await serviceLocator<LogDao>().countLogs();
+  if (countStreaks == 7) { //need to also check if user doesn't have the streak badge yet
+    return true;
+  }
+  return false;
+}
