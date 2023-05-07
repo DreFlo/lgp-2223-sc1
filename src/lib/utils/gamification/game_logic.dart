@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:src/daos/authentication_dao.dart';
+import 'package:src/daos/log_dao.dart';
 import 'package:src/daos/media/media_dao.dart';
 import 'package:src/daos/timeslot/media_timeslot_dao.dart';
 import 'package:src/daos/timeslot/student_timeslot_dao.dart';
 import 'package:src/daos/timeslot/task_student_timeslot_dao.dart';
 import 'package:src/daos/timeslot/timeslot_dao.dart';
+import 'package:src/models/log.dart';
 import 'package:src/models/media/media.dart';
 import 'package:src/models/timeslot/timeslot.dart';
 import 'package:src/models/timeslot/timeslot_media_timeslot_super_entity.dart';
@@ -414,5 +417,14 @@ void getPomodoroXP(int focusTime, int currentSession, int sessions,
     //show level up screen
   } else {
     updateUserShowGainedXPToast(user, points, context);
+  }
+}
+
+void insertLog() async {
+  int numberActivities =
+      await serviceLocator<LogDao>().countLogsByDate(DateTime.now());
+  if (numberActivities == 0) {
+      Log log = Log(date: DateTime.now(), userId: serviceLocator<AuthenticationDao>().getLoggedInUser()!.id ?? 0);
+      await serviceLocator<LogDao>().insertLog(log);
   }
 }
