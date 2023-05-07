@@ -226,5 +226,9 @@
   "portuguese": "Portuguese",
   "dark_mode": "Dark Mode",
   "starting": "starting",
-  "ending": "ending"
+  "ending": "ending",
+  "won_badge": "You’ve won a badge!",
+  "won_badge_2": "...but there's more!",
+  "check_it_out": "Check it out!",
+  "maybe_later": "Maybe later..."
 }

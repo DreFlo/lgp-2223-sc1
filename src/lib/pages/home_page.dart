@@ -8,6 +8,7 @@ import 'package:src/models/user.dart';
 import 'package:src/notifications/local_notifications_service.dart';
 import 'package:src/pages/auth/landing_page.dart';
 import 'package:src/pages/events/event_form.dart';
+import 'package:src/pages/gamification/badge_alert.dart';
 import 'package:src/pages/tasks/institution_form.dart';
 import 'package:src/pages/tasks/subject_form.dart';
 import 'package:src/utils/service_locator.dart';
@@ -287,6 +288,18 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                 }),
             ElevatedButton(
                 onPressed: resetAndSeedDatabase, child: Text("Reset Database")),
+            ElevatedButton(
+                onPressed: () {
+                  showDialog(
+                      context: context,
+                      builder: (context) => BadgeAlert(
+                            title: 'Chain Streaker',
+                            colors: const ['FFFF7B51', 'FFFF8A00'],
+                            description: '7 consecutive days of activity.',
+                            icon: '',
+                          ));
+                },
+                child: Text('badge alert')),
             FutureBuilder(
                 key: ValueKey<Object>(redrawObject),
                 future: serviceLocator<UserDao>().findAllUsers(),
