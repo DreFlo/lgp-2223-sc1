@@ -111,7 +111,9 @@ class _TaskBarState extends State<TaskBar> {
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
                   Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
+                      Expanded(child: 
                       InkWell(
                           onTap: () {
                             setState(() {
@@ -119,6 +121,7 @@ class _TaskBarState extends State<TaskBar> {
                             });
                           },
                           child: Container(
+                            alignment: const Alignment(0, 0),
                             padding: const EdgeInsets.all(5),
                             decoration: BoxDecoration(
                                 shape: BoxShape.circle,
@@ -128,8 +131,9 @@ class _TaskBarState extends State<TaskBar> {
                                 color: (!taskStatus
                                     ? Colors.white
                                     : Colors.green)),
-                          )),
-                      const SizedBox(width: 10),
+                          ))),
+                      const SizedBox(width: 5),
+                      Expanded(child: 
                       InkWell(
                           onTap: () {
                             if (selected) {
@@ -142,13 +146,14 @@ class _TaskBarState extends State<TaskBar> {
                             });
                           },
                           child: Container(
+                            alignment: const Alignment(0, 0),
                             padding: const EdgeInsets.all(5),
                             decoration: const BoxDecoration(
                                 shape: BoxShape.circle, color: primaryColor),
                             child:
                                 const Icon(Icons.delete, color: Colors.white),
                           )),
-                    ],
+                  )],
                   )
                 ],
               ))

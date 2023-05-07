@@ -821,12 +821,19 @@ class _ProjectFormState extends State<ProjectForm> {
             },
           ))
     ]);
+
     bool isError = errors.containsKey('description');
     if (!isError) {
-      return [descriptionWidget];
+      return [descriptionLabelWidget, const SizedBox(height: 7.5), descriptionWidget];
     }
+
     Widget errorWidget = ErrorText(text: errors['description']!);
-    return [descriptionLabelWidget, const SizedBox(height: 7.5), descriptionWidget, errorWidget];
+    return [
+      descriptionLabelWidget,
+      const SizedBox(height: 7.5),
+      descriptionWidget,
+      errorWidget
+    ];
   }
 
   Row getAddTask(BuildContext context) {
@@ -896,6 +903,8 @@ class _ProjectFormState extends State<ProjectForm> {
           deleteTask: deleteTask(tasks[i]),
           taskGroupId: id,
         ));
+
+        taskList.add(const SizedBox(height: 10));
       }
     }
 
