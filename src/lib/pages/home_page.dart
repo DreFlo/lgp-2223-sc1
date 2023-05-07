@@ -296,7 +296,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                             title: 'Chain Streaker',
                             colors: const ['FFFF7B51', 'FFFF8A00'],
                             description: '7 consecutive days of activity.',
-                            icon: '',
+                            icon: 'FontAwesomeIcons.fire',
                           ));
                 },
                 child: Text('badge alert')),

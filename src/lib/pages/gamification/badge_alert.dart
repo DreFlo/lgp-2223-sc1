@@ -41,6 +41,13 @@ class _BadgeAlertState extends State<BadgeAlert> with TickerProviderStateMixin {
     return colors;
   }
 
+  IconData eval(String icon) {
+    if (icon == 'FontAwesomeIcons.fire') {
+      return FontAwesome.fire;
+    }
+    return Icons.error_outline_rounded;
+  }
+
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
@@ -69,8 +76,7 @@ class _BadgeAlertState extends State<BadgeAlert> with TickerProviderStateMixin {
                       end: Alignment.bottomRight),
                   shape: BoxShape.circle,
                   color: Colors.white),
-              child:
-                  const Icon(FontAwesome.fire, size: 50, color: Colors.white))
+              child: Icon(eval(widget.icon), size: 50, color: Colors.white))
         ]),
         const Divider(height: 2.5),
         Row(mainAxisAlignment: MainAxisAlignment.center, children: [
