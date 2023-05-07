@@ -353,8 +353,12 @@ class _EventFormState extends State<EventForm> {
                 icon: Icons.event,
                 scrollController: widget.scrollController,
                 children: [
-                  Row(crossAxisAlignment: CrossAxisAlignment.center, children: [
-                    const SizedBox(width: 7.5),
+                  Row(mainAxisSize: MainAxisSize.min, crossAxisAlignment: CrossAxisAlignment.center, children: [
+                    //TODO: Figure out the overflow here.
+                    //LESS: Expanded doesn't work here. I think the widget division is part of the issue.
+                    //I did do a new "title" thing when messing with Patrícia's requests for the forms, but
+                    //since Margarida did something of her own, I didn't want to replace her work without her
+                    //seeing it first/blessing.
                     ModuleButton(
                       buttonKey: buttonKey,
                       moduleColor: _moduleColor,
@@ -362,7 +366,7 @@ class _EventFormState extends State<EventForm> {
                       clearActivities: clearActivities,
                       disabled: widget.id != null,
                     ),
-                    const SizedBox(width: 15),
+                    const VerticalDivider(),
                     EditTitle(
                         key: const Key('titleField'),
                         titleController: titleController,

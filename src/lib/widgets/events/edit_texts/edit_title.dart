@@ -55,7 +55,7 @@ class _EditTitleState extends State<EditTitle> {
                                     fontWeight: FontWeight.w400)))
                         : const SizedBox(height: 0),
                   ])),
-          const SizedBox(width: 5),
+          const VerticalDivider(),
           Flexible(
               flex: 1,
               child: IconButton(
