@@ -11,12 +11,17 @@ class Badge {
 
   final String description;
 
-  @ColumnInfo(name: 'image_path')
-  final String imagePath;
+  final String icon;
+
+  final String colors; // list of colors separated with ','
+
+  final String fact;
 
   Badge(
       {this.id,
       required this.name,
       required this.description,
-      required this.imagePath});
+      required this.icon,
+      required this.colors,
+      required this.fact});
 }
