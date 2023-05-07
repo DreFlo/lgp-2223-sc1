@@ -77,6 +77,8 @@ import 'package:src/daos/timeslot/media_timeslot_dao.dart';
 import 'package:src/daos/timeslot/student_timeslot_dao.dart';
 import 'package:src/daos/user_badge_dao.dart';
 import 'package:src/daos/user_dao.dart';
+import 'package:src/daos/log_dao.dart';
+import 'package:src/models/log.dart';
 
 part 'database.g.dart'; // the generated code will be there
 
@@ -109,6 +111,7 @@ part 'database.g.dart'; // the generated code will be there
   UserBadge,
   MediaMediaTimeslot,
   TaskStudentTimeslot,
+  Log
 ])
 abstract class AppDatabase extends FloorDatabase {
   InstitutionDao get institutionDao;
@@ -134,6 +137,7 @@ abstract class AppDatabase extends FloorDatabase {
 
   UserBadgeDao get userBadgeDao;
   BadgeDao get badgeDao;
+  LogDao get logDao;
   MoodDao get moodDao;
   TimeslotDao get timeslotDao;
   MediaTimeslotDao get mediaTimeslotDao;
