@@ -45,6 +45,7 @@ import 'package:src/daos/timeslot/media_media_timeslot_dao.dart';
 import 'package:src/daos/badge_dao.dart';
 import 'package:src/daos/mood_dao.dart';
 import 'package:src/daos/user_dao.dart';
+import 'package:src/daos/log_dao.dart';
 
 import 'package:src/database/callbacks.dart';
 import 'package:src/notifications/local_notifications_service.dart';
@@ -138,6 +139,9 @@ Future<void> setup(
       dependsOn: [AppDatabase]);
   serviceLocator.registerSingletonWithDependencies<BadgeDao>(
       () => serviceLocator.get<AppDatabase>().badgeDao,
+      dependsOn: [AppDatabase]);
+  serviceLocator.registerSingletonWithDependencies<LogDao>(
+      () => serviceLocator.get<AppDatabase>().logDao,
       dependsOn: [AppDatabase]);
   serviceLocator.registerSingletonWithDependencies<MoodDao>(
       () => serviceLocator.get<AppDatabase>().moodDao,
