@@ -294,7 +294,6 @@ class _ProjectFormState extends State<ProjectForm> {
                     const SizedBox(height: 30),
 
                     // Description
-                    const SizedBox(height: 7.5),
                     ...getDescription(),
                     const SizedBox(height: 30),
                     getAddTask(context),
@@ -827,7 +826,7 @@ class _ProjectFormState extends State<ProjectForm> {
       return [descriptionWidget];
     }
     Widget errorWidget = ErrorText(text: errors['description']!);
-    return [descriptionLabelWidget, descriptionWidget, errorWidget];
+    return [descriptionLabelWidget, const SizedBox(height: 7.5), descriptionWidget, errorWidget];
   }
 
   Row getAddTask(BuildContext context) {
