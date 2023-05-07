@@ -430,19 +430,3 @@ void insertLog() async {
     await serviceLocator<LogDao>().insertLog(log);
   }
 }
-
-Future<bool> checkFirstTaskEver() async {
-  int numberTasks = await serviceLocator<TaskDao>().countTasks() ?? 0;
-  if (numberTasks == 1) {
-    return true;
-  }
-  return false;
-}
-
-Future<bool> checkTwoFavoriteMedia() async {
-  int numberMedia = await serviceLocator<MediaDao>().countFavoriteMedia(true) ?? 0;
-  if (numberMedia == 2) {
-    return true;
-  }
-  return false;
-}
