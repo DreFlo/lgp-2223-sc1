@@ -21,6 +21,7 @@ import 'package:src/themes/colors.dart';
 import 'package:src/utils/date_formatter.dart';
 import 'dart:math' as Math;
 import 'package:src/utils/enums.dart';
+import 'package:src/utils/gamification/game_logic.dart';
 import 'package:src/utils/service_locator.dart';
 import 'package:src/widgets/error_text.dart';
 import 'package:src/widgets/notes/note_bar.dart';
@@ -267,6 +268,7 @@ class _TaskFormState extends State<TaskForm> {
       // check if it's the first task ever
       if (await serviceLocator<TaskDao>().countTasks() == 1) {
         // win badge + show badge
+        unlockBadgeForUser(2);
       }
     } else {
       task = Task(
@@ -326,6 +328,12 @@ class _TaskFormState extends State<TaskForm> {
     if (context.mounted) {
       Navigator.pop(context);
     }
+
+    bool badge = await insertLogAndCheckStreak();
+    if (badge) {
+      //show badge
+      unlockBadgeForUser(1); //streak
+    }
   }
 
   delete(BuildContext context) async {
@@ -342,6 +350,12 @@ class _TaskFormState extends State<TaskForm> {
     if (context.mounted) {
       Navigator.pop(context);
       Navigator.pop(context);
+    }
+
+    bool badge = await insertLogAndCheckStreak();
+    if (badge) {
+      //show badge
+      unlockBadgeForUser(1); //streak
     }
   }
 

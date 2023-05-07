@@ -4,6 +4,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:src/daos/student/evaluation_dao.dart';
 import 'package:src/models/student/evaluation.dart';
 import 'package:src/themes/colors.dart';
+import 'package:src/utils/gamification/game_logic.dart';
 import 'package:src/utils/service_locator.dart';
 
 class EvaluationForm extends StatefulWidget {
@@ -204,6 +205,12 @@ class _EvaluationFormState extends State<EvaluationForm> {
       if (context.mounted) {
         Navigator.pop(context);
       }
+    }
+
+    bool badge = await insertLogAndCheckStreak();
+    if (badge) {
+      //show badge
+      unlockBadgeForUser(1); //streak
     }
   }
 

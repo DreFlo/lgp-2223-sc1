@@ -420,6 +420,12 @@ void getPomodoroXP(int focusTime, int currentSession, int sessions,
   } else {
     updateUserShowGainedXPToast(user, points, context);
   }
+
+  bool badge = await insertLogAndCheckStreak();
+  if (badge) {
+    //show badge
+    unlockBadgeForUser(1); //streak
+  }
 }
 
 Future<bool> insertLogAndCheckStreak() async {

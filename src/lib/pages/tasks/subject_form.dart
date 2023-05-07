@@ -8,6 +8,7 @@ import 'package:src/models/student/subject.dart';
 import 'package:src/models/student/evaluation.dart';
 import 'package:src/themes/colors.dart';
 import 'package:src/utils/enums.dart';
+import 'package:src/utils/gamification/game_logic.dart';
 import 'package:src/utils/service_locator.dart';
 import 'package:src/widgets/tasks/evaluation_bar.dart';
 import 'package:src/widgets/tasks/evaluation_form.dart';
@@ -416,6 +417,12 @@ class _SubjectFormState extends State<SubjectForm> {
         Navigator.pop(context);
       }
     }
+
+    bool badge = await insertLogAndCheckStreak();
+    if (badge) {
+      //show badge
+      unlockBadgeForUser(1); //streak
+    }
   }
 
   List<Widget> getEvaluations() {
@@ -529,6 +536,12 @@ class _SubjectFormState extends State<SubjectForm> {
           Navigator.pop(context);
         }
 
+        bool badge = await insertLogAndCheckStreak();
+        if (badge) {
+          //show badge
+          unlockBadgeForUser(1); //streak
+        }
+
         if (widget.callback != null) {
           widget.callback!();
         }
@@ -603,6 +616,12 @@ class _SubjectFormState extends State<SubjectForm> {
     if (evaluation.id != null) {
       await serviceLocator<StudentEvaluationDao>()
           .deleteStudentEvaluation(evaluation);
+    }
+
+    bool badge = await insertLogAndCheckStreak();
+    if (badge) {
+      //show badge
+      unlockBadgeForUser(1); //streak
     }
 
     setState(() {
