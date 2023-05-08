@@ -1,27 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:icons_plus/icons_plus.dart';
+import 'package:src/models/badges.dart';
 import 'package:src/pages/gamification/badge_info_alert.dart';
 import 'package:src/themes/colors.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:src/widgets/gamification/badge_widget.dart';
 
 class BadgePageWidget extends StatefulWidget {
-  final String title;
-  final String description;
-  final List<String> colors;
-  final String icon;
-  final String fact;
+  final Badges badge;
   final bool isUnlocked;
   final bool showTitle;
   final bool onBadgePage;
 
   const BadgePageWidget(
       {Key? key,
-      required this.title,
-      required this.description,
-      required this.colors,
-      required this.icon,
-      required this.fact,
+      required this.badge,
       this.onBadgePage = false,
       this.isUnlocked = true,
       this.showTitle = false})
@@ -39,8 +32,9 @@ class _BadgePageWidgetState extends State<BadgePageWidget>
   }
 
   List<Color> getColors() {
+    List<String> colorsBadge = widget.badge.colors.split(',');
     List<Color> colors = [];
-    for (String color in widget.colors) {
+    for (String color in colorsBadge) {
       colors.add(Color(int.parse(color, radix: 16)));
     }
     return colors;
@@ -69,13 +63,7 @@ class _BadgePageWidgetState extends State<BadgePageWidget>
           //Navigator.of(context).pop();
           showDialog(
               context: context,
-              builder: (context) => BadgeInfoAlert(badge: BadgeWidget(
-                  title: widget.title,
-                  description: widget.description,
-                  colors: widget.colors,
-                  icon: widget.icon,
-                  fact: widget.fact,
-              )));
+              builder: (context) => BadgeInfoAlert(badge: widget.badge));
         },
         child: Wrap(alignment: WrapAlignment.center, children: [
           widget.isUnlocked
@@ -89,7 +77,7 @@ class _BadgePageWidgetState extends State<BadgePageWidget>
                           end: Alignment.bottomRight),
                       shape: BoxShape.circle,
                       color: Colors.white),
-                  child: Icon(eval(widget.icon),
+                  child: Icon(eval(widget.badge.icon),
                       size: (widget.onBadgePage ? 25 : 50),
                       color: Colors.white))
               : Container(
@@ -108,14 +96,15 @@ class _BadgePageWidgetState extends State<BadgePageWidget>
                           shaderCallback: (Rect bounds) => const LinearGradient(
                                   colors: [grayText, Colors.blueGrey])
                               .createShader(bounds),
-                          child: Icon(eval(widget.icon),
+                          child: Icon(eval(widget.badge.icon),
                               size: (widget.onBadgePage ? 25 : 50),
                               color: Colors.white)))),
           const Divider(height: 10, color: Colors.transparent),
           (widget.onBadgePage
               ? (widget.isUnlocked
                   ? Row(children: [
-                      Expanded(child: Text(widget.title.split('\n')[0],
+                      Expanded(
+                          child: Text(widget.badge.name.split('\n')[0],
                               textAlign: TextAlign.center,
                               style: const TextStyle(
                                   fontWeight: FontWeight.w600,
