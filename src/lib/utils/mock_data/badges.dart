@@ -1,7 +1,7 @@
-import 'package:src/models/badge.dart';
+import 'package:src/models/badges.dart';
 
 final mockBadges = [
-  Badge(
+  Badges(
       id: 1,
       name: 'Bare Minimum Bob',
       description: 'Completed your first task!',
@@ -9,7 +9,7 @@ final mockBadges = [
       colors: 'FF5DD3C5,FF0094FF',
       fact:
           'Male quokkas will defend their pregnant mate, but once the child is born, they turn into deadbeats.'),
-  Badge(
+  Badges(
       id: 2,
       name:
           'Eu Tenho Dois Amores...\n(oh boy, you’d be laughing so hard if you knew this reference)',
@@ -18,7 +18,7 @@ final mockBadges = [
       colors: 'FFD10000,FFFF005C',
       fact:
           'They hop into shops on Rottnest Island regularly to say hello to everybody.'),
-  Badge(
+  Badges(
       id: 3,
       name: 'Chain Streaker',
       description: '7 consecutive days of activity.',

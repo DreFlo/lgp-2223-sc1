@@ -2,7 +2,8 @@ const badgeOne = {
   "title": 'Chain Streaker',
   "description": '7 consecutive days of activity.',
   "icon": 'FontAwesome.fire',
-  "fact": 'Male quokkas will defend their pregnant mate, but once the child is born, they turn into deadbeats.'
+  "fact":
+      'Male quokkas will defend their pregnant mate, but once the child is born, they turn into deadbeats.'
 };
 
 const badgeOneColors = "FFFF7B51,FFFF8A00";
@@ -11,7 +12,8 @@ const badgeTwo = {
   "title": 'Bare Minimum Bob',
   "description": 'Completed your first task!',
   "icon": 'FontAwesome.face_flushed',
-  "fact": 'They hop into shops on Rottnest Island regularly to say hello to everybody.'
+  "fact":
+      'They hop into shops on Rottnest Island regularly to say hello to everybody.'
 };
 
 const badgeTwoColors = "FF5DD3C5,FF0094FF";

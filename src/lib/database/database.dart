@@ -4,7 +4,7 @@ import 'package:floor/floor.dart';
 import 'package:sqflite/sqflite.dart' as sqflite;
 import 'package:src/daos/timeslot/media_media_timeslot_dao.dart';
 import 'package:src/daos/timeslot/task_student_timeslot_dao.dart';
-import 'package:src/models/badge.dart';
+import 'package:src/models/badges.dart';
 import 'package:src/models/mood.dart';
 import 'package:src/models/timeslot/media_media_timeslot.dart';
 import 'package:src/models/timeslot/media_timeslot.dart';
@@ -70,7 +70,7 @@ import 'package:src/models/notes/task_note.dart';
 import 'package:src/daos/notes/subject_note_dao.dart';
 import 'package:src/models/notes/subject_note.dart';
 
-import 'package:src/daos/badge_dao.dart';
+import 'package:src/daos/badges_dao.dart';
 import 'package:src/daos/mood_dao.dart';
 import 'package:src/daos/timeslot/timeslot_dao.dart';
 import 'package:src/daos/timeslot/media_timeslot_dao.dart';
@@ -103,7 +103,7 @@ part 'database.g.dart'; // the generated code will be there
   EpisodeNote,
   BookNote,
   User,
-  Badge,
+  Badges,
   Mood,
   Timeslot,
   MediaTimeslot,
@@ -136,7 +136,7 @@ abstract class AppDatabase extends FloorDatabase {
   BookNoteDao get bookNoteDao;
 
   UserBadgeDao get userBadgeDao;
-  BadgeDao get badgeDao;
+  BadgesDao get badgeDao;
   LogDao get logDao;
   MoodDao get moodDao;
   TimeslotDao get timeslotDao;
