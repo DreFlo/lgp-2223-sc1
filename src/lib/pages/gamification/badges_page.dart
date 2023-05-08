@@ -3,7 +3,6 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:src/themes/colors.dart';
 import 'package:src/utils/gamification/badge_mocks.dart';
 import 'package:src/widgets/gamification/badge_page_widget.dart';
-import 'package:src/widgets/gamification/badge_widget.dart';
 
 class BadgesPage extends StatefulWidget {
   const BadgesPage({Key? key}) : super(key: key);
@@ -42,8 +41,7 @@ class _BadgesPageState extends State<BadgesPage> {
       isUnlocked: false,
     ));
 
-    badges.add(
-      BadgePageWidget(
+    badges.add(BadgePageWidget(
       title: badgeThree['title'].toString(),
       colors: badgeThreeColors.split(','),
       description: badgeThree['description'].toString(),

@@ -450,7 +450,7 @@ void getPomodoroXP(int focusTime, int currentSession, int sessions,
 }
 
 Future<bool> insertLogAndCheckStreak() async {
-   //Check if user already has the badge
+  //Check if user already has the badge
   bool hasBadge = await checkUserHasBadge(1);
   if (hasBadge) {
     return false;
@@ -491,8 +491,9 @@ void unlockBadgeForUser(int badgeId) async {
 
 Future<bool> checkUserHasBadge(int badgeId) async {
   User user = serviceLocator<AuthenticationDao>().getLoggedInUser()!;
-  UserBadge userBadges =
-      await serviceLocator<UserBadgeDao>().findUserBadgeByIds(user.id!, badgeId) ?? UserBadge(userId: 0, badgeId: 0);
+  UserBadge userBadges = await serviceLocator<UserBadgeDao>()
+          .findUserBadgeByIds(user.id!, badgeId) ??
+      UserBadge(userId: 0, badgeId: 0);
   if (userBadges.userId != 0 && userBadges.badgeId != 0) {
     return true;
   }
