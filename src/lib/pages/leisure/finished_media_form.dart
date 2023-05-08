@@ -36,6 +36,7 @@ class _FinishedMediaFormState extends State<FinishedMediaForm> {
   late Reaction rating;
   late bool isFavorite;
   TextEditingController controller = TextEditingController();
+  late BuildContext? buildContext;
 
   @override
   initState() {
@@ -45,6 +46,10 @@ class _FinishedMediaFormState extends State<FinishedMediaForm> {
     endDate = widget.endDate;
 
     super.initState();
+  }
+
+  callBadgeWidget() {
+    unlockBadgeForUser(3, buildContext);
   }
 
   @override
@@ -407,7 +412,7 @@ class _FinishedMediaFormState extends State<FinishedMediaForm> {
                   bool badge = await insertLogAndCheckStreak();
                   if (badge) {
                     //show badge
-                    unlockBadgeForUser(1); //streak
+                    callBadgeWidget(); //streak
                   }
 
                   final mediaStream =
