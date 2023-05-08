@@ -433,8 +433,9 @@ Future<bool> insertLogAndCheckStreak() async {
       await serviceLocator<LogDao>().countLogsByDate(DateTime.now()) ?? 0;
   int numberActivitiesYesterday = await serviceLocator<LogDao>()
       .countLogsByDate(DateTime.now().subtract(const Duration(days: 1))) ?? 0;
+  int numberAllActivities = await serviceLocator<LogDao>().countLogs() ?? 0;
   //To have a streak, user needs to be in the app every day
-  if (numberActivitiesToday == 0 && numberActivitiesYesterday > 0) {
+  if ((numberActivitiesToday == 0 && numberActivitiesYesterday > 0) || numberAllActivities == 0) {
     Log log = Log(
         date: DateTime.now(),
         userId: serviceLocator<AuthenticationDao>().getLoggedInUser()!.id ?? 0);
