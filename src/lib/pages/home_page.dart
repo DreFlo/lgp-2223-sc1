@@ -18,6 +18,7 @@ import 'package:src/pages/tasks/project_form.dart';
 import 'package:src/pages/tasks/task_form.dart';
 import 'package:src/pages/timer/timer_form.dart';
 import 'package:src/utils/reset_db.dart';
+import 'package:src/widgets/gamification/badge_widget.dart';
 
 class HomePage extends StatefulWidget {
   final String title;
@@ -295,11 +296,11 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                   showDialog(
                       context: context,
                       builder: (context) => BadgeAlert(
-                            title: 'Chain Streaker',
-                            colors: const ['FFFF7B51', 'FFFF8A00'],
-                            description: '7 consecutive days of activity.',
-                            icon: 'FontAwesome.fire',
-                          ));
+                          badge: BadgeWidget(
+                              title: 'Chain Streaker',
+                              colors: const ['FFFF7B51', 'FFFF8A00'],
+                              description: '7 consecutive days of activity.',
+                              icon: 'FontAwesome.fire')));
                 },
                 child: Text('badge alert')),
             ElevatedButton(
@@ -314,9 +315,14 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                                 BorderRadius.all(Radius.circular(30))))),
                 onPressed: () {
                   showModalBottomSheet(
+                      shape: RoundedRectangleBorder(
+                        borderRadius:
+                            BorderRadius.vertical(top: Radius.circular(30.0)),
+                      ),
                       isScrollControlled: true,
-                      backgroundColor: modalDarkBackground,
-                      context: context, builder: (builder) => BadgesPage());
+                      backgroundColor: modalLightBackground,
+                      context: context,
+                      builder: (builder) => BadgesPage());
                 },
                 child: Text(AppLocalizations.of(context).badges,
                     style: const TextStyle(
