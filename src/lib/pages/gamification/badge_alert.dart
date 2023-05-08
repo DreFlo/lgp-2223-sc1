@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:icons_plus/icons_plus.dart';
+import 'package:src/pages/gamification/badges_page.dart';
 
 import 'package:src/themes/colors.dart';
 
@@ -114,12 +115,12 @@ class _BadgeAlertState extends State<BadgeAlert> with TickerProviderStateMixin {
       actions: [
         ElevatedButton(
           onPressed: () {
-            //TODO: Open Badges Page
+            showModalBottomSheet(context: context, builder: (builder) => const BadgesPage());
           },
           style: ButtonStyle(
             backgroundColor: MaterialStateProperty.all(primaryColor),
             shape: MaterialStateProperty.all(const RoundedRectangleBorder(
-                borderRadius: BorderRadius.all(Radius.circular(15.0)))),
+                borderRadius: BorderRadius.all(Radius.circular(30.0)))),
           ),
           child: Text(AppLocalizations.of(context).check_it_out,
               style: const TextStyle(
@@ -134,7 +135,7 @@ class _BadgeAlertState extends State<BadgeAlert> with TickerProviderStateMixin {
           style: ButtonStyle(
             backgroundColor: MaterialStateProperty.all(Colors.red[600]),
             shape: MaterialStateProperty.all(const RoundedRectangleBorder(
-                borderRadius: BorderRadius.all(Radius.circular(15.0)))),
+                borderRadius: BorderRadius.all(Radius.circular(30.0)))),
           ),
           child: Text(AppLocalizations.of(context).maybe_later,
               style: const TextStyle(
