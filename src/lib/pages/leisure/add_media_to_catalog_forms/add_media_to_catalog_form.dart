@@ -32,6 +32,7 @@ abstract class AddMediaToCatalogFormState<T extends Media>
     extends State<AddMediaToCatalogForm<T>> {
   late String startDate, endDate;
   late Status status;
+  late BuildContext? buildContext;
 
   @override
   void initState() {
@@ -42,6 +43,10 @@ abstract class AddMediaToCatalogFormState<T extends Media>
     super.initState();
   }
 
+  callBadgeWidget() {
+    unlockBadgeForUser(3, buildContext);
+  }
+  
   @override
   Widget build(BuildContext context) {
     return Wrap(spacing: 10, children: [
@@ -282,7 +287,7 @@ abstract class AddMediaToCatalogFormState<T extends Media>
               bool badge = await insertLogAndCheckStreak();
               if (badge) {
                 //show badge
-                unlockBadgeForUser(1); //streak
+                callBadgeWidget(); //streak
               }
 
               widget.setMediaId(mediaId);
