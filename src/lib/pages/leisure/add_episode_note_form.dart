@@ -25,6 +25,11 @@ class AddEpisodeNoteForm extends StatefulWidget {
 
 class _AddEpisodeNoteFormState extends State<AddEpisodeNoteForm> {
   final TextEditingController _controller = TextEditingController();
+  late BuildContext? buildContext;
+
+  callBadgeWidget() {
+    unlockBadgeForUser(3, buildContext);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -87,7 +92,7 @@ class _AddEpisodeNoteFormState extends State<AddEpisodeNoteForm> {
                 bool badge = await insertLogAndCheckStreak();
                 if (badge) {
                   //show badge
-                  unlockBadgeForUser(1); //streak
+                  callBadgeWidget(); //streak
                 }
 
                 if (widget.refreshStatus != null) {
