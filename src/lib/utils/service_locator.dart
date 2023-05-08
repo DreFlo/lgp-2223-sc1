@@ -140,9 +140,9 @@ Future<void> setup(
   serviceLocator.registerSingletonWithDependencies<BadgeDao>(
       () => serviceLocator.get<AppDatabase>().badgeDao,
       dependsOn: [AppDatabase]);
-  /*serviceLocator.registerSingletonWithDependencies<LogDao>(
+  serviceLocator.registerSingletonWithDependencies<LogDao>(
       () => serviceLocator.get<AppDatabase>().logDao,
-      dependsOn: [AppDatabase]);*/
+      dependsOn: [AppDatabase]);
   serviceLocator.registerSingletonWithDependencies<MoodDao>(
       () => serviceLocator.get<AppDatabase>().moodDao,
       dependsOn: [AppDatabase]);
