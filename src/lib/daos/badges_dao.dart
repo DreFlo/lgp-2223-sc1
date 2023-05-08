@@ -3,10 +3,10 @@ import 'package:src/models/badges.dart';
 
 @dao
 abstract class BadgesDao {
-  @Query('SELECT * FROM badge')
+  @Query('SELECT * FROM badges')
   Future<List<Badges>> findAllBadges();
 
-  @Query('SELECT * FROM badge WHERE id = :id')
+  @Query('SELECT * FROM badges WHERE id = :id')
   Future<Badges?> findBadgeById(int id);
 
   @insert
