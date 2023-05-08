@@ -9,11 +9,11 @@ abstract class LogDao {
   @Query('SELECT * FROM log WHERE id = :id')
   Future<Log?> findLogById(int id);
 
-  @Query('SELECT * FROM log WHERE date = :date')
-  Future<Log?> findLogByDate(DateTime date);
+  @Query('SELECT * FROM log WHERE date >= :beginDate AND date <= :endDate')
+  Future<Log?> findLogByDate(DateTime beginDate, DateTime endDate);
 
-  @Query('SELECT COUNT(*) FROM log WHERE date = :date')
-  Future<int?> countLogsByDate(DateTime date);
+  @Query('SELECT COUNT(*) FROM log WHERE date >= :beginDate AND date <= :endDate')
+  Future<int?> countLogsByDate(DateTime beginDate, DateTime endDate);
 
   @Query('SELECT COUNT(*) FROM log')
   Future<int?> countLogs();
