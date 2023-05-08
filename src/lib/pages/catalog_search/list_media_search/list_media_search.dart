@@ -96,7 +96,7 @@ abstract class ListMediaSearchState<T extends Media>
                                   ]),
                             )).whenComplete(() {
                       if (_isFavorite != statusFavorite.favorite) {
-                        saveFavoriteStatus(_isFavorite, statusFavorite.id);
+                        saveFavoriteStatus(_isFavorite, statusFavorite.id, context);
                       }
                     });
                   },

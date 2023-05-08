@@ -63,7 +63,7 @@ class _BadgeAlertState extends State<BadgeAlert> with TickerProviderStateMixin {
                 fontWeight: FontWeight.normal),
           ))
         ]),
-        const Divider(height: 10, color: Colors.transparent),
+        const Divider(height: 20, color: Colors.transparent),
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [

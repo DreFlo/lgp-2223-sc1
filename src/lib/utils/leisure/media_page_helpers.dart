@@ -97,7 +97,7 @@ Future<List<NoteEpisodeNoteSuperEntity>> loadEpisodeNotes(
   return notes;
 }
 
-void saveFavoriteStatus(bool favorite, int id) async {
+void saveFavoriteStatus(bool favorite, int id, context) async {
   final mediaStream = serviceLocator<MediaDao>().findMediaById(id);
   Media? firstNonNullMedia =
       await mediaStream.firstWhere((media) => media != null);
@@ -119,8 +119,7 @@ void saveFavoriteStatus(bool favorite, int id) async {
 
   bool badge = await insertLogAndCheckStreak();
   if (badge) {
-    //show badge
-    unlockBadgeForUser(1); //streak
+    unlockBadgeForUser(3, context); //streak
   }
 
   int numberMedia =
@@ -130,7 +129,7 @@ void saveFavoriteStatus(bool favorite, int id) async {
     bool hasBadge = await checkUserHasBadge(2);
     if (!hasBadge) {
       //win badge + show badge
-      unlockBadgeForUser(3);
+      unlockBadgeForUser(2, context);
     }
   }
 }
@@ -183,7 +182,7 @@ void showMediaPageForTV(MediaSeriesSuperEntity item, BuildContext context,
                       ))
                 ]))).whenComplete(() {
       if (isFavorite != item.favorite) {
-        saveFavoriteStatus(isFavorite, item.id ?? 0);
+        saveFavoriteStatus(isFavorite, item.id ?? 0, context);
         if (reload != null) {
           reload();
         }
@@ -222,7 +221,7 @@ void showMediaPageForMovies(MediaVideoMovieSuperEntity item,
                     child: MoviePageButton(item: item, mediaId: item.id ?? 0))
               ]))).whenComplete(() {
     if (isFavorite != item.favorite) {
-      saveFavoriteStatus(isFavorite, item.id ?? 0);
+      saveFavoriteStatus(isFavorite, item.id ?? 0, context);
       if (reload != null) {
         reload();
       }
@@ -263,7 +262,7 @@ void showMediaPageForBooks(MediaBookSuperEntity item, BuildContext context,
                     ))
               ]))).whenComplete(() {
     if (isFavorite != item.favorite) {
-      saveFavoriteStatus(isFavorite, item.id ?? 0);
+      saveFavoriteStatus(isFavorite, item.id ?? 0, context);
       if (reload != null) {
         reload();
       }
