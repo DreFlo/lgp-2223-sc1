@@ -66,6 +66,7 @@ class _BadgeInfoAlertState extends State<BadgeInfoAlert>
                 ))
               ])),
         Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+          Expanded(child: 
           Text(
             widget.badge.description,
             textAlign: TextAlign.center,
@@ -73,7 +74,7 @@ class _BadgeInfoAlertState extends State<BadgeInfoAlert>
                 color: Colors.white,
                 fontStyle: FontStyle.italic,
                 fontSize: 16,
-                fontWeight: FontWeight.normal),
+                fontWeight: FontWeight.normal)),
           )
         ]),
         const Divider(height: 20, color: Colors.transparent),
