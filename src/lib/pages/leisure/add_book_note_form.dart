@@ -23,6 +23,11 @@ class AddBookNoteForm extends StatefulWidget {
 class _AddBookNoteFormState extends State<AddBookNoteForm> {
   int startPage = 0, endPage = 0;
   final TextEditingController _controller = TextEditingController();
+  late BuildContext? buildContext;
+
+  callBadgeWidget() {
+    unlockBadgeForUser(3, buildContext);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -200,7 +205,7 @@ class _AddBookNoteFormState extends State<AddBookNoteForm> {
                 bool badge = await insertLogAndCheckStreak();
                 if (badge) {
                   //show badge
-                  unlockBadgeForUser(1); //streak
+                  callBadgeWidget(); //streak
                 }
 
                 if (widget.refreshStatus != null) {
