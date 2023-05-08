@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:src/themes/colors.dart';
 import 'package:src/utils/gamification/badge_mocks.dart';
+import 'package:src/widgets/gamification/badge_page_widget.dart';
 import 'package:src/widgets/gamification/badge_widget.dart';
 
 class BadgesPage extends StatefulWidget {
@@ -21,36 +22,34 @@ class _BadgesPageState extends State<BadgesPage> {
 
   List<Widget> getBadges() {
     List<Widget> badges = [];
-    badges.add(BadgeWidget(
+    badges.add(BadgePageWidget(
       title: badgeOne['title'].toString(),
       colors: badgeOneColors.split(','),
       description: badgeOne['description'].toString(),
       icon: badgeOne['icon'].toString(),
       fact: badgeOne['fact'].toString(),
       onBadgePage: true,
-      showTitle: true,
       isUnlocked: false,
     ));
 
-    badges.add(BadgeWidget(
+    badges.add(BadgePageWidget(
       title: badgeTwo['title'].toString(),
       colors: badgeTwoColors.split(','),
       description: badgeTwo['description'].toString(),
       icon: badgeTwo['icon'].toString(),
       fact: badgeTwo['fact'].toString(),
       onBadgePage: true,
-      showTitle: true,
       isUnlocked: false,
     ));
 
-    badges.add(BadgeWidget(
+    badges.add(
+      BadgePageWidget(
       title: badgeThree['title'].toString(),
       colors: badgeThreeColors.split(','),
       description: badgeThree['description'].toString(),
       icon: badgeThree['icon'].toString(),
       fact: badgeThree['fact'].toString(),
       onBadgePage: true,
-      showTitle: true,
       isUnlocked: true,
     ));
 
