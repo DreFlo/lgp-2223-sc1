@@ -267,8 +267,12 @@ class _TaskFormState extends State<TaskForm> {
 
       // check if it's the first task ever
       if (await serviceLocator<TaskDao>().countTasks() == 1) {
-        // win badge + show badge
-        unlockBadgeForUser(2);
+        // check if the user has the badge
+        bool hasBadge = await checkUserHasBadge(2);
+        if (!hasBadge) {
+          // win badge + show badge
+          unlockBadgeForUser(2);
+        }
       }
     } else {
       task = Task(
