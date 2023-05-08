@@ -95,7 +95,7 @@ class _BadgesPageState extends State<BadgesPage> {
                         shrinkWrap: true,
                         children: snapshot.data!,
                       ),
-                      const SizedBox(height: 15),
+                      const SizedBox(height: 40),
                       Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
