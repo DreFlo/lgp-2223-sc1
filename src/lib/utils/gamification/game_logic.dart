@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:src/daos/authentication_dao.dart';
+import 'package:src/daos/badges_dao.dart';
 import 'package:src/daos/log_dao.dart';
 import 'package:src/daos/media/media_dao.dart';
 import 'package:src/daos/timeslot/media_timeslot_dao.dart';
@@ -7,12 +8,14 @@ import 'package:src/daos/timeslot/student_timeslot_dao.dart';
 import 'package:src/daos/timeslot/task_student_timeslot_dao.dart';
 import 'package:src/daos/timeslot/timeslot_dao.dart';
 import 'package:src/daos/user_badge_dao.dart';
+import 'package:src/models/badges.dart';
 import 'package:src/models/log.dart';
 import 'package:src/models/media/media.dart';
 import 'package:src/models/timeslot/timeslot.dart';
 import 'package:src/models/timeslot/timeslot_media_timeslot_super_entity.dart';
 import 'package:src/models/timeslot/timeslot_student_timeslot_super_entity.dart';
 import 'package:src/models/user_badge.dart';
+import 'package:src/pages/gamification/badge_alert.dart';
 import 'package:src/pages/gamification/gained_xp_toast.dart';
 import 'package:src/pages/gamification/level_up_toast.dart';
 import 'package:src/utils/enums.dart';
@@ -337,7 +340,7 @@ void check(
   bool badge = await insertLogAndCheckStreak();
   if (badge) {
     //show badge
-    unlockBadgeForUser(1); //streak
+    unlockBadgeForUser(3, context); //streak
   }
   return;
 }
@@ -370,7 +373,7 @@ Future<int> checkNonEventNonTask(Task task, context, bool fromTaskGroup) async {
     bool badge = await insertLogAndCheckStreak();
     if (badge) {
       //show badge
-      unlockBadgeForUser(1); //streak
+      unlockBadgeForUser(3, context); //streak
     }
 
     return points;
@@ -380,7 +383,7 @@ Future<int> checkNonEventNonTask(Task task, context, bool fromTaskGroup) async {
     bool badge = await insertLogAndCheckStreak();
     if (badge) {
       //show badge
-      unlockBadgeForUser(1); //streak
+      unlockBadgeForUser(3, context); //streak
     }
 
     return points;
@@ -412,7 +415,7 @@ void removePoints(int points, Task task) async {
   bool badge = await insertLogAndCheckStreak();
   if (badge) {
     //show badge
-    unlockBadgeForUser(1); //streak
+    //unlockBadgeForUser(1); //streak
   }
 }
 
@@ -445,7 +448,7 @@ void getPomodoroXP(int focusTime, int currentSession, int sessions,
   bool badge = await insertLogAndCheckStreak();
   if (badge) {
     //show badge
-    unlockBadgeForUser(1); //streak
+    unlockBadgeForUser(3, context); //streak
   }
 }
 
@@ -483,10 +486,14 @@ Future<bool> insertLogAndCheckStreak() async {
   return false;
 }
 
-void unlockBadgeForUser(int badgeId) async {
+Future<bool> unlockBadgeForUser(int badgeId, context) async {
   User user = serviceLocator<AuthenticationDao>().getLoggedInUser()!;
   await serviceLocator<UserBadgeDao>()
       .insertUserBadge(UserBadge(userId: user.id!, badgeId: badgeId));
+  Badges badge = await serviceLocator<BadgesDao>().findBadgeById(badgeId) ??
+      Badges(name: '', icon: '', description: '', colors: '', fact: '');
+  showBadge(badge, context);
+  return true;
 }
 
 Future<bool> checkUserHasBadge(int badgeId) async {
@@ -498,4 +505,12 @@ Future<bool> checkUserHasBadge(int badgeId) async {
     return true;
   }
   return false;
+}
+
+void showBadge(Badges badge, context) {
+  showDialog(
+      context: context,
+      builder: (context) => BadgeAlert(
+            badge: badge,
+          ));
 }
