@@ -483,3 +483,13 @@ void unlockBadgeForUser(int badgeId) async {
   await serviceLocator<UserBadgeDao>()
       .insertUserBadge(UserBadge(userId: user.id!, badgeId: badgeId));
 }
+
+Future<bool> checkUserHasBadge(int badgeId) async {
+  User user = serviceLocator<AuthenticationDao>().getLoggedInUser()!;
+  UserBadge userBadges =
+      await serviceLocator<UserBadgeDao>().findUserBadgeByIds(user.id!, badgeId) ?? UserBadge(userId: 0, badgeId: 0);
+  if (userBadges.userId != 0 && userBadges.badgeId != 0) {
+    return true;
+  }
+  return false;
+}
