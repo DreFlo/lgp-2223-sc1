@@ -62,6 +62,7 @@ class _TaskFormState extends State<TaskForm> {
   late TaskGroup? taskGroup;
   late int? id;
   bool init = false;
+  late BuildContext? buildContext;
 
   TaskGroup taskGroupNone = TaskGroup(
       id: -1,
@@ -231,13 +232,14 @@ class _TaskFormState extends State<TaskForm> {
     }
   }
 
-  save(BuildContext context) async {
+  Future<int> save(BuildContext context) async {
+    int badgeReturn = 0;
     validate();
     if (errors.isNotEmpty) {
       widget.scrollController.animateTo(0,
           duration: const Duration(milliseconds: 500), curve: Curves.ease);
       setState(() {});
-      return;
+      return 0;
     }
     Task task;
     int? subjectId, taskGroupId;
@@ -268,10 +270,11 @@ class _TaskFormState extends State<TaskForm> {
       // check if it's the first task ever
       if (await serviceLocator<TaskDao>().countTasks() == 1) {
         // check if the user has the badge
-        bool hasBadge = await checkUserHasBadge(2);
+        bool hasBadge = await checkUserHasBadge(1);
         if (!hasBadge) {
           // win badge + show badge
-          unlockBadgeForUser(2);
+          //unlockBadgeForUser(1, context);
+          badgeReturn = 1;
         }
       }
     } else {
@@ -324,20 +327,26 @@ class _TaskFormState extends State<TaskForm> {
       }
     }
 
-    if (widget.callback != null) {
-      widget.callback!(task);
-    }
-    // My idea
-    // Create here the new notes
-    if (context.mounted) {
-      Navigator.pop(context);
+          if (widget.callback != null) {
+        widget.callback!(task);
+      }
+
+    if (badgeReturn == 0) {
+
+      // My idea
+      // Create here the new notes
+      if (context.mounted) {
+        Navigator.pop(context);
+      }
     }
 
     bool badge = await insertLogAndCheckStreak();
     if (badge) {
       //show badge
-      unlockBadgeForUser(1); //streak
+      //unlockBadgeForUser(3, context); //streak
+      badgeReturn = 3;
     }
+    return badgeReturn;
   }
 
   delete(BuildContext context) async {
@@ -359,7 +368,7 @@ class _TaskFormState extends State<TaskForm> {
     bool badge = await insertLogAndCheckStreak();
     if (badge) {
       //show badge
-      unlockBadgeForUser(1); //streak
+      unlockBadgeForUser(3, context); //streak
     }
   }
 
@@ -1216,11 +1225,13 @@ class _TaskFormState extends State<TaskForm> {
   }
 
   Widget getEndButtons(BuildContext context) {
+    buildContext = context;
     if (widget.id == null) {
       return ElevatedButton(
           key: const Key('taskSaveButton'),
           onPressed: () async {
-            await save(context);
+            int badge = await save(context);
+            callBadgeWidget(badge);
           },
           style: ElevatedButton.styleFrom(
             minimumSize: Size(MediaQuery.of(context).size.width * 0.95, 55),
@@ -1237,7 +1248,8 @@ class _TaskFormState extends State<TaskForm> {
           ElevatedButton(
               key: const Key('taskSaveButton'),
               onPressed: () async {
-                await save(context);
+                int badge = await save(context);
+                callBadgeWidget(badge);
               },
               style: ElevatedButton.styleFrom(
                 minimumSize: Size(MediaQuery.of(context).size.width * 0.4, 55),
@@ -1389,6 +1401,16 @@ class _TaskFormState extends State<TaskForm> {
   editNotesCallback() {
     if (widget.editNotesCallback != null) {
       widget.editNotesCallback!(notes);
+    }
+  }
+
+  callBadgeWidget(int badge) {
+    unlockBadgeForUser(badge, buildContext);
+
+    // My idea
+    // Create here the new notes
+    if (context.mounted) {
+      Navigator.pop(context);
     }
   }
 }
