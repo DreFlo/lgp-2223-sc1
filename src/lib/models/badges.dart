@@ -1,9 +1,9 @@
 import 'package:floor/floor.dart';
 
 @Entity(
-  tableName: 'badge',
+  tableName: 'badges',
 )
-class Badge {
+class Badges {
   @PrimaryKey(autoGenerate: true)
   final int? id;
 
@@ -17,7 +17,7 @@ class Badge {
 
   final String fact;
 
-  Badge(
+  Badges(
       {this.id,
       required this.name,
       required this.description,
