@@ -12,7 +12,8 @@ abstract class LogDao {
   @Query('SELECT * FROM log WHERE date >= :beginDate AND date <= :endDate')
   Future<Log?> findLogByDate(DateTime beginDate, DateTime endDate);
 
-  @Query('SELECT COUNT(*) FROM log WHERE date >= :beginDate AND date <= :endDate')
+  @Query(
+      'SELECT COUNT(*) FROM log WHERE date >= :beginDate AND date <= :endDate')
   Future<int?> countLogsByDate(DateTime beginDate, DateTime endDate);
 
   @Query('SELECT COUNT(*) FROM log')

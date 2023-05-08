@@ -434,12 +434,15 @@ Future<bool> insertLogAndCheckStreak() async {
   DateTime end = DateTime(DateTime.now().year, DateTime.now().month,
       DateTime.now().day, 23, 59, 59, 59, 59);
   int numberActivitiesToday =
-      await serviceLocator<LogDao>().countLogsByDate(today,end) ?? 0;
+      await serviceLocator<LogDao>().countLogsByDate(today, end) ?? 0;
   int numberActivitiesYesterday = await serviceLocator<LogDao>()
-      .countLogsByDate(today.subtract(const Duration(days: 1)), end.subtract(const Duration(days: 1))) ?? 0;
+          .countLogsByDate(today.subtract(const Duration(days: 1)),
+              end.subtract(const Duration(days: 1))) ??
+      0;
   int numberAllActivities = await serviceLocator<LogDao>().countLogs() ?? 0;
   //To have a streak, user needs to be in the app every day
-  if ((numberActivitiesToday == 0 && numberActivitiesYesterday > 0) || numberAllActivities == 0) {
+  if ((numberActivitiesToday == 0 && numberActivitiesYesterday > 0) ||
+      numberAllActivities == 0) {
     Log log = Log(
         date: DateTime.now(),
         userId: serviceLocator<AuthenticationDao>().getLoggedInUser()!.id ?? 0);

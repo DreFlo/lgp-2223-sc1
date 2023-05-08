@@ -13,7 +13,8 @@ const badgeTwo = {
 };
 
 const badgeThree = {
-  "title": 'Eu Tenho Dois Amores...\n(oh boy, you’d be laughing so hard if you knew this reference)',
+  "title":
+      'Eu Tenho Dois Amores...\n(oh boy, you’d be laughing so hard if you knew this reference)',
   "colors": ['FFD10000', 'FFFF005C'],
   "description": 'Favorited 2 different media!',
   "icon": 'FontAwesome.face_grin_hearts'

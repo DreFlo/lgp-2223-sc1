@@ -250,26 +250,27 @@ class _ProgressBarSheetState extends State<ProgressBarSheet> {
           const SizedBox(height: 30),
           Row(
             children: [
-              Expanded(child: 
-              ElevatedButton(
-                  style: ButtonStyle(
-                      padding: MaterialStateProperty.all(
-                          const EdgeInsets.symmetric(
-                              horizontal: 20, vertical: 15)),
-                      backgroundColor: MaterialStateProperty.all(primaryColor),
-                      shape: MaterialStateProperty.all(
-                          const RoundedRectangleBorder(
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(30))))),
-                  onPressed: () {
-                    //TODO: Open badges screen.
-                  },
-                  child: Text(AppLocalizations.of(context).badges,
-                      style: const TextStyle(
-                          color: Colors.white,
-                          fontSize: 16,
-                          fontWeight: FontWeight.w600)))
-          )],
+              Expanded(
+                  child: ElevatedButton(
+                      style: ButtonStyle(
+                          padding: MaterialStateProperty.all(
+                              const EdgeInsets.symmetric(
+                                  horizontal: 20, vertical: 15)),
+                          backgroundColor:
+                              MaterialStateProperty.all(primaryColor),
+                          shape: MaterialStateProperty.all(
+                              const RoundedRectangleBorder(
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(30))))),
+                      onPressed: () {
+                        //TODO: Open badges screen.
+                      },
+                      child: Text(AppLocalizations.of(context).badges,
+                          style: const TextStyle(
+                              color: Colors.white,
+                              fontSize: 16,
+                              fontWeight: FontWeight.w600))))
+            ],
           ),
           const SizedBox(height: 25)
         ]));

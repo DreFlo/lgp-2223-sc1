@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:icons_plus/icons_plus.dart';
 
-
 class BadgeWidget extends StatefulWidget {
   final String title;
   final String description;
@@ -22,7 +21,8 @@ class BadgeWidget extends StatefulWidget {
   State<BadgeWidget> createState() => _BadgeWidgetState();
 }
 
-class _BadgeWidgetState extends State<BadgeWidget> with TickerProviderStateMixin {
+class _BadgeWidgetState extends State<BadgeWidget>
+    with TickerProviderStateMixin {
   @override
   initState() {
     super.initState();
