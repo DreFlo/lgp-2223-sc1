@@ -117,23 +117,23 @@ class _ProgressBarSheetState extends State<ProgressBarSheet> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 18),
-          child: Wrap(spacing: 10, children: [
-      Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-        Padding(
-            padding: const EdgeInsets.only(top: 15, bottom: 15),
-            child: Container(
-              width: 115,
-              height: 18,
-              alignment: Alignment.center,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(10),
-                color: const Color(0xFF414554),
-              ),
-            ))
-      ]),
-      const SizedBox(height: 10),
-      Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+        padding: const EdgeInsets.symmetric(horizontal: 18),
+        child: Wrap(spacing: 10, children: [
+          Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+            Padding(
+                padding: const EdgeInsets.only(top: 15, bottom: 15),
+                child: Container(
+                  width: 115,
+                  height: 18,
+                  alignment: Alignment.center,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10),
+                    color: const Color(0xFF414554),
+                  ),
+                ))
+          ]),
+          const SizedBox(height: 10),
+          Row(mainAxisAlignment: MainAxisAlignment.center, children: [
             Stack(
               clipBehavior: Clip.none,
               alignment: Alignment.bottomRight,
@@ -181,8 +181,8 @@ class _ProgressBarSheetState extends State<ProgressBarSheet> {
               ],
             ),
           ]),
-      const SizedBox(height: 7.5),
-      Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+          const SizedBox(height: 7.5),
+          Row(mainAxisAlignment: MainAxisAlignment.center, children: [
             Text(widget.user[0],
                 textAlign: TextAlign.justify,
                 style: const TextStyle(
@@ -190,8 +190,8 @@ class _ProgressBarSheetState extends State<ProgressBarSheet> {
                   fontWeight: FontWeight.bold,
                 )),
           ]),
-      const SizedBox(height: 10),
-      Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+          const SizedBox(height: 10),
+          Row(mainAxisAlignment: MainAxisAlignment.center, children: [
             Text(
                 "${AppLocalizations.of(context).level.toUpperCase()} ${widget.level}",
                 style: const TextStyle(
@@ -223,8 +223,8 @@ class _ProgressBarSheetState extends State<ProgressBarSheet> {
                   fontWeight: FontWeight.bold,
                 )),
           ]),
-      const SizedBox(height: 25),
-      Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+          const SizedBox(height: 25),
+          Row(mainAxisAlignment: MainAxisAlignment.center, children: [
             Expanded(
               child: Text(
                   AppLocalizations.of(context).user_progress +
@@ -236,27 +236,42 @@ class _ProgressBarSheetState extends State<ProgressBarSheet> {
                   )),
             )
           ]),
-      const SizedBox(height: 27.5),
-      Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+          const SizedBox(height: 27.5),
+          Row(mainAxisAlignment: MainAxisAlignment.center, children: [
             Expanded(
               child: Text(getText(context),
                   textAlign: TextAlign.justify,
-
                   style: const TextStyle(
                     fontSize: 16,
                     fontWeight: FontWeight.normal,
                   )),
             )
           ]),
-      const SizedBox(height: 30),
-      Row(children: [ElevatedButton(
-        style: ButtonStyle(backgroundColor: MaterialStateProperty.all(primaryColor)),
-        onPressed: () {
-        //TODO: Open badges screen.
-      }, child: Text(AppLocalizations.of(context).badges,
-      
-      style: const TextStyle(color: Colors.white, fontSize: 16, fontWeight: FontWeight.w600)))],),
-      const SizedBox(height: 25)
-    ]));
+          const SizedBox(height: 30),
+          Row(
+            children: [
+              Expanded(child: 
+              ElevatedButton(
+                  style: ButtonStyle(
+                      padding: MaterialStateProperty.all(
+                          const EdgeInsets.symmetric(
+                              horizontal: 20, vertical: 15)),
+                      backgroundColor: MaterialStateProperty.all(primaryColor),
+                      shape: MaterialStateProperty.all(
+                          const RoundedRectangleBorder(
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(30))))),
+                  onPressed: () {
+                    //TODO: Open badges screen.
+                  },
+                  child: Text(AppLocalizations.of(context).badges,
+                      style: const TextStyle(
+                          color: Colors.white,
+                          fontSize: 16,
+                          fontWeight: FontWeight.w600)))
+          )],
+          ),
+          const SizedBox(height: 25)
+        ]));
   }
 }
