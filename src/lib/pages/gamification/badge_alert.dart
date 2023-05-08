@@ -1,22 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:icons_plus/icons_plus.dart';
 import 'package:src/pages/gamification/badges_page.dart';
 
 import 'package:src/themes/colors.dart';
+import 'package:src/widgets/gamification/badge_widget.dart';
 
 class BadgeAlert extends StatefulWidget {
-  final String title;
-  final String description;
-  final List<String> colors;
-  final String icon;
+  final BadgeWidget badge;
 
   const BadgeAlert(
       {Key? key,
-      required this.title,
-      required this.description,
-      required this.colors,
-      required this.icon})
+      required this.badge})
       : super(key: key);
 
   @override
@@ -29,25 +23,6 @@ class _BadgeAlertState extends State<BadgeAlert> with TickerProviderStateMixin {
     super.initState();
   }
 
-  @override
-  void dispose() {
-    super.dispose();
-  }
-
-  List<Color> getColors() {
-    List<Color> colors = [];
-    for (String color in widget.colors) {
-      colors.add(Color(int.parse(color, radix: 16)));
-    }
-    return colors;
-  }
-
-  IconData eval(String icon) {
-    if (icon == 'FontAwesome.fire') {
-      return FontAwesome.fire;
-    }
-    return Icons.error_outline_rounded;
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -68,22 +43,12 @@ class _BadgeAlertState extends State<BadgeAlert> with TickerProviderStateMixin {
         ]),
         const Divider(),
         Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-          Container(
-              height: 100,
-              width: 100,
-              decoration: BoxDecoration(
-                  gradient: LinearGradient(
-                      colors: getColors(),
-                      begin: Alignment.topLeft,
-                      end: Alignment.bottomRight),
-                  shape: BoxShape.circle,
-                  color: Colors.white),
-              child: Icon(eval(widget.icon), size: 50, color: Colors.white))
+          widget.badge
         ]),
         const Divider(height: 2.5),
         Row(mainAxisAlignment: MainAxisAlignment.center, children: [
           Text(
-            widget.title,
+            widget.badge.title,
             textAlign: TextAlign.center,
             style: const TextStyle(
                 color: Colors.white, fontSize: 25, fontWeight: FontWeight.w600),
@@ -91,7 +56,7 @@ class _BadgeAlertState extends State<BadgeAlert> with TickerProviderStateMixin {
         ]),
         Row(mainAxisAlignment: MainAxisAlignment.center, children: [
           Text(
-            widget.description,
+            widget.badge.description,
             textAlign: TextAlign.center,
             style: const TextStyle(
                 color: Colors.white,
@@ -116,7 +81,7 @@ class _BadgeAlertState extends State<BadgeAlert> with TickerProviderStateMixin {
         ElevatedButton(
           onPressed: () {
             showModalBottomSheet(
-              backgroundColor: modalDarkBackground,
+              backgroundColor: modalLightBackground,
               context: context,
               builder: (builder) => const BadgesPage());
           },
