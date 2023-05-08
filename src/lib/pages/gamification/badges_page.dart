@@ -26,6 +26,8 @@ class _BadgesPageState extends State<BadgesPage> {
       colors: badgeOneColors.split(','),
       description: badgeOne['description'].toString(),
       icon: badgeOne['icon'].toString(),
+      fact: badgeOne['fact'].toString(),
+      onBadgePage: true,
       showTitle: true,
       isUnlocked: false,
     ));
@@ -35,6 +37,8 @@ class _BadgesPageState extends State<BadgesPage> {
       colors: badgeTwoColors.split(','),
       description: badgeTwo['description'].toString(),
       icon: badgeTwo['icon'].toString(),
+      fact: badgeTwo['fact'].toString(),
+      onBadgePage: true,
       showTitle: true,
       isUnlocked: false,
     ));
@@ -44,8 +48,10 @@ class _BadgesPageState extends State<BadgesPage> {
       colors: badgeThreeColors.split(','),
       description: badgeThree['description'].toString(),
       icon: badgeThree['icon'].toString(),
+      fact: badgeThree['fact'].toString(),
+      onBadgePage: true,
       showTitle: true,
-      isUnlocked: false,
+      isUnlocked: true,
     ));
 
     return badges;
