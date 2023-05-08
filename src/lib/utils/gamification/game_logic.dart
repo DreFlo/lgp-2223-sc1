@@ -330,13 +330,16 @@ void check(
 
   if (checkLevelUp(user.xp + points, user.level)) {
     updateUserShowLevelUpToast(user, points, context);
-
-    return;
   } else {
     updateUserShowGainedXPToast(user, points, context);
-
-    return;
   }
+
+  bool badge = await insertLogAndCheckStreak();
+  if (badge) {
+    //show badge
+    unlockBadgeForUser(1); //streak
+  }
+  return;
 }
 
 Future<int> checkNonEventNonTask(Task task, context, bool fromTaskGroup) async {
@@ -364,10 +367,22 @@ Future<int> checkNonEventNonTask(Task task, context, bool fromTaskGroup) async {
   if (checkLevelUp(user.xp + points, user.level)) {
     updateUserShowLevelUpToast(user, points, context);
 
+    bool badge = await insertLogAndCheckStreak();
+    if (badge) {
+      //show badge
+      unlockBadgeForUser(1); //streak
+    }
+
     return points;
     //show level up screen
   } else {
     updateUserShowGainedXPToast(user, points, context);
+    bool badge = await insertLogAndCheckStreak();
+    if (badge) {
+      //show badge
+      unlockBadgeForUser(1); //streak
+    }
+
     return points;
   }
 }
@@ -393,6 +408,12 @@ void removePoints(int points, Task task) async {
       imagePath: user.imagePath);
 
   await updateUser(newUser);
+
+  bool badge = await insertLogAndCheckStreak();
+  if (badge) {
+    //show badge
+    unlockBadgeForUser(1); //streak
+  }
 }
 
 void getPomodoroXP(int focusTime, int currentSession, int sessions,
