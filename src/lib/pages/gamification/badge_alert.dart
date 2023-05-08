@@ -115,8 +115,12 @@ class _BadgeAlertState extends State<BadgeAlert> with TickerProviderStateMixin {
       actions: [
         ElevatedButton(
           onPressed: () {
-            showModalBottomSheet(context: context, builder: (builder) => const BadgesPage());
+            showModalBottomSheet(
+              backgroundColor: modalDarkBackground,
+              context: context,
+              builder: (builder) => const BadgesPage());
           },
+
           style: ButtonStyle(
             backgroundColor: MaterialStateProperty.all(primaryColor),
             shape: MaterialStateProperty.all(const RoundedRectangleBorder(

@@ -9,8 +9,10 @@ import 'package:src/notifications/local_notifications_service.dart';
 import 'package:src/pages/auth/landing_page.dart';
 import 'package:src/pages/events/event_form.dart';
 import 'package:src/pages/gamification/badge_alert.dart';
+import 'package:src/pages/gamification/badges_page.dart';
 import 'package:src/pages/tasks/institution_form.dart';
 import 'package:src/pages/tasks/subject_form.dart';
+import 'package:src/themes/colors.dart';
 import 'package:src/utils/service_locator.dart';
 import 'package:src/pages/tasks/project_form.dart';
 import 'package:src/pages/tasks/task_form.dart';
@@ -300,6 +302,27 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                           ));
                 },
                 child: Text('badge alert')),
+            ElevatedButton(
+                style: ButtonStyle(
+                    padding: MaterialStateProperty.all(
+                        const EdgeInsets.symmetric(
+                            horizontal: 20, vertical: 15)),
+                    backgroundColor: MaterialStateProperty.all(primaryColor),
+                    shape: MaterialStateProperty.all(
+                        const RoundedRectangleBorder(
+                            borderRadius:
+                                BorderRadius.all(Radius.circular(30))))),
+                onPressed: () {
+                  showModalBottomSheet(
+                      isScrollControlled: true,
+                      backgroundColor: modalDarkBackground,
+                      context: context, builder: (builder) => BadgesPage());
+                },
+                child: Text(AppLocalizations.of(context).badges,
+                    style: const TextStyle(
+                        color: Colors.white,
+                        fontSize: 16,
+                        fontWeight: FontWeight.w600))),
             FutureBuilder(
                 key: ValueKey<Object>(redrawObject),
                 future: serviceLocator<UserDao>().findAllUsers(),
