@@ -120,7 +120,7 @@
   "password_recov_title": "Sometimes... \nthings just happen!",
   "password_recov_subtitle": "Don't worry, let's get you back up and running.",
   "password_recov_btn": "Send Recovery Link",
-  "user_progress": "Good job, ",
+  "user_progress": "Good job",
   "user_progress_2": "!",
   "user_progress_3": "You’ve completed ",
   "user_progress_task": " task",
@@ -230,5 +230,6 @@
   "won_badge": "You won a badge!",
   "won_badge_2": "...but there's more!",
   "check_it_out": "Check it out!",
-  "maybe_later": "Maybe later..."
+  "maybe_later": "Maybe later...",
+  "badges": "Badges"
 }
