@@ -42,7 +42,7 @@ class _BadgeAlertState extends State<BadgeAlert> with TickerProviderStateMixin {
   }
 
   IconData eval(String icon) {
-    if (icon == 'FontAwesomeIcons.fire') {
+    if (icon == 'FontAwesome.fire') {
       return FontAwesome.fire;
     }
     return Icons.error_outline_rounded;
@@ -54,7 +54,8 @@ class _BadgeAlertState extends State<BadgeAlert> with TickerProviderStateMixin {
       shape: const RoundedRectangleBorder(
           borderRadius: BorderRadius.all(Radius.circular(30.0))),
       backgroundColor: lightGray,
-      contentPadding: const EdgeInsets.only(left: 10, right: 10, top: 30),
+      contentPadding: const EdgeInsets.only(left: 10, right: 10, top: 20),
+      actionsPadding: const EdgeInsets.symmetric(vertical: 20),
       content: Wrap(children: [
         Row(mainAxisAlignment: MainAxisAlignment.center, children: [
           Text(
