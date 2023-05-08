@@ -8,10 +8,7 @@ import 'package:src/widgets/gamification/badge_widget.dart';
 class BadgeAlert extends StatefulWidget {
   final BadgeWidget badge;
 
-  const BadgeAlert(
-      {Key? key,
-      required this.badge})
-      : super(key: key);
+  const BadgeAlert({Key? key, required this.badge}) : super(key: key);
 
   @override
   State<BadgeAlert> createState() => _BadgeAlertState();
@@ -22,7 +19,6 @@ class _BadgeAlertState extends State<BadgeAlert> with TickerProviderStateMixin {
   initState() {
     super.initState();
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -81,11 +77,10 @@ class _BadgeAlertState extends State<BadgeAlert> with TickerProviderStateMixin {
         ElevatedButton(
           onPressed: () {
             showModalBottomSheet(
-              backgroundColor: modalLightBackground,
-              context: context,
-              builder: (builder) => const BadgesPage());
+                backgroundColor: modalLightBackground,
+                context: context,
+                builder: (builder) => const BadgesPage());
           },
-
           style: ButtonStyle(
             backgroundColor: MaterialStateProperty.all(primaryColor),
             shape: MaterialStateProperty.all(const RoundedRectangleBorder(

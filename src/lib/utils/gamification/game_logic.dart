@@ -330,13 +330,16 @@ void check(
 
   if (checkLevelUp(user.xp + points, user.level)) {
     updateUserShowLevelUpToast(user, points, context);
-
-    return;
   } else {
     updateUserShowGainedXPToast(user, points, context);
-
-    return;
   }
+
+  bool badge = await insertLogAndCheckStreak();
+  if (badge) {
+    //show badge
+    unlockBadgeForUser(1); //streak
+  }
+  return;
 }
 
 Future<int> checkNonEventNonTask(Task task, context, bool fromTaskGroup) async {
@@ -364,10 +367,22 @@ Future<int> checkNonEventNonTask(Task task, context, bool fromTaskGroup) async {
   if (checkLevelUp(user.xp + points, user.level)) {
     updateUserShowLevelUpToast(user, points, context);
 
+    bool badge = await insertLogAndCheckStreak();
+    if (badge) {
+      //show badge
+      unlockBadgeForUser(1); //streak
+    }
+
     return points;
     //show level up screen
   } else {
     updateUserShowGainedXPToast(user, points, context);
+    bool badge = await insertLogAndCheckStreak();
+    if (badge) {
+      //show badge
+      unlockBadgeForUser(1); //streak
+    }
+
     return points;
   }
 }
@@ -393,6 +408,12 @@ void removePoints(int points, Task task) async {
       imagePath: user.imagePath);
 
   await updateUser(newUser);
+
+  bool badge = await insertLogAndCheckStreak();
+  if (badge) {
+    //show badge
+    unlockBadgeForUser(1); //streak
+  }
 }
 
 void getPomodoroXP(int focusTime, int currentSession, int sessions,
@@ -434,12 +455,15 @@ Future<bool> insertLogAndCheckStreak() async {
   DateTime end = DateTime(DateTime.now().year, DateTime.now().month,
       DateTime.now().day, 23, 59, 59, 59, 59);
   int numberActivitiesToday =
-      await serviceLocator<LogDao>().countLogsByDate(today,end) ?? 0;
+      await serviceLocator<LogDao>().countLogsByDate(today, end) ?? 0;
   int numberActivitiesYesterday = await serviceLocator<LogDao>()
-      .countLogsByDate(today.subtract(const Duration(days: 1)), end.subtract(const Duration(days: 1))) ?? 0;
+          .countLogsByDate(today.subtract(const Duration(days: 1)),
+              end.subtract(const Duration(days: 1))) ??
+      0;
   int numberAllActivities = await serviceLocator<LogDao>().countLogs() ?? 0;
   //To have a streak, user needs to be in the app every day
-  if ((numberActivitiesToday == 0 && numberActivitiesYesterday > 0) || numberAllActivities == 0) {
+  if ((numberActivitiesToday == 0 && numberActivitiesYesterday > 0) ||
+      numberAllActivities == 0) {
     Log log = Log(
         date: DateTime.now(),
         userId: serviceLocator<AuthenticationDao>().getLoggedInUser()!.id ?? 0);
