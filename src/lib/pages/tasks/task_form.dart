@@ -327,12 +327,11 @@ class _TaskFormState extends State<TaskForm> {
       }
     }
 
-          if (widget.callback != null) {
-        widget.callback!(task);
-      }
+    if (widget.callback != null) {
+      widget.callback!(task);
+    }
 
     if (badgeReturn == 0) {
-
       // My idea
       // Create here the new notes
       if (context.mounted) {
@@ -360,15 +359,19 @@ class _TaskFormState extends State<TaskForm> {
       widget.deleteCallback!();
     }
 
-    if (context.mounted) {
-      Navigator.pop(context);
-      Navigator.pop(context);
-    }
-
     bool badge = await insertLogAndCheckStreak();
     if (badge) {
       //show badge
-      unlockBadgeForUser(3, context); //streak
+      callBadgeWidget(3);
+      if (context.mounted) {
+        Navigator.pop(context);
+      }
+      return;
+    }
+
+    if (context.mounted) {
+      Navigator.pop(context);
+      Navigator.pop(context);
     }
   }
 
@@ -1407,8 +1410,6 @@ class _TaskFormState extends State<TaskForm> {
   callBadgeWidget(int badge) {
     unlockBadgeForUser(badge, buildContext);
 
-    // My idea
-    // Create here the new notes
     if (context.mounted) {
       Navigator.pop(context);
     }
