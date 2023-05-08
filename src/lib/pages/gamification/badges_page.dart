@@ -1,7 +1,8 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:src/themes/colors.dart';
+import 'package:src/utils/gamification/badge_mocks.dart';
+import 'package:src/widgets/gamification/badge_widget.dart';
 
 class BadgesPage extends StatefulWidget {
   const BadgesPage({Key? key}) : super(key: key);
@@ -20,25 +21,43 @@ class _BadgesPageState extends State<BadgesPage> {
 
   List<Widget> getBadges() {
     List<Widget> badges = [];
-    for (int i = 0; i < 10; i++) {
-      badges.add(
-        Container(
-          width: 100,
-          height: 100,
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(10),
-            color: const Color(0xFF414554),
-          ),
-        ),
-      );
-    }
+    badges.add(BadgeWidget(
+      title: badgeOne['title'].toString(),
+      colors: badgeOneColors.split(','),
+      description: badgeOne['description'].toString(),
+      icon: badgeOne['icon'].toString(),
+      showTitle: true,
+      isUnlocked: false,
+    ));
+
+    badges.add(BadgeWidget(
+      title: badgeTwo['title'].toString(),
+      colors: badgeTwoColors.split(','),
+      description: badgeTwo['description'].toString(),
+      icon: badgeTwo['icon'].toString(),
+      showTitle: true,
+      isUnlocked: false,
+    ));
+
+    badges.add(BadgeWidget(
+      title: badgeThree['title'].toString(),
+      colors: badgeThreeColors.split(','),
+      description: badgeThree['description'].toString(),
+      icon: badgeThree['icon'].toString(),
+      showTitle: true,
+      isUnlocked: false,
+    ));
+
     return badges;
   }
 
   @override
   Widget build(BuildContext context) {
     return Container(
-        color: modalLightBackground,
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(30),
+          color: modalLightBackground,
+        ),
         child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 18),
             child: Wrap(spacing: 10, children: [
@@ -69,14 +88,21 @@ class _BadgesPageState extends State<BadgesPage> {
                 ],
               ),
               const SizedBox(height: 30),
-              Row(
-                children: [
-                  GridView.count(
-                    crossAxisCount: 3,
-                    children: getBadges()
-                  )
-                ],
-              )
+              GridView.count(
+                  mainAxisSpacing: 10,
+                  crossAxisSpacing: 30,
+                  crossAxisCount: 3,
+                  shrinkWrap: true,
+                  children: getBadges()),
+              const SizedBox(height: 15),
+              Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+                Text(AppLocalizations.of(context).more_to_come,
+                    style: const TextStyle(
+                        color: grayText,
+                        fontWeight: FontWeight.normal,
+                        fontSize: 14))
+              ]),
+              const SizedBox(height: 100),
             ])));
   }
 }
