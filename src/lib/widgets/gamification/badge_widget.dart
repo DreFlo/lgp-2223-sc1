@@ -7,13 +7,15 @@ class BadgeWidget extends StatefulWidget {
   final String description;
   final List<String> colors;
   final String icon;
+  final bool isUnlocked;
 
   const BadgeWidget(
       {Key? key,
       required this.title,
       required this.description,
       required this.colors,
-      required this.icon})
+      required this.icon,
+      this.isUnlocked = true})
       : super(key: key);
 
   @override
