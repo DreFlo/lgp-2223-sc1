@@ -73,6 +73,8 @@ class _EventFormState extends State<EventForm> {
   TextEditingController titleController = TextEditingController();
   TextEditingController descriptionController = TextEditingController();
 
+  late BuildContext? buildContext;
+
   @override
   initState() {
     super.initState();
@@ -287,7 +289,7 @@ class _EventFormState extends State<EventForm> {
     bool badge = await insertLogAndCheckStreak();
     if (badge) {
       //show badge
-      unlockBadgeForUser(1); //streak
+      callBadgeWidget();
     }
   }
 
@@ -320,7 +322,7 @@ class _EventFormState extends State<EventForm> {
     bool badge = await insertLogAndCheckStreak();
     if (badge) {
       //show badge
-      unlockBadgeForUser(1); //streak
+      callBadgeWidget();
     }
   }
 
@@ -351,7 +353,7 @@ class _EventFormState extends State<EventForm> {
     bool badge = await insertLogAndCheckStreak();
     if (badge) {
       //show badge
-      unlockBadgeForUser(1); //streak
+      callBadgeWidget(); //streak
     }
   }
 
@@ -366,7 +368,15 @@ class _EventFormState extends State<EventForm> {
     bool badge = await insertLogAndCheckStreak();
     if (badge) {
       //show badge
-      unlockBadgeForUser(1); //streak
+      callBadgeWidget(); //streak
+    }
+  }
+
+  callBadgeWidget() {
+    unlockBadgeForUser(3, buildContext);
+
+    if (context.mounted) {
+      Navigator.pop(context);
     }
   }
 
