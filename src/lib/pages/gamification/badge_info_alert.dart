@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:src/pages/gamification/badges_page.dart';
+import 'package:src/models/badges.dart';
 
 import 'package:src/themes/colors.dart';
 import 'package:src/widgets/gamification/badge_widget.dart';
 
 class BadgeInfoAlert extends StatefulWidget {
-  final BadgeWidget badge;
+  final Badges badge;
 
   const BadgeInfoAlert({Key? key, required this.badge}) : super(key: key);
 
@@ -32,12 +32,12 @@ class _BadgeInfoAlertState extends State<BadgeInfoAlert>
       content: Wrap(alignment: WrapAlignment.center, children: [
         Row(
             mainAxisAlignment: MainAxisAlignment.center,
-            children: [widget.badge]),
+            children: [BadgeWidget(badge: widget.badge)]),
         const Divider(height: 2.5, color: Colors.transparent),
-        (widget.badge.title.split('\n').length > 1
+        (widget.badge.name.split('\n').length > 1
             ? Wrap(alignment: WrapAlignment.center, spacing: -1, children: [
                 Text(
-                  widget.badge.title.split('\n')[0],
+                  widget.badge.name.split('\n')[0],
                   textAlign: TextAlign.center,
                   style: const TextStyle(
                       color: Colors.white,
@@ -45,7 +45,7 @@ class _BadgeInfoAlertState extends State<BadgeInfoAlert>
                       fontWeight: FontWeight.w600),
                 ),
                 Text(
-                  widget.badge.title.split('\n')[1],
+                  widget.badge.name.split('\n')[1],
                   textAlign: TextAlign.center,
                   style: const TextStyle(
                       color: Colors.white,
@@ -55,14 +55,15 @@ class _BadgeInfoAlertState extends State<BadgeInfoAlert>
                 const Divider(height: 10, color: Colors.transparent),
               ])
             : Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+            Expanded(child:
                 Text(
-                  widget.badge.title.split('\n')[0],
+                  widget.badge.name.split('\n')[0],
                   textAlign: TextAlign.center,
                   style: const TextStyle(
                       color: Colors.white,
                       fontSize: 25,
                       fontWeight: FontWeight.w600),
-                )
+                ))
               ])),
         Row(mainAxisAlignment: MainAxisAlignment.center, children: [
           Text(
