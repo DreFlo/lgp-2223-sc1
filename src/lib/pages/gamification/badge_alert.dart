@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:src/models/badges.dart';
 import 'package:src/pages/gamification/badges_page.dart';
 
 import 'package:src/themes/colors.dart';
 import 'package:src/widgets/gamification/badge_widget.dart';
 
 class BadgeAlert extends StatefulWidget {
-  final BadgeWidget badge;
+  final Badges badge;
 
   const BadgeAlert({Key? key, required this.badge}) : super(key: key);
 
@@ -40,11 +41,11 @@ class _BadgeAlertState extends State<BadgeAlert> with TickerProviderStateMixin {
         const Divider(color: Colors.transparent),
         Row(
             mainAxisAlignment: MainAxisAlignment.center,
-            children: [widget.badge]),
+            children: [BadgeWidget(badge: widget.badge)]),
         const Divider(height: 2.5, color: Colors.transparent),
         Row(mainAxisAlignment: MainAxisAlignment.center, children: [
           Text(
-            widget.badge.title,
+            widget.badge.name,
             textAlign: TextAlign.center,
             style: const TextStyle(
                 color: Colors.white, fontSize: 25, fontWeight: FontWeight.w600),
