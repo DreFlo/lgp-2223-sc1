@@ -38,9 +38,9 @@ class _BadgeAlertState extends State<BadgeAlert> with TickerProviderStateMixin {
           )
         ]),
         const Divider(color: Colors.transparent),
-        Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-          widget.badge
-        ]),
+        Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [widget.badge]),
         const Divider(height: 2.5, color: Colors.transparent),
         Row(mainAxisAlignment: MainAxisAlignment.center, children: [
           Text(
@@ -76,7 +76,13 @@ class _BadgeAlertState extends State<BadgeAlert> with TickerProviderStateMixin {
       actions: [
         ElevatedButton(
           onPressed: () {
+            Navigator.of(context).pop();
             showModalBottomSheet(
+                shape: const RoundedRectangleBorder(
+                  borderRadius:
+                      BorderRadius.vertical(top: Radius.circular(30.0)),
+                ),
+                isScrollControlled: true,
                 backgroundColor: modalLightBackground,
                 context: context,
                 builder: (builder) => const BadgesPage());
