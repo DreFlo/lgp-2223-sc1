@@ -450,6 +450,11 @@ void getPomodoroXP(int focusTime, int currentSession, int sessions,
 }
 
 Future<bool> insertLogAndCheckStreak() async {
+   //Check if user already has the badge
+  bool hasBadge = await checkUserHasBadge(1);
+  if (hasBadge) {
+    return false;
+  }
   DateTime today = DateTime(DateTime.now().year, DateTime.now().month,
       DateTime.now().day, 0, 0, 0, 0, 0);
   DateTime end = DateTime(DateTime.now().year, DateTime.now().month,

@@ -127,8 +127,11 @@ void saveFavoriteStatus(bool favorite, int id) async {
       await serviceLocator<MediaDao>().countFavoriteMedia(true) ?? 0;
 
   if (numberMedia == 2) {
-    //win badge + show badge
-    unlockBadgeForUser(3);
+    bool hasBadge = await checkUserHasBadge(2);
+    if (!hasBadge) {
+      //win badge + show badge
+      unlockBadgeForUser(3);
+    }
   }
 }
 
