@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:src/animation_test/main.dart';
 import 'package:src/daos/user_dao.dart';
+import 'package:src/models/badges.dart';
 import 'package:src/models/user.dart';
 import 'package:src/notifications/local_notifications_service.dart';
 import 'package:src/pages/auth/landing_page.dart';
@@ -18,7 +19,6 @@ import 'package:src/pages/tasks/project_form.dart';
 import 'package:src/pages/tasks/task_form.dart';
 import 'package:src/pages/timer/timer_form.dart';
 import 'package:src/utils/reset_db.dart';
-import 'package:src/widgets/gamification/badge_widget.dart';
 
 class HomePage extends StatefulWidget {
   final String title;
@@ -296,9 +296,9 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                   showDialog(
                       context: context,
                       builder: (context) => BadgeAlert(
-                          badge: BadgeWidget(
-                              title: 'Chain Streaker',
-                              colors: const ['FFFF7B51', 'FFFF8A00'],
+                          badge: Badges(
+                              name: 'Chain Streaker',
+                              colors: "FFFF7B51, FFFF8A00",
                               description: '7 consecutive days of activity.',
                               icon: 'FontAwesome.fire',
                               fact: "Hello!")));
