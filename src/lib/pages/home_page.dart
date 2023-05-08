@@ -154,8 +154,8 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                                 maxChildSize: 0.85,
                                 builder: (context, scrollController) =>
                                     TaskForm(
-                                        scrollController: scrollController,
-                                        id: 1)),
+                                        scrollController: scrollController
+                                        )),
                           ));
                 }),
             ElevatedButton(
@@ -297,7 +297,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                       context: context,
                       builder: (context) => BadgeAlert(
                           badge: Badges(
-                              name: 'Chain Streaker',
+                              name: 'Eu Tenho Dois Amores...\n(oh boy, you’d be laughing so hard if you knew this reference)',
                               colors: "FFFF7B51, FFFF8A00",
                               description: '7 consecutive days of activity.',
                               icon: 'FontAwesome.fire',
