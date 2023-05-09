@@ -215,7 +215,7 @@ class _AddTaskNoteFormState extends State<AddTaskNoteForm> {
           bool badge = await insertLogAndCheckStreak();
           if (badge) {
             //show badge
-            unlockBadgeForUser(1); //streak
+            callBadgeWidget(); //streak
           }
 
           simpleNote = Note(
@@ -237,7 +237,8 @@ class _AddTaskNoteFormState extends State<AddTaskNoteForm> {
           bool badge = await insertLogAndCheckStreak();
           if (badge) {
             //show badge
-            unlockBadgeForUser(1); //streak
+            callBadgeWidget();
+           //streak
           }
 
           simpleNote = Note(
@@ -285,7 +286,7 @@ class _AddTaskNoteFormState extends State<AddTaskNoteForm> {
     bool badge = await insertLogAndCheckStreak();
     if (badge) {
       //show badge
-      unlockBadgeForUser(1); //streak
+      callBadgeWidget(); //streak
     }
 
     if (context.mounted) {
@@ -406,5 +407,9 @@ class _AddTaskNoteFormState extends State<AddTaskNoteForm> {
         return alert;
       },
     );
+  }
+
+  callBadgeWidget() {
+    unlockBadgeForUser(3, context); //streak
   }
 }
