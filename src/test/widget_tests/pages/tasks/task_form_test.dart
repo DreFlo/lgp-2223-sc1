@@ -1,15 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
+import 'package:src/daos/authentication_dao.dart';
 import 'package:src/daos/notes/note_task_note_super_dao.dart';
 import 'package:src/daos/student/institution_dao.dart';
 import 'package:src/daos/student/subject_dao.dart';
 import 'package:src/daos/student/task_dao.dart';
 import 'package:src/daos/student/task_group_dao.dart';
+import 'package:src/daos/user_badge_dao.dart';
 import 'package:src/models/student/institution.dart';
 import 'package:src/models/student/subject.dart';
 import 'package:src/models/student/task.dart';
 import 'package:src/models/student/task_group.dart';
+import 'package:src/models/user.dart';
+import 'package:src/models/user_badge.dart';
+import 'package:src/daos/log_dao.dart';
 import 'package:src/pages/tasks/task_form.dart';
 import 'package:src/themes/colors.dart';
 import 'package:src/utils/date_formatter.dart';
@@ -18,6 +23,7 @@ import 'package:src/utils/enums.dart';
 import 'package:src/widgets/notes/note_bar.dart';
 import '../../../utils/model_mocks_util.mocks.dart';
 import '../../../utils/service_locator_test_util.dart';
+import '../../../utils/service_locator_test_util.mocks.dart';
 import '../../widget_tests_utils.dart';
 
 void main() {
@@ -136,6 +142,25 @@ void main() {
 
     when(mockSubjectDao.findSubjectByInstitutionId(institution.id!))
         .thenAnswer((_) async => [subject]);
+
+    User user = User(id: 1, name: 'name', email: 'email', password: 'password', level:1, imagePath: '', xp: 0);
+    final mockAuthenticationDao = serviceLocator.get<AuthenticationDao>();
+    when(mockAuthenticationDao.getLoggedInUser())
+        .thenAnswer((_) => user);
+    final mockUserBadgeDao = serviceLocator.get<UserBadgeDao>();
+    when(mockUserBadgeDao.findUserBadgeByIds(user.id!, 1))
+        .thenAnswer((_) async => UserBadge(userId:0, badgeId: 0));
+  DateTime today = DateTime(DateTime.now().year, DateTime.now().month,
+  DateTime.now().day, 0, 0, 0, 0, 0);
+  DateTime end = DateTime(DateTime.now().year, DateTime.now().month,
+      DateTime.now().day, 23, 59, 59, 59, 59);
+
+    final mockLogDao = serviceLocator.get<LogDao>();
+    when(mockLogDao.countLogsByDate(today,end))
+        .thenAnswer((_) async => 1);
+    when(mockLogDao.countLogs())
+        .thenAnswer((_) async => 5);
+
   }
 
   tap(WidgetTester widgetTester, Finder finder) async {
@@ -150,9 +175,30 @@ void main() {
 
     Finder scroll = find.byType(Scrollable).last;
 
+    User user = User(id: 1, name: 'name', email: 'email', password: 'password', level:1, imagePath: '', xp: 0);
+    final mockAuthenticationDao = serviceLocator.get<AuthenticationDao>();
+    when(mockAuthenticationDao.getLoggedInUser())
+        .thenAnswer((_) => user);
+    final mockUserBadgeDao = serviceLocator.get<UserBadgeDao>();
+    when(mockUserBadgeDao.findUserBadgeByIds(user.id!, 1))
+        .thenAnswer((_) async => UserBadge(userId:0, badgeId: 0));
+  DateTime today = DateTime(DateTime.now().year, DateTime.now().month,
+  DateTime.now().day, 0, 0, 0, 0, 0);
+  DateTime end = DateTime(DateTime.now().year, DateTime.now().month,
+      DateTime.now().day, 23, 59, 59, 59, 59);
+
+    final mockLogDao = serviceLocator.get<LogDao>();
+    when(mockLogDao.countLogsByDate(today,end))
+        .thenAnswer((_) async => 1);
+    when(mockLogDao.countLogs())
+        .thenAnswer((_) async => 5);
+
+
     await widgetTester.scrollUntilVisible(saveButton, 100, scrollable: scroll);
     await widgetTester
         .tap(find.byKey(const Key('taskSaveButton'), skipOffstage: false));
+
+    
 
     await widgetTester.pumpAndSettle();
   }
