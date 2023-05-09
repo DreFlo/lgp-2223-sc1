@@ -421,7 +421,7 @@ class _SubjectFormState extends State<SubjectForm> {
     bool badge = await insertLogAndCheckStreak();
     if (badge) {
       //show badge
-      unlockBadgeForUser(1); //streak
+      callBadgeWidget(); //streak
     }
   }
 
@@ -539,7 +539,7 @@ class _SubjectFormState extends State<SubjectForm> {
         bool badge = await insertLogAndCheckStreak();
         if (badge) {
           //show badge
-          unlockBadgeForUser(1); //streak
+          callBadgeWidget(); //streak
         }
 
         if (widget.callback != null) {
@@ -621,7 +621,7 @@ class _SubjectFormState extends State<SubjectForm> {
     bool badge = await insertLogAndCheckStreak();
     if (badge) {
       //show badge
-      unlockBadgeForUser(1); //streak
+      callBadgeWidget(); //streak
     }
 
     setState(() {
@@ -645,5 +645,9 @@ class _SubjectFormState extends State<SubjectForm> {
         return alert;
       },
     );
+  }
+
+  callBadgeWidget(){
+    unlockBadgeForUser(3, context); //streak
   }
 }
