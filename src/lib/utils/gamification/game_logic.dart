@@ -454,7 +454,7 @@ void getPomodoroXP(int focusTime, int currentSession, int sessions,
 
 Future<bool> insertLogAndCheckStreak() async {
   //Check if user already has the badge
-  bool hasBadge = await checkUserHasBadge(1);
+  bool hasBadge = await checkUserHasBadge(3);
   if (hasBadge) {
     return false;
   }

@@ -4,7 +4,6 @@ import 'package:src/models/badges.dart';
 import 'package:src/pages/gamification/badge_info_alert.dart';
 import 'package:src/themes/colors.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:src/widgets/gamification/badge_widget.dart';
 
 class BadgePageWidget extends StatefulWidget {
   final Badges badge;

@@ -330,6 +330,13 @@ class _TaskFormState extends State<TaskForm> {
       widget.callback!(task);
     }
 
+    bool badge = await insertLogAndCheckStreak();
+    if (badge) {
+      //show badge
+      //unlockBadgeForUser(3, context); //streak
+      badgeReturn = 3;
+    }
+
     if (badgeReturn == 0) {
       // My idea
       // Create here the new notes
@@ -338,12 +345,6 @@ class _TaskFormState extends State<TaskForm> {
       }
     }
 
-    bool badge = await insertLogAndCheckStreak();
-    if (badge) {
-      //show badge
-      //unlockBadgeForUser(3, context); //streak
-      badgeReturn = 3;
-    }
     return badgeReturn;
   }
 
@@ -354,10 +355,6 @@ class _TaskFormState extends State<TaskForm> {
       serviceLocator<TaskDao>().deleteTask(task);
     }
 
-    if (widget.deleteCallback != null) {
-      widget.deleteCallback!();
-    }
-
     bool badge = await insertLogAndCheckStreak();
     if (badge) {
       //show badge
@@ -366,6 +363,10 @@ class _TaskFormState extends State<TaskForm> {
         Navigator.pop(context);
       }
       return;
+    }
+
+    if (widget.deleteCallback != null) {
+      widget.deleteCallback!();
     }
 
     if (context.mounted) {
@@ -1232,7 +1233,9 @@ class _TaskFormState extends State<TaskForm> {
           key: const Key('taskSaveButton'),
           onPressed: () async {
             int badge = await save(context);
-            callBadgeWidget(badge);
+            if(badge != 0){
+              callBadgeWidget(badge);
+            }
           },
           style: ElevatedButton.styleFrom(
             minimumSize: Size(MediaQuery.of(context).size.width * 0.95, 55),
@@ -1250,7 +1253,9 @@ class _TaskFormState extends State<TaskForm> {
               key: const Key('taskSaveButton'),
               onPressed: () async {
                 int badge = await save(context);
-                callBadgeWidget(badge);
+                if(badge != 0){
+                  callBadgeWidget(badge);
+                }
               },
               style: ElevatedButton.styleFrom(
                 minimumSize: Size(MediaQuery.of(context).size.width * 0.4, 55),
