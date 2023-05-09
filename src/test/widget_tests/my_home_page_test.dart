@@ -2,6 +2,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:src/daos/authentication_dao.dart';
 import 'package:src/models/user.dart';
 import 'package:src/utils/service_locator.dart';
+import 'package:src/widgets/home/badge_fact.dart';
 import '../utils/service_locator_test_util.dart';
 import '../utils/locations_injector.dart';
 import 'package:mockito/mockito.dart';
@@ -104,5 +105,21 @@ void main() {
 
     // Verify that the data is displayed.
     expect(find.text('Hello, \nEmil'), findsOneWidget);
+  });
+
+  testWidgets('MyHomePage displays default fact', (WidgetTester tester) async {
+    disableOverflowErrors();
+    final mockAuthenticationDao = serviceLocator.get<AuthenticationDao>();
+    when(mockAuthenticationDao.isUserLoggedIn()).thenAnswer((_) => false);
+
+    BadgeFact fact = const BadgeFact(
+       fact: "Something else appears here if you use this app right!");
+
+    // Build the widget.
+    await tester.pumpWidget(const LocalizationsInjector(child: MyHomePage()));
+
+    // Verify that the data is displayed.
+    await tester.pumpAndSettle();
+    expect(find.text(fact.fact), findsOneWidget);
   });
 }
