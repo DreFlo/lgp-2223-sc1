@@ -44,10 +44,8 @@ class _BadgesPageState extends State<BadgesPage> {
         future: getBadges(),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
-            // While waiting for data, show a loading indicator
             return const Center(child: CircularProgressIndicator());
           } else if (snapshot.hasError) {
-            // If an error occurred while fetching data, show an error message
             return const Center(child: Text('Error fetching data'));
           } else {
             return Container(
