@@ -82,7 +82,7 @@ class _EpisodeBarState extends State<EpisodeBar> {
                     bool badge = await insertLogAndCheckStreak();
                     if (badge) {
                       //show badge
-                      unlockBadgeForUser(1); //streak
+                      callBadgeWidget(); //streak
                     }
                     setState(() {
                       episode = newEpisode;
@@ -111,7 +111,7 @@ class _EpisodeBarState extends State<EpisodeBar> {
                     bool badge = await insertLogAndCheckStreak();
                     if (badge) {
                       //show badge
-                      unlockBadgeForUser(1); //streak
+                      callBadgeWidget(); //streak
                     }
                     setState(() {
                       episode = newEpisode;
@@ -129,7 +129,7 @@ class _EpisodeBarState extends State<EpisodeBar> {
                     bool badge = await insertLogAndCheckStreak();
                     if (badge) {
                       //show badge
-                      unlockBadgeForUser(1); //streak
+                      callBadgeWidget(); //streak
                     }
                     setState(() {
                       episode = newEpisode;
@@ -170,5 +170,9 @@ class _EpisodeBarState extends State<EpisodeBar> {
             ]),
           ]),
         ]));
+  }
+
+  callBadgeWidget() {
+    unlockBadgeForUser(3, context); //streak
   }
 }
