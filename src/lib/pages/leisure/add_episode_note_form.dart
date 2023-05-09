@@ -25,10 +25,9 @@ class AddEpisodeNoteForm extends StatefulWidget {
 
 class _AddEpisodeNoteFormState extends State<AddEpisodeNoteForm> {
   final TextEditingController _controller = TextEditingController();
-  late BuildContext? buildContext;
 
   callBadgeWidget() {
-    unlockBadgeForUser(3, buildContext);
+    unlockBadgeForUser(3, context);
   }
 
   @override

@@ -36,7 +36,6 @@ class _FinishedMediaFormState extends State<FinishedMediaForm> {
   late Reaction rating;
   late bool isFavorite;
   TextEditingController controller = TextEditingController();
-  late BuildContext? buildContext;
 
   @override
   initState() {
@@ -49,7 +48,7 @@ class _FinishedMediaFormState extends State<FinishedMediaForm> {
   }
 
   callBadgeWidget() {
-    unlockBadgeForUser(3, buildContext);
+    unlockBadgeForUser(3, context);
   }
 
   @override

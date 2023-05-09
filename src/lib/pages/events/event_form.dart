@@ -73,8 +73,6 @@ class _EventFormState extends State<EventForm> {
   TextEditingController titleController = TextEditingController();
   TextEditingController descriptionController = TextEditingController();
 
-  late BuildContext? buildContext;
-
   @override
   initState() {
     super.initState();
@@ -373,7 +371,7 @@ class _EventFormState extends State<EventForm> {
   }
 
   callBadgeWidget() {
-    unlockBadgeForUser(3, buildContext);
+    unlockBadgeForUser(3, context);
 
     if (context.mounted) {
       Navigator.pop(context);

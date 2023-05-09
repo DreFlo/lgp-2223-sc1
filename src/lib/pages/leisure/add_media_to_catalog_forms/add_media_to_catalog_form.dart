@@ -32,7 +32,6 @@ abstract class AddMediaToCatalogFormState<T extends Media>
     extends State<AddMediaToCatalogForm<T>> {
   late String startDate, endDate;
   late Status status;
-  late BuildContext? buildContext;
 
   @override
   void initState() {
@@ -44,7 +43,7 @@ abstract class AddMediaToCatalogFormState<T extends Media>
   }
 
   callBadgeWidget() {
-    unlockBadgeForUser(3, buildContext);
+    unlockBadgeForUser(3, context);
   }
   
   @override
