@@ -1233,7 +1233,7 @@ class _TaskFormState extends State<TaskForm> {
           key: const Key('taskSaveButton'),
           onPressed: () async {
             int badge = await save(context);
-            if(badge != 0){
+            if (badge != 0) {
               callBadgeWidget(badge);
             }
           },
@@ -1253,7 +1253,7 @@ class _TaskFormState extends State<TaskForm> {
               key: const Key('taskSaveButton'),
               onPressed: () async {
                 int badge = await save(context);
-                if(badge != 0){
+                if (badge != 0) {
                   callBadgeWidget(badge);
                 }
               },

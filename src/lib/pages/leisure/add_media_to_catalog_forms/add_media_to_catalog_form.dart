@@ -45,7 +45,7 @@ abstract class AddMediaToCatalogFormState<T extends Media>
   callBadgeWidget() {
     unlockBadgeForUser(3, context);
   }
-  
+
   @override
   Widget build(BuildContext context) {
     return Wrap(spacing: 10, children: [

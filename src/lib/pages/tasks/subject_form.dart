@@ -647,7 +647,7 @@ class _SubjectFormState extends State<SubjectForm> {
     );
   }
 
-  callBadgeWidget(){
+  callBadgeWidget() {
     unlockBadgeForUser(3, context); //streak
   }
 }

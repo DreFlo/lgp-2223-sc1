@@ -44,8 +44,8 @@ class _BadgeAlertState extends State<BadgeAlert> with TickerProviderStateMixin {
             children: [BadgeWidget(badge: widget.badge)]),
         const Divider(height: 2.5, color: Colors.transparent),
         Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-          Expanded(child:
-          Text(
+          Expanded(
+              child: Text(
             widget.badge.name,
             textAlign: TextAlign.center,
             style: const TextStyle(
@@ -53,8 +53,8 @@ class _BadgeAlertState extends State<BadgeAlert> with TickerProviderStateMixin {
           ))
         ]),
         Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-          Expanded(child: 
-          Text(
+          Expanded(
+              child: Text(
             widget.badge.description,
             textAlign: TextAlign.center,
             style: const TextStyle(

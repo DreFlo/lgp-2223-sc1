@@ -238,7 +238,7 @@ class _AddTaskNoteFormState extends State<AddTaskNoteForm> {
           if (badge) {
             //show badge
             callBadgeWidget();
-           //streak
+            //streak
           }
 
           simpleNote = Note(
