@@ -428,7 +428,7 @@ class _InstitutionFormState extends State<InstitutionForm> {
       bool badge = await insertLogAndCheckStreak();
       if (badge) {
         //show badge
-        unlockBadgeForUser(1); //streak
+        callBadgeWidget(); //streak
       }
 
       for (Subject subject in noDbSubjects) {
@@ -534,7 +534,7 @@ class _InstitutionFormState extends State<InstitutionForm> {
     bool badge = await insertLogAndCheckStreak();
     if (badge) {
       //show badge
-      unlockBadgeForUser(1); //streak
+      callBadgeWidget(); //streak
     }
 
     setState(() {});
@@ -552,6 +552,10 @@ class _InstitutionFormState extends State<InstitutionForm> {
     }
 
     setState(() {});
+  }
+
+  callBadgeWidget() {
+    unlockBadgeForUser(3, context);
   }
 
   showDeleteConfirmation(BuildContext context) {
@@ -590,7 +594,7 @@ class _InstitutionFormState extends State<InstitutionForm> {
         bool badge = await insertLogAndCheckStreak();
         if (badge) {
           //show badge
-          unlockBadgeForUser(1); //streak
+          callBadgeWidget(); //streak
         }
 
         if (context.mounted) {
