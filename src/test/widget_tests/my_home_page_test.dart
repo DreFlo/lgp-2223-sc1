@@ -113,7 +113,7 @@ void main() {
     when(mockAuthenticationDao.isUserLoggedIn()).thenAnswer((_) => false);
 
     BadgeFact fact = const BadgeFact(
-       fact: "Something else appears here if you use this app right!");
+        fact: "Something else appears here if you use this app right!");
 
     // Build the widget.
     await tester.pumpWidget(const LocalizationsInjector(child: MyHomePage()));

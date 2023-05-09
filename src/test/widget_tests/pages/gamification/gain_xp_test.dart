@@ -27,8 +27,8 @@ void main() {
   });
 
   testWidgets('test if XP gain is accused', (WidgetTester widgetTester) async {
-        final user = User(
-        id:1, 
+    final user = User(
+        id: 1,
         name: 'Emil',
         email: 'emil@gmail.com',
         password: 'test',
@@ -52,7 +52,6 @@ void main() {
     final mockLogDao = serviceLocator.get<LogDao>();
     when(mockLogDao.countLogsByDate(today, end)).thenAnswer((_) async => 1);
     when(mockLogDao.countLogs()).thenAnswer((_) async => 5);
-
 
     final mockTaskStudentTimeslotDao =
         serviceLocator.get<TaskStudentTimeslotDao>();

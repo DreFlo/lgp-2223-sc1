@@ -25,7 +25,6 @@ import 'package:src/utils/enums.dart';
 import 'package:src/widgets/notes/note_bar.dart';
 import '../../../utils/model_mocks_util.mocks.dart';
 import '../../../utils/service_locator_test_util.dart';
-import '../../../utils/service_locator_test_util.mocks.dart';
 import '../../widget_tests_utils.dart';
 
 void main() {
@@ -246,15 +245,14 @@ void main() {
         .thenAnswer((_) async => 1);
 
     final mockBadgesDao = serviceLocator.get<BadgesDao>();
-    when(mockBadgesDao.findBadgeById(1))
-        .thenAnswer((_) async =>  Badges(
-      id: 1,
-      name: 'Bare Minimum Bob',
-      description: 'Completed your first task!',
-      icon: 'FontAwesome.face_flushed',
-      colors: 'FF5DD3C5,FF0094FF',
-      fact:
-          'Male quokkas will defend their pregnant mate, but once the child is born, they turn into deadbeats.'));
+    when(mockBadgesDao.findBadgeById(1)).thenAnswer((_) async => Badges(
+        id: 1,
+        name: 'Bare Minimum Bob',
+        description: 'Completed your first task!',
+        icon: 'FontAwesome.face_flushed',
+        colors: 'FF5DD3C5,FF0094FF',
+        fact:
+            'Male quokkas will defend their pregnant mate, but once the child is born, they turn into deadbeats.'));
     DateTime today = DateTime(DateTime.now().year, DateTime.now().month,
         DateTime.now().day, 0, 0, 0, 0, 0);
     DateTime end = DateTime(DateTime.now().year, DateTime.now().month,

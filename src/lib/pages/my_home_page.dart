@@ -224,8 +224,8 @@ class _MyHomePageState extends State<MyHomePage> {
                   child: WelcomeMessage(name: name)),
               FutureBuilder(
                   future: loadUserBadges(),
-                  builder: (BuildContext context,
-                      AsyncSnapshot<String> snapshot) {
+                  builder:
+                      (BuildContext context, AsyncSnapshot<String> snapshot) {
                     if (snapshot.hasData) {
                       return BadgeFact(fact: snapshot.data!);
                     }

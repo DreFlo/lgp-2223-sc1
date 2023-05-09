@@ -28,7 +28,8 @@ class _BadgeFactState extends State<BadgeFact> {
             ),
           ],
         ),
-        child: Expanded(child: Wrap(
+        child: Expanded(
+            child: Wrap(
           children: [
             Row(
               children: [
@@ -42,13 +43,13 @@ class _BadgeFactState extends State<BadgeFact> {
             const Divider(color: Colors.transparent, height: 1),
             Row(
               children: [
-                Expanded(child: Text(widget.fact,
-                    textAlign: TextAlign.justify,
-                    style: const TextStyle(
-
-                        fontSize: 13,
-                        color: Colors.white,
-                        fontWeight: FontWeight.w400)))
+                Expanded(
+                    child: Text(widget.fact,
+                        textAlign: TextAlign.justify,
+                        style: const TextStyle(
+                            fontSize: 13,
+                            color: Colors.white,
+                            fontWeight: FontWeight.w400)))
               ],
             )
           ],

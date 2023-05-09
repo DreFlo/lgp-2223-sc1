@@ -27,7 +27,7 @@ void main() {
 
   testWidgets('test if level up is accused', (WidgetTester widgetTester) async {
     final user = User(
-        id:1,
+        id: 1,
         name: 'Emil',
         email: 'emil@gmail.com',
         password: 'test',
@@ -38,7 +38,7 @@ void main() {
     final mockUserDao = serviceLocator.get<UserDao>();
     when(mockUserDao.findUserById(1)).thenAnswer((_) => Stream.value(user));
 
-        final mockAuthenticationDao = serviceLocator.get<AuthenticationDao>();
+    final mockAuthenticationDao = serviceLocator.get<AuthenticationDao>();
     when(mockAuthenticationDao.getLoggedInUser()).thenAnswer((_) => user);
     final mockUserBadgeDao = serviceLocator.get<UserBadgeDao>();
     when(mockUserBadgeDao.findUserBadgeByIds(user.id!, 1))
@@ -51,7 +51,6 @@ void main() {
     final mockLogDao = serviceLocator.get<LogDao>();
     when(mockLogDao.countLogsByDate(today, end)).thenAnswer((_) async => 1);
     when(mockLogDao.countLogs()).thenAnswer((_) async => 5);
-
 
     final mockTaskStudentTimeslotDao =
         serviceLocator.get<TaskStudentTimeslotDao>();
