@@ -476,11 +476,17 @@ Future<bool> insertLogAndCheckStreak() async {
         date: DateTime.now(),
         userId: serviceLocator<AuthenticationDao>().getLoggedInUser()!.id ?? 0);
     await serviceLocator<LogDao>().insertLog(log);
+  } else {
+    List<Log> logs = await serviceLocator<LogDao>().findAllLogs();
+    await serviceLocator<LogDao>().deleteLogs(logs);
+    Log log = Log(
+        date: DateTime.now(),
+        userId: serviceLocator<AuthenticationDao>().getLoggedInUser()!.id ?? 0);
+    await serviceLocator<LogDao>().insertLog(log);
   }
 
   //Check streak
-  if (numberAllActivities == 7) {
-    //need to also check if user doesn't have the streak badge yet
+  if (numberAllActivities + 1 == 7) {
     return true;
   }
   return false;
