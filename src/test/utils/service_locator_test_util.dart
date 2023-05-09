@@ -1,6 +1,7 @@
 import 'package:mockito/annotations.dart';
 import 'package:src/daos/authentication_dao.dart';
 import 'package:src/daos/badges_dao.dart';
+import 'package:src/daos/log_dao.dart';
 import 'package:src/daos/media/book_dao.dart';
 import 'package:src/daos/media/episode_dao.dart';
 import 'package:src/daos/media/media_book_super_dao.dart';
@@ -83,7 +84,8 @@ import 'service_locator_test_util.mocks.dart';
   MockSpec<TimeslotStudentTimeslotSuperDao>(),
   MockSpec<MediaMediaTimeslotDao>(),
   MockSpec<TaskStudentTimeslotDao>(),
-  MockSpec<AuthenticationDao>()
+  MockSpec<AuthenticationDao>(),
+  MockSpec<LogDao>()
 ])
 void setupMockServiceLocatorUnitTests() {
   serviceLocator
@@ -151,6 +153,8 @@ void setupMockServiceLocatorUnitTests() {
       dependsOn: [AppDatabase]);
   serviceLocator.registerSingletonWithDependencies<BadgesDao>(
       () => MockBadgesDao(),
+      dependsOn: [AppDatabase]);
+  serviceLocator.registerSingletonWithDependencies<LogDao>(() => MockLogDao(),
       dependsOn: [AppDatabase]);
   serviceLocator.registerSingletonWithDependencies<MoodDao>(() => MockMoodDao(),
       dependsOn: [AppDatabase]);
