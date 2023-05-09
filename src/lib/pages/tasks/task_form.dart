@@ -62,7 +62,6 @@ class _TaskFormState extends State<TaskForm> {
   late TaskGroup? taskGroup;
   late int? id;
   bool init = false;
-  late BuildContext? buildContext;
 
   TaskGroup taskGroupNone = TaskGroup(
       id: -1,
@@ -1228,7 +1227,6 @@ class _TaskFormState extends State<TaskForm> {
   }
 
   Widget getEndButtons(BuildContext context) {
-    buildContext = context;
     if (widget.id == null) {
       return ElevatedButton(
           key: const Key('taskSaveButton'),
@@ -1408,7 +1406,7 @@ class _TaskFormState extends State<TaskForm> {
   }
 
   callBadgeWidget(int badge) {
-    unlockBadgeForUser(badge, buildContext);
+    unlockBadgeForUser(badge, context);
 
     if (context.mounted) {
       Navigator.pop(context);
