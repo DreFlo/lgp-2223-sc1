@@ -9,6 +9,7 @@ import 'package:src/models/student/task.dart';
 import 'package:src/pages/gamification/media_timeslot_finished_modal.dart';
 import 'package:src/pages/gamification/student_timeslot_finished_modal.dart';
 import 'package:src/themes/colors.dart';
+import 'package:src/widgets/home/badge_fact.dart';
 import 'package:src/widgets/home/homepage_horizontal_scrollview.dart';
 import 'package:src/widgets/home/profile_pic.dart';
 import 'package:src/widgets/home/event_listview.dart';
@@ -18,8 +19,6 @@ import 'package:src/daos/timeslot/timeslot_media_timeslot_super_dao.dart';
 import 'package:src/utils/service_locator.dart';
 import 'package:src/models/timeslot/timeslot_student_timeslot_super_entity.dart';
 import 'package:src/daos/timeslot/timeslot_student_timeslot_super_dao.dart';
-
-import 'package:src/widgets/home/badge_placeholder.dart';
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({Key? key}) : super(key: key);
@@ -190,7 +189,7 @@ class _MyHomePageState extends State<MyHomePage> {
               Padding(
                   padding: const EdgeInsets.only(left: 36, top: 90),
                   child: WelcomeMessage(name: name)),
-              const BadgePlaceholder(),
+              const BadgeFact(fact: 'Male quokkas will defend their pregnant mate, but once the child is born, they turn into deadbeats.'),
               HorizontalScrollView(
                 nItems: studentEvents.length + mediaEvents.length,
                 selectedIndex: _selectedIndex,
