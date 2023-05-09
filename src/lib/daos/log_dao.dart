@@ -19,6 +19,9 @@ abstract class LogDao {
   @Query('SELECT COUNT(*) FROM log')
   Future<int?> countLogs();
 
+  @Query('DELETE * FROM log')
+  Future<void> deleteAllLogs();
+  
   @insert
   Future<int> insertLog(Log log);
 
