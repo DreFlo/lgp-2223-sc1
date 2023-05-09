@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:src/daos/authentication_dao.dart';
+import 'package:src/daos/badges_dao.dart';
 import 'package:src/daos/media/media_dao.dart';
 import 'package:src/daos/student/task_dao.dart';
 import 'package:src/daos/timeslot/media_media_timeslot_dao.dart';
 import 'package:src/daos/timeslot/task_student_timeslot_dao.dart';
+import 'package:src/daos/user_badge_dao.dart';
+import 'package:src/models/badges.dart';
 import 'package:src/models/media/media.dart';
 import 'package:src/models/student/task.dart';
 import 'package:src/pages/gamification/media_timeslot_finished_modal.dart';
@@ -19,6 +22,8 @@ import 'package:src/daos/timeslot/timeslot_media_timeslot_super_dao.dart';
 import 'package:src/utils/service_locator.dart';
 import 'package:src/models/timeslot/timeslot_student_timeslot_super_entity.dart';
 import 'package:src/daos/timeslot/timeslot_student_timeslot_super_dao.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'dart:math';
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({Key? key}) : super(key: key);
@@ -66,6 +71,34 @@ class _MyHomePageState extends State<MyHomePage> {
     checkEventDone();
 
     return 0;
+  }
+
+  Future<String> loadUserBadges() async {
+    List<String> facts = [];
+    String defaultFact = AppLocalizations.of(context).quokka_default_fact;
+    int? userId = serviceLocator<AuthenticationDao>().isUserLoggedIn()
+        ? serviceLocator<AuthenticationDao>().getLoggedInUser()!.id
+        : 0;
+    if (userId == 0) {
+      return defaultFact;
+    }
+
+    List<int> badgeIds = await serviceLocator<UserBadgeDao>()
+        .findUserBadgeIdsByUserId(userId ?? 0);
+    if (badgeIds.isNotEmpty) {
+      for (int i = 0; i < badgeIds.length; i++) {
+        Badges? badge =
+            await serviceLocator<BadgesDao>().findBadgeById(badgeIds[i]);
+        facts.add(badge?.fact ?? "");
+      }
+
+      Random random = Random();
+      int randomNumber = random.nextInt(facts.length);
+      String fact = facts[randomNumber];
+
+      return fact;
+    }
+    return defaultFact;
   }
 
   Future<Map<int, List<Media>>> getMedias() async {
@@ -189,7 +222,15 @@ class _MyHomePageState extends State<MyHomePage> {
               Padding(
                   padding: const EdgeInsets.only(left: 36, top: 90),
                   child: WelcomeMessage(name: name)),
-              const BadgeFact(fact: 'Male quokkas will defend their pregnant mate, but once the child is born, they turn into deadbeats.'),
+              FutureBuilder(
+                  future: loadUserBadges(),
+                  builder: (BuildContext context,
+                      AsyncSnapshot<String> snapshot) {
+                    if (snapshot.hasData) {
+                      return BadgeFact(fact: snapshot.data!);
+                    }
+                    return const Center(child: CircularProgressIndicator());
+                  }),
               HorizontalScrollView(
                 nItems: studentEvents.length + mediaEvents.length,
                 selectedIndex: _selectedIndex,

@@ -236,5 +236,6 @@
   "more_to_come": "More to come!",
   "quokka_fact": "Quokka Fact",
   "close": "Close",
-  "did_you_know": "Did you know...?"
+  "did_you_know": "Did you know...?",
+  "quokka_default_fact": "something appears here if you use this app right!"
 }
