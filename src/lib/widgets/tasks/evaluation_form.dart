@@ -210,7 +210,7 @@ class _EvaluationFormState extends State<EvaluationForm> {
     bool badge = await insertLogAndCheckStreak();
     if (badge) {
       //show badge
-      unlockBadgeForUser(1); //streak
+      callBadgeWidget(); //streak
     }
   }
 
@@ -229,5 +229,9 @@ class _EvaluationFormState extends State<EvaluationForm> {
         ),
         child: Text(AppLocalizations.of(context).save,
             style: Theme.of(context).textTheme.headlineSmall));
+  }
+
+  callBadgeWidget() {
+    unlockBadgeForUser(3, context); //streak
   }
 }
