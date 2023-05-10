@@ -9,7 +9,9 @@ import 'package:src/utils/enums.dart';
     ForeignKey(
         childColumns: ['task_group_id'],
         parentColumns: ['id'],
-        entity: TaskGroup),
+        entity: TaskGroup,
+        onDelete: ForeignKeyAction.setNull,
+        onUpdate: ForeignKeyAction.restrict),
     ForeignKey(
         childColumns: ['subject_id'],
         parentColumns: ['id'],
