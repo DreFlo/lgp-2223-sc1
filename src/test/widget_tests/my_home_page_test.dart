@@ -1,5 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:src/daos/authentication_service.dart';
+import 'package:src/services/authentication_service.dart';
 import 'package:src/models/user.dart';
 import 'package:src/utils/service_locator.dart';
 import '../utils/service_locator_test_util.dart';

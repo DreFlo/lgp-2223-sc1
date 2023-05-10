@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:src/daos/authentication_service.dart';
+import 'package:src/services/authentication_service.dart';
 import 'package:src/daos/student/institution_dao.dart';
 import 'package:src/daos/student/subject_dao.dart';
 import 'package:src/models/student/subject.dart';

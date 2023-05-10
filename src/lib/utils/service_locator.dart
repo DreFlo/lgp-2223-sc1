@@ -1,7 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:get_it/get_it.dart';
 import 'package:sqflite/sqflite.dart';
-import 'package:src/daos/authentication_service.dart';
+import 'package:src/services/authentication_service.dart';
 import 'package:src/daos/media/media_video_movie_super_dao.dart';
 import 'package:src/daos/media/media_book_super_dao.dart';
 import 'package:src/daos/media/media_series_super_dao.dart';
@@ -47,7 +47,7 @@ import 'package:src/daos/mood_dao.dart';
 import 'package:src/daos/user_dao.dart';
 
 import 'package:src/database/callbacks.dart';
-import 'package:src/notifications/local_notifications_service.dart';
+import 'package:src/services/local_notifications_service.dart';
 import 'package:src/utils/database_seeder.dart';
 
 import 'package:notification_permissions/notification_permissions.dart';

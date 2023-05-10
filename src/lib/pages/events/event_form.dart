@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:src/daos/authentication_service.dart';
+import 'package:src/services/authentication_service.dart';
 import 'package:src/daos/timeslot/media_media_timeslot_dao.dart';
 import 'package:src/daos/timeslot/task_student_timeslot_dao.dart';
 import 'package:src/daos/timeslot/timeslot_dao.dart';
@@ -13,7 +13,7 @@ import 'package:src/models/timeslot/task_student_timeslot.dart';
 import 'package:src/models/timeslot/timeslot.dart';
 import 'package:src/models/timeslot/timeslot_media_timeslot_super_entity.dart';
 import 'package:src/models/timeslot/timeslot_student_timeslot_super_entity.dart';
-import 'package:src/notifications/local_notifications_service.dart';
+import 'package:src/services/local_notifications_service.dart';
 import 'package:src/settings/settings_globals.dart';
 import 'package:src/themes/colors.dart';
 import 'package:src/utils/enums.dart';

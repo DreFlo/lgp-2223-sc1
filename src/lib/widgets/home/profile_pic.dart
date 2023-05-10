@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:src/daos/authentication_service.dart';
+import 'package:src/services/authentication_service.dart';
 import 'package:src/pages/gamification/progress_bar_sheet.dart';
 import 'package:src/themes/colors.dart';
 import 'package:src/utils/service_locator.dart';

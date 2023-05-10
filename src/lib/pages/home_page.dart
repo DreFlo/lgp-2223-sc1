@@ -5,7 +5,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:src/animation_test/main.dart';
 import 'package:src/daos/user_dao.dart';
 import 'package:src/models/user.dart';
-import 'package:src/notifications/local_notifications_service.dart';
+import 'package:src/services/local_notifications_service.dart';
 import 'package:src/pages/auth/landing_page.dart';
 import 'package:src/pages/events/event_form.dart';
 import 'package:src/pages/tasks/institution_form.dart';
