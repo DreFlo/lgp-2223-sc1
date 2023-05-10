@@ -76,11 +76,10 @@ class _MyEventListViewState extends State<MyEventListView> {
   Widget build(BuildContext context) {
     return SingleChildScrollView(
         scrollDirection: Axis.vertical,
-        child: Expanded(
-            child: Column(
+        child: Column(
           children: [
             for (var item in items) showCard(item),
           ],
-        )));
+        ));
   }
 }

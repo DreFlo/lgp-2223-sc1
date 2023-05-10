@@ -201,7 +201,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   future: loadEventsDB(),
                   builder: (BuildContext context, AsyncSnapshot<int> snapshot) {
                     if (snapshot.hasData) {
-                      return Expanded(child: showWidget());
+                      return showWidget();
                     }
                     return const Center(child: CircularProgressIndicator());
                   })
