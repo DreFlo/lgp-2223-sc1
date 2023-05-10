@@ -82,7 +82,7 @@ class NoteBookNoteSuperDao {
       throw DatabaseOperationWithoutId(
           "Id can't be null for update for NoteBookNoteSuperEntity");
     }
-    
+
     final note = noteBookNoteSuperEntity.toNote();
 
     await serviceLocator<NoteDao>().deleteNote(note);

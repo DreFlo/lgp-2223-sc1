@@ -1593,15 +1593,17 @@ void main() {
       int id = await serviceLocator<TimeslotStudentTimeslotSuperDao>()
           .insertTimeslotStudentTimeslotSuperEntity(
               timeslotStudentTimeslotSuperEntity);
-              
-      timeslotStudentTimeslotSuperEntity = timeslotStudentTimeslotSuperEntity.copyWith(id: id);
+
+      timeslotStudentTimeslotSuperEntity =
+          timeslotStudentTimeslotSuperEntity.copyWith(id: id);
 
       await serviceLocator<TimeslotDao>()
           .deleteTimeslot(timeslotStudentTimeslotSuperEntity.toTimeslot());
 
-      StudentTimeslot? studentTimeslot = await (serviceLocator<StudentTimeslotDao>()
-          .findStudentTimeslotById(id)
-          .first);
+      StudentTimeslot? studentTimeslot =
+          await (serviceLocator<StudentTimeslotDao>()
+              .findStudentTimeslotById(id)
+              .first);
 
       expect(studentTimeslot, null);
     });
@@ -1704,11 +1706,12 @@ void main() {
           MediaMediaTimeslot(mediaId: seriesId, mediaTimeslotId: timeslotId));
 
       // Delete Timeslot
-      TimeslotMediaTimeslotSuperEntity timeslotDB = (await serviceLocator<TimeslotMediaTimeslotSuperDao>()
-          .findAllTimeslotMediaTimeslot(null)).first;
+      TimeslotMediaTimeslotSuperEntity timeslotDB =
+          (await serviceLocator<TimeslotMediaTimeslotSuperDao>()
+                  .findAllTimeslotMediaTimeslot(null))
+              .first;
       await serviceLocator<TimeslotMediaTimeslotSuperDao>()
-          .deleteTimeslotMediaTimeslotSuperEntity(
-              timeslotDB);
+          .deleteTimeslotMediaTimeslotSuperEntity(timeslotDB);
 
       List<Media> mediaList = await serviceLocator<MediaMediaTimeslotDao>()
           .findMediaByMediaTimeslotId(timeslotId);
@@ -1832,11 +1835,12 @@ void main() {
           TaskStudentTimeslot(taskId: taskId, studentTimeslotId: timeslotId));
 
       // Delete Timeslot
-      TimeslotStudentTimeslotSuperEntity timeslotDB = (await serviceLocator<TimeslotStudentTimeslotSuperDao>()
-          .findAllTimeslotStudentTimeslot(null)).first;
+      TimeslotStudentTimeslotSuperEntity timeslotDB =
+          (await serviceLocator<TimeslotStudentTimeslotSuperDao>()
+                  .findAllTimeslotStudentTimeslot(null))
+              .first;
       await serviceLocator<TimeslotStudentTimeslotSuperDao>()
-          .deleteTimeslotStudentTimeslotSuperEntity(
-              timeslotDB);
+          .deleteTimeslotStudentTimeslotSuperEntity(timeslotDB);
 
       List<Task> taskList = await serviceLocator<TaskStudentTimeslotDao>()
           .findTaskByStudentTimeslotId(timeslotId);
