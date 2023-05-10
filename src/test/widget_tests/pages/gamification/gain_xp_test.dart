@@ -3,7 +3,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
 import 'package:src/daos/timeslot/task_student_timeslot_dao.dart';
 import 'package:src/models/student/task.dart';
-import 'package:src/daos/user_dao.dart';
+import 'package:src/services/authentication_service.dart';
 import 'package:src/models/student/task_group.dart';
 import 'package:src/models/user.dart';
 import 'package:src/pages/gamification/gained_xp_toast.dart';
@@ -31,8 +31,9 @@ void main() {
         level: 1,
         imagePath: '');
 
-    final mockUserDao = serviceLocator.get<UserDao>();
-    when(mockUserDao.findUserById(1)).thenAnswer((_) => Stream.value(user));
+    final mockUserDao = serviceLocator.get<AuthenticationService>();
+    when(mockUserDao.isUserLoggedIn()).thenAnswer((_) => true);
+    when(mockUserDao.getLoggedInUser()).thenAnswer((_) => user);
 
     final mockTaskStudentTimeslotDao =
         serviceLocator.get<TaskStudentTimeslotDao>();
