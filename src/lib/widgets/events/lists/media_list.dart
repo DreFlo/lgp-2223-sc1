@@ -17,7 +17,7 @@ class MediaList extends ActivitiesList {
 
   @override
   Future<List<ChooseActivity>> getActivities() async {
-    // TODO(events): and filter only the medias from the user logged in
+    // TODO(events): and filter only the medias from the user logged in (future)
     List<ChooseActivity> mediaActivities = [];
     List<Media> media = await serviceLocator<MediaDao>().findMediaActivities();
 

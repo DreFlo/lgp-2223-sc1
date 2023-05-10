@@ -18,7 +18,7 @@ class TasksList extends ActivitiesList {
 
   @override
   Future<List<ChooseActivity>> getActivities() async {
-    // TODO(events): and filter only the tasks from the user logged in
+    // TODO(events): and filter only the tasks from the user logged in (future)
     List<ChooseActivity> tasksActivities = [];
     List<Task> tasks = await serviceLocator<TaskDao>().findTasksActivities();
 

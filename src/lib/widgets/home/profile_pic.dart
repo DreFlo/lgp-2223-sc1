@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:src/daos/authentication_service.dart';
 import 'package:src/pages/gamification/progress_bar_sheet.dart';
 import 'package:src/themes/colors.dart';
+import 'package:src/utils/service_locator.dart';
 
 class ProfilePic extends StatefulWidget {
   const ProfilePic({Key? key}) : super(key: key);
@@ -37,13 +39,21 @@ class _ProfilePicState extends State<ProfilePic> {
                           image: 'assets/images/poster.jpg'),
                     ));
           },
-          child: const CircleAvatar(
-            radius: 30,
-            backgroundColor: grayButton,
-            // TODO Get profile pic - backgroundImage: AssetImage(path),
-          ),
+          child: getUserAvatar(),
         )
       ],
     );
+  }
+
+  Widget getUserAvatar() {
+    String imagePath = serviceLocator<AuthenticationService>().isUserLoggedIn()
+        ? serviceLocator<AuthenticationService>().getLoggedInUser()!.imagePath
+        : 'assets/images/no_image.jpg';
+
+    return (CircleAvatar(
+      radius: 30,
+      backgroundColor: grayButton,
+      backgroundImage: AssetImage(imagePath),
+    ));
   }
 }

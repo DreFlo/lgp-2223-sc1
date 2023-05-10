@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:src/daos/authentication_service.dart';
 import 'package:src/daos/student/institution_dao.dart';
 import 'package:src/daos/student/subject_dao.dart';
 import 'package:src/models/student/subject.dart';
@@ -413,14 +414,15 @@ class _InstitutionFormState extends State<InstitutionForm> {
     validate();
 
     if (errors.isEmpty) {
-      //TODO: Change to real user id
+      int userId = serviceLocator<AuthenticationService>().getLoggedInUserId();
+
       int id;
       if (widget.id == null) {
-        id = await serviceLocator<InstitutionDao>()
-            .insertInstitution(Institution(name: name, type: type, userId: 1));
+        id = await serviceLocator<InstitutionDao>().insertInstitution(
+            Institution(name: name, type: type, userId: userId));
       } else {
-        serviceLocator<InstitutionDao>().updateInstitution(
-            Institution(id: widget.id!, name: name, type: type, userId: 1));
+        serviceLocator<InstitutionDao>().updateInstitution(Institution(
+            id: widget.id!, name: name, type: type, userId: userId));
         id = widget.id!;
       }
 

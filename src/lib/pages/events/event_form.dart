@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:src/daos/authentication_service.dart';
 import 'package:src/daos/timeslot/media_media_timeslot_dao.dart';
 import 'package:src/daos/timeslot/task_student_timeslot_dao.dart';
 import 'package:src/daos/timeslot/timeslot_dao.dart';
@@ -170,7 +171,7 @@ class _EventFormState extends State<EventForm> {
   }
 
   TimeslotMediaTimeslotSuperEntity getMediaTimeslot() {
-    // TODO(eventos): correct xp formula and get user logged id
+    // TODO(eventos): correct xp formula
     return TimeslotMediaTimeslotSuperEntity(
       id: widget.id,
       title: titleController.text,
@@ -178,13 +179,13 @@ class _EventFormState extends State<EventForm> {
       startDateTime: startDate,
       endDateTime: endDate,
       xpMultiplier: 2,
-      userId: 1,
+      userId: serviceLocator<AuthenticationService>().getLoggedInUserId(),
       finished: false,
     );
   }
 
   TimeslotStudentTimeslotSuperEntity getStudentTimeslot() {
-    // TODO(eventos): correct xp formula and get user logged id
+    // TODO(eventos): correct xp formula
     return TimeslotStudentTimeslotSuperEntity(
       id: widget.id,
       title: titleController.text,
@@ -192,7 +193,7 @@ class _EventFormState extends State<EventForm> {
       startDateTime: startDate,
       endDateTime: endDate,
       xpMultiplier: 2,
-      userId: 1,
+      userId: serviceLocator<AuthenticationService>().getLoggedInUserId(),
       finished: false,
     );
   }

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:src/daos/authentication_dao.dart';
+import 'package:src/daos/authentication_service.dart';
 import 'package:src/daos/media/media_dao.dart';
 import 'package:src/daos/student/task_dao.dart';
 import 'package:src/daos/timeslot/media_media_timeslot_dao.dart';
@@ -44,8 +44,8 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   static String getUserName() {
-    return serviceLocator<AuthenticationDao>().isUserLoggedIn()
-        ? serviceLocator<AuthenticationDao>().getLoggedInUser()!.name
+    return serviceLocator<AuthenticationService>().isUserLoggedIn()
+        ? serviceLocator<AuthenticationService>().getLoggedInUser()!.name
         : "Joaquim Almeida";
   }
 

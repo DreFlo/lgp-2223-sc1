@@ -306,7 +306,7 @@ class _SubjectFormState extends State<SubjectForm> {
                             id: -1,
                             name: 'None',
                             type: InstitutionType.other,
-                            userId: 1));
+                            userId: 0));
                     return DropdownButton<Institution>(
                         key: const Key('institutionField'),
                         isExpanded: true,
