@@ -1,5 +1,6 @@
 // Defining levels
 const levels = {
+  0: 0,
   1: 100,
   2: 245,
   3: 420,
