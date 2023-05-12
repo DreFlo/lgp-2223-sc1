@@ -476,19 +476,23 @@ Future<bool> insertLogAndCheckStreak() async {
         date: DateTime.now(),
         userId: serviceLocator<AuthenticationDao>().getLoggedInUser()!.id ?? 0);
     await serviceLocator<LogDao>().insertLog(log);
+    if (numberActivitiesToday == 0) {
+      numberAllActivities += 1;
+    }
   } else if (numberActivitiesToday == 0 &&
       numberActivitiesYesterday == 0 &&
-      numberAllActivities > 0) {
+      numberAllActivities > 1) {
     List<Log> logs = await serviceLocator<LogDao>().findAllLogs();
     await serviceLocator<LogDao>().deleteLogs(logs);
     Log log = Log(
         date: DateTime.now(),
         userId: serviceLocator<AuthenticationDao>().getLoggedInUser()!.id ?? 0);
     await serviceLocator<LogDao>().insertLog(log);
+    numberAllActivities = 1;
   }
 
   //Check streak
-  if (numberAllActivities + 1 == 7) {
+  if (numberAllActivities == 7) {
     return true;
   }
   return false;
