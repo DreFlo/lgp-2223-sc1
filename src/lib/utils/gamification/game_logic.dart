@@ -476,7 +476,9 @@ Future<bool> insertLogAndCheckStreak() async {
         date: DateTime.now(),
         userId: serviceLocator<AuthenticationDao>().getLoggedInUser()!.id ?? 0);
     await serviceLocator<LogDao>().insertLog(log);
-  } else {
+  } else if (numberActivitiesToday == 0 &&
+      numberActivitiesYesterday == 0 &&
+      numberAllActivities > 0) {
     List<Log> logs = await serviceLocator<LogDao>().findAllLogs();
     await serviceLocator<LogDao>().deleteLogs(logs);
     Log log = Log(

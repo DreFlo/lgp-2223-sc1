@@ -55,7 +55,7 @@ class _BadgePageWidgetState extends State<BadgePageWidget>
     return InkWell(
         splashColor: Colors.transparent,
         onTap: () {
-          if (!widget.onBadgePage) {
+          if (!widget.onBadgePage || !widget.isUnlocked) {
             return;
           }
 

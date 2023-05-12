@@ -4,7 +4,7 @@ final mockBadges = [
   Badges(
       id: 1,
       name: 'Bare Minimum Bob',
-      description: 'Completed your first task!',
+      description: 'Create your first task!',
       icon: 'FontAwesome.face_flushed',
       colors: 'FF5DD3C5,FF0094FF',
       fact:
