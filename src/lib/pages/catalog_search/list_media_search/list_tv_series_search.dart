@@ -14,7 +14,7 @@ import 'package:src/widgets/leisure/media_image_widgets/tv_series_image.dart';
 import 'package:src/widgets/leisure/media_page_buttons/tv_series_page_button.dart';
 
 class ListTVSeriesSearch extends ListMediaSearch<MediaSeriesSuperEntity> {
-   const ListTVSeriesSearch(
+  const ListTVSeriesSearch(
       {Key? key, required List<MediaSeriesSuperEntity> media})
       : super(key: key, media: media);
 
@@ -38,11 +38,11 @@ class ListTVSeriesSearchState
   @override
   Widget showMediaPageBasedOnType(MediaSeriesSuperEntity item) {
     return FutureBuilder<MediaSeriesSuperEntity>(
-      future: loadSeriesDetails(item),
+      future: (media != null && media!.name == item.name)
+          ? Future.value(media)
+          : loadSeriesDetails(item),
       builder: (context, snapshot) {
         if (snapshot.hasData) {
-          media = snapshot.data;
-          showMediaPageButton(media!);
           return TVSeriesPage(
               media: snapshot.data!, toggleFavorite: super.toggleFavorite);
         } else if (snapshot.hasError) {
@@ -61,6 +61,7 @@ class ListTVSeriesSearchState
 
   @override
   Future<MediaStatus> getMediaInfoFromDB(MediaSeriesSuperEntity item) async {
+    media = await loadSeriesDetails(item);
     String photo = item.linkImage;
 
     final mediaExists =
@@ -72,23 +73,22 @@ class ListTVSeriesSearchState
       return statusFavorite;
     }
 
-    final media = await serviceLocator<MediaDao>().findMediaByPhoto(photo);
-    review = await loadReviews(media!.id ?? 0);
-    seasons = await loadSeasons(media.id ?? 0);
+    final mediaByPhoto = await serviceLocator<MediaDao>().findMediaByPhoto(photo);
+    review = await loadReviews(mediaByPhoto!.id ?? 0);
+    seasons = await loadSeasons(mediaByPhoto.id ?? 0);
     episodesDB = await loadEpisodes(seasons);
     episodeNotes = await loadEpisodeNotes(episodesDB);
 
     statusFavorite = MediaStatus(
-        status: media.status, favorite: media.favorite, id: media.id ?? 0);
+        status: mediaByPhoto.status, favorite: mediaByPhoto.favorite, id: mediaByPhoto.id ?? 0);
     return statusFavorite;
   }
 
   @override
-  TVSeriesPageButton showMediaPageButton(MediaSeriesSuperEntity item)  {
+  TVSeriesPageButton showMediaPageButton(MediaSeriesSuperEntity item) {
     return TVSeriesPageButton(
       item: media ?? item,
       mediaId: statusFavorite.id,
     );
-
   }
 }
