@@ -8,6 +8,7 @@ import 'package:src/models/notes/note_episode_note_super_entity.dart';
 import 'package:src/pages/leisure/media_pages/book_page.dart';
 import 'package:src/pages/leisure/media_pages/movie_page.dart';
 import 'package:src/pages/leisure/media_pages/tv_series_page.dart';
+import 'package:src/utils/gamification/game_logic.dart';
 import 'package:src/widgets/leisure/media_image_widgets/book_image.dart';
 import 'package:src/widgets/leisure/media_image_widgets/media_image.dart';
 import 'package:src/widgets/leisure/media_image_widgets/movie_image.dart';
@@ -96,7 +97,7 @@ Future<List<NoteEpisodeNoteSuperEntity>> loadEpisodeNotes(
   return notes;
 }
 
-void saveFavoriteStatus(bool favorite, int id) async {
+void saveFavoriteStatus(bool favorite, int id, context) async {
   final mediaStream = serviceLocator<MediaDao>().findMediaById(id);
   Media? firstNonNullMedia =
       await mediaStream.firstWhere((media) => media != null);
@@ -115,6 +116,22 @@ void saveFavoriteStatus(bool favorite, int id) async {
     type: media.type,
   );
   await serviceLocator<MediaDao>().updateMedia(newMedia);
+
+  bool badge = await insertLogAndCheckStreak();
+  if (badge) {
+    unlockBadgeForUser(3, context); //streak
+  }
+
+  int numberMedia =
+      await serviceLocator<MediaDao>().countFavoriteMedia(true) ?? 0;
+
+  if (numberMedia == 2) {
+    bool hasBadge = await checkUserHasBadge(2);
+    if (!hasBadge) {
+      //win badge + show badge
+      unlockBadgeForUser(2, context);
+    }
+  }
 }
 
 MediaImageWidget showWidget(Media item) {
@@ -165,7 +182,7 @@ void showMediaPageForTV(MediaSeriesSuperEntity item, BuildContext context,
                       ))
                 ]))).whenComplete(() {
       if (isFavorite != item.favorite) {
-        saveFavoriteStatus(isFavorite, item.id ?? 0);
+        saveFavoriteStatus(isFavorite, item.id ?? 0, context);
         if (reload != null) {
           reload();
         }
@@ -204,7 +221,7 @@ void showMediaPageForMovies(MediaVideoMovieSuperEntity item,
                     child: MoviePageButton(item: item, mediaId: item.id ?? 0))
               ]))).whenComplete(() {
     if (isFavorite != item.favorite) {
-      saveFavoriteStatus(isFavorite, item.id ?? 0);
+      saveFavoriteStatus(isFavorite, item.id ?? 0, context);
       if (reload != null) {
         reload();
       }
@@ -245,7 +262,7 @@ void showMediaPageForBooks(MediaBookSuperEntity item, BuildContext context,
                     ))
               ]))).whenComplete(() {
     if (isFavorite != item.favorite) {
-      saveFavoriteStatus(isFavorite, item.id ?? 0);
+      saveFavoriteStatus(isFavorite, item.id ?? 0, context);
       if (reload != null) {
         reload();
       }

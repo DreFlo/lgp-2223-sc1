@@ -13,6 +13,9 @@ abstract class UserBadgeDao {
   @Query('SELECT * FROM user_badge WHERE user_id = :userId')
   Future<List<UserBadge>> findUserBadgesByUserId(int userId);
 
+  @Query('SELECT badge_id FROM user_badge WHERE user_id = :userId')
+  Future<List<int>> findUserBadgeIdsByUserId(int userId);
+
   @Query('SELECT * FROM user_badge WHERE badge_id = :badgeId')
   Future<List<UserBadge>> findUserBadgesByBadgeId(int badgeId);
 

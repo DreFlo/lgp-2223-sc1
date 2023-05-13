@@ -120,7 +120,7 @@
   "password_recov_title": "Sometimes... \nthings just happen!",
   "password_recov_subtitle": "Don't worry, let's get you back up and running.",
   "password_recov_btn": "Send Recovery Link",
-  "user_progress": "Good job, ",
+  "user_progress": "Good job",
   "user_progress_2": "!",
   "user_progress_3": "You’ve completed ",
   "user_progress_task": " task",
@@ -226,5 +226,16 @@
   "portuguese": "Portuguese",
   "dark_mode": "Dark Mode",
   "starting": "starting",
-  "ending": "ending"
+  "ending": "ending",
+  "won_badge": "You won a badge!",
+  "won_badge_2": "...but there's more!",
+  "check_it_out": "Check it out!",
+  "maybe_later": "Maybe later...",
+  "badges": "Badges",
+  "badge_to_unlock": "?????",
+  "more_to_come": "More to come!",
+  "quokka_fact": "Quokka Fact",
+  "close": "Close",
+  "did_you_know": "Did you know...?",
+  "quokka_default_fact": "Something else appears here if you use this app right!"
 }

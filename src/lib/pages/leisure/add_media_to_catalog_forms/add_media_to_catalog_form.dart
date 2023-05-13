@@ -3,6 +3,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:src/models/media/media.dart';
 import 'package:src/themes/colors.dart';
 import 'package:src/utils/enums.dart';
+import 'package:src/utils/gamification/game_logic.dart';
 
 abstract class AddMediaToCatalogForm<T extends Media> extends StatefulWidget {
   final String startDate, endDate;
@@ -39,6 +40,10 @@ abstract class AddMediaToCatalogFormState<T extends Media>
     status = widget.status;
 
     super.initState();
+  }
+
+  callBadgeWidget() {
+    unlockBadgeForUser(3, context);
   }
 
   @override
@@ -277,6 +282,12 @@ abstract class AddMediaToCatalogFormState<T extends Media>
           child: ElevatedButton(
             onPressed: () async {
               int mediaId = await storeMediaInDatabase(status);
+
+              bool badge = await insertLogAndCheckStreak();
+              if (badge) {
+                //show badge
+                callBadgeWidget(); //streak
+              }
 
               widget.setMediaId(mediaId);
 

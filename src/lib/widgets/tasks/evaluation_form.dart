@@ -4,6 +4,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:src/daos/student/evaluation_dao.dart';
 import 'package:src/models/student/evaluation.dart';
 import 'package:src/themes/colors.dart';
+import 'package:src/utils/gamification/game_logic.dart';
 import 'package:src/utils/service_locator.dart';
 
 class EvaluationForm extends StatefulWidget {
@@ -205,6 +206,12 @@ class _EvaluationFormState extends State<EvaluationForm> {
         Navigator.pop(context);
       }
     }
+
+    bool badge = await insertLogAndCheckStreak();
+    if (badge) {
+      //show badge
+      callBadgeWidget(); //streak
+    }
   }
 
   Widget displayEndButtons() {
@@ -222,5 +229,9 @@ class _EvaluationFormState extends State<EvaluationForm> {
         ),
         child: Text(AppLocalizations.of(context).save,
             style: Theme.of(context).textTheme.headlineSmall));
+  }
+
+  callBadgeWidget() {
+    unlockBadgeForUser(3, context); //streak
   }
 }
