@@ -111,8 +111,9 @@ void main() {
 
   testWidgets('MyHomePage displays default fact', (WidgetTester tester) async {
     disableOverflowErrors();
-    final mockAuthenticationDao = serviceLocator.get<AuthenticationDao>();
-    when(mockAuthenticationDao.isUserLoggedIn()).thenAnswer((_) => false);
+    final mockAuthenticationService =
+        serviceLocator.get<AuthenticationService>();
+    when(mockAuthenticationService.isUserLoggedIn()).thenAnswer((_) => false);
 
     BadgeFact fact = const BadgeFact(
         fact: "Something else appears here if you use this app right!");

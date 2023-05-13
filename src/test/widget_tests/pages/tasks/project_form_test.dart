@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
-import 'package:src/daos/authentication_dao.dart';
+import 'package:src/services/authentication_service.dart';
 import 'package:src/daos/log_dao.dart';
 import 'package:src/daos/student/institution_dao.dart';
 import 'package:src/daos/student/subject_dao.dart';
@@ -97,8 +97,9 @@ void main() {
         level: 1,
         imagePath: '',
         xp: 0);
-    final mockAuthenticationDao = serviceLocator.get<AuthenticationDao>();
-    when(mockAuthenticationDao.getLoggedInUser()).thenAnswer((_) => user);
+    final mockAuthenticationService =
+        serviceLocator.get<AuthenticationService>();
+    when(mockAuthenticationService.getLoggedInUser()).thenAnswer((_) => user);
     final mockUserBadgeDao = serviceLocator.get<UserBadgeDao>();
     when(mockUserBadgeDao.findUserBadgeByIds(user.id!, 1))
         .thenAnswer((_) async => UserBadge(userId: 0, badgeId: 0));
