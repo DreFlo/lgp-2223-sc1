@@ -12,7 +12,7 @@ import 'package:src/widgets/leisure/media_page_buttons/movie_page_button.dart';
 import 'package:src/api_wrappers/tmdb_api_movies_wrapper.dart';
 
 class ListMoviesSearch extends ListMediaSearch<MediaVideoMovieSuperEntity> {
-  ListMoviesSearch({Key? key, required List<MediaVideoMovieSuperEntity> media})
+  const ListMoviesSearch({Key? key, required List<MediaVideoMovieSuperEntity> media})
       : super(key: key, media: media);
 
   @override
@@ -34,8 +34,6 @@ class ListMoviesSearchState
       future: loadMovieDetails(item),
       builder: (context, snapshot) {
         if (snapshot.hasData) {
-          // final int index = widget.media.indexOf(item);
-          // replaceMediaAtIndex(index, snapshot.data!);
           media = snapshot.data;
           showMediaPageButton(media!);
           return MoviePage(

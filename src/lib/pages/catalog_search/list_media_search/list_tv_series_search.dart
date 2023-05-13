@@ -14,7 +14,7 @@ import 'package:src/widgets/leisure/media_image_widgets/tv_series_image.dart';
 import 'package:src/widgets/leisure/media_page_buttons/tv_series_page_button.dart';
 
 class ListTVSeriesSearch extends ListMediaSearch<MediaSeriesSuperEntity> {
-  const ListTVSeriesSearch(
+   const ListTVSeriesSearch(
       {Key? key, required List<MediaSeriesSuperEntity> media})
       : super(key: key, media: media);
 
@@ -27,11 +27,12 @@ class ListTVSeriesSearchState
   List<Season> seasons = [];
   List<MediaVideoEpisodeSuperEntity> episodesDB = [];
   List<NoteEpisodeNoteSuperEntity> episodeNotes = [];
+  MediaSeriesSuperEntity? media;
 
   Future<MediaSeriesSuperEntity> loadSeriesDetails(
       MediaSeriesSuperEntity series) async {
     final TMDBTVSeriesAPIWrapper tmdb = TMDBTVSeriesAPIWrapper();
-    return tmdb.getSeriesMediaPageInfo(series);
+    return await tmdb.getSeriesMediaPageInfo(series);
   }
 
   @override
@@ -40,6 +41,8 @@ class ListTVSeriesSearchState
       future: loadSeriesDetails(item),
       builder: (context, snapshot) {
         if (snapshot.hasData) {
+          media = snapshot.data;
+          showMediaPageButton(media!);
           return TVSeriesPage(
               media: snapshot.data!, toggleFavorite: super.toggleFavorite);
         } else if (snapshot.hasError) {
@@ -81,10 +84,11 @@ class ListTVSeriesSearchState
   }
 
   @override
-  TVSeriesPageButton showMediaPageButton(MediaSeriesSuperEntity item) {
+  TVSeriesPageButton showMediaPageButton(MediaSeriesSuperEntity item)  {
     return TVSeriesPageButton(
-      item: item,
+      item: media ?? item,
       mediaId: statusFavorite.id,
     );
+
   }
 }
