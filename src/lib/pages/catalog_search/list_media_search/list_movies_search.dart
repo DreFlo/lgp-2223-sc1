@@ -12,7 +12,8 @@ import 'package:src/widgets/leisure/media_page_buttons/movie_page_button.dart';
 import 'package:src/api_wrappers/tmdb_api_movies_wrapper.dart';
 
 class ListMoviesSearch extends ListMediaSearch<MediaVideoMovieSuperEntity> {
-  const ListMoviesSearch({Key? key, required List<MediaVideoMovieSuperEntity> media})
+  const ListMoviesSearch(
+      {Key? key, required List<MediaVideoMovieSuperEntity> media})
       : super(key: key, media: media);
 
   @override
@@ -22,6 +23,7 @@ class ListMoviesSearch extends ListMediaSearch<MediaVideoMovieSuperEntity> {
 class ListMoviesSearchState
     extends ListMediaSearchState<MediaVideoMovieSuperEntity> {
   MediaVideoMovieSuperEntity? media;
+
   Future<MediaVideoMovieSuperEntity> loadMovieDetails(
       MediaVideoMovieSuperEntity movie) async {
     final TMDBMovieAPIWrapper tmdb = TMDBMovieAPIWrapper();
@@ -35,7 +37,6 @@ class ListMoviesSearchState
       builder: (context, snapshot) {
         if (snapshot.hasData) {
           media = snapshot.data;
-          showMediaPageButton(media!);
           return MoviePage(
               media: snapshot.data!, toggleFavorite: super.toggleFavorite);
         } else if (snapshot.hasError) {
@@ -56,6 +57,7 @@ class ListMoviesSearchState
   @override
   Future<MediaStatus> getMediaInfoFromDB(
       MediaVideoMovieSuperEntity item) async {
+    media = await loadMovieDetails(item);
     String photo = item.linkImage;
 
     final mediaExists =
@@ -67,11 +69,11 @@ class ListMoviesSearchState
       return statusFavorite;
     }
 
-    final media = await serviceLocator<MediaDao>().findMediaByPhoto(photo);
-    review = await loadReviews(media!.id ?? 0);
+    final mediaByPhoto = await serviceLocator<MediaDao>().findMediaByPhoto(photo);
+    review = await loadReviews(mediaByPhoto!.id ?? 0);
 
     statusFavorite = MediaStatus(
-        status: media.status, favorite: media.favorite, id: media.id ?? 0);
+        status: mediaByPhoto.status, favorite: mediaByPhoto.favorite, id: mediaByPhoto.id ?? 0);
     return statusFavorite;
   }
 
