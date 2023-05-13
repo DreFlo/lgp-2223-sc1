@@ -1,13 +1,21 @@
 import 'package:flutter/material.dart';
+import 'package:src/daos/authentication_dao.dart';
+import 'package:src/daos/badges_dao.dart';
+import 'package:src/daos/log_dao.dart';
 import 'package:src/daos/media/media_dao.dart';
 import 'package:src/daos/timeslot/media_timeslot_dao.dart';
 import 'package:src/daos/timeslot/student_timeslot_dao.dart';
 import 'package:src/daos/timeslot/task_student_timeslot_dao.dart';
 import 'package:src/daos/timeslot/timeslot_dao.dart';
+import 'package:src/daos/user_badge_dao.dart';
+import 'package:src/models/badges.dart';
+import 'package:src/models/log.dart';
 import 'package:src/models/media/media.dart';
 import 'package:src/models/timeslot/timeslot.dart';
 import 'package:src/models/timeslot/timeslot_media_timeslot_super_entity.dart';
 import 'package:src/models/timeslot/timeslot_student_timeslot_super_entity.dart';
+import 'package:src/models/user_badge.dart';
+import 'package:src/pages/gamification/badge_alert.dart';
 import 'package:src/pages/gamification/gained_xp_toast.dart';
 import 'package:src/pages/gamification/level_up_toast.dart';
 import 'package:src/utils/enums.dart';
@@ -325,13 +333,16 @@ void check(
 
   if (checkLevelUp(user.xp + points, user.level)) {
     updateUserShowLevelUpToast(user, points, context);
-
-    return;
   } else {
     updateUserShowGainedXPToast(user, points, context);
-
-    return;
   }
+
+  bool badge = await insertLogAndCheckStreak();
+  if (badge) {
+    //show badge
+    unlockBadgeForUser(3, context); //streak
+  }
+  return;
 }
 
 Future<int> checkNonEventNonTask(Task task, context, bool fromTaskGroup) async {
@@ -359,10 +370,22 @@ Future<int> checkNonEventNonTask(Task task, context, bool fromTaskGroup) async {
   if (checkLevelUp(user.xp + points, user.level)) {
     updateUserShowLevelUpToast(user, points, context);
 
+    bool badge = await insertLogAndCheckStreak();
+    if (badge) {
+      //show badge
+      unlockBadgeForUser(3, context); //streak
+    }
+
     return points;
     //show level up screen
   } else {
     updateUserShowGainedXPToast(user, points, context);
+    bool badge = await insertLogAndCheckStreak();
+    if (badge) {
+      //show badge
+      unlockBadgeForUser(3, context); //streak
+    }
+
     return points;
   }
 }
@@ -388,6 +411,12 @@ void removePoints(int points, Task task) async {
       imagePath: user.imagePath);
 
   await updateUser(newUser);
+
+  bool badge = await insertLogAndCheckStreak();
+  if (badge) {
+    //show badge
+    //unlockBadgeForUser(1); //streak
+  }
 }
 
 void getPomodoroXP(int focusTime, int currentSession, int sessions,
@@ -415,4 +444,85 @@ void getPomodoroXP(int focusTime, int currentSession, int sessions,
   } else {
     updateUserShowGainedXPToast(user, points, context);
   }
+
+  bool badge = await insertLogAndCheckStreak();
+  if (badge) {
+    //show badge
+    unlockBadgeForUser(3, context); //streak
+  }
+}
+
+Future<bool> insertLogAndCheckStreak() async {
+  //Check if user already has the badge
+  bool hasBadge = await checkUserHasBadge(3);
+  if (hasBadge) {
+    return false;
+  }
+  DateTime today = DateTime(DateTime.now().year, DateTime.now().month,
+      DateTime.now().day, 0, 0, 0, 0, 0);
+  DateTime end = DateTime(DateTime.now().year, DateTime.now().month,
+      DateTime.now().day, 23, 59, 59, 59, 59);
+  int numberActivitiesToday =
+      await serviceLocator<LogDao>().countLogsByDate(today, end) ?? 0;
+  int numberActivitiesYesterday = await serviceLocator<LogDao>()
+          .countLogsByDate(today.subtract(const Duration(days: 1)),
+              end.subtract(const Duration(days: 1))) ??
+      0;
+  int numberAllActivities = await serviceLocator<LogDao>().countLogs() ?? 0;
+  //To have a streak, user needs to be in the app every day
+  if ((numberActivitiesToday == 0 && numberActivitiesYesterday > 0) ||
+      numberAllActivities == 0) {
+    Log log = Log(
+        date: DateTime.now(),
+        userId: serviceLocator<AuthenticationDao>().getLoggedInUser()!.id ?? 0);
+    await serviceLocator<LogDao>().insertLog(log);
+    if (numberActivitiesToday == 0) {
+      numberAllActivities += 1;
+    }
+  } else if (numberActivitiesToday == 0 &&
+      numberActivitiesYesterday == 0 &&
+      numberAllActivities > 1) {
+    List<Log> logs = await serviceLocator<LogDao>().findAllLogs();
+    await serviceLocator<LogDao>().deleteLogs(logs);
+    Log log = Log(
+        date: DateTime.now(),
+        userId: serviceLocator<AuthenticationDao>().getLoggedInUser()!.id ?? 0);
+    await serviceLocator<LogDao>().insertLog(log);
+    numberAllActivities = 1;
+  }
+
+  //Check streak
+  if (numberAllActivities == 7) {
+    return true;
+  }
+  return false;
+}
+
+Future<bool> unlockBadgeForUser(int badgeId, context) async {
+  User user = serviceLocator<AuthenticationDao>().getLoggedInUser()!;
+  await serviceLocator<UserBadgeDao>()
+      .insertUserBadge(UserBadge(userId: user.id!, badgeId: badgeId));
+  Badges badge = await serviceLocator<BadgesDao>().findBadgeById(badgeId) ??
+      Badges(name: '', icon: '', description: '', colors: '', fact: '');
+  showBadge(badge, context);
+  return true;
+}
+
+Future<bool> checkUserHasBadge(int badgeId) async {
+  User user = serviceLocator<AuthenticationDao>().getLoggedInUser()!;
+  UserBadge userBadges = await serviceLocator<UserBadgeDao>()
+          .findUserBadgeByIds(user.id!, badgeId) ??
+      UserBadge(userId: 0, badgeId: 0);
+  if (userBadges.userId != 0 && userBadges.badgeId != 0) {
+    return true;
+  }
+  return false;
+}
+
+void showBadge(Badges badge, context) {
+  showDialog(
+      context: context,
+      builder: (context) => BadgeAlert(
+            badge: badge,
+          ));
 }

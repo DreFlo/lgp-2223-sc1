@@ -1,15 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
+import 'package:src/daos/authentication_dao.dart';
+import 'package:src/daos/badges_dao.dart';
 import 'package:src/daos/notes/note_task_note_super_dao.dart';
 import 'package:src/daos/student/institution_dao.dart';
 import 'package:src/daos/student/subject_dao.dart';
 import 'package:src/daos/student/task_dao.dart';
 import 'package:src/daos/student/task_group_dao.dart';
+import 'package:src/daos/user_badge_dao.dart';
+import 'package:src/models/badges.dart';
 import 'package:src/models/student/institution.dart';
 import 'package:src/models/student/subject.dart';
 import 'package:src/models/student/task.dart';
 import 'package:src/models/student/task_group.dart';
+import 'package:src/models/user.dart';
+import 'package:src/models/user_badge.dart';
+import 'package:src/daos/log_dao.dart';
 import 'package:src/pages/tasks/task_form.dart';
 import 'package:src/themes/colors.dart';
 import 'package:src/utils/date_formatter.dart';
@@ -110,6 +117,30 @@ void main() {
     return selectedSubject;
   }
 
+  loadBadgesInfo() {
+    User user = User(
+        id: 1,
+        name: 'name',
+        email: 'email',
+        password: 'password',
+        level: 1,
+        imagePath: '',
+        xp: 0);
+    final mockAuthenticationDao = serviceLocator.get<AuthenticationDao>();
+    when(mockAuthenticationDao.getLoggedInUser()).thenAnswer((_) => user);
+    final mockUserBadgeDao = serviceLocator.get<UserBadgeDao>();
+    when(mockUserBadgeDao.findUserBadgeByIds(user.id!, 1))
+        .thenAnswer((_) async => UserBadge(userId: 0, badgeId: 0));
+    DateTime today = DateTime(DateTime.now().year, DateTime.now().month,
+        DateTime.now().day, 0, 0, 0, 0, 0);
+    DateTime end = DateTime(DateTime.now().year, DateTime.now().month,
+        DateTime.now().day, 23, 59, 59, 59, 59);
+
+    final mockLogDao = serviceLocator.get<LogDao>();
+    when(mockLogDao.countLogsByDate(today, end)).thenAnswer((_) async => 1);
+    when(mockLogDao.countLogs()).thenAnswer((_) async => 5);
+  }
+
   loadData() {
     final mockTaskDao = serviceLocator.get<TaskDao>();
     when(mockTaskDao.updateTask(MockTask())).thenAnswer((_) async => 1);
@@ -136,6 +167,8 @@ void main() {
 
     when(mockSubjectDao.findSubjectByInstitutionId(institution.id!))
         .thenAnswer((_) async => [subject]);
+
+    loadBadgesInfo();
   }
 
   tap(WidgetTester widgetTester, Finder finder) async {
@@ -160,6 +193,7 @@ void main() {
   testWidgets('Create task with incorrect field tests',
       // Missing priority
       (WidgetTester widgetTester) async {
+    loadBadgesInfo();
     await widgetTester.pumpWidget(LocalizationsInjector(
         child: TaskForm(scrollController: ScrollController())));
     await widgetTester.pumpAndSettle();
@@ -170,6 +204,7 @@ void main() {
   });
 
   testWidgets('Create task normally test', (WidgetTester widgetTester) async {
+    loadBadgesInfo();
     final mockTaskDao = serviceLocator.get<TaskDao>();
 
     when(mockTaskDao.insertTask(MockTask())).thenAnswer((_) async => 1);
@@ -189,6 +224,65 @@ void main() {
     await save(widgetTester);
 
     expect(find.text(title), findsNothing);
+  });
+
+  testWidgets('Create task to win first task badge',
+      (WidgetTester widgetTester) async {
+    User user = User(
+        id: 1,
+        name: 'name',
+        email: 'email',
+        password: 'password',
+        level: 1,
+        imagePath: '',
+        xp: 0);
+    final mockAuthenticationDao = serviceLocator.get<AuthenticationDao>();
+    when(mockAuthenticationDao.getLoggedInUser()).thenAnswer((_) => user);
+    final mockUserBadgeDao = serviceLocator.get<UserBadgeDao>();
+    when(mockUserBadgeDao.findUserBadgeByIds(user.id!, 1))
+        .thenAnswer((_) async => UserBadge(userId: 0, badgeId: 0));
+    when(mockUserBadgeDao.insertUserBadge(UserBadge(userId: 1, badgeId: 1)))
+        .thenAnswer((_) async => 1);
+
+    final mockBadgesDao = serviceLocator.get<BadgesDao>();
+    when(mockBadgesDao.findBadgeById(1)).thenAnswer((_) async => Badges(
+        id: 1,
+        name: 'Bare Minimum Bob',
+        description: 'Completed your first task!',
+        icon: 'FontAwesome.face_flushed',
+        colors: 'FF5DD3C5,FF0094FF',
+        fact:
+            'Male quokkas will defend their pregnant mate, but once the child is born, they turn into deadbeats.'));
+    DateTime today = DateTime(DateTime.now().year, DateTime.now().month,
+        DateTime.now().day, 0, 0, 0, 0, 0);
+    DateTime end = DateTime(DateTime.now().year, DateTime.now().month,
+        DateTime.now().day, 23, 59, 59, 59, 59);
+
+    final mockLogDao = serviceLocator.get<LogDao>();
+    when(mockLogDao.countLogsByDate(today, end)).thenAnswer((_) async => 1);
+    when(mockLogDao.countLogs()).thenAnswer((_) async => 5);
+
+    final mockTaskDao = serviceLocator.get<TaskDao>();
+
+    when(mockTaskDao.insertTask(MockTask())).thenAnswer((_) async => 1);
+    when(mockTaskDao.countTasks()).thenAnswer((_) async => 1);
+
+    await widgetTester.pumpWidget(LocalizationsInjector(
+        child: TaskForm(scrollController: ScrollController())));
+
+    await widgetTester.pumpAndSettle();
+
+    String title = 'task_title';
+    await widgetTester.enterText(find.byKey(const Key('taskTitle')), title);
+
+    expect(find.text(title), findsOneWidget);
+
+    await widgetTester.tap(find.byKey(const Key('priorityLow')));
+
+    await save(widgetTester);
+
+    expect(find.text(title), findsNothing);
+    expect(find.text('Bare Minimum Bob'), findsOneWidget);
   });
 
   testWidgets('Load correct task information test',
