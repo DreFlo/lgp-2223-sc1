@@ -17,6 +17,7 @@ import 'package:src/settings/settings_globals.dart';
 import 'package:src/themes/colors.dart';
 import 'package:src/utils/enums.dart';
 import 'package:src/utils/formatters.dart';
+import 'package:src/utils/gamification/game_logic.dart';
 import 'package:src/utils/service_locator.dart';
 import 'package:src/utils/validators.dart';
 import 'package:src/widgets/events/buttons/delete_button.dart';
@@ -170,28 +171,26 @@ class _EventFormState extends State<EventForm> {
   }
 
   TimeslotMediaTimeslotSuperEntity getMediaTimeslot() {
-    // TODO(eventos): correct xp formula and get user logged id
     return TimeslotMediaTimeslotSuperEntity(
       id: widget.id,
       title: titleController.text,
       description: descriptionController.text,
       startDateTime: startDate,
       endDateTime: endDate,
-      xpMultiplier: 2,
+      xpMultiplier: 0,
       userId: 1,
       finished: false,
     );
   }
 
   TimeslotStudentTimeslotSuperEntity getStudentTimeslot() {
-    // TODO(eventos): correct xp formula and get user logged id
     return TimeslotStudentTimeslotSuperEntity(
       id: widget.id,
       title: titleController.text,
       description: descriptionController.text,
       startDateTime: startDate,
       endDateTime: endDate,
-      xpMultiplier: 2,
+      xpMultiplier: 0,
       userId: 1,
       finished: false,
     );
@@ -284,6 +283,12 @@ class _EventFormState extends State<EventForm> {
       await serviceLocator<MediaMediaTimeslotDao>()
           .insertMediaMediaTimeslots(mediaMediaTimeslots);
     }
+
+    bool badge = await insertLogAndCheckStreak();
+    if (badge) {
+      //show badge
+      callBadgeWidget();
+    }
   }
 
   Future<void> saveStudentEvent() async {
@@ -311,6 +316,12 @@ class _EventFormState extends State<EventForm> {
       await serviceLocator<TaskStudentTimeslotDao>()
           .insertTaskStudentTimeslots(taskStudentTimeslots);
     }
+
+    bool badge = await insertLogAndCheckStreak();
+    if (badge) {
+      //show badge
+      callBadgeWidget();
+    }
   }
 
   void onDeleteCallback() async {
@@ -336,6 +347,12 @@ class _EventFormState extends State<EventForm> {
     TimeslotMediaTimeslotSuperEntity mediaTimeslot = getMediaTimeslot();
     await serviceLocator<TimeslotMediaTimeslotSuperDao>()
         .deleteTimeslotMediaTimeslotSuperEntity(mediaTimeslot);
+
+    bool badge = await insertLogAndCheckStreak();
+    if (badge) {
+      //show badge
+      callBadgeWidget(); //streak
+    }
   }
 
   Future<void> deleteStudentEvent() async {
@@ -345,6 +362,20 @@ class _EventFormState extends State<EventForm> {
     TimeslotStudentTimeslotSuperEntity studentTimeslot = getStudentTimeslot();
     await serviceLocator<TimeslotStudentTimeslotSuperDao>()
         .deleteTimeslotStudentTimeslotSuperEntity(studentTimeslot);
+
+    bool badge = await insertLogAndCheckStreak();
+    if (badge) {
+      //show badge
+      callBadgeWidget(); //streak
+    }
+  }
+
+  callBadgeWidget() {
+    unlockBadgeForUser(3, context);
+
+    if (context.mounted) {
+      Navigator.pop(context);
+    }
   }
 
   @override

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:src/daos/media/media_video_episode_super_dao.dart';
 import 'package:src/themes/colors.dart';
 import 'package:src/utils/enums.dart';
+import 'package:src/utils/gamification/game_logic.dart';
 import 'package:src/utils/service_locator.dart';
 import 'package:src/models/media/media_video_episode_super_entity.dart';
 import 'package:src/pages/leisure/add_episode_note_form.dart';
@@ -77,6 +78,12 @@ class _EpisodeBarState extends State<EpisodeBar> {
 
                     await serviceLocator<MediaVideoEpisodeSuperDao>()
                         .updateMediaVideoEpisodeSuperEntity(newEpisode);
+
+                    bool badge = await insertLogAndCheckStreak();
+                    if (badge) {
+                      //show badge
+                      callBadgeWidget(); //streak
+                    }
                     setState(() {
                       episode = newEpisode;
                     });
@@ -100,6 +107,12 @@ class _EpisodeBarState extends State<EpisodeBar> {
 
                     await serviceLocator<MediaVideoEpisodeSuperDao>()
                         .updateMediaVideoEpisodeSuperEntity(newEpisode);
+
+                    bool badge = await insertLogAndCheckStreak();
+                    if (badge) {
+                      //show badge
+                      callBadgeWidget(); //streak
+                    }
                     setState(() {
                       episode = newEpisode;
                     });
@@ -112,6 +125,12 @@ class _EpisodeBarState extends State<EpisodeBar> {
 
                     await serviceLocator<MediaVideoEpisodeSuperDao>()
                         .updateMediaVideoEpisodeSuperEntity(newEpisode);
+
+                    bool badge = await insertLogAndCheckStreak();
+                    if (badge) {
+                      //show badge
+                      callBadgeWidget(); //streak
+                    }
                     setState(() {
                       episode = newEpisode;
                     });
@@ -151,5 +170,9 @@ class _EpisodeBarState extends State<EpisodeBar> {
             ]),
           ]),
         ]));
+  }
+
+  callBadgeWidget() {
+    unlockBadgeForUser(3, context); //streak
   }
 }

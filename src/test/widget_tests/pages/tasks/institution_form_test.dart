@@ -1,4 +1,9 @@
 import 'package:flutter_test/flutter_test.dart';
+import 'package:src/daos/authentication_dao.dart';
+import 'package:src/daos/log_dao.dart';
+import 'package:src/daos/user_badge_dao.dart';
+import 'package:src/models/user.dart';
+import 'package:src/models/user_badge.dart';
 import 'package:src/utils/service_locator.dart';
 import '../../../utils/service_locator_test_util.dart';
 import 'package:flutter/material.dart';
@@ -27,8 +32,33 @@ void main() {
     await serviceLocator.reset();
   });
 
+  loadBadgesInfo() {
+    User user = User(
+        id: 1,
+        name: 'name',
+        email: 'email',
+        password: 'password',
+        level: 1,
+        imagePath: '',
+        xp: 0);
+    final mockAuthenticationDao = serviceLocator.get<AuthenticationDao>();
+    when(mockAuthenticationDao.getLoggedInUser()).thenAnswer((_) => user);
+    final mockUserBadgeDao = serviceLocator.get<UserBadgeDao>();
+    when(mockUserBadgeDao.findUserBadgeByIds(user.id!, 1))
+        .thenAnswer((_) async => UserBadge(userId: 0, badgeId: 0));
+    DateTime today = DateTime(DateTime.now().year, DateTime.now().month,
+        DateTime.now().day, 0, 0, 0, 0, 0);
+    DateTime end = DateTime(DateTime.now().year, DateTime.now().month,
+        DateTime.now().day, 23, 59, 59, 59, 59);
+
+    final mockLogDao = serviceLocator.get<LogDao>();
+    when(mockLogDao.countLogsByDate(today, end)).thenAnswer((_) async => 1);
+    when(mockLogDao.countLogs()).thenAnswer((_) async => 5);
+  }
+
   testWidgets('Create institution with incorrect fields test',
       (WidgetTester widgetTester) async {
+    loadBadgesInfo();
     await widgetTester.pumpWidget(LocalizationsInjector(
         child: InstitutionForm(scrollController: ScrollController())));
 
@@ -49,6 +79,7 @@ void main() {
 
   testWidgets('Create institution normally test',
       (WidgetTester widgetTester) async {
+    loadBadgesInfo();
     final mockInstitutionDao = serviceLocator.get<InstitutionDao>();
 
     when(mockInstitutionDao.insertInstitution(MockInstitution()))
@@ -79,6 +110,7 @@ void main() {
 
   testWidgets('Load correct institution information test',
       (WidgetTester widgetTester) async {
+    loadBadgesInfo();
     final mockInstitutionDao = serviceLocator.get<InstitutionDao>();
     when(mockInstitutionDao.findInstitutionById(1)).thenAnswer((_) =>
         Stream.value(Institution(
@@ -105,6 +137,7 @@ void main() {
   });
 
   testWidgets('Edit institution test', (WidgetTester widgetTester) async {
+    loadBadgesInfo();
     final mockInstitutionDao = serviceLocator.get<InstitutionDao>();
     when(mockInstitutionDao.findInstitutionById(1)).thenAnswer((_) =>
         Stream.value(Institution(
@@ -152,6 +185,7 @@ void main() {
   });
 
   testWidgets('Delete institution test', (WidgetTester widgetTester) async {
+    loadBadgesInfo();
     final mockInstitutionDao = serviceLocator.get<InstitutionDao>();
     when(mockInstitutionDao.findInstitutionById(1)).thenAnswer((_) =>
         Stream.value(Institution(
@@ -188,6 +222,7 @@ void main() {
 
   testWidgets('Add new subject from institution test',
       (WidgetTester widgetTester) async {
+    loadBadgesInfo();
     final mockInstitutionDao = serviceLocator.get<InstitutionDao>();
     when(mockInstitutionDao.findInstitutionById(1)).thenAnswer((_) =>
         Stream.value(Institution(
@@ -236,6 +271,7 @@ void main() {
 
   testWidgets('Disassociate temporary subject from institution',
       (WidgetTester widgetTester) async {
+    loadBadgesInfo();
     final mockInstitutionDao = serviceLocator.get<InstitutionDao>();
     when(mockInstitutionDao.findInstitutionById(1)).thenAnswer((_) =>
         Stream.value(Institution(
