@@ -352,8 +352,6 @@ class _FinishedMediaFormState extends State<FinishedMediaForm> {
                                   fontWeight: FontWeight.normal,
                                   fontSize: 16,
                                 ))),
-                        const VerticalDivider(
-                            color: modalLightBackground, thickness: 10),
                         ElevatedButton(
                             onPressed: () {
                               isFavorite = false;
