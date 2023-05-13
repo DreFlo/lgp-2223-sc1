@@ -12,8 +12,7 @@ import 'package:src/widgets/leisure/media_page_buttons/movie_page_button.dart';
 import 'package:src/api_wrappers/tmdb_api_movies_wrapper.dart';
 
 class ListMoviesSearch extends ListMediaSearch<MediaVideoMovieSuperEntity> {
-  const ListMoviesSearch(
-      {Key? key, required List<MediaVideoMovieSuperEntity> media})
+  ListMoviesSearch({Key? key, required List<MediaVideoMovieSuperEntity> media})
       : super(key: key, media: media);
 
   @override
@@ -22,6 +21,7 @@ class ListMoviesSearch extends ListMediaSearch<MediaVideoMovieSuperEntity> {
 
 class ListMoviesSearchState
     extends ListMediaSearchState<MediaVideoMovieSuperEntity> {
+  MediaVideoMovieSuperEntity? media;
   Future<MediaVideoMovieSuperEntity> loadMovieDetails(
       MediaVideoMovieSuperEntity movie) async {
     final TMDBMovieAPIWrapper tmdb = TMDBMovieAPIWrapper();
@@ -34,6 +34,10 @@ class ListMoviesSearchState
       future: loadMovieDetails(item),
       builder: (context, snapshot) {
         if (snapshot.hasData) {
+          // final int index = widget.media.indexOf(item);
+          // replaceMediaAtIndex(index, snapshot.data!);
+          media = snapshot.data;
+          showMediaPageButton(media!);
           return MoviePage(
               media: snapshot.data!, toggleFavorite: super.toggleFavorite);
         } else if (snapshot.hasError) {
@@ -75,6 +79,6 @@ class ListMoviesSearchState
 
   @override
   MoviePageButton showMediaPageButton(MediaVideoMovieSuperEntity item) {
-    return MoviePageButton(item: item, mediaId: statusFavorite.id);
+    return MoviePageButton(item: media ?? item, mediaId: statusFavorite.id);
   }
 }
