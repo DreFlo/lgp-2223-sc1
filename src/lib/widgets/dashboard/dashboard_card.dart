@@ -449,11 +449,13 @@ class _DashboardCardState extends State<DashboardCard> {
   }
 
   editTask(Task t) {
-    setState(() {
-      task = t;
-      cardInformationUpdate();
-      widget.refreshCards();
-    });
+    if (mounted) {
+      setState(() {
+        task = t;
+        cardInformationUpdate();
+        widget.refreshCards();
+      });
+    }
   }
 
   editTaskGroup(TaskGroup tg) {

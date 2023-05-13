@@ -7,6 +7,7 @@ import 'package:src/models/student/institution.dart';
 import 'package:src/pages/tasks/subject_form.dart';
 import 'package:src/themes/colors.dart';
 import 'package:src/utils/enums.dart';
+import 'package:src/utils/gamification/game_logic.dart';
 import 'package:src/utils/service_locator.dart';
 import 'package:src/widgets/tasks/subject_bar.dart';
 
@@ -424,6 +425,12 @@ class _InstitutionFormState extends State<InstitutionForm> {
         id = widget.id!;
       }
 
+      bool badge = await insertLogAndCheckStreak();
+      if (badge) {
+        //show badge
+        callBadgeWidget(); //streak
+      }
+
       for (Subject subject in noDbSubjects) {
         Subject newSubject = Subject(
           name: subject.name,
@@ -524,6 +531,12 @@ class _InstitutionFormState extends State<InstitutionForm> {
 
     await serviceLocator<SubjectDao>().updateSubject(newSubject);
 
+    bool badge = await insertLogAndCheckStreak();
+    if (badge) {
+      //show badge
+      callBadgeWidget(); //streak
+    }
+
     setState(() {});
   }
 
@@ -539,6 +552,10 @@ class _InstitutionFormState extends State<InstitutionForm> {
     }
 
     setState(() {});
+  }
+
+  callBadgeWidget() {
+    unlockBadgeForUser(3, context);
   }
 
   showDeleteConfirmation(BuildContext context) {
@@ -573,6 +590,12 @@ class _InstitutionFormState extends State<InstitutionForm> {
             .first;
 
         await serviceLocator<InstitutionDao>().deleteInstitution(institution!);
+
+        bool badge = await insertLogAndCheckStreak();
+        if (badge) {
+          //show badge
+          callBadgeWidget(); //streak
+        }
 
         if (context.mounted) {
           Navigator.pop(context);

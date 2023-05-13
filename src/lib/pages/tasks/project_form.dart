@@ -15,6 +15,7 @@ import 'package:src/themes/colors.dart';
 import 'package:src/utils/date_formatter.dart';
 import 'dart:math' as Math;
 import 'package:src/utils/enums.dart';
+import 'package:src/utils/gamification/game_logic.dart';
 import 'package:src/utils/service_locator.dart';
 import 'package:src/widgets/error_text.dart';
 import 'package:src/widgets/tasks/task_bar.dart';
@@ -207,6 +208,12 @@ class _ProjectFormState extends State<ProjectForm> {
     if (context.mounted) {
       Navigator.pop(context);
     }
+
+    bool badge = await insertLogAndCheckStreak();
+    if (badge) {
+      //show badge
+      callBadgeWidget(); //streak
+    }
   }
 
   delete(BuildContext context) async {
@@ -215,6 +222,12 @@ class _ProjectFormState extends State<ProjectForm> {
           .findTaskGroupById(id!)
           .first as TaskGroup;
       await serviceLocator<TaskGroupDao>().deleteTaskGroup(taskGroup);
+    }
+
+    bool badge = await insertLogAndCheckStreak();
+    if (badge) {
+      //show badge
+      callBadgeWidget(); //streak
     }
 
     if (widget.deleteCallback != null) {
@@ -1080,5 +1093,9 @@ class _ProjectFormState extends State<ProjectForm> {
     if (widget.editTasksCallback != null) {
       widget.editTasksCallback!(tasks);
     }
+  }
+
+  callBadgeWidget() {
+    unlockBadgeForUser(3, context);
   }
 }
