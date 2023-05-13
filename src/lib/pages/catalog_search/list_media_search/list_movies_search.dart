@@ -33,7 +33,9 @@ class ListMoviesSearchState
   @override
   Widget showMediaPageBasedOnType(MediaVideoMovieSuperEntity item) {
     return FutureBuilder<MediaVideoMovieSuperEntity>(
-      future: (media != null && media!.name == item.name) ? Future.value(media) : loadMovieDetails(item),
+      future: (media != null && media!.name == item.name)
+          ? Future.value(media)
+          : loadMovieDetails(item),
       builder: (context, snapshot) {
         if (snapshot.hasData) {
           return MoviePage(
@@ -68,11 +70,14 @@ class ListMoviesSearchState
       return statusFavorite;
     }
 
-    final mediaByPhoto = await serviceLocator<MediaDao>().findMediaByPhoto(photo);
+    final mediaByPhoto =
+        await serviceLocator<MediaDao>().findMediaByPhoto(photo);
     review = await loadReviews(mediaByPhoto!.id ?? 0);
 
     statusFavorite = MediaStatus(
-        status: mediaByPhoto.status, favorite: mediaByPhoto.favorite, id: mediaByPhoto.id ?? 0);
+        status: mediaByPhoto.status,
+        favorite: mediaByPhoto.favorite,
+        id: mediaByPhoto.id ?? 0);
     return statusFavorite;
   }
 

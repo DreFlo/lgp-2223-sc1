@@ -123,7 +123,8 @@ class _MarkEpisodesSheetState extends State<MarkEpisodesSheet>
     if (seasonsDB.isEmpty || episodesDB.isEmpty) {
       return const Center(child: CircularProgressIndicator());
     }
-    return SingleChildScrollView(child: Wrap(spacing: 10, children: [
+    return SingleChildScrollView(
+        child: Wrap(spacing: 10, children: [
       Row(mainAxisAlignment: MainAxisAlignment.center, children: [
         Padding(
             padding: const EdgeInsets.symmetric(vertical: 15),

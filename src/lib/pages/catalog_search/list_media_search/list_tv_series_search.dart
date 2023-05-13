@@ -73,14 +73,17 @@ class ListTVSeriesSearchState
       return statusFavorite;
     }
 
-    final mediaByPhoto = await serviceLocator<MediaDao>().findMediaByPhoto(photo);
+    final mediaByPhoto =
+        await serviceLocator<MediaDao>().findMediaByPhoto(photo);
     review = await loadReviews(mediaByPhoto!.id ?? 0);
     seasons = await loadSeasons(mediaByPhoto.id ?? 0);
     episodesDB = await loadEpisodes(seasons);
     episodeNotes = await loadEpisodeNotes(episodesDB);
 
     statusFavorite = MediaStatus(
-        status: mediaByPhoto.status, favorite: mediaByPhoto.favorite, id: mediaByPhoto.id ?? 0);
+        status: mediaByPhoto.status,
+        favorite: mediaByPhoto.favorite,
+        id: mediaByPhoto.id ?? 0);
     return statusFavorite;
   }
 
