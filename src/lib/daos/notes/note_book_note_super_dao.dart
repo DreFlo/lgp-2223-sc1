@@ -83,10 +83,6 @@ class NoteBookNoteSuperDao {
           "Id can't be null for update for NoteBookNoteSuperEntity");
     }
 
-    final bookNote = noteBookNoteSuperEntity.toBookNote();
-
-    await serviceLocator<BookNoteDao>().deleteBookNote(bookNote);
-
     final note = noteBookNoteSuperEntity.toNote();
 
     await serviceLocator<NoteDao>().deleteNote(note);

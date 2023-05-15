@@ -10,11 +10,15 @@ import 'package:src/models/timeslot/student_timeslot.dart';
       childColumns: ['task_id'],
       parentColumns: ['id'],
       entity: Task,
+      onDelete: ForeignKeyAction.cascade,
+      onUpdate: ForeignKeyAction.restrict,
     ),
     ForeignKey(
       childColumns: ['student_timeslot_id'],
       parentColumns: ['id'],
       entity: StudentTimeslot,
+      onDelete: ForeignKeyAction.cascade,
+      onUpdate: ForeignKeyAction.restrict,
     ),
   ],
 )
