@@ -9,6 +9,8 @@ import 'package:src/utils/enums.dart';
       childColumns: ['media_id'],
       parentColumns: ['id'],
       entity: Media,
+      onDelete: ForeignKeyAction.cascade,
+      onUpdate: ForeignKeyAction.restrict,
     )
   ],
 )

@@ -10,11 +10,15 @@ import 'package:src/models/timeslot/media_timeslot.dart';
       childColumns: ['media_id'],
       parentColumns: ['id'],
       entity: Media,
+      onDelete: ForeignKeyAction.cascade,
+      onUpdate: ForeignKeyAction.restrict,
     ),
     ForeignKey(
       childColumns: ['media_timeslot_id'],
       parentColumns: ['id'],
       entity: MediaTimeslot,
+      onDelete: ForeignKeyAction.cascade,
+      onUpdate: ForeignKeyAction.restrict,
     )
   ],
 )
