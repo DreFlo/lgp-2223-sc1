@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:src/daos/authentication_dao.dart';
 import 'package:src/daos/badges_dao.dart';
 import 'package:src/daos/log_dao.dart';
 import 'package:src/daos/media/media_dao.dart';
@@ -7,6 +6,7 @@ import 'package:src/daos/timeslot/media_timeslot_dao.dart';
 import 'package:src/daos/timeslot/student_timeslot_dao.dart';
 import 'package:src/daos/timeslot/task_student_timeslot_dao.dart';
 import 'package:src/daos/timeslot/timeslot_dao.dart';
+import 'package:src/daos/user_dao.dart';
 import 'package:src/daos/user_badge_dao.dart';
 import 'package:src/models/badges.dart';
 import 'package:src/models/log.dart';
@@ -18,6 +18,7 @@ import 'package:src/models/user_badge.dart';
 import 'package:src/pages/gamification/badge_alert.dart';
 import 'package:src/pages/gamification/gained_xp_toast.dart';
 import 'package:src/pages/gamification/level_up_toast.dart';
+import 'package:src/services/authentication_service.dart';
 import 'package:src/utils/enums.dart';
 
 import 'package:src/models/user.dart';
@@ -25,7 +26,12 @@ import 'package:src/utils/gamification/levels.dart';
 import 'package:src/models/student/task.dart';
 import 'package:src/daos/student/task_dao.dart';
 import 'package:src/utils/service_locator.dart';
-import 'package:src/utils/gamification/user_stats.dart';
+
+Future<void> updateUser(User user) async {
+  //use this to update xp and level
+  await serviceLocator<UserDao>().updateUser(user);
+  serviceLocator<AuthenticationService>().setLoggedInUser(user);
+}
 
 int getTaskComboPoints() {
   double points = 0;
@@ -270,7 +276,15 @@ void check(
       studentTimeslot != null ? EventType.student : EventType.leisure;
   int points = 0;
   bool differentModules = false;
-  User user = await getUser();
+  User user = serviceLocator<AuthenticationService>().isUserLoggedIn()
+      ? serviceLocator<AuthenticationService>().getLoggedInUser()!
+      : User(
+          name: '',
+          email: '',
+          password: '',
+          xp: 0,
+          level: 0,
+          imagePath: 'assets/images/no_image.jpg');
   List<EventType> lastTimeslotInfo = await getLastTimeslotTypes();
 
   if (lastTimeslotInfo.isNotEmpty) {
@@ -362,7 +376,15 @@ Future<int> checkNonEventNonTask(Task task, context, bool fromTaskGroup) async {
 
   markTaskAsDoneOrNot(task, true, points);
 
-  User user = await getUser();
+  User user = serviceLocator<AuthenticationService>().isUserLoggedIn()
+      ? serviceLocator<AuthenticationService>().getLoggedInUser()!
+      : User(
+          name: '',
+          email: '',
+          password: '',
+          xp: 0,
+          level: 0,
+          imagePath: 'assets/images/no_image.jpg');
 
   // Check if user could level up more than one level at a time
   // Check remove points again
@@ -393,7 +415,15 @@ Future<int> checkNonEventNonTask(Task task, context, bool fromTaskGroup) async {
 void removePoints(int points, Task task) async {
   //mark task as not done
   markTaskAsDoneOrNot(task, false, 0);
-  User user = await getUser();
+  User user = serviceLocator<AuthenticationService>().isUserLoggedIn()
+      ? serviceLocator<AuthenticationService>().getLoggedInUser()!
+      : User(
+          name: '',
+          email: '',
+          password: '',
+          xp: 0,
+          level: 0,
+          imagePath: 'assets/images/no_image.jpg');
   int level = user.level;
 
   //check if user is gonna lose a level
@@ -435,7 +465,15 @@ void getPomodoroXP(int focusTime, int currentSession, int sessions,
     }
   }
 
-  User user = await getUser();
+  User user = serviceLocator<AuthenticationService>().isUserLoggedIn()
+      ? serviceLocator<AuthenticationService>().getLoggedInUser()!
+      : User(
+          name: '',
+          email: '',
+          password: '',
+          xp: 0,
+          level: 0,
+          imagePath: 'assets/images/no_image.jpg');
 
   if (checkLevelUp(user.xp + points, user.level)) {
     updateUserShowLevelUpToast(user, points, context);
@@ -474,7 +512,7 @@ Future<bool> insertLogAndCheckStreak() async {
       numberAllActivities == 0) {
     Log log = Log(
         date: DateTime.now(),
-        userId: serviceLocator<AuthenticationDao>().getLoggedInUser()!.id ?? 0);
+        userId: serviceLocator<AuthenticationService>().getLoggedInUser()!.id ?? 0);
     await serviceLocator<LogDao>().insertLog(log);
     if (numberActivitiesToday == 0) {
       numberAllActivities += 1;
@@ -486,7 +524,7 @@ Future<bool> insertLogAndCheckStreak() async {
     await serviceLocator<LogDao>().deleteLogs(logs);
     Log log = Log(
         date: DateTime.now(),
-        userId: serviceLocator<AuthenticationDao>().getLoggedInUser()!.id ?? 0);
+        userId: serviceLocator<AuthenticationService>().getLoggedInUser()!.id ?? 0);
     await serviceLocator<LogDao>().insertLog(log);
     numberAllActivities = 1;
   }
@@ -499,7 +537,7 @@ Future<bool> insertLogAndCheckStreak() async {
 }
 
 Future<bool> unlockBadgeForUser(int badgeId, context) async {
-  User user = serviceLocator<AuthenticationDao>().getLoggedInUser()!;
+  User user = serviceLocator<AuthenticationService>().getLoggedInUser()!;
   await serviceLocator<UserBadgeDao>()
       .insertUserBadge(UserBadge(userId: user.id!, badgeId: badgeId));
   Badges badge = await serviceLocator<BadgesDao>().findBadgeById(badgeId) ??
@@ -509,7 +547,7 @@ Future<bool> unlockBadgeForUser(int badgeId, context) async {
 }
 
 Future<bool> checkUserHasBadge(int badgeId) async {
-  User user = serviceLocator<AuthenticationDao>().getLoggedInUser()!;
+  User user = serviceLocator<AuthenticationService>().getLoggedInUser()!;
   UserBadge userBadges = await serviceLocator<UserBadgeDao>()
           .findUserBadgeByIds(user.id!, badgeId) ??
       UserBadge(userId: 0, badgeId: 0);

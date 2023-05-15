@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:src/daos/authentication_dao.dart';
+import 'package:src/services/authentication_service.dart';
 import 'package:src/daos/badges_dao.dart';
 import 'package:src/daos/media/media_dao.dart';
 import 'package:src/daos/student/task_dao.dart';
@@ -48,8 +48,8 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   static String getUserName() {
-    return serviceLocator<AuthenticationDao>().isUserLoggedIn()
-        ? serviceLocator<AuthenticationDao>().getLoggedInUser()!.name
+    return serviceLocator<AuthenticationService>().isUserLoggedIn()
+        ? serviceLocator<AuthenticationService>().getLoggedInUser()!.name
         : "Joaquim Almeida";
   }
 
@@ -76,8 +76,8 @@ class _MyHomePageState extends State<MyHomePage> {
   Future<String> loadUserBadges() async {
     List<String> facts = [];
     String defaultFact = AppLocalizations.of(context).quokka_default_fact;
-    int? userId = serviceLocator<AuthenticationDao>().isUserLoggedIn()
-        ? serviceLocator<AuthenticationDao>().getLoggedInUser()!.id
+    int? userId = serviceLocator<AuthenticationService>().isUserLoggedIn()
+        ? serviceLocator<AuthenticationService>().getLoggedInUser()!.id
         : 0;
     if (userId == 0) {
       return defaultFact;

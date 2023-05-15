@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
-import 'package:src/daos/authentication_dao.dart';
+import 'package:src/services/authentication_service.dart';
 import 'package:src/daos/log_dao.dart';
 import 'package:src/daos/timeslot/task_student_timeslot_dao.dart';
 import 'package:src/daos/user_badge_dao.dart';
 import 'package:src/models/student/task.dart';
-import 'package:src/daos/user_dao.dart';
 import 'package:src/models/student/task_group.dart';
 import 'package:src/models/user.dart';
 import 'package:src/models/user_badge.dart';
@@ -36,11 +35,13 @@ void main() {
         level: 1,
         imagePath: '');
 
-    final mockUserDao = serviceLocator.get<UserDao>();
-    when(mockUserDao.findUserById(1)).thenAnswer((_) => Stream.value(user));
+    final mockUserDao = serviceLocator.get<AuthenticationService>();
+    when(mockUserDao.isUserLoggedIn()).thenAnswer((_) => true);
+    when(mockUserDao.getLoggedInUser()).thenAnswer((_) => user);
 
-    final mockAuthenticationDao = serviceLocator.get<AuthenticationDao>();
-    when(mockAuthenticationDao.getLoggedInUser()).thenAnswer((_) => user);
+    final mockAuthenticationService =
+        serviceLocator.get<AuthenticationService>();
+    when(mockAuthenticationService.getLoggedInUser()).thenAnswer((_) => user);
     final mockUserBadgeDao = serviceLocator.get<UserBadgeDao>();
     when(mockUserBadgeDao.findUserBadgeByIds(user.id!, 1))
         .thenAnswer((_) async => UserBadge(userId: 0, badgeId: 0));
