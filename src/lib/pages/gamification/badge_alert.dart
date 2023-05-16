@@ -86,7 +86,7 @@ class _BadgeAlertState extends State<BadgeAlert> with TickerProviderStateMixin {
                       BorderRadius.vertical(top: Radius.circular(30.0)),
                 ),
                 isScrollControlled: true,
-                backgroundColor: modalLightBackground,
+                backgroundColor: modalBackground,
                 context: context,
                 builder: (builder) => const BadgesPage());
           },
