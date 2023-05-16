@@ -1,6 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:sqflite/sqflite.dart';
-import 'package:src/daos/authentication_dao.dart';
+import 'package:src/services/authentication_service.dart';
 import 'package:src/daos/media/media_series_super_dao.dart';
 import 'package:src/daos/media/media_video_movie_super_dao.dart';
 import 'package:src/daos/media/media_book_super_dao.dart';
@@ -763,7 +763,7 @@ void main() {
     });
   });
 
-  testWidgets('Test AuthenticationDao', (WidgetTester tester) async {
+  testWidgets('Test AuthenticationService', (WidgetTester tester) async {
     await tester.runAsync(() async {
       User user = User(
           name: 'Emil',
@@ -773,16 +773,16 @@ void main() {
           level: 1,
           imagePath: 'test');
 
-      expect(serviceLocator<AuthenticationDao>().isUserLoggedIn(), false);
-      expect(serviceLocator<AuthenticationDao>().getLoggedInUser(), null);
+      expect(serviceLocator<AuthenticationService>().isUserLoggedIn(), false);
+      expect(serviceLocator<AuthenticationService>().getLoggedInUser(), null);
 
-      serviceLocator<AuthenticationDao>().setLoggedInUser(user);
-      expect(serviceLocator<AuthenticationDao>().isUserLoggedIn(), true);
-      expect(serviceLocator<AuthenticationDao>().getLoggedInUser(), user);
+      serviceLocator<AuthenticationService>().setLoggedInUser(user);
+      expect(serviceLocator<AuthenticationService>().isUserLoggedIn(), true);
+      expect(serviceLocator<AuthenticationService>().getLoggedInUser(), user);
 
-      serviceLocator<AuthenticationDao>().logoutUser();
-      expect(serviceLocator<AuthenticationDao>().isUserLoggedIn(), false);
-      expect(serviceLocator<AuthenticationDao>().getLoggedInUser(), null);
+      serviceLocator<AuthenticationService>().logoutUser();
+      expect(serviceLocator<AuthenticationService>().isUserLoggedIn(), false);
+      expect(serviceLocator<AuthenticationService>().getLoggedInUser(), null);
     });
   });
 

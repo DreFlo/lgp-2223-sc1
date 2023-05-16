@@ -1,5 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:src/daos/authentication_dao.dart';
+import 'package:src/services/authentication_service.dart';
 import 'package:src/models/user.dart';
 import 'package:src/utils/service_locator.dart';
 import 'package:src/widgets/home/badge_fact.dart';
@@ -65,8 +65,9 @@ void main() {
         id: 1,
         userId: 1);
 
-    final mockAuthenticationDao = serviceLocator.get<AuthenticationDao>();
-    when(mockAuthenticationDao.isUserLoggedIn()).thenAnswer((_) => false);
+    final mockAuthenticationService =
+        serviceLocator.get<AuthenticationService>();
+    when(mockAuthenticationService.isUserLoggedIn()).thenAnswer((_) => false);
 
     final mockMediaEventDao =
         serviceLocator.get<TimeslotMediaTimeslotSuperDao>();
@@ -90,15 +91,16 @@ void main() {
 
   testWidgets('MyHomePage displays logged in user name',
       (WidgetTester tester) async {
-    final mockAuthenticationDao = serviceLocator.get<AuthenticationDao>();
-    when(mockAuthenticationDao.isUserLoggedIn()).thenAnswer((_) => true);
-    when(mockAuthenticationDao.getLoggedInUser()).thenAnswer((_) => User(
+    final mockAuthenticationService =
+        serviceLocator.get<AuthenticationService>();
+    when(mockAuthenticationService.isUserLoggedIn()).thenAnswer((_) => true);
+    when(mockAuthenticationService.getLoggedInUser()).thenAnswer((_) => User(
         name: 'Emil',
         email: 'emil@gmail.com',
         password: '1234',
         xp: 23,
         level: 1,
-        imagePath: 'test'));
+        imagePath: 'assets/images/no_image.jpg'));
 
     // Build the widget.
     await tester.pumpWidget(const LocalizationsInjector(child: MyHomePage()));
@@ -109,8 +111,9 @@ void main() {
 
   testWidgets('MyHomePage displays default fact', (WidgetTester tester) async {
     disableOverflowErrors();
-    final mockAuthenticationDao = serviceLocator.get<AuthenticationDao>();
-    when(mockAuthenticationDao.isUserLoggedIn()).thenAnswer((_) => false);
+    final mockAuthenticationService =
+        serviceLocator.get<AuthenticationService>();
+    when(mockAuthenticationService.isUserLoggedIn()).thenAnswer((_) => false);
 
     BadgeFact fact = const BadgeFact(
         fact: "Something else appears here if you use this app right!");

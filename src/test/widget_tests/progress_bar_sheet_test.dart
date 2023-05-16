@@ -5,6 +5,7 @@ import 'package:src/daos/media/media_dao.dart';
 import 'package:src/daos/student/task_dao.dart';
 import 'package:src/pages/gamification/progress_bar_sheet.dart';
 import 'package:src/utils/service_locator.dart';
+import 'package:src/models/user.dart';
 
 import '../utils/locations_injector.dart';
 import '../utils/service_locator_test_util.dart';
@@ -24,12 +25,16 @@ void main() {
     late LocalizationsInjector progressBarSheet;
 
     setUp(() {
-      progressBarSheet = const LocalizationsInjector(
-          child: ProgressBarSheet(
-        user: ['test_user', '50'],
-        image: 'test_image',
-        level: 1,
-      ));
+      User userTest = User(
+          name: 'test_user',
+          imagePath: 'assets/images/no_image.jpg',
+          level: 1,
+          xp: 100,
+          email: 'test@gmail.com',
+          password: 'test',
+          id: 1);
+      progressBarSheet =
+          LocalizationsInjector(child: ProgressBarSheet(user: userTest));
     });
 
     testWidgets('displays the user name', (WidgetTester tester) async {

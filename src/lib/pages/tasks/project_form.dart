@@ -52,7 +52,7 @@ class _ProjectFormState extends State<ProjectForm> {
   late bool init = false;
 
   Institution institutionNone =
-      Institution(id: -1, name: 'None', type: InstitutionType.other, userId: 1);
+      Institution(id: -1, name: 'None', type: InstitutionType.other, userId: 0);
   Subject subjectNone = Subject(
     id: -1,
     name: 'None',

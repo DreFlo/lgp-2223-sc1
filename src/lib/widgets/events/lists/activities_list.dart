@@ -89,7 +89,6 @@ class _ActivitiesListState extends State<ActivitiesList> {
 
   @override
   Widget build(BuildContext context) {
-    // TODO(eventos): move this to a better place, like we talked??
     activities = widget.getActivities();
 
     return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [

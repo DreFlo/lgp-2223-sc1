@@ -1,5 +1,5 @@
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
-import 'package:src/notifications/local_notifications_service.dart';
+import 'package:src/services/local_notifications_service.dart';
 
 class MockLocalNotificationsService extends LocalNotificationService {
   @override
