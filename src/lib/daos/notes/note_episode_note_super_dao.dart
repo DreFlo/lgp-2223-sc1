@@ -86,10 +86,6 @@ class NoteEpisodeNoteSuperDao {
           "Id can't be null for delete for NoteEpisodeNoteSuperEntity");
     }
 
-    final episodeNote = noteEpisodeNoteSuperEntity.toEpisodeNote();
-
-    await serviceLocator<EpisodeNoteDao>().deleteEpisodeNote(episodeNote);
-
     final note = noteEpisodeNoteSuperEntity.toNote();
 
     await serviceLocator<NoteDao>().deleteNote(note);
