@@ -171,24 +171,23 @@ class _ProgressBarSheetState extends State<ProgressBarSheet> {
                               .pickImage(source: ImageSource.gallery);
                           if (pickedFile != null) {
                             widget.updateImagePath!(pickedFile.path);
+                            //update user
+                            User userNew = User(
+                                id: widget.user.id,
+                                name: widget.user.name,
+                                email: widget.user.email,
+                                password: widget.user.password,
+                                xp: widget.user.xp,
+                                level: widget.user.level,
+                                imagePath: pickedFile.path);
+                            await serviceLocator<UserDao>().updateUser(userNew);
+                            serviceLocator<AuthenticationService>()
+                                .setLoggedInUser(userNew);
+
+                            setState(() {
+                              image = pickedFile.path;
+                            });
                           }
-
-                          //update user
-                          User userNew = User(
-                              id: widget.user.id,
-                              name: widget.user.name,
-                              email: widget.user.email,
-                              password: widget.user.password,
-                              xp: widget.user.xp,
-                              level: widget.user.level,
-                              imagePath: pickedFile!.path);
-                          await serviceLocator<UserDao>().updateUser(userNew);
-                          serviceLocator<AuthenticationService>()
-                              .setLoggedInUser(userNew);
-
-                          setState(() {
-                            image = pickedFile.path;
-                          });
                         }))
               ],
             ),
