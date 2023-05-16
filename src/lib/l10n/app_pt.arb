@@ -237,5 +237,11 @@
   "quokka_fact": "Factos sobre Quokkas",
   "close": "Fechar",
   "did_you_know": "Sabias que...?",
-  "quokka_default_fact": "Outra coisa aparecerá aqui se usares bem a aplicação!"
+  "quokka_default_fact": "Outra coisa aparecerá aqui se usares bem a aplicação!",
+  "go_study": "Hora de Estudar!",
+  "or_else": "...senão 🔪",
+  "time_to_focus": "FOCA-TE!",
+  "emil_believes": "@ Emil acredita em ti!",
+  "break_time": "Hora de uma PAUSA!",
+  "emil_is_proud": "Parabéns, @ Emil está orgulhose 🎉"
 }
