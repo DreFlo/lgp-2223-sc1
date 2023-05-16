@@ -211,52 +211,50 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Stack(
-        children: [
-          const Padding(
-              padding: EdgeInsets.only(right: 36, top: 36),
-              child: ProfilePic()),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Padding(
-                  padding: const EdgeInsets.only(left: 36, top: 90),
-                  child: WelcomeMessage(name: name)),
-FutureBuilder(
-                  future: loadUserBadges(),
-                  builder:
-                      (BuildContext context, AsyncSnapshot<String> snapshot) {
-                    if (snapshot.hasData) {
-                      return BadgeFact(fact: snapshot.data!);
-                    }
-                    return const Center(child: CircularProgressIndicator());
-                  }),
-              FutureBuilder(
-                  future: loadEventsDB(),
-                  builder: (BuildContext context, AsyncSnapshot<int> snapshot) {
-                    if (snapshot.hasData) {
-                      return HorizontalScrollView(
-                        nItems: studentEvents.length + mediaEvents.length,
-                        selectedIndex: _selectedIndex,
-                        setSelectedIndex: (int index) =>
-                            setState(() => _selectedIndex = index),
-                      );
-                    }
-                    return const Center(child: CircularProgressIndicator());
-                  }),
-
-              FutureBuilder(
-                  future: loadEventsDB(),
-                  builder: (BuildContext context, AsyncSnapshot<int> snapshot) {
-                    if (snapshot.hasData) {
-                      return showWidget();
-                    }
-                    return const Center(child: CircularProgressIndicator());
-                  })
-            ],
-          ),
-        ],
+        body: Stack(children: [
+      const Padding(
+        padding: EdgeInsets.only(right: 36, top: 36),
+        child: ProfilePic(),
       ),
-    );
+      SingleChildScrollView(
+        child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+          Padding(
+            padding: const EdgeInsets.only(left: 36, top: 90),
+            child: WelcomeMessage(name: name),
+          ),
+          FutureBuilder(
+              future: loadUserBadges(),
+              builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
+                if (snapshot.hasData) {
+                  return BadgeFact(fact: snapshot.data!);
+                }
+                return const Center(child: CircularProgressIndicator());
+              }),
+          FutureBuilder(
+              future: loadEventsDB(),
+              builder: (BuildContext context, AsyncSnapshot<int> snapshot) {
+                if (snapshot.hasData) {
+                  return HorizontalScrollView(
+                    nItems: studentEvents.length + mediaEvents.length,
+                    selectedIndex: _selectedIndex,
+                    setSelectedIndex: (int index) =>
+                        setState(() => _selectedIndex = index),
+                  );
+                }
+                return const Center(child: CircularProgressIndicator());
+              }),
+          FutureBuilder(
+              future: loadEventsDB(),
+              builder: (BuildContext context, AsyncSnapshot<int> snapshot) {
+                if (snapshot.hasData) {
+                  return Builder(builder: (BuildContext context) {
+                    return showWidget();
+                  });
+                }
+                return const Center(child: CircularProgressIndicator());
+              }),
+        ]),
+      )
+    ]));
   }
 }
