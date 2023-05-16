@@ -173,16 +173,16 @@ class _EventFormState extends State<EventForm> {
 
   TimeslotMediaTimeslotSuperEntity getMediaTimeslot() {
     return TimeslotMediaTimeslotSuperEntity(
-      id: widget.id,
-      title: titleController.text,
-      description: descriptionController.text,
-      startDateTime: startDate,
-      endDateTime: endDate,
-      xpMultiplier: 0,
-      userId: serviceLocator<AuthenticationService>().getLoggedInUserId(),
-      finished: false
-    );
+        id: widget.id,
+        title: titleController.text,
+        description: descriptionController.text,
+        startDateTime: startDate,
+        endDateTime: endDate,
+        xpMultiplier: 0,
+        userId: serviceLocator<AuthenticationService>().getLoggedInUserId(),
+        finished: false);
   }
+
   TimeslotStudentTimeslotSuperEntity getStudentTimeslot() {
     return TimeslotStudentTimeslotSuperEntity(
       id: widget.id,
