@@ -1,6 +1,11 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
+import 'package:src/services/authentication_service.dart';
 import 'package:src/pages/gamification/progress_bar_sheet.dart';
 import 'package:src/themes/colors.dart';
+import 'package:src/utils/service_locator.dart';
+import 'package:src/models/user.dart';
 
 class ProfilePic extends StatefulWidget {
   const ProfilePic({Key? key}) : super(key: key);
@@ -10,7 +15,15 @@ class ProfilePic extends StatefulWidget {
 }
 
 class _ProfilePicState extends State<ProfilePic> {
-  List<String> user = ['John Smith', '11', '400'];
+  String imagePath = serviceLocator<AuthenticationService>().isUserLoggedIn()
+      ? serviceLocator<AuthenticationService>().getLoggedInUser()!.imagePath
+      : 'assets/images/no_image.jpg';
+
+  void updateImagePath(String newPath) {
+    setState(() {
+      imagePath = newPath;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -32,18 +45,40 @@ class _ProfilePicState extends State<ProfilePic> {
                           bottom:
                               MediaQuery.of(context).viewInsets.bottom + 50),
                       child: ProgressBarSheet(
-                          level: 2,
-                          user: user,
-                          image: 'assets/images/poster.jpg'),
+                        user: serviceLocator<AuthenticationService>()
+                                .isUserLoggedIn()
+                            ? serviceLocator<AuthenticationService>()
+                                .getLoggedInUser()!
+                            : User(
+                                name: '',
+                                email: '',
+                                password: '',
+                                xp: 0,
+                                level: 0,
+                                imagePath: 'assets/images/no_image.jpg'),
+                        updateImagePath: updateImagePath,
+                      ),
                     ));
           },
-          child: const CircleAvatar(
-            radius: 30,
-            backgroundColor: grayButton,
-            // TODO Get profile pic - backgroundImage: AssetImage(path),
-          ),
+          child: getUserAvatar(),
         )
       ],
     );
+  }
+
+  Widget getUserAvatar() {
+    ImageProvider imageProvider;
+
+    if (imagePath == 'assets/images/no_image.jpg') {
+      imageProvider = AssetImage(imagePath);
+    } else {
+      imageProvider = Image.file(File(imagePath), fit: BoxFit.cover).image;
+    }
+
+    return (CircleAvatar(
+      radius: 30,
+      backgroundColor: grayButton,
+      backgroundImage: imageProvider,
+    ));
   }
 }

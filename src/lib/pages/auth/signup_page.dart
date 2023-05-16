@@ -471,7 +471,7 @@ class _SignUpPageState extends State<SignUpPage>
         password: password,
         xp: 0,
         level: 0,
-        imagePath: ""));
+        imagePath: "assets/images/no_image.jpg"));
 
     clearAllFields();
   }

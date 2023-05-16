@@ -4,6 +4,7 @@ import 'package:src/daos/notes/note_task_note_super_dao.dart';
 import 'package:src/models/notes/note.dart';
 import 'package:src/models/notes/note_task_note_super_entity.dart';
 import 'package:src/themes/colors.dart';
+import 'package:src/utils/gamification/game_logic.dart';
 import 'package:src/utils/service_locator.dart';
 
 class AddTaskNoteForm extends StatefulWidget {
@@ -210,6 +211,13 @@ class _AddTaskNoteFormState extends State<AddTaskNoteForm> {
               taskId: widget.taskId!);
           await serviceLocator<NoteTaskNoteSuperDao>()
               .updateNoteTaskNoteSuperEntity(note);
+
+          bool badge = await insertLogAndCheckStreak();
+          if (badge) {
+            //show badge
+            callBadgeWidget(); //streak
+          }
+
           simpleNote = Note(
               id: widget.note!.id,
               title: titleController.text,
@@ -225,6 +233,13 @@ class _AddTaskNoteFormState extends State<AddTaskNoteForm> {
 
           int id = await serviceLocator<NoteTaskNoteSuperDao>()
               .insertNoteTaskNoteSuperEntity(note);
+
+          bool badge = await insertLogAndCheckStreak();
+          if (badge) {
+            //show badge
+            callBadgeWidget();
+            //streak
+          }
 
           simpleNote = Note(
               id: id,
@@ -267,6 +282,12 @@ class _AddTaskNoteFormState extends State<AddTaskNoteForm> {
 
     await serviceLocator<NoteTaskNoteSuperDao>()
         .deleteNoteTaskNoteSuperEntity(noteTaskNoteSuperEntity);
+
+    bool badge = await insertLogAndCheckStreak();
+    if (badge) {
+      //show badge
+      callBadgeWidget(); //streak
+    }
 
     if (context.mounted) {
       Navigator.pop(context);
@@ -386,5 +407,9 @@ class _AddTaskNoteFormState extends State<AddTaskNoteForm> {
         return alert;
       },
     );
+  }
+
+  callBadgeWidget() {
+    unlockBadgeForUser(3, context); //streak
   }
 }

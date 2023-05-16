@@ -65,6 +65,7 @@ dependencies:
   flutter_native_timezone: ^2.0.0
   notification_permissions: ^0.6.1
   dio: ^5.0.0
+  icons_plus: ^4.0.0
 
 dev_dependencies:
   integration_test:

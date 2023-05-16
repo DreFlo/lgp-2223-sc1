@@ -1,5 +1,11 @@
 import 'package:flutter_test/flutter_test.dart';
+import 'package:mockito/mockito.dart';
+import 'package:src/services/authentication_service.dart';
+import 'package:src/daos/log_dao.dart';
+import 'package:src/daos/user_badge_dao.dart';
 import 'package:src/models/student/evaluation.dart';
+import 'package:src/models/user.dart';
+import 'package:src/models/user_badge.dart';
 import 'package:src/utils/service_locator.dart';
 import 'package:src/widgets/tasks/evaluation_form.dart';
 import '../../../utils/service_locator_test_util.dart';
@@ -18,8 +24,34 @@ void main() {
     await serviceLocator.reset();
   });
 
+  loadBadgesInfo() {
+    User user = User(
+        id: 1,
+        name: 'name',
+        email: 'email',
+        password: 'password',
+        level: 1,
+        imagePath: '',
+        xp: 0);
+    final mockAuthenticationService =
+        serviceLocator.get<AuthenticationService>();
+    when(mockAuthenticationService.getLoggedInUser()).thenAnswer((_) => user);
+    final mockUserBadgeDao = serviceLocator.get<UserBadgeDao>();
+    when(mockUserBadgeDao.findUserBadgeByIds(user.id!, 1))
+        .thenAnswer((_) async => UserBadge(userId: 0, badgeId: 0));
+    DateTime today = DateTime(DateTime.now().year, DateTime.now().month,
+        DateTime.now().day, 0, 0, 0, 0, 0);
+    DateTime end = DateTime(DateTime.now().year, DateTime.now().month,
+        DateTime.now().day, 23, 59, 59, 59, 59);
+
+    final mockLogDao = serviceLocator.get<LogDao>();
+    when(mockLogDao.countLogsByDate(today, end)).thenAnswer((_) async => 1);
+    when(mockLogDao.countLogs()).thenAnswer((_) async => 5);
+  }
+
   testWidgets('Create evaluation with incorrect fields test',
       (WidgetTester widgetTester) async {
+    loadBadgesInfo();
     await widgetTester.pumpWidget(const LocalizationsInjector(
       child: EvaluationForm(callback: mockCallback),
     ));
@@ -42,6 +74,7 @@ void main() {
   });
 
   testWidgets('Create evaluation normally', (WidgetTester widgetTester) async {
+    loadBadgesInfo();
     await widgetTester.pumpWidget(const LocalizationsInjector(
       child: EvaluationForm(
         callback: mockCallback,
@@ -79,6 +112,7 @@ void main() {
 
   testWidgets('Load correct evaluation information test',
       (WidgetTester widgetTester) async {
+    loadBadgesInfo();
     String evaluationName = 'evaluation_name';
     double evaluationGrade = 3.0;
     await widgetTester.pumpWidget(LocalizationsInjector(
@@ -99,6 +133,7 @@ void main() {
   });
 
   testWidgets('Edit evaluation test', (WidgetTester widgetTester) async {
+    loadBadgesInfo();
     String evaluationName = 'evaluation_name';
     double evaluationGrade = 3.0;
     await widgetTester.pumpWidget(LocalizationsInjector(

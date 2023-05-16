@@ -232,6 +232,16 @@
   "time_to_focus": "It's time to FOCUS!",
   "emil_believes": "Emil believes in you!",
   "break_time": "It's BREAK time!",
-  "emil_is_proud": "Congrats, Emil is proud 🎉"
-
+  "emil_is_proud": "Congrats, Emil is proud 🎉",
+  "won_badge": "You won a badge!",
+  "won_badge_2": "...but there's more!",
+  "check_it_out": "Check it out!",
+  "maybe_later": "Maybe later...",
+  "badges": "Badges",
+  "badge_to_unlock": "?????",
+  "more_to_come": "More to come!",
+  "quokka_fact": "Quokka Fact",
+  "close": "Close",
+  "did_you_know": "Did you know...?",
+  "quokka_default_fact": "Something else appears here if you use this app right!"
 }

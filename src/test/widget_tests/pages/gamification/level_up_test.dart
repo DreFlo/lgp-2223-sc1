@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
+import 'package:src/services/authentication_service.dart';
+import 'package:src/daos/log_dao.dart';
 import 'package:src/daos/timeslot/task_student_timeslot_dao.dart';
+import 'package:src/daos/user_badge_dao.dart';
 import 'package:src/models/student/task.dart';
-import 'package:src/daos/user_dao.dart';
 import 'package:src/models/student/task_group.dart';
 import 'package:src/models/user.dart';
+import 'package:src/models/user_badge.dart';
 import 'package:src/utils/enums.dart';
 import 'package:src/utils/service_locator.dart';
 import 'package:src/widgets/tasks/task_show_bar.dart';
@@ -23,6 +26,7 @@ void main() {
 
   testWidgets('test if level up is accused', (WidgetTester widgetTester) async {
     final user = User(
+        id: 1,
         name: 'Emil',
         email: 'emil@gmail.com',
         password: 'test',
@@ -30,8 +34,24 @@ void main() {
         level: 2,
         imagePath: '');
 
-    final mockUserDao = serviceLocator.get<UserDao>();
-    when(mockUserDao.findUserById(1)).thenAnswer((_) => Stream.value(user));
+    final mockUserDao = serviceLocator.get<AuthenticationService>();
+    when(mockUserDao.isUserLoggedIn()).thenAnswer((_) => true);
+    when(mockUserDao.getLoggedInUser()).thenAnswer((_) => user);
+
+    final mockAuthenticationService =
+        serviceLocator.get<AuthenticationService>();
+    when(mockAuthenticationService.getLoggedInUser()).thenAnswer((_) => user);
+    final mockUserBadgeDao = serviceLocator.get<UserBadgeDao>();
+    when(mockUserBadgeDao.findUserBadgeByIds(user.id!, 1))
+        .thenAnswer((_) async => UserBadge(userId: 0, badgeId: 0));
+    DateTime today = DateTime(DateTime.now().year, DateTime.now().month,
+        DateTime.now().day, 0, 0, 0, 0, 0);
+    DateTime end = DateTime(DateTime.now().year, DateTime.now().month,
+        DateTime.now().day, 23, 59, 59, 59, 59);
+
+    final mockLogDao = serviceLocator.get<LogDao>();
+    when(mockLogDao.countLogsByDate(today, end)).thenAnswer((_) async => 1);
+    when(mockLogDao.countLogs()).thenAnswer((_) async => 5);
 
     final mockTaskStudentTimeslotDao =
         serviceLocator.get<TaskStudentTimeslotDao>();

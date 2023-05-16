@@ -1,5 +1,5 @@
 import 'package:get_it/get_it.dart';
-import 'package:src/daos/badge_dao.dart';
+import 'package:src/daos/badges_dao.dart';
 import 'package:src/daos/media/media_book_super_dao.dart';
 import 'package:src/daos/media/media_series_super_dao.dart';
 import 'package:src/daos/media/media_video_episode_super_dao.dart';
@@ -27,7 +27,7 @@ import 'package:src/utils/mock_data/data.dart';
 
 Future<void> seedDatabase(GetIt serviceLocator) async {
   await serviceLocator<UserDao>().insertUsers(mockUsers);
-  await serviceLocator<BadgeDao>().insertBadges(mockBadges);
+  await serviceLocator<BadgesDao>().insertBadges(mockBadges);
   await serviceLocator<UserBadgeDao>().insertUserBadges(mockUserBadges);
   await serviceLocator<MoodDao>().insertMoods(mockMoods);
 

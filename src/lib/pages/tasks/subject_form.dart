@@ -8,6 +8,7 @@ import 'package:src/models/student/subject.dart';
 import 'package:src/models/student/evaluation.dart';
 import 'package:src/themes/colors.dart';
 import 'package:src/utils/enums.dart';
+import 'package:src/utils/gamification/game_logic.dart';
 import 'package:src/utils/service_locator.dart';
 import 'package:src/widgets/tasks/evaluation_bar.dart';
 import 'package:src/widgets/tasks/evaluation_form.dart';
@@ -306,7 +307,7 @@ class _SubjectFormState extends State<SubjectForm> {
                             id: -1,
                             name: 'None',
                             type: InstitutionType.other,
-                            userId: 1));
+                            userId: 0));
                     return DropdownButton<Institution>(
                         key: const Key('institutionField'),
                         isExpanded: true,
@@ -415,6 +416,12 @@ class _SubjectFormState extends State<SubjectForm> {
       if (context.mounted) {
         Navigator.pop(context);
       }
+    }
+
+    bool badge = await insertLogAndCheckStreak();
+    if (badge) {
+      //show badge
+      callBadgeWidget(); //streak
     }
   }
 
@@ -529,6 +536,12 @@ class _SubjectFormState extends State<SubjectForm> {
           Navigator.pop(context);
         }
 
+        bool badge = await insertLogAndCheckStreak();
+        if (badge) {
+          //show badge
+          callBadgeWidget(); //streak
+        }
+
         if (widget.callback != null) {
           widget.callback!();
         }
@@ -605,6 +618,12 @@ class _SubjectFormState extends State<SubjectForm> {
           .deleteStudentEvaluation(evaluation);
     }
 
+    bool badge = await insertLogAndCheckStreak();
+    if (badge) {
+      //show badge
+      callBadgeWidget(); //streak
+    }
+
     setState(() {
       evaluations.remove(evaluation);
     });
@@ -626,5 +645,9 @@ class _SubjectFormState extends State<SubjectForm> {
         return alert;
       },
     );
+  }
+
+  callBadgeWidget() {
+    unlockBadgeForUser(3, context); //streak
   }
 }
