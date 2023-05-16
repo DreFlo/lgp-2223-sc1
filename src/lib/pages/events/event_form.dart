@@ -172,16 +172,16 @@ class _EventFormState extends State<EventForm> {
 
   TimeslotMediaTimeslotSuperEntity getMediaTimeslot() {
     return TimeslotMediaTimeslotSuperEntity(
-      id: widget.id,
-      title: titleController.text,
-      description: descriptionController.text,
-      startDateTime: startDate,
-      endDateTime: endDate,
-      xpMultiplier: 0,
-      userId: serviceLocator<AuthenticationService>().getLoggedInUserId(),
-      finished: false
-    );
+        id: widget.id,
+        title: titleController.text,
+        description: descriptionController.text,
+        startDateTime: startDate,
+        endDateTime: endDate,
+        xpMultiplier: 0,
+        userId: serviceLocator<AuthenticationService>().getLoggedInUserId(),
+        finished: false);
   }
+
   TimeslotStudentTimeslotSuperEntity getStudentTimeslot() {
     return TimeslotStudentTimeslotSuperEntity(
       id: widget.id,
@@ -383,25 +383,28 @@ class _EventFormState extends State<EventForm> {
                 icon: Icons.event,
                 scrollController: widget.scrollController,
                 children: [
-                  Row(mainAxisSize: MainAxisSize.min, crossAxisAlignment: CrossAxisAlignment.center, children: [
-                    //TODO: Figure out the overflow here.
-                    //LESS: Expanded doesn't work here. I think the widget division is part of the issue.
-                    //I did do a new "title" thing when messing with Patrícia's requests for the forms, but
-                    //since Margarida did something of her own, I didn't want to replace her work without her
-                    //seeing it first/blessing.
-                    ModuleButton(
-                      buttonKey: buttonKey,
-                      moduleColor: _moduleColor,
-                      setModuleColor: setModuleColor,
-                      clearActivities: clearActivities,
-                      disabled: widget.id != null,
-                    ),
-                    const VerticalDivider(),
-                    EditTitle(
-                        key: const Key('titleField'),
-                        titleController: titleController,
-                        errors: errors)
-                  ]),
+                  Row(
+                      mainAxisSize: MainAxisSize.min,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        //TODO: Figure out the overflow here.
+                        //LESS: Expanded doesn't work here. I think the widget division is part of the issue.
+                        //I did do a new "title" thing when messing with Patrícia's requests for the forms, but
+                        //since Margarida did something of her own, I didn't want to replace her work without her
+                        //seeing it first/blessing.
+                        ModuleButton(
+                          buttonKey: buttonKey,
+                          moduleColor: _moduleColor,
+                          setModuleColor: setModuleColor,
+                          clearActivities: clearActivities,
+                          disabled: widget.id != null,
+                        ),
+                        const VerticalDivider(),
+                        EditTitle(
+                            key: const Key('titleField'),
+                            titleController: titleController,
+                            errors: errors)
+                      ]),
                   const SizedBox(height: 30),
                   StartDatePicker(
                       startDate: startDate,
