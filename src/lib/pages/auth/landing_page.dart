@@ -210,8 +210,6 @@ class _LandingPageState extends State<LandingPage> {
               ),
               onPressed: () {
                 //print("Pressed Google Button!");
-
-                //TODO: Connection with google (MVP?)
               },
             ),
             const SizedBox(width: 15),
@@ -227,8 +225,6 @@ class _LandingPageState extends State<LandingPage> {
                   size: 40.0, color: Color(0xFF246BFD)),
               onPressed: () {
                 //("Pressed FacebookButton!");
-
-                //TODO: Connection with Facebook (MVP?)
               },
             ),
           ]),

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:src/services/authentication_service.dart';
 import 'package:src/daos/student/institution_dao.dart';
 import 'package:src/daos/student/subject_dao.dart';
 import 'package:src/models/student/subject.dart';
@@ -7,6 +8,7 @@ import 'package:src/models/student/institution.dart';
 import 'package:src/pages/tasks/subject_form.dart';
 import 'package:src/themes/colors.dart';
 import 'package:src/utils/enums.dart';
+import 'package:src/utils/gamification/game_logic.dart';
 import 'package:src/utils/service_locator.dart';
 import 'package:src/widgets/tasks/subject_bar.dart';
 
@@ -408,15 +410,22 @@ class _InstitutionFormState extends State<InstitutionForm> {
     validate();
 
     if (errors.isEmpty) {
-      //TODO: Change to real user id
+      int userId = serviceLocator<AuthenticationService>().getLoggedInUserId();
+
       int id;
       if (widget.id == null) {
-        id = await serviceLocator<InstitutionDao>()
-            .insertInstitution(Institution(name: name, type: type, userId: 1));
+        id = await serviceLocator<InstitutionDao>().insertInstitution(
+            Institution(name: name, type: type, userId: userId));
       } else {
-        serviceLocator<InstitutionDao>().updateInstitution(
-            Institution(id: widget.id!, name: name, type: type, userId: 1));
+        serviceLocator<InstitutionDao>().updateInstitution(Institution(
+            id: widget.id!, name: name, type: type, userId: userId));
         id = widget.id!;
+      }
+
+      bool badge = await insertLogAndCheckStreak();
+      if (badge) {
+        //show badge
+        callBadgeWidget(); //streak
       }
 
       for (Subject subject in noDbSubjects) {
@@ -519,6 +528,12 @@ class _InstitutionFormState extends State<InstitutionForm> {
 
     await serviceLocator<SubjectDao>().updateSubject(newSubject);
 
+    bool badge = await insertLogAndCheckStreak();
+    if (badge) {
+      //show badge
+      callBadgeWidget(); //streak
+    }
+
     setState(() {});
   }
 
@@ -534,6 +549,10 @@ class _InstitutionFormState extends State<InstitutionForm> {
     }
 
     setState(() {});
+  }
+
+  callBadgeWidget() {
+    unlockBadgeForUser(3, context);
   }
 
   showDeleteConfirmation(BuildContext context) {
@@ -568,6 +587,12 @@ class _InstitutionFormState extends State<InstitutionForm> {
             .first;
 
         await serviceLocator<InstitutionDao>().deleteInstitution(institution!);
+
+        bool badge = await insertLogAndCheckStreak();
+        if (badge) {
+          //show badge
+          callBadgeWidget(); //streak
+        }
 
         if (context.mounted) {
           Navigator.pop(context);

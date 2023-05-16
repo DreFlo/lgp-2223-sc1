@@ -132,14 +132,6 @@ class MediaVideoEpisodeSuperDao {
           "Id can't be null for delete in MediaVideoEpisodeSuperEntity");
     }
 
-    final episode = mediaVideoEpisodeSuperEntity.toEpisode();
-
-    await serviceLocator<EpisodeDao>().deleteEpisode(episode);
-
-    final video = mediaVideoEpisodeSuperEntity.toVideo();
-
-    await serviceLocator<VideoDao>().deleteVideo(video);
-
     final media = mediaVideoEpisodeSuperEntity.toMedia();
 
     await serviceLocator<MediaDao>().deleteMedia(media);

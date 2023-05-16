@@ -1,7 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:get_it/get_it.dart';
 import 'package:sqflite/sqflite.dart';
-import 'package:src/daos/authentication_dao.dart';
+import 'package:src/services/authentication_service.dart';
 import 'package:src/daos/media/media_video_movie_super_dao.dart';
 import 'package:src/daos/media/media_book_super_dao.dart';
 import 'package:src/daos/media/media_series_super_dao.dart';
@@ -42,12 +42,13 @@ import 'package:src/daos/timeslot/timeslot_student_timeslot_super_dao.dart';
 import 'package:src/daos/timeslot/task_student_timeslot_dao.dart';
 import 'package:src/daos/timeslot/media_media_timeslot_dao.dart';
 
-import 'package:src/daos/badge_dao.dart';
+import 'package:src/daos/badges_dao.dart';
 import 'package:src/daos/mood_dao.dart';
 import 'package:src/daos/user_dao.dart';
+import 'package:src/daos/log_dao.dart';
 
 import 'package:src/database/callbacks.dart';
-import 'package:src/notifications/local_notifications_service.dart';
+import 'package:src/services/local_notifications_service.dart';
 import 'package:src/utils/database_seeder.dart';
 
 import 'package:notification_permissions/notification_permissions.dart';
@@ -136,8 +137,11 @@ Future<void> setup(
   serviceLocator.registerSingletonWithDependencies<UserDao>(
       () => serviceLocator.get<AppDatabase>().userDao,
       dependsOn: [AppDatabase]);
-  serviceLocator.registerSingletonWithDependencies<BadgeDao>(
+  serviceLocator.registerSingletonWithDependencies<BadgesDao>(
       () => serviceLocator.get<AppDatabase>().badgeDao,
+      dependsOn: [AppDatabase]);
+  serviceLocator.registerSingletonWithDependencies<LogDao>(
+      () => serviceLocator.get<AppDatabase>().logDao,
       dependsOn: [AppDatabase]);
   serviceLocator.registerSingletonWithDependencies<MoodDao>(
       () => serviceLocator.get<AppDatabase>().moodDao,
@@ -196,7 +200,8 @@ Future<void> setup(
           dependsOn: [AppDatabase]);
 
   // Single instance to save logged user
-  serviceLocator.registerSingleton<AuthenticationDao>(authenticationDao);
+  serviceLocator
+      .registerSingleton<AuthenticationService>(authenticationService);
 
   if (!testing) {
     final permissionStatusFuture =

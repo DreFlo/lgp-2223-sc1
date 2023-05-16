@@ -21,6 +21,9 @@ abstract class TaskDao {
   @Query('SELECT COUNT(*) FROM task WHERE finished = :finished')
   Future<int?> countFinishedTasks(bool finished);
 
+  @Query('SELECT COUNT(*) FROM task')
+  Future<int?> countTasks();
+
   @Query(
       'SELECT COUNT(DISTINCT task_group_id) FROM task WHERE finished = :finished')
   Future<int?> countFinishedTaskGroups(bool finished);

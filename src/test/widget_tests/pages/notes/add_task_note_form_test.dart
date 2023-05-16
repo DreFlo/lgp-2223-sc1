@@ -1,5 +1,10 @@
 import 'package:flutter_test/flutter_test.dart';
+import 'package:src/services/authentication_service.dart';
+import 'package:src/daos/log_dao.dart';
 import 'package:src/daos/notes/note_task_note_super_dao.dart';
+import 'package:src/daos/user_badge_dao.dart';
+import 'package:src/models/user.dart';
+import 'package:src/models/user_badge.dart';
 import 'package:src/utils/service_locator.dart';
 import '../../../utils/service_locator_test_util.dart';
 import 'package:flutter/material.dart';
@@ -23,8 +28,34 @@ void main() {
     await serviceLocator.reset();
   });
 
+  loadBadgesInfo() {
+    User user = User(
+        id: 1,
+        name: 'name',
+        email: 'email',
+        password: 'password',
+        level: 1,
+        imagePath: '',
+        xp: 0);
+    final mockAuthenticationService =
+        serviceLocator.get<AuthenticationService>();
+    when(mockAuthenticationService.getLoggedInUser()).thenAnswer((_) => user);
+    final mockUserBadgeDao = serviceLocator.get<UserBadgeDao>();
+    when(mockUserBadgeDao.findUserBadgeByIds(user.id!, 1))
+        .thenAnswer((_) async => UserBadge(userId: 0, badgeId: 0));
+    DateTime today = DateTime(DateTime.now().year, DateTime.now().month,
+        DateTime.now().day, 0, 0, 0, 0, 0);
+    DateTime end = DateTime(DateTime.now().year, DateTime.now().month,
+        DateTime.now().day, 23, 59, 59, 59, 59);
+
+    final mockLogDao = serviceLocator.get<LogDao>();
+    when(mockLogDao.countLogsByDate(today, end)).thenAnswer((_) async => 1);
+    when(mockLogDao.countLogs()).thenAnswer((_) async => 5);
+  }
+
   testWidgets('Create task note with incorrect fields test',
       (WidgetTester widgetTester) async {
+    loadBadgesInfo();
     await widgetTester.pumpWidget(const LocalizationsInjector(
       child: AddTaskNoteForm(),
     ));
@@ -47,6 +78,7 @@ void main() {
   });
 
   testWidgets('Create task note normally', (WidgetTester widgetTester) async {
+    loadBadgesInfo();
     await widgetTester.pumpWidget(const LocalizationsInjector(
       child: AddTaskNoteForm(taskId: 1, callback: func),
     ));
@@ -80,6 +112,7 @@ void main() {
 
   testWidgets('Load correct task note information test',
       (WidgetTester widgetTester) async {
+    loadBadgesInfo();
     await widgetTester.pumpWidget(LocalizationsInjector(
       child: AddTaskNoteForm(
         note: Note(
@@ -98,6 +131,7 @@ void main() {
   });
 
   testWidgets('Edit task note test', (WidgetTester widgetTester) async {
+    loadBadgesInfo();
     await widgetTester.pumpWidget(LocalizationsInjector(
       child: AddTaskNoteForm(
         note: Note(
@@ -121,6 +155,7 @@ void main() {
   });
 
   testWidgets('Delete task note test', (WidgetTester widgetTester) async {
+    loadBadgesInfo();
     final noteTaskSuperDaoMock = serviceLocator.get<NoteTaskNoteSuperDao>();
     when(noteTaskSuperDaoMock
             .deleteNoteTaskNoteSuperEntity(MockNoteTaskNoteSuperEntity()))

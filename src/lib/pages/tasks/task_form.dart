@@ -21,6 +21,7 @@ import 'package:src/themes/colors.dart';
 import 'package:src/utils/date_formatter.dart';
 import 'dart:math' as Math;
 import 'package:src/utils/enums.dart';
+import 'package:src/utils/gamification/game_logic.dart';
 import 'package:src/utils/service_locator.dart';
 import 'package:src/widgets/error_text.dart';
 import 'package:src/widgets/notes/note_bar.dart';
@@ -69,7 +70,7 @@ class _TaskFormState extends State<TaskForm> {
       priority: Priority.high,
       deadline: DateFormatter.day(DateTime.now()));
   Institution institutionNone =
-      Institution(id: -1, name: 'None', type: InstitutionType.other, userId: 1);
+      Institution(id: -1, name: 'None', type: InstitutionType.other, userId: 0);
   Subject subjectNone = Subject(
     id: -1,
     name: 'None',
@@ -230,13 +231,14 @@ class _TaskFormState extends State<TaskForm> {
     }
   }
 
-  save(BuildContext context) async {
+  Future<int> save(BuildContext context) async {
+    int badgeReturn = 0;
     validate();
     if (errors.isNotEmpty) {
       widget.scrollController.animateTo(0,
           duration: const Duration(milliseconds: 500), curve: Curves.ease);
       setState(() {});
-      return;
+      return 0;
     }
     Task task;
     int? subjectId, taskGroupId;
@@ -264,16 +266,16 @@ class _TaskFormState extends State<TaskForm> {
           xp: 0);
       newId = await serviceLocator<TaskDao>().insertTask(task);
 
-      task = Task(
-          id: newId,
-          name: titleController.text,
-          deadline: date!,
-          priority: priority!,
-          subjectId: subjectId,
-          description: description!,
-          taskGroupId: taskGroupId,
-          finished: false,
-          xp: 0);
+      // check if it's the first task ever
+      if (await serviceLocator<TaskDao>().countTasks() == 1) {
+        // check if the user has the badge
+        bool hasBadge = await checkUserHasBadge(1);
+        if (!hasBadge) {
+          // win badge + show badge
+          //unlockBadgeForUser(1, context);
+          badgeReturn = 1;
+        }
+      }
     } else {
       task = Task(
           id: id,
@@ -327,11 +329,23 @@ class _TaskFormState extends State<TaskForm> {
     if (widget.callback != null) {
       widget.callback!(task);
     }
-    // My idea
-    // Create here the new notes
-    if (context.mounted) {
-      Navigator.pop(context);
+
+    bool badge = await insertLogAndCheckStreak();
+    if (badge) {
+      //show badge
+      //unlockBadgeForUser(3, context); //streak
+      badgeReturn = 3;
     }
+
+    if (badgeReturn == 0) {
+      // My idea
+      // Create here the new notes
+      if (context.mounted) {
+        Navigator.pop(context);
+      }
+    }
+
+    return badgeReturn;
   }
 
   delete(BuildContext context) async {
@@ -339,6 +353,16 @@ class _TaskFormState extends State<TaskForm> {
       Task task =
           await serviceLocator<TaskDao>().findTaskById(id!).first as Task;
       serviceLocator<TaskDao>().deleteTask(task);
+    }
+
+    bool badge = await insertLogAndCheckStreak();
+    if (badge) {
+      //show badge
+      callBadgeWidget(3);
+      if (context.mounted) {
+        Navigator.pop(context);
+      }
+      return;
     }
 
     if (widget.deleteCallback != null) {
@@ -1208,7 +1232,10 @@ class _TaskFormState extends State<TaskForm> {
       return ElevatedButton(
           key: const Key('taskSaveButton'),
           onPressed: () async {
-            await save(context);
+            int badge = await save(context);
+            if (badge != 0) {
+              callBadgeWidget(badge);
+            }
           },
           style: ElevatedButton.styleFrom(
             minimumSize: Size(MediaQuery.of(context).size.width * 0.95, 55),
@@ -1225,7 +1252,10 @@ class _TaskFormState extends State<TaskForm> {
           ElevatedButton(
               key: const Key('taskSaveButton'),
               onPressed: () async {
-                await save(context);
+                int badge = await save(context);
+                if (badge != 0) {
+                  callBadgeWidget(badge);
+                }
               },
               style: ElevatedButton.styleFrom(
                 minimumSize: Size(MediaQuery.of(context).size.width * 0.4, 55),
@@ -1377,6 +1407,14 @@ class _TaskFormState extends State<TaskForm> {
   editNotesCallback() {
     if (widget.editNotesCallback != null) {
       widget.editNotesCallback!(notes);
+    }
+  }
+
+  callBadgeWidget(int badge) {
+    unlockBadgeForUser(badge, context);
+
+    if (context.mounted) {
+      Navigator.pop(context);
     }
   }
 }

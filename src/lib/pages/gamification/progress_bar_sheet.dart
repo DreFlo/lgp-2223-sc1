@@ -3,20 +3,20 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:src/services/authentication_service.dart';
 import 'package:src/themes/colors.dart';
 import 'package:src/utils/service_locator.dart';
 import 'package:src/models/user.dart';
 import 'package:src/daos/user_dao.dart';
 import 'package:src/daos/media/media_dao.dart';
 import 'package:src/daos/student/task_dao.dart';
+import 'package:src/utils/gamification/levels.dart';
 
 class ProgressBarSheet extends StatefulWidget {
-  final List<String> user;
-  final String image;
-  final int level;
+  final User user;
+  final void Function(String)? updateImagePath;
 
-  const ProgressBarSheet(
-      {Key? key, required this.user, required this.image, required this.level})
+  const ProgressBarSheet({Key? key, required this.user, this.updateImagePath})
       : super(key: key);
 
   @override
@@ -33,7 +33,11 @@ class _ProgressBarSheetState extends State<ProgressBarSheet> {
 
   @override
   initState() {
-    image = widget.image;
+    if (widget.user.imagePath == '') {
+      image = 'assets/images/no_image.jpg';
+    } else {
+      image = widget.user.imagePath;
+    }
     super.initState();
     loadNumbers();
   }
@@ -113,6 +117,18 @@ class _ProgressBarSheetState extends State<ProgressBarSheet> {
     return text;
   }
 
+  ImageProvider getImageProvider() {
+    ImageProvider imageProvider;
+
+    if (image == 'assets/images/no_image.jpg') {
+      imageProvider = AssetImage(image);
+    } else {
+      imageProvider = Image.file(File(image), fit: BoxFit.cover).image;
+    }
+
+    return imageProvider;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Wrap(spacing: 10, children: [
@@ -137,10 +153,7 @@ class _ProgressBarSheetState extends State<ProgressBarSheet> {
               clipBehavior: Clip.none,
               alignment: Alignment.bottomRight,
               children: [
-                CircleAvatar(
-                    radius: 50,
-                    backgroundImage:
-                        Image.file(File(image), fit: BoxFit.cover).image),
+                CircleAvatar(radius: 50, backgroundImage: getImageProvider()),
                 Positioned(
                     top: 60,
                     left: 50,
@@ -155,23 +168,22 @@ class _ProgressBarSheetState extends State<ProgressBarSheet> {
                         onPressed: () async {
                           XFile? pickedFile = await ImagePicker()
                               .pickImage(source: ImageSource.gallery);
-                          //While authentication isn't done, make sure to seed the DB before running this
-                          final userStream = serviceLocator<UserDao>().findUserById(
-                              1); //hardcoded id but should be authenticated user's id
-                          User? firstNonNullUser = await userStream
-                              .firstWhere((user) => user != null);
-                          User user = firstNonNullUser!;
+                          if (pickedFile != null) {
+                            widget.updateImagePath!(pickedFile.path);
+                          }
 
                           //update user
                           User userNew = User(
-                              id: user.id,
-                              name: user.name,
-                              email: user.email,
-                              password: user.password,
-                              xp: user.xp,
-                              level: user.level,
+                              id: widget.user.id,
+                              name: widget.user.name,
+                              email: widget.user.email,
+                              password: widget.user.password,
+                              xp: widget.user.xp,
+                              level: widget.user.level,
                               imagePath: pickedFile!.path);
                           await serviceLocator<UserDao>().updateUser(userNew);
+                          serviceLocator<AuthenticationService>()
+                              .setLoggedInUser(userNew);
 
                           setState(() {
                             image = pickedFile.path;
@@ -184,7 +196,7 @@ class _ProgressBarSheetState extends State<ProgressBarSheet> {
       Padding(
           padding: const EdgeInsets.symmetric(horizontal: 18),
           child: Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-            Text(widget.user[0],
+            Text(widget.user.name,
                 textAlign: TextAlign.justify,
                 style: const TextStyle(
                   fontSize: 24,
@@ -196,7 +208,7 @@ class _ProgressBarSheetState extends State<ProgressBarSheet> {
           padding: const EdgeInsets.symmetric(horizontal: 18),
           child: Row(mainAxisAlignment: MainAxisAlignment.center, children: [
             Text(
-                "${AppLocalizations.of(context).level.toUpperCase()} ${widget.level}",
+                "${AppLocalizations.of(context).level.toUpperCase()} ${widget.user.level}",
                 style: const TextStyle(
                   color: Color(0xFF7C7C7C),
                   fontSize: 13,
@@ -212,13 +224,16 @@ class _ProgressBarSheetState extends State<ProgressBarSheet> {
                         borderRadius:
                             const BorderRadius.all(Radius.circular(10)),
                         child: LinearProgressIndicator(
-                            value: double.parse(widget.user[1]) / 100,
+                            value:
+                                (widget.user.xp - levels[widget.user.level]!) /
+                                    (levels[widget.user.level + 1]! -
+                                        levels[widget.user.level]!),
                             backgroundColor: const Color(0xFF414554),
                             valueColor: const AlwaysStoppedAnimation<Color>(
                                 primaryColor))))),
             const SizedBox(width: 15),
             Text(
-                "${AppLocalizations.of(context).level.toUpperCase()} ${widget.level + 1}"
+                "${AppLocalizations.of(context).level.toUpperCase()} ${widget.user.level + 1}"
                     .toUpperCase(),
                 style: const TextStyle(
                   color: Color(0xFF7C7C7C),
@@ -233,7 +248,7 @@ class _ProgressBarSheetState extends State<ProgressBarSheet> {
             Expanded(
               child: Text(
                   AppLocalizations.of(context).user_progress +
-                      widget.user[0] +
+                      widget.user.name +
                       AppLocalizations.of(context).user_progress_2,
                   textAlign: TextAlign.justify,
                   style: const TextStyle(

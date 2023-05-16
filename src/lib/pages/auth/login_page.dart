@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:src/daos/authentication_dao.dart';
+import 'package:src/services/authentication_service.dart';
 import 'package:src/daos/user_dao.dart';
 import 'package:src/models/user.dart';
 import 'package:src/pages/navigation_page.dart';
@@ -224,6 +224,6 @@ class _LoginPageState extends State<LoginPage> {
       return;
     }
 
-    serviceLocator<AuthenticationDao>().setLoggedInUser(user);
+    serviceLocator<AuthenticationService>().setLoggedInUser(user);
   }
 }

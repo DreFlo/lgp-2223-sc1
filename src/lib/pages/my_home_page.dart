@@ -1,14 +1,18 @@
 import 'package:flutter/material.dart';
-import 'package:src/daos/authentication_dao.dart';
+import 'package:src/services/authentication_service.dart';
+import 'package:src/daos/badges_dao.dart';
 import 'package:src/daos/media/media_dao.dart';
 import 'package:src/daos/student/task_dao.dart';
 import 'package:src/daos/timeslot/media_media_timeslot_dao.dart';
 import 'package:src/daos/timeslot/task_student_timeslot_dao.dart';
+import 'package:src/daos/user_badge_dao.dart';
+import 'package:src/models/badges.dart';
 import 'package:src/models/media/media.dart';
 import 'package:src/models/student/task.dart';
 import 'package:src/pages/gamification/media_timeslot_finished_modal.dart';
 import 'package:src/pages/gamification/student_timeslot_finished_modal.dart';
 import 'package:src/themes/colors.dart';
+import 'package:src/widgets/home/badge_fact.dart';
 import 'package:src/widgets/home/homepage_horizontal_scrollview.dart';
 import 'package:src/widgets/home/profile_pic.dart';
 import 'package:src/widgets/home/event_listview.dart';
@@ -18,8 +22,8 @@ import 'package:src/daos/timeslot/timeslot_media_timeslot_super_dao.dart';
 import 'package:src/utils/service_locator.dart';
 import 'package:src/models/timeslot/timeslot_student_timeslot_super_entity.dart';
 import 'package:src/daos/timeslot/timeslot_student_timeslot_super_dao.dart';
-
-import 'package:src/widgets/home/badge_placeholder.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'dart:math';
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({Key? key}) : super(key: key);
@@ -44,8 +48,8 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   static String getUserName() {
-    return serviceLocator<AuthenticationDao>().isUserLoggedIn()
-        ? serviceLocator<AuthenticationDao>().getLoggedInUser()!.name
+    return serviceLocator<AuthenticationService>().isUserLoggedIn()
+        ? serviceLocator<AuthenticationService>().getLoggedInUser()!.name
         : "Joaquim Almeida";
   }
 
@@ -67,6 +71,34 @@ class _MyHomePageState extends State<MyHomePage> {
     checkEventDone();
 
     return 0;
+  }
+
+  Future<String> loadUserBadges() async {
+    List<String> facts = [];
+    String defaultFact = AppLocalizations.of(context).quokka_default_fact;
+    int? userId = serviceLocator<AuthenticationService>().isUserLoggedIn()
+        ? serviceLocator<AuthenticationService>().getLoggedInUser()!.id
+        : 0;
+    if (userId == 0) {
+      return defaultFact;
+    }
+
+    List<int> badgeIds = await serviceLocator<UserBadgeDao>()
+        .findUserBadgeIdsByUserId(userId ?? 0);
+    if (badgeIds.isNotEmpty) {
+      for (int i = 0; i < badgeIds.length; i++) {
+        Badges? badge =
+            await serviceLocator<BadgesDao>().findBadgeById(badgeIds[i]);
+        facts.add(badge?.fact ?? "");
+      }
+
+      Random random = Random();
+      int randomNumber = random.nextInt(facts.length);
+      String fact = facts[randomNumber];
+
+      return fact;
+    }
+    return defaultFact;
   }
 
   Future<Map<int, List<Media>>> getMedias() async {
@@ -190,7 +222,15 @@ class _MyHomePageState extends State<MyHomePage> {
               Padding(
                   padding: const EdgeInsets.only(left: 36, top: 90),
                   child: WelcomeMessage(name: name)),
-              const BadgePlaceholder(),
+FutureBuilder(
+                  future: loadUserBadges(),
+                  builder:
+                      (BuildContext context, AsyncSnapshot<String> snapshot) {
+                    if (snapshot.hasData) {
+                      return BadgeFact(fact: snapshot.data!);
+                    }
+                    return const Center(child: CircularProgressIndicator());
+                  }),
               FutureBuilder(
                   future: loadEventsDB(),
                   builder: (BuildContext context, AsyncSnapshot<int> snapshot) {
@@ -204,11 +244,12 @@ class _MyHomePageState extends State<MyHomePage> {
                     }
                     return const Center(child: CircularProgressIndicator());
                   }),
+
               FutureBuilder(
                   future: loadEventsDB(),
                   builder: (BuildContext context, AsyncSnapshot<int> snapshot) {
                     if (snapshot.hasData) {
-                      return Expanded(child: showWidget());
+                      return showWidget();
                     }
                     return const Center(child: CircularProgressIndicator());
                   })

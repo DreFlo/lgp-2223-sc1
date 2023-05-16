@@ -7,5 +7,5 @@ final mockUsers = [
       password: 'password',
       xp: 400,
       level: 2,
-      imagePath: 'assets/images/poster.jpg')
+      imagePath: 'assets/images/no_image.jpg')
 ];

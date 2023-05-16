@@ -8,6 +8,8 @@ import 'package:src/models/timeslot/timeslot.dart';
       childColumns: ['id'],
       parentColumns: ['id'],
       entity: Timeslot,
+      onDelete: ForeignKeyAction.cascade,
+      onUpdate: ForeignKeyAction.restrict,
     )
   ],
 )
