@@ -617,8 +617,8 @@ class _InstitutionFormState extends State<InstitutionForm> {
         deleteButton,
       ],
       shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(30),
-                          ),
+        borderRadius: BorderRadius.circular(30),
+      ),
       backgroundColor: modalBackground,
     );
 

@@ -61,8 +61,9 @@ class FocusRunningState extends TimerState {
   @override
   void onTimeUp() {
     if (tracker.currentSession < settings.sessions) {
-      serviceLocator<LocalNotificationService>()
-          .display(AppLocalizations.of(context).break_time, AppLocalizations.of(context).emil_is_proud);
+      serviceLocator<LocalNotificationService>().display(
+          AppLocalizations.of(context).break_time,
+          AppLocalizations.of(context).emil_is_proud);
       if (tracker.currentSession != 1) {
         getPomodoroXP(settings.focusTime, tracker.currentSession,
             settings.sessions, settings.shortBreak, context, false);

@@ -1303,9 +1303,7 @@ class _TaskFormState extends State<TaskForm> {
 
     Widget deleteButton = ElevatedButton(
       key: const Key('deleteConfirmationButton'),
-      style: ElevatedButton.styleFrom(
-        backgroundColor: Colors.red[600]
-      ),
+      style: ElevatedButton.styleFrom(backgroundColor: Colors.red[600]),
       child: Text(AppLocalizations.of(context).delete,
           style: const TextStyle(
               color: Colors.white, fontSize: 16, fontWeight: FontWeight.w600),
@@ -1331,8 +1329,8 @@ class _TaskFormState extends State<TaskForm> {
         deleteButton,
       ],
       shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(30),
-                          ),
+        borderRadius: BorderRadius.circular(30),
+      ),
       backgroundColor: modalBackground,
     );
 

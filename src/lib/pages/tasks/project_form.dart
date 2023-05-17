@@ -1026,8 +1026,8 @@ class _ProjectFormState extends State<ProjectForm> {
         deleteButton,
       ],
       shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(30),
-                          ),
+        borderRadius: BorderRadius.circular(30),
+      ),
       backgroundColor: modalBackground,
     );
 

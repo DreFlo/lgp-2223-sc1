@@ -230,8 +230,9 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
             ElevatedButton(
                 child: Text("notif"),
                 onPressed: () {
-                  serviceLocator<LocalNotificationService>()
-                      .display(AppLocalizations.of(context).go_study, AppLocalizations.of(context).or_else);
+                  serviceLocator<LocalNotificationService>().display(
+                      AppLocalizations.of(context).go_study,
+                      AppLocalizations.of(context).or_else);
                 }),
             ElevatedButton(
                 child: Text("Event Form"),

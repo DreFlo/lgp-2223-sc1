@@ -570,8 +570,8 @@ class _SubjectFormState extends State<SubjectForm> {
         deleteButton,
       ],
       shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(30),
-                          ),
+        borderRadius: BorderRadius.circular(30),
+      ),
       backgroundColor: modalBackground,
     );
 
@@ -650,8 +650,8 @@ class _SubjectFormState extends State<SubjectForm> {
       backgroundColor: modalBackground,
       content: EvaluationForm(subjectId: widget.id, callback: addEvaluation),
       shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(30),
-                          ),
+        borderRadius: BorderRadius.circular(30),
+      ),
     );
 
     showDialog(

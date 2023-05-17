@@ -140,8 +140,8 @@ class DynamicDialogState extends State<DynamicDialog> {
     return AlertDialog(
       title: Text(widget.title),
       shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(30),
-                          ),
+        borderRadius: BorderRadius.circular(30),
+      ),
       actions: <Widget>[
         OutlinedButton.icon(
             label: const Text('Close'),
