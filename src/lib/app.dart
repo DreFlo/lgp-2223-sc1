@@ -5,6 +5,7 @@ import 'package:src/utils/service_locator.dart';
 
 import 'package:src/flavors.dart';
 import 'package:src/pages/navigation_page.dart';
+import 'package:src/pages/splash_screen_page.dart';
 
 const Map<int, Color> color = {
   50: Color.fromRGBO(108, 93, 211, .1),
@@ -101,7 +102,7 @@ class App extends StatelessWidget {
                 )),
             home: const Scaffold(
               body: Center(
-                child: NavigationPage(),
+                child: SplashScreenPage(), // NavigationPage(),
               ),
             ),
           );
