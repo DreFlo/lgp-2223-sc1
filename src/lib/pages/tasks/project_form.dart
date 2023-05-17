@@ -982,8 +982,11 @@ class _ProjectFormState extends State<ProjectForm> {
   }
 
   showDeleteConfirmation(BuildContext context) {
-    Widget cancelButton = TextButton(
+    Widget cancelButton = ElevatedButton(
       key: const Key('cancelConfirmationButton'),
+      style: ElevatedButton.styleFrom(
+        backgroundColor: primaryColor,
+      ),
       child: Text(AppLocalizations.of(context).cancel,
           style: const TextStyle(
               color: Colors.white, fontSize: 16, fontWeight: FontWeight.w600),
@@ -993,8 +996,11 @@ class _ProjectFormState extends State<ProjectForm> {
       },
     );
 
-    Widget deleteButton = TextButton(
+    Widget deleteButton = ElevatedButton(
       key: const Key('deleteConfirmationButton'),
+      style: ElevatedButton.styleFrom(
+        backgroundColor: Colors.red[600],
+      ),
       child: Text(AppLocalizations.of(context).delete,
           style: const TextStyle(
               color: Colors.white, fontSize: 16, fontWeight: FontWeight.w600),
@@ -1005,19 +1011,24 @@ class _ProjectFormState extends State<ProjectForm> {
     );
 
     AlertDialog alert = AlertDialog(
+      elevation: 0,
       title: Text(AppLocalizations.of(context).delete_task_group,
           style: const TextStyle(
               color: Colors.white, fontSize: 20, fontWeight: FontWeight.w600),
           textAlign: TextAlign.center),
       content: Text(AppLocalizations.of(context).delete_task_group_message,
           style: const TextStyle(
-              color: Colors.white, fontSize: 14, fontWeight: FontWeight.w600),
+              color: Colors.white, fontSize: 14, fontWeight: FontWeight.normal),
           textAlign: TextAlign.center),
+      actionsPadding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
       actions: [
         cancelButton,
         deleteButton,
       ],
-      backgroundColor: primaryColor,
+      shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(30),
+                          ),
+      backgroundColor: modalBackground,
     );
 
     showDialog(
