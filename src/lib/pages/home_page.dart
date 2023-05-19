@@ -6,19 +6,20 @@ import 'package:src/animation_test/main.dart';
 import 'package:src/daos/user_dao.dart';
 import 'package:src/models/badges.dart';
 import 'package:src/models/user.dart';
-import 'package:src/services/local_notifications_service.dart';
 import 'package:src/pages/auth/landing_page.dart';
 import 'package:src/pages/events/event_form.dart';
 import 'package:src/pages/gamification/badge_alert.dart';
 import 'package:src/pages/gamification/badges_page.dart';
 import 'package:src/pages/tasks/institution_form.dart';
-import 'package:src/pages/tasks/subject_form.dart';
-import 'package:src/themes/colors.dart';
-import 'package:src/utils/service_locator.dart';
 import 'package:src/pages/tasks/project_form.dart';
+import 'package:src/pages/tasks/subject_form.dart';
 import 'package:src/pages/tasks/task_form.dart';
 import 'package:src/pages/timer/timer_form.dart';
+import 'package:src/pages/weekly_report/weekly_report.dart';
+import 'package:src/services/local_notifications_service.dart';
+import 'package:src/themes/colors.dart';
 import 'package:src/utils/reset_db.dart';
+import 'package:src/utils/service_locator.dart';
 
 class HomePage extends StatefulWidget {
   final String title;
@@ -326,6 +327,18 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                       builder: (builder) => BadgesPage());
                 },
                 child: Text(AppLocalizations.of(context).badges,
+                    style: const TextStyle(
+                        color: Colors.white,
+                        fontSize: 16,
+                        fontWeight: FontWeight.w600))),
+            ElevatedButton(
+                onPressed: () {
+                  Navigator.push(
+                      context,
+                  MaterialPageRoute(
+                      builder: (context) => WeeklyReport()));
+                },
+                child: Text("Weekly Report",
                     style: const TextStyle(
                         color: Colors.white,
                         fontSize: 16,
