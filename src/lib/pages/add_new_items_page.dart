@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import 'package:src/pages/events/event_form.dart';
 import 'package:src/pages/tasks/institution_form.dart';
@@ -24,7 +26,9 @@ class _AddNewItemsPageState extends State<AddNewItemsPage> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: primaryColor.withOpacity(0.65),
+      decoration: BoxDecoration(
+        gradient: LinearGradient(colors: <Color>[primaryColor.withOpacity(0.85), primaryColor.withOpacity(0)], begin: AlignmentDirectional.bottomCenter, end: AlignmentDirectional.topCenter)
+      ),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.end,
         children: [
@@ -83,7 +87,7 @@ class _AddNewItemsPageState extends State<AddNewItemsPage> {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Icon(Icons.square, size: 25.0),
+            const Icon(Icons.subject_rounded, color: Colors.white, size: 25.0),
             Text(AppLocalizations.of(context).subject),
           ],
           ),
@@ -128,7 +132,7 @@ class _AddNewItemsPageState extends State<AddNewItemsPage> {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Icon(Icons.square, size: 25.0),
+            const Icon(Icons.event, color: Colors.white, size: 25.0),
             Text(AppLocalizations.of(context).event),
           ],
           ),
@@ -169,7 +173,7 @@ class _AddNewItemsPageState extends State<AddNewItemsPage> {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Icon(Icons.square, size: 25.0),
+            const Icon(Icons.task, color: Colors.white, size: 25.0),
             Text(AppLocalizations.of(context).task),
           ],
           ),
@@ -214,7 +218,7 @@ class _AddNewItemsPageState extends State<AddNewItemsPage> {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Icon(Icons.square, size: 25.0),
+            const Icon(Icons.account_balance_rounded, color: Colors.white, size: 25.0),
             Text(AppLocalizations.of(context).institution),
           ],
           ),
@@ -250,7 +254,7 @@ class _AddNewItemsPageState extends State<AddNewItemsPage> {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Icon(Icons.square, size: 25.0),
+            const Icon(Icons.list_rounded, color: Colors.white, size: 25.0),
             Text(AppLocalizations.of(context).project),
           ],
           ),
@@ -292,7 +296,7 @@ class _AddNewItemsPageState extends State<AddNewItemsPage> {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Icon(Icons.square, size: 25.0),
+            const Icon(Icons.access_time_rounded, color: Colors.white, size: 25.0),
             Text(AppLocalizations.of(context).timer_short),
           ],
           ),

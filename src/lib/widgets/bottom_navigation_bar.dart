@@ -5,6 +5,7 @@ class MyBottomNavigationBar extends StatefulWidget {
   final int selectedIndex;
   final Function(int) onItemTapped;
   final bool showingAddItemsPage;
+  
 
   const MyBottomNavigationBar(
       {Key? key, required this.selectedIndex, required this.onItemTapped, required this.showingAddItemsPage})
@@ -15,6 +16,7 @@ class MyBottomNavigationBar extends StatefulWidget {
 }
 
 class _MyBottomNavigationBarState extends State<MyBottomNavigationBar> {
+
   getAddIcon() {
     return Container(
       width: 45,
@@ -22,7 +24,7 @@ class _MyBottomNavigationBarState extends State<MyBottomNavigationBar> {
       decoration: const BoxDecoration(
           color: primaryColor,
           borderRadius: BorderRadius.all(Radius.circular(15))),
-      child: !widget.showingAddItemsPage ? const Icon(Icons.add, size: 25) : const Icon(Icons.close, size: 25) ,
+      child: !widget.showingAddItemsPage ? const Icon(Icons.add, size: 25) : const Icon(Icons.close, size: 25),
     );
   }
 
