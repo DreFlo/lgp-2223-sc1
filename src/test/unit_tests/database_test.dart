@@ -776,7 +776,7 @@ void main() {
       expect(serviceLocator<AuthenticationService>().isUserLoggedIn(), false);
       expect(serviceLocator<AuthenticationService>().getLoggedInUser(), null);
 
-      serviceLocator<AuthenticationService>().setLoggedInUser(user);
+      await serviceLocator<AuthenticationService>().setLoggedInUser(user);
       expect(serviceLocator<AuthenticationService>().isUserLoggedIn(), true);
       expect(serviceLocator<AuthenticationService>().getLoggedInUser(), user);
 

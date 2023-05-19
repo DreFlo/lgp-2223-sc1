@@ -102,6 +102,7 @@ class App extends StatelessWidget {
             home: const Scaffold(
               body: Center(
                 child: NavigationPage(),
+                // TODO: change to splash screen -> authentication in cache ? -> navigation page else landing page
               ),
             ),
           );

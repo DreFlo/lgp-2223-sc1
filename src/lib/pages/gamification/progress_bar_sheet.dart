@@ -182,7 +182,7 @@ class _ProgressBarSheetState extends State<ProgressBarSheet> {
                               level: widget.user.level,
                               imagePath: pickedFile!.path);
                           await serviceLocator<UserDao>().updateUser(userNew);
-                          serviceLocator<AuthenticationService>()
+                          await serviceLocator<AuthenticationService>()
                               .setLoggedInUser(userNew);
 
                           setState(() {

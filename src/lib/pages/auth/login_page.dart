@@ -224,6 +224,6 @@ class _LoginPageState extends State<LoginPage> {
       return;
     }
 
-    serviceLocator<AuthenticationService>().setLoggedInUser(user);
+    await serviceLocator<AuthenticationService>().setLoggedInUser(user);
   }
 }
