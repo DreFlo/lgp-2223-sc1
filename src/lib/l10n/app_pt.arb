@@ -226,5 +226,6 @@
   "portuguese": "Português",
   "dark_mode": "Modo Escuro",
   "starting" : "a começar",
-  "ending" : "a terminar"
+  "ending" : "a terminar",
+  "timer_short": "Timer"
 }

@@ -4,9 +4,10 @@ import 'package:src/themes/colors.dart';
 class MyBottomNavigationBar extends StatefulWidget {
   final int selectedIndex;
   final Function(int) onItemTapped;
+  final bool showingAddItemsPage;
 
   const MyBottomNavigationBar(
-      {Key? key, required this.selectedIndex, required this.onItemTapped})
+      {Key? key, required this.selectedIndex, required this.onItemTapped, required this.showingAddItemsPage})
       : super(key: key);
 
   @override
@@ -21,7 +22,7 @@ class _MyBottomNavigationBarState extends State<MyBottomNavigationBar> {
       decoration: const BoxDecoration(
           color: primaryColor,
           borderRadius: BorderRadius.all(Radius.circular(15))),
-      child: widget.selectedIndex != 2 ? const Icon(Icons.add, size: 25) : const Icon(Icons.add, size: 25, color: white,) ,
+      child: !widget.showingAddItemsPage ? const Icon(Icons.add, size: 25) : const Icon(Icons.close, size: 25) ,
     );
   }
 

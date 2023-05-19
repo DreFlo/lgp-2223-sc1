@@ -35,13 +35,13 @@ class _NavigationPageState extends State<NavigationPage> {
     if (index == 2) {
       
       setState(() {
-        _currentIndex = index;
         _showAddNewItemsPage = !_showAddNewItemsPage;
       });
 
       return;
     }
     setState(() {
+      _showAddNewItemsPage = false; 
       _currentIndex = index;
       _pageController.jumpToPage(index);
     });
@@ -61,7 +61,6 @@ class _NavigationPageState extends State<NavigationPage> {
         backgroundColor: appBackground,
         body: Stack(
           children: [
-          if (_showAddNewItemsPage) const AddNewItemsPage(),
           SizedBox.expand(
             child: PageView(
           physics: const NeverScrollableScrollPhysics(),
@@ -73,9 +72,10 @@ class _NavigationPageState extends State<NavigationPage> {
           },
           children: pages,
         )),
+        if (_showAddNewItemsPage) const AddNewItemsPage(),
         ],
         ),
         bottomNavigationBar: MyBottomNavigationBar(
-            selectedIndex: _currentIndex, onItemTapped: _onItemTapped));
+            selectedIndex: _currentIndex, onItemTapped: _onItemTapped, showingAddItemsPage: _showAddNewItemsPage,));
   }
 }
