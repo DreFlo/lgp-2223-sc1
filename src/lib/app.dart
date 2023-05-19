@@ -26,17 +26,18 @@ const Map<int, Color> color = {
 class App extends StatelessWidget {
   const App({Key? key}) : super(key: key);
 
-  Future<void> startService() async {
+  Future<int> startService() async {
     await serviceLocator.allReady();
 
     int? loggedUserId =
         await serviceLocator<AuthenticationService>().getCachedLoggedInUser();
-    if (loggedUserId == null) return;
+    if (loggedUserId == null) return 1;
     User? loggedUser =
         await serviceLocator<UserDao>().findUserById(loggedUserId).first;
-    if (loggedUser == null) return;
+    if (loggedUser == null) return 1;
     await serviceLocator<AuthenticationService>()
         .setLoggedInUser(loggedUser, cache: false);
+    return 0;
   }
 
   @override
