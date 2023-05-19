@@ -21,7 +21,7 @@ class _MyBottomNavigationBarState extends State<MyBottomNavigationBar> {
       decoration: const BoxDecoration(
           color: primaryColor,
           borderRadius: BorderRadius.all(Radius.circular(15))),
-      child: const Icon(Icons.add, size: 25),
+      child: widget.selectedIndex != 2 ? const Icon(Icons.add, size: 25) : const Icon(Icons.add, size: 25, color: white,) ,
     );
   }
 
