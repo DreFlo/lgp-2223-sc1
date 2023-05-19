@@ -379,8 +379,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                     ),
                   );
                 }),
-            ElevatedButton(
-                onPressed: logoutUser, child: Text("Logout")),
+            ElevatedButton(onPressed: logoutUser, child: Text("Logout")),
           ],
         ),
       ])),
