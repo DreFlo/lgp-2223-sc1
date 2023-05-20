@@ -7,26 +7,29 @@ class SplashScreenPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: <Widget>[
-          // Text(
-          //   "SPLASH SCREEN",
-          //   style: Theme.of(context).textTheme.titleLarge,
-          //   textAlign: TextAlign.center,
-          // ),
-          SizedBox(
-            width: MediaQuery.of(context).size.width * 0.25,
-            height: MediaQuery.of(context).size.height * 0.25,
-            child: SvgPicture.asset('assets/icons/wokka_mascot.svg'),
-          ),
-          Padding(
-              padding: EdgeInsets.only(
-                  bottom: MediaQuery.of(context).size.height * 0.015)),
-          SvgPicture.asset('assets/icons/wokka_title.svg')
-        ],
+    return Column(children: [
+      Expanded(
+        child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              SizedBox(
+                width: MediaQuery.of(context).size.width * 0.20,
+                height: MediaQuery.of(context).size.height * 0.175,
+                child: SvgPicture.asset('assets/icons/wokka_mascot.svg'),
+              ),
+              SizedBox(
+                width: MediaQuery.of(context).size.width * 0.45,
+                height: MediaQuery.of(context).size.height * 0.06,
+                child: SvgPicture.asset('assets/icons/wokka_title.svg'),
+              ),
+            ]),
       ),
-    );
+      Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+        Padding(
+            padding: EdgeInsets.only(
+                bottom: MediaQuery.of(context).size.height * 0.05),
+            child: const Text("Powered by Wan of a kind")),
+      ])
+    ]);
   }
 }
