@@ -78,6 +78,11 @@ class _MarkEpisodesSheetState extends State<MarkEpisodesSheet>
     });
   }
 
+  void replace(MediaVideoEpisodeSuperEntity newEpisode) {
+    int index = episodesDB.indexWhere((episode) => episode.id == newEpisode.id);
+    episodesDB[index] = newEpisode;
+  }
+
   List<Widget> getEpisodes() {
     List<Widget> episodes = [];
 
@@ -85,15 +90,14 @@ class _MarkEpisodesSheetState extends State<MarkEpisodesSheet>
     if (seasonsDB.isNotEmpty) {
       Season? selectedSeasonObject = seasonsDB
           .firstWhereOrNull((season) => season.number == selectedSeason);
-      if (selectedSeasonObject != null) {
-        seasonId = selectedSeasonObject.id;
-      }
+      seasonId = selectedSeasonObject!.id;
     }
     for (int j = 0; j <= episodesDB.length - 1; j++) {
       if (episodesDB[j].seasonId == seasonId) {
         episodes.add(EpisodeBar(
           season: selectedSeason,
           episode: episodesDB[j],
+          replace: replace
         ));
 
         episodes.add(const SizedBox(height: 15));
@@ -214,7 +218,12 @@ class _MarkEpisodesSheetState extends State<MarkEpisodesSheet>
                 color: leisureColor,
               ),
               tabs: getSeasons(),
-              controller: controller)),
+              controller: controller,
+              onTap: (index) {
+                setState(() {
+                  selectedSeason = index + 1;
+                });
+              })),
       const SizedBox(height: 10),
       Row(children: [
         Padding(
