@@ -68,7 +68,7 @@ class _MyHomePageState extends State<MyHomePage> {
         .findAllFinishedTimeslotMediaTimeslot(now);
     tasksFinishedEventMap = await getTasks();
     mediasFinishedEventMap = await getMedias();
-    if(firstTime){
+    if (firstTime) {
       checkEventDone();
       firstTime = false;
     }
