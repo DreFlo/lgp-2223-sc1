@@ -1,9 +1,28 @@
 import 'package:flutter/material.dart';
 import 'package:src/themes/colors.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:src/pages/navigation_page.dart';
 
-class SplashScreenPage extends StatelessWidget {
+class SplashScreenPage extends StatefulWidget {
   const SplashScreenPage({Key? key}) : super(key: key);
+
+  @override
+  _SplashScreenPageState createState() => _SplashScreenPageState();
+}
+
+class _SplashScreenPageState extends State<SplashScreenPage> {
+  @override
+  void initState() {
+    super.initState();
+    _navigateToHome();
+  }
+
+  void _navigateToHome() async {
+    await Future.delayed(
+        const Duration(seconds: 2),
+        () => Navigator.pushReplacement(context,
+            MaterialPageRoute(builder: (context) => const NavigationPage())));
+  }
 
   @override
   Widget build(BuildContext context) {
