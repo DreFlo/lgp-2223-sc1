@@ -105,11 +105,21 @@ final mockTasks = [
     name: 'Make beds',
     description: 'Change the sheets',
     priority: Priority.high,
-    deadline: DateTime.now().subtract(const Duration(hours:1)),
+    deadline: DateTime.now().subtract(const Duration(days:1)),
     xp: 0,
     taskGroupId: 4,
     subjectId: 1,
     finished: true,
-    finishedAt: DateTime.now().subtract(const Duration(days: 1)),
+    finishedAt: DateTime.now().subtract(const Duration(days: 7)),
+  ),
+  Task(
+    name: 'Scrub toilet',
+    description: 'That thing is disgusting!',
+    priority: Priority.high,
+    deadline: DateTime.now().subtract(const Duration(days:1)),
+    xp: 0,
+    taskGroupId: 4,
+    subjectId: 1,
+    finished: false,
   )
 ];
