@@ -52,7 +52,7 @@ final mockEpisodes = [
       duration: 52,
       number: 1,
       seasonId: 2,
-      tmdbId: 6900132),
+      tmdbId: 1725651),
   MediaVideoEpisodeSuperEntity(
       id: 11,
       name: 'Prepare to Brace',
@@ -69,5 +69,5 @@ final mockEpisodes = [
       duration: 46,
       number: 2,
       seasonId: 2,
-      tmdbId: 8157204),
+      tmdbId: 2228477),
 ];
