@@ -146,7 +146,8 @@ void markTaskAsDoneOrNot(Task task, bool finished, int xp) async {
       finished: finished,
       priority: task.priority,
       taskGroupId: task.taskGroupId,
-      xp: xp);
+      xp: xp,
+      finishedAt: DateTime.now());
   await serviceLocator<TaskDao>().updateTask(newTask);
 }
 
