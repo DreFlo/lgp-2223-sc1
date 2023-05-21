@@ -23,7 +23,7 @@ class EpisodesNotesSheet extends StatefulWidget {
 class _EpisodesNotesSheetState extends State<EpisodesNotesSheet>
     with TickerProviderStateMixin {
   late TabController controller;
-  int selectedTab = 1;
+  int selectedTab = 0;
   List<NoteEpisodeNoteSuperEntity?>? notes;
   Review? review;
   List<MediaVideoEpisodeSuperEntity> episodesDB = [];
@@ -34,6 +34,11 @@ class _EpisodesNotesSheetState extends State<EpisodesNotesSheet>
   void initState() {
     super.initState();
     controller = TabController(length: 1, vsync: this);
+    controller.addListener(() {
+      setState(() {
+        selectedTab = controller.index;
+      });
+    });
     fetchSeasons().then((_) {
       controller = TabController(
           length: seasonsDB.length + 1, vsync: this, initialIndex: 0);
@@ -191,33 +196,36 @@ class _EpisodesNotesSheetState extends State<EpisodesNotesSheet>
               ),
             ))
       ]),
-     SingleChildScrollView(
-  scrollDirection: Axis.horizontal,
-  child: 
-        TabBar(
-            padding: const EdgeInsets.symmetric(horizontal: 18),
-            isScrollable: true,
-            labelColor: leisureColor,
-            unselectedLabelColor: Colors.white,
-            splashBorderRadius: const BorderRadius.all(Radius.circular(10)),
-            splashFactory: NoSplash.splashFactory,
-            overlayColor: MaterialStateProperty.resolveWith<Color?>(
-                (Set<MaterialState> states) {
-              // Use the default focused overlay color
-              return states.contains(MaterialState.focused)
-                  ? null
-                  : Colors.transparent;
-            }),
-            indicatorSize: TabBarIndicatorSize.tab,
-            indicatorPadding: const EdgeInsets.only(top: 5, bottom: 5),
-            labelPadding: const EdgeInsets.only(left: 10, right: 10),
-            indicator: BoxDecoration(
-              borderRadius: BorderRadius.circular(10),
-              color: leisureColor,
-            ),
-            tabs: getSeasons(),
-            controller: controller)
-      ),
+      SingleChildScrollView(
+          scrollDirection: Axis.horizontal,
+          child: TabBar(
+              padding: const EdgeInsets.symmetric(horizontal: 18),
+              isScrollable: true,
+              labelColor: leisureColor,
+              unselectedLabelColor: Colors.white,
+              splashBorderRadius: const BorderRadius.all(Radius.circular(10)),
+              splashFactory: NoSplash.splashFactory,
+              overlayColor: MaterialStateProperty.resolveWith<Color?>(
+                  (Set<MaterialState> states) {
+                // Use the default focused overlay color
+                return states.contains(MaterialState.focused)
+                    ? null
+                    : Colors.transparent;
+              }),
+              indicatorSize: TabBarIndicatorSize.tab,
+              indicatorPadding: const EdgeInsets.only(top: 5, bottom: 5),
+              labelPadding: const EdgeInsets.only(left: 10, right: 10),
+              indicator: BoxDecoration(
+                borderRadius: BorderRadius.circular(10),
+                color: leisureColor,
+              ),
+              tabs: getSeasons(),
+              controller: controller,
+              onTap: (index) {
+                setState(() {
+                  selectedTab = index;
+                });
+              })),
       const SizedBox(height: 30),
       Row(children: [
         Padding(
