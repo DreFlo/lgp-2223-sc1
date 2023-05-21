@@ -23,12 +23,12 @@ final mockBooks = [
     description:
         'Three years prior to the start of the novel, a half-skaa thief named Kelsier discovered that he was Mistborn and escapes the Pits of Hathsin, a brutal prison camp of the Lord Ruler. He returned to Luthadel, the capital city of the Final Empire, where he rounded up his old thieving crew for a new job: to overthrow the Final Empire by stealing its treasury and collapsing its economy.',
     linkImage:
-        'https://upload.wikimedia.org/wikipedia/en/thumb/4/44/Mistborn-cover.jpg/220px-Mistborn-cover.jpg',
+        'http://books.google.com/books/content?id=t_ZYYXZq4RgC&printsec=frontcover&img=1&zoom=1&edge=curl&source=gbs_api',
     status: Status.goingThrough,
     favorite: true,
     genres: 'fantasy',
     release: DateTime(2006, 7, 17),
-    xp: 10000,
+    xp: 0,
     participants: 'Brandon Sanderson',
     totalPages: 647,
   ),
@@ -38,12 +38,12 @@ final mockBooks = [
     description:
         "The Final Empire is in turmoil as various regions descend into anarchy following the Lord Ruler's death and the disappearance of the Steel Ministry. Elend Venture has claimed the crown of the capital city, Luthadel, and attempts to restore order, but various hostile forces converge on the city. Three armies lay siege to Luthadel because of its rumored wealth of Atium and political influence. The first army is led by Straff Venture - head of House Venture, and Elend's father. The second army is led by Ashweather Cett, self-declared king of the Western Dominance. The third army consists of Koloss, massive, brutish blue creatures once controlled by the Lord Ruler, and is led by Elend's former friend Jastes, who is buying the Koloss' obedience with counterfeit coins.",
     linkImage:
-        'https://upload.wikimedia.org/wikipedia/en/thumb/7/7b/Mistborn-_The_Well_of_Ascension_by_Brandon_Sanderson.jpg/220px-Mistborn-_The_Well_of_Ascension_by_Brandon_Sanderson.jpg',
+        '"http://books.google.com/books/content?id=Y-41Q9zk32kC&printsec=frontcover&img=1&zoom=1&edge=curl&source=gbs_api"',
     status: Status.goingThrough,
     favorite: true,
     genres: 'fantasy',
     release: DateTime(2007, 8, 21),
-    xp: 10000,
+    xp: 0,
     participants: 'Brandon Sanderson',
     totalPages: 781,
   ),

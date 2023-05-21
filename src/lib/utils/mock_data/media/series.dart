@@ -26,12 +26,12 @@ final mockSeries = [
       description:
           'Seven years after the world has become a frozen wasteland, the remnants of humanity inhabit a perpetually-moving train that circles the globe, where class warfare, social injustice and the politics of survival play out.',
       linkImage:
-          'https://www.imdb.com/title/tt6156584/mediaviewer/rm4151300353/?ref_=tt_ov_i',
+          '/3s6ZyZKurx6wDJZMXSsbUsgjWCI.jpg',
       status: Status.goingThrough,
       favorite: true,
       genres: 'drama',
       release: DateTime(2020, 05, 17),
-      xp: 1000,
+      xp: 0,
       participants: 'Daveed Diggs, Mickey Sumner, Alison Wright',
       tagline: 'These are our revolutions',
       numberEpisodes: 31,
