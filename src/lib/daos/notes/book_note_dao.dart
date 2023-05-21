@@ -15,6 +15,9 @@ abstract class BookNoteDao {
   @Query('SELECT * FROM book_note WHERE book_id = :bookId')
   Future<List<BookNote>> findBookNoteByBookId(int bookId);
 
+  @Query('SELECT COUNT() FROM book_note')
+  Future<int?> countNotes();
+
   @insert
   Future<int> insertBookNote(BookNote bookNote);
 

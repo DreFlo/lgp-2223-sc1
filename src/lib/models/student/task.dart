@@ -41,6 +41,7 @@ class Task {
   final int? subjectId;
 
   final bool finished;
+  final DateTime? finishedAt;
 
   Task(
       {this.id,
@@ -51,5 +52,6 @@ class Task {
       this.taskGroupId,
       this.subjectId,
       required this.xp,
-      required this.finished});
+      required this.finished,
+      this.finishedAt});
 }

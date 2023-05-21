@@ -12,6 +12,19 @@ class DateTimeConverter extends TypeConverter<DateTime, int> {
   }
 }
 
+class DateTimeNullableConverter extends TypeConverter<DateTime?, int>{
+  @override
+  DateTime decode(int? databaseValue) {
+    return databaseValue == null ? DateTime.now() : DateTime.fromMillisecondsSinceEpoch(databaseValue);
+  }
+
+  @override
+  int encode(DateTime? value) {
+    return 
+      value == null ? DateTime.now().millisecondsSinceEpoch : value.millisecondsSinceEpoch;
+  }
+}
+
 class ListConverter extends TypeConverter<List<int>, String> {
   @override
   List<int> decode(String databaseValue) {

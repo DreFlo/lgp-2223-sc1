@@ -82,7 +82,7 @@ import 'package:src/models/log.dart';
 
 part 'database.g.dart'; // the generated code will be there
 
-@TypeConverters([DateTimeConverter, ListConverter])
+@TypeConverters([DateTimeConverter, DateTimeNullableConverter, ListConverter])
 @Database(version: 2, entities: [
   Institution,
   Subject,
