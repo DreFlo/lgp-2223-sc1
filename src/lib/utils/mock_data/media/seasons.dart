@@ -6,5 +6,10 @@ final mockSeasons = [
     id: 1,
     number: 1,
     seriesId: 1,
+  ),
+  Season(
+    id: 2,
+    number: 1,
+    seriesId: 9
   )
 ];

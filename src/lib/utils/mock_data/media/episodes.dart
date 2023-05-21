@@ -36,4 +36,38 @@ final mockEpisodes = [
       number: 2,
       seasonId: 1,
       tmdbId: 122),
+  MediaVideoEpisodeSuperEntity(
+      id: 10,
+      name: 'First, the Weather Changed',
+      description:
+          "A grisly murder stokes the class division of Snowpiercer; Melanie deputizes a dangerous rebel to help solve the killing - Andre Layton, the world's only surviving homicide detective.",
+      linkImage:
+          "https://www.imdb.com/title/tt6900132/mediaviewer/rm189366785/?ref_=tt_ov_i",
+      status: Status.done,
+      favorite: true,
+      genres: 'drama',
+      release: DateTime(2020, 05, 17),
+      xp: 50,
+      participants: 'Jennifer Connelly, Daveed Diggs, Mickey Sumner',
+      duration: 52,
+      number: 1,
+      seasonId: 2,
+      tmdbId: 6900132),
+  MediaVideoEpisodeSuperEntity(
+      id: 11,
+      name: 'Prepare to Brace',
+      description:
+          "Layton uses his new position as train detective to investigate the murder while gathering intel for the revolution on the side; Melanie faces a resource crisis, with potentially drastic consequences for the entire train.",
+      linkImage:
+          "https://www.imdb.com/title/tt8157204/mediaviewer/rm4045713409/?ref_=tt_ov_i",
+      status: Status.done,
+      favorite: true,
+      genres: 'drama',
+      release: DateTime(2020, 05, 24),
+      xp: 50,
+      participants: 'Jennifer Connelly, Daveed Diggs, Mickey Sumner',
+      duration: 46,
+      number: 2,
+      seasonId: 2,
+      tmdbId: 8157204),
 ];

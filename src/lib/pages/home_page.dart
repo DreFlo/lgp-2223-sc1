@@ -20,6 +20,7 @@ import 'package:src/services/local_notifications_service.dart';
 import 'package:src/themes/colors.dart';
 import 'package:src/utils/reset_db.dart';
 import 'package:src/utils/service_locator.dart';
+import 'package:src/utils/weekly_report/weekly_report_logic.dart';
 
 class HomePage extends StatefulWidget {
   final String title;
@@ -331,8 +332,10 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                         color: Colors.white,
                         fontSize: 16,
                         fontWeight: FontWeight.w600))),
+              
             ElevatedButton(
                 onPressed: () {
+                  weekly_initData();
                   Navigator.push(
                       context,
                   MaterialPageRoute(
