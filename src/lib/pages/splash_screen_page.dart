@@ -26,9 +26,14 @@ class SplashScreenPage extends StatelessWidget {
       ),
       Row(mainAxisAlignment: MainAxisAlignment.center, children: [
         Padding(
-            padding: EdgeInsets.only(
-                bottom: MediaQuery.of(context).size.height * 0.05),
-            child: const Text("Powered by Wan of a kind")),
+          padding: EdgeInsets.only(
+              bottom: MediaQuery.of(context).size.height * 0.05),
+          child: SizedBox(
+            width: MediaQuery.of(context).size.width * 0.30,
+            height: MediaQuery.of(context).size.height * 0.03,
+            child: SvgPicture.asset('assets/icons/company_logo.svg'),
+          ),
+        )
       ])
     ]);
   }
