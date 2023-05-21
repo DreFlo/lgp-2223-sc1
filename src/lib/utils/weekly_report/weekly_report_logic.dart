@@ -37,44 +37,57 @@ Future<List<Task>> getFinishedTasks(DateTime reportDay) {
   return finishedReportTasks;
 }
 
-Future<List<TaskGroup>> getNumberFinishedTaskGroups(
+Future<List<TaskGroup>> getContributedTaskGroups(
     List<Task> finishedTasks) async {
-  List<TaskGroup> finishedTaskGroups = [];
-  Map<int, int> taskGroupNumberFinishedTasks = {};
+  List<TaskGroup> contributedTaskGroups = [];
+  Map<int, int> taskGroupNumberContributedTasks = {};
   for (Task task in finishedTasks) {
     if (task.taskGroupId != null) {
-      List<Task> tasksTaskGroupsTasks = await serviceLocator<TaskDao>()
-          .findTasksByTaskGroupId(task.taskGroupId!);
-      bool taskGroupComplete = false;
-      for (Task task in tasksTaskGroupsTasks) {
-        if (task.finished == false) {
-          taskGroupComplete = false;
-          break;
-        }
+      if (!taskGroupNumberContributedTasks.containsKey(task.taskGroupId)) {
+        taskGroupNumberContributedTasks[task.taskGroupId!] = 0;
       }
-      if (!taskGroupComplete) {
-        continue;
-      }
-      if (!taskGroupNumberFinishedTasks.containsKey(task.taskGroupId)) {
-        taskGroupNumberFinishedTasks[task.taskGroupId!] = 0;
-      }
-      taskGroupNumberFinishedTasks[task.taskGroupId!] =
-          taskGroupNumberFinishedTasks[task.taskGroupId!]! + 1;
-    }
-
-    //sort taskGroupNumberFinishedTasks by highest value
-    taskGroupNumberFinishedTasks = Map.fromEntries(
-        taskGroupNumberFinishedTasks.entries.toList()
-          ..sort((e1, e2) => e2.value.compareTo(e1.value)));
-
-    for (int taskGroupId in taskGroupNumberFinishedTasks.keys) {
-      TaskGroup taskGroup = (await serviceLocator<TaskGroupDao>()
-          .findTaskGroupById(taskGroupId)
-          .first)!;
-      finishedTaskGroups.add(taskGroup);
+      taskGroupNumberContributedTasks[task.taskGroupId!] =
+          taskGroupNumberContributedTasks[task.taskGroupId!]! + 1;
     }
   }
-  return finishedTaskGroups;
+  //sort taskGroupNumbercontributedTasks by highest value
+  taskGroupNumberContributedTasks = Map.fromEntries(
+      taskGroupNumberContributedTasks.entries.toList()
+        ..sort((e1, e2) => e2.value.compareTo(e1.value)));
+
+  for (int taskGroupId in taskGroupNumberContributedTasks.keys) {
+    TaskGroup taskGroup = (await serviceLocator<TaskGroupDao>()
+        .findTaskGroupById(taskGroupId)
+        .first)!;
+    contributedTaskGroups.add(taskGroup);
+  }
+  return contributedTaskGroups;
+}
+
+Future<int> getNumberFinishedTaskGroups(List<Task> finishedTasks) async {
+  Set<int> presentTaskGroupIds = {};
+  Set<int> finishedTaskGroupIds = {};
+  for (Task task in finishedTasks) {
+    if (task.taskGroupId != null) {
+      presentTaskGroupIds.add(task.taskGroupId!);
+    }
+  }
+  for (int taskGroupId in presentTaskGroupIds) {
+    List<Task> tasksTaskGroupsTasks =
+        await serviceLocator<TaskDao>().findTasksByTaskGroupId(taskGroupId);
+    bool taskGroupFinished = true;
+    for (Task task in tasksTaskGroupsTasks) {
+      if (task.finished == false) {
+        taskGroupFinished = false;
+        break;
+      }
+    }
+    if (taskGroupFinished) {
+      finishedTaskGroupIds.add(taskGroupId);
+    }
+  }
+
+  return finishedTaskGroupIds.length;
 }
 
 Future<List<int>> getMediaStats() async {
@@ -156,28 +169,29 @@ Future<List<Media>> sortMediaByNumberOfNotes() async {
 List<String> getWeekBounds(DateTime reportDay) {
   DateTime reportWeekStart = reportDay.subtract(const Duration(days: 7));
   DateTime reportWeekEnd = reportDay;
-  return [formatDeadline(reportWeekStart), formatDeadline(reportWeekEnd)];
+  return [formatWeeklyReportDay(reportWeekStart), formatWeeklyReportDay(reportWeekEnd)];
 }
 
-void weekly_initData() async {
+void weeklyInitData() async {
   DateTime now = DateTime.now();
   DateTime reportDay = DateTime(now.year, now.month, now.day);
   int numberFinishedEvents = await getNumberFinishedEvents(reportDay) ?? 0;
   List<Task> finishedTasks = await getFinishedTasks(reportDay);
   int numberFinishedTasks = finishedTasks.length;
-  List<TaskGroup> finishedTaskGroups =
-      await getNumberFinishedTaskGroups(finishedTasks);
+  List<TaskGroup> contributedTaskGroups =
+      await getContributedTaskGroups(finishedTasks);
   TaskGroup? mostFinishedTaskGroup;
-  if (finishedTaskGroups.length > 0) {
-    mostFinishedTaskGroup = finishedTaskGroups[0];
+  if (contributedTaskGroups.length > 0) {
+    mostFinishedTaskGroup = contributedTaskGroups[0];
   }
-  int numberFinishedTaskGroups = finishedTaskGroups.length;
+  int numberFinishedTaskGroups =
+      await getNumberFinishedTaskGroups(finishedTasks);
 
-  int numberMedia, percentageFavoriteMedia, countFavoriteMedia;
+  int numberMedia, percentageFavoriteMedia, numberFavoriteMedia;
   List<int> mediaStats = await getMediaStats();
   numberMedia = mediaStats[0];
   percentageFavoriteMedia = mediaStats[1];
-  countFavoriteMedia = mediaStats[2];
+  numberFavoriteMedia = mediaStats[2];
   int numberNotes = await getNumberNotes();
   List<Media> topMedia = await sortMediaByNumberOfNotes();
 

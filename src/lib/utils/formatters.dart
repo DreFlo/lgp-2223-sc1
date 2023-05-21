@@ -32,3 +32,18 @@ String formatEventTime(DateTime eventTime) {
 
   return "$day/$month/$year $hour:$minute$amPm";
 }
+
+String formatWeeklyReportDay(DateTime reportDay) {
+  Map<int, String> suffixes = {
+    1: 'st',
+    2: 'nd',
+    3: 'rd',
+  };
+
+  String ordinalDay = (reportDay.day >= 11 && reportDay.day <= 13)
+      ? 'th'
+      : suffixes[reportDay.day % 10] ?? 'th';
+
+  return DateFormat("MMM d'$ordinalDay'")
+      .format(reportDay);
+}
