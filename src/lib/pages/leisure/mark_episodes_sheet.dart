@@ -95,10 +95,7 @@ class _MarkEpisodesSheetState extends State<MarkEpisodesSheet>
     for (int j = 0; j <= episodesDB.length - 1; j++) {
       if (episodesDB[j].seasonId == seasonId) {
         episodes.add(EpisodeBar(
-          season: selectedSeason,
-          episode: episodesDB[j],
-          replace: replace
-        ));
+            season: selectedSeason, episode: episodesDB[j], replace: replace));
 
         episodes.add(const SizedBox(height: 15));
       }

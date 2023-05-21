@@ -315,11 +315,11 @@ abstract class AddMediaToCatalogFormState<T extends Media>
               ),
             ),
             child: isLoading
-        ? const CircularProgressIndicator() // Display circular progress indicator if loading
-        : Text(
-            AppLocalizations.of(context).save,
-            style: Theme.of(context).textTheme.headlineSmall,
-          ),
+                ? const CircularProgressIndicator() // Display circular progress indicator if loading
+                : Text(
+                    AppLocalizations.of(context).save,
+                    style: Theme.of(context).textTheme.headlineSmall,
+                  ),
           )),
     ]);
   }
