@@ -190,7 +190,9 @@ class _MarkEpisodesSheetState extends State<MarkEpisodesSheet>
                   style: Theme.of(context).textTheme.displayMedium,
                 )))
       ]),
-      Row(children: [
+      SingleChildScrollView(
+  scrollDirection: Axis.horizontal,
+  child: 
         TabBar(
             padding: const EdgeInsets.symmetric(horizontal: 18),
             isScrollable: true,
@@ -214,7 +216,8 @@ class _MarkEpisodesSheetState extends State<MarkEpisodesSheet>
             ),
             tabs: getSeasons(),
             controller: controller)
-      ]),
+
+      ),
       const SizedBox(height: 10),
       Row(children: [
         Padding(
