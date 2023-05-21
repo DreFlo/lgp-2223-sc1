@@ -41,6 +41,7 @@ class _MyHomePageState extends State<MyHomePage> {
   Map<int, List<Task>> tasksFinishedEventMap = {};
   Map<int, List<Media>> mediasFinishedEventMap = {};
   String name = getUserName();
+  bool firstTime = true;
 
   @override
   void initState() {
@@ -67,8 +68,10 @@ class _MyHomePageState extends State<MyHomePage> {
         .findAllFinishedTimeslotMediaTimeslot(now);
     tasksFinishedEventMap = await getTasks();
     mediasFinishedEventMap = await getMedias();
-
-    checkEventDone();
+    if(firstTime){
+      checkEventDone();
+      firstTime = false;
+    }
 
     return 0;
   }
