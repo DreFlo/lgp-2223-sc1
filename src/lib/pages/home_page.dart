@@ -335,7 +335,6 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
               
             ElevatedButton(
                 onPressed: () {
-                  weekly_initData();
                   Navigator.push(
                       context,
                   MaterialPageRoute(

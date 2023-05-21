@@ -169,43 +169,8 @@ Future<List<Media>> sortMediaByNumberOfNotes() async {
 List<String> getWeekBounds(DateTime reportDay) {
   DateTime reportWeekStart = reportDay.subtract(const Duration(days: 7));
   DateTime reportWeekEnd = reportDay;
-  return [formatWeeklyReportDay(reportWeekStart), formatWeeklyReportDay(reportWeekEnd)];
-}
-
-void weeklyInitData() async {
-  DateTime now = DateTime.now();
-  DateTime reportDay = DateTime(now.year, now.month, now.day);
-  int numberFinishedEvents = await getNumberFinishedEvents(reportDay) ?? 0;
-  List<Task> finishedTasks = await getFinishedTasks(reportDay);
-  int numberFinishedTasks = finishedTasks.length;
-  List<TaskGroup> contributedTaskGroups =
-      await getContributedTaskGroups(finishedTasks);
-  TaskGroup? mostFinishedTaskGroup;
-  if (contributedTaskGroups.length > 0) {
-    mostFinishedTaskGroup = contributedTaskGroups[0];
-  }
-  int numberFinishedTaskGroups =
-      await getNumberFinishedTaskGroups(finishedTasks);
-
-  int numberMedia, percentageFavoriteMedia, numberFavoriteMedia;
-  List<int> mediaStats = await getMediaStats();
-  numberMedia = mediaStats[0];
-  percentageFavoriteMedia = mediaStats[1];
-  numberFavoriteMedia = mediaStats[2];
-  int numberNotes = await getNumberNotes();
-  List<Media> topMedia = await sortMediaByNumberOfNotes();
-
-  User user = serviceLocator<AuthenticationService>().isUserLoggedIn()
-      ? serviceLocator<AuthenticationService>().getLoggedInUser()!
-      : User(
-          name: '',
-          email: '',
-          password: '',
-          xp: 0,
-          level: 0,
-          imagePath: 'assets/images/no_image.jpg');
-  int xp = user.xp;
-  int level = user.level;
-  List<String> weekDates = getWeekBounds(reportDay);
-  print("STUFF");
+  return [
+    formatWeeklyReportDay(reportWeekStart),
+    formatWeeklyReportDay(reportWeekEnd)
+  ];
 }
