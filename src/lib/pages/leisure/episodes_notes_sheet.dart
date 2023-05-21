@@ -191,7 +191,9 @@ class _EpisodesNotesSheetState extends State<EpisodesNotesSheet>
               ),
             ))
       ]),
-      Row(mainAxisAlignment: MainAxisAlignment.start, children: [
+     SingleChildScrollView(
+  scrollDirection: Axis.horizontal,
+  child: 
         TabBar(
             padding: const EdgeInsets.symmetric(horizontal: 18),
             isScrollable: true,
@@ -215,7 +217,7 @@ class _EpisodesNotesSheetState extends State<EpisodesNotesSheet>
             ),
             tabs: getSeasons(),
             controller: controller)
-      ]),
+      ),
       const SizedBox(height: 30),
       Row(children: [
         Padding(
