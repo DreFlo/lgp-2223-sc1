@@ -32,6 +32,7 @@ abstract class AddMediaToCatalogFormState<T extends Media>
     extends State<AddMediaToCatalogForm<T>> {
   late String startDate, endDate;
   late Status status;
+  bool isLoading = false;
 
   @override
   void initState() {
@@ -281,6 +282,10 @@ abstract class AddMediaToCatalogFormState<T extends Media>
           padding: const EdgeInsets.symmetric(horizontal: 18),
           child: ElevatedButton(
             onPressed: () async {
+              setState(() {
+                isLoading = true;
+              });
+
               int mediaId = await storeMediaInDatabase(status);
 
               bool badge = await insertLogAndCheckStreak();
@@ -297,6 +302,10 @@ abstract class AddMediaToCatalogFormState<T extends Media>
               if (status == Status.done) {
                 widget.showReviewForm();
               }
+
+              setState(() {
+                isLoading = false;
+              });
             },
             style: ElevatedButton.styleFrom(
               minimumSize: Size(MediaQuery.of(context).size.width * 0.95, 55),
@@ -305,8 +314,12 @@ abstract class AddMediaToCatalogFormState<T extends Media>
                 borderRadius: BorderRadius.circular(25.0),
               ),
             ),
-            child: Text(AppLocalizations.of(context).save,
-                style: Theme.of(context).textTheme.headlineSmall),
+            child: isLoading
+        ? const CircularProgressIndicator() // Display circular progress indicator if loading
+        : Text(
+            AppLocalizations.of(context).save,
+            style: Theme.of(context).textTheme.headlineSmall,
+          ),
           )),
     ]);
   }
