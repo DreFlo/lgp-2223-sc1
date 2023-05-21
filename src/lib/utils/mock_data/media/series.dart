@@ -3,7 +3,7 @@ import 'package:src/utils/enums.dart';
 
 final mockSeries = [
   MediaSeriesSuperEntity(
-      id: 2,
+      id: 1,
       name: 'The Wire',
       description:
           'A look at the Baltimore drug scene as seen through the eyes of drug dealers and law enforcement',

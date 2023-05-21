@@ -7,14 +7,14 @@ final mockEpisodeNotes = [
       content: 'This is a note about an episode.',
       date: DateTime.now().subtract(const Duration(days: 1)),
       episodeId: 2),
-        NoteEpisodeNoteSuperEntity(
-      id: 2,
+  NoteEpisodeNoteSuperEntity(
+      id: 9,
       title: 'S01E01',
       content: 'Cool premise',
       date: DateTime.now(),
       episodeId: 10),
         NoteEpisodeNoteSuperEntity(
-      id: 2,
+      id: 10,
       title: 'S01E02', 
       content: 'Poor train',
       date: DateTime.now().subtract(const Duration(days: 1)),
