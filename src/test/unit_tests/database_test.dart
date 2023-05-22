@@ -71,6 +71,7 @@ import 'package:src/models/timeslot/timeslot_media_timeslot_super_entity.dart';
 import 'package:src/daos/timeslot/timeslot_media_timeslot_super_dao.dart';
 import 'package:src/models/timeslot/timeslot_student_timeslot_super_entity.dart';
 import 'package:src/daos/timeslot/timeslot_student_timeslot_super_dao.dart';
+import 'package:flutter/services.dart';
 
 void main() {
   setUp(() async {
@@ -765,6 +766,12 @@ void main() {
 
   testWidgets('Test AuthenticationService', (WidgetTester tester) async {
     await tester.runAsync(() async {
+      const MethodChannel channel =
+          MethodChannel('plugins.flutter.io/path_provider');
+      channel.setMockMethodCallHandler((MethodCall methodCall) async {
+        return ".";
+      });
+
       User user = User(
           name: 'Emil',
           email: 'emil@gmail.com',
@@ -776,7 +783,7 @@ void main() {
       expect(serviceLocator<AuthenticationService>().isUserLoggedIn(), false);
       expect(serviceLocator<AuthenticationService>().getLoggedInUser(), null);
 
-      serviceLocator<AuthenticationService>().setLoggedInUser(user);
+      await serviceLocator<AuthenticationService>().setLoggedInUser(user);
       expect(serviceLocator<AuthenticationService>().isUserLoggedIn(), true);
       expect(serviceLocator<AuthenticationService>().getLoggedInUser(), user);
 

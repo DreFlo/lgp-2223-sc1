@@ -30,7 +30,7 @@ import 'package:src/utils/service_locator.dart';
 Future<void> updateUser(User user) async {
   //use this to update xp and level
   await serviceLocator<UserDao>().updateUser(user);
-  serviceLocator<AuthenticationService>().setLoggedInUser(user);
+  await serviceLocator<AuthenticationService>().setLoggedInUser(user);
 }
 
 int getTaskComboPoints() {
@@ -512,7 +512,8 @@ Future<bool> insertLogAndCheckStreak() async {
       numberAllActivities == 0) {
     Log log = Log(
         date: DateTime.now(),
-        userId: serviceLocator<AuthenticationService>().getLoggedInUser()!.id ?? 0);
+        userId:
+            serviceLocator<AuthenticationService>().getLoggedInUser()!.id ?? 0);
     await serviceLocator<LogDao>().insertLog(log);
     if (numberActivitiesToday == 0) {
       numberAllActivities += 1;
@@ -524,7 +525,8 @@ Future<bool> insertLogAndCheckStreak() async {
     await serviceLocator<LogDao>().deleteLogs(logs);
     Log log = Log(
         date: DateTime.now(),
-        userId: serviceLocator<AuthenticationService>().getLoggedInUser()!.id ?? 0);
+        userId:
+            serviceLocator<AuthenticationService>().getLoggedInUser()!.id ?? 0);
     await serviceLocator<LogDao>().insertLog(log);
     numberAllActivities = 1;
   }
