@@ -30,7 +30,7 @@ import 'package:src/utils/service_locator.dart';
 Future<void> updateUser(User user) async {
   //use this to update xp and level
   await serviceLocator<UserDao>().updateUser(user);
-  serviceLocator<AuthenticationService>().setLoggedInUser(user);
+  await serviceLocator<AuthenticationService>().setLoggedInUser(user);
 }
 
 int getTaskComboPoints() {
