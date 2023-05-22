@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:src/pages/gamification/badges_page.dart';
 import 'package:src/services/authentication_service.dart';
 import 'package:src/themes/colors.dart';
 import 'package:src/utils/service_locator.dart';
@@ -170,24 +171,23 @@ class _ProgressBarSheetState extends State<ProgressBarSheet> {
                               .pickImage(source: ImageSource.gallery);
                           if (pickedFile != null) {
                             widget.updateImagePath!(pickedFile.path);
+                            //update user
+                            User userNew = User(
+                                id: widget.user.id,
+                                name: widget.user.name,
+                                email: widget.user.email,
+                                password: widget.user.password,
+                                xp: widget.user.xp,
+                                level: widget.user.level,
+                                imagePath: pickedFile.path);
+                            await serviceLocator<UserDao>().updateUser(userNew);
+                            serviceLocator<AuthenticationService>()
+                                .setLoggedInUser(userNew);
+
+                            setState(() {
+                              image = pickedFile.path;
+                            });
                           }
-
-                          //update user
-                          User userNew = User(
-                              id: widget.user.id,
-                              name: widget.user.name,
-                              email: widget.user.email,
-                              password: widget.user.password,
-                              xp: widget.user.xp,
-                              level: widget.user.level,
-                              imagePath: pickedFile!.path);
-                          await serviceLocator<UserDao>().updateUser(userNew);
-                          await serviceLocator<AuthenticationService>()
-                              .setLoggedInUser(userNew);
-
-                          setState(() {
-                            image = pickedFile.path;
-                          });
                         }))
               ],
             ),
@@ -252,24 +252,54 @@ class _ProgressBarSheetState extends State<ProgressBarSheet> {
                       AppLocalizations.of(context).user_progress_2,
                   textAlign: TextAlign.justify,
                   style: const TextStyle(
-                    fontSize: 15,
-                    fontWeight: FontWeight.normal,
-                  )),
-            )
-          ])),
-      const SizedBox(height: 27.5),
-      Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 18),
-          child: Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-            Expanded(
-              child: Text(getText(context),
-                  textAlign: TextAlign.center,
-                  style: const TextStyle(
                     fontSize: 24,
                     fontWeight: FontWeight.bold,
                   )),
             )
           ])),
+      const SizedBox(height: 27.5),
+      Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+        Expanded(
+          child: Text(getText(context),
+              textAlign: TextAlign.justify,
+              style: const TextStyle(
+                fontSize: 16,
+                fontWeight: FontWeight.normal,
+              )),
+        )
+      ]),
+      const SizedBox(height: 30),
+      Row(
+        children: [
+          Expanded(
+              child: ElevatedButton(
+                  style: ButtonStyle(
+                      padding: MaterialStateProperty.all(
+                          const EdgeInsets.symmetric(
+                              horizontal: 20, vertical: 15)),
+                      backgroundColor: MaterialStateProperty.all(primaryColor),
+                      shape: MaterialStateProperty.all(
+                          const RoundedRectangleBorder(
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(30))))),
+                  onPressed: () {
+                    showModalBottomSheet(
+                        shape: const RoundedRectangleBorder(
+                          borderRadius:
+                              BorderRadius.vertical(top: Radius.circular(30.0)),
+                        ),
+                        isScrollControlled: true,
+                        backgroundColor: modalLightBackground,
+                        context: context,
+                        builder: (builder) => const BadgesPage());
+                  },
+                  child: Text(AppLocalizations.of(context).badges,
+                      style: const TextStyle(
+                          color: Colors.white,
+                          fontSize: 16,
+                          fontWeight: FontWeight.w600))))
+        ],
+      ),
       const SizedBox(height: 25)
     ]);
   }

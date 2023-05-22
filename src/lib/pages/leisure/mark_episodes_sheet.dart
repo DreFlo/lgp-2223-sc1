@@ -78,6 +78,11 @@ class _MarkEpisodesSheetState extends State<MarkEpisodesSheet>
     });
   }
 
+  void replace(MediaVideoEpisodeSuperEntity newEpisode) {
+    int index = episodesDB.indexWhere((episode) => episode.id == newEpisode.id);
+    episodesDB[index] = newEpisode;
+  }
+
   List<Widget> getEpisodes() {
     List<Widget> episodes = [];
 
@@ -85,16 +90,12 @@ class _MarkEpisodesSheetState extends State<MarkEpisodesSheet>
     if (seasonsDB.isNotEmpty) {
       Season? selectedSeasonObject = seasonsDB
           .firstWhereOrNull((season) => season.number == selectedSeason);
-      if (selectedSeasonObject != null) {
-        seasonId = selectedSeasonObject.id;
-      }
+      seasonId = selectedSeasonObject!.id;
     }
     for (int j = 0; j <= episodesDB.length - 1; j++) {
       if (episodesDB[j].seasonId == seasonId) {
         episodes.add(EpisodeBar(
-          season: selectedSeason,
-          episode: episodesDB[j],
-        ));
+            season: selectedSeason, episode: episodesDB[j], replace: replace));
 
         episodes.add(const SizedBox(height: 15));
       }
@@ -123,7 +124,8 @@ class _MarkEpisodesSheetState extends State<MarkEpisodesSheet>
     if (seasonsDB.isEmpty || episodesDB.isEmpty) {
       return const Center(child: CircularProgressIndicator());
     }
-    return Wrap(spacing: 10, children: [
+    return SingleChildScrollView(
+        child: Wrap(spacing: 10, children: [
       Row(mainAxisAlignment: MainAxisAlignment.center, children: [
         Padding(
             padding: const EdgeInsets.symmetric(vertical: 15),
@@ -189,31 +191,36 @@ class _MarkEpisodesSheetState extends State<MarkEpisodesSheet>
                   style: Theme.of(context).textTheme.displayMedium,
                 )))
       ]),
-      Row(children: [
-        TabBar(
-            padding: const EdgeInsets.symmetric(horizontal: 18),
-            isScrollable: true,
-            labelColor: leisureColor,
-            unselectedLabelColor: Colors.white,
-            splashBorderRadius: const BorderRadius.all(Radius.circular(10)),
-            splashFactory: NoSplash.splashFactory,
-            overlayColor: MaterialStateProperty.resolveWith<Color?>(
-                (Set<MaterialState> states) {
-              // Use the default focused overlay color
-              return states.contains(MaterialState.focused)
-                  ? null
-                  : Colors.transparent;
-            }),
-            indicatorSize: TabBarIndicatorSize.tab,
-            indicatorPadding: const EdgeInsets.symmetric(vertical: 5),
-            labelPadding: const EdgeInsets.symmetric(horizontal: 10),
-            indicator: BoxDecoration(
-              borderRadius: BorderRadius.circular(10),
-              color: leisureColor,
-            ),
-            tabs: getSeasons(),
-            controller: controller)
-      ]),
+      SingleChildScrollView(
+          scrollDirection: Axis.horizontal,
+          child: TabBar(
+              padding: const EdgeInsets.symmetric(horizontal: 18),
+              isScrollable: true,
+              labelColor: leisureColor,
+              unselectedLabelColor: Colors.white,
+              splashBorderRadius: const BorderRadius.all(Radius.circular(10)),
+              splashFactory: NoSplash.splashFactory,
+              overlayColor: MaterialStateProperty.resolveWith<Color?>(
+                  (Set<MaterialState> states) {
+                // Use the default focused overlay color
+                return states.contains(MaterialState.focused)
+                    ? null
+                    : Colors.transparent;
+              }),
+              indicatorSize: TabBarIndicatorSize.tab,
+              indicatorPadding: const EdgeInsets.symmetric(vertical: 5),
+              labelPadding: const EdgeInsets.symmetric(horizontal: 10),
+              indicator: BoxDecoration(
+                borderRadius: BorderRadius.circular(10),
+                color: leisureColor,
+              ),
+              tabs: getSeasons(),
+              controller: controller,
+              onTap: (index) {
+                setState(() {
+                  selectedSeason = index + 1;
+                });
+              })),
       const SizedBox(height: 10),
       Row(children: [
         Padding(
@@ -228,6 +235,6 @@ class _MarkEpisodesSheetState extends State<MarkEpisodesSheet>
           padding: const EdgeInsets.symmetric(horizontal: 18),
           child: Column(children: getEpisodes())),
       const SizedBox(height: 50)
-    ]);
+    ]));
   }
 }

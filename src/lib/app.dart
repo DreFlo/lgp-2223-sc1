@@ -48,6 +48,7 @@ class App extends StatelessWidget {
         if (snapshot.hasData) {
           return MaterialApp(
             title: F.title,
+            debugShowCheckedModeBanner: false,
             localizationsDelegates: AppLocalizations.localizationsDelegates,
             supportedLocales: AppLocalizations.supportedLocales,
             theme: ThemeData(
