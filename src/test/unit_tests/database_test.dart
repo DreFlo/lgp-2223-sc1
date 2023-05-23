@@ -92,7 +92,7 @@ void main() {
       await serviceLocator<UserDao>().insertUser(User(
           name: 'Emil',
           email: 'emil@gmail.com',
-          password: '1234',
+          password: '12345678',
           xp: 23,
           level: 1,
           imagePath: 'test'));
@@ -268,7 +268,7 @@ void main() {
       await serviceLocator<UserDao>().insertUser(User(
           name: 'Emil',
           email: 'emil@gmail.com',
-          password: '1234',
+          password: '12345678',
           xp: 23,
           level: 1,
           imagePath: 'test'));
@@ -336,7 +336,7 @@ void main() {
       await serviceLocator<UserDao>().insertUser(User(
           name: 'Emil',
           email: 'emil@gmail.com',
-          password: '1234',
+          password: '12345678',
           xp: 23,
           level: 1,
           imagePath: 'test'));
@@ -534,7 +534,7 @@ void main() {
       await serviceLocator<UserDao>().insertUser(User(
           name: 'Emil',
           email: 'emil@gmail.com',
-          password: '1234',
+          password: '12345678',
           xp: 23,
           level: 1,
           imagePath: 'test'));
@@ -583,7 +583,7 @@ void main() {
       await serviceLocator<UserDao>().insertUser(User(
           name: 'Emil',
           email: 'emil@gmail.com',
-          password: '1234',
+          password: '12345678',
           xp: 23,
           level: 1,
           imagePath: 'test'));
@@ -641,7 +641,7 @@ void main() {
       await serviceLocator<UserDao>().insertUser(User(
           name: 'Emil',
           email: 'emil@gmail.com',
-          password: '1234',
+          password: '12345678',
           xp: 23,
           imagePath: 'test',
           level: 1));
@@ -701,7 +701,7 @@ void main() {
       await serviceLocator<UserDao>().insertUser(User(
           name: 'Emil',
           email: 'emil@gmail.com',
-          password: '1234',
+          password: '12345678',
           xp: 23,
           imagePath: 'test',
           level: 1));
@@ -775,7 +775,7 @@ void main() {
       User user = User(
           name: 'Emil',
           email: 'emil@gmail.com',
-          password: '1234',
+          password: '12345678',
           xp: 23,
           level: 1,
           imagePath: 'test');
@@ -803,7 +803,7 @@ void main() {
       await serviceLocator<UserDao>().insertUser(User(
           name: 'Emil',
           email: 'emil@gmail.com',
-          password: '1234',
+          password: '12345678',
           xp: 23,
           level: 1,
           imagePath: 'test'));
@@ -1029,7 +1029,7 @@ void main() {
       await serviceLocator<UserDao>().insertUser(User(
           name: 'Emil',
           email: 'emil@gmail.com',
-          password: '1234',
+          password: '12345678',
           xp: 23,
           level: 1,
           imagePath: 'test'));
@@ -1067,7 +1067,7 @@ void main() {
       await serviceLocator<UserDao>().insertUser(User(
           name: 'Emil',
           email: 'emil@gmail.com',
-          password: '1234',
+          password: '12345678',
           xp: 23,
           level: 1,
           imagePath: 'test'));
@@ -1312,7 +1312,7 @@ void main() {
       int userId = await serviceLocator<UserDao>().insertUser(User(
           name: 'Emil',
           email: 'emil@gmail.com',
-          password: '1234',
+          password: '12345678',
           xp: 23,
           level: 1,
           imagePath: 'test'));
@@ -1357,7 +1357,7 @@ void main() {
       await serviceLocator<UserDao>().insertUser(User(
           name: 'Emil',
           email: 'emil@gmail.com',
-          password: '1234',
+          password: '12345678',
           xp: 23,
           level: 1,
           imagePath: 'test'));
@@ -1494,7 +1494,7 @@ void main() {
       await serviceLocator<UserDao>().insertUser(User(
           name: 'Emil',
           email: 'emil@gmail.com',
-          password: '1234',
+          password: '12345678',
           xp: 23,
           imagePath: 'test',
           level: 1));
@@ -1553,7 +1553,7 @@ void main() {
       await serviceLocator<UserDao>().insertUser(User(
           name: 'Emil',
           email: 'emil@gmail.com',
-          password: '1234',
+          password: '12345678',
           xp: 23,
           imagePath: 'test',
           level: 1));
@@ -1622,7 +1622,7 @@ void main() {
       await serviceLocator<UserDao>().insertUser(User(
           name: 'Emil',
           email: 'emil@gmail.com',
-          password: '1234',
+          password: '12345678',
           xp: 23,
           imagePath: 'test',
           level: 1));
@@ -1676,7 +1676,7 @@ void main() {
       await serviceLocator<UserDao>().insertUser(User(
           name: 'Emil',
           email: 'emil@gmail.com',
-          password: '1234',
+          password: '12345678',
           xp: 23,
           imagePath: 'test',
           level: 1));
@@ -1733,7 +1733,7 @@ void main() {
       await serviceLocator<UserDao>().insertUser(User(
           name: 'Emil',
           email: 'emil@gmail.com',
-          password: '1234',
+          password: '12345678',
           xp: 23,
           imagePath: 'test',
           level: 1));
@@ -1796,7 +1796,7 @@ void main() {
       await serviceLocator<UserDao>().insertUser(User(
           name: 'Emil',
           email: 'emil@gmail.com',
-          password: '1234',
+          password: '12345678',
           xp: 23,
           imagePath: 'test',
           level: 1));
