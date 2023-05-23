@@ -1109,6 +1109,103 @@ void main() {
     });
   });
 
+  testWidgets('Test Trigger user_unique_email_insert',
+      (WidgetTester widgetTester) async {
+    await widgetTester.runAsync(() async {
+      User user = User(
+          name: 'Emil',
+          email: 'emil@gmail.com',
+          password: '12345678',
+          xp: 23,
+          level: 1,
+          imagePath: 'test');
+
+      await serviceLocator<UserDao>().insertUser(user);
+
+      expect(() => serviceLocator<UserDao>().insertUser(user),
+          throwsA(isA<DatabaseException>()));
+    });
+  });
+
+  testWidgets('Test Trigger user_unique_email_update',
+      (WidgetTester widgetTester) async {
+    await widgetTester.runAsync(() async {
+      User user = User(
+          name: 'Emil',
+          email: 'emil@gmail.com',
+          password: '12345678',
+          xp: 23,
+          level: 1,
+          imagePath: 'test');
+
+      await serviceLocator<UserDao>().insertUser(user);
+
+      User user_2 = User(
+          name: 'Emil 2',
+          email: 'emil2@gmail.com',
+          password: '12345678',
+          xp: 23,
+          level: 1,
+          imagePath: 'test');
+
+      int id = await serviceLocator<UserDao>().insertUser(user_2);
+
+      user_2 = User(
+          id: id,
+          name: 'Emil 2',
+          email: 'emil@gmail.com',
+          password: '12345678',
+          xp: 23,
+          level: 1,
+          imagePath: 'test');
+
+      expect(() => serviceLocator<UserDao>().updateUser(user_2),
+          throwsA(isA<DatabaseException>()));
+    });
+  });
+
+  testWidgets('Test trigger user_password_over_8_characters_insert',
+      (WidgetTester widgetTester) async {
+    await widgetTester.runAsync(() async {
+      User user = User(
+          name: 'Emil',
+          email: 'emil@gmail.com',
+          password: '1234567',
+          xp: 23,
+          level: 1,
+          imagePath: 'test');
+
+      expect(() => serviceLocator<UserDao>().insertUser(user),
+          throwsA(isA<DatabaseException>()));
+    });
+  });
+
+  testWidgets('Test trigger user_password_over_8_characters_update',
+      (WidgetTester widgetTester) async {
+    await widgetTester.runAsync(() async {
+      User user = User(
+          name: 'Emil',
+          email: 'emil@gmail.com',
+          password: '12345678',
+          xp: 23,
+          level: 1,
+          imagePath: 'test');
+
+      int id = await serviceLocator<UserDao>().insertUser(user);
+
+      user = User(
+          id: id,
+          name: 'Emil',
+          email: 'emil@gmail.com',
+          password: '1234567',
+          xp: 23,
+          level: 1,
+          imagePath: 'test');
+
+      expect(() => serviceLocator<UserDao>().updateUser(user),
+          throwsA(isA<DatabaseException>()));
+    });
+  });
   // --- DELETE TESTS --- //
 
   testWidgets('Test Media Book Dao Delete', (WidgetTester tester) async {
