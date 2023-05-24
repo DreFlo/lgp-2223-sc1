@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:src/pages/add_new_items_page.dart';
 import 'package:src/pages/calendar_page.dart';
 import 'package:src/pages/home_page.dart';
 import 'package:src/pages/dashboard.dart';
@@ -15,6 +16,7 @@ class NavigationPage extends StatefulWidget {
 
 class _NavigationPageState extends State<NavigationPage> {
   int _currentIndex = 0;
+  bool _showAddNewItemsPage = false;
   late PageController _pageController;
 
   @override
@@ -31,9 +33,15 @@ class _NavigationPageState extends State<NavigationPage> {
 
   void _onItemTapped(int index) {
     if (index == 2) {
+      
+      setState(() {
+        _showAddNewItemsPage = !_showAddNewItemsPage;
+      });
+
       return;
     }
     setState(() {
+      _showAddNewItemsPage = false; 
       _currentIndex = index;
       _pageController.jumpToPage(index);
     });
@@ -51,7 +59,9 @@ class _NavigationPageState extends State<NavigationPage> {
   Widget build(BuildContext context) {
     return Scaffold(
         backgroundColor: appBackground,
-        body: SizedBox.expand(
+        body: Stack(
+          children: [
+          SizedBox.expand(
             child: PageView(
           physics: const NeverScrollableScrollPhysics(),
           controller: _pageController,
@@ -62,7 +72,10 @@ class _NavigationPageState extends State<NavigationPage> {
           },
           children: pages,
         )),
+        if (_showAddNewItemsPage) const AddNewItemsPage(),
+        ],
+        ),
         bottomNavigationBar: MyBottomNavigationBar(
-            selectedIndex: _currentIndex, onItemTapped: _onItemTapped));
+            selectedIndex: _currentIndex, onItemTapped: _onItemTapped, showingAddItemsPage: _showAddNewItemsPage,));
   }
 }
