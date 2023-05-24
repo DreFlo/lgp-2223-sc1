@@ -250,7 +250,7 @@ class _ProgressBarSheetState extends State<ProgressBarSheet> {
                   AppLocalizations.of(context).user_progress +
                       widget.user.name +
                       AppLocalizations.of(context).user_progress_2,
-                  textAlign: TextAlign.justify,
+                  textAlign: TextAlign.center,
                   style: const TextStyle(
                     fontSize: 24,
                     fontWeight: FontWeight.bold,
@@ -258,7 +258,9 @@ class _ProgressBarSheetState extends State<ProgressBarSheet> {
             )
           ])),
       const SizedBox(height: 27.5),
-      Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+      Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 20),
+        child: Row(mainAxisAlignment: MainAxisAlignment.center, children: [
         Expanded(
           child: Text(getText(context),
               textAlign: TextAlign.justify,
@@ -267,9 +269,12 @@ class _ProgressBarSheetState extends State<ProgressBarSheet> {
                 fontWeight: FontWeight.normal,
               )),
         )
-      ]),
+      ])),
       const SizedBox(height: 30),
-      Row(
+      Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 20),
+        child: Row(
+
         children: [
           Expanded(
               child: ElevatedButton(
@@ -299,7 +304,7 @@ class _ProgressBarSheetState extends State<ProgressBarSheet> {
                           fontSize: 16,
                           fontWeight: FontWeight.w600))))
         ],
-      ),
+      )),
       const SizedBox(height: 25)
     ]);
   }
