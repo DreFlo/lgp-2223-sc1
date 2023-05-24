@@ -27,17 +27,20 @@ class ListTVSeriesSearchState
   List<Season> seasons = [];
   List<MediaVideoEpisodeSuperEntity> episodesDB = [];
   List<NoteEpisodeNoteSuperEntity> episodeNotes = [];
+  MediaSeriesSuperEntity? media;
 
   Future<MediaSeriesSuperEntity> loadSeriesDetails(
       MediaSeriesSuperEntity series) async {
     final TMDBTVSeriesAPIWrapper tmdb = TMDBTVSeriesAPIWrapper();
-    return tmdb.getSeriesMediaPageInfo(series);
+    return await tmdb.getSeriesMediaPageInfo(series);
   }
 
   @override
   Widget showMediaPageBasedOnType(MediaSeriesSuperEntity item) {
     return FutureBuilder<MediaSeriesSuperEntity>(
-      future: loadSeriesDetails(item),
+      future: (media != null && media!.name == item.name)
+          ? Future.value(media)
+          : loadSeriesDetails(item),
       builder: (context, snapshot) {
         if (snapshot.hasData) {
           return TVSeriesPage(
@@ -58,6 +61,7 @@ class ListTVSeriesSearchState
 
   @override
   Future<MediaStatus> getMediaInfoFromDB(MediaSeriesSuperEntity item) async {
+    media = await loadSeriesDetails(item);
     String photo = item.linkImage;
 
     final mediaExists =
@@ -69,21 +73,24 @@ class ListTVSeriesSearchState
       return statusFavorite;
     }
 
-    final media = await serviceLocator<MediaDao>().findMediaByPhoto(photo);
-    review = await loadReviews(media!.id ?? 0);
-    seasons = await loadSeasons(media.id ?? 0);
+    final mediaByPhoto =
+        await serviceLocator<MediaDao>().findMediaByPhoto(photo);
+    review = await loadReviews(mediaByPhoto!.id ?? 0);
+    seasons = await loadSeasons(mediaByPhoto.id ?? 0);
     episodesDB = await loadEpisodes(seasons);
     episodeNotes = await loadEpisodeNotes(episodesDB);
 
     statusFavorite = MediaStatus(
-        status: media.status, favorite: media.favorite, id: media.id ?? 0);
+        status: mediaByPhoto.status,
+        favorite: mediaByPhoto.favorite,
+        id: mediaByPhoto.id ?? 0);
     return statusFavorite;
   }
 
   @override
   TVSeriesPageButton showMediaPageButton(MediaSeriesSuperEntity item) {
     return TVSeriesPageButton(
-      item: item,
+      item: media ?? item,
       mediaId: statusFavorite.id,
     );
   }

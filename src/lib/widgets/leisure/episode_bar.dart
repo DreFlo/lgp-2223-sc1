@@ -1,3 +1,5 @@
+// ignore_for_file: must_be_immutable
+
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:src/daos/media/media_video_episode_super_dao.dart';
@@ -9,13 +11,15 @@ import 'package:src/models/media/media_video_episode_super_entity.dart';
 import 'package:src/pages/leisure/add_episode_note_form.dart';
 
 class EpisodeBar extends StatefulWidget {
-  final MediaVideoEpisodeSuperEntity episode;
+  MediaVideoEpisodeSuperEntity episode;
   final String code;
+  final void Function(MediaVideoEpisodeSuperEntity) replace;
 
   EpisodeBar({
     Key? key,
     required int season,
     required this.episode,
+    required this.replace,
   })  : code =
             'S${season.toString().padLeft(2, '0')}E${episode.number.toString().padLeft(2, '0')}',
         super(key: key);
@@ -25,23 +29,27 @@ class EpisodeBar extends StatefulWidget {
 }
 
 class _EpisodeBarState extends State<EpisodeBar> {
-  late MediaVideoEpisodeSuperEntity episode;
+  //late MediaVideoEpisodeSuperEntity episodeDB;
+  //bool ready = false;
 
   @override
   initState() {
-    episode = widget.episode;
+    //episodeDB = widget.episode;
+    /* if (episode.id == widget.episode.id) {
+      ready = true;
+    }*/
     super.initState();
   }
 
   bool watched() {
-    return episode.status == Status.done ? true : false;
+    return widget.episode.status == Status.done ? true : false;
   }
 
   @override
   Widget build(BuildContext context) {
     if (kDebugMode) {
       print('EpisodeBar: build');
-      print(episode.status);
+      //print(episode.status);
     }
     return Container(
         padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 15),
@@ -73,8 +81,8 @@ class _EpisodeBarState extends State<EpisodeBar> {
             Row(mainAxisAlignment: MainAxisAlignment.center, children: [
               ElevatedButton(
                   onPressed: () async {
-                    MediaVideoEpisodeSuperEntity newEpisode =
-                        episode.copyWith(favorite: !episode.favorite);
+                    MediaVideoEpisodeSuperEntity newEpisode = widget.episode
+                        .copyWith(favorite: !widget.episode.favorite);
 
                     await serviceLocator<MediaVideoEpisodeSuperDao>()
                         .updateMediaVideoEpisodeSuperEntity(newEpisode);
@@ -85,25 +93,27 @@ class _EpisodeBarState extends State<EpisodeBar> {
                       callBadgeWidget(); //streak
                     }
                     setState(() {
-                      episode = newEpisode;
+                      widget.episode = newEpisode;
+                      widget.replace(newEpisode);
                     });
                   },
                   style: ButtonStyle(
                     minimumSize: MaterialStateProperty.all(const Size(45, 45)),
                     backgroundColor: MaterialStateProperty.all(
-                        episode.favorite ? leisureColor : Colors.white),
+                        widget.episode.favorite ? leisureColor : Colors.white),
                     foregroundColor: MaterialStateProperty.all(
-                        episode.favorite ? Colors.white : leisureColor),
+                        widget.episode.favorite ? Colors.white : leisureColor),
                     shape: MaterialStateProperty.all<CircleBorder>(
                         const CircleBorder()),
                   ),
                   child: const Icon(Icons.favorite_rounded)),
               ElevatedButton(
                   onPressed: () async {
-                    MediaVideoEpisodeSuperEntity newEpisode = episode.copyWith(
-                        status: episode.status == Status.done
-                            ? Status.nothing
-                            : Status.done);
+                    MediaVideoEpisodeSuperEntity newEpisode = widget.episode
+                        .copyWith(
+                            status: widget.episode.status == Status.done
+                                ? Status.nothing
+                                : Status.done);
 
                     await serviceLocator<MediaVideoEpisodeSuperDao>()
                         .updateMediaVideoEpisodeSuperEntity(newEpisode);
@@ -114,14 +124,16 @@ class _EpisodeBarState extends State<EpisodeBar> {
                       callBadgeWidget(); //streak
                     }
                     setState(() {
-                      episode = newEpisode;
+                      widget.episode = newEpisode;
+                      widget.replace(newEpisode);
                     });
                   },
                   onLongPress: () async {
-                    MediaVideoEpisodeSuperEntity newEpisode = episode.copyWith(
-                        status: episode.status == Status.done
-                            ? Status.nothing
-                            : Status.done);
+                    MediaVideoEpisodeSuperEntity newEpisode = widget.episode
+                        .copyWith(
+                            status: widget.episode.status == Status.done
+                                ? Status.nothing
+                                : Status.done);
 
                     await serviceLocator<MediaVideoEpisodeSuperDao>()
                         .updateMediaVideoEpisodeSuperEntity(newEpisode);
@@ -132,7 +144,8 @@ class _EpisodeBarState extends State<EpisodeBar> {
                       callBadgeWidget(); //streak
                     }
                     setState(() {
-                      episode = newEpisode;
+                      widget.episode = newEpisode;
+                      widget.replace(newEpisode);
                     });
                     if (context.mounted) {
                       showModalBottomSheet(
@@ -150,7 +163,7 @@ class _EpisodeBarState extends State<EpisodeBar> {
                                         .bottom),
                                 child: AddEpisodeNoteForm(
                                     code: widget.code,
-                                    episode: episode,
+                                    episode: widget.episode,
                                     refreshStatus: () {
                                       Navigator.pop(context);
                                     }),

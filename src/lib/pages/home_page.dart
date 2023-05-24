@@ -6,6 +6,7 @@ import 'package:src/animation_test/main.dart';
 import 'package:src/daos/user_dao.dart';
 import 'package:src/models/badges.dart';
 import 'package:src/models/user.dart';
+import 'package:src/services/authentication_service.dart';
 import 'package:src/services/local_notifications_service.dart';
 import 'package:src/pages/auth/landing_page.dart';
 import 'package:src/pages/events/event_form.dart';
@@ -379,6 +380,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                     ),
                   );
                 }),
+            ElevatedButton(onPressed: logoutUser, child: Text("Logout")),
           ],
         ),
       ])),
@@ -388,5 +390,11 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
         child: const Icon(Icons.add),
       ), // This trailing comma makes auto-formatting nicer for build methods.
     );
+  }
+
+  void logoutUser() async {
+    serviceLocator<AuthenticationService>().logoutUser();
+    Navigator.pushReplacement(
+        context, MaterialPageRoute(builder: (context) => LandingPage()));
   }
 }
