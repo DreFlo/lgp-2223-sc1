@@ -219,8 +219,7 @@ class _MyHomePageState extends State<MyHomePage> {
         padding: EdgeInsets.only(right: 36, top: 36),
         child: ProfilePic(),
       ),
-      SingleChildScrollView(
-        child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+       Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
           Padding(
             padding: const EdgeInsets.only(left: 36, top: 90),
             child: WelcomeMessage(name: name),
@@ -257,7 +256,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 return const Center(child: CircularProgressIndicator());
               }),
         ]),
-      )
+      
     ]));
   }
 }
