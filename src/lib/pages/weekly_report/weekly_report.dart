@@ -319,8 +319,8 @@ class _WeeklyReportState extends State<WeeklyReport> {
                                               MainAxisAlignment.spaceBetween,
                                           children: [
                                             SizedBox(
-                                                width: 150,
-                                                height: 300,
+                                                width: 145,
+                                                height: 295,
                                                 child: MediaCarousel(
                                                     topMedia: topMedia)),
                                             Column(
@@ -332,7 +332,7 @@ class _WeeklyReportState extends State<WeeklyReport> {
                                                         .weekly_report_message_5
                                                         .toUpperCase(),
                                                     style: const TextStyle(
-                                                      fontSize: 13,
+                                                      fontSize: 10,
                                                       color: Colors.white,
                                                       fontWeight:
                                                           FontWeight.w600,

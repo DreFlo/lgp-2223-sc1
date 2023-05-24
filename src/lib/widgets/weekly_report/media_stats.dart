@@ -15,14 +15,14 @@ class MediaStats extends StatelessWidget {
       Text(
         "$value ",
         style: Theme.of(context).textTheme.displayLarge?.copyWith(
-          fontSize: 28,
+          fontSize: 25,
           color: color ?? primaryColor,
         ),
       ),
       Text(
         stat,
         style: Theme.of(context).textTheme.displayLarge?.copyWith(
-          fontSize: 28,
+          fontSize: 25,
         ),
       ),
     ]);

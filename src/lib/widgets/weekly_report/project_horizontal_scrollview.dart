@@ -17,42 +17,6 @@ class ProjectHorizontalScrollview extends StatelessWidget {
             height: 130,
             child: Row(
               children: [
-                Container(
-                  width: 100,
-                  height: 120,
-                  margin: const EdgeInsets.symmetric(horizontal: 5),
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(5),
-                    color: grayButton,
-                    boxShadow: const [
-                      BoxShadow(
-                        color: studentColor,
-                        offset: Offset(-5, -5),
-                      ),
-                    ],
-                  ),
-                  child: ProjectCard(
-                    taskGroup: contributedTaskGroups[0],
-                  ),
-                ),
-                Container(
-                  width: 100,
-                  height: 120,
-                  margin: const EdgeInsets.symmetric(horizontal: 5),
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(5),
-                    color: grayButton,
-                    boxShadow: const [
-                      BoxShadow(
-                        color: studentColor,
-                        offset: Offset(-5, -5),
-                      ),
-                    ],
-                  ),
-                  child: ProjectCard(
-                    taskGroup: contributedTaskGroups[0],
-                  ),
-                ),
                 for (int i = 0; i < contributedTaskGroups.length; i++)
                   Container(
                     width: 100,
