@@ -45,17 +45,14 @@ class _SplashScreenPageState extends State<SplashScreenPage> {
       ),
       Row(mainAxisAlignment: MainAxisAlignment.center, children: [
         Padding(
-            padding: EdgeInsets.only(
-                bottom: MediaQuery.of(context).size.height * 0.05),
-            child: Row(children: [
-              // change to Column, if vertical display is preferred
-              const Text("Powered by "),
-              SizedBox(
-                width: MediaQuery.of(context).size.width * 0.30,
-                height: MediaQuery.of(context).size.height * 0.03,
-                child: SvgPicture.asset('assets/icons/company_logo.svg'),
-              ),
-            ]))
+          padding: EdgeInsets.only(
+              bottom: MediaQuery.of(context).size.height * 0.05),
+          child: SizedBox(
+            width: MediaQuery.of(context).size.width * 0.30,
+            height: MediaQuery.of(context).size.height * 0.03,
+            child: SvgPicture.asset('assets/icons/company_logo.svg'),
+          ),
+        )
       ])
     ]);
   }
