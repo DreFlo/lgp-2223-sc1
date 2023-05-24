@@ -289,7 +289,7 @@ class _ProgressBarSheetState extends State<ProgressBarSheet> {
                               BorderRadius.vertical(top: Radius.circular(30.0)),
                         ),
                         isScrollControlled: true,
-                        backgroundColor: modalLightBackground,
+                        backgroundColor: modalBackground,
                         context: context,
                         builder: (builder) => const BadgesPage());
                   },
