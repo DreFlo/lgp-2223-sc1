@@ -417,15 +417,24 @@ class _WeeklyReportState extends State<WeeklyReport> {
                                                       color: leisureColor),
                                                   const SizedBox(height: 10),
                                                   Column(children: [
-                                                    Text(
-                                                      topMedia[0].name,
-                                                      style: const TextStyle(
-                                                        fontSize: 13,
-                                                        color: leisureColor,
-                                                        fontStyle:
-                                                            FontStyle.italic,
-                                                        fontWeight:
-                                                            FontWeight.w600,
+                                                    SizedBox(
+                                                      width:
+                                                          MediaQuery.of(context)
+                                                                  .size
+                                                                  .width *
+                                                              0.5,
+                                                      child: Text(
+                                                        topMedia[0].name,
+                                                        textAlign:
+                                                            TextAlign.center,
+                                                        style: const TextStyle(
+                                                          fontSize: 13,
+                                                          color: leisureColor,
+                                                          fontStyle:
+                                                              FontStyle.italic,
+                                                          fontWeight:
+                                                              FontWeight.w600,
+                                                        ),
                                                       ),
                                                     ),
                                                     Text(
