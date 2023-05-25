@@ -215,54 +215,51 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
         body: Stack(children: [
-           Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-      const Padding(
-        padding: EdgeInsets.only(right: 36, top: 36),
-        child: ProfilePic(),
-      ),
-      Padding(
-            padding: const EdgeInsets.only(left: 36),
-            child: WelcomeMessage(name: name),
-          ),
-          FutureBuilder(
-              future: loadUserBadges(),
-              builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
+      Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+        const Padding(
+          padding: EdgeInsets.only(right: 36, top: 36),
+          child: ProfilePic(),
+        ),
+        Padding(
+          padding: const EdgeInsets.only(left: 36),
+          child: WelcomeMessage(name: name),
+        ),
+        FutureBuilder(
+            future: loadUserBadges(),
+            builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
+              if (snapshot.hasData) {
+                return BadgeFact(fact: snapshot.data!);
+              }
+              return const Center(child: CircularProgressIndicator());
+            }),
+        Expanded(
+            child: SingleChildScrollView(
+          child:
+              Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+            FutureBuilder(
+              future: loadEventsDB(),
+              builder: (BuildContext context, AsyncSnapshot<int> snapshot) {
                 if (snapshot.hasData) {
-                  return BadgeFact(fact: snapshot.data!);
+                  return Column(
+                    children: [
+                      HorizontalScrollView(
+                        nItems: studentEvents.length + mediaEvents.length,
+                        selectedIndex: _selectedIndex,
+                        setSelectedIndex: (int index) =>
+                            setState(() => _selectedIndex = index),
+                      ),
+                      Builder(builder: (BuildContext context) {
+                        return showWidget();
+                      }),
+                    ],
+                  );
                 }
                 return const Center(child: CircularProgressIndicator());
-              }),
-              Expanded(child: 
-      SingleChildScrollView(child:
-       Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-
-          
-          FutureBuilder(
-  future: loadEventsDB(),
-  builder: (BuildContext context, AsyncSnapshot<int> snapshot) {
-    if (snapshot.hasData) {
-      return Column(
-        children: [
-          HorizontalScrollView(
-            nItems: studentEvents.length + mediaEvents.length,
-            selectedIndex: _selectedIndex,
-            setSelectedIndex: (int index) =>
-                setState(() => _selectedIndex = index),
-          ),
-          Builder(builder: (BuildContext context) {
-            return showWidget();
-          }),
-        ],
-      );
-    }
-    return const Center(child: CircularProgressIndicator());
-  },
-)
-
-        ]),
-      
-    ))])]));
+              },
+            )
+          ]),
+        ))
+      ])
+    ]));
   }
 }
