@@ -4,6 +4,7 @@ import 'package:src/daos/notes/note_task_note_super_dao.dart';
 import 'package:src/models/notes/note.dart';
 import 'package:src/models/notes/note_task_note_super_entity.dart';
 import 'package:src/themes/colors.dart';
+import 'package:src/utils/gamification/game_logic.dart';
 import 'package:src/utils/service_locator.dart';
 
 class AddTaskNoteForm extends StatefulWidget {
@@ -150,7 +151,7 @@ class _AddTaskNoteFormState extends State<AddTaskNoteForm> {
                             controller: contentController,
                             decoration: InputDecoration(
                               filled: true,
-                              fillColor: darkTextField,
+                              fillColor: textField,
                               helperStyle:
                                   Theme.of(context).textTheme.labelSmall,
                               border: OutlineInputBorder(
@@ -210,6 +211,13 @@ class _AddTaskNoteFormState extends State<AddTaskNoteForm> {
               taskId: widget.taskId!);
           await serviceLocator<NoteTaskNoteSuperDao>()
               .updateNoteTaskNoteSuperEntity(note);
+
+          bool badge = await insertLogAndCheckStreak();
+          if (badge) {
+            //show badge
+            callBadgeWidget(); //streak
+          }
+
           simpleNote = Note(
               id: widget.note!.id,
               title: titleController.text,
@@ -225,6 +233,13 @@ class _AddTaskNoteFormState extends State<AddTaskNoteForm> {
 
           int id = await serviceLocator<NoteTaskNoteSuperDao>()
               .insertNoteTaskNoteSuperEntity(note);
+
+          bool badge = await insertLogAndCheckStreak();
+          if (badge) {
+            //show badge
+            callBadgeWidget();
+            //streak
+          }
 
           simpleNote = Note(
               id: id,
@@ -267,6 +282,12 @@ class _AddTaskNoteFormState extends State<AddTaskNoteForm> {
 
     await serviceLocator<NoteTaskNoteSuperDao>()
         .deleteNoteTaskNoteSuperEntity(noteTaskNoteSuperEntity);
+
+    bool badge = await insertLogAndCheckStreak();
+    if (badge) {
+      //show badge
+      callBadgeWidget(); //streak
+    }
 
     if (context.mounted) {
       Navigator.pop(context);
@@ -342,8 +363,11 @@ class _AddTaskNoteFormState extends State<AddTaskNoteForm> {
   }
 
   showDeleteConfirmation(BuildContext context) {
-    Widget cancelButton = TextButton(
+    Widget cancelButton = ElevatedButton(
       key: const Key('cancelConfirmationButton'),
+      style: ElevatedButton.styleFrom(
+        backgroundColor: primaryColor,
+      ),
       child: Text(AppLocalizations.of(context).cancel,
           style: const TextStyle(
               color: Colors.white, fontSize: 16, fontWeight: FontWeight.w600),
@@ -353,8 +377,11 @@ class _AddTaskNoteFormState extends State<AddTaskNoteForm> {
       },
     );
 
-    Widget deleteButton = TextButton(
+    Widget deleteButton = ElevatedButton(
       key: const Key('deleteConfirmationButton'),
+      style: ElevatedButton.styleFrom(
+        backgroundColor: Colors.red[600],
+      ),
       child: Text(AppLocalizations.of(context).delete,
           style: const TextStyle(
               color: Colors.white, fontSize: 16, fontWeight: FontWeight.w600),
@@ -365,19 +392,24 @@ class _AddTaskNoteFormState extends State<AddTaskNoteForm> {
     );
 
     AlertDialog alert = AlertDialog(
+      elevation: 0,
       title: Text(AppLocalizations.of(context).delete_note,
           style: const TextStyle(
               color: Colors.white, fontSize: 20, fontWeight: FontWeight.w600),
           textAlign: TextAlign.center),
       content: Text(AppLocalizations.of(context).delete_note_message,
           style: const TextStyle(
-              color: Colors.white, fontSize: 14, fontWeight: FontWeight.w600),
+              color: Colors.white, fontSize: 14, fontWeight: FontWeight.normal),
           textAlign: TextAlign.center),
+      actionsPadding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
       actions: [
         cancelButton,
         deleteButton,
       ],
-      backgroundColor: primaryColor,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(30),
+      ),
+      backgroundColor: modalBackground,
     );
 
     showDialog(
@@ -386,5 +418,9 @@ class _AddTaskNoteFormState extends State<AddTaskNoteForm> {
         return alert;
       },
     );
+  }
+
+  callBadgeWidget() {
+    unlockBadgeForUser(3, context); //streak
   }
 }

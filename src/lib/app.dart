@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:src/daos/user_dao.dart';
+import 'package:src/models/user.dart';
+import 'package:src/services/authentication_service.dart';
 import 'package:src/themes/colors.dart';
 import 'package:src/utils/service_locator.dart';
 
@@ -22,14 +25,29 @@ const Map<int, Color> color = {
 class App extends StatelessWidget {
   const App({Key? key}) : super(key: key);
 
+  Future<int> startService() async {
+    await serviceLocator.allReady();
+
+    int? loggedUserId =
+        await serviceLocator<AuthenticationService>().getCachedLoggedInUser();
+    if (loggedUserId == null) return 1;
+    User? loggedUser =
+        await serviceLocator<UserDao>().findUserById(loggedUserId).first;
+    if (loggedUser == null) return 1;
+    await serviceLocator<AuthenticationService>()
+        .setLoggedInUser(loggedUser, cache: false);
+    return 0;
+  }
+
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
-      future: serviceLocator.allReady(),
+      future: startService(),
       builder: (BuildContext context, AsyncSnapshot snapshot) {
         if (snapshot.hasData) {
           return MaterialApp(
             title: F.title,
+            debugShowCheckedModeBanner: false,
             localizationsDelegates: AppLocalizations.localizationsDelegates,
             supportedLocales: AppLocalizations.supportedLocales,
             theme: ThemeData(
@@ -99,7 +117,7 @@ class App extends StatelessWidget {
                       fontSize: 10,
                       fontWeight: FontWeight.w500),
                 )),
-            home: const Scaffold(
+            home: Scaffold(
               body: Center(
                 child: SplashScreenPage(),
               ),

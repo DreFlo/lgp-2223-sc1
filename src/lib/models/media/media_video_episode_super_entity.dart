@@ -118,15 +118,15 @@ class MediaVideoEpisodeSuperEntity extends Media {
   }
 
   MediaVideoEpisodeSuperEntity.fromJson(Map<String, dynamic> json)
-      : duration = json['duration'],
-        number = json['number'],
+      : duration = json['duration'] ?? 0,
+        number = json['number'] ?? 0,
         seasonId = json['seasonId'],
         tmdbId = json['tmdbId'],
         super(
             id: json['id'],
             name: json['name'],
             description: json['description'],
-            linkImage: json['linkImage'],
+            linkImage: json['linkImage'] ?? '',
             status: json['status'],
             favorite: json['favorite'],
             genres: json['genres'],

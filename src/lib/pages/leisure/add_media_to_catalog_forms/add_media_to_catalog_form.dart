@@ -3,6 +3,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:src/models/media/media.dart';
 import 'package:src/themes/colors.dart';
 import 'package:src/utils/enums.dart';
+import 'package:src/utils/gamification/game_logic.dart';
 
 abstract class AddMediaToCatalogForm<T extends Media> extends StatefulWidget {
   final String startDate, endDate;
@@ -31,6 +32,7 @@ abstract class AddMediaToCatalogFormState<T extends Media>
     extends State<AddMediaToCatalogForm<T>> {
   late String startDate, endDate;
   late Status status;
+  bool isLoading = false;
 
   @override
   void initState() {
@@ -39,6 +41,10 @@ abstract class AddMediaToCatalogFormState<T extends Media>
     status = widget.status;
 
     super.initState();
+  }
+
+  callBadgeWidget() {
+    unlockBadgeForUser(3, context);
   }
 
   @override
@@ -276,7 +282,17 @@ abstract class AddMediaToCatalogFormState<T extends Media>
           padding: const EdgeInsets.symmetric(horizontal: 18),
           child: ElevatedButton(
             onPressed: () async {
+              setState(() {
+                isLoading = true;
+              });
+
               int mediaId = await storeMediaInDatabase(status);
+
+              bool badge = await insertLogAndCheckStreak();
+              if (badge) {
+                //show badge
+                callBadgeWidget(); //streak
+              }
 
               widget.setMediaId(mediaId);
 
@@ -286,6 +302,10 @@ abstract class AddMediaToCatalogFormState<T extends Media>
               if (status == Status.done) {
                 widget.showReviewForm();
               }
+
+              setState(() {
+                isLoading = false;
+              });
             },
             style: ElevatedButton.styleFrom(
               minimumSize: Size(MediaQuery.of(context).size.width * 0.95, 55),
@@ -294,8 +314,12 @@ abstract class AddMediaToCatalogFormState<T extends Media>
                 borderRadius: BorderRadius.circular(25.0),
               ),
             ),
-            child: Text(AppLocalizations.of(context).save,
-                style: Theme.of(context).textTheme.headlineSmall),
+            child: isLoading
+                ? const CircularProgressIndicator() // Display circular progress indicator if loading
+                : Text(
+                    AppLocalizations.of(context).save,
+                    style: Theme.of(context).textTheme.headlineSmall,
+                  ),
           )),
     ]);
   }

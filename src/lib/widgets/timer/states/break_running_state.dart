@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:src/notifications/local_notifications_service.dart';
+import 'package:src/services/local_notifications_service.dart';
 import 'package:src/utils/service_locator.dart';
 import 'package:src/widgets/timer/countdown_timer.dart';
 import 'package:src/widgets/timer/outlined_button.dart';
@@ -63,8 +63,9 @@ class BreakRunningState extends TimerState {
       timer?.cancel();
     });
     tracker.incrementSession();
-    serviceLocator<LocalNotificationService>()
-        .display('It\'s time to FOCUS! Emil believes in you!');
+    serviceLocator<LocalNotificationService>().display(
+        AppLocalizations.of(context).time_to_focus,
+        AppLocalizations.of(context).emil_believes);
     changeState(FocusPausedState(
         timer: timer,
         settings: settings,

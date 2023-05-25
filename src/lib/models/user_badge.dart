@@ -1,6 +1,6 @@
 import 'package:floor/floor.dart';
 import 'package:src/models/user.dart';
-import 'package:src/models/badge.dart';
+import 'package:src/models/badges.dart';
 
 @Entity(tableName: 'user_badge', primaryKeys: [
   'user_id',
@@ -16,7 +16,7 @@ import 'package:src/models/badge.dart';
   ForeignKey(
     childColumns: ['badge_id'],
     parentColumns: ['id'],
-    entity: Badge,
+    entity: Badges,
     onDelete: ForeignKeyAction.cascade,
     onUpdate: ForeignKeyAction.restrict,
   )

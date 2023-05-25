@@ -8,6 +8,7 @@ import 'package:src/models/student/subject.dart';
 import 'package:src/models/student/evaluation.dart';
 import 'package:src/themes/colors.dart';
 import 'package:src/utils/enums.dart';
+import 'package:src/utils/gamification/game_logic.dart';
 import 'package:src/utils/service_locator.dart';
 import 'package:src/widgets/tasks/evaluation_bar.dart';
 import 'package:src/widgets/tasks/evaluation_form.dart';
@@ -306,7 +307,7 @@ class _SubjectFormState extends State<SubjectForm> {
                             id: -1,
                             name: 'None',
                             type: InstitutionType.other,
-                            userId: 1));
+                            userId: 0));
                     return DropdownButton<Institution>(
                         key: const Key('institutionField'),
                         isExpanded: true,
@@ -416,6 +417,12 @@ class _SubjectFormState extends State<SubjectForm> {
         Navigator.pop(context);
       }
     }
+
+    bool badge = await insertLogAndCheckStreak();
+    if (badge) {
+      //show badge
+      callBadgeWidget(); //streak
+    }
   }
 
   List<Widget> getEvaluations() {
@@ -500,8 +507,11 @@ class _SubjectFormState extends State<SubjectForm> {
   }
 
   showDeleteConfirmation(BuildContext context) {
-    Widget cancelButton = TextButton(
+    Widget cancelButton = ElevatedButton(
       key: const Key('cancelDeleteSubjectButton'),
+      style: ElevatedButton.styleFrom(
+        backgroundColor: primaryColor,
+      ),
       child: Text(AppLocalizations.of(context).cancel,
           style: const TextStyle(
               color: Colors.white, fontSize: 16, fontWeight: FontWeight.w600),
@@ -511,8 +521,11 @@ class _SubjectFormState extends State<SubjectForm> {
       },
     );
 
-    Widget deleteButton = TextButton(
+    Widget deleteButton = ElevatedButton(
       key: const Key('deleteSubjectConfirmationButton'),
+      style: ElevatedButton.styleFrom(
+        backgroundColor: Colors.red[600],
+      ),
       child: Text(AppLocalizations.of(context).delete,
           style: const TextStyle(
               color: Colors.white, fontSize: 16, fontWeight: FontWeight.w600),
@@ -529,6 +542,12 @@ class _SubjectFormState extends State<SubjectForm> {
           Navigator.pop(context);
         }
 
+        bool badge = await insertLogAndCheckStreak();
+        if (badge) {
+          //show badge
+          callBadgeWidget(); //streak
+        }
+
         if (widget.callback != null) {
           widget.callback!();
         }
@@ -536,19 +555,24 @@ class _SubjectFormState extends State<SubjectForm> {
     );
 
     AlertDialog alert = AlertDialog(
+      elevation: 0,
       title: Text(AppLocalizations.of(context).delete_subject,
           style: const TextStyle(
               color: Colors.white, fontSize: 20, fontWeight: FontWeight.w600),
           textAlign: TextAlign.center),
       content: Text(AppLocalizations.of(context).delete_subject_message,
           style: const TextStyle(
-              color: Colors.white, fontSize: 14, fontWeight: FontWeight.w600),
+              color: Colors.white, fontSize: 14, fontWeight: FontWeight.normal),
           textAlign: TextAlign.center),
+      actionsPadding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
       actions: [
         cancelButton,
         deleteButton,
       ],
-      backgroundColor: primaryColor,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(30),
+      ),
+      backgroundColor: modalBackground,
     );
 
     showDialog(
@@ -605,6 +629,12 @@ class _SubjectFormState extends State<SubjectForm> {
           .deleteStudentEvaluation(evaluation);
     }
 
+    bool badge = await insertLogAndCheckStreak();
+    if (badge) {
+      //show badge
+      callBadgeWidget(); //streak
+    }
+
     setState(() {
       evaluations.remove(evaluation);
     });
@@ -612,12 +642,16 @@ class _SubjectFormState extends State<SubjectForm> {
 
   showEvaluationForm() {
     AlertDialog alert = AlertDialog(
+      elevation: 0,
       title: Text(AppLocalizations.of(context).add_evaluation,
           style: const TextStyle(
-              color: Colors.white, fontSize: 20, fontWeight: FontWeight.w600),
+              color: Colors.white, fontSize: 20, fontWeight: FontWeight.normal),
           textAlign: TextAlign.center),
-      backgroundColor: modalDarkBackground,
+      backgroundColor: modalBackground,
       content: EvaluationForm(subjectId: widget.id, callback: addEvaluation),
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(30),
+      ),
     );
 
     showDialog(
@@ -626,5 +660,9 @@ class _SubjectFormState extends State<SubjectForm> {
         return alert;
       },
     );
+  }
+
+  callBadgeWidget() {
+    unlockBadgeForUser(3, context); //streak
   }
 }

@@ -15,6 +15,7 @@ import 'package:src/themes/colors.dart';
 import 'package:src/utils/date_formatter.dart';
 import 'dart:math' as Math;
 import 'package:src/utils/enums.dart';
+import 'package:src/utils/gamification/game_logic.dart';
 import 'package:src/utils/service_locator.dart';
 import 'package:src/widgets/error_text.dart';
 import 'package:src/widgets/tasks/task_bar.dart';
@@ -51,7 +52,7 @@ class _ProjectFormState extends State<ProjectForm> {
   late bool init = false;
 
   Institution institutionNone =
-      Institution(id: -1, name: 'None', type: InstitutionType.other, userId: 1);
+      Institution(id: -1, name: 'None', type: InstitutionType.other, userId: 0);
   Subject subjectNone = Subject(
     id: -1,
     name: 'None',
@@ -207,6 +208,12 @@ class _ProjectFormState extends State<ProjectForm> {
     if (context.mounted) {
       Navigator.pop(context);
     }
+
+    bool badge = await insertLogAndCheckStreak();
+    if (badge) {
+      //show badge
+      callBadgeWidget(); //streak
+    }
   }
 
   delete(BuildContext context) async {
@@ -215,6 +222,12 @@ class _ProjectFormState extends State<ProjectForm> {
           .findTaskGroupById(id!)
           .first as TaskGroup;
       await serviceLocator<TaskGroupDao>().deleteTaskGroup(taskGroup);
+    }
+
+    bool badge = await insertLogAndCheckStreak();
+    if (badge) {
+      //show badge
+      callBadgeWidget(); //streak
     }
 
     if (widget.deleteCallback != null) {
@@ -294,7 +307,6 @@ class _ProjectFormState extends State<ProjectForm> {
                     const SizedBox(height: 30),
 
                     // Description
-                    const SizedBox(height: 7.5),
                     ...getDescription(),
                     const SizedBox(height: 30),
                     getAddTask(context),
@@ -822,12 +834,23 @@ class _ProjectFormState extends State<ProjectForm> {
             },
           ))
     ]);
+
     bool isError = errors.containsKey('description');
     if (!isError) {
-      return [descriptionWidget];
+      return [
+        descriptionLabelWidget,
+        const SizedBox(height: 7.5),
+        descriptionWidget
+      ];
     }
+
     Widget errorWidget = ErrorText(text: errors['description']!);
-    return [descriptionLabelWidget, descriptionWidget, errorWidget];
+    return [
+      descriptionLabelWidget,
+      const SizedBox(height: 7.5),
+      descriptionWidget,
+      errorWidget
+    ];
   }
 
   Row getAddTask(BuildContext context) {
@@ -897,6 +920,8 @@ class _ProjectFormState extends State<ProjectForm> {
           deleteTask: deleteTask(tasks[i]),
           taskGroupId: id,
         ));
+
+        taskList.add(const SizedBox(height: 10));
       }
     }
 
@@ -957,8 +982,11 @@ class _ProjectFormState extends State<ProjectForm> {
   }
 
   showDeleteConfirmation(BuildContext context) {
-    Widget cancelButton = TextButton(
+    Widget cancelButton = ElevatedButton(
       key: const Key('cancelConfirmationButton'),
+      style: ElevatedButton.styleFrom(
+        backgroundColor: primaryColor,
+      ),
       child: Text(AppLocalizations.of(context).cancel,
           style: const TextStyle(
               color: Colors.white, fontSize: 16, fontWeight: FontWeight.w600),
@@ -968,8 +996,11 @@ class _ProjectFormState extends State<ProjectForm> {
       },
     );
 
-    Widget deleteButton = TextButton(
+    Widget deleteButton = ElevatedButton(
       key: const Key('deleteConfirmationButton'),
+      style: ElevatedButton.styleFrom(
+        backgroundColor: Colors.red[600],
+      ),
       child: Text(AppLocalizations.of(context).delete,
           style: const TextStyle(
               color: Colors.white, fontSize: 16, fontWeight: FontWeight.w600),
@@ -980,19 +1011,24 @@ class _ProjectFormState extends State<ProjectForm> {
     );
 
     AlertDialog alert = AlertDialog(
+      elevation: 0,
       title: Text(AppLocalizations.of(context).delete_task_group,
           style: const TextStyle(
               color: Colors.white, fontSize: 20, fontWeight: FontWeight.w600),
           textAlign: TextAlign.center),
       content: Text(AppLocalizations.of(context).delete_task_group_message,
           style: const TextStyle(
-              color: Colors.white, fontSize: 14, fontWeight: FontWeight.w600),
+              color: Colors.white, fontSize: 14, fontWeight: FontWeight.normal),
           textAlign: TextAlign.center),
+      actionsPadding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
       actions: [
         cancelButton,
         deleteButton,
       ],
-      backgroundColor: primaryColor,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(30),
+      ),
+      backgroundColor: modalBackground,
     );
 
     showDialog(
@@ -1080,5 +1116,9 @@ class _ProjectFormState extends State<ProjectForm> {
     if (widget.editTasksCallback != null) {
       widget.editTasksCallback!(tasks);
     }
+  }
+
+  callBadgeWidget() {
+    unlockBadgeForUser(3, context);
   }
 }

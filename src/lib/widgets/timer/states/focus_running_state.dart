@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:src/notifications/local_notifications_service.dart';
+import 'package:src/services/local_notifications_service.dart';
 import 'package:src/utils/service_locator.dart';
 import 'package:src/utils/gamification/game_logic.dart';
 import 'package:src/widgets/timer/countdown_timer.dart';
@@ -61,8 +61,9 @@ class FocusRunningState extends TimerState {
   @override
   void onTimeUp() {
     if (tracker.currentSession < settings.sessions) {
-      serviceLocator<LocalNotificationService>()
-          .display('It\'s BREAK time! Congrats, Emil is proud 🎉');
+      serviceLocator<LocalNotificationService>().display(
+          AppLocalizations.of(context).break_time,
+          AppLocalizations.of(context).emil_is_proud);
       if (tracker.currentSession != 1) {
         getPomodoroXP(settings.focusTime, tracker.currentSession,
             settings.sessions, settings.shortBreak, context, false);

@@ -1,11 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
+import 'package:src/services/authentication_service.dart';
+import 'package:src/daos/log_dao.dart';
 import 'package:src/daos/student/task_dao.dart';
 import 'package:src/daos/timeslot/task_student_timeslot_dao.dart';
 import 'package:src/daos/timeslot/timeslot_dao.dart';
+import 'package:src/daos/user_badge_dao.dart';
 import 'package:src/models/student/task.dart';
 import 'package:src/models/timeslot/timeslot.dart';
+import 'package:src/models/user.dart';
+import 'package:src/models/user_badge.dart';
 import 'package:src/pages/events/event_form.dart';
 import 'package:src/utils/enums.dart';
 import 'package:src/utils/formatters.dart';
@@ -76,7 +81,33 @@ void main() {
     await serviceLocator.reset();
   });
 
+  loadBadgesInfo() {
+    User user = User(
+        id: 1,
+        name: 'name',
+        email: 'email',
+        password: 'password',
+        level: 1,
+        imagePath: '',
+        xp: 0);
+    final mockAuthenticationService =
+        serviceLocator.get<AuthenticationService>();
+    when(mockAuthenticationService.getLoggedInUser()).thenAnswer((_) => user);
+    final mockUserBadgeDao = serviceLocator.get<UserBadgeDao>();
+    when(mockUserBadgeDao.findUserBadgeByIds(user.id!, 1))
+        .thenAnswer((_) async => UserBadge(userId: 0, badgeId: 0));
+    DateTime today = DateTime(DateTime.now().year, DateTime.now().month,
+        DateTime.now().day, 0, 0, 0, 0, 0);
+    DateTime end = DateTime(DateTime.now().year, DateTime.now().month,
+        DateTime.now().day, 23, 59, 59, 59, 59);
+
+    final mockLogDao = serviceLocator.get<LogDao>();
+    when(mockLogDao.countLogsByDate(today, end)).thenAnswer((_) async => 1);
+    when(mockLogDao.countLogs()).thenAnswer((_) async => 5);
+  }
+
   saveEvent(WidgetTester widgetTester) async {
+    loadBadgesInfo();
     Finder saveButton = find.byKey(const Key('saveEventButton'));
     Finder scroll = find.byType(Scrollable).last;
     await widgetTester.scrollUntilVisible(saveButton, 100, scrollable: scroll);
@@ -87,6 +118,7 @@ void main() {
 
   testWidgets('Create event with incorrect fields test',
       (WidgetTester widgetTester) async {
+    loadBadgesInfo();
     final mockTaskDao = serviceLocator.get<TaskDao>();
     when(mockTaskDao.findTasksActivities()).thenAnswer((_) async => []);
 
@@ -103,6 +135,7 @@ void main() {
   });
 
   testWidgets('Create event test', (WidgetTester widgetTester) async {
+    loadBadgesInfo();
     final mockTaskDao = serviceLocator.get<TaskDao>();
     when(mockTaskDao.findTasksActivities()).thenAnswer((_) async {
       return tasks;
@@ -140,6 +173,7 @@ void main() {
 
   testWidgets('Load correct event information test',
       (WidgetTester widgetTester) async {
+    loadBadgesInfo();
     final mockEventDao = serviceLocator.get<TimeslotDao>();
     when(mockEventDao.findTimeslotById(1))
         .thenAnswer((_) => Stream.value(timeslot));
@@ -156,6 +190,7 @@ void main() {
 
   testWidgets('Edit Event test - atomic properties',
       (WidgetTester widgetTester) async {
+    loadBadgesInfo();
     final mockTaskStudentTimeslotDao =
         serviceLocator.get<TaskStudentTimeslotDao>();
     when(mockTaskStudentTimeslotDao.findTaskByStudentTimeslotId(1))
@@ -192,6 +227,7 @@ void main() {
 
   testWidgets('Edit Event test - remove tasks',
       (WidgetTester widgetTester) async {
+    loadBadgesInfo();
     final mockTaskStudentTimeslotDao =
         serviceLocator.get<TaskStudentTimeslotDao>();
     when(mockTaskStudentTimeslotDao.findTaskByStudentTimeslotId(1))
@@ -219,6 +255,7 @@ void main() {
   });
 
   testWidgets('Delete subject test', (WidgetTester widgetTester) async {
+    loadBadgesInfo();
     final mockEventDao = serviceLocator.get<TimeslotDao>();
     when(mockEventDao.findTimeslotById(1))
         .thenAnswer((_) => Stream.value(timeslot));

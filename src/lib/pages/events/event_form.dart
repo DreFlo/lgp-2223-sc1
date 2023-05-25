@@ -12,11 +12,12 @@ import 'package:src/models/timeslot/task_student_timeslot.dart';
 import 'package:src/models/timeslot/timeslot.dart';
 import 'package:src/models/timeslot/timeslot_media_timeslot_super_entity.dart';
 import 'package:src/models/timeslot/timeslot_student_timeslot_super_entity.dart';
-import 'package:src/notifications/local_notifications_service.dart';
-import 'package:src/settings/settings_globals.dart';
+import 'package:src/services/authentication_service.dart';
+import 'package:src/services/local_notifications_service.dart';
 import 'package:src/themes/colors.dart';
 import 'package:src/utils/enums.dart';
 import 'package:src/utils/formatters.dart';
+import 'package:src/utils/gamification/game_logic.dart';
 import 'package:src/utils/service_locator.dart';
 import 'package:src/utils/validators.dart';
 import 'package:src/widgets/events/buttons/delete_button.dart';
@@ -170,29 +171,26 @@ class _EventFormState extends State<EventForm> {
   }
 
   TimeslotMediaTimeslotSuperEntity getMediaTimeslot() {
-    // TODO(eventos): correct xp formula and get user logged id
     return TimeslotMediaTimeslotSuperEntity(
-      id: widget.id,
-      title: titleController.text,
-      description: descriptionController.text,
-      startDateTime: startDate,
-      endDateTime: endDate,
-      xpMultiplier: 2,
-      userId: 1,
-      finished: false,
-    );
+        id: widget.id,
+        title: titleController.text,
+        description: descriptionController.text,
+        startDateTime: startDate,
+        endDateTime: endDate,
+        xpMultiplier: 0,
+        userId: serviceLocator<AuthenticationService>().getLoggedInUserId(),
+        finished: false);
   }
 
   TimeslotStudentTimeslotSuperEntity getStudentTimeslot() {
-    // TODO(eventos): correct xp formula and get user logged id
     return TimeslotStudentTimeslotSuperEntity(
       id: widget.id,
       title: titleController.text,
       description: descriptionController.text,
       startDateTime: startDate,
       endDateTime: endDate,
-      xpMultiplier: 2,
-      userId: 1,
+      userId: serviceLocator<AuthenticationService>().getLoggedInUserId(),
+      xpMultiplier: 0,
       finished: false,
     );
   }
@@ -213,13 +211,6 @@ class _EventFormState extends State<EventForm> {
 
     if (widget.callback != null) {
       widget.callback!();
-    }
-
-    if (notifications == false) {
-      if (context.mounted) {
-        Navigator.pop(context);
-      }
-      return;
     }
 
     // To test notification scheduling change schedule time
@@ -284,6 +275,12 @@ class _EventFormState extends State<EventForm> {
       await serviceLocator<MediaMediaTimeslotDao>()
           .insertMediaMediaTimeslots(mediaMediaTimeslots);
     }
+
+    bool badge = await insertLogAndCheckStreak();
+    if (badge) {
+      //show badge
+      callBadgeWidget();
+    }
   }
 
   Future<void> saveStudentEvent() async {
@@ -311,6 +308,12 @@ class _EventFormState extends State<EventForm> {
       await serviceLocator<TaskStudentTimeslotDao>()
           .insertTaskStudentTimeslots(taskStudentTimeslots);
     }
+
+    bool badge = await insertLogAndCheckStreak();
+    if (badge) {
+      //show badge
+      callBadgeWidget();
+    }
   }
 
   void onDeleteCallback() async {
@@ -336,6 +339,12 @@ class _EventFormState extends State<EventForm> {
     TimeslotMediaTimeslotSuperEntity mediaTimeslot = getMediaTimeslot();
     await serviceLocator<TimeslotMediaTimeslotSuperDao>()
         .deleteTimeslotMediaTimeslotSuperEntity(mediaTimeslot);
+
+    bool badge = await insertLogAndCheckStreak();
+    if (badge) {
+      //show badge
+      callBadgeWidget(); //streak
+    }
   }
 
   Future<void> deleteStudentEvent() async {
@@ -345,6 +354,20 @@ class _EventFormState extends State<EventForm> {
     TimeslotStudentTimeslotSuperEntity studentTimeslot = getStudentTimeslot();
     await serviceLocator<TimeslotStudentTimeslotSuperDao>()
         .deleteTimeslotStudentTimeslotSuperEntity(studentTimeslot);
+
+    bool badge = await insertLogAndCheckStreak();
+    if (badge) {
+      //show badge
+      callBadgeWidget(); //streak
+    }
+  }
+
+  callBadgeWidget() {
+    unlockBadgeForUser(3, context);
+
+    if (context.mounted) {
+      Navigator.pop(context);
+    }
   }
 
   @override
@@ -360,21 +383,25 @@ class _EventFormState extends State<EventForm> {
                 icon: Icons.event,
                 scrollController: widget.scrollController,
                 children: [
-                  Row(crossAxisAlignment: CrossAxisAlignment.center, children: [
-                    const SizedBox(width: 7.5),
-                    ModuleButton(
-                      buttonKey: buttonKey,
-                      moduleColor: _moduleColor,
-                      setModuleColor: setModuleColor,
-                      clearActivities: clearActivities,
-                      disabled: widget.id != null,
-                    ),
-                    const SizedBox(width: 15),
-                    EditTitle(
-                        key: const Key('titleField'),
-                        titleController: titleController,
-                        errors: errors)
-                  ]),
+                  Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 10),
+                      child: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            ModuleButton(
+                              buttonKey: buttonKey,
+                              moduleColor: _moduleColor,
+                              setModuleColor: setModuleColor,
+                              clearActivities: clearActivities,
+                              disabled: widget.id != null,
+                            ),
+                            const VerticalDivider(),
+                            EditTitle(
+                                key: const Key('titleField'),
+                                titleController: titleController,
+                                errors: errors)
+                          ])),
                   const SizedBox(height: 30),
                   StartDatePicker(
                       startDate: startDate,

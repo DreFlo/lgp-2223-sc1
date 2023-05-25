@@ -4,12 +4,17 @@ import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:src/animation_test/main.dart';
 import 'package:src/daos/user_dao.dart';
+import 'package:src/models/badges.dart';
 import 'package:src/models/user.dart';
-import 'package:src/notifications/local_notifications_service.dart';
+import 'package:src/services/authentication_service.dart';
+import 'package:src/services/local_notifications_service.dart';
 import 'package:src/pages/auth/landing_page.dart';
 import 'package:src/pages/events/event_form.dart';
+import 'package:src/pages/gamification/badge_alert.dart';
+import 'package:src/pages/gamification/badges_page.dart';
 import 'package:src/pages/tasks/institution_form.dart';
 import 'package:src/pages/tasks/subject_form.dart';
+import 'package:src/themes/colors.dart';
 import 'package:src/utils/service_locator.dart';
 import 'package:src/pages/tasks/project_form.dart';
 import 'package:src/pages/tasks/task_form.dart';
@@ -150,8 +155,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                                 maxChildSize: 0.85,
                                 builder: (context, scrollController) =>
                                     TaskForm(
-                                        scrollController: scrollController,
-                                        id: 1)),
+                                        scrollController: scrollController)),
                           ));
                 }),
             ElevatedButton(
@@ -227,8 +231,9 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
             ElevatedButton(
                 child: Text("notif"),
                 onPressed: () {
-                  serviceLocator<LocalNotificationService>()
-                      .display('Go Study or else \u{1F52A}');
+                  serviceLocator<LocalNotificationService>().display(
+                      AppLocalizations.of(context).go_study,
+                      AppLocalizations.of(context).or_else);
                 }),
             ElevatedButton(
                 child: Text("Event Form"),
@@ -277,9 +282,9 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                                   30),
                           child: DraggableScrollableSheet(
                             expand: false,
-                            initialChildSize: 0.6,
-                            minChildSize: 0.6,
-                            maxChildSize: 0.6,
+                            initialChildSize: 0.7,
+                            minChildSize: 0.7,
+                            maxChildSize: 0.7,
                             builder: (context, scrollController) => TimerForm(
                               scrollController: scrollController,
                             ),
@@ -287,6 +292,46 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                 }),
             ElevatedButton(
                 onPressed: resetAndSeedDatabase, child: Text("Reset Database")),
+            ElevatedButton(
+                onPressed: () {
+                  showDialog(
+                      context: context,
+                      builder: (context) => BadgeAlert(
+                          badge: Badges(
+                              name:
+                                  'Eu Tenho Dois Amores...\n(oh boy, you’d be laughing so hard if you knew this reference)',
+                              colors: "FFFF7B51, FFFF8A00",
+                              description: '7 consecutive days of activity.',
+                              icon: 'FontAwesome.fire',
+                              fact: "Hello!")));
+                },
+                child: Text('badge alert')),
+            ElevatedButton(
+                style: ButtonStyle(
+                    padding: MaterialStateProperty.all(
+                        const EdgeInsets.symmetric(
+                            horizontal: 20, vertical: 15)),
+                    backgroundColor: MaterialStateProperty.all(primaryColor),
+                    shape: MaterialStateProperty.all(
+                        const RoundedRectangleBorder(
+                            borderRadius:
+                                BorderRadius.all(Radius.circular(30))))),
+                onPressed: () {
+                  showModalBottomSheet(
+                      shape: RoundedRectangleBorder(
+                        borderRadius:
+                            BorderRadius.vertical(top: Radius.circular(30.0)),
+                      ),
+                      isScrollControlled: true,
+                      backgroundColor: modalBackground,
+                      context: context,
+                      builder: (builder) => BadgesPage());
+                },
+                child: Text(AppLocalizations.of(context).badges,
+                    style: const TextStyle(
+                        color: Colors.white,
+                        fontSize: 16,
+                        fontWeight: FontWeight.w600))),
             FutureBuilder(
                 key: ValueKey<Object>(redrawObject),
                 future: serviceLocator<UserDao>().findAllUsers(),
@@ -335,6 +380,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                     ),
                   );
                 }),
+            ElevatedButton(onPressed: logoutUser, child: Text("Logout")),
           ],
         ),
       ])),
@@ -344,5 +390,11 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
         child: const Icon(Icons.add),
       ), // This trailing comma makes auto-formatting nicer for build methods.
     );
+  }
+
+  void logoutUser() async {
+    serviceLocator<AuthenticationService>().logoutUser();
+    Navigator.pushReplacement(
+        context, MaterialPageRoute(builder: (context) => LandingPage()));
   }
 }

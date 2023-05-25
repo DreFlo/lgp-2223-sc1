@@ -33,7 +33,6 @@ class _NavigationPageState extends State<NavigationPage> {
 
   void _onItemTapped(int index) {
     if (index == 2) {
-      
       setState(() {
         _showAddNewItemsPage = !_showAddNewItemsPage;
       });
@@ -41,7 +40,7 @@ class _NavigationPageState extends State<NavigationPage> {
       return;
     }
     setState(() {
-      _showAddNewItemsPage = false; 
+      _showAddNewItemsPage = false;
       _currentIndex = index;
       _pageController.jumpToPage(index);
     });
@@ -61,21 +60,24 @@ class _NavigationPageState extends State<NavigationPage> {
         backgroundColor: appBackground,
         body: Stack(
           children: [
-          SizedBox.expand(
-            child: PageView(
-          physics: const NeverScrollableScrollPhysics(),
-          controller: _pageController,
-          onPageChanged: (int index) {
-            setState(() {
-              _currentIndex = index;
-            });
-          },
-          children: pages,
-        )),
-        if (_showAddNewItemsPage) const AddNewItemsPage(),
-        ],
+            SizedBox.expand(
+                child: PageView(
+              physics: const NeverScrollableScrollPhysics(),
+              controller: _pageController,
+              onPageChanged: (int index) {
+                setState(() {
+                  _currentIndex = index;
+                });
+              },
+              children: pages,
+            )),
+            if (_showAddNewItemsPage) const AddNewItemsPage(),
+          ],
         ),
         bottomNavigationBar: MyBottomNavigationBar(
-            selectedIndex: _currentIndex, onItemTapped: _onItemTapped, showingAddItemsPage: _showAddNewItemsPage,));
+          selectedIndex: _currentIndex,
+          onItemTapped: _onItemTapped,
+          showingAddItemsPage: _showAddNewItemsPage,
+        ));
   }
 }

@@ -465,14 +465,45 @@ class _SignUpPageState extends State<SignUpPage>
     }
 
     // Create user
-    await serviceLocator<UserDao>().insertUser(User(
-        name: _name,
-        email: _email,
-        password: password,
-        xp: 0,
-        level: 0,
-        imagePath: ""));
+    try {
+      await serviceLocator<UserDao>().insertUser(User(
+          name: _name,
+          email: _email,
+          password: password,
+          xp: 0,
+          level: 0,
+          imagePath: "assets/images/no_image.jpg"));
+    } catch (e) {
+      if (context.mounted) {
+        showDialog(
+            context: context,
+            builder: (BuildContext context) {
+              Widget confirmButton = TextButton(
+                child: Text(AppLocalizations.of(context).confirm,
+                    style: const TextStyle(
+                        color: Colors.white,
+                        fontSize: 16,
+                        fontWeight: FontWeight.w600),
+                    textAlign: TextAlign.left),
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+              );
 
-    clearAllFields();
+              return AlertDialog(
+                  content: Text(AppLocalizations.of(context).error_signup,
+                      style: const TextStyle(
+                          color: Colors.white,
+                          fontSize: 14,
+                          fontWeight: FontWeight.w600),
+                      textAlign: TextAlign.center),
+                  actions: [confirmButton],
+                  backgroundColor: lightGray);
+            });
+      }
+    } finally {
+      // Clear all fields
+      clearAllFields();
+    }
   }
 }

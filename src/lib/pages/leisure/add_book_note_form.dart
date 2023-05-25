@@ -5,6 +5,7 @@ import 'package:src/models/media/media_book_super_entity.dart';
 import 'package:src/models/notes/note_book_note_super_entity.dart';
 import 'package:src/pages/leisure/finished_media_form.dart';
 import 'package:src/themes/colors.dart';
+import 'package:src/utils/gamification/game_logic.dart';
 import 'package:src/utils/service_locator.dart';
 
 import 'package:src/utils/enums.dart';
@@ -22,6 +23,10 @@ class AddBookNoteForm extends StatefulWidget {
 class _AddBookNoteFormState extends State<AddBookNoteForm> {
   int startPage = 0, endPage = 0;
   final TextEditingController _controller = TextEditingController();
+
+  callBadgeWidget() {
+    unlockBadgeForUser(3, context);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -75,7 +80,7 @@ class _AddBookNoteFormState extends State<AddBookNoteForm> {
                     textAlign: TextAlign.center,
                     decoration: InputDecoration(
                       filled: true,
-                      fillColor: darkTextField,
+                      fillColor: textField,
                       helperStyle: Theme.of(context).textTheme.labelSmall,
                       border: OutlineInputBorder(
                         borderSide: BorderSide.none,
@@ -97,7 +102,7 @@ class _AddBookNoteFormState extends State<AddBookNoteForm> {
                     textAlign: TextAlign.center,
                     decoration: InputDecoration(
                       filled: true,
-                      fillColor: darkTextField,
+                      fillColor: textField,
                       helperStyle: Theme.of(context).textTheme.labelSmall,
                       border: OutlineInputBorder(
                         borderSide: BorderSide.none,
@@ -172,7 +177,7 @@ class _AddBookNoteFormState extends State<AddBookNoteForm> {
                     maxLines: 10,
                     decoration: InputDecoration(
                       filled: true,
-                      fillColor: darkTextField,
+                      fillColor: textField,
                       helperStyle: Theme.of(context).textTheme.labelSmall,
                       border: OutlineInputBorder(
                         borderSide: BorderSide.none,
@@ -195,6 +200,12 @@ class _AddBookNoteFormState extends State<AddBookNoteForm> {
 
                 await serviceLocator<NoteBookNoteSuperDao>()
                     .insertNoteBookNoteSuperEntity(note);
+
+                bool badge = await insertLogAndCheckStreak();
+                if (badge) {
+                  //show badge
+                  callBadgeWidget(); //streak
+                }
 
                 if (widget.refreshStatus != null) {
                   widget.refreshStatus!();

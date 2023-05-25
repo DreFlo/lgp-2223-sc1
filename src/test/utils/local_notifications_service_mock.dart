@@ -1,9 +1,9 @@
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
-import 'package:src/notifications/local_notifications_service.dart';
+import 'package:src/services/local_notifications_service.dart';
 
 class MockLocalNotificationsService extends LocalNotificationService {
   @override
-  Future<void> display(String message) async {
+  Future<void> display(String title, String message) async {
     return Future.value();
   }
 

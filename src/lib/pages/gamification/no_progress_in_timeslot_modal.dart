@@ -32,13 +32,14 @@ class _NoProgressInTimeslotModalState extends State<NoProgressInTimeslotModal> {
       padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 15),
       child: Column(mainAxisSize: MainAxisSize.min, children: [
         Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-          Text(AppLocalizations.of(context).event_no_progress_1,
-              softWrap: true,
-              textAlign: TextAlign.center,
-              style: const TextStyle(
-                  color: Colors.white,
-                  fontSize: 24,
-                  fontWeight: FontWeight.bold)),
+          Expanded(
+              child: Text(AppLocalizations.of(context).event_no_progress_1,
+                  softWrap: true,
+                  textAlign: TextAlign.center,
+                  style: const TextStyle(
+                      color: Colors.white,
+                      fontSize: 24,
+                      fontWeight: FontWeight.bold))),
         ]),
         const SizedBox(height: 5),
         Row(mainAxisAlignment: MainAxisAlignment.center, children: [

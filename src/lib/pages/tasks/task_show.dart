@@ -63,7 +63,7 @@ class _TaskShowState extends State<TaskShow> {
       priority: Priority.high,
       deadline: DateFormatter.day(DateTime.now()));
   Institution institutionNone =
-      Institution(id: -1, name: 'None', type: InstitutionType.other, userId: 1);
+      Institution(id: -1, name: 'None', type: InstitutionType.other, userId: 0);
   Subject subjectNone = Subject(
     id: -1,
     name: 'None',
@@ -155,7 +155,7 @@ class _TaskShowState extends State<TaskShow> {
                     const BorderRadius.vertical(top: Radius.circular(30.0)),
                 child: Scaffold(
                     primary: false,
-                    backgroundColor: modalLightBackground,
+                    backgroundColor: modalBackground,
                     body: SingleChildScrollView(
                       padding: const EdgeInsets.symmetric(horizontal: 24),
                       controller: widget.scrollController,

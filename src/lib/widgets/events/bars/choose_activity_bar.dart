@@ -21,7 +21,9 @@ class _ChooseActivityBarState extends State<ChooseActivityBar> {
       decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(10), color: lightGray),
       child: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-        Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+        Expanded(
+            child:
+                Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
           SizedBox(
               width: MediaQuery.of(context).size.width * 0.7,
               child: Text(widget.activity.title,
@@ -39,7 +41,7 @@ class _ChooseActivityBarState extends State<ChooseActivityBar> {
                     fontSize: 16,
                     fontWeight: FontWeight.normal)),
           )
-        ]),
+        ])),
         Column(
           children: [
             Row(

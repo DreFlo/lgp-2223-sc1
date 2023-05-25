@@ -264,6 +264,54 @@ final addConstraintsCallback = Callback(
   END;
   ''');
 
+    await database.execute('''
+  CREATE TRIGGER user_unique_email_insert
+  BEFORE INSERT ON user
+  FOR EACH ROW
+  BEGIN
+    SELECT CASE
+      WHEN (SELECT COUNT(*) FROM user WHERE email = NEW.email) > 0 THEN
+        RAISE(ABORT, 'email must be unique')
+    END;
+  END;
+  ''');
+
+    await database.execute('''
+  CREATE TRIGGER user_unique_email_update
+  BEFORE UPDATE ON user
+  FOR EACH ROW
+  BEGIN
+    SELECT CASE
+      WHEN (SELECT COUNT(*) FROM user WHERE email = NEW.email) > 0 AND NEW.email <> OLD.email THEN
+        RAISE(ABORT, 'email must be unique')
+    END;
+  END;
+  ''');
+
+    await database.execute('''
+  CREATE TRIGGER user_password_over_8_characters_insert
+  BEFORE INSERT ON user
+  FOR EACH ROW
+  BEGIN
+    SELECT CASE
+      WHEN LENGTH(NEW.password) < 8 THEN
+        RAISE(ABORT, 'password must be at least 8 characters long')
+    END;
+  END;
+  ''');
+
+    await database.execute('''
+  CREATE TRIGGER user_password_over_8_characters_update
+  BEFORE UPDATE ON user
+  FOR EACH ROW
+  BEGIN
+    SELECT CASE
+      WHEN LENGTH(NEW.password) < 8 THEN
+        RAISE(ABORT, 'password must be at least 8 characters long')
+    END;
+  END;
+  ''');
+
     //await database.execute('COMMIT');
     await database.execute('PRAGMA foreign_keys = ON');
   },

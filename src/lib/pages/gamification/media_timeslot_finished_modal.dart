@@ -89,11 +89,12 @@ class _MediaTimeslotFinishedModalState
         ]),
         const SizedBox(height: 15),
         Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-          Text(
+          Expanded(
+              child: Text(
             AppLocalizations.of(context).event_finished_3,
             style: Theme.of(context).textTheme.displayMedium,
             textAlign: TextAlign.center,
-          )
+          ))
         ]),
         const SizedBox(height: 30),
         SizedBox(
@@ -112,22 +113,22 @@ class _MediaTimeslotFinishedModalState
                     const EdgeInsets.symmetric(vertical: 15, horizontal: 50))),
             onPressed: () {
               List<Media> mediasDone = [];
-              int mediaAlredyDone = 0;
+              int mediaAlreadyDone = 0;
               for (TimeslotMediaBar m in mediaState) {
-                if (m.taskStatus) {
+                if (m.media.status != Status.done && m.taskStatus) {
                   mediasDone.add(m.media);
                 }
-                if (m.media.status == Status.done) {
-                  mediaAlredyDone++;
+                if (m.media.status == Status.done && m.taskStatus) {
+                  mediaAlreadyDone++;
                 }
               }
 
-              if (mediasDone.isEmpty && mediaAlredyDone == 0) {
+              if (mediasDone.isEmpty && mediaAlreadyDone == 0) {
                 WidgetsBinding.instance.addPostFrameCallback((_) {
                   showDialog(
                       context: context,
                       builder: (context) => Dialog(
-                          backgroundColor: modalLightBackground,
+                          backgroundColor: modalBackground,
                           insetPadding:
                               const EdgeInsets.symmetric(horizontal: 20),
                           shape: RoundedRectangleBorder(
@@ -143,7 +144,7 @@ class _MediaTimeslotFinishedModalState
                   showDialog(
                       context: context,
                       builder: (context) => Dialog(
-                          backgroundColor: modalLightBackground,
+                          backgroundColor: modalBackground,
                           insetPadding:
                               const EdgeInsets.symmetric(horizontal: 20),
                           shape: RoundedRectangleBorder(
@@ -158,7 +159,7 @@ class _MediaTimeslotFinishedModalState
                             ],
                             taskCount: widget.medias.length,
                             finishedTaskCount:
-                                mediasDone.length + mediaAlredyDone,
+                                mediasDone.length + mediaAlreadyDone,
                             mediasDone: mediasDone,
                             mediaTimeslot: widget.timeslot,
                           )));

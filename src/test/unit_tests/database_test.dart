@@ -1,11 +1,13 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:sqflite/sqflite.dart';
-import 'package:src/daos/authentication_dao.dart';
+import 'package:src/services/authentication_service.dart';
 import 'package:src/daos/media/media_series_super_dao.dart';
 import 'package:src/daos/media/media_video_movie_super_dao.dart';
 import 'package:src/daos/media/media_book_super_dao.dart';
 import 'package:src/daos/media/season_dao.dart';
 import 'package:src/daos/timeslot/media_media_timeslot_dao.dart';
+import 'package:src/daos/timeslot/media_timeslot_dao.dart';
+import 'package:src/daos/timeslot/student_timeslot_dao.dart';
 import 'package:src/daos/timeslot/task_student_timeslot_dao.dart';
 import 'package:src/models/media/media_book_super_entity.dart';
 import 'package:src/daos/media/movie_dao.dart';
@@ -69,6 +71,7 @@ import 'package:src/models/timeslot/timeslot_media_timeslot_super_entity.dart';
 import 'package:src/daos/timeslot/timeslot_media_timeslot_super_dao.dart';
 import 'package:src/models/timeslot/timeslot_student_timeslot_super_entity.dart';
 import 'package:src/daos/timeslot/timeslot_student_timeslot_super_dao.dart';
+import 'package:flutter/services.dart';
 
 void main() {
   setUp(() async {
@@ -89,7 +92,7 @@ void main() {
       await serviceLocator<UserDao>().insertUser(User(
           name: 'Emil',
           email: 'emil@gmail.com',
-          password: '1234',
+          password: '12345678',
           xp: 23,
           level: 1,
           imagePath: 'test'));
@@ -265,7 +268,7 @@ void main() {
       await serviceLocator<UserDao>().insertUser(User(
           name: 'Emil',
           email: 'emil@gmail.com',
-          password: '1234',
+          password: '12345678',
           xp: 23,
           level: 1,
           imagePath: 'test'));
@@ -333,7 +336,7 @@ void main() {
       await serviceLocator<UserDao>().insertUser(User(
           name: 'Emil',
           email: 'emil@gmail.com',
-          password: '1234',
+          password: '12345678',
           xp: 23,
           level: 1,
           imagePath: 'test'));
@@ -531,7 +534,7 @@ void main() {
       await serviceLocator<UserDao>().insertUser(User(
           name: 'Emil',
           email: 'emil@gmail.com',
-          password: '1234',
+          password: '12345678',
           xp: 23,
           level: 1,
           imagePath: 'test'));
@@ -580,7 +583,7 @@ void main() {
       await serviceLocator<UserDao>().insertUser(User(
           name: 'Emil',
           email: 'emil@gmail.com',
-          password: '1234',
+          password: '12345678',
           xp: 23,
           level: 1,
           imagePath: 'test'));
@@ -638,7 +641,7 @@ void main() {
       await serviceLocator<UserDao>().insertUser(User(
           name: 'Emil',
           email: 'emil@gmail.com',
-          password: '1234',
+          password: '12345678',
           xp: 23,
           imagePath: 'test',
           level: 1));
@@ -698,7 +701,7 @@ void main() {
       await serviceLocator<UserDao>().insertUser(User(
           name: 'Emil',
           email: 'emil@gmail.com',
-          password: '1234',
+          password: '12345678',
           xp: 23,
           imagePath: 'test',
           level: 1));
@@ -761,26 +764,32 @@ void main() {
     });
   });
 
-  testWidgets('Test AuthenticationDao', (WidgetTester tester) async {
+  testWidgets('Test AuthenticationService', (WidgetTester tester) async {
     await tester.runAsync(() async {
+      const MethodChannel channel =
+          MethodChannel('plugins.flutter.io/path_provider');
+      channel.setMockMethodCallHandler((MethodCall methodCall) async {
+        return ".";
+      });
+
       User user = User(
           name: 'Emil',
           email: 'emil@gmail.com',
-          password: '1234',
+          password: '12345678',
           xp: 23,
           level: 1,
           imagePath: 'test');
 
-      expect(serviceLocator<AuthenticationDao>().isUserLoggedIn(), false);
-      expect(serviceLocator<AuthenticationDao>().getLoggedInUser(), null);
+      expect(serviceLocator<AuthenticationService>().isUserLoggedIn(), false);
+      expect(serviceLocator<AuthenticationService>().getLoggedInUser(), null);
 
-      serviceLocator<AuthenticationDao>().setLoggedInUser(user);
-      expect(serviceLocator<AuthenticationDao>().isUserLoggedIn(), true);
-      expect(serviceLocator<AuthenticationDao>().getLoggedInUser(), user);
+      await serviceLocator<AuthenticationService>().setLoggedInUser(user);
+      expect(serviceLocator<AuthenticationService>().isUserLoggedIn(), true);
+      expect(serviceLocator<AuthenticationService>().getLoggedInUser(), user);
 
-      serviceLocator<AuthenticationDao>().logoutUser();
-      expect(serviceLocator<AuthenticationDao>().isUserLoggedIn(), false);
-      expect(serviceLocator<AuthenticationDao>().getLoggedInUser(), null);
+      serviceLocator<AuthenticationService>().logoutUser();
+      expect(serviceLocator<AuthenticationService>().isUserLoggedIn(), false);
+      expect(serviceLocator<AuthenticationService>().getLoggedInUser(), null);
     });
   });
 
@@ -794,7 +803,7 @@ void main() {
       await serviceLocator<UserDao>().insertUser(User(
           name: 'Emil',
           email: 'emil@gmail.com',
-          password: '1234',
+          password: '12345678',
           xp: 23,
           level: 1,
           imagePath: 'test'));
@@ -1020,7 +1029,7 @@ void main() {
       await serviceLocator<UserDao>().insertUser(User(
           name: 'Emil',
           email: 'emil@gmail.com',
-          password: '1234',
+          password: '12345678',
           xp: 23,
           level: 1,
           imagePath: 'test'));
@@ -1058,7 +1067,7 @@ void main() {
       await serviceLocator<UserDao>().insertUser(User(
           name: 'Emil',
           email: 'emil@gmail.com',
-          password: '1234',
+          password: '12345678',
           xp: 23,
           level: 1,
           imagePath: 'test'));
@@ -1097,6 +1106,850 @@ void main() {
 
       expect(() => serviceLocator<TaskDao>().insertTask(task),
           throwsA(isA<DatabaseException>()));
+    });
+  });
+
+  testWidgets('Test Trigger user_unique_email_insert',
+      (WidgetTester widgetTester) async {
+    await widgetTester.runAsync(() async {
+      User user = User(
+          name: 'Emil',
+          email: 'emil@gmail.com',
+          password: '12345678',
+          xp: 23,
+          level: 1,
+          imagePath: 'test');
+
+      await serviceLocator<UserDao>().insertUser(user);
+
+      expect(() => serviceLocator<UserDao>().insertUser(user),
+          throwsA(isA<DatabaseException>()));
+    });
+  });
+
+  testWidgets('Test Trigger user_unique_email_update',
+      (WidgetTester widgetTester) async {
+    await widgetTester.runAsync(() async {
+      User user = User(
+          name: 'Emil',
+          email: 'emil@gmail.com',
+          password: '12345678',
+          xp: 23,
+          level: 1,
+          imagePath: 'test');
+
+      await serviceLocator<UserDao>().insertUser(user);
+
+      User user_2 = User(
+          name: 'Emil 2',
+          email: 'emil2@gmail.com',
+          password: '12345678',
+          xp: 23,
+          level: 1,
+          imagePath: 'test');
+
+      int id = await serviceLocator<UserDao>().insertUser(user_2);
+
+      user_2 = User(
+          id: id,
+          name: 'Emil 2',
+          email: 'emil@gmail.com',
+          password: '12345678',
+          xp: 23,
+          level: 1,
+          imagePath: 'test');
+
+      expect(() => serviceLocator<UserDao>().updateUser(user_2),
+          throwsA(isA<DatabaseException>()));
+    });
+  });
+
+  testWidgets('Test trigger user_password_over_8_characters_insert',
+      (WidgetTester widgetTester) async {
+    await widgetTester.runAsync(() async {
+      User user = User(
+          name: 'Emil',
+          email: 'emil@gmail.com',
+          password: '1234567',
+          xp: 23,
+          level: 1,
+          imagePath: 'test');
+
+      expect(() => serviceLocator<UserDao>().insertUser(user),
+          throwsA(isA<DatabaseException>()));
+    });
+  });
+
+  testWidgets('Test trigger user_password_over_8_characters_update',
+      (WidgetTester widgetTester) async {
+    await widgetTester.runAsync(() async {
+      User user = User(
+          name: 'Emil',
+          email: 'emil@gmail.com',
+          password: '12345678',
+          xp: 23,
+          level: 1,
+          imagePath: 'test');
+
+      int id = await serviceLocator<UserDao>().insertUser(user);
+
+      user = User(
+          id: id,
+          name: 'Emil',
+          email: 'emil@gmail.com',
+          password: '1234567',
+          xp: 23,
+          level: 1,
+          imagePath: 'test');
+
+      expect(() => serviceLocator<UserDao>().updateUser(user),
+          throwsA(isA<DatabaseException>()));
+    });
+  });
+  // --- DELETE TESTS --- //
+
+  testWidgets('Test Media Book Dao Delete', (WidgetTester tester) async {
+    await tester.runAsync(() async {
+      MediaBookSuperEntity mediaBookSuperEntity = MediaBookSuperEntity(
+        name: 'name',
+        description: 'description',
+        linkImage: 'linkImage',
+        status: Status.goingThrough,
+        favorite: true,
+        genres: 'genres',
+        release: DateTime.now(),
+        xp: 23,
+        participants: 'Me',
+        totalPages: 23,
+      );
+
+      int id = await serviceLocator<MediaBookSuperDao>()
+          .insertMediaBookSuperEntity(mediaBookSuperEntity);
+
+      mediaBookSuperEntity = mediaBookSuperEntity.copyWith(id: id);
+
+      await serviceLocator<MediaBookSuperDao>()
+          .deleteMediaBookSuperEntity(mediaBookSuperEntity);
+
+      List<MediaBookSuperEntity> mediaBookSuperEntities =
+          await serviceLocator<MediaBookSuperDao>().findAllMediaBooks();
+
+      expect(mediaBookSuperEntities.length, 0);
+    });
+  });
+
+  testWidgets('Test Media Video Episode Dao Delete',
+      (WidgetTester tester) async {
+    await tester.runAsync(() async {
+      int seriesId = await serviceLocator<MediaSeriesSuperDao>()
+          .insertMediaSeriesSuperEntity(MediaSeriesSuperEntity(
+              name: 'Series 1',
+              description: 'Series 1',
+              linkImage: 'Series 1',
+              status: Status.nothing,
+              favorite: false,
+              genres: 'Series 1',
+              release: DateTime.now(),
+              xp: 0,
+              participants: "Me",
+              tagline: "Super Cool Test",
+              numberEpisodes: 23,
+              numberSeasons: 2,
+              duration: 30,
+              tmdbId: 1));
+
+      int seasonId = await serviceLocator<SeasonDao>()
+          .insertSeason(Season(id: 1, number: 1, seriesId: seriesId));
+
+      MediaVideoEpisodeSuperEntity mediaVideoEpisodeSuperEntity =
+          MediaVideoEpisodeSuperEntity(
+              name: 'Episode 1',
+              description: 'Episode 1',
+              linkImage: 'Episode 1',
+              status: Status.nothing,
+              favorite: false,
+              genres: 'Episode 1',
+              release: DateTime.now(),
+              xp: 0,
+              duration: 1,
+              number: 1,
+              seasonId: seasonId,
+              participants: 'Me',
+              tmdbId: 1);
+
+      int id = await serviceLocator<MediaVideoEpisodeSuperDao>()
+          .insertMediaVideoEpisodeSuperEntity(mediaVideoEpisodeSuperEntity);
+
+      mediaVideoEpisodeSuperEntity =
+          mediaVideoEpisodeSuperEntity.copyWith(id: id);
+
+      await serviceLocator<MediaVideoEpisodeSuperDao>()
+          .deleteMediaVideoEpisodeSuperEntity(mediaVideoEpisodeSuperEntity);
+
+      List<MediaVideoEpisodeSuperEntity> mediaVideoEpisodeSuperEntities =
+          await serviceLocator<MediaVideoEpisodeSuperDao>()
+              .findAllMediaVideoEpisode();
+
+      expect(mediaVideoEpisodeSuperEntities.length, 0);
+    });
+  });
+
+  testWidgets('Test Book Note Dao Delete', (WidgetTester tester) async {
+    await tester.runAsync(() async {
+      MediaBookSuperEntity mediaBookSuperEntity = MediaBookSuperEntity(
+        name: 'name',
+        description: 'description',
+        linkImage: 'linkImage',
+        status: Status.goingThrough,
+        favorite: true,
+        genres: 'genres',
+        release: DateTime.now(),
+        xp: 23,
+        participants: 'Me',
+        totalPages: 23,
+      );
+
+      int id = await serviceLocator<MediaBookSuperDao>()
+          .insertMediaBookSuperEntity(mediaBookSuperEntity);
+
+      NoteBookNoteSuperEntity noteBookNoteSuperEntity = NoteBookNoteSuperEntity(
+          title: 'title',
+          content: 'content',
+          date: DateTime.now(),
+          startPage: 4,
+          endPage: 5,
+          bookId: id);
+
+      id = await serviceLocator<NoteBookNoteSuperDao>()
+          .insertNoteBookNoteSuperEntity(noteBookNoteSuperEntity);
+
+      noteBookNoteSuperEntity = noteBookNoteSuperEntity.copyWith(id: id);
+
+      await serviceLocator<NoteBookNoteSuperDao>()
+          .deleteNoteBookNoteSuperEntity(noteBookNoteSuperEntity);
+
+      List<BookNote> bookNotes =
+          await serviceLocator<BookNoteDao>().findAllBookNotes();
+
+      expect(bookNotes.length, 0);
+    });
+  });
+
+  testWidgets('Test Episode Note Dao Delete', (WidgetTester tester) async {
+    await tester.runAsync(() async {
+      MediaSeriesSuperEntity mediaSeriesSuperEntity = MediaSeriesSuperEntity(
+          name: 'name',
+          description: 'description',
+          linkImage: 'linkImage',
+          status: Status.goingThrough,
+          favorite: true,
+          genres: 'genres',
+          release: DateTime.now(),
+          xp: 23,
+          participants: "Me",
+          tagline: "Super Cool Test",
+          numberEpisodes: 23,
+          numberSeasons: 2,
+          duration: 30,
+          tmdbId: 1);
+
+      int seriesId = await serviceLocator<MediaSeriesSuperDao>()
+          .insertMediaSeriesSuperEntity(mediaSeriesSuperEntity);
+
+      Season season = Season(
+        number: 1,
+        seriesId: seriesId,
+      );
+
+      int seasonId = await serviceLocator<SeasonDao>().insertSeason(season);
+
+      MediaVideoEpisodeSuperEntity mediaVideoEpisodeSuperEntity =
+          MediaVideoEpisodeSuperEntity(
+              name: 'name',
+              description: 'description',
+              linkImage: 'linkImage',
+              status: Status.goingThrough,
+              favorite: true,
+              genres: 'genres',
+              release: DateTime.now(),
+              xp: 23,
+              duration: 23,
+              number: 1,
+              seasonId: seasonId,
+              participants: 'Me',
+              tmdbId: 1);
+
+      int id = await serviceLocator<MediaVideoEpisodeSuperDao>()
+          .insertMediaVideoEpisodeSuperEntity(mediaVideoEpisodeSuperEntity);
+
+      NoteEpisodeNoteSuperEntity noteEpisodeNoteSuperEntity =
+          NoteEpisodeNoteSuperEntity(
+              title: 'title',
+              content: 'content',
+              date: DateTime.now(),
+              episodeId: id);
+
+      id = await serviceLocator<NoteEpisodeNoteSuperDao>()
+          .insertNoteEpisodeNoteSuperEntity(noteEpisodeNoteSuperEntity);
+
+      noteEpisodeNoteSuperEntity = noteEpisodeNoteSuperEntity.copyWith(id: id);
+
+      await serviceLocator<NoteEpisodeNoteSuperDao>()
+          .deleteNoteEpisodeNoteSuperEntity(noteEpisodeNoteSuperEntity);
+
+      List<EpisodeNote> episodeNotes =
+          await serviceLocator<EpisodeNoteDao>().findAllEpisodeNotes();
+
+      expect(episodeNotes.length, 0);
+    });
+  });
+
+  testWidgets('Test Subject Note Dao Delete', (WidgetTester tester) async {
+    await tester.runAsync(() async {
+      int userId = await serviceLocator<UserDao>().insertUser(User(
+          name: 'Emil',
+          email: 'emil@gmail.com',
+          password: '12345678',
+          xp: 23,
+          level: 1,
+          imagePath: 'test'));
+
+      int institutionId = await serviceLocator<InstitutionDao>()
+          .insertInstitution(Institution(
+              name: 'name',
+              picture: 'picture',
+              type: InstitutionType.education,
+              userId: userId));
+
+      int subjectId = await serviceLocator<SubjectDao>().insertSubject(Subject(
+        name: 'name',
+        institutionId: institutionId,
+        acronym: 'acronym',
+      ));
+
+      NoteSubjectNoteSuperEntity noteSubjectNoteSuperEntity =
+          NoteSubjectNoteSuperEntity(
+              title: 'Note 1',
+              content: 'Content 1',
+              date: DateTime.now(),
+              subjectId: subjectId);
+
+      int id = await serviceLocator<NoteSubjectNoteSuperDao>()
+          .insertNoteSubjectNoteSuperEntity(noteSubjectNoteSuperEntity);
+
+      noteSubjectNoteSuperEntity = noteSubjectNoteSuperEntity.copyWith(id: id);
+
+      await serviceLocator<NoteSubjectNoteSuperDao>()
+          .deleteNoteSubjectNoteSuperEntity(noteSubjectNoteSuperEntity);
+
+      List<SubjectNote> subjectNotes =
+          await serviceLocator<SubjectNoteDao>().findAllSubjectNotes();
+
+      expect(subjectNotes.length, 0);
+    });
+  });
+
+  testWidgets('Test Task Note Dao Delete', (WidgetTester tester) async {
+    await tester.runAsync(() async {
+      await serviceLocator<UserDao>().insertUser(User(
+          name: 'Emil',
+          email: 'emil@gmail.com',
+          password: '12345678',
+          xp: 23,
+          level: 1,
+          imagePath: 'test'));
+
+      await serviceLocator<InstitutionDao>().insertInstitution(Institution(
+          name: 'name',
+          picture: 'picture',
+          type: InstitutionType.education,
+          userId: 1));
+
+      await serviceLocator<SubjectDao>().insertSubject(Subject(
+        name: 'name',
+        institutionId: 1,
+        acronym: 'acronym',
+      ));
+
+      await serviceLocator<TaskGroupDao>().insertTaskGroup(TaskGroup(
+        name: 'name',
+        description: 'description',
+        priority: enums.Priority.high,
+        deadline: DateTime.now(),
+      ));
+
+      await serviceLocator<TaskDao>().insertTask(Task(
+          name: 'name',
+          description: 'description',
+          priority: enums.Priority.high,
+          deadline: DateTime.now().subtract(const Duration(days: 1)),
+          taskGroupId: 1,
+          subjectId: 1,
+          xp: 20,
+          finished: false));
+
+      NoteTaskNoteSuperEntity noteTaskNoteSuperEntity = NoteTaskNoteSuperEntity(
+          title: 'Note 1',
+          content: 'Content 1',
+          date: DateTime.now(),
+          taskId: 1);
+
+      int id = await serviceLocator<NoteTaskNoteSuperDao>()
+          .insertNoteTaskNoteSuperEntity(noteTaskNoteSuperEntity);
+
+      noteTaskNoteSuperEntity = noteTaskNoteSuperEntity.copyWith(id: id);
+
+      await serviceLocator<NoteTaskNoteSuperDao>()
+          .deleteNoteTaskNoteSuperEntity(noteTaskNoteSuperEntity);
+
+      List<TaskNote> taskNotes =
+          await serviceLocator<TaskNoteDao>().findAllTaskNotes();
+
+      expect(taskNotes.length, 0);
+    });
+  });
+
+  testWidgets('Test Review Cascade Delete', (WidgetTester tester) async {
+    await tester.runAsync(() async {
+      MediaBookSuperEntity mediaBookSuperEntity = MediaBookSuperEntity(
+        name: 'name',
+        description: 'description',
+        linkImage: 'linkImage',
+        status: Status.goingThrough,
+        favorite: true,
+        genres: 'genres',
+        release: DateTime.now(),
+        xp: 23,
+        participants: 'Me',
+        totalPages: 23,
+      );
+
+      int id = await serviceLocator<MediaBookSuperDao>()
+          .insertMediaBookSuperEntity(mediaBookSuperEntity);
+
+      mediaBookSuperEntity = mediaBookSuperEntity.copyWith(id: id);
+
+      Review review = Review(
+          startDate: DateTime.now(),
+          endDate: DateTime.now().add(const Duration(hours: 2)),
+          review: 'Much good',
+          emoji: Reaction.like,
+          mediaId: id);
+
+      await serviceLocator<ReviewDao>().insertReview(review);
+
+      await serviceLocator<MediaBookSuperDao>()
+          .deleteMediaBookSuperEntity(mediaBookSuperEntity);
+
+      List<Review> reviews = await serviceLocator<ReviewDao>().findAllReviews();
+
+      expect(reviews.length, 0);
+    });
+  });
+
+  testWidgets('Test Task Cascade Delete', (WidgetTester tester) async {
+    await tester.runAsync(() async {
+      TaskGroup taskGroup = TaskGroup(
+        name: 'name',
+        description: 'description',
+        priority: enums.Priority.high,
+        deadline: DateTime.now(),
+      );
+
+      int taskGroupId =
+          await serviceLocator<TaskGroupDao>().insertTaskGroup(taskGroup);
+
+      taskGroup = TaskGroup(
+          id: taskGroupId,
+          name: taskGroup.name,
+          description: taskGroup.description,
+          priority: taskGroup.priority,
+          deadline: taskGroup.deadline);
+
+      Task task = Task(
+          name: 'name',
+          description: 'description',
+          priority: enums.Priority.high,
+          deadline: DateTime.now().subtract(const Duration(days: 1)),
+          taskGroupId: taskGroupId,
+          xp: 20,
+          finished: false);
+
+      int id = await serviceLocator<TaskDao>().insertTask(task);
+
+      await serviceLocator<TaskGroupDao>().deleteTaskGroup(taskGroup);
+
+      task = (await (serviceLocator<TaskDao>().findTaskById(id).first))!;
+
+      expect(task.taskGroupId, null);
+    });
+  });
+
+  testWidgets('Test Media Timeslot Cascade Delete',
+      (WidgetTester tester) async {
+    await tester.runAsync(() async {
+      await serviceLocator<UserDao>().insertUser(User(
+          name: 'Emil',
+          email: 'emil@gmail.com',
+          password: '12345678',
+          xp: 23,
+          imagePath: 'test',
+          level: 1));
+
+      int seriesId = await serviceLocator<MediaDao>().insertMedia(Media(
+          name: 'name',
+          description: 'description',
+          linkImage: 'linkImage',
+          status: Status.goingThrough,
+          favorite: true,
+          genres: 'genres',
+          release: DateTime.now(),
+          xp: 23,
+          participants: 'Me',
+          type: MediaDBTypes.book));
+
+      await serviceLocator<SeriesDao>().insertSerie(Series(
+          id: seriesId,
+          tagline: 'Super Cool Test',
+          numberEpisodes: 23,
+          numberSeasons: 2,
+          duration: 30,
+          tmdbId: 1));
+
+      TimeslotMediaTimeslotSuperEntity timeslotMediaTimeslotSuperEntity =
+          TimeslotMediaTimeslotSuperEntity(
+              title: 'timeslot 1',
+              description: 'description 1',
+              startDateTime: DateTime.now(),
+              endDateTime: DateTime.now().add(const Duration(days: 1)),
+              xpMultiplier: 2,
+              finished: false,
+              userId: 1);
+
+      int id = await serviceLocator<TimeslotMediaTimeslotSuperDao>()
+          .insertTimeslotMediaTimeslotSuperEntity(
+              timeslotMediaTimeslotSuperEntity);
+
+      timeslotMediaTimeslotSuperEntity =
+          timeslotMediaTimeslotSuperEntity.copyWith(id: id);
+
+      await serviceLocator<TimeslotDao>()
+          .deleteTimeslot(timeslotMediaTimeslotSuperEntity.toTimeslot());
+
+      MediaTimeslot? mediaTimeslot = await (serviceLocator<MediaTimeslotDao>()
+          .findMediaTimeslotById(id)
+          .first);
+
+      expect(mediaTimeslot, null);
+    });
+  });
+
+  testWidgets('Test Student Timeslot Cascade Delete',
+      (WidgetTester tester) async {
+    await tester.runAsync(() async {
+      await serviceLocator<UserDao>().insertUser(User(
+          name: 'Emil',
+          email: 'emil@gmail.com',
+          password: '12345678',
+          xp: 23,
+          imagePath: 'test',
+          level: 1));
+
+      await serviceLocator<InstitutionDao>().insertInstitution(Institution(
+          name: 'name',
+          picture: 'picture',
+          type: InstitutionType.education,
+          userId: 1));
+
+      await serviceLocator<SubjectDao>().insertSubject(Subject(
+        name: 'name',
+        institutionId: 1,
+        acronym: 'acronym',
+      ));
+
+      await serviceLocator<TaskGroupDao>().insertTaskGroup(TaskGroup(
+        name: 'name',
+        description: 'description',
+        priority: enums.Priority.high,
+        deadline: DateTime.now(),
+      ));
+
+      await serviceLocator<TaskDao>().insertTask(Task(
+          name: 'name',
+          description: 'description',
+          priority: enums.Priority.high,
+          deadline: DateTime.now().subtract(const Duration(days: 1)),
+          taskGroupId: 1,
+          subjectId: 1,
+          finished: false,
+          xp: 20));
+
+      TimeslotStudentTimeslotSuperEntity timeslotStudentTimeslotSuperEntity =
+          TimeslotStudentTimeslotSuperEntity(
+              title: 'timeslot 1',
+              description: 'description 1',
+              startDateTime: DateTime.now(),
+              endDateTime: DateTime.now().add(const Duration(days: 1)),
+              xpMultiplier: 2,
+              finished: false,
+              userId: 1);
+
+      int id = await serviceLocator<TimeslotStudentTimeslotSuperDao>()
+          .insertTimeslotStudentTimeslotSuperEntity(
+              timeslotStudentTimeslotSuperEntity);
+
+      timeslotStudentTimeslotSuperEntity =
+          timeslotStudentTimeslotSuperEntity.copyWith(id: id);
+
+      await serviceLocator<TimeslotDao>()
+          .deleteTimeslot(timeslotStudentTimeslotSuperEntity.toTimeslot());
+
+      StudentTimeslot? studentTimeslot =
+          await (serviceLocator<StudentTimeslotDao>()
+              .findStudentTimeslotById(id)
+              .first);
+
+      expect(studentTimeslot, null);
+    });
+  });
+
+  testWidgets('Test Media Media Timeslot - Media Cascade Delete',
+      (WidgetTester tester) async {
+    await tester.runAsync(() async {
+      await serviceLocator<UserDao>().insertUser(User(
+          name: 'Emil',
+          email: 'emil@gmail.com',
+          password: '12345678',
+          xp: 23,
+          imagePath: 'test',
+          level: 1));
+
+      Media media = Media(
+          name: 'name',
+          description: 'description',
+          linkImage: 'linkImage',
+          status: Status.goingThrough,
+          favorite: true,
+          genres: 'genres',
+          release: DateTime.now(),
+          xp: 23,
+          participants: 'Me',
+          type: MediaDBTypes.book);
+
+      int mediaId = await serviceLocator<MediaDao>().insertMedia(media);
+
+      TimeslotMediaTimeslotSuperEntity timeslotMediaTimeslotSuperEntity =
+          TimeslotMediaTimeslotSuperEntity(
+              title: 'timeslot 1',
+              description: 'description 1',
+              startDateTime: DateTime.now(),
+              endDateTime: DateTime.now().add(const Duration(days: 1)),
+              xpMultiplier: 2,
+              finished: false,
+              userId: 1);
+
+      int timeslotId = await serviceLocator<TimeslotMediaTimeslotSuperDao>()
+          .insertTimeslotMediaTimeslotSuperEntity(
+              timeslotMediaTimeslotSuperEntity);
+
+      await serviceLocator<MediaMediaTimeslotDao>().insertMediaMediaTimeslot(
+          MediaMediaTimeslot(mediaId: mediaId, mediaTimeslotId: timeslotId));
+
+      // Delete Media
+      Media mediaDB =
+          (await serviceLocator<MediaDao>().findMediaById(mediaId).first)!;
+      await serviceLocator<MediaDao>().deleteMedia(mediaDB);
+
+      List<Media> mediaList = await serviceLocator<MediaMediaTimeslotDao>()
+          .findMediaByMediaTimeslotId(timeslotId);
+
+      expect(mediaList.length, 0);
+    });
+  });
+
+  testWidgets('Test Media Media Timeslot - Timeslot Cascade Delete',
+      (WidgetTester tester) async {
+    await tester.runAsync(() async {
+      await serviceLocator<UserDao>().insertUser(User(
+          name: 'Emil',
+          email: 'emil@gmail.com',
+          password: '12345678',
+          xp: 23,
+          imagePath: 'test',
+          level: 1));
+
+      Media media = Media(
+          name: 'name',
+          description: 'description',
+          linkImage: 'linkImage',
+          status: Status.goingThrough,
+          favorite: true,
+          genres: 'genres',
+          release: DateTime.now(),
+          xp: 23,
+          participants: 'Me',
+          type: MediaDBTypes.book);
+
+      int seriesId = await serviceLocator<MediaDao>().insertMedia(media);
+
+      TimeslotMediaTimeslotSuperEntity timeslotMediaTimeslotSuperEntity =
+          TimeslotMediaTimeslotSuperEntity(
+              title: 'timeslot 1',
+              description: 'description 1',
+              startDateTime: DateTime.now(),
+              endDateTime: DateTime.now().add(const Duration(days: 1)),
+              xpMultiplier: 2,
+              finished: false,
+              userId: 1);
+
+      int timeslotId = await serviceLocator<TimeslotMediaTimeslotSuperDao>()
+          .insertTimeslotMediaTimeslotSuperEntity(
+              timeslotMediaTimeslotSuperEntity);
+
+      await serviceLocator<MediaMediaTimeslotDao>().insertMediaMediaTimeslot(
+          MediaMediaTimeslot(mediaId: seriesId, mediaTimeslotId: timeslotId));
+
+      // Delete Timeslot
+      TimeslotMediaTimeslotSuperEntity timeslotDB =
+          (await serviceLocator<TimeslotMediaTimeslotSuperDao>()
+                  .findAllTimeslotMediaTimeslot(null))
+              .first;
+      await serviceLocator<TimeslotMediaTimeslotSuperDao>()
+          .deleteTimeslotMediaTimeslotSuperEntity(timeslotDB);
+
+      List<Media> mediaList = await serviceLocator<MediaMediaTimeslotDao>()
+          .findMediaByMediaTimeslotId(timeslotId);
+
+      expect(mediaList.length, 0);
+    });
+  });
+
+  testWidgets('Test Task Student Timeslot - Task Cascade Delete',
+      (WidgetTester tester) async {
+    await tester.runAsync(() async {
+      await serviceLocator<UserDao>().insertUser(User(
+          name: 'Emil',
+          email: 'emil@gmail.com',
+          password: '12345678',
+          xp: 23,
+          imagePath: 'test',
+          level: 1));
+
+      await serviceLocator<InstitutionDao>().insertInstitution(Institution(
+          name: 'name',
+          picture: 'picture',
+          type: InstitutionType.education,
+          userId: 1));
+
+      await serviceLocator<SubjectDao>().insertSubject(Subject(
+        name: 'name',
+        institutionId: 1,
+        acronym: 'acronym',
+      ));
+
+      Task task = Task(
+          name: 'name',
+          description: 'description',
+          priority: enums.Priority.high,
+          deadline: DateTime.now().subtract(const Duration(days: 1)),
+          taskGroupId: null,
+          subjectId: 1,
+          finished: false,
+          xp: 20);
+
+      TimeslotStudentTimeslotSuperEntity timeslotStudentTimeslotSuperEntity =
+          TimeslotStudentTimeslotSuperEntity(
+              title: 'timeslot 1',
+              description: 'description 1',
+              startDateTime: DateTime.now(),
+              endDateTime: DateTime.now().add(const Duration(days: 1)),
+              xpMultiplier: 2,
+              finished: false,
+              userId: 1);
+
+      int taskId = await serviceLocator<TaskDao>().insertTask(task);
+      int timeslotId = await serviceLocator<TimeslotStudentTimeslotSuperDao>()
+          .insertTimeslotStudentTimeslotSuperEntity(
+              timeslotStudentTimeslotSuperEntity);
+
+      await serviceLocator<TaskStudentTimeslotDao>().insertTaskStudentTimeslot(
+          TaskStudentTimeslot(taskId: taskId, studentTimeslotId: timeslotId));
+
+      // Delete Task
+      Task taskDB =
+          (await serviceLocator<TaskDao>().findTaskById(taskId).first)!;
+      await serviceLocator<TaskDao>().deleteTask(taskDB);
+
+      List<Task> taskList = await serviceLocator<TaskStudentTimeslotDao>()
+          .findTaskByStudentTimeslotId(timeslotId);
+
+      expect(taskList.length, 0);
+    });
+  });
+
+  testWidgets('Test Task Student Timeslot - Timeslot Cascade Delete',
+      (WidgetTester tester) async {
+    await tester.runAsync(() async {
+      await serviceLocator<UserDao>().insertUser(User(
+          name: 'Emil',
+          email: 'emil@gmail.com',
+          password: '12345678',
+          xp: 23,
+          imagePath: 'test',
+          level: 1));
+
+      await serviceLocator<InstitutionDao>().insertInstitution(Institution(
+          name: 'name',
+          picture: 'picture',
+          type: InstitutionType.education,
+          userId: 1));
+
+      await serviceLocator<SubjectDao>().insertSubject(Subject(
+        name: 'name',
+        institutionId: 1,
+        acronym: 'acronym',
+      ));
+
+      Task task = Task(
+          name: 'name',
+          description: 'description',
+          priority: enums.Priority.high,
+          deadline: DateTime.now().subtract(const Duration(days: 1)),
+          taskGroupId: null,
+          subjectId: 1,
+          finished: false,
+          xp: 20);
+
+      TimeslotStudentTimeslotSuperEntity timeslotStudentTimeslotSuperEntity =
+          TimeslotStudentTimeslotSuperEntity(
+              title: 'timeslot 1',
+              description: 'description 1',
+              startDateTime: DateTime.now(),
+              endDateTime: DateTime.now().add(const Duration(days: 1)),
+              xpMultiplier: 2,
+              finished: false,
+              userId: 1);
+
+      int taskId = await serviceLocator<TaskDao>().insertTask(task);
+      int timeslotId = await serviceLocator<TimeslotStudentTimeslotSuperDao>()
+          .insertTimeslotStudentTimeslotSuperEntity(
+              timeslotStudentTimeslotSuperEntity);
+
+      await serviceLocator<TaskStudentTimeslotDao>().insertTaskStudentTimeslot(
+          TaskStudentTimeslot(taskId: taskId, studentTimeslotId: timeslotId));
+
+      // Delete Timeslot
+      TimeslotStudentTimeslotSuperEntity timeslotDB =
+          (await serviceLocator<TimeslotStudentTimeslotSuperDao>()
+                  .findAllTimeslotStudentTimeslot(null))
+              .first;
+      await serviceLocator<TimeslotStudentTimeslotSuperDao>()
+          .deleteTimeslotStudentTimeslotSuperEntity(timeslotDB);
+
+      List<Task> taskList = await serviceLocator<TaskStudentTimeslotDao>()
+          .findTaskByStudentTimeslotId(timeslotId);
+
+      expect(taskList.length, 0);
     });
   });
 }
