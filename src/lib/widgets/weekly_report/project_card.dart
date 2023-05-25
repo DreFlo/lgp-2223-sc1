@@ -148,7 +148,7 @@ class _ProjectCardState extends State<ProjectCard> {
         padding: const EdgeInsets.symmetric(horizontal: 5),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(5),
-          color: darkGrayBackground,
+          color: grayBackground,
         ),
         child: Text(
           institutionType,
@@ -215,7 +215,7 @@ class _ProjectCardState extends State<ProjectCard> {
                                           decoration: BoxDecoration(
                                             borderRadius:
                                                 BorderRadius.circular(5),
-                                            color: darkGrayBackground,
+                                            color: grayBackground,
                                           ),
                                           child: Text(
                                             subjectOrDate,
@@ -239,7 +239,7 @@ class _ProjectCardState extends State<ProjectCard> {
                                           decoration: BoxDecoration(
                                             borderRadius:
                                                 BorderRadius.circular(5),
-                                            color: darkGrayBackground,
+                                            color: grayBackground,
                                           ),
                                           child: Text(
                                             taskDates,
@@ -279,18 +279,5 @@ class _ProjectCardState extends State<ProjectCard> {
     }
     isReady = false;
     return Container();
-  }
-
-  getShowCard(BuildContext context, ScrollController scrollController) {
-    //TODO
-    return const SizedBox();
-  }
-
-  editTask(Task t) {
-    //TODO
-  }
-
-  editTaskGroup(TaskGroup tg) {
-    //TODO
   }
 }
