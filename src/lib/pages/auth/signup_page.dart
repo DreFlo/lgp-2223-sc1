@@ -537,7 +537,7 @@ class _SignUpPageState extends State<SignUpPage>
       isShowLoading = true;
     });
 
-    bool userCreated = true;
+    bool userCreated = true; //TODO(flow): change this to true value form get
 
     Future.delayed(
       const Duration(seconds: 1),
@@ -565,6 +565,7 @@ class _SignUpPageState extends State<SignUpPage>
             () {
               setState(() {
                 isShowLoading = false;
+                
               });
               reset.fire();
             },
@@ -577,7 +578,7 @@ class _SignUpPageState extends State<SignUpPage>
   }
 }
 
-//TODO: This class is for test purposes
+//This class is for the feedback animation dialog
 class CustomPositioned extends StatelessWidget {
   const CustomPositioned({super.key, this.scale = 1, required this.child});
 
