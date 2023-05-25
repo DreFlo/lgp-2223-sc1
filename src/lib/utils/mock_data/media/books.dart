@@ -38,7 +38,7 @@ final mockBooks = [
     description:
         "The Final Empire is in turmoil as various regions descend into anarchy following the Lord Ruler's death and the disappearance of the Steel Ministry. Elend Venture has claimed the crown of the capital city, Luthadel, and attempts to restore order, but various hostile forces converge on the city. Three armies lay siege to Luthadel because of its rumored wealth of Atium and political influence. The first army is led by Straff Venture - head of House Venture, and Elend's father. The second army is led by Ashweather Cett, self-declared king of the Western Dominance. The third army consists of Koloss, massive, brutish blue creatures once controlled by the Lord Ruler, and is led by Elend's former friend Jastes, who is buying the Koloss' obedience with counterfeit coins.",
     linkImage:
-        '"http://books.google.com/books/content?id=Y-41Q9zk32kC&printsec=frontcover&img=1&zoom=1&edge=curl&source=gbs_api"',
+        'http://books.google.com/books/content?id=Y-41Q9zk32kC&printsec=frontcover&img=1&zoom=1&edge=curl&source=gbs_api',
     status: Status.goingThrough,
     favorite: true,
     genres: 'fantasy',
