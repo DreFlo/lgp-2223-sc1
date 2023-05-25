@@ -282,7 +282,7 @@ final addConstraintsCallback = Callback(
   FOR EACH ROW
   BEGIN
     SELECT CASE
-      WHEN (SELECT COUNT(*) FROM user WHERE email = NEW.email) > 0 THEN
+      WHEN (SELECT COUNT(*) FROM user WHERE email = NEW.email) > 0 AND NEW.email <> OLD.email THEN
         RAISE(ABORT, 'email must be unique')
     END;
   END;

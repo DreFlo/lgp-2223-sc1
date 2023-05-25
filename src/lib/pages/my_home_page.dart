@@ -41,6 +41,7 @@ class _MyHomePageState extends State<MyHomePage> {
   Map<int, List<Task>> tasksFinishedEventMap = {};
   Map<int, List<Media>> mediasFinishedEventMap = {};
   String name = getUserName();
+  bool firstTime = true;
 
   @override
   void initState() {
@@ -67,8 +68,10 @@ class _MyHomePageState extends State<MyHomePage> {
         .findAllFinishedTimeslotMediaTimeslot(now);
     tasksFinishedEventMap = await getTasks();
     mediasFinishedEventMap = await getMedias();
-
-    checkEventDone();
+    if (firstTime) {
+      checkEventDone();
+      firstTime = false;
+    }
 
     return 0;
   }
@@ -156,7 +159,7 @@ class _MyHomePageState extends State<MyHomePage> {
         barrierDismissible: false,
         context: context,
         builder: (context) => Dialog(
-            backgroundColor: modalLightBackground,
+            backgroundColor: modalBackground,
             insetPadding: const EdgeInsets.symmetric(horizontal: 20),
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(30),
@@ -211,44 +214,52 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Stack(
-        children: [
-          const Padding(
-              padding: EdgeInsets.only(right: 36, top: 36),
-              child: ProfilePic()),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Padding(
-                  padding: const EdgeInsets.only(left: 36, top: 90),
-                  child: WelcomeMessage(name: name)),
-              FutureBuilder(
-                  future: loadUserBadges(),
-                  builder:
-                      (BuildContext context, AsyncSnapshot<String> snapshot) {
-                    if (snapshot.hasData) {
-                      return BadgeFact(fact: snapshot.data!);
-                    }
-                    return const Center(child: CircularProgressIndicator());
-                  }),
-              HorizontalScrollView(
-                nItems: studentEvents.length + mediaEvents.length,
-                selectedIndex: _selectedIndex,
-                setSelectedIndex: (int index) =>
-                    setState(() => _selectedIndex = index),
-              ),
-              FutureBuilder(
-                  future: loadEventsDB(),
-                  builder: (BuildContext context, AsyncSnapshot<int> snapshot) {
-                    if (snapshot.hasData) {
-                      return showWidget();
-                    }
-                    return const Center(child: CircularProgressIndicator());
-                  })
-            ],
-          ),
-        ],
-      ),
-    );
+        body: Stack(children: [
+      Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+        const Padding(
+          padding: EdgeInsets.only(right: 36, top: 36),
+          child: ProfilePic(),
+        ),
+        Padding(
+          padding: const EdgeInsets.only(left: 36),
+          child: WelcomeMessage(name: name),
+        ),
+        FutureBuilder(
+            future: loadUserBadges(),
+            builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
+              if (snapshot.hasData) {
+                return BadgeFact(fact: snapshot.data!);
+              }
+              return const Center(child: CircularProgressIndicator());
+            }),
+        Expanded(
+            child: SingleChildScrollView(
+          child:
+              Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+            FutureBuilder(
+              future: loadEventsDB(),
+              builder: (BuildContext context, AsyncSnapshot<int> snapshot) {
+                if (snapshot.hasData) {
+                  return Column(
+                    children: [
+                      HorizontalScrollView(
+                        nItems: studentEvents.length + mediaEvents.length,
+                        selectedIndex: _selectedIndex,
+                        setSelectedIndex: (int index) =>
+                            setState(() => _selectedIndex = index),
+                      ),
+                      Builder(builder: (BuildContext context) {
+                        return showWidget();
+                      }),
+                    ],
+                  );
+                }
+                return const Center(child: CircularProgressIndicator());
+              },
+            )
+          ]),
+        ))
+      ])
+    ]));
   }
 }

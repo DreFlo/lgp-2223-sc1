@@ -54,7 +54,7 @@ class _ModuleButtonState extends State<ModuleButton> {
   @override
   Widget build(BuildContext context) {
     return Flexible(
-        flex: 1,
+        flex: 2,
         child: AspectRatio(
             aspectRatio: 1,
             child: Transform.rotate(

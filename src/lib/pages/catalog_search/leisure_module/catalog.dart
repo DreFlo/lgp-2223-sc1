@@ -198,9 +198,11 @@ class CatalogState extends State<Catalog> {
                                           mainAxisAlignment:
                                               MainAxisAlignment.center,
                                           children: [
-                                            MovieImageWidget(
-                                                image: (snapshot.data)![index]
-                                                    .linkImage),
+                                            Expanded(
+                                                child: MovieImageWidget(
+                                                    image:
+                                                        (snapshot.data)![index]
+                                                            .linkImage)),
                                           ],
                                         ),
                                       ),
@@ -287,9 +289,11 @@ class CatalogState extends State<Catalog> {
                                           mainAxisAlignment:
                                               MainAxisAlignment.center,
                                           children: [
-                                            TVSeriesImageWidget(
-                                                image: (snapshot.data)![index]
-                                                    .linkImage),
+                                            Expanded(
+                                                child: TVSeriesImageWidget(
+                                                    image:
+                                                        (snapshot.data)![index]
+                                                            .linkImage)),
                                           ],
                                         ),
                                       ),
@@ -376,9 +380,11 @@ class CatalogState extends State<Catalog> {
                                           mainAxisAlignment:
                                               MainAxisAlignment.center,
                                           children: [
-                                            BookImageWidget(
-                                                image: (snapshot.data)![index]
-                                                    .linkImage),
+                                            Expanded(
+                                                child: BookImageWidget(
+                                                    image:
+                                                        (snapshot.data)![index]
+                                                            .linkImage)),
                                           ],
                                         ),
                                       ),

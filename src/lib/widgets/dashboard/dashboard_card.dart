@@ -231,7 +231,7 @@ class _DashboardCardState extends State<DashboardCard> {
         padding: const EdgeInsets.symmetric(horizontal: 5),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(5),
-          color: darkGrayBackground,
+          color: grayBackground,
         ),
         child: Text(
           institutionOrMediaType,
@@ -242,35 +242,37 @@ class _DashboardCardState extends State<DashboardCard> {
       );
     } else if (mediaEvent != null) {
       return Container(
-        margin: const EdgeInsets.only(bottom: 5),
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(5),
-        ),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: mediaTypes
-              .map((MediaDBTypes type) => Container(
-                    margin: const EdgeInsets.only(right: 4),
-                    child: Container(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 5, vertical: 2),
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(5),
-                        color: darkGrayBackground,
-                      ),
-                      child: Text(
-                        mediaDBTypeToString(type),
-                        style: Theme.of(context)
-                            .textTheme
-                            .headlineLarge
-                            ?.copyWith(color: moduleColors[widget.module]),
-                      ),
-                    ),
-                  ))
-              .toList(),
-        ),
-      );
+          margin: const EdgeInsets.only(bottom: 5),
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(5),
+          ),
+          child: SingleChildScrollView(
+            scrollDirection: Axis.horizontal,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: mediaTypes
+                  .map((MediaDBTypes type) => Container(
+                        margin: const EdgeInsets.only(right: 4),
+                        child: Container(
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 5, vertical: 2),
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(5),
+                            color: grayBackground,
+                          ),
+                          child: Text(
+                            mediaDBTypeToString(type),
+                            style: Theme.of(context)
+                                .textTheme
+                                .headlineLarge
+                                ?.copyWith(color: moduleColors[widget.module]),
+                          ),
+                        ),
+                      ))
+                  .toList(),
+            ),
+          ));
     } else {
       return Container();
     }
@@ -304,7 +306,6 @@ class _DashboardCardState extends State<DashboardCard> {
                       builder: (context, scrollController) =>
                           getShowCard(context, scrollController),
                     )));
-            // TODO: Navigate to project page
           },
           child: Container(
               margin: const EdgeInsets.all(8),
@@ -313,110 +314,109 @@ class _DashboardCardState extends State<DashboardCard> {
                 color: grayButton,
               ),
               child: Container(
+                  alignment: Alignment.bottomCenter,
                   margin: const EdgeInsets.all(12),
-                  child: Column(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Container(
-                          width: 28,
-                          height: 28,
-                          margin: const EdgeInsets.only(bottom: 9),
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(5),
-                            color: moduleColors[widget.module],
-                          ),
+                  child: Wrap(alignment: WrapAlignment.end, children: [
+                    Row(children: [
+                      Container(
+                        width: 28,
+                        height: 28,
+                        margin: const EdgeInsets.only(bottom: 9),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(5),
+                          color: moduleColors[widget.module],
                         ),
-                        Container(
-                            margin: const EdgeInsets.only(bottom: 9),
-                            child: Text(
-                              getTitle(),
-                              style: Theme.of(context).textTheme.labelLarge,
-                            )),
-                        Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              Flexible(
-                                  flex: 2,
-                                  child: Wrap(
-                                    spacing: 10,
-                                    // runSpacing: 5,
-                                    children: [
-                                      institutionOrMediaType != ''
-                                          ? mediaTypesOrInstitutionContainer()
-                                          : Container(),
-                                      subjectOrDate != ''
-                                          ? Container(
-                                              margin: const EdgeInsets.only(
-                                                  bottom: 5),
-                                              padding:
-                                                  const EdgeInsets.symmetric(
-                                                      horizontal: 5),
-                                              decoration: BoxDecoration(
-                                                borderRadius:
-                                                    BorderRadius.circular(5),
-                                                color: darkGrayBackground,
-                                              ),
-                                              child: Text(
-                                                subjectOrDate,
-                                                style: Theme.of(context)
-                                                    .textTheme
-                                                    .headlineLarge
-                                                    ?.copyWith(
-                                                      color: moduleColors[
-                                                          widget.module],
-                                                    ),
-                                              ),
-                                            )
-                                          : Container(),
-                                      taskDates != ''
-                                          ? Container(
-                                              margin: const EdgeInsets.only(
-                                                  bottom: 5),
-                                              padding:
-                                                  const EdgeInsets.symmetric(
-                                                      horizontal: 5),
-                                              decoration: BoxDecoration(
-                                                borderRadius:
-                                                    BorderRadius.circular(5),
-                                                color: darkGrayBackground,
-                                              ),
-                                              child: Text(
-                                                taskDates,
-                                                style: Theme.of(context)
-                                                    .textTheme
-                                                    .headlineLarge
-                                                    ?.copyWith(
-                                                      color: moduleColors[
-                                                          widget.module],
-                                                    ),
-                                              ),
-                                            )
-                                          : Container(),
-                                    ],
-                                  )),
-                              Flexible(
-                                flex: 1,
-                                child: nTasks != 0
-                                    ? Container(
-                                        width: 25,
-                                        height: 25,
-                                        decoration: BoxDecoration(
-                                          borderRadius:
-                                              BorderRadius.circular(30),
-                                          color: primaryColor,
-                                        ),
-                                        child: Center(
-                                            child: Text(nTasks.toString(),
-                                                style: Theme.of(context)
-                                                    .textTheme
-                                                    .headlineLarge)),
-                                      )
-                                    : Container(),
-                              ),
-                            ])
-                      ]))));
+                      )
+                    ]),
+                    Row(children: [
+                      Expanded(
+                          child: Container(
+                              margin: const EdgeInsets.only(bottom: 9),
+                              child: Text(
+                                getTitle(),
+                                style: Theme.of(context).textTheme.labelLarge,
+                              )))
+                    ]),
+                    Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Flexible(
+                              flex: 2,
+                              child: Wrap(
+                                spacing: 10,
+                                children: [
+                                  institutionOrMediaType != ''
+                                      ? mediaTypesOrInstitutionContainer()
+                                      : Container(),
+                                  subjectOrDate != ''
+                                      ? Container(
+                                          margin:
+                                              const EdgeInsets.only(bottom: 5),
+                                          padding: const EdgeInsets.symmetric(
+                                              horizontal: 5),
+                                          decoration: BoxDecoration(
+                                            borderRadius:
+                                                BorderRadius.circular(5),
+                                            color: grayBackground,
+                                          ),
+                                          child: Text(
+                                            subjectOrDate,
+                                            style: Theme.of(context)
+                                                .textTheme
+                                                .headlineLarge
+                                                ?.copyWith(
+                                                  color: moduleColors[
+                                                      widget.module],
+                                                ),
+                                          ),
+                                        )
+                                      : Container(),
+                                  taskDates != ''
+                                      ? Container(
+                                          margin:
+                                              const EdgeInsets.only(bottom: 5),
+                                          padding: const EdgeInsets.symmetric(
+                                              horizontal: 5),
+                                          decoration: BoxDecoration(
+                                            borderRadius:
+                                                BorderRadius.circular(5),
+                                            color: grayBackground,
+                                          ),
+                                          child: Text(
+                                            taskDates,
+                                            style: Theme.of(context)
+                                                .textTheme
+                                                .headlineLarge
+                                                ?.copyWith(
+                                                  color: moduleColors[
+                                                      widget.module],
+                                                ),
+                                          ),
+                                        )
+                                      : Container(),
+                                ],
+                              )),
+                          Flexible(
+                            flex: 1,
+                            child: nTasks != 0
+                                ? Container(
+                                    width: 25,
+                                    height: 25,
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(30),
+                                      color: primaryColor,
+                                    ),
+                                    child: Center(
+                                        child: Text(nTasks.toString(),
+                                            style: Theme.of(context)
+                                                .textTheme
+                                                .headlineLarge)),
+                                  )
+                                : Container(),
+                          ),
+                        ])
+                  ]))));
     }
     isReady = false;
     return Container();

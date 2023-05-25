@@ -25,7 +25,7 @@ class _BadgeAlertState extends State<BadgeAlert> with TickerProviderStateMixin {
   Widget build(BuildContext context) {
     return AlertDialog(
       shape: const RoundedRectangleBorder(
-          borderRadius: BorderRadius.all(Radius.circular(30.0))),
+          borderRadius: BorderRadius.all(Radius.circular(20.0))),
       backgroundColor: lightGray,
       contentPadding: const EdgeInsets.only(left: 10, right: 10, top: 20),
       actionsPadding: const EdgeInsets.symmetric(vertical: 20),
@@ -86,7 +86,7 @@ class _BadgeAlertState extends State<BadgeAlert> with TickerProviderStateMixin {
                       BorderRadius.vertical(top: Radius.circular(30.0)),
                 ),
                 isScrollControlled: true,
-                backgroundColor: modalLightBackground,
+                backgroundColor: modalBackground,
                 context: context,
                 builder: (builder) => const BadgesPage());
           },

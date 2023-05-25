@@ -250,7 +250,7 @@ class _ProgressBarSheetState extends State<ProgressBarSheet> {
                   AppLocalizations.of(context).user_progress +
                       widget.user.name +
                       AppLocalizations.of(context).user_progress_2,
-                  textAlign: TextAlign.justify,
+                  textAlign: TextAlign.center,
                   style: const TextStyle(
                     fontSize: 24,
                     fontWeight: FontWeight.bold,
@@ -258,48 +258,53 @@ class _ProgressBarSheetState extends State<ProgressBarSheet> {
             )
           ])),
       const SizedBox(height: 27.5),
-      Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-        Expanded(
-          child: Text(getText(context),
-              textAlign: TextAlign.justify,
-              style: const TextStyle(
-                fontSize: 16,
-                fontWeight: FontWeight.normal,
-              )),
-        )
-      ]),
+      Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 20),
+          child: Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+            Expanded(
+              child: Text(getText(context),
+                  textAlign: TextAlign.justify,
+                  style: const TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.normal,
+                  )),
+            )
+          ])),
       const SizedBox(height: 30),
-      Row(
-        children: [
-          Expanded(
-              child: ElevatedButton(
-                  style: ButtonStyle(
-                      padding: MaterialStateProperty.all(
-                          const EdgeInsets.symmetric(
-                              horizontal: 20, vertical: 15)),
-                      backgroundColor: MaterialStateProperty.all(primaryColor),
-                      shape: MaterialStateProperty.all(
-                          const RoundedRectangleBorder(
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(30))))),
-                  onPressed: () {
-                    showModalBottomSheet(
-                        shape: const RoundedRectangleBorder(
-                          borderRadius:
-                              BorderRadius.vertical(top: Radius.circular(30.0)),
-                        ),
-                        isScrollControlled: true,
-                        backgroundColor: modalLightBackground,
-                        context: context,
-                        builder: (builder) => const BadgesPage());
-                  },
-                  child: Text(AppLocalizations.of(context).badges,
-                      style: const TextStyle(
-                          color: Colors.white,
-                          fontSize: 16,
-                          fontWeight: FontWeight.w600))))
-        ],
-      ),
+      Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 20),
+          child: Row(
+            children: [
+              Expanded(
+                  child: ElevatedButton(
+                      style: ButtonStyle(
+                          padding: MaterialStateProperty.all(
+                              const EdgeInsets.symmetric(
+                                  horizontal: 20, vertical: 15)),
+                          backgroundColor:
+                              MaterialStateProperty.all(primaryColor),
+                          shape: MaterialStateProperty.all(
+                              const RoundedRectangleBorder(
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(30))))),
+                      onPressed: () {
+                        showModalBottomSheet(
+                            shape: const RoundedRectangleBorder(
+                              borderRadius: BorderRadius.vertical(
+                                  top: Radius.circular(30.0)),
+                            ),
+                            isScrollControlled: true,
+                            backgroundColor: modalBackground,
+                            context: context,
+                            builder: (builder) => const BadgesPage());
+                      },
+                      child: Text(AppLocalizations.of(context).badges,
+                          style: const TextStyle(
+                              color: Colors.white,
+                              fontSize: 16,
+                              fontWeight: FontWeight.w600))))
+            ],
+          )),
       const SizedBox(height: 25)
     ]);
   }

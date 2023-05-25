@@ -23,8 +23,11 @@ class _DeleteConfirmationDialogState extends State<DeleteConfirmationDialog> {
           textAlign: TextAlign.start),
       content: Text(AppLocalizations.of(context).delete_event_message,
           style: const TextStyle(
-              color: Colors.white, fontSize: 14, fontWeight: FontWeight.w500),
+              color: Colors.white, fontSize: 14, fontWeight: FontWeight.normal),
           textAlign: TextAlign.start),
+      shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(30.0)), //this right here
+      actionsPadding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
       actions: [
         TextButton(
           key: const Key('cancelDeleteButton'),

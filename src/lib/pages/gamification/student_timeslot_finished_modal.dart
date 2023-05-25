@@ -86,11 +86,12 @@ class _StudentTimeslotFinishedModalState
         ]),
         const SizedBox(height: 15),
         Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-          Text(
+          Expanded(
+              child: Text(
             AppLocalizations.of(context).event_finished_3,
             style: Theme.of(context).textTheme.displayMedium,
             textAlign: TextAlign.center,
-          )
+          ))
         ]),
         const SizedBox(height: 30),
         SizedBox(
@@ -111,12 +112,11 @@ class _StudentTimeslotFinishedModalState
               List<Task> tasksDone = [];
               int taskAlreadyDone = 0;
               for (TimeslotTaskBar t in tasksState) {
-                if (t.taskStatus) {
+                if (!(t.task.finished) && t.taskStatus) {
                   tasksDone.add(t.task);
-                } else {
-                  if (t.task.finished) {
-                    taskAlreadyDone++;
-                  }
+                }
+                if (t.task.finished && t.taskStatus) {
+                  taskAlreadyDone++;
                 }
               }
 
@@ -125,7 +125,7 @@ class _StudentTimeslotFinishedModalState
                   showDialog(
                       context: context,
                       builder: (context) => Dialog(
-                          backgroundColor: modalLightBackground,
+                          backgroundColor: modalBackground,
                           insetPadding:
                               const EdgeInsets.symmetric(horizontal: 20),
                           shape: RoundedRectangleBorder(
@@ -141,7 +141,7 @@ class _StudentTimeslotFinishedModalState
                   showDialog(
                       context: context,
                       builder: (context) => Dialog(
-                          backgroundColor: modalLightBackground,
+                          backgroundColor: modalBackground,
                           insetPadding:
                               const EdgeInsets.symmetric(horizontal: 20),
                           shape: RoundedRectangleBorder(

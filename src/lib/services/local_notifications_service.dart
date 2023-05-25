@@ -48,7 +48,7 @@ class LocalNotificationService {
     return scheduleDate;
   }
 
-  Future<void> display(String message) async {
+  Future<void> display(String title, String message) async {
     // To display the notification in device
     try {
       final id = DateTime.now().millisecondsSinceEpoch ~/ 1000;
@@ -75,7 +75,7 @@ class LocalNotificationService {
         ),
         //to make it persistent you need autoCancel: false and ongoing: true
       );
-      await _notificationsPlugin.show(id, message, message, notificationDetails,
+      await _notificationsPlugin.show(id, title, message, notificationDetails,
           payload: message);
     } catch (e) {
       debugPrint(e.toString());
@@ -139,6 +139,9 @@ class DynamicDialogState extends State<DynamicDialog> {
     // your requirement or choice
     return AlertDialog(
       title: Text(widget.title),
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(30),
+      ),
       actions: <Widget>[
         OutlinedButton.icon(
             label: const Text('Close'),
