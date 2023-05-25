@@ -1,6 +1,7 @@
 import 'package:src/daos/timeslot/timeslot_dao.dart';
 import 'package:src/daos/timeslot/student_timeslot_dao.dart';
 import 'package:src/models/timeslot/timeslot_student_timeslot_super_entity.dart';
+import 'package:src/services/authentication_service.dart';
 import 'package:src/utils/service_locator.dart';
 import 'package:src/utils/exceptions.dart';
 
@@ -26,6 +27,10 @@ class TimeslotStudentTimeslotSuperDao {
         final timeslot = await serviceLocator<TimeslotDao>()
             .findTimeslotById(studentTimeslot.id)
             .first;
+        
+         int? userId = serviceLocator<AuthenticationService>().isUserLoggedIn()
+        ? serviceLocator<AuthenticationService>().getLoggedInUser()!.id
+        : 0;
 
         if (startDatetime != null && timeslot != null) {
           if (timeslot.startDateTime.isBefore(startDatetime)) {
@@ -33,7 +38,7 @@ class TimeslotStudentTimeslotSuperDao {
           }
         }
 
-        if (timeslot != null) {
+        if (timeslot != null && timeslot.userId == userId) {
           final timeslotStudentTimeslotSuperEntity =
               TimeslotStudentTimeslotSuperEntity
                   .fromTimeslotStudentTimeslotEntity(
@@ -62,9 +67,13 @@ class TimeslotStudentTimeslotSuperDao {
             .findTimeslotById(studentTimeslot.id)
             .first;
 
+         int? userId = serviceLocator<AuthenticationService>().isUserLoggedIn()
+        ? serviceLocator<AuthenticationService>().getLoggedInUser()!.id
+        : 0;
+
         if (endDatetime != null && timeslot != null) {
           if (timeslot.endDateTime.isBefore(endDatetime) &&
-              timeslot.finished == false) {
+              timeslot.finished == false && timeslot.userId == userId) {
             final timeslotStudentTimeslotSuperEntity =
                 TimeslotStudentTimeslotSuperEntity
                     .fromTimeslotStudentTimeslotEntity(

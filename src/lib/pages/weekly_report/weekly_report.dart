@@ -116,10 +116,10 @@ class _WeeklyReportState extends State<WeeklyReport> {
                 children: [
                   Container(
                     // Background container
-                    decoration: BoxDecoration(
+                    decoration: const BoxDecoration(
                       gradient: LinearGradient(
                         begin: Alignment.topCenter,
-                        end: const Alignment(0, -0.45),
+                        end: Alignment(0, -0.45),
                         colors: [
                           primaryColor,
                           appBackground,

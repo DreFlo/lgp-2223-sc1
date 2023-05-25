@@ -18,13 +18,13 @@ final mockTaskGroups = [
       subjectId: 1),
   TaskGroup(
       id: 3,
-      name: 'Have dinner',
+      name: 'Do App User Manual',
       description: 'Cook a meal',
       priority: Priority.high,
       deadline: DateTime.now()),
   TaskGroup(
       id: 4,
-      name: 'Chores',
+      name: 'Do LGP Elevator Pitch',
       description: 'Do the house chores',
       priority: Priority.high,
       deadline: DateTime.now()),
