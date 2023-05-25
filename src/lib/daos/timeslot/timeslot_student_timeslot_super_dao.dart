@@ -27,10 +27,10 @@ class TimeslotStudentTimeslotSuperDao {
         final timeslot = await serviceLocator<TimeslotDao>()
             .findTimeslotById(studentTimeslot.id)
             .first;
-        
-         int? userId = serviceLocator<AuthenticationService>().isUserLoggedIn()
-        ? serviceLocator<AuthenticationService>().getLoggedInUser()!.id
-        : 0;
+
+        int? userId = serviceLocator<AuthenticationService>().isUserLoggedIn()
+            ? serviceLocator<AuthenticationService>().getLoggedInUser()!.id
+            : 0;
 
         if (startDatetime != null && timeslot != null) {
           if (timeslot.startDateTime.isBefore(startDatetime)) {
@@ -67,13 +67,14 @@ class TimeslotStudentTimeslotSuperDao {
             .findTimeslotById(studentTimeslot.id)
             .first;
 
-         int? userId = serviceLocator<AuthenticationService>().isUserLoggedIn()
-        ? serviceLocator<AuthenticationService>().getLoggedInUser()!.id
-        : 0;
+        int? userId = serviceLocator<AuthenticationService>().isUserLoggedIn()
+            ? serviceLocator<AuthenticationService>().getLoggedInUser()!.id
+            : 0;
 
         if (endDatetime != null && timeslot != null) {
           if (timeslot.endDateTime.isBefore(endDatetime) &&
-              timeslot.finished == false && timeslot.userId == userId) {
+              timeslot.finished == false &&
+              timeslot.userId == userId) {
             final timeslotStudentTimeslotSuperEntity =
                 TimeslotStudentTimeslotSuperEntity
                     .fromTimeslotStudentTimeslotEntity(

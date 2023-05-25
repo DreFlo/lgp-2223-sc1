@@ -27,10 +27,10 @@ class TimeslotMediaTimeslotSuperDao {
         final timeslot = await serviceLocator<TimeslotDao>()
             .findTimeslotById(mediaTimeslot.id)
             .first;
-        
+
         int? userId = serviceLocator<AuthenticationService>().isUserLoggedIn()
-        ? serviceLocator<AuthenticationService>().getLoggedInUser()!.id
-        : 0;
+            ? serviceLocator<AuthenticationService>().getLoggedInUser()!.id
+            : 0;
 
         if (startDatetime != null && timeslot != null) {
           if (timeslot.startDateTime.isBefore(startDatetime)) {
@@ -66,13 +66,14 @@ class TimeslotMediaTimeslotSuperDao {
             .findTimeslotById(mediaTimeslot.id)
             .first;
 
-         int? userId = serviceLocator<AuthenticationService>().isUserLoggedIn()
-        ? serviceLocator<AuthenticationService>().getLoggedInUser()!.id
-        : 0;
+        int? userId = serviceLocator<AuthenticationService>().isUserLoggedIn()
+            ? serviceLocator<AuthenticationService>().getLoggedInUser()!.id
+            : 0;
 
         if (endDatetime != null && timeslot != null) {
           if (timeslot.startDateTime.isBefore(endDatetime) &&
-              timeslot.finished == false && timeslot.userId == userId) {
+              timeslot.finished == false &&
+              timeslot.userId == userId) {
             final timeslotMediaTimeslotSuperEntity =
                 TimeslotMediaTimeslotSuperEntity
                     .fromTimeslotMediaTimeslotEntity(
