@@ -280,17 +280,4 @@ class _ProjectCardState extends State<ProjectCard> {
     isReady = false;
     return Container();
   }
-
-  getShowCard(BuildContext context, ScrollController scrollController) {
-    //TODO
-    return const SizedBox();
-  }
-
-  editTask(Task t) {
-    //TODO
-  }
-
-  editTaskGroup(TaskGroup tg) {
-    //TODO
-  }
 }

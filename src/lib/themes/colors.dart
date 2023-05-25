@@ -17,6 +17,7 @@ const Color fitnessColor = Color(0xFF4690FF);
 const Color lightGray = Color(0xFF2F3443);
 
 const Color modalBackground = Color(0xFF22252D);
+
 const Color textField = Color(0xFF17181C);
 
 const Color bottomNavbar = Color(0xFF1A1D25);
