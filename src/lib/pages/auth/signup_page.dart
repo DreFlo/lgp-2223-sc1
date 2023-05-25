@@ -1,5 +1,6 @@
 //ignore_for_file: unused_field
 import 'package:flutter/material.dart';
+import 'package:rive/rive.dart';
 import 'package:src/daos/user_dao.dart';
 import 'package:src/models/user.dart';
 import 'package:src/themes/colors.dart';
@@ -27,6 +28,31 @@ class _SignUpPageState extends State<SignUpPage>
   String _nameErrText = "";
   String _emailErrText = "";
   String _passwordErrText = "";
+
+  bool isShowConfetti = false;
+  bool isShowLoading = false;
+  late SMITrigger error;
+  late SMITrigger success;
+  late SMITrigger reset;
+  late SMITrigger confetti;
+
+  void _onCheckRiveInit(Artboard artboard) {
+    StateMachineController? controller =
+        StateMachineController.fromArtboard(artboard, 'State Machine 1');
+
+    artboard.addController(controller!);
+    error = controller.findInput<bool>('Error') as SMITrigger;
+    success = controller.findInput<bool>('Check') as SMITrigger;
+    reset = controller.findInput<bool>('Reset') as SMITrigger;
+  }
+
+  void _onConfettiRiveInit(Artboard artboard) {
+    StateMachineController? controller =
+        StateMachineController.fromArtboard(artboard, "State Machine 1");
+    artboard.addController(controller!);
+
+    confetti = controller.findInput<bool>("Trigger explosion") as SMITrigger;
+  }
 
   @override
   void initState() {
@@ -325,7 +351,7 @@ class _SignUpPageState extends State<SignUpPage>
                           onPasswordPageNextPressed();
                           if (_passwordErrText.isEmpty) {
                             // Pop the modal and send to Landing page
-                            Navigator.pop(context);
+                            //Navigator.pop(context);
                           }
                         },
                         style: ElevatedButton.styleFrom(
@@ -356,41 +382,73 @@ class _SignUpPageState extends State<SignUpPage>
   Widget build(BuildContext context) {
     List<Widget> pages = getAllSignUpPages(context);
 
-    return SizedBox(
-      child: Column(
-        children: [
-          Padding(
-            padding: const EdgeInsets.symmetric(vertical: 10.0),
-            child: SizedBox(
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Icon(_pageCount == 0 ? Icons.circle : Icons.circle_outlined,
-                      color: _pageCount == 0 ? primaryColor : Colors.white,
-                      size: 15.0),
-                  Icon(_pageCount == 1 ? Icons.circle : Icons.circle_outlined,
-                      color: _pageCount == 1 ? primaryColor : Colors.white,
-                      size: 15.0),
-                  Icon(_pageCount == 2 ? Icons.circle : Icons.circle_outlined,
-                      color: _pageCount == 2 ? primaryColor : Colors.white,
-                      size: 15.0),
-                ],
+    return Stack(
+      children: [
+        SizedBox(
+          child: Column(
+            children: [
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 10.0),
+                child: SizedBox(
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Icon(
+                          _pageCount == 0
+                              ? Icons.circle
+                              : Icons.circle_outlined,
+                          color: _pageCount == 0 ? primaryColor : Colors.white,
+                          size: 15.0),
+                      Icon(
+                          _pageCount == 1
+                              ? Icons.circle
+                              : Icons.circle_outlined,
+                          color: _pageCount == 1 ? primaryColor : Colors.white,
+                          size: 15.0),
+                      Icon(
+                          _pageCount == 2
+                              ? Icons.circle
+                              : Icons.circle_outlined,
+                          color: _pageCount == 2 ? primaryColor : Colors.white,
+                          size: 15.0),
+                    ],
+                  ),
+                ),
               ),
-            ),
+              const Padding(padding: EdgeInsets.only(bottom: 15)),
+              SizedBox(
+                height: MediaQuery.of(context).size.height * 0.5,
+                child: SlideTransition(
+                  position: Tween<Offset>(
+                    begin: const Offset(1.0, 0.0),
+                    end: Offset.zero,
+                  ).animate(_animationController),
+                  child: pages[_pageCount],
+                ),
+              ),
+            ],
           ),
-          const Padding(padding: EdgeInsets.only(bottom: 15)),
-          SizedBox(
-            height: MediaQuery.of(context).size.height * 0.5,
-            child: SlideTransition(
-              position: Tween<Offset>(
-                begin: const Offset(1.0, 0.0),
-                end: Offset.zero,
-              ).animate(_animationController),
-              child: pages[_pageCount],
-            ),
-          ),
-        ],
-      ),
+        ),
+        isShowLoading
+            ? CustomPositioned(
+                child: RiveAnimation.asset(
+                  'assets/RiveAssets/check.riv',
+                  fit: BoxFit.cover,
+                  onInit: _onCheckRiveInit,
+                ),
+              )
+            : const SizedBox(),
+        isShowConfetti
+            ? CustomPositioned(
+                scale: 6,
+                child: RiveAnimation.asset(
+                  "assets/RiveAssets/confetti.riv",
+                  onInit: _onConfettiRiveInit,
+                  fit: BoxFit.cover,
+                ),
+              )
+            : const SizedBox(),
+      ],
     );
   }
 
@@ -457,12 +515,14 @@ class _SignUpPageState extends State<SignUpPage>
     String password = inputPasswordController.text;
 
     // Check if password is valid
-    if (password.isEmpty || password.length < 8) {
+    if (password.isEmpty /*|| password.length < 8*/) {
       setState(() {
         _passwordErrText = AppLocalizations.of(context).error_input_password;
       });
       return;
     }
+
+    bool userCreated = true;
 
     // Create user
     try {
@@ -474,36 +534,79 @@ class _SignUpPageState extends State<SignUpPage>
           level: 0,
           imagePath: "assets/images/no_image.jpg"));
     } catch (e) {
-      if (context.mounted) {
-        showDialog(
-            context: context,
-            builder: (BuildContext context) {
-              Widget confirmButton = TextButton(
-                child: Text(AppLocalizations.of(context).confirm,
-                    style: const TextStyle(
-                        color: Colors.white,
-                        fontSize: 16,
-                        fontWeight: FontWeight.w600),
-                    textAlign: TextAlign.left),
-                onPressed: () {
-                  Navigator.pop(context);
-                },
-              );
-
-              return AlertDialog(
-                  content: Text(AppLocalizations.of(context).error_signup,
-                      style: const TextStyle(
-                          color: Colors.white,
-                          fontSize: 14,
-                          fontWeight: FontWeight.w600),
-                      textAlign: TextAlign.center),
-                  actions: [confirmButton],
-                  backgroundColor: lightGray);
-            });
-      }
+        userCreated = false; 
     } finally {
-      // Clear all fields
+      //For popUp
+      setState(() {
+        isShowConfetti = true;
+        isShowLoading = true;
+      });
+
+      Future.delayed(
+        const Duration(seconds: 1),
+        () {
+          if (userCreated) {
+            //Check if create user was successful
+            success.fire();
+            Future.delayed(
+              const Duration(seconds: 2),
+              () {
+                setState(() {
+                  isShowLoading = false;
+                });
+                confetti.fire();
+                // Navigate & hide confetti
+                Future.delayed(const Duration(seconds: 1), () {
+                  // Pop the modal and send to Landing page
+                  Navigator.pop(context);
+                });
+              },
+            );
+          } else {
+            error.fire();
+            Future.delayed(
+              const Duration(seconds: 2),
+              () {
+                setState(() {
+                  isShowLoading = false;
+                });
+                reset.fire();
+              },
+            );
+          }
+        },
+      );
+
+      //Clear all fields
       clearAllFields();
     }
+  }
+}
+
+//This class is for the feedback animation dialog
+class CustomPositioned extends StatelessWidget {
+  const CustomPositioned({super.key, this.scale = 1, required this.child});
+
+  final double scale;
+  final Widget child;
+
+  @override
+  Widget build(BuildContext context) {
+    return Positioned.fill(
+      child: Column(
+        children: [
+          const Spacer(),
+          SizedBox(
+            height: 100,
+            width: 100,
+            child: Transform.scale(
+              scale: scale,
+              child: child,
+            ),
+          ),
+          const Spacer(flex: 2),
+        ],
+      ),
+    );
   }
 }
