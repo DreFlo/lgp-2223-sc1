@@ -28,8 +28,7 @@ class _BadgeFactState extends State<BadgeFact> {
             ),
           ],
         ),
-        child: Expanded(
-            child: Wrap(
+        child: Wrap(
           children: [
             Row(
               children: [
@@ -53,6 +52,6 @@ class _BadgeFactState extends State<BadgeFact> {
               ],
             )
           ],
-        )));
+        ));
   }
 }

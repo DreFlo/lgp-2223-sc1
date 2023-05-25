@@ -139,26 +139,26 @@ class _MyEventCardState extends State<MyEventCard> {
                     borderRadius: BorderRadius.circular(10),
                     color: moduleColors[widget.module],
                   )),
-              Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  SizedBox(
-                    width: 200, // Set width of Text widget to 200
-                    child: Text(title,
-                        overflow: TextOverflow.ellipsis,
-                        style: Theme.of(context).textTheme.labelLarge),
-                  ),
-                  const SizedBox(height: 5),
-                  Text(
-                    date,
-                    style: Theme.of(context).textTheme.bodyLarge,
-                  ),
-                ],
-              ),
+              const SizedBox(width: 19),
+              SizedBox(
+                  width: 131,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(title,
+                          overflow: TextOverflow.ellipsis,
+                          style: Theme.of(context).textTheme.labelLarge),
+                      const SizedBox(height: 5),
+                      Text(
+                        date,
+                        style: Theme.of(context).textTheme.bodyLarge,
+                      ),
+                    ],
+                  )),
             ]),
             Container(
-                margin: const EdgeInsets.only(right: 26),
+                margin: const EdgeInsets.only(right: 15),
                 child: const Icon(Icons.arrow_forward_ios,
                     color: Colors.white, size: 17))
           ]),

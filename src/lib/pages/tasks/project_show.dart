@@ -117,7 +117,7 @@ class _ProjectShowState extends State<ProjectShow> {
                     const BorderRadius.vertical(top: Radius.circular(30.0)),
                 child: Scaffold(
                     primary: false,
-                    backgroundColor: modalLightBackground,
+                    backgroundColor: modalBackground,
                     body: SingleChildScrollView(
                       padding: const EdgeInsets.symmetric(horizontal: 24),
                       controller: widget.scrollController,
@@ -189,7 +189,7 @@ class _ProjectShowState extends State<ProjectShow> {
                         ]),
                         const SizedBox(height: 7.5),
                         getDescription(),
-                        const SizedBox(height: 7.5),
+                        const SizedBox(height: 30),
                         getAddTask(context),
                         const SizedBox(height: 7.5),
                         ...getTasks(),
@@ -483,8 +483,12 @@ class _ProjectShowState extends State<ProjectShow> {
     return Row(children: [
       Flexible(
           flex: 1,
-          child: HighlightText(taskGroup.description,
-              key: const Key("projectDescription")))
+          child: Text(taskGroup.description,
+              key: const Key("projectDescription"),
+              style: const TextStyle(
+                  color: Colors.white,
+                  fontSize: 16,
+                  fontWeight: FontWeight.normal))),
     ]);
   }
 

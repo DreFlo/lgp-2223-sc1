@@ -25,7 +25,7 @@ class _BadgeInfoAlertState extends State<BadgeInfoAlert>
   Widget build(BuildContext context) {
     return AlertDialog(
       shape: const RoundedRectangleBorder(
-          borderRadius: BorderRadius.all(Radius.circular(30.0))),
+          borderRadius: BorderRadius.all(Radius.circular(20.0))),
       backgroundColor: lightGray,
       contentPadding: const EdgeInsets.only(left: 20, right: 20, top: 20),
       actionsPadding: const EdgeInsets.symmetric(vertical: 10),

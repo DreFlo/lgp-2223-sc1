@@ -110,6 +110,7 @@ class _EvaluationBarState extends State<EvaluationBar> {
     );
 
     AlertDialog alert = AlertDialog(
+      elevation: 0,
       title: Text(AppLocalizations.of(context).delete_evaluation,
           style: const TextStyle(
               color: Colors.white, fontSize: 20, fontWeight: FontWeight.w600),
@@ -118,15 +119,15 @@ class _EvaluationBarState extends State<EvaluationBar> {
           style: const TextStyle(
               color: Colors.white, fontSize: 16, fontWeight: FontWeight.normal),
           textAlign: TextAlign.center),
-      actionsPadding: const EdgeInsets.symmetric(horizontal: 15, vertical: 5),
+      actionsPadding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
       shadowColor: Colors.transparent,
       shape: const RoundedRectangleBorder(
-          borderRadius: BorderRadius.all(Radius.circular(20.0))),
+          borderRadius: BorderRadius.all(Radius.circular(30.0))),
       actions: [
         cancelButton,
         deleteButton,
       ],
-      backgroundColor: modalDarkBackground,
+      backgroundColor: modalBackground,
     );
 
     showDialog(
@@ -139,15 +140,18 @@ class _EvaluationBarState extends State<EvaluationBar> {
 
   showEvaluationForm(BuildContext context) {
     AlertDialog alert = AlertDialog(
+      elevation: 0,
       title: Text(AppLocalizations.of(context).add_evaluation,
           style: const TextStyle(
               color: Colors.white, fontSize: 20, fontWeight: FontWeight.w600),
           textAlign: TextAlign.center),
-      backgroundColor: modalDarkBackground,
+      backgroundColor: modalBackground,
       content: EvaluationForm(
           subjectId: widget.subjectId,
           evaluation: widget.evaluation,
           callback: widget.updateCallback),
+      shape: const RoundedRectangleBorder(
+          borderRadius: BorderRadius.all(Radius.circular(30.0))),
     );
 
     showDialog(

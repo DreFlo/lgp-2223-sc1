@@ -63,8 +63,9 @@ class BreakRunningState extends TimerState {
       timer?.cancel();
     });
     tracker.incrementSession();
-    serviceLocator<LocalNotificationService>()
-        .display('It\'s time to FOCUS! Emil believes in you!');
+    serviceLocator<LocalNotificationService>().display(
+        AppLocalizations.of(context).time_to_focus,
+        AppLocalizations.of(context).emil_believes);
     changeState(FocusPausedState(
         timer: timer,
         settings: settings,
