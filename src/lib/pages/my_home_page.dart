@@ -215,13 +215,15 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
         body: Stack(children: [
+           Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
       const Padding(
         padding: EdgeInsets.only(right: 36, top: 36),
         child: ProfilePic(),
       ),
-       Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-          Padding(
-            padding: const EdgeInsets.only(left: 36, top: 90),
+      Padding(
+            padding: const EdgeInsets.only(left: 36),
             child: WelcomeMessage(name: name),
           ),
           FutureBuilder(
@@ -232,31 +234,35 @@ class _MyHomePageState extends State<MyHomePage> {
                 }
                 return const Center(child: CircularProgressIndicator());
               }),
+              Expanded(child: 
+      SingleChildScrollView(child:
+       Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+
+          
           FutureBuilder(
-              future: loadEventsDB(),
-              builder: (BuildContext context, AsyncSnapshot<int> snapshot) {
-                if (snapshot.hasData) {
-                  return HorizontalScrollView(
-                    nItems: studentEvents.length + mediaEvents.length,
-                    selectedIndex: _selectedIndex,
-                    setSelectedIndex: (int index) =>
-                        setState(() => _selectedIndex = index),
-                  );
-                }
-                return const Center(child: CircularProgressIndicator());
-              }),
-          FutureBuilder(
-              future: loadEventsDB(),
-              builder: (BuildContext context, AsyncSnapshot<int> snapshot) {
-                if (snapshot.hasData) {
-                  return Builder(builder: (BuildContext context) {
-                    return showWidget();
-                  });
-                }
-                return const Center(child: CircularProgressIndicator());
-              }),
+  future: loadEventsDB(),
+  builder: (BuildContext context, AsyncSnapshot<int> snapshot) {
+    if (snapshot.hasData) {
+      return Column(
+        children: [
+          HorizontalScrollView(
+            nItems: studentEvents.length + mediaEvents.length,
+            selectedIndex: _selectedIndex,
+            setSelectedIndex: (int index) =>
+                setState(() => _selectedIndex = index),
+          ),
+          Builder(builder: (BuildContext context) {
+            return showWidget();
+          }),
+        ],
+      );
+    }
+    return const Center(child: CircularProgressIndicator());
+  },
+)
+
         ]),
       
-    ]));
+    ))])]));
   }
 }
