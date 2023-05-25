@@ -18,10 +18,10 @@ class _EditTitleState extends State<EditTitle> {
   @override
   Widget build(BuildContext context) {
     return Flexible(
-        flex: 11,
+        flex: 15,
         child: Row(children: [
           Flexible(
-              flex: 10,
+              flex: 12,
               child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -55,7 +55,6 @@ class _EditTitleState extends State<EditTitle> {
                                     fontWeight: FontWeight.w400)))
                         : const SizedBox(height: 0),
                   ])),
-          const VerticalDivider(),
           Flexible(
               flex: 1,
               child: IconButton(

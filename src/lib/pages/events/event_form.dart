@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:src/services/authentication_service.dart';
 import 'package:src/daos/timeslot/media_media_timeslot_dao.dart';
 import 'package:src/daos/timeslot/task_student_timeslot_dao.dart';
 import 'package:src/daos/timeslot/timeslot_dao.dart';
@@ -13,6 +12,7 @@ import 'package:src/models/timeslot/task_student_timeslot.dart';
 import 'package:src/models/timeslot/timeslot.dart';
 import 'package:src/models/timeslot/timeslot_media_timeslot_super_entity.dart';
 import 'package:src/models/timeslot/timeslot_student_timeslot_super_entity.dart';
+import 'package:src/services/authentication_service.dart';
 import 'package:src/services/local_notifications_service.dart';
 import 'package:src/themes/colors.dart';
 import 'package:src/utils/enums.dart';
@@ -383,28 +383,25 @@ class _EventFormState extends State<EventForm> {
                 icon: Icons.event,
                 scrollController: widget.scrollController,
                 children: [
-                  Row(
-                      mainAxisSize: MainAxisSize.min,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        //TODO: Figure out the overflow here.
-                        //LESS: Expanded doesn't work here. I think the widget division is part of the issue.
-                        //I did do a new "title" thing when messing with Patrícia's requests for the forms, but
-                        //since Margarida did something of her own, I didn't want to replace her work without her
-                        //seeing it first/blessing.
-                        ModuleButton(
-                          buttonKey: buttonKey,
-                          moduleColor: _moduleColor,
-                          setModuleColor: setModuleColor,
-                          clearActivities: clearActivities,
-                          disabled: widget.id != null,
-                        ),
-                        const VerticalDivider(),
-                        EditTitle(
-                            key: const Key('titleField'),
-                            titleController: titleController,
-                            errors: errors)
-                      ]),
+                  Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 10),
+                      child: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            ModuleButton(
+                              buttonKey: buttonKey,
+                              moduleColor: _moduleColor,
+                              setModuleColor: setModuleColor,
+                              clearActivities: clearActivities,
+                              disabled: widget.id != null,
+                            ),
+                            const VerticalDivider(),
+                            EditTitle(
+                                key: const Key('titleField'),
+                                titleController: titleController,
+                                errors: errors)
+                          ])),
                   const SizedBox(height: 30),
                   StartDatePicker(
                       startDate: startDate,
