@@ -241,7 +241,7 @@
   "weekly_report": "Relatório Semanal",
   "from": "de",
   "to": "até",
-  "weekly_report_message_1": "Que jornada esta [SEMANA] foi!",
+  "weekly_report_message_1": "Que jornada esta semana foi!",
   "weekly_report_message_2": "Vamos ver o que tens feito.",
   "weekly_report_message_3": "...mas isso não é tudo o que te deves orgulhar!",
   "weekly_report_message_4_1": "Este foi o",
@@ -263,5 +263,9 @@
   "you_ve_racked_up": "Já tens",
   "xp": "XP",
   "events": "Eventos",
-  "projects": "Projetos"
+  "projects": "Projetos",
+  "no_notes_so_far": "...não fizeste notas",
+  "try_harder_next_time": "Tenta melhor da próxima vez!",
+  "you_can_start_a_new_one": "Mas podes começar uma nova agora!",
+  "no_projects_this_time": "...sem projetos desta vez"
 }

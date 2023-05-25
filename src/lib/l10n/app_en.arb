@@ -241,7 +241,7 @@
   "weekly_report": "Weekly Report",
   "from": "from",
   "to": "to",
-  "weekly_report_message_1": "What a ride this [WEEK] was!",
+  "weekly_report_message_1": "What a ride this week was!",
   "weekly_report_message_2": "Let's go over what you've been doing.",
   "weekly_report_message_3": "...but that’s not all you should be proud of!",
   "weekly_report_message_4_1": "This was the",
@@ -263,5 +263,9 @@
   "you_ve_racked_up": "You've racked up",
   "xp": "XP",
   "events": "Events",
-  "projects": "Projects"
+  "projects": "Projects",
+  "no_notes_so_far": "...no notes so far",
+  "try_harder_next_time": "Try harder next time!",
+  "you_can_start_a_new_one": "But you can always start a new one!",
+  "no_projects_this_time": "...no projects this time"
 }

@@ -46,8 +46,10 @@ class _WeeklyReportState extends State<WeeklyReport> {
     finishedTasks = await getFinishedTasks(reportDay);
     numberFinishedTasks = finishedTasks.length;
     contributedTaskGroups = await getContributedTaskGroups(finishedTasks);
-    if (contributedTaskGroups.length > 0) {
+    if (contributedTaskGroups.isNotEmpty) {
       mostFinishedTaskGroup = contributedTaskGroups[0];
+    } else {
+      mostFinishedTaskGroup = null;
     }
     numberFinishedTaskGroups = await getNumberFinishedTaskGroups(finishedTasks);
 
@@ -159,12 +161,14 @@ class _WeeklyReportState extends State<WeeklyReport> {
                                             ),
                                       ),
                                       const SizedBox(height: 20),
-                                      Row(children: [
-                                        ProjectHorizontalScrollview(
-                                          contributedTaskGroups:
-                                              contributedTaskGroups,
-                                        )
-                                      ]),
+                                      contributedTaskGroups.isNotEmpty
+                                          ? Row(children: [
+                                              ProjectHorizontalScrollview(
+                                                contributedTaskGroups:
+                                                    contributedTaskGroups,
+                                              )
+                                            ])
+                                          : Container(),
                                       const SizedBox(
                                         height: 10,
                                       ),
@@ -251,49 +255,104 @@ class _WeeklyReportState extends State<WeeklyReport> {
                                                       ]))
                                             ],
                                           ),
-                                          Column(
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.end,
-                                              children: [
-                                                Container(
-                                                  width: 100,
-                                                  height: 120,
-                                                  decoration: BoxDecoration(
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            5),
-                                                    color: grayButton,
-                                                    boxShadow: const [
-                                                      BoxShadow(
-                                                        color: studentColor,
-                                                        offset: Offset(5, -5),
+                                          mostFinishedTaskGroup != null
+                                              ? Column(
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.end,
+                                                  children: [
+                                                      Container(
+                                                        width: 100,
+                                                        height: 120,
+                                                        decoration:
+                                                            BoxDecoration(
+                                                          borderRadius:
+                                                              BorderRadius
+                                                                  .circular(5),
+                                                          color: grayButton,
+                                                          boxShadow: const [
+                                                            BoxShadow(
+                                                              color:
+                                                                  studentColor,
+                                                              offset:
+                                                                  Offset(5, -5),
+                                                            ),
+                                                          ],
+                                                        ),
+                                                        child: ProjectCard(
+                                                            taskGroup:
+                                                                mostFinishedTaskGroup),
                                                       ),
-                                                    ],
-                                                  ),
-                                                  child: ProjectCard(
-                                                      taskGroup:
-                                                          mostFinishedTaskGroup),
-                                                ),
-                                                // mostFinishedTaskGroup (check if not null)
-                                                const SizedBox(height: 10),
-                                                Text(AppLocalizations.of(
-                                                        context)
-                                                    .weekly_report_message_4_1
-                                                    .toUpperCase()),
-                                                Row(children: [
-                                                  Text(
-                                                      " ${AppLocalizations.of(context).project.toUpperCase()} ",
-                                                      style: const TextStyle(
-                                                        color: studentColor,
-                                                        fontWeight:
-                                                            FontWeight.w600,
+                                                      // mostFinishedTaskGroup (check if not null)
+                                                      const SizedBox(
+                                                          height: 10),
+                                                      Text(AppLocalizations.of(
+                                                              context)
+                                                          .weekly_report_message_4_1
+                                                          .toUpperCase()),
+                                                      Row(children: [
+                                                        Text(
+                                                            " ${AppLocalizations.of(context).project.toUpperCase()} ",
+                                                            style:
+                                                                const TextStyle(
+                                                              color:
+                                                                  studentColor,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .w600,
+                                                            )),
+                                                        Text(AppLocalizations
+                                                                .of(context)
+                                                            .weekly_report_message_4_2
+                                                            .toUpperCase())
+                                                      ]),
+                                                    ])
+                                              : Column(children: [
+                                                  const SizedBox(height: 10),
+                                                  SizedBox(
+                                                      width:
+                                                          MediaQuery.of(context)
+                                                                  .size
+                                                                  .width *
+                                                              0.5,
+                                                      child: Text(
+                                                        AppLocalizations.of(
+                                                                context)
+                                                            .no_projects_this_time,
+                                                        textAlign:
+                                                            TextAlign.right,
+                                                        style: Theme.of(context)
+                                                            .textTheme
+                                                            .headlineMedium
+                                                            ?.copyWith(
+                                                              color: grayText,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .w400,
+                                                            ),
                                                       )),
-                                                  Text(AppLocalizations.of(
-                                                          context)
-                                                      .weekly_report_message_4_2
-                                                      .toUpperCase())
+                                                  SizedBox(
+                                                      width:
+                                                          MediaQuery.of(context)
+                                                                  .size
+                                                                  .width *
+                                                              0.5,
+                                                      child: Text(
+                                                        AppLocalizations.of(
+                                                                context)
+                                                            .you_can_start_a_new_one
+                                                            .toUpperCase(),
+                                                        textAlign:
+                                                            TextAlign.right,
+                                                        style: Theme.of(context)
+                                                            .textTheme
+                                                            .headlineMedium
+                                                            ?.copyWith(
+                                                                fontSize: 15,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .w600),
+                                                      ))
                                                 ]),
-                                              ])
                                         ],
                                       ),
                                       const SizedBox(height: 20),
@@ -320,11 +379,60 @@ class _WeeklyReportState extends State<WeeklyReport> {
                                           mainAxisAlignment:
                                               MainAxisAlignment.spaceBetween,
                                           children: [
-                                            SizedBox(
-                                                width: 145,
-                                                height: 295,
-                                                child: MediaCarousel(
-                                                    topMedia: topMedia)),
+                                            topMedia.isNotEmpty
+                                                ? SizedBox(
+                                                    width: 145,
+                                                    height: 295,
+                                                    child: MediaCarousel(
+                                                        topMedia: topMedia))
+                                                : Column(children: [
+                                                    SizedBox(
+                                                        width: MediaQuery.of(
+                                                                    context)
+                                                                .size
+                                                                .width *
+                                                            0.4,
+                                                        child: Text(
+                                                          AppLocalizations.of(
+                                                                  context)
+                                                              .no_notes_so_far,
+                                                          textAlign:
+                                                              TextAlign.left,
+                                                          style: Theme.of(
+                                                                  context)
+                                                              .textTheme
+                                                              .headlineMedium
+                                                              ?.copyWith(
+                                                                color: grayText,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .w400,
+                                                              ),
+                                                        )),
+                                                    SizedBox(
+                                                        width: MediaQuery.of(
+                                                                    context)
+                                                                .size
+                                                                .width *
+                                                            0.4,
+                                                        child: Text(
+                                                          AppLocalizations.of(
+                                                                  context)
+                                                              .try_harder_next_time
+                                                              .toUpperCase(),
+                                                          textAlign:
+                                                              TextAlign.left,
+                                                          style: Theme.of(
+                                                                  context)
+                                                              .textTheme
+                                                              .headlineMedium
+                                                              ?.copyWith(
+                                                                  fontSize: 15,
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .w600),
+                                                        ))
+                                                  ]),
                                             Column(
                                                 crossAxisAlignment:
                                                     CrossAxisAlignment.end,
@@ -416,78 +524,87 @@ class _WeeklyReportState extends State<WeeklyReport> {
                                                           .toString(),
                                                       color: leisureColor),
                                                   const SizedBox(height: 10),
-                                                  Column(children: [
-                                                    SizedBox(
-                                                      width:
-                                                          MediaQuery.of(context)
-                                                                  .size
-                                                                  .width *
-                                                              0.5,
-                                                      child: Text(
-                                                        topMedia[0].name,
-                                                        textAlign:
-                                                            TextAlign.center,
-                                                        style: const TextStyle(
-                                                          fontSize: 13,
-                                                          color: leisureColor,
-                                                          fontStyle:
-                                                              FontStyle.italic,
-                                                          fontWeight:
-                                                              FontWeight.w600,
-                                                        ),
-                                                      ),
-                                                    ),
-                                                    Text(
-                                                        AppLocalizations.of(
-                                                                context)
-                                                            .got_you_pretty_chatty,
-                                                        style: Theme.of(context)
-                                                            .textTheme
-                                                            .bodyLarge
-                                                            ?.copyWith(
-                                                              color:
-                                                                  Colors.white,
-                                                              fontStyle:
-                                                                  FontStyle
-                                                                      .italic,
-                                                            )),
-                                                    const SizedBox(height: 10),
-                                                    ElevatedButton(
-                                                        onPressed: () {
-                                                          // TODO navigate to top media notes page
-                                                        },
-                                                        style: ElevatedButton
-                                                            .styleFrom(
-                                                          backgroundColor:
-                                                              primaryColor,
-                                                          padding:
-                                                              const EdgeInsets
-                                                                      .symmetric(
-                                                                  horizontal:
-                                                                      25,
-                                                                  vertical: 5),
-                                                          shape:
-                                                              RoundedRectangleBorder(
-                                                            borderRadius:
-                                                                BorderRadius
-                                                                    .circular(
-                                                                        25.0),
+                                                  topMedia.isNotEmpty
+                                                      ? Column(children: [
+                                                          SizedBox(
+                                                            width: MediaQuery.of(
+                                                                        context)
+                                                                    .size
+                                                                    .width *
+                                                                0.5,
+                                                            child: Text(
+                                                              topMedia[0].name,
+                                                              textAlign:
+                                                                  TextAlign
+                                                                      .center,
+                                                              style:
+                                                                  const TextStyle(
+                                                                fontSize: 13,
+                                                                color:
+                                                                    leisureColor,
+                                                                fontStyle:
+                                                                    FontStyle
+                                                                        .italic,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .w600,
+                                                              ),
+                                                            ),
                                                           ),
-                                                        ),
-                                                        child: Text(
-                                                            AppLocalizations.of(
-                                                                    context)
-                                                                .see_notes,
-                                                            style: Theme.of(
-                                                                    context)
-                                                                .textTheme
-                                                                .labelLarge
-                                                                ?.copyWith(
-                                                                  fontStyle:
-                                                                      FontStyle
-                                                                          .italic,
-                                                                ))),
-                                                  ]),
+                                                          Text(
+                                                              AppLocalizations.of(
+                                                                      context)
+                                                                  .got_you_pretty_chatty,
+                                                              style: Theme.of(
+                                                                      context)
+                                                                  .textTheme
+                                                                  .bodyLarge
+                                                                  ?.copyWith(
+                                                                    color: Colors
+                                                                        .white,
+                                                                    fontStyle:
+                                                                        FontStyle
+                                                                            .italic,
+                                                                  )),
+                                                          const SizedBox(
+                                                              height: 10),
+                                                          ElevatedButton(
+                                                              onPressed: () {
+                                                                // TODO navigate to top media notes page
+                                                              },
+                                                              style:
+                                                                  ElevatedButton
+                                                                      .styleFrom(
+                                                                backgroundColor:
+                                                                    primaryColor,
+                                                                padding: const EdgeInsets
+                                                                        .symmetric(
+                                                                    horizontal:
+                                                                        25,
+                                                                    vertical:
+                                                                        5),
+                                                                shape:
+                                                                    RoundedRectangleBorder(
+                                                                  borderRadius:
+                                                                      BorderRadius
+                                                                          .circular(
+                                                                              25.0),
+                                                                ),
+                                                              ),
+                                                              child: Text(
+                                                                  AppLocalizations.of(
+                                                                          context)
+                                                                      .see_notes,
+                                                                  style: Theme.of(
+                                                                          context)
+                                                                      .textTheme
+                                                                      .labelLarge
+                                                                      ?.copyWith(
+                                                                        fontStyle:
+                                                                            FontStyle.italic,
+                                                                      ))),
+                                                        ])
+                                                      : Container(),
                                                 ])
                                           ]),
                                       const SizedBox(height: 20),
