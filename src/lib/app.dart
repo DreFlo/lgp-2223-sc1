@@ -117,7 +117,7 @@ class App extends StatelessWidget {
                       fontSize: 10,
                       fontWeight: FontWeight.w500),
                 )),
-            home: Scaffold(
+            home: const Scaffold(
               body: Center(
                 child: SplashScreenPage(),
               ),

@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:src/themes/colors.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:src/pages/navigation_page.dart';
+import 'package:src/services/authentication_service.dart';
+import 'package:src/utils/service_locator.dart';
+import 'package:src/pages/auth/landing_page.dart';
 
 class SplashScreenPage extends StatefulWidget {
   const SplashScreenPage({Key? key}) : super(key: key);
@@ -20,8 +23,13 @@ class _SplashScreenPageState extends State<SplashScreenPage> {
   void _navigateToHome() async {
     await Future.delayed(
         const Duration(seconds: 2),
-        () => Navigator.pushReplacement(context,
-            MaterialPageRoute(builder: (context) => const NavigationPage())));
+        () => Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(
+                builder: (context) =>
+                    serviceLocator<AuthenticationService>().isUserLoggedIn()
+                        ? const NavigationPage()
+                        : const LandingPage())));
   }
 
   @override
