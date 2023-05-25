@@ -25,8 +25,7 @@ final mockSeries = [
       name: 'Snowpiercer',
       description:
           'Seven years after the world has become a frozen wasteland, the remnants of humanity inhabit a perpetually-moving train that circles the globe, where class warfare, social injustice and the politics of survival play out.',
-      linkImage:
-          '/3s6ZyZKurx6wDJZMXSsbUsgjWCI.jpg',
+      linkImage: '/3s6ZyZKurx6wDJZMXSsbUsgjWCI.jpg',
       status: Status.goingThrough,
       favorite: true,
       genres: 'drama',

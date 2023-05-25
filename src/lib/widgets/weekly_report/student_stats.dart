@@ -5,8 +5,7 @@ class StudentStats extends StatelessWidget {
   final String stat;
   final String value;
 
-  const StudentStats(
-      {Key? key, required this.stat, required this.value})
+  const StudentStats({Key? key, required this.stat, required this.value})
       : super(key: key);
 
   @override

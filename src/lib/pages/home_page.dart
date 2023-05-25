@@ -332,13 +332,10 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                         color: Colors.white,
                         fontSize: 16,
                         fontWeight: FontWeight.w600))),
-              
             ElevatedButton(
                 onPressed: () {
-                  Navigator.push(
-                      context,
-                  MaterialPageRoute(
-                      builder: (context) => WeeklyReport()));
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => WeeklyReport()));
                 },
                 child: Text("Weekly Report",
                     style: const TextStyle(

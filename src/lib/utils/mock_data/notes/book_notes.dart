@@ -9,7 +9,6 @@ final mockBookNotes = [
       startPage: 1,
       endPage: 50,
       bookId: 4),
-      
   NoteBookNoteSuperEntity(
       id: 5,
       title: 'Vin',
@@ -18,7 +17,6 @@ final mockBookNotes = [
       startPage: 1,
       endPage: 50,
       bookId: 7),
-      
   NoteBookNoteSuperEntity(
       id: 6,
       title: 'Kelsier',
@@ -27,7 +25,6 @@ final mockBookNotes = [
       startPage: 51,
       endPage: 100,
       bookId: 7),
-      
   NoteBookNoteSuperEntity(
       id: 7,
       title: 'Mistborn trainnig',
@@ -36,7 +33,6 @@ final mockBookNotes = [
       startPage: 101,
       endPage: 151,
       bookId: 7),
-      
   NoteBookNoteSuperEntity(
       id: 8,
       title: 'The Lord Ruler',
@@ -45,5 +41,4 @@ final mockBookNotes = [
       startPage: 1,
       endPage: 50,
       bookId: 8),
-
 ];

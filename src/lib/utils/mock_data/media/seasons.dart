@@ -7,9 +7,5 @@ final mockSeasons = [
     number: 1,
     seriesId: 1,
   ),
-  Season(
-    id: 2,
-    number: 1,
-    seriesId: 9
-  )
+  Season(id: 2, number: 1, seriesId: 9)
 ];

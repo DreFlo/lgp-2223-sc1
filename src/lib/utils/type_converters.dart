@@ -12,16 +12,19 @@ class DateTimeConverter extends TypeConverter<DateTime, int> {
   }
 }
 
-class DateTimeNullableConverter extends TypeConverter<DateTime?, int>{
+class DateTimeNullableConverter extends TypeConverter<DateTime?, int> {
   @override
   DateTime decode(int? databaseValue) {
-    return databaseValue == null ? DateTime.now() : DateTime.fromMillisecondsSinceEpoch(databaseValue);
+    return databaseValue == null
+        ? DateTime.now()
+        : DateTime.fromMillisecondsSinceEpoch(databaseValue);
   }
 
   @override
   int encode(DateTime? value) {
-    return 
-      value == null ? DateTime.now().millisecondsSinceEpoch : value.millisecondsSinceEpoch;
+    return value == null
+        ? DateTime.now().millisecondsSinceEpoch
+        : value.millisecondsSinceEpoch;
   }
 }
 

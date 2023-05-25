@@ -6,7 +6,8 @@ class MediaStats extends StatelessWidget {
   final String value;
   final Color? color;
 
-  const MediaStats({Key? key, required this.stat, required this.value, this.color})
+  const MediaStats(
+      {Key? key, required this.stat, required this.value, this.color})
       : super(key: key);
 
   @override
@@ -15,15 +16,15 @@ class MediaStats extends StatelessWidget {
       Text(
         "$value ",
         style: Theme.of(context).textTheme.displayLarge?.copyWith(
-          fontSize: 25,
-          color: color ?? primaryColor,
-        ),
+              fontSize: 25,
+              color: color ?? primaryColor,
+            ),
       ),
       Text(
         stat,
         style: Theme.of(context).textTheme.displayLarge?.copyWith(
-          fontSize: 25,
-        ),
+              fontSize: 25,
+            ),
       ),
     ]);
   }

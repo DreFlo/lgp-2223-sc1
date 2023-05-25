@@ -44,6 +44,5 @@ String formatWeeklyReportDay(DateTime reportDay) {
       ? 'th'
       : suffixes[reportDay.day % 10] ?? 'th';
 
-  return DateFormat("MMM d'$ordinalDay'")
-      .format(reportDay);
+  return DateFormat("MMM d'$ordinalDay'").format(reportDay);
 }
