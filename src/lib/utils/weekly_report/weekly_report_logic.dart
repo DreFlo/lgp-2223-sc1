@@ -18,7 +18,7 @@ import 'package:src/models/student/task_group.dart';
 import 'package:src/utils/formatters.dart';
 import 'package:src/utils/service_locator.dart';
 
-const int NUMBER_TOP_MEDIA = 3;
+const int numberTopMedia = 3;
 
 Future<int?> getNumberFinishedEvents(DateTime reportDay) {
   DateTime reportWeekStart = reportDay.subtract(const Duration(days: 7));
@@ -159,7 +159,7 @@ Future<List<Media>> sortMediaByNumberOfNotes() async {
   List<Media> topMedia = [];
   // iterate mediaNumberNotes
   for (Media media in mediaNumberNotes.keys) {
-    if (topMedia.length >= NUMBER_TOP_MEDIA) {
+    if (topMedia.length >= numberTopMedia) {
       break;
     }
     topMedia.add(media);
