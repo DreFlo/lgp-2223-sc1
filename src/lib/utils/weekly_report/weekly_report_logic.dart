@@ -15,8 +15,6 @@ import 'package:src/models/notes/book_note.dart';
 import 'package:src/models/notes/episode_note.dart';
 import 'package:src/models/student/task.dart';
 import 'package:src/models/student/task_group.dart';
-import 'package:src/models/user.dart';
-import 'package:src/services/authentication_service.dart';
 import 'package:src/utils/formatters.dart';
 import 'package:src/utils/service_locator.dart';
 
@@ -93,6 +91,9 @@ Future<int> getNumberFinishedTaskGroups(List<Task> finishedTasks) async {
 Future<List<int>> getMediaStats() async {
   int numberMedia = await serviceLocator<MediaDao>().countAllMedia() ?? 0;
   int count = await serviceLocator<MediaDao>().countFavoriteMedia(true) ?? 0;
+  if (numberMedia == 0) {
+    return [0, 0, 0];
+  }
   int percentageFavoriteMedia = (count / numberMedia * 100).round();
   // return numberMedia, percentageFavoriteMedia, count
   return [numberMedia, percentageFavoriteMedia, count];

@@ -21,5 +21,6 @@ import 'package:src/models/timeslot/timeslot_student_timeslot_super_entity.dart'
   MockSpec<TimeslotStudentTimeslotSuperEntity>(),
   MockSpec<TimeslotMediaTimeslotSuperEntity>(),
   MockSpec<Timeslot>(),
+  MockSpec<DateTime>(),
 ])
 void main() {}
