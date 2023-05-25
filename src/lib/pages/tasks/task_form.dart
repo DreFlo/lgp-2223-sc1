@@ -1107,7 +1107,7 @@ class _TaskFormState extends State<TaskForm> {
       return DropdownMenuItem(
           key: const Key('taskSubject'),
           value: subject!,
-          child: Text(subject!.name,
+          child: Text(subject!.acronym,
               style: const TextStyle(
                   fontFamily: 'Poppins',
                   color: Color(0xFF71788D),
