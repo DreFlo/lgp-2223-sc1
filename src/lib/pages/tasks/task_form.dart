@@ -1107,7 +1107,7 @@ class _TaskFormState extends State<TaskForm> {
       return DropdownMenuItem(
           key: const Key('taskSubject'),
           value: subject!,
-          child: Text(subject!.name,
+          child: Text(subject!.acronym,
               style: const TextStyle(
                   fontFamily: 'Poppins',
                   color: Color(0xFF71788D),
@@ -1287,8 +1287,11 @@ class _TaskFormState extends State<TaskForm> {
   }
 
   showDeleteConfirmation(BuildContext context) {
-    Widget cancelButton = TextButton(
+    Widget cancelButton = ElevatedButton(
       key: const Key('cancelConfirmationButton'),
+      style: ElevatedButton.styleFrom(
+        backgroundColor: primaryColor,
+      ),
       child: Text(AppLocalizations.of(context).cancel,
           style: const TextStyle(
               color: Colors.white, fontSize: 16, fontWeight: FontWeight.w600),
@@ -1298,8 +1301,9 @@ class _TaskFormState extends State<TaskForm> {
       },
     );
 
-    Widget deleteButton = TextButton(
+    Widget deleteButton = ElevatedButton(
       key: const Key('deleteConfirmationButton'),
+      style: ElevatedButton.styleFrom(backgroundColor: Colors.red[600]),
       child: Text(AppLocalizations.of(context).delete,
           style: const TextStyle(
               color: Colors.white, fontSize: 16, fontWeight: FontWeight.w600),
@@ -1310,19 +1314,24 @@ class _TaskFormState extends State<TaskForm> {
     );
 
     AlertDialog alert = AlertDialog(
+      elevation: 0,
       title: Text(AppLocalizations.of(context).delete_task,
           style: const TextStyle(
               color: Colors.white, fontSize: 20, fontWeight: FontWeight.w600),
           textAlign: TextAlign.center),
       content: Text(AppLocalizations.of(context).delete_task_message,
           style: const TextStyle(
-              color: Colors.white, fontSize: 14, fontWeight: FontWeight.w600),
+              color: Colors.white, fontSize: 14, fontWeight: FontWeight.normal),
           textAlign: TextAlign.center),
+      actionsPadding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
       actions: [
         cancelButton,
         deleteButton,
       ],
-      backgroundColor: primaryColor,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(30),
+      ),
+      backgroundColor: modalBackground,
     );
 
     showDialog(

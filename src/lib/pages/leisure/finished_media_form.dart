@@ -165,132 +165,140 @@ class _FinishedMediaFormState extends State<FinishedMediaForm> {
           const SizedBox(height: 7.5),
           SizedBox(
               height: 50,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: [
-                  InkWell(
-                    highlightColor: lightGray,
-                    borderRadius: const BorderRadius.only(
-                        bottomLeft: Radius.circular(10),
-                        topLeft: Radius.circular(10)),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Container(
-                            height: 50,
-                            padding: const EdgeInsets.only(left: 15, right: 15),
-                            alignment: const Alignment(0, 0),
-                            decoration: BoxDecoration(
-                                borderRadius: const BorderRadius.only(
-                                    bottomLeft: Radius.circular(10),
-                                    topLeft: Radius.circular(10)),
-                                color: (rating == Reaction.hate
+              child: SingleChildScrollView(
+                  scrollDirection: Axis.horizontal,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: [
+                      InkWell(
+                        highlightColor: lightGray,
+                        borderRadius: const BorderRadius.only(
+                            bottomLeft: Radius.circular(10),
+                            topLeft: Radius.circular(10)),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Container(
+                                height: 50,
+                                padding:
+                                    const EdgeInsets.only(left: 15, right: 15),
+                                alignment: const Alignment(0, 0),
+                                decoration: BoxDecoration(
+                                    borderRadius: const BorderRadius.only(
+                                        bottomLeft: Radius.circular(10),
+                                        topLeft: Radius.circular(10)),
+                                    color: (rating == Reaction.hate
+                                        ? leisureColor
+                                        : lightGray)),
+                                child: const Text(Emojis.confoundedFace,
+                                    style: TextStyle(fontSize: 30)))
+                          ],
+                        ),
+                        onTap: () {
+                          rating = Reaction.hate;
+
+                          setState(() {});
+                        },
+                      ),
+                      InkWell(
+                        highlightColor: lightGray,
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Container(
+                                height: 50,
+                                padding:
+                                    const EdgeInsets.only(left: 15, right: 15),
+                                color: (rating == Reaction.dislike
                                     ? leisureColor
-                                    : lightGray)),
-                            child: const Text(Emojis.confoundedFace,
-                                style: TextStyle(fontSize: 30)))
-                      ],
-                    ),
-                    onTap: () {
-                      rating = Reaction.hate;
-
-                      setState(() {});
-                    },
-                  ),
-                  InkWell(
-                    highlightColor: lightGray,
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Container(
-                            height: 50,
-                            padding: const EdgeInsets.only(left: 15, right: 15),
-                            color: (rating == Reaction.dislike
-                                ? leisureColor
-                                : lightGray),
-                            alignment: const Alignment(0, 0),
-                            child: const Text(Emojis.pensiveFace,
-                                textAlign: TextAlign.center,
-                                style: TextStyle(fontSize: 30)))
-                      ],
-                    ),
-                    onTap: () {
-                      rating = Reaction.dislike;
-                      setState(() {});
-                    },
-                  ),
-                  InkWell(
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Container(
-                            height: 50,
-                            padding: const EdgeInsets.only(left: 15, right: 15),
-                            color: (rating == Reaction.neutral
-                                ? leisureColor
-                                : lightGray),
-                            alignment: const Alignment(0, 0),
-                            child: const Text(Emojis.neutralFace,
-                                textAlign: TextAlign.center,
-                                style: TextStyle(fontSize: 30)))
-                      ],
-                    ),
-                    onTap: () {
-                      rating = Reaction.neutral;
-
-                      setState(() => {});
-                    },
-                  ),
-                  InkWell(
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Container(
-                            height: 50,
-                            padding: const EdgeInsets.only(left: 15, right: 15),
-                            color: (rating == Reaction.like
-                                ? leisureColor
-                                : lightGray),
-                            alignment: const Alignment(0, 0),
-                            child: const Text(Emojis.smilingFace,
-                                textAlign: TextAlign.center,
-                                style: TextStyle(fontSize: 30)))
-                      ],
-                    ),
-                    onTap: () {
-                      rating = Reaction.like;
-
-                      setState(() => {});
-                    },
-                  ),
-                  InkWell(
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Container(
-                            height: 50,
-                            padding: const EdgeInsets.only(left: 15, right: 15),
-                            decoration: BoxDecoration(
-                                borderRadius: const BorderRadius.only(
-                                    bottomRight: Radius.circular(10),
-                                    topRight: Radius.circular(10)),
-                                color: (rating == Reaction.love
+                                    : lightGray),
+                                alignment: const Alignment(0, 0),
+                                child: const Text(Emojis.pensiveFace,
+                                    textAlign: TextAlign.center,
+                                    style: TextStyle(fontSize: 30)))
+                          ],
+                        ),
+                        onTap: () {
+                          rating = Reaction.dislike;
+                          setState(() {});
+                        },
+                      ),
+                      InkWell(
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Container(
+                                height: 50,
+                                padding:
+                                    const EdgeInsets.only(left: 15, right: 15),
+                                color: (rating == Reaction.neutral
                                     ? leisureColor
-                                    : lightGray)),
-                            alignment: const Alignment(0, 0),
-                            child: const Text(Emojis.smilingFaceWithHeartEyes,
-                                textAlign: TextAlign.center,
-                                style: TextStyle(fontSize: 30)))
-                      ],
-                    ),
-                    onTap: () {
-                      rating = Reaction.love;
+                                    : lightGray),
+                                alignment: const Alignment(0, 0),
+                                child: const Text(Emojis.neutralFace,
+                                    textAlign: TextAlign.center,
+                                    style: TextStyle(fontSize: 30)))
+                          ],
+                        ),
+                        onTap: () {
+                          rating = Reaction.neutral;
 
-                      setState(() => {});
-                    },
-                  )
-                ],
-              )),
+                          setState(() => {});
+                        },
+                      ),
+                      InkWell(
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Container(
+                                height: 50,
+                                padding:
+                                    const EdgeInsets.only(left: 15, right: 15),
+                                color: (rating == Reaction.like
+                                    ? leisureColor
+                                    : lightGray),
+                                alignment: const Alignment(0, 0),
+                                child: const Text(Emojis.smilingFace,
+                                    textAlign: TextAlign.center,
+                                    style: TextStyle(fontSize: 30)))
+                          ],
+                        ),
+                        onTap: () {
+                          rating = Reaction.like;
+
+                          setState(() => {});
+                        },
+                      ),
+                      InkWell(
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Container(
+                                height: 50,
+                                padding:
+                                    const EdgeInsets.only(left: 15, right: 15),
+                                decoration: BoxDecoration(
+                                    borderRadius: const BorderRadius.only(
+                                        bottomRight: Radius.circular(10),
+                                        topRight: Radius.circular(10)),
+                                    color: (rating == Reaction.love
+                                        ? leisureColor
+                                        : lightGray)),
+                                alignment: const Alignment(0, 0),
+                                child: const Text(
+                                    Emojis.smilingFaceWithHeartEyes,
+                                    textAlign: TextAlign.center,
+                                    style: TextStyle(fontSize: 30)))
+                          ],
+                        ),
+                        onTap: () {
+                          rating = Reaction.love;
+
+                          setState(() => {});
+                        },
+                      )
+                    ],
+                  ))),
           const SizedBox(height: 50),
           Row(children: [
             Text(
@@ -308,7 +316,7 @@ class _FinishedMediaFormState extends State<FinishedMediaForm> {
                   maxLines: 10,
                   decoration: InputDecoration(
                     filled: true,
-                    fillColor: darkTextField,
+                    fillColor: textField,
                     helperStyle: Theme.of(context).textTheme.labelSmall,
                     border: OutlineInputBorder(
                       borderSide: BorderSide.none,

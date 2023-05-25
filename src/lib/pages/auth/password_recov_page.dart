@@ -131,6 +131,9 @@ class _PasswordRecovPageState extends State<PasswordRecovPage> {
       context: context,
       builder: (context) {
         return AlertDialog(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(30),
+          ),
           content: Text("Email: $email \nPassword: $password",
               style: Theme.of(context).textTheme.labelMedium),
         );

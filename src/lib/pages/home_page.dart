@@ -232,8 +232,9 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
             ElevatedButton(
                 child: Text("notif"),
                 onPressed: () {
-                  serviceLocator<LocalNotificationService>()
-                      .display('Go Study or else \u{1F52A}');
+                  serviceLocator<LocalNotificationService>().display(
+                      AppLocalizations.of(context).go_study,
+                      AppLocalizations.of(context).or_else);
                 }),
             ElevatedButton(
                 child: Text("Event Form"),
@@ -282,9 +283,9 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                                   30),
                           child: DraggableScrollableSheet(
                             expand: false,
-                            initialChildSize: 0.6,
-                            minChildSize: 0.6,
-                            maxChildSize: 0.6,
+                            initialChildSize: 0.7,
+                            minChildSize: 0.7,
+                            maxChildSize: 0.7,
                             builder: (context, scrollController) => TimerForm(
                               scrollController: scrollController,
                             ),
@@ -323,7 +324,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                             BorderRadius.vertical(top: Radius.circular(30.0)),
                       ),
                       isScrollControlled: true,
-                      backgroundColor: modalLightBackground,
+                      backgroundColor: modalBackground,
                       context: context,
                       builder: (builder) => BadgesPage());
                 },

@@ -14,8 +14,6 @@ class TimeslotTaskBar extends StatefulWidget {
 }
 
 class _TimeslotTaskBarState extends State<TimeslotTaskBar> {
-  late bool taskStatus;
-
   String getDateText() {
     return "${widget.task.deadline.day.toString()}/${widget.task.deadline.month.toString()}/${widget.task.deadline.year.toString()}";
   }
@@ -23,9 +21,9 @@ class _TimeslotTaskBarState extends State<TimeslotTaskBar> {
   @override
   void initState() {
     if (widget.task.finished) {
-      taskStatus = true;
+      widget.taskStatus = true;
     } else {
-      taskStatus = false;
+      widget.taskStatus = false;
     }
     super.initState();
   }
@@ -62,8 +60,7 @@ class _TimeslotTaskBarState extends State<TimeslotTaskBar> {
                 InkWell(
                     onTap: () {
                       return setState(() {
-                        taskStatus = !taskStatus;
-                        widget.taskStatus = taskStatus;
+                        widget.taskStatus = !widget.taskStatus;
                       });
                     },
                     child: Container(
@@ -71,8 +68,8 @@ class _TimeslotTaskBarState extends State<TimeslotTaskBar> {
                       decoration: BoxDecoration(
                           shape: BoxShape.circle,
                           color: (widget.taskStatus
-                              ? Colors.green
-                              : Colors.white)),
+                              ? Colors.white
+                              : Colors.green)),
                       child: const Icon(Icons.check_rounded, size: 20),
                     ))
               ],

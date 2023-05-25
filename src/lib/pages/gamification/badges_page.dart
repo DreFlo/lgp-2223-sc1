@@ -51,7 +51,7 @@ class _BadgesPageState extends State<BadgesPage> {
             return Container(
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(30),
-                  color: modalLightBackground,
+                  color: modalBackground,
                 ),
                 child: Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 18),
