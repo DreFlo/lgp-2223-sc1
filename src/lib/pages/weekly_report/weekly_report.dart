@@ -49,7 +49,6 @@ class _WeeklyReportState extends State<WeeklyReport> {
     finishedTasks = await getFinishedTasks(reportDay);
     numberFinishedTasks = finishedTasks.length;
     contributedTaskGroups = await getContributedTaskGroups(finishedTasks);
-    contributedTaskGroups = [];
     if (contributedTaskGroups.isNotEmpty) {
       mostFinishedTaskGroup = contributedTaskGroups[0];
     } else {
@@ -335,22 +334,26 @@ class _WeeklyReportState extends State<WeeklyReport> {
                                                                 .of(context)
                                                             .weekly_report_message_4_1
                                                             .toUpperCase()),
-                                                        Row(children: [
-                                                          Text(
-                                                              " ${AppLocalizations.of(context).project.toUpperCase()} ",
-                                                              style:
-                                                                  const TextStyle(
-                                                                color:
-                                                                    studentColor,
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .w600,
-                                                              )),
-                                                          Text(AppLocalizations
-                                                                  .of(context)
-                                                              .weekly_report_message_4_2
-                                                              .toUpperCase())
-                                                        ]),
+                                                        Row(
+                                                            mainAxisAlignment:
+                                                                MainAxisAlignment
+                                                                    .end,
+                                                            children: [
+                                                              Text(
+                                                                  " ${AppLocalizations.of(context).project.toUpperCase()} ",
+                                                                  style:
+                                                                      const TextStyle(
+                                                                    color:
+                                                                        studentColor,
+                                                                    fontWeight:
+                                                                        FontWeight
+                                                                            .w600,
+                                                                  )),
+                                                              Text(AppLocalizations
+                                                                      .of(context)
+                                                                  .weekly_report_message_4_2
+                                                                  .toUpperCase())
+                                                            ]),
                                                       ])
                                                 : Column(
                                                     key: const Key(

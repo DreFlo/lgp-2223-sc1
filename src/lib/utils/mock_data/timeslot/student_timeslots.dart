@@ -50,7 +50,7 @@ final mockStudentTimeslots = [
       title: 'Finish LGP Pitch',
       description: 'word words words words words',
       startDateTime: DateTime.now()
-          .subtract(const Duration(days: 4))  
+          .subtract(const Duration(days: 4))
           .subtract(const Duration(hours: 5)),
       endDateTime: DateTime.now()
           .subtract(const Duration(days: 4))
