@@ -4,7 +4,10 @@ import 'package:src/models/media/media.dart';
 import 'package:src/models/student/task.dart';
 import 'package:src/models/student/task_group.dart';
 import 'package:src/models/user.dart';
+import 'package:src/pages/leisure/book_notes_sheet.dart';
+import 'package:src/pages/leisure/episodes_notes_sheet.dart';
 import 'package:src/themes/colors.dart';
+import 'package:src/utils/enums.dart';
 import 'package:src/utils/user.dart';
 import 'package:src/utils/weekly_report/weekly_report_logic.dart';
 import 'package:src/widgets/weekly_report/media_carousel.dart';
@@ -68,6 +71,42 @@ class _WeeklyReportState extends State<WeeklyReport> {
     endDate = weekDates[1];
     init = true;
     return 0;
+  }
+
+  void seeNotes() {
+    Widget notesSheet;
+
+    if (topMedia[0].type == MediaDBTypes.series) {
+      notesSheet = EpisodesNotesSheet(
+        mediaId: topMedia[0].id!,
+      );
+    }
+    else if (topMedia[0].type == MediaDBTypes.book) {
+      notesSheet = BookNotesSheet(
+        book: true,
+        mediaId: topMedia[0].id!,
+      );
+    } else {
+      notesSheet = Container();
+    }
+
+    showModalBottomSheet(
+        context: context,
+        isScrollControlled: true,
+        backgroundColor: const Color(0xFF22252D),
+        shape: const RoundedRectangleBorder(
+          borderRadius:
+          BorderRadius.vertical(top: Radius.circular(30.0)),
+        ),
+        builder: (context) => DraggableScrollableSheet(
+            expand: false,
+            initialChildSize: 0.55,
+            minChildSize: 0.55,
+            maxChildSize: 0.55,
+            builder: (context, scrollController) =>
+                SingleChildScrollView(
+                    controller: scrollController,
+                    child: notesSheet)));
   }
 
   @override
@@ -569,9 +608,7 @@ class _WeeklyReportState extends State<WeeklyReport> {
                                                           const SizedBox(
                                                               height: 10),
                                                           ElevatedButton(
-                                                              onPressed: () {
-                                                                // TODO navigate to top media notes page
-                                                              },
+                                                              onPressed: seeNotes,
                                                               style:
                                                                   ElevatedButton
                                                                       .styleFrom(
