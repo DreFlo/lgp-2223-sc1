@@ -111,7 +111,6 @@
   "error_empty_password": "Please insert a valid password", 
   "error_input_password": "Please insert a password with 8 or more characters!",
   "error_login": "Email or Password is Incorrect",
-  "error_signup": "Error creating the user",
   "next": "Next",
   "previous": "Previous",
   "login_title": "Sign In",

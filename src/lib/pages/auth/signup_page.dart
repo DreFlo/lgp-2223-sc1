@@ -515,7 +515,7 @@ class _SignUpPageState extends State<SignUpPage>
     String password = inputPasswordController.text;
 
     // Check if password is valid
-    if (password.isEmpty /*|| password.length < 8*/) {
+    if (password.isEmpty || password.length < 8) {
       setState(() {
         _passwordErrText = AppLocalizations.of(context).error_input_password;
       });
@@ -569,6 +569,7 @@ class _SignUpPageState extends State<SignUpPage>
               () {
                 setState(() {
                   isShowLoading = false;
+                  _pageCount = 0;
                 });
                 reset.fire();
               },
