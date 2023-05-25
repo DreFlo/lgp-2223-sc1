@@ -44,6 +44,7 @@
   "error_empty_password": "Por favor insere uma password válida!", 
   "error_input_password": "Password deve ter no mínimo 8 caracteres!",
   "error_login": "Email ou Password é Inválida",
+  "error_signup": "Erro ao criar o utilizador",
   "next": "Seguinte",
   "previous": "Anterior",
   "login_title": "Iniciar sessão",
