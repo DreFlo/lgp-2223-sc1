@@ -16,11 +16,11 @@ import 'package:src/pages/tasks/subject_form.dart';
 import 'package:src/pages/tasks/task_form.dart';
 import 'package:src/pages/timer/timer_form.dart';
 import 'package:src/pages/weekly_report/weekly_report.dart';
+import 'package:src/services/authentication_service.dart';
 import 'package:src/services/local_notifications_service.dart';
 import 'package:src/themes/colors.dart';
 import 'package:src/utils/reset_db.dart';
 import 'package:src/utils/service_locator.dart';
-import 'package:src/utils/weekly_report/weekly_report_logic.dart';
 
 class HomePage extends StatefulWidget {
   final String title;
@@ -390,6 +390,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                     ),
                   );
                 }),
+            ElevatedButton(onPressed: logoutUser, child: Text("Logout")),
           ],
         ),
       ])),
@@ -399,5 +400,11 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
         child: const Icon(Icons.add),
       ), // This trailing comma makes auto-formatting nicer for build methods.
     );
+  }
+
+  void logoutUser() async {
+    serviceLocator<AuthenticationService>().logoutUser();
+    Navigator.pushReplacement(
+        context, MaterialPageRoute(builder: (context) => LandingPage()));
   }
 }

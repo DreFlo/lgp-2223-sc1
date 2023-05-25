@@ -22,6 +22,8 @@ class ListMoviesSearch extends ListMediaSearch<MediaVideoMovieSuperEntity> {
 
 class ListMoviesSearchState
     extends ListMediaSearchState<MediaVideoMovieSuperEntity> {
+  MediaVideoMovieSuperEntity? media;
+
   Future<MediaVideoMovieSuperEntity> loadMovieDetails(
       MediaVideoMovieSuperEntity movie) async {
     final TMDBMovieAPIWrapper tmdb = TMDBMovieAPIWrapper();
@@ -31,7 +33,9 @@ class ListMoviesSearchState
   @override
   Widget showMediaPageBasedOnType(MediaVideoMovieSuperEntity item) {
     return FutureBuilder<MediaVideoMovieSuperEntity>(
-      future: loadMovieDetails(item),
+      future: (media != null && media!.name == item.name)
+          ? Future.value(media)
+          : loadMovieDetails(item),
       builder: (context, snapshot) {
         if (snapshot.hasData) {
           return MoviePage(
@@ -54,6 +58,7 @@ class ListMoviesSearchState
   @override
   Future<MediaStatus> getMediaInfoFromDB(
       MediaVideoMovieSuperEntity item) async {
+    media = await loadMovieDetails(item);
     String photo = item.linkImage;
 
     final mediaExists =
@@ -65,16 +70,19 @@ class ListMoviesSearchState
       return statusFavorite;
     }
 
-    final media = await serviceLocator<MediaDao>().findMediaByPhoto(photo);
-    review = await loadReviews(media!.id ?? 0);
+    final mediaByPhoto =
+        await serviceLocator<MediaDao>().findMediaByPhoto(photo);
+    review = await loadReviews(mediaByPhoto!.id ?? 0);
 
     statusFavorite = MediaStatus(
-        status: media.status, favorite: media.favorite, id: media.id ?? 0);
+        status: mediaByPhoto.status,
+        favorite: mediaByPhoto.favorite,
+        id: mediaByPhoto.id ?? 0);
     return statusFavorite;
   }
 
   @override
   MoviePageButton showMediaPageButton(MediaVideoMovieSuperEntity item) {
-    return MoviePageButton(item: item, mediaId: statusFavorite.id);
+    return MoviePageButton(item: media ?? item, mediaId: statusFavorite.id);
   }
 }

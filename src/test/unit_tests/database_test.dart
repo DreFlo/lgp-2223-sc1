@@ -71,6 +71,7 @@ import 'package:src/models/timeslot/timeslot_media_timeslot_super_entity.dart';
 import 'package:src/daos/timeslot/timeslot_media_timeslot_super_dao.dart';
 import 'package:src/models/timeslot/timeslot_student_timeslot_super_entity.dart';
 import 'package:src/daos/timeslot/timeslot_student_timeslot_super_dao.dart';
+import 'package:flutter/services.dart';
 
 void main() {
   setUp(() async {
@@ -91,7 +92,7 @@ void main() {
       await serviceLocator<UserDao>().insertUser(User(
           name: 'Emil',
           email: 'emil@gmail.com',
-          password: '1234',
+          password: '12345678',
           xp: 23,
           level: 1,
           imagePath: 'test'));
@@ -267,7 +268,7 @@ void main() {
       await serviceLocator<UserDao>().insertUser(User(
           name: 'Emil',
           email: 'emil@gmail.com',
-          password: '1234',
+          password: '12345678',
           xp: 23,
           level: 1,
           imagePath: 'test'));
@@ -335,7 +336,7 @@ void main() {
       await serviceLocator<UserDao>().insertUser(User(
           name: 'Emil',
           email: 'emil@gmail.com',
-          password: '1234',
+          password: '12345678',
           xp: 23,
           level: 1,
           imagePath: 'test'));
@@ -533,7 +534,7 @@ void main() {
       await serviceLocator<UserDao>().insertUser(User(
           name: 'Emil',
           email: 'emil@gmail.com',
-          password: '1234',
+          password: '12345678',
           xp: 23,
           level: 1,
           imagePath: 'test'));
@@ -582,7 +583,7 @@ void main() {
       await serviceLocator<UserDao>().insertUser(User(
           name: 'Emil',
           email: 'emil@gmail.com',
-          password: '1234',
+          password: '12345678',
           xp: 23,
           level: 1,
           imagePath: 'test'));
@@ -640,7 +641,7 @@ void main() {
       await serviceLocator<UserDao>().insertUser(User(
           name: 'Emil',
           email: 'emil@gmail.com',
-          password: '1234',
+          password: '12345678',
           xp: 23,
           imagePath: 'test',
           level: 1));
@@ -700,7 +701,7 @@ void main() {
       await serviceLocator<UserDao>().insertUser(User(
           name: 'Emil',
           email: 'emil@gmail.com',
-          password: '1234',
+          password: '12345678',
           xp: 23,
           imagePath: 'test',
           level: 1));
@@ -765,10 +766,16 @@ void main() {
 
   testWidgets('Test AuthenticationService', (WidgetTester tester) async {
     await tester.runAsync(() async {
+      const MethodChannel channel =
+          MethodChannel('plugins.flutter.io/path_provider');
+      channel.setMockMethodCallHandler((MethodCall methodCall) async {
+        return ".";
+      });
+
       User user = User(
           name: 'Emil',
           email: 'emil@gmail.com',
-          password: '1234',
+          password: '12345678',
           xp: 23,
           level: 1,
           imagePath: 'test');
@@ -776,7 +783,7 @@ void main() {
       expect(serviceLocator<AuthenticationService>().isUserLoggedIn(), false);
       expect(serviceLocator<AuthenticationService>().getLoggedInUser(), null);
 
-      serviceLocator<AuthenticationService>().setLoggedInUser(user);
+      await serviceLocator<AuthenticationService>().setLoggedInUser(user);
       expect(serviceLocator<AuthenticationService>().isUserLoggedIn(), true);
       expect(serviceLocator<AuthenticationService>().getLoggedInUser(), user);
 
@@ -796,7 +803,7 @@ void main() {
       await serviceLocator<UserDao>().insertUser(User(
           name: 'Emil',
           email: 'emil@gmail.com',
-          password: '1234',
+          password: '12345678',
           xp: 23,
           level: 1,
           imagePath: 'test'));
@@ -1022,7 +1029,7 @@ void main() {
       await serviceLocator<UserDao>().insertUser(User(
           name: 'Emil',
           email: 'emil@gmail.com',
-          password: '1234',
+          password: '12345678',
           xp: 23,
           level: 1,
           imagePath: 'test'));
@@ -1060,7 +1067,7 @@ void main() {
       await serviceLocator<UserDao>().insertUser(User(
           name: 'Emil',
           email: 'emil@gmail.com',
-          password: '1234',
+          password: '12345678',
           xp: 23,
           level: 1,
           imagePath: 'test'));
@@ -1102,6 +1109,103 @@ void main() {
     });
   });
 
+  testWidgets('Test Trigger user_unique_email_insert',
+      (WidgetTester widgetTester) async {
+    await widgetTester.runAsync(() async {
+      User user = User(
+          name: 'Emil',
+          email: 'emil@gmail.com',
+          password: '12345678',
+          xp: 23,
+          level: 1,
+          imagePath: 'test');
+
+      await serviceLocator<UserDao>().insertUser(user);
+
+      expect(() => serviceLocator<UserDao>().insertUser(user),
+          throwsA(isA<DatabaseException>()));
+    });
+  });
+
+  testWidgets('Test Trigger user_unique_email_update',
+      (WidgetTester widgetTester) async {
+    await widgetTester.runAsync(() async {
+      User user = User(
+          name: 'Emil',
+          email: 'emil@gmail.com',
+          password: '12345678',
+          xp: 23,
+          level: 1,
+          imagePath: 'test');
+
+      await serviceLocator<UserDao>().insertUser(user);
+
+      User user_2 = User(
+          name: 'Emil 2',
+          email: 'emil2@gmail.com',
+          password: '12345678',
+          xp: 23,
+          level: 1,
+          imagePath: 'test');
+
+      int id = await serviceLocator<UserDao>().insertUser(user_2);
+
+      user_2 = User(
+          id: id,
+          name: 'Emil 2',
+          email: 'emil@gmail.com',
+          password: '12345678',
+          xp: 23,
+          level: 1,
+          imagePath: 'test');
+
+      expect(() => serviceLocator<UserDao>().updateUser(user_2),
+          throwsA(isA<DatabaseException>()));
+    });
+  });
+
+  testWidgets('Test trigger user_password_over_8_characters_insert',
+      (WidgetTester widgetTester) async {
+    await widgetTester.runAsync(() async {
+      User user = User(
+          name: 'Emil',
+          email: 'emil@gmail.com',
+          password: '1234567',
+          xp: 23,
+          level: 1,
+          imagePath: 'test');
+
+      expect(() => serviceLocator<UserDao>().insertUser(user),
+          throwsA(isA<DatabaseException>()));
+    });
+  });
+
+  testWidgets('Test trigger user_password_over_8_characters_update',
+      (WidgetTester widgetTester) async {
+    await widgetTester.runAsync(() async {
+      User user = User(
+          name: 'Emil',
+          email: 'emil@gmail.com',
+          password: '12345678',
+          xp: 23,
+          level: 1,
+          imagePath: 'test');
+
+      int id = await serviceLocator<UserDao>().insertUser(user);
+
+      user = User(
+          id: id,
+          name: 'Emil',
+          email: 'emil@gmail.com',
+          password: '1234567',
+          xp: 23,
+          level: 1,
+          imagePath: 'test');
+
+      expect(() => serviceLocator<UserDao>().updateUser(user),
+          throwsA(isA<DatabaseException>()));
+    });
+  });
   // --- DELETE TESTS --- //
 
   testWidgets('Test Media Book Dao Delete', (WidgetTester tester) async {
@@ -1305,7 +1409,7 @@ void main() {
       int userId = await serviceLocator<UserDao>().insertUser(User(
           name: 'Emil',
           email: 'emil@gmail.com',
-          password: '1234',
+          password: '12345678',
           xp: 23,
           level: 1,
           imagePath: 'test'));
@@ -1350,7 +1454,7 @@ void main() {
       await serviceLocator<UserDao>().insertUser(User(
           name: 'Emil',
           email: 'emil@gmail.com',
-          password: '1234',
+          password: '12345678',
           xp: 23,
           level: 1,
           imagePath: 'test'));
@@ -1487,7 +1591,7 @@ void main() {
       await serviceLocator<UserDao>().insertUser(User(
           name: 'Emil',
           email: 'emil@gmail.com',
-          password: '1234',
+          password: '12345678',
           xp: 23,
           imagePath: 'test',
           level: 1));
@@ -1546,7 +1650,7 @@ void main() {
       await serviceLocator<UserDao>().insertUser(User(
           name: 'Emil',
           email: 'emil@gmail.com',
-          password: '1234',
+          password: '12345678',
           xp: 23,
           imagePath: 'test',
           level: 1));
@@ -1615,7 +1719,7 @@ void main() {
       await serviceLocator<UserDao>().insertUser(User(
           name: 'Emil',
           email: 'emil@gmail.com',
-          password: '1234',
+          password: '12345678',
           xp: 23,
           imagePath: 'test',
           level: 1));
@@ -1669,7 +1773,7 @@ void main() {
       await serviceLocator<UserDao>().insertUser(User(
           name: 'Emil',
           email: 'emil@gmail.com',
-          password: '1234',
+          password: '12345678',
           xp: 23,
           imagePath: 'test',
           level: 1));
@@ -1726,7 +1830,7 @@ void main() {
       await serviceLocator<UserDao>().insertUser(User(
           name: 'Emil',
           email: 'emil@gmail.com',
-          password: '1234',
+          password: '12345678',
           xp: 23,
           imagePath: 'test',
           level: 1));
@@ -1789,7 +1893,7 @@ void main() {
       await serviceLocator<UserDao>().insertUser(User(
           name: 'Emil',
           email: 'emil@gmail.com',
-          password: '1234',
+          password: '12345678',
           xp: 23,
           imagePath: 'test',
           level: 1));

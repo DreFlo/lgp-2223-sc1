@@ -4,7 +4,7 @@ final mockEpisodeNotes = [
   NoteEpisodeNoteSuperEntity(
       id: 2,
       title: 'S01E01', //S04E03 -> title supposed to follow this format
-      content: 'This is a note about an episode.',
+      content: 'Fantastic pilot',
       date: DateTime.now().subtract(const Duration(days: 1)),
       episodeId: 2),
   NoteEpisodeNoteSuperEntity(
