@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:src/themes/colors.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:src/pages/navigation_page.dart';
 import 'package:src/services/authentication_service.dart';
@@ -10,7 +9,7 @@ class SplashScreenPage extends StatefulWidget {
   const SplashScreenPage({Key? key}) : super(key: key);
 
   @override
-  _SplashScreenPageState createState() => _SplashScreenPageState();
+  State<SplashScreenPage> createState() => _SplashScreenPageState();
 }
 
 class _SplashScreenPageState extends State<SplashScreenPage> {

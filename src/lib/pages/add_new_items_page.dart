@@ -1,5 +1,3 @@
-import 'dart:ui';
-
 import 'package:flutter/material.dart';
 import 'package:src/pages/events/event_form.dart';
 import 'package:src/pages/tasks/institution_form.dart';
@@ -60,8 +58,8 @@ class _AddNewItemsPageState extends State<AddNewItemsPage> {
           showModalBottomSheet(
               context: context,
               isScrollControlled: true,
-              backgroundColor: Color(0xFF22252D),
-              shape: RoundedRectangleBorder(
+              backgroundColor: const Color(0xFF22252D),
+              shape: const RoundedRectangleBorder(
                 borderRadius: BorderRadius.vertical(top: Radius.circular(30.0)),
               ),
               builder: (context) => Padding(
@@ -94,7 +92,7 @@ class _AddNewItemsPageState extends State<AddNewItemsPage> {
       ),
     );
 
-    result.add(Divider(height: 10.0,));
+    result.add(const Divider(height: 10.0,));
 
     result.add(
       ElevatedButton(
@@ -102,8 +100,8 @@ class _AddNewItemsPageState extends State<AddNewItemsPage> {
           showModalBottomSheet(
               context: context,
               isScrollControlled: true,
-              backgroundColor: Color(0xFF22252D),
-              shape: RoundedRectangleBorder(
+              backgroundColor: const Color(0xFF22252D),
+              shape: const RoundedRectangleBorder(
                 borderRadius: BorderRadius.vertical(top: Radius.circular(30.0)),
               ),
               builder: (context) => Padding(
@@ -139,7 +137,7 @@ class _AddNewItemsPageState extends State<AddNewItemsPage> {
       ),
     );
 
-    result.add(Divider(height: 10.0,));
+    result.add(const Divider(height: 10.0,));
 
     result.add(
       ElevatedButton(
@@ -147,8 +145,8 @@ class _AddNewItemsPageState extends State<AddNewItemsPage> {
           showModalBottomSheet(
               context: context,
               isScrollControlled: true,
-              backgroundColor: Color(0xFF22252D),
-              shape: RoundedRectangleBorder(
+              backgroundColor: const Color(0xFF22252D),
+              shape: const RoundedRectangleBorder(
                 borderRadius: BorderRadius.vertical(top: Radius.circular(30.0)),
               ),
               builder: (context) => Padding(
@@ -191,8 +189,8 @@ class _AddNewItemsPageState extends State<AddNewItemsPage> {
         showModalBottomSheet(
             context: context,
             isScrollControlled: true,
-            backgroundColor: Color(0xFF22252D),
-            shape: RoundedRectangleBorder(
+            backgroundColor: const Color(0xFF22252D),
+            shape: const RoundedRectangleBorder(
               borderRadius: BorderRadius.vertical(top: Radius.circular(30.0)),
             ),
             builder: (context) => Padding(
@@ -224,7 +222,7 @@ class _AddNewItemsPageState extends State<AddNewItemsPage> {
           ),
     ));
 
-    result.add(Divider(height: 10.0,));
+    result.add(const Divider(height: 10.0,));
 
     result.add(
       ElevatedButton(
@@ -232,8 +230,8 @@ class _AddNewItemsPageState extends State<AddNewItemsPage> {
           showModalBottomSheet(
               context: context,
               isScrollControlled: true,
-              backgroundColor: Color(0xFF22252D),
-              shape: RoundedRectangleBorder(
+              backgroundColor: const Color(0xFF22252D),
+              shape: const RoundedRectangleBorder(
                 borderRadius: BorderRadius.vertical(top: Radius.circular(30.0)),
               ),
               builder: (context) => DraggableScrollableSheet(
@@ -261,7 +259,7 @@ class _AddNewItemsPageState extends State<AddNewItemsPage> {
       ),
     );
 
-    result.add(Divider(height: 10.0,));
+    result.add(const Divider(height: 10.0,));
 
     result.add(
       ElevatedButton(
@@ -269,8 +267,8 @@ class _AddNewItemsPageState extends State<AddNewItemsPage> {
           showModalBottomSheet(
               context: context,
               isScrollControlled: true,
-              backgroundColor: Color(0xFF22252D),
-              shape: RoundedRectangleBorder(
+              backgroundColor: const Color(0xFF22252D),
+              shape: const RoundedRectangleBorder(
                 borderRadius: BorderRadius.vertical(top: Radius.circular(30.0)),
               ),
               builder: (context) => Padding(
