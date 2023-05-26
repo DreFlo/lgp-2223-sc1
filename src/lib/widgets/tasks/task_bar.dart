@@ -71,7 +71,8 @@ class _TaskBarState extends State<TaskBar> {
                   maxChildSize: 0.75,
                   builder: (context, scrollController) => TaskForm(
                         id: task.id,
-                        taskGroupId: taskGroupId,
+                        task: task,
+                        taskGroupId: taskGroupId ?? -1,
                         callback: editTask,
                         deleteCallback: deleteTask,
                         scrollController: scrollController,
