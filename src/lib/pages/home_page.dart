@@ -175,8 +175,8 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                           initialChildSize: 0.75,
                           minChildSize: 0.75,
                           maxChildSize: 0.75,
-                          builder: (context, scrollController) => ProjectForm(
-                              scrollController: scrollController)));
+                          builder: (context, scrollController) =>
+                              ProjectForm(scrollController: scrollController)));
                 }),
             ElevatedButton(
                 child: Text("Subject Form"),
