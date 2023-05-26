@@ -114,27 +114,6 @@ class _TaskBarState extends State<TaskBar> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Expanded(
-                          child: InkWell(
-                              onTap: () {
-                                setState(() {
-                                  taskStatus = !taskStatus;
-                                });
-                              },
-                              child: Container(
-                                alignment: const Alignment(0, 0),
-                                padding: const EdgeInsets.all(5),
-                                decoration: BoxDecoration(
-                                    shape: BoxShape.circle,
-                                    color: (taskStatus
-                                        ? Colors.white
-                                        : Colors.green)),
-                                child: Icon(Icons.check_rounded,
-                                    color: (!taskStatus
-                                        ? Colors.white
-                                        : Colors.green)),
-                              ))),
-                      const SizedBox(width: 5),
-                      Expanded(
                         child: InkWell(
                             onTap: () {
                               if (selected) {
