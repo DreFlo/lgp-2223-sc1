@@ -166,8 +166,8 @@ class _AddNewItemsPageState extends State<AddNewItemsPage> {
                         initialChildSize: 0.80,
                         minChildSize: 0.80,
                         maxChildSize: 0.85,
-                        builder: (context, scrollController) => TaskForm(
-                            scrollController: scrollController, id: 1)),
+                        builder: (context, scrollController) =>
+                            TaskForm(scrollController: scrollController)),
                   ));
         },
         style: ElevatedButton.styleFrom(
@@ -252,7 +252,7 @@ class _AddNewItemsPageState extends State<AddNewItemsPage> {
                   minChildSize: 0.75,
                   maxChildSize: 0.75,
                   builder: (context, scrollController) =>
-                      ProjectForm(scrollController: scrollController, id: 1)));
+                      ProjectForm(scrollController: scrollController)));
         },
         style: ElevatedButton.styleFrom(
           fixedSize: Size(MediaQuery.of(context).size.width * 0.40, 55),
