@@ -147,8 +147,10 @@ class _ProjectFormState extends State<ProjectForm> {
     }
     TaskGroup taskGroup;
     int? subjectId;
-    if (subject != null) {
+    if (subject!.id != -1) {
       subjectId = subject!.id;
+    } else {
+      subjectId = null;
     }
 
     int? newId;
