@@ -38,7 +38,8 @@ class TimeslotMediaTimeslotSuperDao {
           }
         }
 
-        if (timeslot != null && timeslot.userId == userId) {
+        if ((timeslot != null && timeslot.userId == userId) ||
+            (timeslot != null && startDatetime == null)) {
           final timeslotMediaTimeslotSuperEntity =
               TimeslotMediaTimeslotSuperEntity.fromTimeslotMediaTimeslotEntity(
             mediaTimeslot,
