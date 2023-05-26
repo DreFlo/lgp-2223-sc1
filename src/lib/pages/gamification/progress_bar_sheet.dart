@@ -284,7 +284,8 @@ class _ProgressBarSheetState extends State<ProgressBarSheet> {
         child: SizedBox(
             width: MediaQuery.of(context).size.width,
             height: MediaQuery.of(context).size.height * 0.19,
-            child: Column(
+            child: SingleChildScrollView(
+                child: Column(
               children: [
                 Row(
                   children: [
@@ -341,7 +342,7 @@ class _ProgressBarSheetState extends State<ProgressBarSheet> {
                   ],
                 )
               ],
-            )),
+            ))),
       ),
       const SizedBox(height: 5)
     ]);
