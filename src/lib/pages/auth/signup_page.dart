@@ -534,7 +534,7 @@ class _SignUpPageState extends State<SignUpPage>
           level: 0,
           imagePath: "assets/images/no_image.jpg"));
     } catch (e) {
-        userCreated = false; 
+      userCreated = false;
     } finally {
       //For popUp
       setState(() {

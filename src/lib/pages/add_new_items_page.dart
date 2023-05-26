@@ -25,8 +25,13 @@ class _AddNewItemsPageState extends State<AddNewItemsPage> {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-        gradient: LinearGradient(colors: <Color>[primaryColor.withOpacity(0.85), primaryColor.withOpacity(0)], begin: AlignmentDirectional.bottomCenter, end: AlignmentDirectional.topCenter)
-      ),
+          gradient: LinearGradient(
+              colors: <Color>[
+            primaryColor.withOpacity(0.85),
+            primaryColor.withOpacity(0)
+          ],
+              begin: AlignmentDirectional.bottomCenter,
+              end: AlignmentDirectional.topCenter)),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.end,
         children: [
@@ -88,11 +93,13 @@ class _AddNewItemsPageState extends State<AddNewItemsPage> {
             const Icon(Icons.subject_rounded, color: Colors.white, size: 25.0),
             Text(AppLocalizations.of(context).subject),
           ],
-          ),
+        ),
       ),
     );
 
-    result.add(const Divider(height: 10.0,));
+    result.add(const Divider(
+      height: 10.0,
+    ));
 
     result.add(
       ElevatedButton(
@@ -133,11 +140,13 @@ class _AddNewItemsPageState extends State<AddNewItemsPage> {
             const Icon(Icons.event, color: Colors.white, size: 25.0),
             Text(AppLocalizations.of(context).event),
           ],
-          ),
+        ),
       ),
     );
 
-    result.add(const Divider(height: 10.0,));
+    result.add(const Divider(
+      height: 10.0,
+    ));
 
     result.add(
       ElevatedButton(
@@ -174,7 +183,7 @@ class _AddNewItemsPageState extends State<AddNewItemsPage> {
             const Icon(Icons.task, color: Colors.white, size: 25.0),
             Text(AppLocalizations.of(context).task),
           ],
-          ),
+        ),
       ),
     );
 
@@ -207,22 +216,25 @@ class _AddNewItemsPageState extends State<AddNewItemsPage> {
                 )));
       },
       style: ElevatedButton.styleFrom(
-          fixedSize: Size(MediaQuery.of(context).size.width * 0.40, 55),
-          backgroundColor: grayButton,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(10.0),
-          ),
+        fixedSize: Size(MediaQuery.of(context).size.width * 0.40, 55),
+        backgroundColor: grayButton,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(10.0),
         ),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            const Icon(Icons.account_balance_rounded, color: Colors.white, size: 25.0),
-            Text(AppLocalizations.of(context).institution),
-          ],
-          ),
+      ),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          const Icon(Icons.account_balance_rounded,
+              color: Colors.white, size: 25.0),
+          Text(AppLocalizations.of(context).institution),
+        ],
+      ),
     ));
 
-    result.add(const Divider(height: 10.0,));
+    result.add(const Divider(
+      height: 10.0,
+    ));
 
     result.add(
       ElevatedButton(
@@ -255,11 +267,13 @@ class _AddNewItemsPageState extends State<AddNewItemsPage> {
             const Icon(Icons.list_rounded, color: Colors.white, size: 25.0),
             Text(AppLocalizations.of(context).project),
           ],
-          ),
+        ),
       ),
     );
 
-    result.add(const Divider(height: 10.0,));
+    result.add(const Divider(
+      height: 10.0,
+    ));
 
     result.add(
       ElevatedButton(
@@ -294,10 +308,11 @@ class _AddNewItemsPageState extends State<AddNewItemsPage> {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            const Icon(Icons.access_time_rounded, color: Colors.white, size: 25.0),
+            const Icon(Icons.access_time_rounded,
+                color: Colors.white, size: 25.0),
             Text(AppLocalizations.of(context).timer_short),
           ],
-          ),
+        ),
       ),
     );
 
