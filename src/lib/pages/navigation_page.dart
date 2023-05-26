@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:src/pages/add_new_items_page.dart';
 import 'package:src/pages/calendar_page.dart';
-import 'package:src/pages/home_page.dart';
 import 'package:src/pages/dashboard.dart';
 import 'package:src/pages/my_home_page.dart';
 import 'package:src/pages/weekly_report/weekly_report.dart';
