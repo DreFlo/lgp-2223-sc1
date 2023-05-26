@@ -73,7 +73,8 @@ class TimeslotMediaTimeslotSuperDao {
 
         if (endDatetime != null && timeslot != null) {
           if (timeslot.endDateTime.isBefore(endDatetime) &&
-              timeslot.finished == false) {
+              timeslot.finished == false &&
+              timeslot.userId == userId) {
             final timeslotMediaTimeslotSuperEntity =
                 TimeslotMediaTimeslotSuperEntity
                     .fromTimeslotMediaTimeslotEntity(
