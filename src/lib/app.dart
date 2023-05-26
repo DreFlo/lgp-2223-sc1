@@ -7,8 +7,7 @@ import 'package:src/themes/colors.dart';
 import 'package:src/utils/service_locator.dart';
 
 import 'package:src/flavors.dart';
-import 'package:src/pages/auth/landing_page.dart';
-import 'package:src/pages/navigation_page.dart';
+import 'package:src/pages/splash_screen_page.dart';
 
 const Map<int, Color> color = {
   50: Color.fromRGBO(108, 93, 211, .1),
@@ -118,11 +117,9 @@ class App extends StatelessWidget {
                       fontSize: 10,
                       fontWeight: FontWeight.w500),
                 )),
-            home: Scaffold(
+            home: const Scaffold(
               body: Center(
-                child: serviceLocator<AuthenticationService>().isUserLoggedIn()
-                    ? const NavigationPage()
-                    : const LandingPage(),
+                child: SplashScreenPage(),
               ),
             ),
           );
