@@ -1421,7 +1421,7 @@ class _TaskFormState extends State<TaskForm> {
     return widget.taskGroupId != null;
   }
 
-  isChildOfNotCreated() {
+  bool isChildOfNotCreated() {
     return widget.taskGroupId == -1;
   }
 
