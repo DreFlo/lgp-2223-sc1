@@ -197,12 +197,10 @@ class _WeeklyReportState extends State<WeeklyReport> {
                                       ),
                                       const SizedBox(height: 20),
                                       contributedTaskGroups.isNotEmpty
-                                          ? Row(children: [
-                                              ProjectHorizontalScrollview(
-                                                contributedTaskGroups:
-                                                    contributedTaskGroups,
-                                              )
-                                            ])
+                                          ? ProjectHorizontalScrollview(
+                                              contributedTaskGroups:
+                                                  contributedTaskGroups,
+                                            )
                                           : Container(),
                                       const SizedBox(
                                         height: 10,
