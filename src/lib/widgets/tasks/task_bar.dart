@@ -71,7 +71,8 @@ class _TaskBarState extends State<TaskBar> {
                   maxChildSize: 0.75,
                   builder: (context, scrollController) => TaskForm(
                         id: task.id,
-                        taskGroupId: taskGroupId,
+                        task: task,
+                        taskGroupId: taskGroupId ?? -1,
                         callback: editTask,
                         deleteCallback: deleteTask,
                         scrollController: scrollController,
@@ -113,27 +114,6 @@ class _TaskBarState extends State<TaskBar> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Expanded(
-                          child: InkWell(
-                              onTap: () {
-                                setState(() {
-                                  taskStatus = !taskStatus;
-                                });
-                              },
-                              child: Container(
-                                alignment: const Alignment(0, 0),
-                                padding: const EdgeInsets.all(5),
-                                decoration: BoxDecoration(
-                                    shape: BoxShape.circle,
-                                    color: (taskStatus
-                                        ? Colors.white
-                                        : Colors.green)),
-                                child: Icon(Icons.check_rounded,
-                                    color: (!taskStatus
-                                        ? Colors.white
-                                        : Colors.green)),
-                              ))),
-                      const SizedBox(width: 5),
                       Expanded(
                         child: InkWell(
                             onTap: () {

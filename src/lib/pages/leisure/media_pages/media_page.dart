@@ -249,19 +249,18 @@ abstract class MediaPageState<T extends Media> extends State<MediaPage<T>> {
             ))
       ]),
       const SizedBox(height: 7.5),
-      Row(children: [
-        Padding(
-          padding: const EdgeInsets.only(left: 18, right: 18),
-          child: Row(children: [
-            Text(
-              getLength(context),
-              softWrap: true,
-              textAlign: TextAlign.justify,
-              style: Theme.of(context).textTheme.bodySmall,
-            )
-          ]),
-        ),
-      ]),
+      Padding(
+        padding: const EdgeInsets.only(left: 18, right: 18),
+        child: Row(children: [
+          Expanded(
+              child: Text(
+            getLength(context),
+            softWrap: true,
+            textAlign: TextAlign.justify,
+            style: Theme.of(context).textTheme.bodySmall,
+          ))
+        ]),
+      ),
       const SizedBox(height: 100)
     ]);
   }

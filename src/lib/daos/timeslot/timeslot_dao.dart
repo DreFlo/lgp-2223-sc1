@@ -19,6 +19,10 @@ abstract class TimeslotDao {
     bool finished,
   );
 
+  @Query(
+      'SELECT COUNT(*) FROM timeslot WHERE finished = 1 AND start_datetime >= :start')
+  Future<int?> countFinishedTimeslotsAfterStart(DateTime start);
+
   @insert
   Future<int> insertTimeslot(Timeslot timeslot);
 

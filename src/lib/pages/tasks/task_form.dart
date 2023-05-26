@@ -144,6 +144,9 @@ class _TaskFormState extends State<TaskForm> {
         priority = widget.task!.priority;
         description = widget.task!.description;
         notes = [];
+        institution = institutionNone;
+        subject = subjectNone;
+        taskGroup = taskGroupNone;
         //Non created project: Can't select institution, subject, task group
       } else {
         // Create task
@@ -156,7 +159,7 @@ class _TaskFormState extends State<TaskForm> {
         priority = null;
         description = "Your new task description";
         notes = [];
-        if (widget.taskGroupId != null) {
+        if (widget.taskGroupId != null && widget.taskGroupId != -1) {
           // Create task from created project
           taskGroup = await serviceLocator<TaskGroupDao>()
               .findTaskGroupById(widget.taskGroupId!)
@@ -264,17 +267,23 @@ class _TaskFormState extends State<TaskForm> {
           taskGroupId: taskGroupId,
           finished: false,
           xp: 0);
-      newId = await serviceLocator<TaskDao>().insertTask(task);
 
-      // check if it's the first task ever
-      if (await serviceLocator<TaskDao>().countTasks() == 1) {
-        // check if the user has the badge
-        bool hasBadge = await checkUserHasBadge(1);
-        if (!hasBadge) {
-          // win badge + show badge
-          //unlockBadgeForUser(1, context);
-          badgeReturn = 1;
+      if (!isChildOfNotCreated()) {
+        // if (true) {
+        newId = await serviceLocator<TaskDao>().insertTask(task);
+
+        // check if it's the first task ever
+        if (await serviceLocator<TaskDao>().countTasks() == 1) {
+          // check if the user has the badge
+          bool hasBadge = await checkUserHasBadge(1);
+          if (!hasBadge) {
+            // win badge + show badge
+            //unlockBadgeForUser(1, context);
+            badgeReturn = 1;
+          }
         }
+      } else {
+        // Will be created upon save when the task group is created
       }
     } else {
       task = Task(
@@ -1164,6 +1173,9 @@ class _TaskFormState extends State<TaskForm> {
   }
 
   Widget getAddNoteButton(BuildContext context) {
+    if (isChildOfNotCreated()) {
+      return const SizedBox();
+    }
     return Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
       Text(AppLocalizations.of(context).notes,
           style: const TextStyle(
@@ -1409,7 +1421,7 @@ class _TaskFormState extends State<TaskForm> {
     return widget.taskGroupId != null;
   }
 
-  isChildOfNotCreated() {
+  bool isChildOfNotCreated() {
     return widget.taskGroupId == -1;
   }
 

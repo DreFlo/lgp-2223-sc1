@@ -29,15 +29,8 @@ class EpisodeBar extends StatefulWidget {
 }
 
 class _EpisodeBarState extends State<EpisodeBar> {
-  //late MediaVideoEpisodeSuperEntity episodeDB;
-  //bool ready = false;
-
   @override
   initState() {
-    //episodeDB = widget.episode;
-    /* if (episode.id == widget.episode.id) {
-      ready = true;
-    }*/
     super.initState();
   }
 
@@ -68,8 +61,8 @@ class _EpisodeBarState extends State<EpisodeBar> {
             ]),
             Row(mainAxisAlignment: MainAxisAlignment.start, children: [
               Text(
-                  widget.episode.name.length > 20
-                      ? '${widget.episode.name.substring(0, 20)}...'
+                  widget.episode.name.length > 15
+                      ? '${widget.episode.name.substring(0, 15)}...'
                       : widget.episode.name,
                   style: const TextStyle(
                       color: Colors.white,
@@ -78,7 +71,7 @@ class _EpisodeBarState extends State<EpisodeBar> {
             ])
           ]),
           Column(children: [
-            Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+            Row(mainAxisAlignment: MainAxisAlignment.start, children: [
               ElevatedButton(
                   onPressed: () async {
                     MediaVideoEpisodeSuperEntity newEpisode = widget.episode

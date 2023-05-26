@@ -28,6 +28,9 @@ abstract class TaskDao {
       'SELECT COUNT(DISTINCT task_group_id) FROM task WHERE finished = :finished')
   Future<int?> countFinishedTaskGroups(bool finished);
 
+  @Query('SELECT * FROM task WHERE finished = 1 and finishedAt >= :start')
+  Future<List<Task>> findAllFinishedTasksAfterStart(DateTime start);
+
   @Query('SELECT finished FROM task WHERE id = :id')
   Future<bool?> isTaskFinished(int id);
 

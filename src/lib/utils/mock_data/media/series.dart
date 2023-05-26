@@ -20,4 +20,21 @@ final mockSeries = [
       numberSeasons: 5,
       duration: 60,
       tmdbId: 1438),
+  MediaSeriesSuperEntity(
+      id: 9,
+      name: 'Snowpiercer',
+      description:
+          'Seven years after the world has become a frozen wasteland, the remnants of humanity inhabit a perpetually-moving train that circles the globe, where class warfare, social injustice and the politics of survival play out.',
+      linkImage: '/3s6ZyZKurx6wDJZMXSsbUsgjWCI.jpg',
+      status: Status.goingThrough,
+      favorite: true,
+      genres: 'drama',
+      release: DateTime(2020, 05, 17),
+      xp: 0,
+      participants: 'Daveed Diggs, Mickey Sumner, Alison Wright',
+      tagline: 'These are our revolutions',
+      numberEpisodes: 31,
+      numberSeasons: 3,
+      duration: 52,
+      tmdbId: 79680),
 ];
