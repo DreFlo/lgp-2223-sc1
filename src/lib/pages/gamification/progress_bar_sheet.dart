@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:src/pages/auth/landing_page.dart';
 import 'package:src/pages/gamification/badges_page.dart';
 import 'package:src/services/authentication_service.dart';
 import 'package:src/themes/colors.dart';
@@ -128,6 +129,13 @@ class _ProgressBarSheetState extends State<ProgressBarSheet> {
     }
 
     return imageProvider;
+  }
+
+  void logoutUser() async {
+    serviceLocator<AuthenticationService>().logoutUser();
+    Navigator.pop(context);
+    Navigator.pushReplacement(
+        context, MaterialPageRoute(builder: (context) => const LandingPage()));
   }
 
   @override
@@ -272,40 +280,70 @@ class _ProgressBarSheetState extends State<ProgressBarSheet> {
           ])),
       const SizedBox(height: 30),
       Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 20),
-          child: Row(
-            children: [
-              Expanded(
-                  child: ElevatedButton(
-                      style: ButtonStyle(
-                          padding: MaterialStateProperty.all(
-                              const EdgeInsets.symmetric(
-                                  horizontal: 20, vertical: 15)),
-                          backgroundColor:
-                              MaterialStateProperty.all(primaryColor),
-                          shape: MaterialStateProperty.all(
-                              const RoundedRectangleBorder(
-                                  borderRadius:
-                                      BorderRadius.all(Radius.circular(30))))),
-                      onPressed: () {
-                        showModalBottomSheet(
-                            shape: const RoundedRectangleBorder(
-                              borderRadius: BorderRadius.vertical(
-                                  top: Radius.circular(30.0)),
-                            ),
-                            isScrollControlled: true,
-                            backgroundColor: modalBackground,
-                            context: context,
-                            builder: (builder) => const BadgesPage());
-                      },
-                      child: Text(AppLocalizations.of(context).badges,
-                          style: const TextStyle(
-                              color: Colors.white,
-                              fontSize: 16,
-                              fontWeight: FontWeight.w600))))
-            ],
-          )),
-      const SizedBox(height: 25)
+        padding: const EdgeInsets.symmetric(horizontal: 20),
+        child: SizedBox(
+            width: MediaQuery.of(context).size.width,
+            height: MediaQuery.of(context).size.height * 0.19,
+            child: Column(
+              children: [
+                Row(
+                  children: [
+                    Expanded(
+                        child: ElevatedButton(
+                            style: ButtonStyle(
+                                padding: MaterialStateProperty.all(
+                                    const EdgeInsets.symmetric(
+                                        horizontal: 20, vertical: 15)),
+                                backgroundColor:
+                                    MaterialStateProperty.all(primaryColor),
+                                shape: MaterialStateProperty.all(
+                                    const RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.all(
+                                            Radius.circular(30))))),
+                            onPressed: () {
+                              showModalBottomSheet(
+                                  shape: const RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.vertical(
+                                        top: Radius.circular(30.0)),
+                                  ),
+                                  isScrollControlled: true,
+                                  backgroundColor: modalBackground,
+                                  context: context,
+                                  builder: (builder) => const BadgesPage());
+                            },
+                            child: Text(AppLocalizations.of(context).badges,
+                                style: const TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.w600)))),
+                  ],
+                ),
+                const Divider(
+                  height: 25,
+                  thickness: 1.5,
+                  color: grayText,
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          minimumSize: Size(
+                              MediaQuery.of(context).size.width * 0.40, 45),
+                          backgroundColor: const Color(0xFF402A34),
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(30.0),
+                              side: const BorderSide(
+                                  color: leisureColor, width: 2.0)),
+                        ),
+                        onPressed: logoutUser,
+                        child: const Text("Logout")),
+                  ],
+                )
+              ],
+            )),
+      ),
+      const SizedBox(height: 5)
     ]);
   }
 }
