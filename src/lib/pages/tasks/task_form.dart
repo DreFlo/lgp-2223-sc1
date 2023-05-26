@@ -156,7 +156,7 @@ class _TaskFormState extends State<TaskForm> {
         priority = null;
         description = "Your new task description";
         notes = [];
-        if (widget.taskGroupId != null) {
+        if (widget.taskGroupId != null && widget.taskGroupId != -1) {
           // Create task from created project
           taskGroup = await serviceLocator<TaskGroupDao>()
               .findTaskGroupById(widget.taskGroupId!)
