@@ -40,7 +40,7 @@ class _MyBottomNavigationBarState extends State<MyBottomNavigationBar> {
       case 'Dashboard':
         return const Icon(Icons.dashboard_rounded);
       case 'Settings':
-        return const Icon(Icons.settings);
+        return const Icon(Icons.auto_graph_rounded);
       case 'Add':
         return getAddIcon();
       default:
