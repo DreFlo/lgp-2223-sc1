@@ -160,7 +160,8 @@ class _LoginPageState extends State<LoginPage> {
                         onLoginSubmitPressed().then((_) => {
                               if (noValidationErrors())
                                 {
-                                  Navigator.push(
+                                  Navigator.pop(context),
+                                  Navigator.pushReplacement(
                                       context,
                                       MaterialPageRoute(
                                           builder: (context) =>
