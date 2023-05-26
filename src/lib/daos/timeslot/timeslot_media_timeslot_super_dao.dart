@@ -62,7 +62,7 @@ class TimeslotMediaTimeslotSuperDao {
             .first;
 
         if (endDatetime != null && timeslot != null) {
-          if (timeslot.startDateTime.isBefore(endDatetime) &&
+          if (timeslot.endDateTime.isBefore(endDatetime) &&
               timeslot.finished == false) {
             final timeslotMediaTimeslotSuperEntity =
                 TimeslotMediaTimeslotSuperEntity
