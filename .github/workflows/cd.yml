@@ -21,6 +21,8 @@ jobs:
       # Set up Flutter
       - name: Clone Flutter rep with master channel
         uses: subosito/flutter-action@v2
+      - name: Flutter version
+        run: flutter --version
       # Get packages
       - name: Get Flutter packages
         run: flutter pub get
