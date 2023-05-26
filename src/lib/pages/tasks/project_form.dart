@@ -192,7 +192,8 @@ class _ProjectFormState extends State<ProjectForm> {
               subjectId: subjectId,
               finished: false,
               xp: oldTask.xp);
-          await serviceLocator<TaskDao>().updateTask(newTask);
+          await serviceLocator<TaskDao>().insertTask(newTask);
+          // await serviceLocator<TaskDao>().updateTask(newTask);
         }
       }
     } else {
