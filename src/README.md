@@ -86,7 +86,7 @@ database.personDao.insertPerson(Person(name: "Emil"))
 
 To access the database app wide see [Service Locator](#service-locator-getit)
 
-For more info:
+For more information:
 - [Floor Documentation](https://pub.dev/documentation/floor/latest/index.html)
 - [Floor Github root](https://github.com/pinchbv/floor)
 - [Floor examples](https://github.com/pinchbv/floor/tree/develop/example/lib)
@@ -134,7 +134,7 @@ If you want to add more services do so in the ```setup()``` function in ```utils
 
 [Documentation](https://pub.dev/documentation/get_it/latest/)
 
-More info [here](https://pub.dev/packages/get_it)
+[More information](https://pub.dev/packages/get_it)
 
 #### Internationalization
 
@@ -215,7 +215,7 @@ To change the app icons:
 - change the ```image_path``` values in the ```flutter_launcher_icons-[flavor].yaml``` files
 - run ```flutter pub run flutter_launcher_icons```
 
-More info can be found [here](https://pub.dev/packages/flutter_launcher_icons)
+[More information](https://pub.dev/packages/flutter_launcher_icons)
 
 #### Flavors
 
@@ -225,7 +225,7 @@ To use conditional logic according to the app flavor:
 - The class ```F``` has static members ```appFlavour``` and ```name``` that indicate the app flavour
 - You can also add statics methods to the class to implement app-wide flavor-specific logic
 
-More info can be found [here](https://pub.dev/packages/flutter_flavorizr)
+[More information](https://pub.dev/packages/flutter_flavorizr)
 
 #### Environment variables
 
