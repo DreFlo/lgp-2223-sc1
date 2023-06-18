@@ -1,6 +1,6 @@
 # SC1 - Wan of a Kind
 
-## Wokka 
+## Wokka
 
 Wokka is an innovative mobile app designed to help young people manage their time more efficiently. With this unique app, you can track your progress in your daily tasks and stay on top of your goals in all aspects of your life. But as work isn’t everything, Wokka offers you everything you need to track your media obsession in your deserved downtime. 
 
@@ -182,7 +182,7 @@ To change the app icons:
 - change the ```image_path``` values in the ```flutter_launcher_icons-[flavor].yaml``` files
 - run ```flutter pub run flutter_launcher_icons```
 
-More info can be found [here](https://pub.dev/packages/flutter_launcher_icons)
+[More information](https://pub.dev/packages/flutter_launcher_icons)
 
 #### Flavors
 
@@ -192,7 +192,7 @@ To use conditional logic according to the app flavor:
 - The class ```F``` has static members ```appFlavour``` and ```name``` that indicate the app flavour
 - You can also add statics methods to the class to implement app-wide flavor-specific logic
 
-More info can be found [here](https://pub.dev/packages/flutter_flavorizr)
+[More information](https://pub.dev/packages/flutter_flavorizr)
 
 #### Environment variables
 
@@ -208,19 +208,19 @@ Also add the new variables to the github actions .yml in the "Generate environme
 
 #### TMDB API
 
-Documentation [here](https://developers.themoviedb.org/3/getting-started)
+[Documentation](https://developers.themoviedb.org/3/getting-started)
 
-Using the dart package tmdb_api 2.1.4 [here](https://pub.dev/packages/tmdb_api)
+Using the dart package [tmdb_api 2.1.4](https://pub.dev/packages/tmdb_api)
 
-More information about the possible calls in the API Calls markdown [here](api_calls.md)
+More information about the possible calls in the [API Calls markdown](api_calls.md)
 
 #### Google Books API
 
-Documentation [here](https://developers.google.com/books/docs/viewer/developers_guide?hl=en)
+[Documentation](https://developers.google.com/books/docs/viewer/developers_guide?hl=en)
 
 Limits: 1k queries per day; 100 queries per minute per user.
 
-Using the dart package books_finder 4.3.0 [here](https://pub.dev/packages/books_finder)
+Using the dart package [books_finder 4.3.0](https://pub.dev/packages/books_finder)
 
-More information about the possible calls in the API Calls markdown [here](api_calls.md)
+More information about the possible calls in the [API Calls markdown](api_calls.md)
 
