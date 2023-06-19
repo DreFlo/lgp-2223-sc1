@@ -212,7 +212,7 @@ Also add the new variables to the github actions .yml in the "Generate environme
 
 Using the dart package [tmdb_api 2.1.4](https://pub.dev/packages/tmdb_api)
 
-More information about the possible calls in the [API Calls markdown](api_calls.md)
+More information about the possible calls in the [API Calls markdown](src/api_calls.md)
 
 #### Google Books API
 
@@ -222,5 +222,5 @@ Limits: 1k queries per day; 100 queries per minute per user.
 
 Using the dart package [books_finder 4.3.0](https://pub.dev/packages/books_finder)
 
-More information about the possible calls in the [API Calls markdown](api_calls.md)
+More information about the possible calls in the [API Calls markdown](src/api_calls.md)
 
